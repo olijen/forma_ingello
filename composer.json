@@ -150,7 +150,16 @@
 
     "build:app": [
       "@composer install --no-interaction",
-      "console/yii app/setup --interactive=0"
+      "forma/yii app/setup --interactive=0",
+      "forma/yii migrate --interactive=0"
+    ],
+
+    "migrate": [
+      "forma/yii migrate --interactive=0"
+    ],
+
+    "docker:localmigrate": [
+      "docker-compose -f docker-compose-local.yml exec -T app composer run-script migrate"
     ],
 
     "docker:build": [
@@ -162,11 +171,6 @@
     "docker:localbuild": [
       "docker-compose -f docker-compose-local.yml up --force-recreate -d",
       "docker-compose -f docker-compose-local.yml exec -T app composer run-script build:app",
-      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm i npm@latest -g",
-      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm install",
-      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm run build",
-      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm run server",
-      "npm run client",
       "docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)",
       "echo \"All ok!\""
     ],
