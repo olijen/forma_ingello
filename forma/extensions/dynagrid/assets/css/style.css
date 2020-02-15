@@ -1,0 +1,13 @@
+/* Config window */
+
+span.rename-column-btn {
+    display: inline-block;
+}
+
+
+
+.bootstrap-dialog.type-primary .modal-header {
+    background-color: #418d4d;
+}
+
+/* /Config window */

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <div>
+
+    <div id="message-prototype" class="row" style="display:none;"></div>
+
+    <div id="messages">
+
+    </div>
+
+    <div class="message-form">
+      <input id="message-input" type="text" />
+      <button id="create-message">Создать</button>
+      <button id="clear-message">Очистить</button>
+      <button id="clear-input">Очистить ввод</button>
+      <div>
+        Сообщений: <span id="messages-count">0</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+  <script>
+    /*
+    var messages = [
+      'Text of message 1',
+      'Text of message 10',
+      'Text of message 15',
+      'Text of message 100',
+      'Text of message -4',
+      'Text of message 3'
+    ];
+    */
+
+    $(document).ready(function() {
+
+      /*
+      for (var i = 0; i <= messages.length - 1; i++) {
+        addNewMessage(messages[i]);
+      }
+      */
+
+      $("#create-message").click(function() {
+        addNewMessage($("#message-input").val());
+      });
+
+      $("#clear-message").click(function() {
+        $("#messages").html('');
+        $('#messages-count').html(0);
+      });
+
+      $("#clear-input").click(function() {
+        $("#message-input").val('');
+      });
+
+    });
+
+    function addNewMessage(message) {
+      var $messagePrototype = $("#message-prototype").clone();
+      $messagePrototype.attr('id', '');
+      $messagePrototype.text(message);
+      $messagePrototype.addClass('message');
+      $messagePrototype.appendTo("#messages");
+      $messagePrototype.show();
+      $('#messages-count').html($('.message').length);
+    }
+  </script>
+
+</html>

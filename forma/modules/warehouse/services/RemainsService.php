@@ -1,0 +1,93 @@
+<?php
+
+namespace forma\modules\warehouse\services;
+
+use forma\modules\inventorization\records\InventorizationProduct;
+use forma\modules\warehouse\records\Warehouse;
+use forma\modules\warehouse\records\WarehouseProduct;
+use yii\data\ActiveDataProvider;
+
+class RemainsService
+{
+    public static function get($id)
+    {
+        return WarehouseProduct::findOne($id);
+    }
+
+    public static function getByWarehouse(Warehouse $warehouse)
+    {
+        return new ActiveDataProvider([
+            'query' => WarehouseProduct::find()->where(['warehouse_id' => $warehouse->id]),
+        ]);
+    }
+
+    /**
+     * @param $productId
+     * @param $warehouseId
+     * @return WarehouseProduct|null|static
+     */
+    public static function getByProductId($productId, $warehouseId)
+    {
+        $unit = WarehouseProduct::findOne([
+            'product_id' => $productId,
+            'warehouse_id' => $warehouseId
+        ]);
+        return $unit ? $unit : self::create($productId, $warehouseId);
+    }
+
+    public static function create($productId = null, $warehouseId)
+    {
+        $unit = new WarehouseProduct();
+        $unit->product_id = $productId;
+        $unit->warehouse_id = $warehouseId;
+        $unit->currency_id = 1;
+        return $unit;
+    }
+    
+    public static function searchByWarehouse($warehouseId, $q)
+    {
+        $results = [];
+
+        $q = addslashes($q);
+
+        $warehouseProducts = WarehouseProduct::find()
+            ->joinWith(['product'])
+            ->where(['warehouse_product.warehouse_id' => $warehouseId])
+            ->andWhere(['OR', ['LIKE', 'product.name', $q], ['LIKE', 'product.sku', $q]])
+            ->all();
+
+        foreach($warehouseProducts as $warehouseProduct) {
+            $productQty = self::getAvailable($warehouseProduct->product_id, $warehouseId);
+            if ($productQty < 1) {
+                continue;
+            }
+
+            $results[] = [
+                'id' => $warehouseProduct->product_id,
+                'text' => $warehouseProduct->product->name . ' (' . $warehouseProduct->product->sku . ')',
+            ];
+        }
+        return $results;
+    }
+
+    public static function getAvailable($productId, $warehouseId)
+    {
+        $unit = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
+        if (!$unit) {
+            return false;
+        }
+        return $unit['quantity'] - $unit->getReserved();
+    }
+
+    public static function recalculate(Warehouse $warehouse, InventorizationProduct $product)
+    {
+        $productOnWarehouse = self::getByProductId($product->product_id, $warehouse->id);
+        $productOnWarehouse->quantity = $product->fact_quantity;
+
+        if (!$productOnWarehouse->save()) {
+            var_dump($productOnWarehouse->getErrors());
+            die;
+        }
+        return true;
+    }
+}

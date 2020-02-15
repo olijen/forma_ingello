@@ -1,0 +1,37 @@
+@startuml
+
+class Module {
+    getWidget()
+}
+
+Controller --* Module
+class Controller {
+
+}
+
+Service <-- Controller
+class Service {
+
+}
+
+Record <-- Service
+class Record {
+
+}
+
+View --> Record
+class View {
+
+}
+
+Widget <- View
+class Widget {
+
+}
+
+View -> Form
+class Form {
+
+}
+
+@enduml

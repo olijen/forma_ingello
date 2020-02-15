@@ -1,0 +1,42 @@
+@startuml
+
+
+class Core {
+
+}
+
+
+Warehouse --> Core
+class Warehouse {
+    addProduct(Product[])
+    removeProduct(Product[])
+}
+
+Product <-- Warehouse
+class Product {
+
+}
+
+Purchase --> Product
+Purchase --> Warehouse
+class Purchase {
+
+}
+
+Purchase -> Supplier
+class Supplier {
+
+}
+
+Selling --> Product
+Selling --> Warehouse
+class Selling {
+
+}
+
+Customer <- Selling
+class Customer {
+
+}
+
+@enduml
