@@ -7,11 +7,7 @@ services:
       - ./:/app
     depends_on:
       - mailcatcher
-      - dbapplan
       - dbforma
-      - dbecocom
-      - dbdent
-      - dbbusiness
     env_file:
       - .env
 
@@ -26,7 +22,7 @@ services:
   nginx:
     image: nginx:1.12-alpine
     ports:
-      - 81:80
+      - 82:80
     volumes:
       - ./:/app
       - ./docker/nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
@@ -36,9 +32,7 @@ services:
   mailcatcher:
     image: schickling/mailcatcher:latest
     ports:
-      - 1085:1080
-
-
+      - 1088:1080
 
   dbforma:
     image: mysql:5.7
@@ -46,61 +40,9 @@ services:
       - /var/lib/mysql
       - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
     ports:
-      - 3301:3306
+      - 33033:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: warehouse
       MYSQL_USER: user
       MYSQL_PASSWORD: pwd
-
-  dbecocom:
-    image: mysql:5.7
-    volumes:
-      - /var/lib/mysql
-      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
-    ports:
-      - 3302:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ecocom
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pwd
-
-  dbdent:
-    image: mysql:5.7
-    volumes:
-      - /var/lib/mysql
-      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
-    ports:
-      - 3303:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dent
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pwd
-
-  dbapplan:
-    image: mysql:5.7
-    volumes:
-      - /var/lib/mysql
-      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
-    ports:
-      - 3304:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: applan
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pwd
-
-  dbbusiness:
-      image: mysql:5.7
-      volumes:
-        - /var/lib/mysql
-        - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
-      ports:
-        - 3307:3306
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: business
-        MYSQL_USER: user
-        MYSQL_PASSWORD: pwd
