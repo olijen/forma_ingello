@@ -1,0 +1,5 @@
+CREATE TABLE warehouse.country
+(
+    id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255)
+) CHARACTER SET utf8 COLLATE utf8_general_ci;

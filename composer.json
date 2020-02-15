@@ -1,0 +1,190 @@
+{
+  "name": "ingello",
+  "description": "INGELLO - that's all",
+  "keywords": [
+
+  ],
+  "authors": [
+    {
+      "name": "Oleg Grigoryev",
+      "email": "olijenius@gmail.com",
+      "homepage": "http://ingello.com"
+    }
+  ],
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "require": {
+    "php": ">=7.1.0",
+    "ext-intl": "*",
+    "yiisoft/yii2": "^2.0.13",
+    "yiisoft/yii2-bootstrap": "^2.0.0",
+    "yiisoft/yii2-swiftmailer": "^2.0.0",
+    "yiisoft/yii2-authclient": "^2.0.0",
+    "yiisoft/yii2-jui": "^2.0.0",
+    "yii2-starter-kit/yii2-file-kit": "^2.0.0",
+    "asofter/yii2-imperavi-redactor": ">=0.0.3@dev",
+    "trntv/yii2-aceeditor": "^2.0",
+    "trntv/probe": "^1.0",
+    "trntv/yii2-glide": "^1.2",
+    "trntv/yii2-datetime-widget": "dev-master@dev",
+    "trntv/cheatsheet": "^0.1@dev",
+    "trntv/yii2-command-bus": "^3.0",
+    "intervention/image": "^2.1",
+    "vlucas/phpdotenv": "^2.0",
+    "npm-asset/admin-lte": "^2.0",
+    "npm-asset/font-awesome": "^4.0",
+    "npm-asset/html5shiv": "^3.0",
+    "npm-asset/jquery-slimscroll": "^1.3",
+    "npm-asset/flot": "^0.8@alpha",
+    "symfony/process": "^4.0",
+    "guzzlehttp/guzzle": "^6.0",
+    "alexantr/yii2-elfinder": "^1.3",
+    "trntv/sitemaped": "^0.1",
+    "kartik-v/yii2-widget-select2": "dev-master",
+    "kartik-v/yii2-widget-datetimepicker": "dev-master",
+    "kartik-v/yii2-widget-timepicker": "dev-master",
+    "knplabs/github-api": "^2.11",
+    "php-http/guzzle6-adapter": "^1.1",
+    "nezhelskoy/yii2-highlight": "*",
+    "la-haute-societe/yii2-flysystem-google-drive": "~1.0.0",
+    "kunalvarma05/dropbox-php-sdk": "^0.2.1",
+    "google/apiclient": "^2.0",
+    "sendgrid/sendgrid": "^7.2",
+
+
+    "kartik-v/yii2-export": "*",
+    "kartik-v/yii2-mpdf": "*",
+    "kartik-v/yii2-grid": "@dev",
+    "kartik-v/yii2-date-range": "dev-master",
+    "kartik-v/yii2-dynagrid": "@dev",
+    "understeam/yii2-ajax-dialog": "~0.1",
+    "moonlandsoft/yii2-phpexcel": "*",
+    "keygenqt/yii2-autocomplete-ajax": "dev-master",
+    "dmstr/yii2-adminlte-asset": "^2.1",
+    "kartik-v/yii2-widget-colorinput": "*",
+    "kartik-v/yii2-editable": "*",
+    "kartik-v/yii2-widget-rating": "*",
+    "sjaakp/yii2-gcharts": "*",
+    "insolita/yii2-adminlte-widgets": "~3.1",
+    "bower-asset/bootstrap-multiselect": "0.9.*",
+
+    "fedemotta/yii2-widget-datatables": "*",
+    "wokster/yii2-adminlte-widgets": "*",
+    "machour/yii2-adminlte-widgets": "*",
+    "2amigos/yii2-chartjs-widget": "~2.0",
+    "omnilight/yii2-scheduling": "*",
+    "yii2mod/yii2-editable": "*",
+    "2amigos/yii2-editable-widget": "~1.0",
+    "uranum/yii2-excel-exchange": "dev-master",
+    "yii2mod/yii2-google-maps-markers": "*",
+    "kartik-v/yii2-widget-typeahead": "*",
+    "kartik-v/yii2-label-inplace": "*",
+    "vova07/yii2-imperavi-widget": "*",
+
+
+    "kartik-v/yii2-widget-datepicker": "@dev",
+    "robregonm/yii2-pdf": "*",
+
+
+    "kartik-v/yii2-widget-fileinput": "@dev",
+    "zxbodya/yii2-gallery-manager": "*@dev",
+    "lesha724/yii2-youtube-widget": "*",
+    "yiidoc/yii2-redactor": "*",
+    "kartik-v/yii2-social": "^1.0",
+    "kotchuprik/yii2-instagram-authclient": "^1.0",
+    "himiklab/yii2-sitemap-module": "*",
+    "philippfrenzel/yii2fullcalendar": "3.9.0",
+    "php-ai/php-ml": "^0.8.0"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "^2.0.0",
+    "yiisoft/yii2-gii": "^2.0.0",
+    "yiisoft/yii2-faker": "^2.0.0",
+    "codeception/codeception": "2.4.0",
+    "codeception/verify": "^0.3.1"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload-dev": {
+    "psr-4": {
+      "tests\\": "tests/"
+    }
+  },
+  "suggest": {
+    "trntv/yii2-debug-xhprof": "dev-master@dev"
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm-asset",
+      "bower-asset-library": "vendor/bower-asset"
+    }
+  },
+  "config": {
+    "fxp-asset": {
+      "installer-paths": {
+        "npm-asset-library": "vendor/npm-asset",
+        "bower-asset-library": "vendor/bower-asset"
+      }
+    },
+    "process-timeout": 1800,
+    "optimize-autoloader": true
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "archive": {
+    "exclude": ["docs"]
+  },
+  "scripts": {
+
+    "build:env": [
+      "cp .env.ingello .env"
+    ],
+
+    "build:envlocal": [
+      "cp .env.local .env"
+    ],
+
+    "build:app": [
+      "@composer install --no-interaction",
+      "console/yii app/setup --interactive=0"
+    ],
+
+    "docker:build": [
+      "docker-compose up --force-recreate -d",
+      "docker-compose exec -T app composer run-script build:app",
+      "echo \"All ok!\""
+    ],
+
+    "docker:localbuild": [
+      "docker-compose -f docker-compose-local.yml up --force-recreate -d",
+      "docker-compose -f docker-compose-local.yml exec -T app composer run-script build:app",
+      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm i npm@latest -g",
+      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm install",
+      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm run build",
+      "docker-compose -f docker-compose-local.yml run -T --rm webpacker npm run server",
+      "npm run client",
+      "docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)",
+      "echo \"All ok!\""
+    ],
+
+    "docker:start": [
+      "docker-compose up --force-recreate -d"
+    ],
+
+    "localenv:stop" : [
+      "sudo service mysql stop; sudo service apache2 stop; sudo service nginx stop;"
+    ],
+
+    "docker:localstart": [
+      "docker-compose -f docker-compose-local.yml up --force-recreate -d"
+    ],
+
+    "docker:cleanup": [
+      "docker-compose rm -fsv"
+    ]
+  }
+}

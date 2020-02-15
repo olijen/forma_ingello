@@ -1,0 +1,19 @@
+.editable-grid tbody tr:nth-child(even) td > textarea,
+.editable-grid tbody tr:nth-child(even) td > select,
+.editable-grid tbody tr:nth-child(even) td {
+    background-color: #ecf0f5;
+}
+
+.editable-grid tbody tr:nth-child(odd) td > textarea,
+.editable-grid tbody tr:nth-child(odd) td > select,
+.editable-grid tbody tr:nth-child(odd) td {
+    background-color: #fff;
+}
+
+.editable-grid tbody td[data-is-editable="0"] {
+    cursor: not-allowed;
+}
+
+.editable-grid td {
+    background-clip: padding-box;
+}

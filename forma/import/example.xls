@@ -1,0 +1,37 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=utf-8'/><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>ЭкспортPабочийЛист</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table class='kv-grid-table table table-bordered table-striped kv-table-wrap'><colgroup>
+
+<col class=' ' style='display: none; width: auto;'>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+
+
+<col class=' '>
+<col class=' '>
+
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' ' style='display: none; width: auto;'>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' ' style='display: none; width: auto;'>
+<col class=' ' style='display: none; width: auto;'>
+</colgroup>
+<thead>
+
+<tr><th class=' ' style='display: none; width: auto;'>Склад</th><th class=' ' style='width: 7.55%;'>Артикул</th><th class=' ' style='width: 8.55%;'>Товар</th><th class=' ' style='width: 8.05%;'>Группа товаров</th><th class=' ' style='width: 7.44%;'>Размер</th><th class=' ' style='width: 9.96%;'>Количество</th><th class=' ' style='width: 12.78%;'>Производитель</th><th class=' ' style='width: 4.43%;'>Цена закупки</th><th class=' ' style='width: 6.04%;'>Розничная цена</th><th class=' ' style='width: 6.84%;'>Рекомендованная цена</th><th class=' ' style='width: 5.33%;'>Оптовая цена</th><th class=' ' style='width: 5.84%;'>Налог</th><th class=' ' style='display: none; width: auto;'>Накладной расход</th><th class=' ' style='width: 6.74%;'>Страна</th><th class=' ' data-col-seq='19' style='width: 9.46%;'>Цвет</th><th class=' ' style='width: 10.76%;'>Таможенный код</th><th class=' ' style='width: 4.63%;'>Крепость</th><th class=' ' style='width: 7.44%;'>Дозатор  /  Рейтинг</th><th class=' ' style='display: none; width: auto;'>Год производства</th><th class=' ' style='display: none; width: auto;'>Категория</th></tr>
+
+</thead>
+<tbody>
+<tr data-key='59'><td class=' ' style='display: none; width: auto;'>Тестовый склад</td><td class=' '>TSTV-2016-50</td><td class=' '>Тестовое вино</td><td class=' '>Вино</td><td class=' '>50cl</td><td class=' '>10</td><td class=' '>Zonin</td><td class=' '>10</td><td class=' '>15.08</td><td class=' '></td><td class=' '>13.92</td><td class=' '>1.5</td><td class=' ' style='display: none; width: auto;'>1.5</td><td class=' '>Италия</td><td class=' ' data-col-seq='19'><span class='badge' style='border: 1px #777 solid; background-color: indianred;'>&nbsp;</span><code>indianred</code></td><td class=' '>0123456789</td><td class=' '>12</td><td class=' '>  /  5.00</td><td class=' ' style='display: none; width: auto;'>2016</td><td class=' ' style='display: none; width: auto;'>Розовое вино</td></tr>
+<tr data-key='60'><td class=' ' style='display: none; width: auto;'>Тестовый склад</td><td class=' '>TSTV-2016-50-12</td><td class=' '>Тестовое вино Упаковка1 (12 pc.)</td><td class=' '>Вино</td><td class=' '>12x50cl</td><td class=' '>2</td><td class=' '>Zonin</td><td class=' '>100</td><td class=' '>156</td><td class=' '></td><td class=' '>144</td><td class=' '>15</td><td class=' ' style='display: none; width: auto;'>15</td><td class=' '>Италия</td><td class=' ' data-col-seq='19'><span class='badge' style='border: 1px #777 solid; background-color: indianred;'>&nbsp;</span><code>indianred</code></td><td class=' '>0123456789</td><td class=' '>12</td><td class=' '>  /  5.00</td><td class=' ' style='display: none; width: auto;'>2016</td><td class=' ' style='display: none; width: auto;'>Розовое вино</td></tr>
+<tr data-key='61'><td class=' ' style='display: none; width: auto;'>Тестовый склад</td><td class=' '>TSTV-REF-100</td><td class=' '>Тестовое спиртное</td><td class=' '>Спиртное</td><td class=' '>100cl</td><td class=' '>15</td><td class=' '>Jack Daniels</td><td class=' '>15</td><td class=' '>22.55</td><td class=' '></td><td class=' '>20.82</td><td class=' '>2.25</td><td class=' ' style='display: none; width: auto;'>2.25</td><td class=' '>США</td><td class=' ' data-col-seq='19'></td><td class=' '>1234567890</td><td class=' '>40</td><td class=' '>nrf  /  </td><td class=' ' style='display: none; width: auto;'>2017</td><td class=' ' style='display: none; width: auto;'></td></tr>
+<tr data-key='62'><td class=' ' style='display: none; width: auto;'>Тестовый склад</td><td class=' '>TSTV-REF-100-12</td><td class=' '>Тестовое спиртное Упаковка1 (12 pc.)</td><td class=' '>Спиртное</td><td class=' '>12x100cl</td><td class=' '>3</td><td class=' '>Jack Daniels</td><td class=' '>450</td><td class=' '>677.95</td><td class=' '></td><td class=' '>625.8</td><td class=' '>67.5</td><td class=' ' style='display: none; width: auto;'>67.5</td><td class=' '>США</td><td class=' ' data-col-seq='19'></td><td class=' '>1234567890</td><td class=' '>40</td><td class=' '>nrf  /  </td><td class=' ' style='display: none; width: auto;'>2017</td><td class=' ' style='display: none; width: auto;'></td></tr>
+</tbody></table></body></html>

@@ -1,0 +1,23 @@
+/* List cards */
+
+a.list-card {
+    color: inherit;
+}
+
+a.list-card:hover div.box {
+    background-color: #d9f3a6;
+}
+
+.list-card-btn {
+    color: #fff;
+}
+
+.list-card-btn:hover {
+    color: #3d8547;
+}
+
+div.grid-view {
+    overflow: scroll;
+}
+
+/* /List cards */

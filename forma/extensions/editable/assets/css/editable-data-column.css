@@ -1,0 +1,22 @@
+td.editable-cell {
+    position: relative;
+}
+
+td.editable-cell > textarea,
+td.editable-cell > select {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0.5em;
+}
+
+td.editable-cell > textarea {
+    resize: none;
+    overflow: hidden;
+}
