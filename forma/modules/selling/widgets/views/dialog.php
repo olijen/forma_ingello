@@ -78,9 +78,9 @@ use yii\helpers\Html;
         <label for="next_step">Следуйщий шаг</label>
         <input type="text" name="next_step" id="next_step" class="form-control">
         <div class="form-group" style="margin-top: 10px">
-            <button class="btn-success" type="submit" id="end-talk">
+            <a href="/selling/form" class="btn-success" type="submit" id="end-talk">
                 Завершить разгавор
-            </button>
+            </a>
         </div>
         <?php DetachedBlock::end(); ?>
     </div>
