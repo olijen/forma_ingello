@@ -128,7 +128,7 @@ if (!Yii::$app->request->isPjax) {
     <?php DetachedBlock::begin(['example' => 'История']); ?>
     <div class="row">
         <div class="col-md-12 form-group">
-        <?= Html::a('Начать разговор', Url::to('strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
+        <?= Html::a('Начать разговор', Url::to('strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>   //Старт
         <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
     </div>
     <div class="hidden" id="dialog">
