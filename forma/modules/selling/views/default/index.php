@@ -1,4 +1,7 @@
 <?php
+use yii\helpers\Url;
+
+
 $this->title = 'Продажи';
 $this->params['doc-page'] = 'Selling';
 
@@ -12,6 +15,47 @@ $list = [
 ];
 
 ?>
+
+<?php
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
+/** @var forma\modules\hr\forms\InterviewProgress $interviewProgress */
+$interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
+?>
+
+<div class="col-lg-9 col-xs-12">
+
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title" id="scroll">Этапы (воронка найма)</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="box-body">
+            <div class="chart">
+                <canvas id="plan" style=""></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3 col-sm-6 col-xs-12">
+
+    <?= \insolita\wgadminlte\LteSmallBox::widget([
+        'type' => \insolita\wgadminlte\LteConst::COLOR_YELLOW,
+        //'title' => $completeSellingsCount,
+        'text' => 'Продажи',
+        'icon' => 'fa fa-arrows-alt',
+        'footer' => 'Смотреть все',
+        'link' => Url::to(['/selling/main', 'SellingSearch[state]' => 1]),
+    ]); ?>
+
+</div>
+
 
 <div class="row">
     <?php foreach ($list as $k => $item): ?>
@@ -34,3 +78,38 @@ $list = [
     </a>
     <?php endforeach ?>
 </div>
+
+<script>
+    // обработка воронки продаж
+    $("select").val("count");
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+    myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: [<?=$interviewProgress->getLabelsString()?>],
+
+            datasets: [{
+                label: 'Статистика найма',
+                data: [<?=$interviewProgress->getDataString()?>],
+                backgroundColor: [<?=$interviewProgress->getColorsString()?>],
+            }]
+        },
+        options: options
+    });
+
+    plan.onclick = function(evt){
+        var activePoints = myLineChart.getElementsAtEvent(evt);
+        console.log(activePoints);
+        window.location.href = '/hr/main?InterviewSearch[state]=' + activePoints[0]._index;
+        // => activePoints is an array of points on the canvas that are at the same position as the click event.
+    };
+
+</script>
