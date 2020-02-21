@@ -44,12 +44,12 @@ sudo composer run-script docker:start
 (Для Windows - https://www.youtube.com/watch?v=a5mxBTGfC5k)
 
 1. Скачать проект и создать файл `.env` на основе `.env.dist` (можно без изменений)
-
-2. Выключить апач и MySQL (точнее, освободить 80 и 3306 порты)
+2. Установить композер(https://docs.docker.com/compose/install/)
+3. Выключить апач и MySQL (точнее, освободить 80 и 3306 порты)
 sudo service apache2 stop; sudo service nginx stop; sudo service mysql stop;
 
 
-3. Запустить докер
+4. Запустить докер
 sudo composer run-script docker:localbuild
 Зайти по адресу, который указан в переменных `..._HOST_INFO` в файле `.env`
 Готово.

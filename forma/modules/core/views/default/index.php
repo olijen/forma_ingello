@@ -479,7 +479,7 @@ JS;
             <!-- /.box-header -->
             <div class="box-body no-padding">
                 <!-- Chat box -->
-                <div class="">
+                <div class="">widget
 
                     <!-- Map box -->
                     <?= yii2mod\google\maps\markers\GoogleMaps::widget([
