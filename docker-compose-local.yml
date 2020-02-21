@@ -11,14 +11,6 @@ services:
     env_file:
       - .env
 
-  webpacker:
-    image: node:9-alpine
-    working_dir: /app
-    volumes:
-      - ./:/app
-    ports:
-      - 4000:3000
-
   nginx:
     image: nginx:1.12-alpine
     ports:
@@ -32,7 +24,7 @@ services:
   mailcatcher:
     image: schickling/mailcatcher:latest
     ports:
-      - 1088:1080
+      - 1089:1080
 
   dbforma:
     image: mysql:5.7
