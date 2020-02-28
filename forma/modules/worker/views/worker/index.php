@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'gender',
                 'format' => 'raw',
                 'value' => function($data){
-                    return $data->status ? 'Женщина' : 'Мужчина';
+                    return $data->status ? 'Ж' : 'М';
                 }
             ],
             'passport',
