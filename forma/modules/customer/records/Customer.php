@@ -46,7 +46,8 @@ class Customer extends AccessoryActiveRecord
             [['name', 'country_id'], 'required'],
             [['tax_rate'], 'number'],
             [['name', 'firm'], 'string', 'max' => 100],
-            [['address', 'company_email', 'chief_email', 'company_phone', 'chief_phone'], 'string', 'max' => 32],
+            [['address', 'company_email', 'chief_email'], 'string', 'max' => 255],
+            [['company_phone', 'chief_phone'], 'string', 'max' => 32],
             [['country_id', ], 'integer'],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];

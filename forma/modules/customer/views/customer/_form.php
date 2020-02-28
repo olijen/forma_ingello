@@ -44,7 +44,6 @@ use yii\widgets\Pjax;
     <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chief_email')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'site_company') ?>
-    <?= $form->field($model, 'tax_rate')->textInput() ?>
     <div class="form-group" style="width: 150px">
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'style' => ['width' => '100%']]) ?>
