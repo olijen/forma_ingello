@@ -169,6 +169,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
         <?php endforeach; ?>
 
         <?php
+
             echo $dp->pagination ? LinkPager::widget([
                 'pagination' => $dp->pagination,
             ]) : '';
