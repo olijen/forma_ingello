@@ -32,3 +32,16 @@ services:
     image: schickling/mailcatcher:latest
     ports:
       - 1088:1080
+
+  dbforma:
+    image: mysql:5.7
+    volumes:
+      - /var/lib/mysql
+      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
+    ports:
+      - 3300:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: warehouse
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pwd
