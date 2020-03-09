@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php foreach ($userState as $key => $value):
     if ($sellingState):
-        if ($value['name'] == $sellingState->name):?>
+        if ($value['id'] == $sellingState->id):?>
             <strong>  <?= $value['name'] ?> </a> </strong><br>
         <?php else: ?>
             <strong> <a href="/selling/form/test?id=<?= $model->id ?>&state_id=<?= $value['id'] ?>"><?= $value['name'] ?></a>
