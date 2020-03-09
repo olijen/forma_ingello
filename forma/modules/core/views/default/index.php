@@ -5,7 +5,7 @@ use yii\web\JsExpression;
 
 $this->title = 'Панель управления';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
-/** @var forma\modules\selling\forms\SalesProgress $salesProgress */
+
 
 $DragJS = <<<JS
 
@@ -479,7 +479,7 @@ JS;
             <!-- /.box-header -->
             <div class="box-body no-padding">
                 <!-- Chat box -->
-                <div class="">widget
+                <div class="">
 
                     <!-- Map box -->
                     <?= yii2mod\google\maps\markers\GoogleMaps::widget([
