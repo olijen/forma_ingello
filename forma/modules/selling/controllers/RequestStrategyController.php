@@ -3,6 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\selling\records\strategy\Strategy;
+use forma\modules\selling\records\strategy\Strategy;
 use forma\modules\selling\records\talk\Request;
 use Yii;
 use forma\modules\selling\records\requeststrategy\RequestStrategy;
@@ -53,10 +54,10 @@ class RequestStrategyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($request_id, $strategy_id)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($request_id, $strategy_id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -90,16 +91,20 @@ class RequestStrategyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($request_id, $strategy_id)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($request_id, $strategy_id);
+        $model = $this->findModel($id)->one();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'request_id' => $model->request_id, 'strategy_id' => $model->strategy_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $request = Request::find()->all();
+        $strategy = Strategy::find()->all();
         return $this->render('update', [
             'model' => $model,
+            'request' => $request,
+            'strategy' => $strategy,
         ]);
     }
 
@@ -111,9 +116,9 @@ class RequestStrategyController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($request_id, $strategy_id)
+    public function actionDelete($id)
     {
-        $this->findModel($request_id, $strategy_id)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -121,14 +126,13 @@ class RequestStrategyController extends Controller
     /**
      * Finds the RequestStrategy model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $request_id
-     * @param integer $strategy_id
+     * @param $id
      * @return RequestStrategy the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($request_id, $strategy_id)
+    protected function findModel($id)
     {
-        if (($model = RequestStrategy::findOne(['request_id' => $request_id, 'strategy_id' => $strategy_id])) !== null) {
+        if (($model =  RequestStrategy::find()->where(['id' => $id])->one()) !== null) {
             return $model;
         }
 
