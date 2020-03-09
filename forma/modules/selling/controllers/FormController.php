@@ -15,7 +15,7 @@ class FormController extends Controller
     {
         $model = SellingService::get($id);
         $sellingState = State::find()->where(['id' => $model->state_id])->one();
-        $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])//d->asArray()
+        $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])
             ->all();
 
         return $this->render('index', compact('model', 'userState', 'sellingState'));
@@ -25,8 +25,8 @@ class FormController extends Controller
     {
         $id = $_GET['id'];
         $model = SellingService::get($id);
-        $name = $_GET['state'];
-        $sellingState = State::find()->where(['name' => $name])->one();
+        $state_id = $_GET['state_id'];
+        $sellingState = State::find()->where(['id' => $state_id])->one();
         if($sellingState){
             $model->state_id = $sellingState->id;
             $model->save();

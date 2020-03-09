@@ -32,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
         if ($value['name'] == $sellingState->name):?>
             <strong>  <?= $value['name'] ?> </a> </strong><br>
         <?php else: ?>
-            <strong> <a href="/selling/form/test?id=<?= $model->id ?>&state=<?= $value['name'] ?>"><?= $value['name'] ?></a>
+            <strong> <a href="/selling/form/test?id=<?= $model->id ?>&state_id=<?= $value['id'] ?>"><?= $value['name'] ?></a>
             </strong><br>
         <?php endif; ?>
     <?php else: ?>
-        <strong> <a href="/selling/form/test?id=<?= $model->id ?>&state=<?= $value['name'] ?>"><?= $value['name'] ?></a>
+        <strong> <a href="/selling/form/test?id=<?= $model->id ?>&state_id=<?= $value['id'] ?>"><?= $value['name'] ?></a>
         </strong><br>
     <?php endif; ?>
 <?php endforeach; ?>
@@ -45,11 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= NomenclatureView::widget(['sellingId' => $model->id]) ?>
 
-<?php //DetailView::widget([
-//        'model'=> $userState->attributes
-//])
-//
-//
-//?>
+
 
 
