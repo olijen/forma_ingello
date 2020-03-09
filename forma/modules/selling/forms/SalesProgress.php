@@ -2,8 +2,10 @@
 
 namespace forma\modules\selling\forms;
 
+use Yii;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\services\SellingService;
+use forma\modules\selling\records\state\State;
 use yii\base\Model;
 
 class SalesProgress extends Model
@@ -19,17 +21,25 @@ class SalesProgress extends Model
     public function __construct()
     {
         parent::__construct();
+        // Получили список продаж
         $this->salesDP = SellingService::search()->search([]);
         $this->models = $this->salesDP->models;
-        $this->states = (new Selling())->states();
+        //список состояний пользователа
+        $this->states = State::find()->where(['user_id' => Yii::$app->user->getId()])
+            ->all();;
+        // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
-            $state = new $state();
-            $this->sales[$state->getName()] = ['sum' => 0, 'color' => ''];
+            $this->sales[$state->id] = ['sum' => 0, 'color' => ''];
         }
+
+        //мы находим каких состояний сколько
         foreach ($this->models as $model) {
-            $this->sales[$model->getState()->getName()]['sum'] ++;
-            $this->sales[$model->getState()->getName()]['color'] = '';
+            if ($model->state_id !== null){
+                $this->sales[$model->state_id]['sum']++;
+            }
         }
+       $this->getLabelsString();
+
     }
 
     public function getColorsString()
@@ -38,7 +48,7 @@ class SalesProgress extends Model
 
         $green = '"rgba(0, 166, 90, 1)",';
         $yellow = '"rgba(243, 156, 18, 1)",';
-        $red =  '"rgba(221, 75, 57, 1)",';
+        $red = '"rgba(221, 75, 57, 1)",';
 
         $lastSale = false;
         foreach ($this->sales as &$sale) {
@@ -49,11 +59,12 @@ class SalesProgress extends Model
 
             if ($sale['sum'] > $lastSale['sum']) {
                 $lastSale['color'] = $red;
-            } elseif ( $lastSale['sum'] == ($sale['sum'])) {
+            } elseif ($lastSale['sum'] == ($sale['sum'])) {
                 $lastSale['color'] = $yellow;
             } else {
                 $lastSale['color'] = $green;
-            }@$e[]=$lastSale['color'];
+            }
+            @$e[] = $lastSale['color'];
             $colorsString .= $lastSale['color'];
             $lastSale = $sale;
         }
@@ -67,7 +78,7 @@ class SalesProgress extends Model
         $result = '';
 
         foreach ($this->sales as &$sale) {
-            $result .= $sale['sum'].',';
+            $result .= $sale['sum'] . ',';
         }
 
         return $result;
@@ -77,8 +88,9 @@ class SalesProgress extends Model
     {
         $result = '';
 
-        foreach ($this->sales as $name => $sale) {
-            $result .= '"'.$name.'",';
+        foreach ($this->states as $name => $sale) {
+
+            $result .= '"' . $sale['name'] . '",';
         }
 
         return $result;

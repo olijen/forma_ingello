@@ -22,7 +22,7 @@ class SellingSearch extends Selling
     public function rules()
     {
         return [
-            [['id', 'customer_id', 'warehouse_id', 'state'], 'integer'],
+            [['id', 'customer_id', 'warehouse_id', 'state_id'], 'integer'],
             [['name', 'date_createRange', 'date_completeRange'], 'safe'],
         ];
     }

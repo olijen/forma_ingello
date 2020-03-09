@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <a href="/selling/form/index" class="btn btn-success">Новая продажа</a>
     <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary">План на обзвон</a>
+    <a href="/selling/main-state/index" class="btn btn-success">Cостояния пользователя</a>
 
     <hr>
 
