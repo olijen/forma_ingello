@@ -14,11 +14,17 @@ class FormController extends Controller
     public function actionIndex($id = null)
     {
         $model = SellingService::get($id);
-        $sellingState = State::find()->where(['id' => $model->state_id])->one();
+        $sellingState = State::findOne($model->state_id);
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])
             ->all();
+        if ($sellingState){
+            $toState = $sellingState->state;
+            return $this->render('index', compact('model', 'userState', 'sellingState','toState'));
+        }else{
+            return $this->render('index', compact('model', 'userState', 'sellingState'));
+        }
 
-        return $this->render('index', compact('model', 'userState', 'sellingState'));
+
     }
 
     public function actionTest()
@@ -26,14 +32,21 @@ class FormController extends Controller
         $id = $_GET['id'];
         $model = SellingService::get($id);
         $state_id = $_GET['state_id'];
-        $sellingState = State::find()->where(['id' => $state_id])->one();
+        $sellingState = State::findOne($state_id);
         if($sellingState){
             $model->state_id = $sellingState->id;
             $model->save();
         }
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])->asArray()
             ->all();
-        return $this->render('index', compact('model', 'userState', 'sellingState'));
+
+        if ($sellingState){
+            $toState = $sellingState->state;
+            return $this->render('index', compact('model', 'userState', 'sellingState','toState'));
+        }else{
+            return $this->render('index', compact('model', 'userState', 'sellingState'));
+        }
+
     }
 
     public function actionSave($id = null)

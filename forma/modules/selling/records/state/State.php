@@ -33,6 +33,7 @@ class State extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 65000],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -57,10 +58,11 @@ class State extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function getTooState()
+    public function getToState()
     {
         return $this->hasMany(StateToState::className(), ['to_state_id' => 'id']);
     }
+
     public function getState()
     {
         return $this->hasMany(StateToState::className(), ['state_id' => 'id']);
