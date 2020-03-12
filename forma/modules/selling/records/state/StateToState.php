@@ -64,4 +64,9 @@ class StateToState extends \yii\db\ActiveRecord
     {
         return $this->hasOne(State::className(), ['id' => 'to_state_id']);
     }
+
+    public static function find()
+    {
+        return new StateToStateQuery(get_called_class());
+    }
 }

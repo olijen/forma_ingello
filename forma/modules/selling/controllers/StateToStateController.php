@@ -66,21 +66,24 @@ class StateToStateController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id = [])
     {
-        $id = 20;
+        $id = 40;
         $model = new StateToState();
 
         $state = State::findOne($id);
-        $toState = $state->getState();
+
+        $toState = $state->state;
         de($toState);
+//        de($toState[0]->toState->name);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('main-state/update?id=20');
+            return $this->redirect('main-state/update?id=');
         }
 
         return $this->render('create', [
             'model' => $model,
+            'data' => $toState
         ]);
     }
 
@@ -113,9 +116,12 @@ class StateToStateController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $stateId = $model->state_id;
+        $model->delete();
+
+        return $this->redirect(['main-state/update?id=' . $stateId]);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 
 
@@ -10,6 +11,9 @@ $list = [
 
     ],
     ['label' => 'Речевые модули', 'url' => '/selling/speech-module', 'icon' => 'podcast',
+
+    ],
+    ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'podcast',
 
     ],
 ];
@@ -43,39 +47,25 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
     </div>
 </div>
 
-<div class="col-md-3 col-sm-6 col-xs-12">
-
-    <?= \insolita\wgadminlte\LteSmallBox::widget([
-        'type' => \insolita\wgadminlte\LteConst::COLOR_YELLOW,
-        //'title' => $completeSellingsCount,
-        'text' => 'Продажи',
-        'icon' => 'fa fa-arrows-alt',
-        'footer' => 'Смотреть все',
-        'link' => Url::to(['/selling/main', 'SellingSearch[state]' => 1]),
-    ]); ?>
-
-</div>
-
-
 <div class="row">
     <?php foreach ($list as $k => $item): ?>
-    <a href="<?=$item['url']?>">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
+        <a href="<?= $item['url'] ?>">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
 
-                <span class="info-box-icon bg-green"><i class="fa fa-<?=$item['icon']?>"></i></span>
+                    <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
 
-                <div class="info-box-content">
+                    <div class="info-box-content">
 
-                        <span class="info-box-text"><?=$item['label']?></span>
+                        <span class="info-box-text"><?= $item['label'] ?></span>
 
-                    <span class="info-box-number"><?=rand(100, 10000)?></span>
+                        <span class="info-box-number"><?= rand(100, 10000) ?></span>
+                    </div>
+                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box-content -->
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-        </div>
-    </a>
+        </a>
     <?php endforeach ?>
 </div>
 
@@ -94,21 +84,22 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
     myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
         type: 'bar',
         data: {
-            labels: [<?=$interviewProgress->getLabelsString()?>],
+            labels: [<?=$salesProgress->getLabelsString()?>],
 
             datasets: [{
-                label: 'Статистика найма',
-                data: [<?=$interviewProgress->getDataString()?>],
-                backgroundColor: [<?=$interviewProgress->getColorsString()?>],
+                label: 'Количество продаж',
+                data: [<?=$salesProgress->getDataString()?>],
+                backgroundColor: [<?=$salesProgress->getColorsString()?>],
             }]
         },
         options: options
     });
 
-    plan.onclick = function(evt){
+    plan.onclick = function (evt) {
         var activePoints = myLineChart.getElementsAtEvent(evt);
         console.log(activePoints);
-        window.location.href = '/hr/main?InterviewSearch[state]=' + activePoints[0]._index;
+         window.location.href = '/selling/main?SellingSearch[state_id]=' + activePoints[0]._index;
+        // window.location.href = '/selling/main';
         // => activePoints is an array of points on the canvas that are at the same position as the click event.
     };
 

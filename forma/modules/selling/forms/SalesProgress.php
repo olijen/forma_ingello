@@ -34,11 +34,11 @@ class SalesProgress extends Model
 
         //мы находим каких состояний сколько
         foreach ($this->models as $model) {
-            if ($model->state_id !== null){
+            if ($model->state_id !== null) {
                 $this->sales[$model->state_id]['sum']++;
             }
         }
-       $this->getLabelsString();
+        $this->getLabelsString();
 
     }
 
@@ -51,23 +51,25 @@ class SalesProgress extends Model
         $red = '"rgba(221, 75, 57, 1)",';
 
         $lastSale = false;
-        foreach ($this->sales as &$sale) {
-            if (!$lastSale) {
-                $lastSale = $sale;
-                continue;
-            }
+      if ($this->sales){
+          foreach ($this->sales as &$sale) {
+              if (!$lastSale) {
+                  $lastSale = $sale;
+                  continue;
+              }
 
-            if ($sale['sum'] > $lastSale['sum']) {
-                $lastSale['color'] = $red;
-            } elseif ($lastSale['sum'] == ($sale['sum'])) {
-                $lastSale['color'] = $yellow;
-            } else {
-                $lastSale['color'] = $green;
-            }
-            @$e[] = $lastSale['color'];
-            $colorsString .= $lastSale['color'];
-            $lastSale = $sale;
-        }
+              if ($sale['sum'] > $lastSale['sum']) {
+                  $lastSale['color'] = $red;
+              } elseif ($lastSale['sum'] == ($sale['sum'])) {
+                  $lastSale['color'] = $yellow;
+              } else {
+                  $lastSale['color'] = $green;
+              }
+              @$e[] = $lastSale['color'];
+              $colorsString .= $lastSale['color'];
+              $lastSale = $sale;
+          }
+      }
         $colorsString .= $green;
 
         return $colorsString;
@@ -76,10 +78,12 @@ class SalesProgress extends Model
     public function getDataString()
     {
         $result = '';
-
-        foreach ($this->sales as &$sale) {
-            $result .= $sale['sum'] . ',';
+        if ($this->sales) {
+            foreach ($this->sales as &$sale) {
+                $result .= $sale['sum'] . ',';
+            }
         }
+
 
         return $result;
     }

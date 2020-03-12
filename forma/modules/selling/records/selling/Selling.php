@@ -5,6 +5,7 @@ namespace forma\modules\selling\records\selling;
 use forma\modules\core\components\NomenclatureInterface;
 use forma\modules\core\components\StateActiveRecord;
 use forma\modules\core\components\TotalSumBehavior;
+use forma\modules\selling\records\state\State;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\customer\records\Customer;
 use Yii;
@@ -138,6 +139,11 @@ class Selling extends StateActiveRecord implements NomenclatureInterface
     public function getSellingProducts()
     {
         return $this->hasMany(SellingProduct::className(), ['selling_id' => 'id']);
+    }
+
+    public function getToState()
+    {
+        return $this->hasOne(State::className(), [ 'id' =>'state_id']);
     }
 
     /**

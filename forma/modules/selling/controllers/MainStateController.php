@@ -89,18 +89,23 @@ class MainStateController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $toState = new StateSearchState();
+        $dataProvider = $toState->search(Yii::$app->request->queryParams, $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('index');
+            return $this->redirect('update?id=' . $id);
         }
 
-        $searchModel = new StateSearchState();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
+        if ($toState->load(Yii::$app->request->post()) && $toState->validate() && $toState->save()) {
+            return $this->redirect('update?id=' . $id);
+        } else {
+             $toState->errors;
+        }
 
 
         return $this->render('update', [
             'model' => $model,
-            'searchModel' => $searchModel,
+            'toState' => $toState,
             'dataProvider' => $dataProvider,
         ]);
 
@@ -116,7 +121,6 @@ class MainStateController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

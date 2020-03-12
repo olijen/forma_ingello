@@ -551,7 +551,7 @@ JS;
         options: options
     });
 
-    new Chart(document.getElementById("plan").getContext('2d'), {
+    myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
         type: 'bar',
         data: {
             labels: [<?=$salesProgress->getLabelsString()?>],
@@ -564,6 +564,14 @@ JS;
         },
         options: options
     });
+
+    plan.onclick = function(evt){
+        var activePoints = myLineChart.getElementsAtEvent(evt);
+        console.log(activePoints);
+         window.location.href = '/selling/main?SellingSearch[state_id]=' + activePoints[0]._index;
+
+        // => activePoints is an array of points on the canvas that are at the same position as the click event.
+    };
 
     new Chart(document.getElementById("plan1").getContext('2d'), {
         type: 'bar',

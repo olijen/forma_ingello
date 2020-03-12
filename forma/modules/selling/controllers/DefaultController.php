@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\controllers;
 
+use forma\modules\selling\forms\SalesProgress;
 use yii\web\Controller;
 
 /**
@@ -15,6 +16,10 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $salesProgress = new SalesProgress();
+
+        return $this->render('index',compact(
+            'salesProgress'
+        ));
     }
 }

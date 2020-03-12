@@ -17,8 +17,18 @@ class StateSearchState extends StateToState
      */
     public function rules()
     {
+
         return [
             [['id', 'state_id', 'to_state_id'], 'integer'],
+
+            ['to_state_id', 'unique', 'when' => function ($model) {
+                if (StateToState::find()
+                    ->where(['to_state_id' => $model->to_state_id])
+                    ->andWhere(['state_id' => $model->state_id])->one()){
+                    $this->addError('to_state_id', 'Такое уже есть');
+                }
+
+            }],
         ];
     }
 
