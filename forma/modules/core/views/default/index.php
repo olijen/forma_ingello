@@ -145,18 +145,6 @@ JS;
 
     <div class="col-lg-3 col-xs-12">
 
-        <div class="col-lg-12 col-xs-6">
-
-            <?= \insolita\wgadminlte\LteSmallBox::widget([
-                'type' => \insolita\wgadminlte\LteConst::COLOR_YELLOW,
-                'title' => $completeSellingsCount,
-                'text' => 'Продажи',
-                'icon' => 'fa fa-arrows-alt',
-                'footer' => 'Смотреть все',
-                'link' => Url::to(['/selling/main', 'SellingSearch[state]' => 1]),
-            ]); ?>
-
-        </div>
 
         <div class="col-lg-12 col-xs-6">
 

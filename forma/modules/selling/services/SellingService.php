@@ -62,14 +62,8 @@ class SellingService
         return $model;
     }
 
-    public static function changeState($id, $state)
-    {
-        $model = self::get($id);
-        $stateClass = 'forma\modules\selling\records\selling\State'.ucfirst($state);
-        $model->applyState(new $stateClass);
-        $model->save();
-        return $model;
-    }
+
+
 
     public static function createByRemains($post)
     {
@@ -115,14 +109,6 @@ class SellingService
         return $selling;
     }
 
-    public static function getCompleteCount()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Selling::find()->where(['state' => 1]),
-        ]);
-
-        return $dataProvider->getTotalCount();
-    }
 
     // todo: Вынести в виджет
     public static function getTotalSum(Selling $selling)
