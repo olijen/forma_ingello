@@ -3694,3 +3694,28 @@ ALTER TABLE `worker_vacancy`
   ADD CONSTRAINT `fk-worker_vacancy-vacancy_id` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancy` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk-worker_vacancy-worker_id` FOREIGN KEY (`worker_id`) REFERENCES `worker` (`id`) ON DELETE CASCADE;
 COMMIT;
+
+
+ CREATE TABLE `state` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `state_ibfk_1` (`user_id`),
+  CONSTRAINT `state_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+ALTER TABLE state
+ADD description varchar(6500);
+
+
+CREATE TABLE `state_to_state` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `state_id` int(11) NOT NULL,
+  `to_state_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `state_to_state_ibfk_1` (`state_id`),
+  KEY `state_to_state_ibfk_2` (`to_state_id`),
+  CONSTRAINT `state_to_state_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `state_to_state_ibfk_2` FOREIGN KEY (`to_state_id`) REFERENCES `state` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
