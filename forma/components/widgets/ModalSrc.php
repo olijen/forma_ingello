@@ -21,7 +21,7 @@ class ModalSrc extends Widget
     {
         ?>
         <a
-            id="info"
+            id="<?=$this->options['id']?>"
             style="color: <?=$this->color?>;"
             href="javascript:void(0)" 
             class="btn btn-<?=$this->btn?>"
