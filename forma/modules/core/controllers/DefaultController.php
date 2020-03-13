@@ -34,14 +34,13 @@ class DefaultController extends Controller
         $productsCount = ProductService::getCount();
         $completePurchasesCount = PurchaseService::getCompleteCount();
         $completeTransitsCount = TransitService::getCompleteCount();
-        $completeSellingsCount = SellingService::getCompleteCount();
+
         $salesProgress = new SalesProgress();
 
         return $this->render('index', compact(
             'productsCount',
             'completePurchasesCount',
             'completeTransitsCount',
-            'completeSellingsCount',
             'salesProgress'
         ));
     }

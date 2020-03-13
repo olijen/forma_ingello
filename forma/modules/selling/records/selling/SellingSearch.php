@@ -86,7 +86,6 @@ class SellingSearch extends Selling
             'id' => $this->id,
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
-            'state' => $this->state,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
