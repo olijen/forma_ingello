@@ -63,7 +63,23 @@ class SellingService
     }
 
 
+    public static function getCompleteCount()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Selling::find(),
+        ]);
 
+        return $dataProvider->getTotalCount();
+    }
+
+//    public static function changeState($id, $state)
+//    {
+//        $model = self::get($id);
+//        $stateClass = 'forma\modules\selling\records\selling\State'.ucfirst($state);
+//        $model->applyState(new $stateClass);
+//        $model->save();
+//        return $model;
+//    }
 
     public static function createByRemains($post)
     {
@@ -85,6 +101,7 @@ class SellingService
             var_dump($selling->getErrors());
             die;
         }
+
 
         $warehouseProducts = WarehouseProduct::find()
             ->where(['warehouse_id' => $warehouse->id])
@@ -108,6 +125,8 @@ class SellingService
 
         return $selling;
     }
+
+
 
 
     // todo: Вынести в виджет
