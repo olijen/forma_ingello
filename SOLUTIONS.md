@@ -6,6 +6,7 @@ sudo service docker restart
 Очистить образы докера
 sudo docker ps -aq
 sudo docker rm $(docker ps -aq) -f
+Или bc17f1f1ba76 cc6afefdd036 5dcb670a859f ... вместо $(docker ps -aq)
 sudo rm /var/lib/docker/network/files/local-kv.db
 
 Получить развёрнутую информацию об контейнерах
@@ -21,6 +22,9 @@ docker-compose up -d
 
 Bash
 docker-compose exec app bash
+ 
+
+sudo docker rm 3976fab0e0bc 367947b06f1c -f
 
 ---------------------- BASH ---------------------
 

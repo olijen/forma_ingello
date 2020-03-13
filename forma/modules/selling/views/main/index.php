@@ -7,6 +7,7 @@ use forma\components\ActiveRecordHelper;
 use forma\modules\customer\records\Customer;
 use forma\modules\warehouse\records\Warehouse;
 use forma\widgets\DateRangeFilter;
+use forma\modules\selling\records\state\State;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch
@@ -19,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <a href="/selling/form/index" class="btn btn-success">Новая продажа</a>
     <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary">План на обзвон</a>
+    <a href="/selling/main-state/index" class="btn btn-success">Настроить состояния</a>
 
     <hr>
 
@@ -48,9 +50,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => ActiveRecordHelper::getList(Warehouse::className()),
         ],
         [
-            'attribute' => 'state',
-            'value' => function (Selling $selling) { return $selling->getState()->getName(); },
-            'filter' => Selling::getStatesList(),
+            'attribute' => 'state_id',
+            'value' => 'toState.name',
+            'filter' => ActiveRecordHelper::getList(State::className()),
+
         ],
     ];
 
