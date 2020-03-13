@@ -48,9 +48,9 @@ use yii\widgets\Breadcrumbs;
                         $(document).ready(function() {
                             var i = setInterval(function () {
                                 setTimeout(function() {
-                                    $('#info').css('color', '#ffbfb7');
+                                    $('#info').css('color', '#00f');
                                 }, 250);
-                                $('#info').css('color', '#ffffff');
+                                $('#info').css('color', '#0f0');
                             }, 500);
                             
                             setTimeout(function() {
@@ -58,8 +58,7 @@ use yii\widgets\Breadcrumbs;
                               $('#info').css('color', '#ffffff');
                               setInterval(function () {
                                 setTimeout(function() {
-                                    console.log('asdasd');
-                                    $('#info').css('color', '#aaeeaa');
+                                    $('#info').css('color', '#f00');
                                 }, 1000);
                                 $('#info').css('color', 'white');
                             }, 2000);
@@ -308,6 +307,81 @@ JS;
 
     </nav>
 </header>
+
+
+<?php
+  if ($this->title !== null) : ?>
+
+    <h1 align="right" style="text-align: right; padding-right: 5px;">
+        <?= \yii\helpers\Html::encode($this->title); echo "   "; ?>
+
+
+      <span style="float: right; text-align: right; padding-left: 5px;">
+
+        <?php
+
+        if (empty($this->params['doc-page'])) {
+
+          echo \forma\components\widgets\ModalSrc::widget([
+              'route' => '/core/site/doc?page=layout',
+              'name' => 'О проекте',
+              'icon' => 'info',
+              'color' => 'green',
+              'options' => [
+                  'style' => ['border' => '1px solid green'],
+                  'id' => 'info2',
+              ]
+          ]);
+
+          $js = <<<JS
+          $(document).ready(function() {
+              var i = setInterval(function () {
+                  setTimeout(function() {
+                      $('#info2').css('color', '#00f');
+                  }, 250);
+                  $('#info2').css('color', 'green');
+              }, 500);
+              
+              setTimeout(function() {
+                clearInterval(i);
+                $('#info2').css('color', 'blue');
+                setInterval(function () {
+                  setTimeout(function() {
+                      $('#info2').css('color', '#f00');
+                  }, 1000);
+                  $('#info2').css('color', 'green');
+              }, 2000);
+              }, 5000);
+          })
+JS;
+          $this->registerJs($js);
+      }
+      ?>
+
+
+      <?php if (!empty($this->params['panel'])) : ?>
+        <span style="text-align: left;">
+            <?= $this->params['panel'] ?>
+        </span>
+      <?php endif ?>
+
+          <?php if (!empty($this->params['doc-page'])) : ?>
+
+              <?=\forma\components\widgets\ModalSrc::widget([
+                  'route' => '/core/site/doc?page='.$this->params['doc-page'],
+                  'name' => 'О разделе',
+                  'icon' => 'info-circle',
+                  'btn' => 'primary',
+              ]) ?>
+
+          <?php endif ?>
+
+    </span>
+
+    </h1>
+
+  <?php endif ?>
+
 
 <?php
 
