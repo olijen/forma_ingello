@@ -3712,6 +3712,9 @@ ADD `order` int(11);
 ALTER TABLE state
 ADD description varchar(6500);
 
+ALTER TABLE selling
+ADD `state_id` int(11) ;
+
 
 CREATE TABLE `state_to_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
