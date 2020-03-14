@@ -35,26 +35,7 @@ class State extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 65000],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            ['order', 'unique', 'when' => function ($model) {
-           // de($model);
-                if ($state = State::find()
-                    ->where(['order' => $model->order])
-//                    ->andWhere(['<>','id', $model->id])
-                    ->one()){
-//                   de($state->attributes);
-                   de($model);
-                    $mod = $state ->order;
-                   de($model);
-//                    de($mod);
-                    $state ->order = $model->order;
-                    $model->order = $mod;
 
-//                    de($state ->order);
-//                   de($model->id);
-//                    $this->addError('order', 'Такое уже есть');
-                }
-
-            }],
         ];
     }
 
