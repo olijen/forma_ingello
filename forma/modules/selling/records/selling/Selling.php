@@ -96,6 +96,7 @@ class Selling extends StateActiveRecord implements NomenclatureInterface
             [['customer_id', 'warehouse_id', 'state'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
             [['name'], 'string', 'max' => 100],
+            [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
         ];
@@ -113,7 +114,7 @@ class Selling extends StateActiveRecord implements NomenclatureInterface
             'name' => 'Название',
             'date_create' => 'Дата создания',
             'date_complete' => 'Дата завершения',
-            'state' => 'Состояние',
+            'state_id' => 'Состояние',
         ];
     }
 
