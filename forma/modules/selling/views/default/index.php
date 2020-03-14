@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 
 $this->title = 'Продажи';
-$this->params['doc-page'] = 'Selling';
+//$this->params['doc-page'] = 'Selling';
 
 $list = [
     ['label' => 'Продажи', 'url' => '/selling/main', 'icon' => 'balance-scale',
