@@ -96,10 +96,8 @@ class MainStateController extends Controller
             return $this->redirect('update?id=' . $id);
         }
 
-        if ($toState->load(Yii::$app->request->post()) && $toState->validate() && $toState->save()) {
+        if ($toState->load(Yii::$app->request->post()) && $toState->save()) {
             return $this->redirect('update?id=' . $id);
-        } else {
-             $toState->errors;
         }
 
 

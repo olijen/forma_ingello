@@ -30,11 +30,31 @@ class State extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['user_id'], 'integer'],
+            [['name', 'order'], 'required'],
+            [['user_id', 'order'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 65000],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            ['order', 'unique', 'when' => function ($model) {
+           // de($model);
+                if ($state = State::find()
+                    ->where(['order' => $model->order])
+//                    ->andWhere(['<>','id', $model->id])
+                    ->one()){
+//                   de($state->attributes);
+                   de($model);
+                    $mod = $state ->order;
+                   de($model);
+//                    de($mod);
+                    $state ->order = $model->order;
+                    $model->order = $mod;
+
+//                    de($state ->order);
+//                   de($model->id);
+//                    $this->addError('order', 'Такое уже есть');
+                }
+
+            }],
         ];
     }
 
@@ -45,8 +65,10 @@ class State extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'Состояния'),
             'user_id' => Yii::t('app', 'User ID'),
+            'order'=> Yii::t('app', 'Порядок'),
+            'description'=> Yii::t('app', 'Описание'),
         ];
     }
 
