@@ -15,8 +15,13 @@ if (isset($_GET['debugoff'])) {
     unset($_COOKIE['debug']);
 }
 
-define('YII_ENV', 'dev');
-define('YII_DEBUG', true);
+if (!empty($_COOKIE['debug'])) {
+    define('YII_ENV', 'dev');
+    define('YII_DEBUG', true);
+} else {
+    define('YII_ENV', 'prod');
+    define('YII_DEBUG', false);
+}
 
 // Composer
 require(__DIR__ . '/../../vendor/autoload.php');

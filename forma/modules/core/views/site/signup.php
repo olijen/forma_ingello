@@ -37,9 +37,12 @@ $fieldOptions4 = [
     }
 </style>
 <div class="login-box">
-    <div class="login-logo">
-        <a href="#" style="color: #f4f4f4;"><b>FORMA</b> INGELLO</a>
-    </div>
+  <div class="login-logo">
+      <a href="#" style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-newspaper-o"></i>  INGELLO</a>
+  </div>
+  <hr>
+  <h4 style="color: white;">Демонстрационный веб сервис для автоматизации и мониторинга</h4>
+  <h6 style="color: white;">Разработано компанией <a style="color: red;" href="http://ingello.com">Ingello</a></h6>
 
     <?php /*=\forma\components\widgets\ModalSrc::widget([
         'route' => '/core/site/doc?page=login',

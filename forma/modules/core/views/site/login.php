@@ -38,9 +38,11 @@ $fieldOptions2 = [
 </style>
 <div class="login-box">
     <div class="login-logo">
-        <a style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-chart-bar"></i> INGELLO</a>
-      <!--  <hr>
-        <?/*=\forma\components\widgets\ModalSrc::widget([
+      <a style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-newspaper-o"></i> INGELLO</a>
+      <hr>
+      <h4 style="color: white;">Демонстрационный веб сервис для автоматизации и мониторинга</h4>
+      <h6 style="color: white;">Разработано компанией <a style="color: red;" href="http://ingello.com">Ingello</a></h6>
+        <?php /*=\forma\components\widgets\ModalSrc::widget([
             'route' => '/core/site/doc?page=login',
             'name' => 'Демонстрация системы',
             'icon' => 'info',
@@ -49,7 +51,7 @@ $fieldOptions2 = [
                 'id' => 'info',
             ]
         ]) */?>
-        <hr>-->
+
     </div>
 
     <?= Modal::widget([

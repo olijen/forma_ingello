@@ -3,7 +3,7 @@
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
-$this->title = 'Панель управления';
+$this->title = 'Мониторинг, отделы компании, подсистемы';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 
@@ -122,7 +122,7 @@ JS;
 
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title" id="scroll">Этапы (воронка продаж)</h3>
+              <h3 class="box-title" id="scroll">Воронка продаж <span style="padding-left: 20px; color:#abc"><i class="fa fa-mouse-pointer"></i> кликни на колонку</span></h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
@@ -145,32 +145,74 @@ JS;
 
     <div class="col-lg-3 col-xs-12">
 
+      <div class="box box-success">
+        <div class="box-header with-border">
 
-        <div class="col-lg-12 col-xs-6">
+          <h3 class="box-title" id="scroll">
+            Отделы компании <span style="padding-left: 10px; color:#abc">
+              <i class="fa fa-object-group"></i>
+            </span>
+          </h3>
 
-            <?= \insolita\wgadminlte\LteSmallBox::widget([
-                'type' => \insolita\wgadminlte\LteConst::COLOR_RED,
-                'title' => $productsCount,
-                'text' => 'Продукты',
-                'icon' => 'fa fa-cube',
-                'footer' => 'Смотреть все',
-                'link' => Url::to(['/product/product']),
-            ]); ?>
-
-        </div>
-
-        <div class="col-lg-12 col-xs-6">
-
-            <?= \insolita\wgadminlte\LteSmallBox::widget([
-                'type' => \insolita\wgadminlte\LteConst::COLOR_LIGHT_BLUE,
-                'title' => '<h4>6,722,152</h4>',
-                'text' => 'Оборот',
-                'icon' => 'fa fa-retweet',
-                'footer' => 'Смотреть детали',
-                'link' => Url::to(['/selling/main', 'SellingSearch[state]' => 8]),
-            ]); ?>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
 
         </div>
+
+        <div class="box-body">
+          <div class="">
+
+            <div class="col-lg-12 col-xs-6">
+
+                <?= \insolita\wgadminlte\LteSmallBox::widget([
+                    'type' => \insolita\wgadminlte\LteConst::COLOR_BLUE,
+                    'title' => $completeSellingsCount,
+                    'text' => '<h4>Отдел продаж</h4>',
+                    'icon' => 'fa fa-arrows-alt',
+                    'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
+                    'link' => Url::to(['/selling']),
+                ]); ?>
+
+            </div>
+
+            <div class="col-lg-12 col-xs-6">
+
+                <?= \insolita\wgadminlte\LteSmallBox::widget([
+                    'type' => \insolita\wgadminlte\LteConst::COLOR_YELLOW,
+                    'title' => $productsCount,
+                    'text' => '<h4>Складской учет</h4>',
+                    'icon' => 'fa fa-cube',
+                    'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
+                    'link' => Url::to(['/product/product']),
+                ]); ?>
+
+            </div>
+
+            <div class="col-lg-12 col-xs-6">
+              <a href="">
+
+              </a>
+                <?= \insolita\wgadminlte\LteSmallBox::widget([
+                    'type' => \insolita\wgadminlte\LteConst::COLOR_RED,
+                    'title' => 113,
+                    'text' => '<h4>Отдел кадров</h4>',
+                    'icon' => 'fa fa-users',
+                    'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
+                    'link' => Url::to(['/selling/hr']),
+                ]); ?>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
 
     </div>
 
@@ -222,7 +264,7 @@ JS;
 
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Команда</h3>
+                <h3 class="box-title">Сотрудники</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
