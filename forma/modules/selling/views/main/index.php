@@ -1,6 +1,7 @@
 <?php
 
 use kartik\dynagrid\DynaGrid;
+use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
@@ -52,8 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'state_id',
             'value' => 'toState.name',
-            'filter' => ActiveRecordHelper::getList(State::className()),
-
+            'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'id'),
         ],
     ];
 
