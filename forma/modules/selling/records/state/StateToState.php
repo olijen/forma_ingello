@@ -45,7 +45,7 @@ class StateToState extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'state_id' => Yii::t('app', 'State ID'),
-            'to_state_id' => Yii::t('app', 'To State ID'),
+            'to_state_id' => Yii::t('app', 'Это состояние можно поменять на:'),
         ];
     }
 

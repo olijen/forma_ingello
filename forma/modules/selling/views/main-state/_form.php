@@ -13,9 +13,13 @@ use vova07\imperavi\Widget;
 <div class="state-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    <div class="col-md-5 block">
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
+    <?= $form->field($model, 'order')->textInput(['maxlength' => true]) ?>
+        <div class="form-group">
+            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        </div>
+    </div>
     <div class="col-md-7 block">
         <?= $form->field($model, 'description')->widget(Widget::className(), [
             'settings' => [
@@ -35,9 +39,7 @@ use vova07\imperavi\Widget;
         ]); ?>
     </div>
 
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-    </div>
+
 
     <?php ActiveForm::end(); ?>
 
