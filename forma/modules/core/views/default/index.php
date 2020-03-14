@@ -598,7 +598,7 @@ JS;
     plan.onclick = function(evt){
         var activePoints = myLineChart.getElementsAtEvent(evt);
         console.log(activePoints);
-         window.location.href = '/selling/main?SellingSearch[state_id]=' + activePoints[0]._index;
+         window.location.href = '/selling/main?SellingSearch[state_id]=' + (1 + activePoints[0]._index) ;
 
         // => activePoints is an array of points on the canvas that are at the same position as the click event.
     };
