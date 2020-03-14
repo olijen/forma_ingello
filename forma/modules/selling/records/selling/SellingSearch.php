@@ -67,6 +67,9 @@ class SellingSearch extends Selling
             ->andWhere(['in', 'accessory.user_id', $ids])
             ->andWhere(['accessory.entity_class' => Selling::className()]);
 
+        $query->join('inner join', 'state', 'state.id = selling.state_id ')
+            ->andWhere(['state.user_id' => Yii::$app->user->id]);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -81,11 +84,14 @@ class SellingSearch extends Selling
             return $dataProvider;
         }
 
+
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
+            'state_id' => $this->state_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
