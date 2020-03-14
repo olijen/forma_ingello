@@ -3743,10 +3743,11 @@ CREATE TABLE `regularity` (
 
 CREATE TABLE `regularity_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11),
+  `regularity_id` int(11),
   `title` varchar(255),
   `description` varchar(255),
-    parent_id int(11),
-    regularity_id int(11),
+  `color` varchar(55),
   `order` int(11),
   PRIMARY KEY (`id`),
   KEY `regularity_item_ibfk_1` (`regularity_id`),
