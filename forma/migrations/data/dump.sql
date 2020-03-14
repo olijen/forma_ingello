@@ -3716,6 +3716,7 @@ ALTER TABLE selling
 ADD `state_id` int(11) ;
 
 
+
 CREATE TABLE `state_to_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `state_id` int(11) NOT NULL,
@@ -3738,6 +3739,8 @@ CREATE TABLE `regularity` (
   CONSTRAINT `regularity_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
 
 
+
+
 CREATE TABLE `regularity_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255),
@@ -3751,25 +3754,5 @@ CREATE TABLE `regularity_item` (
   CONSTRAINT `regularity_item_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `regularity_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
   )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ALTER TABLE regularity_item
+ADD `color` varchar(55) ;
