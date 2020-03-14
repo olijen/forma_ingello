@@ -109,6 +109,8 @@ use forma\modules\product\records\Product;
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
+
+                    ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                     [
                         'label' => 'Люди',
                         'url' => ['/core/default/people'],
