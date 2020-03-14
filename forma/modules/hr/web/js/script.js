@@ -171,7 +171,7 @@ $(document).ready(function() {
                     nextStep: getNextStep(),
                 },
                 success: function () {
-                    localStorage.clear();
+                    Storage.clear();
                 }
             });
             formActives();
