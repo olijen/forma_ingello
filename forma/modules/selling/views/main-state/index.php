@@ -7,19 +7,19 @@ use yii\grid\GridView;
 /* @var $searchModel forma\modules\selling\records\state\StateSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'States');
+$this->title = Yii::t('app', 'Состояния');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="state-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create State'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Создать состояние'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            'order',
             'name',
 
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{delete} {update}',
+            'template' => ' {update} {delete} ',
 
             ],
         ],

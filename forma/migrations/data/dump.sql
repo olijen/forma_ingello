@@ -3705,6 +3705,10 @@ COMMIT;
   CONSTRAINT `state_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 
+
+ALTER TABLE state
+ADD `order` int(11);
+
 ALTER TABLE state
 ADD description varchar(6500);
 
