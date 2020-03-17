@@ -3710,7 +3710,12 @@ COMMIT;
   CONSTRAINT `state_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
+INSERT INTO `state` (`name`, `user_id`, `order`) VALUES
+('Холод', 1, 5),
+('Ожидаем ответа', 1, 4),
+('Получил комерческое', 1, 3),
+('Согласился', 1, 2),
+('Отказался', 1, 1);
 
 
 CREATE TABLE `state_to_state` (
@@ -3739,8 +3744,8 @@ INSERT INTO `regularity` (`name`, `user_id`, `order`) VALUES
 ('Входящие звонки', 1, 5),
 ('Обзвон', 1, 4),
 ('Звонки', 1, 1),
-('Менеджмент', 1, 1),
-('Найм', 1, 1);
+('Менеджмент', 1, 2),
+('Найм', 1, 3);
 
 CREATE TABLE `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3760,11 +3765,11 @@ CREATE TABLE `item` (
 
 
 INSERT INTO `item` (`title`, `description`,  `regularity_id`, `order`, `color`) VALUES
-('Как дела?', 'Отлично',  1, 5, 'red'),
-('Как я?', 'плохо', 1, 4,  'red'),
-('Как ты?', 'Отлично',  2, 1, 'red'),
-('Как мы?', 'Отлично',  3, 1, 'red'),
-('Как вы?', 'Отлично',  3, 1, 'red');
+('Как дела?', 'Отлично',  64, 5, 'red'),
+('Как я?', 'плохо', 64, 4,  'red'),
+('Как ты?', 'Отлично',  65, 1, 'red'),
+('Как мы?', 'Отлично',  66, 1, 'red'),
+('Как вы?', 'Отлично',  66, 1, 'red');
 
 
 
