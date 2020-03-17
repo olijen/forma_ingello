@@ -3696,26 +3696,24 @@ ALTER TABLE `worker_vacancy`
 COMMIT;
 
 
- CREATE TABLE `state` (
+CREATE TABLE `state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `state_ibfk_1` (`user_id`),
   CONSTRAINT `state_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 ALTER TABLE state
-ADD `order` int(11);
+  ADD `order` int(11);
 
 ALTER TABLE state
-ADD description varchar(6500);
+  ADD description varchar(6500);
 
 ALTER TABLE selling
-ADD `state_id` int(11) ;
-
-
+  ADD `state_id` int(11) ;
 
 CREATE TABLE `state_to_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3726,7 +3724,7 @@ CREATE TABLE `state_to_state` (
   KEY `state_to_state_ibfk_2` (`to_state_id`),
   CONSTRAINT `state_to_state_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `state_to_state_ibfk_2` FOREIGN KEY (`to_state_id`) REFERENCES `state` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `regularity` (
@@ -3736,10 +3734,8 @@ CREATE TABLE `regularity` (
   `order` int(11),
   PRIMARY KEY (`id`),
   KEY `regularity_ibfk_1` (`user_id`),
-  CONSTRAINT `regularity_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
-
-
-
+  CONSTRAINT `regularity_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;;
 
 CREATE TABLE `regularity_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3753,7 +3749,4 @@ CREATE TABLE `regularity_item` (
   KEY `regularity_item_ibfk_1` (`regularity_id`),
   KEY `regularity_item_ibfk_2` (`parent_id`),
   CONSTRAINT `regularity_item_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `regularity_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-  )
-
-ALTER TABLE regularity_item
-ADD `color` varchar(55) ;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;;
