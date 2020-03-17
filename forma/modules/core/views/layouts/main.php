@@ -78,7 +78,14 @@ if (Yii::$app->controller->action->id === 'login') {
     ]) ?>
 
     <?php $this->endBody() ?>
-    
+
+    <?php if (isset($_GET['without-header'])) {
+        echo "<style> .navbar-static-top {display: none;} </style>";
+        echo "<style> #jvlabelWrap {display: none;} </style>";
+    }
+
+    ?>
+
     </body>
     </html>
     <?php $this->endPage() ?>
