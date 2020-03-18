@@ -12,6 +12,21 @@ function show($url, $text = "Открыть", $with = 600, $height = 600, $left 
       }
       $url .= 'without-header';
     }
+    //if ($url{0} == '/') {
+        echo \forma\components\widgets\ModalSrc::widget([
+            'route' => $url,
+            'name' => $text,
+            'icon' => 'eye',
+            'color' => 'blue',
+            'iframe' => true,
+            'options' => [
+                'class' => 'btn btn-primary btn-xs',
+                'style' => ['border' => '1px solid green'],
+                'id' => 'id'.time(),
+            ]
+        ]);
+        return;
+    //}
     ?>
       <a
           onclick="window.open('<?= $url ?>', 'Window', 'width=600,height=600,left=600')"
@@ -29,7 +44,7 @@ function show($url, $text = "Открыть", $with = 600, $height = 600, $left 
     <ul class="nav nav-tabs">
 
       <li class="active"><a href="#tab_1" data-toggle="tab">Инструкции</a></li>
-      <li><a href="#tab_2" data-toggle="tab">Обзвон</a></li>
+      <li><a href="#tab_2" data-toggle="tab">Презентация</a></li>
       <li><a href="#tab_3" data-toggle="tab">Собеседование</a></li>
       <li><a href="#tab_4" data-toggle="tab">Обслуживание</a></li>
 
@@ -304,46 +319,51 @@ function show($url, $text = "Открыть", $with = 600, $height = 600, $left 
       </div>
       <!-- /.tab-pane -->
       <div class="tab-pane" id="tab_2">
-        The European languages are members of the same family. Their separate existence is a myth.
-        For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-        in their grammar, their pronunciation
-        <a href="#" class="btn btn-primary btn-xs">link</a>
-        and their most common words. Everyone realizes why a
+        Всё что нужно знать о системе:
+        Открыть раздел регламентов.
+        Регламент продажи продукта.
+        Я буду просто его читать.
         <hr>
-        new common language would be desirable: one could refuse to pay expensive translators. To
-        achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-        words. If several languages coalesce, the grammar of the resulting language is more simple
-        and regular than that of the
-        <a href="#" class="btn btn-primary btn-xs">link</a>
+        <b>Говорить:</b>
+        Приветствую Вас. Я не знаю, как Вас зовут, но я рад с Вами познакомиться. Пока что буду называть Вас "Зритель".
+        Скажу честно, прямо сейчас я делаю то, что говорит мне программа. Система под названием FORMA ingello.
+        Я всего лишь человек, просто смотрю на телефон и выполняю инструкции.
         <hr>
-        individual languages.
-        The European languages are members of the same family. Their separate existence is a myth.
-        For science, music, sport
-        , etc, Europe uses the same vocabulary. <a href="#" class="btn btn-primary btn-xs">link</a> The languages only
-        differ
-        in their grammar, their pronunciation and their most common words. Everyone realizes why a
-        new common language would be desirable: one could refuse to pay expensive translators. To
-        achieve this, it would be ne
+        Видео будет полезным, если Вы или Ваши коллеги работаете с компьютером и интернетом, с продуктами и услугами.
+        FORMA разработана программистами Ingello и помогает компнаиям в ежедневной работе.
+        Компания Ingello так же использует программу FORMA. Это логично, ведь Ingello - это всё.
         <hr>
-        cessary to have uniform grammar, pronunciation and more common
-        words. If several languages coalesce, the grammar of the resulting language is more simple
-        and regular than that of the individual languages.
-        The European languages are
+        Прямо сейчас я читаю текст из специального раздела "Регламент".
+        Это самый простой, но очень важный раздел системы.
+        Давайте посмотрим на него.
         <hr>
-        members of the same family. Their separate existence is a myth.
-        For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-        in their grammar, the <a href="#" class="btn btn-primary btn-xs">link</a> members of the same family. Their
-        separate existence is a myth.
-        For science, music, sport, etc, Europ
+        <b>!! Зайти в раздел в мобильном формате</b>
+
+
+        Итак, у нас есть раздел, который помогает планировать различные процессы компании и связывать их с ФОРМОЙ.
+        В этом разделе есть разные регламенты. Например сейчас я читаю регламент "Продажи", который помогает продавать наш продукт ФОРМУ.
         <hr>
-        ould be desirable: one could refuse to pay expensive translators. To
-        achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-        words. If several lang <a href="#" class="btn btn-primary btn-xs">link</a> members of the same family. Their
-        separate existence is a myth.
-        For science, music, sport, etc, Europ
+        Позвольте, я запишу факт нашего знакомства в систему. Посмею сразу предположить, что Вам интересно, т.к. Вы еещ не выключили видео. Потому давайте перейдем к делу. Обычно мы говорим о разных продуктах и услугах компании. Но сегодня хотелось бы поговорить об услуге разработки больших корпоративных систем на основе платформы FORMA ingello.
         <hr>
-        uages coalesce, the grammar of the resulting language is more simple
-        and regular than that of the individual languages.
+        Выберем её в списке наших продуктов.
+        <hr>
+        Предположим, Ваc действительно интересует нешаблонное ПО, разработанное индивидуально под компанию.
+        Но Вам хочется практических деталей и подробностей.
+        <hr>
+        Тогда перейдем на следующий этап - демонстрация.
+        <hr>
+        Каждый этап описан заранее, по этому для меня не составит труда это сделать.
+        <hr>
+        <b>!!Ссылка на дешборд</b>
+
+          Воронка и другое
+          Продажи
+          -База контактов
+          -Посмотреть историю
+          Продукты
+          Найм
+
+          Следующий этап - демонстрация системы.
       </div>
       <!-- /.tab-pane -->
       <div class="tab-pane" id="tab_3">
