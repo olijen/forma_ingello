@@ -153,13 +153,18 @@ class SiteController extends Controller
             return;
         }
 
-        if ($exception->statusCode == 404) {
-            return $this->render('404');
-        } elseif($exception->statusCode == 505) {
-            return $this->render('505');
-        } else {
+        if (!empty($exception->statusCode)) {
+            if ($exception->statusCode == 404) {
+                return $this->render('404');
+            } elseif($exception->statusCode == 505) {
+                return $this->render('505');
+            } else {
+                return $this->render('error');
+            }
+        }  else {
             return $this->render('error');
         }
+
     }
 
     public function actionDoc($page = false) {

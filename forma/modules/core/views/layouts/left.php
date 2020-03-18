@@ -38,9 +38,6 @@ use forma\modules\product\records\Product;
 
             <div class="input-group">
 
-                <!-- todo: Перенести в зависимости -->
-                <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
-
                 <?= AutocompleteAjax::widget([
                     'url' => [Url::toRoute(['/product/product/search'])],
                     'options' => [
