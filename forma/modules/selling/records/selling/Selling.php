@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\selling;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\components\NomenclatureInterface;
 use forma\modules\core\components\StateActiveRecord;
 use forma\modules\core\components\TotalSumBehavior;
@@ -41,8 +42,15 @@ use forma\modules\selling\records\selling\StateDone;
  * @property SellingProduct[] $sellingProducts
  * @property string next_step
  */
-class Selling extends StateActiveRecord implements NomenclatureInterface
+class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 {
+
+    //Это временная заглушка, для того что бы работали элементы с StateActiveRecord
+    public function stateIs($state)
+    {
+        return false;
+    }
+
     /**
      * @inheritdoc
      */
@@ -93,7 +101,7 @@ class Selling extends StateActiveRecord implements NomenclatureInterface
     {
         return [
             [['customer_id', 'warehouse_id'], 'required'],
-            [['customer_id', 'warehouse_id', 'state_id'], 'integer'],
+            [['customer_id', 'warehouse_id'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],

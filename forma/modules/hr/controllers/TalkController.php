@@ -51,7 +51,7 @@ class TalkController extends Controller
         $selling->next_step = Yii::$app->request->post('nextStep');
         $selling->save();
 
-        return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $selling->id]));
+        return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/hr/form?id=' . $selling->id]));
     }
 
     public function actionSaveCustomAnswer()
@@ -80,7 +80,7 @@ class TalkController extends Controller
             $customer->save();
         }
 
-        return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $selling->id]));
+        return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/hr/form?id=' . $selling->id]));
     }
 
     public function actionCommentHistory()

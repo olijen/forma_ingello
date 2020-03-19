@@ -3,7 +3,7 @@
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
-$this->title = 'Мониторинг, отделы компании, подсистемы';
+$this->title = 'Мониторинг отделов компании';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 
