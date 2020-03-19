@@ -54,7 +54,21 @@ class Selling extends StateActiveRecord implements NomenclatureInterface
     /**
      * @inheritdoc
      */
-
+    public function states()
+    {
+        return [
+            StateCold::class,
+            StateLead::class,
+            StateFamiliar::class,
+            StateHot::class,
+            StateMeeting::class,
+            StateTestIssue::class,
+            StateOffer::class,
+            StatePayment::class,
+            StateWork::class,
+            StateDone::class,
+        ];
+    }
 
     /**
      * @inheritdoc
