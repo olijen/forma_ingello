@@ -73,11 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>'Приоритет',
                 'format'=>'text', // Возможные варианты: raw, html
                 'content'=>function($data){
-                      $count = 0;
-                      foreach ($data->getSellings()->all() as $value) {
-                          $count = $count + $value->state;
-                      }
-
+                      $count = $data->getSellings()->count();
                       return $count;
                 },
             ],
