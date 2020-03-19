@@ -8,7 +8,7 @@ class m171008_182007_base extends Migration
     {
         $dumpPath = __DIR__ . '/data/dump.sql';
         $dump = file_get_contents($dumpPath);
-        $this->execute($dump);
+        return $this->execute($dump);
     }
 
     public function safeDown()
