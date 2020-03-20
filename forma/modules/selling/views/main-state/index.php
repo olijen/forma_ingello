@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Состояния');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="state-index">
+<div class="state-index col col-md-4">
 
 
 
@@ -25,15 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'order',
-            'name',
-
-            ['class' => 'yii\grid\ActionColumn',
-            'template' => ' {update} {delete} ',
-
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => ' {update} {delete} ',
             ],
+
+            'name',
+            'order',
+            'id',
         ],
     ]); ?>
 
