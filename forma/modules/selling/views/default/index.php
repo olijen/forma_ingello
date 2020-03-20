@@ -13,7 +13,7 @@ $list = [
     ['label' => 'Речевые модули', 'url' => '/selling/speech-module', 'icon' => 'podcast',
 
     ],
-    ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'podcast',
+    ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'list',
 
     ],
 ];
