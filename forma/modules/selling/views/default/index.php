@@ -13,7 +13,7 @@ $list = [
     ['label' => 'Речевые модули', 'url' => '/selling/speech-module', 'icon' => 'podcast',
 
     ],
-    ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'podcast',
+    ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'list',
 
     ],
 ];
@@ -30,7 +30,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title" id="scroll">Этапы (воронка найма)</h3>
+            <h3 class="box-title" id="scroll">Этапы (воронка продаж)</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -95,12 +95,15 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
         options: options
     });
 
-    plan.onclick = function (evt) {
-        var activePoints = myLineChart.getElementsAtEvent(evt);
-        console.log(activePoints);
-         window.location.href = '/selling/main?SellingSearch[state_id]=' + activePoints[0]._index;
-        // window.location.href = '/selling/main';
-        // => activePoints is an array of points on the canvas that are at the same position as the click event.
+
+    function getId(index) {
+      return [<?=$salesProgress->getComaListOfSales()?>][index];
+    }
+
+    plan.onclick = function(evt){
+      var activePoints = myLineChart.getElementsAtEvent(evt);
+      console.log(activePoints);
+      window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
     };
 
 </script>

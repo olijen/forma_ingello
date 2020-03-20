@@ -359,11 +359,7 @@ JS;
       ?>
 
 
-      <?php if (!empty($this->params['panel'])) : ?>
-        <span style="text-align: left;">
-            <?= $this->params['panel'] ?>
-        </span>
-      <?php endif ?>
+
 
           <?php if (!empty($this->params['doc-page'])) : ?>
 
@@ -379,6 +375,13 @@ JS;
     </span>
 
     </h1>
+
+
+      <?php if (!empty($this->params['panel'])) : ?>
+      <div style="text-align: right;">
+          <?= $this->params['panel'] ?>
+      </div>
+      <?php endif ?>
 
   <?php endif ?>
 
