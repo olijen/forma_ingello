@@ -25,7 +25,9 @@ class SalesProgress extends Model
         $this->salesDP = SellingService::search()->search([]);
         $this->models = $this->salesDP->models;
         //список состояний пользователа
-        $this->states = State::find()->where(['user_id' => Yii::$app->user->getId()])
+        $this->states = State::find()
+            ->where(['user_id' => Yii::$app->user->getId()])
+            ->orderBy('order')
             ->all();;
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
@@ -92,11 +94,22 @@ class SalesProgress extends Model
     {
         $result = '';
 
-        foreach ($this->states as $name => $sale) {
+        foreach ($this->states as $name => $state) {
 
-            $result .= '"' . $sale['name'] . '",';
+            $result .= '"' . $state['name'] . '",';
         }
 
         return $result;
+    }
+
+    public function getComaListOfSales()
+    {
+        $i = 0;
+        $string = '';
+        foreach ($this->states as $name => $state) {
+            $string .= $state['id'] . ',';
+            $i++;
+        }
+        return $string;
     }
 }

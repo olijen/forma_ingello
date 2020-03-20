@@ -68,6 +68,8 @@ class Currency extends AccessoryActiveRecord
      */
     public static function getList()
     {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+        //todo: нужно давать доступы к стандартым валютам всем, либо добавлять валюты для каждого
         return EntityLister::getList(self::className());
     }
 }
