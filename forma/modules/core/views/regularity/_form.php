@@ -30,8 +30,6 @@ endif;
     ]); ?>
             <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'user_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
-
             <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
 

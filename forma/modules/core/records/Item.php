@@ -50,12 +50,12 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
-            'parent_id' => Yii::t('app', 'Parent ID'),
-            'regularity_id' => Yii::t('app', 'Regularity ID'),
-            'order' => Yii::t('app', 'Order'),
-            'color' => Yii::t('app', 'Color'),
+            'title' => Yii::t('app', 'Вопрос'),
+            'description' => Yii::t('app', 'Ответ'),
+            'parent_id' => Yii::t('app', 'Дополнительный вопрос'),
+            'regularity_id' => Yii::t('app', 'Регламент вопроса'),
+            'order' => Yii::t('app', 'Порядковый номер'),
+            'color' => Yii::t('app', 'Цвет'),
         ];
     }
 
