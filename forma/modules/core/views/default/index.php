@@ -204,7 +204,7 @@ JS;
                     'text' => '<h4>Отдел кадров</h4>',
                     'icon' => 'fa fa-users',
                     'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
-                    'link' => Url::to(['/selling/hr']),
+                    'link' => Url::to(['/hr']),
                 ]); ?>
 
             </div>

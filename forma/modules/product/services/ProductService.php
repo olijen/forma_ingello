@@ -5,6 +5,7 @@ namespace forma\modules\product\services;
 use forma\modules\product\records\Color;
 use forma\modules\product\records\PackUnit;
 use forma\modules\product\records\Product;
+use forma\modules\product\records\ProductPackUnit;
 use forma\modules\purchase\records\purchase\Purchase;
 use forma\modules\purchase\services\PurchaseService;
 use yii\data\ActiveDataProvider;
@@ -44,8 +45,9 @@ class ProductService
             return $model;
         }
 
+        ProductPackUnit::deleteAll(['product_id' => $model->id]);
         foreach ($packUnits as $packUnitId) {
-            PackUnitService::save($model->id, $packUnitId, $post);
+            PackUnitService::save($model->id, $packUnitId);
         }
 
         return $model;
