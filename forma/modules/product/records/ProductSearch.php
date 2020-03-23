@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
 class ProductSearch extends Product
 {
     public $color_name;
+
+    public $packUnits;
     
     /**
      * @inheritdoc
