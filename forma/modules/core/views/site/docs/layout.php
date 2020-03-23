@@ -1,6 +1,7 @@
 <div class="demo">
 
-  <a style="color: white;" class="btn btn-success" target="_blank" href="http://ingello.com/site/contact"><i class="fa fa-phone"></i> Заказать бесплатную консультацию по телефону</a>
+  <strong>Вы можете заказать бесплатный аккаунт для малого бизнеса, заказать индивидуальные доработки или заказать проектирование и разработку индивидуальной системы для бизнеса.</strong>
+  <a style="color: white;" class="btn btn-success" target="_blank" href="http://ingello.com/site/contact"><i class="fa fa-dollar"></i> Начать планирование проекта</a>
 
   <h2><i class="fa fa-laptop"></i> Бизнес - это информация</h2>
   <hr>
@@ -99,7 +100,7 @@
   <hr>
   <p>Наша команда специалистов готовы разработать любую функциональность, делающую Вашу компанию лучше.</p>
 
-  <a style="color: white;" class="btn btn-success" target="_blank" href="http://ingello.com/site/contact"><i class="fa fa-phone"></i> Заказать бесплатную консультацию по телефону</a>
+  <a style="color: white;" class="btn btn-success" target="_blank" href="http://ingello.com/site/contact"><i class="fa fa-dollar"></i> Начать планирование проекта</a>
 </div>
 <style>
     .demo a:visited, .demo a:hover {

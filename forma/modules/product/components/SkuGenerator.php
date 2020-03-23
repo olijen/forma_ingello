@@ -42,7 +42,7 @@ class SkuGenerator
         return Product::find('id')->where(['sku' => $sku])->exists();
     }
 
-    protected function formatName($name)
+    protected static function formatName($name)
     {
         $name = self::translit($name);
         $name = self::deleteForbiddenSymbols($name);

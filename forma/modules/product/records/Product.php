@@ -179,30 +179,6 @@ class Product extends AccessoryActiveRecord
         return EntityLister::getList(self::className());
     }
 
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        ProductPackUnit::deleteAll(['product_id' => $this->id]);
-
-        if (isset($_POST['Product']['productPackUnits']) &&
-            is_array($_POST['Product']['productPackUnits'])) {
-
-            $productPackUnit = new ProductPackUnit;
-            foreach ($_POST['Product']['productPackUnits'] as $packId) {
-                //todo: К чему эта магия непрокоментированная?
-                $productPackUnit->isNewRecord = true;
-                $productPackUnit->id = null;
-                $productPackUnit->setAttributes(['product_id' => $this->id, 'pack_unit_id' => $packId]);
-
-                try {
-                    $productPackUnit->save();
-                } catch(Exception $e) {
-                }
-            }
-        }
-    }
-
     public function getBatcherLabel()
     {
         //todo: batcher может быть null? Вроде бы это бинарное значение - дозатор\не дозатор.
@@ -273,7 +249,7 @@ class Product extends AccessoryActiveRecord
         }
 
         return ArrayHelper::getColumn(
-            Product::findAll(['parent_id' => $this->id]),
+            ProductPackUnit::find()->where(['product_id' => $this->id])->all(),
             'pack_unit_id'
         );
     }
