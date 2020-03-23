@@ -4,6 +4,7 @@ namespace forma\modules\product\services;
 
 use forma\modules\product\records\PackUnit;
 use forma\modules\product\records\Product;
+use forma\modules\product\records\ProductPackUnit;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
@@ -22,9 +23,51 @@ class PackUnitService
         return new PackUnit();
     }
 
-    public function save($id, $data)
+    public static function saveProductUnit($packUnitId, $productId)
     {
-        $model;
+        \Yii::info("saveProductUnit $productId, $packUnitId");
+        $ppu = new ProductPackUnit();
+        $ppu->pack_unit_id = $packUnitId;
+        $ppu->product_id = $productId;
+        $result = $ppu->save();
+        if (!$result) {
+            throw new \Exception('Сохранение юнита продукта' . json_encode($ppu->getErrors()));
+        }
+        return $ppu->id;
+    }
+
+    public static function savePackUnit($name, $bottles_quantity = 0, $volume = 0)
+    {
+        \Yii::info("savePackUnit $name");
+        $model = new PackUnit();
+        $model->name = $name;
+        $model->bottles_quantity = $bottles_quantity;
+        $model->volume = $volume;
+
+        if (!$model->save()) {
+            throw new \Exception('Сохранение юнита пака ' . json_encode($model->getErrors()));
+        }
+        return $model->id;
+    }
+
+    public static function save($productId, $packUnitId)
+    {
+        \Yii::info("Product $productId, Pack $packUnitId");
+
+        if (is_numeric($packUnitId)) {
+            $model = PackUnit::find()->where(['id' => $packUnitId])->one();
+            if ($model) {
+                self::saveProductUnit($packUnitId, $productId);
+            } else {
+                $name = 'Упаковка №'. $packUnitId;
+                $packUnitId = self::savePackUnit($name);
+                self::saveProductUnit($packUnitId, $productId);
+            }
+        } else {
+            $packUnitId = self::savePackUnit($packUnitId);
+            self::saveProductUnit($packUnitId, $productId);
+        }
+
 
     }
 

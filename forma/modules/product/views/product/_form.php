@@ -25,128 +25,134 @@ use forma\modules\product\records\Color;
 
 <?php $form = ActiveForm::begin(['id' => 'product-product-form']); ?>
 
-<?= $form->field($model, 'type_id')->widget(Select2::className(), [
-    'data' => Type::getList(),
-    'options' => ['placeholder' => 'У каждого типа своя форма.'],
-    'addon' => ['prepend' => [
-        'content' => ModalCreate::widget(['route' => Url::to(['/product/type/create'])]),
-        'asButton' => true,
-    ]],
-])
-?>
-
-<?php DetachedBlock::begin(['example' => 'Общее']) ?>
-
 <div class="product-form">
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+  <div class="row">
+    <div class="col-md-6">
 
-    <?= $form->field($model, 'manufacturer_id')->widget(Select2::className(), [
-        'data' => Manufacturer::getList(),
-        'options' => ['class' => 'form-control', 'placeholder' => 'Выберите производителя ...'],
-        'addon' => ['prepend' => [
-            'content' => ModalCreate::widget(['route' => Url::to(['/product/manufacturer/create'])]),
-            'asButton' => true,
-        ]],
-    ]) ?>
+        <?php DetachedBlock::begin(['example' => 'Общее']) ?>
 
-    <?= $form->field($model, 'year_chart')->textInput() ?>
+        <?= $form->field($model, 'type_id')->widget(Select2::className(), [
+            'data' => Type::getList(),
+            'options' => ['placeholder' => 'У каждого типа своя форма.'],
+            'addon' => ['prepend' => [
+                'content' => ModalCreate::widget(['route' => Url::to(['/product/type/create'])]),
+                'asButton' => true,
+            ]],
+        ])
+        ?>
 
-    <?php if ($model->isOriginal()): ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-        <div class="row">
+        <?= $form->field($model, 'manufacturer_id')->widget(Select2::className(), [
+            'data' => Manufacturer::getList(),
+            'options' => ['class' => 'form-control', 'placeholder' => 'Выберите производителя ...'],
+            'addon' => ['prepend' => [
+                'content' => ModalCreate::widget(['route' => Url::to(['/product/manufacturer/create'])]),
+                'asButton' => true,
+            ]],
+        ]) ?>
+
+        <?= $form->field($model, 'sku', ['enableClientValidation' => false])->textInput(['maxlength' => true, 'readonly' => true]) ?>
+
+        <?= $form->field($model, 'rating')->widget(\kartik\rating\StarRating::className(), [
+            'pluginOptions' => [
+                'stars' => 10,
+                'max' => 10,
+                'step' => 1,
+                'theme' => 'krajee-uni',
+            ],
+        ]) ?>
+
+        <?= $form->field($model, 'category_id')->widget(Select2::className(), [
+            'data' => Category::getList(),
+            'options' => ['placeholder' => 'Выберите категорию ...'],
+            'addon' => ['prepend' => [
+                'content' => ModalCreate::widget(['route' => Url::to(['/product/category/create'])]),
+                'asButton' => true,
+            ]],
+        ]) ?>
+
+        <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
+
+        <?php DetachedBlock::end() ?>
+
+    </div>
+    <div class="col-md-6">
+        <?php DetachedBlock::begin() ?>
+        <?php if ($model->isOriginal()): ?>
+
+          <div class="row">
             <div class="col-xs-12 text-center">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Единицы измерения.</div>
-                    <div class="panel-body">
+              <div class="panel panel-default">
+                <div class="panel-heading">Единицы измерения.</div>
+                <div class="panel-body">
 
-                        <?= $form->field($model, 'packUnits')->widget(Select2::className(), [
-                            'data' => PackUnit::getList(),
-                            'options' => [
-                                'placeholder' => 'Select a unit ...',
-                                'multiple' => true,
-                            ],
-                            'pluginOptions' => [
-                                'tags' => true,
-                            ],
-                        ])->label(false) ?>
+                    <?= $form->field($model, 'packUnits')->widget(Select2::className(), [
+                        'data' => PackUnit::getList(),
+                        'options' => [
+                            'placeholder' => 'Можно добавить новые или выбрать из списка ...',
+                            'multiple' => true,
+                        ],
+                        'pluginOptions' => [
+                            'tags' => true,
+                        ],
+                    ])->label(false) ?>
 
-                    </div>
                 </div>
+              </div>
             </div>
-        </div>
+          </div>
 
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <?= $form->field($model, 'volume')->dropDownList(Product::getVolumesList(), ['prompt' => '']) ?>
+        <?= $form->field($model, 'year_chart')->textInput() ?>
 
-    <?= $form->field($model, 'proof')->textInput() ?>
+        <?= $form->field($model, 'volume')->dropDownList(Product::getVolumesList(), ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'batcher')->dropDownList(Product::getBatchersList(), ['prompt' => '']) ?>
+        <?= $form->field($model, 'proof')->textInput() ?>
 
-<?php DetachedBlock::end() ?>
+        <?= $form->field($model, 'batcher')->dropDownList(Product::getBatchersList(), ['prompt' => '']) ?>
 
-<?php DetachedBlock::begin() ?>
+        <?= $form->field($model, 'country_id')->widget(kartik\select2\Select2::className(), [
+            'data' => \forma\modules\country\records\Country::getList(),
+            'options' => ['placeholder' => 'Выберите страну ...'],
+            'addon' => ['prepend' => [
+                'content' => ModalCreate::widget(['route' => Url::to(['/country/country/create'])]),
+                'asButton' => true,
+            ]],
+        ])
+        ?>
 
-    <?= $form->field($model, 'sku', ['enableClientValidation' => false])->textInput(['maxlength' => true, 'readonly' => true]) ?>
+        <?= $form->field($model, 'customs_code')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'rating')->widget(\kartik\rating\StarRating::className(), [
-        'pluginOptions' => [
-            'stars' => 10,
-            'max' => 10,
-            'step' => 1,
-            'theme' => 'krajee-uni',
-        ],
-    ]) ?>
+        <?= $form->field($model, 'color')->widget(ColorInput::className(), [
+            'showDefaultPalette' => false,
+            'options' => [
+                'placeholder' => 'Выберите цвет ...',
+                'value' => $model->color ? $model->color->name : null,
+            ],
+            'pluginOptions' => [
+                'showInput' => true,
+                'showInitial' => true,
+                'showPalette' => true,
+                'showPaletteOnly' => true,
+                'showSelectionPalette' => true,
+                'showAlpha' => false,
+                'preferredFormat' => 'name',
+                'palette' => Color::getPallet(),
+            ],
+        ]); ?>
 
-    <?= $form->field($model, 'category_id')->widget(Select2::className(), [
-        'data' => Category::getList(),
-        'options' => ['placeholder' => 'Select a category ...'],
-        'addon' => ['prepend' => [
-            'content' => ModalCreate::widget(['route' => Url::to(['/product/category/create'])]),
-            'asButton' => true,
-        ]],
-    ]) ?>
-
-    <?= $form->field($model, 'customs_code')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
-
-    <?= $form->field($model, 'color')->widget(ColorInput::className(), [
-        'showDefaultPalette' => false,
-        'options' => [
-            'placeholder' => 'Select a color ...',
-            'value' => $model->color ? $model->color->name : null,
-        ],
-        'pluginOptions' => [
-            'showInput' => true,
-            'showInitial' => true,
-            'showPalette' => true,
-            'showPaletteOnly' => true,
-            'showSelectionPalette' => true,
-            'showAlpha' => false,
-            'preferredFormat' => 'name',
-            'palette' => Color::getPallet(),
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'country_id')->widget(kartik\select2\Select2::className(), [
-        'data' => \forma\modules\country\records\Country::getList(),
-        'options' => ['placeholder' => 'Select a country ...'],
-        'addon' => ['prepend' => [
-            'content' => ModalCreate::widget(['route' => Url::to(['/country/country/create'])]),
-            'asButton' => true,
-        ]],
-    ])
-    ?>
+        <?php DetachedBlock::end() ?>
+    </div>
+  </div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Сохранить изменения' : 'Сохранить изменения', ['class' => $model->isNewRecord ? 'btn btn-success btn-block' : 'btn btn-primary btn-block']) ?>
     </div>
 
 </div>
-
-<?php DetachedBlock::end() ?>
 
 <?php ActiveForm::end(); ?>
 
