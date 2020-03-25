@@ -62,15 +62,14 @@ class ItemController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($regularity_id = null, $parent_id = null)
     {
         $model = new Item();
-        if($_GET['regularity_id']){
-            $model->regularity_id = $_GET['regularity_id'];
+        if($regularity_id){
+            $model->regularity_id = $regularity_id;
         }
-        if($_GET['parent_id']){
-
-            $model->parent_id = $_GET['parent_id'];
+        if($parent_id){
+            $model->parent_id = $parent_id;
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect('/core/regularity');
@@ -91,14 +90,24 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+//        de($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect('/core/regularity');
         }
-
+//        de();
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionDelet($id)
+    {
+
+        $this->findModel($id)->delete();
+        Item::deleteAll(['parent_id' => $id]);
+
+        return $this->redirect('/core/regularity');
     }
 
     /**
@@ -110,9 +119,9 @@ class ItemController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $this->findModel($id)->delete();
+        return $this->redirect('/core/regularity');
     }
 
     /**

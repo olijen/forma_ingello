@@ -36,7 +36,8 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'regularity_id', 'order'], 'integer'],
-            [['title', 'description'], 'string', 'max' => 255],
+            [['title'], 'string', 'max' => 255],
+            [[ 'description'], 'string'],
             [['color'], 'string', 'max' => 55],
             [['regularity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Regularity::className(), 'targetAttribute' => ['regularity_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['parent_id' => 'id']],
@@ -50,8 +51,8 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Вопрос'),
-            'description' => Yii::t('app', 'Ответ'),
+            'title' => Yii::t('app', 'Заголовок'),
+            'description' => Yii::t('app', 'Описание'),
             'parent_id' => Yii::t('app', 'Дополнительный вопрос'),
             'regularity_id' => Yii::t('app', 'Регламент вопроса'),
             'order' => Yii::t('app', 'Порядковый номер'),

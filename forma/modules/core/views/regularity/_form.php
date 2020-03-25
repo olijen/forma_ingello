@@ -24,7 +24,7 @@ endif;
 
 ?>
 
-<div class="regularity-form">
+<div class="col-md-6 block">
 
     <?php $form = ActiveForm::begin([
     ]); ?>
