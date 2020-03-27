@@ -63,7 +63,6 @@ class CustomerSearch extends Customer
             ->andWhere(['in', 'accessory.user_id', $ids])
             ->andWhere(['accessory.entity_class' => Customer::className()]);
 
-
     // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -84,6 +83,7 @@ class CustomerSearch extends Customer
             'tax_rate' => $this->tax_rate,
             'country_id' => $this->country_id,
         ]);
+
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'firm', $this->firm])

@@ -14,7 +14,7 @@ use forma\modules\core\components\UserIdentity;
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $email;
     public $password;
     public $rememberMe = true;
 
@@ -28,7 +28,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['email', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -42,7 +42,7 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Имя пользователя',
+            'email' => 'E-mail',
             'password' => 'Пароль',
             'rememberMe' => 'Запомнить меня',
         ];
@@ -61,9 +61,9 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user) {
-                $this->addError($attribute, 'Incorrect username.');
+                $this->addError($attribute, 'Неправильный Email');
             } elseif (!$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect password.');
+                $this->addError($attribute, 'Неправильный пароль');
             }
         }
     }
@@ -81,14 +81,14 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[email]]
      *
      * @return UserIdentity|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = UserIdentity::findByUsername($this->username);
+            $this->_user = UserIdentity::findByEmail($this->email);
         }
 
         return $this->_user;

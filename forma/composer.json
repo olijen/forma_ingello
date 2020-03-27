@@ -48,7 +48,8 @@
         "kartik-v/yii2-widget-typeahead": "*",
         "kartik-v/yii2-label-inplace": "*",
         "vova07/yii2-imperavi-widget": "*",
-        "philippfrenzel/yii2fullcalendar":"*"
+        "philippfrenzel/yii2fullcalendar":"*",
+        "google/apiclient": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

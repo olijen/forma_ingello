@@ -46,6 +46,11 @@ class UserIdentity extends User implements IdentityInterface
         return self::findOne(['username' => $username]);
     }
 
+    public static function findByEmail($email)
+    {
+        return self::findOne(['email' => $email]);
+    }
+
     /**
      * @inheritdoc
      */
