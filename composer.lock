@@ -277,7 +277,7 @@
             "version": "v1.4.7",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ajaxorg/ace-builds.git",
+                "url": "https://github.com/ajaxorg/ace-builds.git",
                 "reference": "5ad04a46e8e0981a65dd982693e5d19a2209311c"
             },
             "dist": {
@@ -364,7 +364,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:twbs/bootstrap.git",
+                "url": "https://github.com/twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -444,12 +444,12 @@
             "version": "v2.9.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/chartjs/Chart.js.git",
+                "url": "git@github.com:nnnick/Chart.js.git",
                 "reference": "8521776076612b28c69385cafa28ccd8b7670eb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/8521776076612b28c69385cafa28ccd8b7670eb7",
+                "url": "https://api.github.com/repos/nnnick/Chart.js/zipball/8521776076612b28c69385cafa28ccd8b7670eb7",
                 "reference": "8521776076612b28c69385cafa28ccd8b7670eb7"
             },
             "type": "bower-asset",
@@ -462,7 +462,7 @@
             "version": "1.10.19",
             "source": {
                 "type": "git",
-                "url": "git@github.com:DataTables/DataTables.git",
+                "url": "https://github.com/DataTables/DataTables.git",
                 "reference": "156faa83386460c578e00c460eca9766e38a0c5f"
             },
             "dist": {
@@ -539,7 +539,7 @@
             "version": "v3.9.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:fullcalendar/fullcalendar.git",
+                "url": "https://github.com/fullcalendar/fullcalendar.git",
                 "reference": "3ddb3c8d1461c6b841aed3487ba07d8ba338adb6"
             },
             "dist": {
@@ -584,7 +584,7 @@
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "url": "git@github.com:RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -626,7 +626,7 @@
             "version": "3.4.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
             },
             "dist": {
@@ -644,7 +644,7 @@
             "version": "1.12.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/components/jqueryui.git",
+                "url": "git@github.com:components/jqueryui.git",
                 "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
             },
             "dist": {
@@ -716,12 +716,12 @@
             "version": "4.0.11",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ivaynberg/select2.git",
+                "url": "https://github.com/select2/select2.git",
                 "reference": "a2b0acc7077808006328710b73f330382935cfa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivaynberg/select2/zipball/a2b0acc7077808006328710b73f330382935cfa8",
+                "url": "https://api.github.com/repos/select2/select2/zipball/a2b0acc7077808006328710b73f330382935cfa8",
                 "reference": "a2b0acc7077808006328710b73f330382935cfa8"
             },
             "type": "bower-asset",
@@ -752,7 +752,7 @@
             "version": "2.0.7.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:yiisoft/jquery-pjax.git",
+                "url": "https://github.com/yiisoft/jquery-pjax.git",
                 "reference": "aef7b953107264f00234902a3880eb50dafc48be"
             },
             "dist": {
@@ -4786,6 +4786,7 @@
                 "cron",
                 "schedule"
             ],
+            "abandoned": "dragonmantank/cron-expression",
             "time": "2017-01-23T04:29:33+00:00"
         },
         {

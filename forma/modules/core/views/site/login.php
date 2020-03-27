@@ -80,14 +80,14 @@ JS;
 
         <?php
 
-        $model->username = 'admin';
-        $model->password = '111111';
+        //$model->username = 'admin';
+        //$model->password = '111111';
         $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
 
         <?= $form
-            ->field($model, 'username', $fieldOptions1)
+            ->field($model, 'email', $fieldOptions1)
             ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
+            ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
 
         <?= $form
             ->field($model, 'password', $fieldOptions2)
@@ -109,6 +109,7 @@ JS;
         </div>
 
         <?php ActiveForm::end(); ?>
+        <?php echo "<a href='$googleLink'>Google Authorization</a>"; ?>
 
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->

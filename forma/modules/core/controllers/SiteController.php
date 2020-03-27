@@ -5,6 +5,8 @@ namespace forma\modules\core\controllers;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;
+use Google_Client;
+use Google_Service_Oauth2;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
@@ -92,6 +94,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $googleLink = $this->GoogleAuth();
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -102,6 +105,7 @@ class SiteController extends Controller
         }
         return $this->render('login', [
             'model' => $model,
+            'googleLink' => $googleLink
         ]);
     }
 
@@ -170,5 +174,48 @@ class SiteController extends Controller
     public function actionDoc($page = false) {
         if ($page) $this->layout = false;
         return $this->render('documentation', ['page' => $page]);
+    }
+
+    public function GoogleAuth(){
+        $clientID = '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com';
+        $clientSecret = 'fwk_NIyYpeiJ7jwKtQsF8hJb';
+        $redirectUri = 'http://localhost:3000/login';
+        $client = new Google_Client();
+        $client->setClientId($clientID);
+        $client->setClientSecret($clientSecret);
+        $client->setRedirectUri($redirectUri);
+        $client->addScope("email");
+        $client->addScope("profile");
+
+        if (isset($_GET['code'])) {
+            echo "code je";
+            $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+            $client->setAccessToken($token['access_token']);
+
+            // get profile info
+            $google_oauth = new Google_Service_Oauth2($client);
+            $google_account_info = $google_oauth->userinfo->get();
+            $email =  $google_account_info->email;
+            $name =  $google_account_info->name;
+            $loginForm = new LoginForm();
+            $loginForm->email = $email;
+            //$user = $loginForm->getUser();
+            //$loginForm->password = $user->password ? $user->password : "gigity";
+            $loginForm->email = "gigity";
+            if ($loginForm->login()) {
+                return $this->goHome();
+            }
+            else {
+                $signupForm = new SignupForm();
+                $signupForm->username = $name;
+                $signupForm->email = $email;
+                $signupForm->password = "gigity";
+                $signupForm->signup();
+            }
+
+            // now you can use this profile info to create account in your website and make user logged in.
+        } else {
+            return $client->createAuthUrl();
+        }
     }
 }
