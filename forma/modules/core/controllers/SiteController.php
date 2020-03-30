@@ -188,7 +188,6 @@ class SiteController extends Controller
         $client->addScope("profile");
 
         if (isset($_GET['code'])) {
-            echo "code je";
             $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
             $client->setAccessToken($token['access_token']);
 
@@ -199,9 +198,7 @@ class SiteController extends Controller
             $name =  $google_account_info->name;
             $loginForm = new LoginForm();
             $loginForm->email = $email;
-            //$user = $loginForm->getUser();
-            //$loginForm->password = $user->password ? $user->password : "gigity";
-            $loginForm->email = "gigity";
+            $loginForm->password = "gigity";
             if ($loginForm->login()) {
                 return $this->goHome();
             }
