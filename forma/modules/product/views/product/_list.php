@@ -13,12 +13,9 @@ use forma\modules\product\records\Product;
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Свернуть">
                 <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Удалить">
+            <button onclick="window.location.href='/product/product/update?id=<?=$model->id?>'" type="button" class="btn btn-box-tool" title="" data-original-title="Редактировать">
                 <i class="fa fa-image"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Удалить">
-                <i class="fa fa-user"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Удалить">
-                <i class="fa fa-times"></i></button>
+
         </div>
     </div>
     <div class="box-body">
