@@ -145,7 +145,7 @@ class ProductController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             $sku = SkuGenerator::generate(Yii::$app->request->post()['Product']);
-            echo json_encode(['sku' => $sku]);
+            echo json_encode(['sku' => $sku]); exit;
         }
     }
 

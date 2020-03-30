@@ -204,7 +204,7 @@ JS;
                     'text' => '<h4>Отдел кадров</h4>',
                     'icon' => 'fa fa-users',
                     'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
-                    'link' => Url::to(['/selling/hr']),
+                    'link' => Url::to(['/hr']),
                 ]); ?>
 
             </div>
@@ -595,12 +595,15 @@ JS;
         options: options
     });
 
+
+    function getId(index) {
+      return [<?=$salesProgress->getComaListOfSales()?>][index];
+    }
+
     plan.onclick = function(evt){
         var activePoints = myLineChart.getElementsAtEvent(evt);
         console.log(activePoints);
-         window.location.href = '/selling/main?SellingSearch[state_id]=' + (1 + activePoints[0]._index) ;
-
-        // => activePoints is an array of points on the canvas that are at the same position as the click event.
+         window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
     };
 
     new Chart(document.getElementById("plan1").getContext('2d'), {

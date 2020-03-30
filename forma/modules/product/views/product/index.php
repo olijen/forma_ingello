@@ -24,7 +24,7 @@ $this->registerJsFile('@web/js/common.js', ['position' => View::POS_END]);
 
 $this->title = 'Объекты учета';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="product-index">
@@ -35,7 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $columns = [
         ['class'=>'kartik\grid\CheckboxColumn'],
-
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{update}{delete}',
+        ],
+        'name',
         [
             'attribute' => 'sku',
             'label' => 'Артикул',
@@ -59,7 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => 'manufacturer.name',
             'filter' => Manufacturer::getList(),
         ],
-        'name',
         [
             'attribute' => 'volume',
             'value' => 'volumeLabel',
@@ -122,16 +125,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => 'country.name',
             'filter' => Country::getList(),
         ],
-
-        [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => '{update}{delete}',
-        ],
     ]; ?>
 
-    <?php if (isset($_GET['table'])) : ?>
+    <?php if (!isset($_GET['catalog'])) : ?>
 
-        <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-list"></i> Список</a>
+        <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
 
         <br><br>
@@ -197,7 +195,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php else : ?>
 
-        <a class="btn btn-default" href='?table' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
+        <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <button class="btn btn-info" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск</button>
         <br><br>

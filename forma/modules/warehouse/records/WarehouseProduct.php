@@ -151,7 +151,7 @@ class WarehouseProduct extends ActiveRecord
             ->select(['selling_product.quantity'])
             ->where(['selling.warehouse_id' => $this->warehouse_id])
             ->andWhere(['selling_product.product_id' => $this->product_id])
-            ->andWhere(['=', 'selling.state', 0])
+            //->andWhere(['=', 'selling.state', 0])
             ->all();
 
         $inSelling = 0;
