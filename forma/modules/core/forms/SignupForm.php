@@ -74,4 +74,12 @@ class SignupForm extends Model
 
         return false;
     }
+
+    public function getRandomPassword(){
+        $passwords = ["qwerty", "asdfgh", "zxcvbn"];
+        $index = rand(0, 2);
+        return $passwords[$index];
+    }
+
+
 }
