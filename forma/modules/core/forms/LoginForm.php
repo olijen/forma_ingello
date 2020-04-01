@@ -80,6 +80,10 @@ class LoginForm extends Model
         return false;
     }
 
+    public function googleLogin(){
+        return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+    }
+
     /**
      * Finds user by [[email]]
      *
