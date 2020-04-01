@@ -198,15 +198,14 @@ class SiteController extends Controller
             $name =  $google_account_info->name;
             $loginForm = new LoginForm();
             $loginForm->email = $email;
-            $loginForm->password = "gigity";
-            if ($loginForm->login()) {
-                return $this->goHome();
+            if($loginForm->getUser() != false){
+                if($loginForm->googleLogin()) return $this->goHome();
             }
             else {
                 $signupForm = new SignupForm();
                 $signupForm->username = $name;
                 $signupForm->email = $email;
-                $signupForm->password = "gigity";
+                $signupForm->password = $signupForm->getRandomPassword();
                 $signupForm->signup();
             }
 
