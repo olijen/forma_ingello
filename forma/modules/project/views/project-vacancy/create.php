@@ -8,7 +8,6 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Создать вакансию на проект');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вакансии проектов'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-vacancy-create">
 

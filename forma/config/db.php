@@ -1,6 +1,7 @@
 <?php
 
-define('DB_MODE', 'docker');
+define('DB_MODE', 'remote');
+
 
 if (DB_MODE == 'docker') {
     //DOCKER
@@ -12,7 +13,7 @@ if (DB_MODE == 'docker') {
         'charset' => 'utf8',
     ];
 
-} elseif (DB_MODE == 'remote') {
+} elseif ( DB_MODE == 'remote') {
     //REMOTE
     return [
         'class' => 'yii\db\Connection',

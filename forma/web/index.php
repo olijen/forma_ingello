@@ -20,7 +20,7 @@ if (!empty($_COOKIE['debug'])) {
     define('YII_DEBUG', true);
 } else {
     define('YII_ENV', 'prod');
-    define('YII_DEBUG', false);
+    define('YII_DEBUG', true);
 }
 
 // Composer

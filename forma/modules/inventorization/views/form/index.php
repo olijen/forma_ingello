@@ -13,7 +13,7 @@ use forma\modules\inventorization\records\StateConfirm;
 
 $this->title = $model->isNewRecord ? 'Create Inventorization' : $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Inventorizations', 'url' => Url::to(['/inventorization/main'])];
-$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 

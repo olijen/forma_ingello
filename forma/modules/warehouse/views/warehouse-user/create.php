@@ -8,7 +8,6 @@ use yii\helpers\Html;
 
 $this->title = 'Create Warehouse User';
 $this->params['breadcrumbs'][] = ['label' => 'Warehouse Users', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="warehouse-user-create">
 

@@ -8,15 +8,13 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Состояния');
-$this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="state-index col col-md-4">
 
 
 
     <p>
-        <?= Html::a(Yii::t('app', 'Создать состояние'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Создать состояние'), ['create'], ['class' => 'btn btn-success', 'style'=> 'background-color:#58628e']) ?>
     </p>
 
 

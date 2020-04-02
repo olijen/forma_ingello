@@ -8,7 +8,6 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Продажи';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="selling-index">
 

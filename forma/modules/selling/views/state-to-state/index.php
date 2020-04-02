@@ -8,7 +8,6 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'State To States');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="state-to-state-index">
 

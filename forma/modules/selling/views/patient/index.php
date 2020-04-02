@@ -8,7 +8,6 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Пациенты');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="patient-index">
 

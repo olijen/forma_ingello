@@ -8,7 +8,6 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Create Project User');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Project Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-user-create">
 

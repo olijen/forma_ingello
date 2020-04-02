@@ -7,7 +7,6 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Create State To State');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'State To States'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="state-to-state-create">
 

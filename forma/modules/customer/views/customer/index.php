@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Клиенты';
 $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default/people'];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="customer-index">
     

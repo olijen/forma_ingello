@@ -8,7 +8,6 @@ use yii\helpers\Html;
 
 $this->title = 'Create Selling';
 $this->params['breadcrumbs'][] = ['label' => 'Sellings', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="selling-create">
 

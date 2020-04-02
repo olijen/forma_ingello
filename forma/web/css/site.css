@@ -6,11 +6,19 @@
 
 .btn-success {
     border: none;
-    background-color: #3CB371;
+    background-color: #00b65d;
+}
+.btn-selling{
+    background-color:#58628e;
+    color: white;
+}
+.btn-hr{
+    background-color: #F08080;
+    color: white;
 }
 
 .btn-success:hover {
-    background-color: #3fa75a;
+    background-color: #00b65d;
 }
 
 .btn-danger {

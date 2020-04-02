@@ -15,13 +15,13 @@ use forma\modules\selling\records\state\State;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Продажи';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="selling-index">
 
-    <a href="/selling/form/index" class="btn btn-success">Новая продажа</a>
-    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary">План на обзвон</a>
-    <a href="/selling/main-state/index" class="btn btn-success">Настроить состояния</a>
+    <a href="/selling/form/index" class="btn btn-success" style="background-color: #58628e">Новая продажа</a>
+    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary" style="background-color: #58628e ">План на обзвон</a>
+    <a href="/selling/main-state/index" class="btn btn-success" style="background-color: #58628e">Настроить состояния</a>
 
     <hr>
 
@@ -83,6 +83,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <style>
     tr:hover {
-       background-color: #8dcb96 !important;
+       background-color: #58628e !important;
     }
 </style>

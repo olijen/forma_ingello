@@ -9,7 +9,6 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Создать проект');
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-create">
 

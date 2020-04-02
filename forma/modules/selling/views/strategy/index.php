@@ -8,7 +8,6 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Стратегии');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="strategy-index">
 
@@ -16,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Создать стратегию'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Создать стратегию'), ['create'], ['class' => 'btn btn-selling']) ?>
     </p>
 
     <?= GridView::widget([

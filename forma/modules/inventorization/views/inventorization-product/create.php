@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Create Inventorization Product';
 $this->params['breadcrumbs'][] = ['label' => 'Inventorization Products', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="inventorization-product-create">
 

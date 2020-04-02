@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
@@ -6,8 +7,49 @@ use yii\widgets\Breadcrumbs;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
+<?php
+
+$url = $_SERVER['REQUEST_URI'];
+
+$url = explode("/", $url);
+
+$module = 'selling';
+$module_hr = 'hr';
+$module_product = 'product';
+
+
+if ($module == $url[1]) {
+    ?>
+
+    <style>
+        .skin-green-light .main-header .navbar {
+            background-color: #58628e !important;
+        }
+    </style>
+
+<?php } elseif ($module_product == $url[1]) { ?>
+
+    <style>
+        .skin-green-light .main-header .navbar {
+            background-color: #f49258 !important;
+        }
+    </style>
+
+<?php } elseif ($module_hr == $url[1]) {
+    ?>
+
+    <style>
+        .skin-green-light .main-header .navbar {
+            background-color: #F08080 !important;
+        }
+    </style>
+<?php }
+
+?>
+
 
 <header class="main-header">
+
 
     <?= Html::a('
         <span class="logo-mini">F.I</span>
@@ -16,13 +58,19 @@ use yii\widgets\Breadcrumbs;
 
     <meta name="theme-color" content="#00a65a">
 
-    <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0;" class="navbar navbar-static-top" role="navigation">
+    <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0" class="navbar navbar-static-top"
+         role="navigation">
 
-        <a href="#" data-toggle="push-menu" style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;" class="logo-mini"><i class="fa fa-bars" aria-hidden="true"></i></a>
+        <a href="#" data-toggle="push-menu"
+           style="color: white; float: left; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
+           class="logo-mini"><i class="fa fa-bars" aria-hidden="true"></i></a>
 
-        <a href="#" title="Вернуться назад" style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;" onclick="window.history.back()">
+        <a href="#" title="Вернуться назад"
+           style="color: white; float: left; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
+           onclick="window.history.back()">
             <i class="fa fa-arrow-left"></i></a>
-        <a href="#" id="fs" title="На весь экран" style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;">
+        <a href="#" id="fs" title="На весь экран"
+           style="color: white; float: left; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;">
             <i class="fa fa-expand"></i></a>
 
         <div class="navbar-custom-menu">
@@ -82,7 +130,8 @@ JS;
                                 <li>
                                     <a href="/product">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user1-128x128.jpg" class="img-circle" alt="Иконка пользователя"/>
+                                            <img src="<?= $directoryAsset ?>/img/user1-128x128.jpg" class="img-circle"
+                                                 alt="Иконка пользователя"/>
                                         </div>
                                         <h4>
                                             Бизнес-аналитик
@@ -94,7 +143,8 @@ JS;
                                 <li>
                                     <a href="/warehouse/warehouse">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user6-128x128.jpg" class="img-circle" alt="Иконка пользователя"/>
+                                            <img src="<?= $directoryAsset ?>/img/user6-128x128.jpg" class="img-circle"
+                                                 alt="Иконка пользователя"/>
                                         </div>
                                         <h4>
                                             Кладовщик
@@ -106,7 +156,8 @@ JS;
                                 <li>
                                     <a href="/selling/main">
                                         <div class="pull-left">
-                                            <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" class="img-circle" alt="Иконка пользователя"/>
+                                            <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" class="img-circle"
+                                                 alt="Иконка пользователя"/>
                                         </div>
                                         <h4>
                                             Менеджер по продажам
@@ -125,7 +176,8 @@ JS;
                                             Команда SYSTEMS.I
                                             <small><i class="fa fa-clock-o"></i> 1 мин</small>
                                         </h4>
-                                        <p>Вы можете заказать персональную систему для Вашей компании на базе FRACTAL.I Кликните для подробностей.</p>
+                                        <p>Вы можете заказать персональную систему для Вашей компании на базе FRACTAL.I
+                                            Кликните для подробностей.</p>
                                     </a>
                                 </li>
                                 <li>
@@ -138,7 +190,8 @@ JS;
                                             Общество BUSINESS.I
                                             <small><i class="fa fa-clock-o"></i> 1 мин</small>
                                         </h4>
-                                        <p>Интересуетесь бизнесом и технологиями? Любите читать или писать статьи об этом? Есть идеи или советы? Посетите наше сообщество BUSINESS.I</p>
+                                        <p>Интересуетесь бизнесом и технологиями? Любите читать или писать статьи об
+                                            этом? Есть идеи или советы? Посетите наше сообщество BUSINESS.I</p>
                                     </a>
                                 </li>
                             </ul>
@@ -209,7 +262,8 @@ JS;
                                             </div>
                                         </div>
                                     </a>
-                                </li><li>
+                                </li>
+                                <li>
                                     <a href="#">
                                         <h3>
                                             Утвердить бюджет и сроки
@@ -269,7 +323,8 @@ JS;
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
-                            <img src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png" class="img-circle"
+                            <img src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
+                                 class="img-circle"
                                  alt="User Image"/>
 
                             <p>
@@ -299,8 +354,8 @@ JS;
         <div style="float: left;">
             <?= Breadcrumbs::widget([
                 'tag' => 'ul',
-                'homeLink' =>  isset($this->params['homeLink']) ? $this->params['homeLink'] : [ 'label' => 'Панель управления', 'url' => Yii::$app->homeUrl, 'title' => 'Первая страница'],
-                'options' => [ 'class' => 'breadcrumb', 'style'=>'margin: 5px 0 0 0; display:inline-block; background: #aadea6; width: 101%; border-radius: 0;'],
+                'homeLink' => isset($this->params['homeLink']) ? $this->params['homeLink'] : ['label' => 'Панель управления', 'url' => Yii::$app->homeUrl, 'title' => 'Первая страница'],
+                'options' => ['class' => 'breadcrumb', 'style' => 'margin: 5px 0 0 0; display:inline-block; background: #aadea6; width: 101%; border-radius: 0;'],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
         </div>
@@ -310,30 +365,31 @@ JS;
 
 
 <?php
-  if ($this->title !== null) : ?>
+if ($this->title !== null) : ?>
 
     <h1 align="right" style="text-align: right; padding-right: 5px;">
-        <?= \yii\helpers\Html::encode($this->title); echo "   "; ?>
+        <?= \yii\helpers\Html::encode($this->title);
+        echo "   "; ?>
 
 
-      <span style="float: right; text-align: right; padding-left: 5px;">
+        <span style="float: right; text-align: right; padding-left: 5px;">
 
         <?php
 
         if (empty($this->params['doc-page'])) {
 
-          echo \forma\components\widgets\ModalSrc::widget([
-              'route' => '/core/site/doc?page=layout',
-              'name' => 'О проекте',
-              'icon' => 'info',
-              'color' => 'green',
-              'options' => [
-                  'style' => ['border' => '1px solid green'],
-                  'id' => 'info2',
-              ]
-          ]);
+            echo \forma\components\widgets\ModalSrc::widget([
+                'route' => '/core/site/doc?page=layout',
+                'name' => 'О проекте',
+                'icon' => 'info',
+                'color' => 'green',
+                'options' => [
+                    'style' => ['border' => '1px solid green'],
+                    'id' => 'info2',
+                ]
+            ]);
 
-          $js = <<<JS
+            $js = <<<JS
           $(document).ready(function() {
               var i = setInterval(function () {
                   setTimeout(function() {
@@ -354,36 +410,34 @@ JS;
               }, 5000);
           })
 JS;
-          $this->registerJs($js);
-      }
-      ?>
+            $this->registerJs($js);
+        }
+        ?>
 
 
+        <?php if (!empty($this->params['doc-page'])) : ?>
 
+            <?= \forma\components\widgets\ModalSrc::widget([
+                'route' => '/core/site/doc?page=' . $this->params['doc-page'],
+                'name' => 'О разделе',
+                'icon' => 'info-circle',
+                'btn' => 'primary',
+            ]) ?>
 
-          <?php if (!empty($this->params['doc-page'])) : ?>
-
-              <?=\forma\components\widgets\ModalSrc::widget([
-                  'route' => '/core/site/doc?page='.$this->params['doc-page'],
-                  'name' => 'О разделе',
-                  'icon' => 'info-circle',
-                  'btn' => 'primary',
-              ]) ?>
-
-          <?php endif ?>
+        <?php endif ?>
 
     </span>
 
     </h1>
 
 
-      <?php if (!empty($this->params['panel'])) : ?>
-      <div style="text-align: right;">
-          <?= $this->params['panel'] ?>
-      </div>
-      <?php endif ?>
+    <?php if (!empty($this->params['panel'])) : ?>
+        <div style="text-align: right;">
+            <?= $this->params['panel'] ?>
+        </div>
+    <?php endif ?>
 
-  <?php endif ?>
+<?php endif ?>
 
 
 <?php
@@ -405,3 +459,6 @@ $("#fs").click(function () {
 });
 JS;
 $this->registerJs($js);
+
+?>
+

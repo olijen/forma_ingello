@@ -15,7 +15,7 @@ use forma\modules\core\widgets\DetachedBlock;
             <?= \yii\helpers\Html::dropDownList('select', '' , \forma\modules\selling\services\StrategyService::getList(), ['class' => 'form-control', 'name' => 'selectStrategy']) ?>
             <?= \yii\helpers\Html::input('hidden', 'id', $selling->id)?>
         </div>
-        <?= \yii\helpers\Html::submitButton('Начать разговор', ['class' => 'btn-success', 'name' => 'strategyForm']) ?>
+        <?= \yii\helpers\Html::submitButton('Начать разговор', ['class' => 'btn-success', 'name' => 'strategyForm', 'style'=> 'background-color:#58628e']) ?>
 
 
         <?= \yii\helpers\Html::endForm() ?>

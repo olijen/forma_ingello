@@ -15,10 +15,10 @@ $panel = '';
 $startUrl = '';
 $list = [
     ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix'],
-    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up'],
-    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user'],
-    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card'],
-    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o'],
+    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' =>'btn btn-hr'],
+    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user', 'class' =>'btn btn-hr'],
+    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' =>'btn btn-hr'],
+    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' =>'btn btn-hr'],
 ];
 
 ?>
@@ -134,7 +134,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                         <small><a data-pjax="0" href="/project/project-vacancy?ProjectVacancySearch[project_id]=<?=$project->id?>">Ваканс:</a> <?=$vacacount?></small>
                     </span>
 
-                    <div class="btn-group" style="width: 100%;">
+                    <div class="btn-group" style="width: 100%; background-color: red;">
                         <?php if ($vacacount == 0) : ?>
                             <a data-pjax="0"
                                href="/project/project-vacancy/create?id=<?=$project->id?>"
@@ -144,7 +144,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                                style="">
                                 <i class="fa fa-plus"></i> Добавить вакансию на проект</a>
                         <?php else : ?>
-                            <button  type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button  type="button" class="btn btn-block btn-hr dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-list"></i> Выбрать вакансии для найма
                             </button>
 

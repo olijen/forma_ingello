@@ -22,7 +22,6 @@ if ($model->date_complete) {
 $this->title .= ' (' . Yii::$app->getUser()->getIdentity()->username . ')';
 
 $this->params['breadcrumbs'][] = ['label' => 'Продажи', 'url' => Url::to(['/selling/main'])];
-$this->params['breadcrumbs'][] = $this->title;
 $description= null;
 
 ?>
@@ -46,14 +45,14 @@ $description= null;
                                 <?php if ($value['id'] == $sellingState->id):
                                     $description = $value;?>
                                     <label class="btn btn-success active"
-                                           style="outline: none;"> <?= $value['name'] ?> </label>
+                                           style="background-color: #58628e; outline: none;"> <?= $value['name'] ?> </label>
                                 <?php else: ?>
                                     <label class="btn btn-success disabled"
-                                           style="outline: none;"> <?= $value['name'] ?> </label>
+                                           style="outline: none; background-color: #58628e;"> <?= $value['name'] ?> </label>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <label class="btn btn-success disabled"
-                                       style="outline: none;"> <?= $value['name'] ?> </label>
+                                       style="outline: none; background-color: #58628e;"> <?= $value['name'] ?> </label>
                             <?php endif; ?>
                         <?php endforeach; ?>
                         <div class="help-block"></div>

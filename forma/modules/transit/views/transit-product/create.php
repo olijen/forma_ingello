@@ -8,7 +8,6 @@ use yii\helpers\Html;
 
 $this->title = 'Create Transit Product';
 $this->params['breadcrumbs'][] = ['label' => 'Transit Products', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transit-product-create">
 

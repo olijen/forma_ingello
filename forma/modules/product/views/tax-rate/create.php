@@ -9,7 +9,6 @@ use yii\helpers\Html;
 $this->title = 'Создать налоговую ставку';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 $this->params['breadcrumbs'][] = ['label' => 'Налоговые ставки', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tax-rate-create">
 
