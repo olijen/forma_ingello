@@ -76,10 +76,23 @@ class SignupForm extends Model
     }
 
     public function getRandomPassword(){
-        $passwords = ["qwerty", "asdfgh", "zxcvbn"];
-        $index = rand(0, 2);
-        return $passwords[$index];
+        //todo сгенерить более настоящий рандомный пароль
+        $password = Yii::$app->getSecurity()->generateRandomString();
+        $this->sendRandomPassword($password);
+        return $password;
     }
+
+    public function sendRandomPassword(string $password){
+        Yii::$app->mailer->compose()
+            ->setFrom('forma@gmail.com')
+            ->setTo($this->email)
+            ->setSubject('Пароль на сайте от формы')
+            ->setTextBody('Пароль на форму')
+            ->setHtmlBody('Ваш пароль: <b>'.$password.'</b>')
+            ->send();
+
+    }
+
 
 
 }
