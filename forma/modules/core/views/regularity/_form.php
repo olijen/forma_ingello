@@ -24,13 +24,11 @@ endif;
 
 ?>
 
-<div class="regularity-form">
+<div class="col-md-6 block">
 
     <?php $form = ActiveForm::begin([
     ]); ?>
             <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-12']])->textInput() ?>
-
-            <?= $form->field($model, 'user_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
             <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
