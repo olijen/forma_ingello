@@ -28,7 +28,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'logout'],
+                'only' => ['login', 'logout', 'confirm'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -37,7 +37,7 @@ class SiteController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'confirm'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -100,9 +100,22 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $loginLoad = $model->load(Yii::$app->request->post());
+        $user = $model->getUser();
+        if ($loginLoad) {
+            if ($model->login()){
+                return $this->goBack();
+            }
+            else if(!is_null($user) && $user->confirmed_email == 0){
+                return Yii::$app->response->redirect('http://localhost:3000/core/default/confirm', 301)->send();
+            }
+        }
+        /*if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
+        else if($model->load(Yii::$app->request->post()) &&  &&$model->getUser()->confirmed_email == 0){
+            return Yii::$app->response->redirect('http://localhost:3000/core/default/confirm', 301)->send();
+        }*/
         return $this->render('login', [
             'model' => $model,
             'googleLink' => $googleLink
@@ -176,6 +189,10 @@ class SiteController extends Controller
         return $this->render('documentation', ['page' => $page]);
     }
 
+    public function actionConfirm(){
+        echo "Hello!";
+    }
+
     public function googleAuth(){
         //todo перенести переменные в конфигурацию
         $clientID = '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com';
@@ -225,7 +242,7 @@ class SiteController extends Controller
                 $signupForm->username = $name;
                 $signupForm->email = $email;
                 $signupForm->password = $signupForm->getRandomPassword();
-                $signupForm->signup();
+                $signupForm->signup(null, true);
             }
 
             // now you can use this profile info to create account in your website and make user logged in.

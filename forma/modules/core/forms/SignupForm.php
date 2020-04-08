@@ -17,10 +17,9 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            [['username', 'email', 'password'], 'trim'],
-            [['username', 'email', 'password'], 'required'],
+            [['email', 'password'], 'trim'],
+            [['email', 'password'], 'required'],
 
-            ['username', 'unique', 'targetClass' => UserIdentity::className(), 'message' => 'Данный логин уже занят.'],
             ['email', 'unique', 'targetClass' => UserIdentity::className(), 'message' => 'Данный email уже занят.'],
 
             ['email', 'email'],
@@ -47,10 +46,15 @@ class SignupForm extends Model
         ];
     }
 
-    public function signup($referer = null)
+    //todo: можно как то улучшить или хотя бы поменять местами гугл с рефером?
+    public function signup($referer = null, $google = false)
     {
         if (!$this->validate()) {
             return false;
+        }
+
+        if (strlen($this->username) == 0) {
+            $this->username = substr($this->email, 0, strpos($this->email, '@'));
         }
 
         $user = new UserIdentity;
@@ -62,21 +66,31 @@ class SignupForm extends Model
             'password' => Yii::$app->getSecurity()->generatePasswordHash($this->password),
         ]);
 
+        if($google){
+            $user->setAttribute('confirmed_email', '1');
+        }
+        else {
+            $email_string = Yii::$app->getSecurity()->generateRandomString();
+            $user->setAttribute('email_string', $email_string);
+            $this->sendStringForEmailConfirm($email_string);
+        }
+
         if ($referer) {
             $user->save();
             return $user->id;
         }
 
         if ($user->save()) {
-
-            return Yii::$app->user->login($user);
+            if($google)
+                return Yii::$app->user->login($user);
+            else
+                return Yii::$app->response->redirect('http://localhost:3000/core/default/confirm', 301)->send();
         }
 
         return false;
     }
 
     public function getRandomPassword(){
-        //todo сгенерить более настоящий рандомный пароль
         $password = Yii::$app->getSecurity()->generateRandomString();
         $this->sendRandomPassword($password);
         return $password;
@@ -91,6 +105,17 @@ class SignupForm extends Model
             ->setHtmlBody('Ваш пароль: <b>'.$password.'</b>')
             ->send();
 
+    }
+
+    public function sendStringForEmailConfirm(string $email_string){
+        //todo: нужно поменять адрес на настоящий сайт, посмотреть на сервер переменные $_SERVER[]
+        Yii::$app->mailer->compose()
+            ->setFrom('forma@gmail.com')
+            ->setTo($this->email)
+            ->setSubject('Forma: Подтверждение почты')
+            ->setTextBody('Подтвердите пароль, перейдя по ссылке:')
+            ->setHtmlBody('Подтвердите пароль, перейдя по ссылке: <a href="http://localhost:3000/core/default/confirm?email_string='.$email_string.'">Подтвердить почту</a>')
+            ->send();
     }
 
 
