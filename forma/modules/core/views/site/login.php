@@ -80,8 +80,8 @@ JS;
 
         <?php
 
-        //$model->username = 'admin';
-        //$model->password = '111111';
+        $model->email = 'admin@admin.admin';
+        $model->password = '111111';
         $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
 
         <?= $form
