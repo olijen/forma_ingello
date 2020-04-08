@@ -45,11 +45,11 @@ $config = [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.gmail.com',
-                'username' => 'tyzhukotinskiy@gmail.com',
-                'password' => 'qazwsxedckzs1',
-                'port' => '587',
-                'encryption' => 'tls',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'oc.mcdir@yandex.ru',
+                'password' => 'oc_2017',
+                'port' => '465',
+                'encryption' => 'ssl',
             ],
         ],
         'log' => [
