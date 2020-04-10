@@ -6,7 +6,6 @@ use yii\helpers\Html;
 /* @var $model forma\modules\core\records\Item */
 
 $this->title = Yii::t('app', 'Создать пункт');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-create">
