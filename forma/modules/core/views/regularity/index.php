@@ -43,16 +43,15 @@ $regularitys = $dataProvider->getModels();
 ?>
 
 <?php
-function showLink($text) {
+function replaceUrl ($text){
+$text = str_ireplace("{{", "<a href = ", $text);
+$text = str_ireplace("||", " class='btn btn-primary btn-xs'>" , $text);
+$text = str_ireplace("}}", "</a>", $text);
 
-    $text1 = preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*[^ \.])/is", "$1$2<a id = 'http://$3' onclick=\"window.open('http://$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$3</a>", $text);
-    $text1 = preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*[^ \.])/is", "$1$2<a id = '$3' onclick=\"window.open('$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$3</a>", $text);
-echo $text1;
+echo $text;
 }
 
-
 ?>
-
     <section class="content">
 
         <div class="nav-tabs-custom">
@@ -107,8 +106,7 @@ echo $text1;
                                                 <div id="collapse_<?= $item['id'] ?>" class="panel-collapse collapse"
                                                      aria-expanded="false">
                                                     <div class="box-body">
-<!--                                                        --><?php //showLink($item['description']); ?>
-                                                        <?= $item['description'] ?>
+                                                         <?php replaceUrl($item['description']); ?>
                                                         <?php foreach ($data as $value): ?>
                                                             <?php if ($value['parent_id'] == $item['id']): ?>
                                                                 <div class="panel box box"
@@ -133,7 +131,7 @@ echo $text1;
                                                                          class="panel-collapse collapse"
                                                                          aria-expanded="true">
                                                                         <div class="box-body">
-                                                                            <?= $value['description']; ?>
+                                                                            <?php replaceUrl($value['description']); ?>
                                                                         </div>
                                                                     </div>
                                                                 </div>
