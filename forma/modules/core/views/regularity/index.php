@@ -43,12 +43,14 @@ $regularitys = $dataProvider->getModels();
 ?>
 
 <?php
-$text1 = "Вот этой кнопки http://forma.ingello.com/project/project?ProjectSearch[state]=1 \\Проекты  вово точно так";
-$text = "Вот этой кнопки www.google.com \\Проекты  - http://yandex.ru  вово точно так";
-$text = preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*[^ \.])/is", "$1$2<a id = 'http://$3' onclick=\"window.open('http://$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">Pop</a>", $text);
-$text = preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*[^ \.])/is", "$1$2<a id = '$3' onclick=\"window.open('$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$4</a>", $text);
+function showLink($text) {
 
-echo $text;
+    $text1 = preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*[^ \.])/is", "$1$2<a id = 'http://$3' onclick=\"window.open('http://$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$3</a>", $text);
+    $text1 = preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*[^ \.])/is", "$1$2<a id = '$3' onclick=\"window.open('$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$3</a>", $text);
+echo $text1;
+}
+
+
 ?>
 
     <section class="content">
@@ -105,6 +107,7 @@ echo $text;
                                                 <div id="collapse_<?= $item['id'] ?>" class="panel-collapse collapse"
                                                      aria-expanded="false">
                                                     <div class="box-body">
+<!--                                                        --><?php //showLink($item['description']); ?>
                                                         <?= $item['description'] ?>
                                                         <?php foreach ($data as $value): ?>
                                                             <?php if ($value['parent_id'] == $item['id']): ?>
