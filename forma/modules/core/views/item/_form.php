@@ -1,5 +1,6 @@
 <?php
 
+use kartik\color\ColorInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
@@ -39,6 +40,11 @@ use yii\widgets\Pjax;
 
         <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>//TODO вывести в отдельную табличку???
 
+        <?= $form->field($model, 'color', ['template' => "{input}"])->widget(ColorInput::classname()); ?>
+
+<!--        --><?//= $form->field($model, 'color', ['template' => "{input}"])
+//            ->input('color', ['class' => "input_class"]) ?>
+
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Добавить'), ['class' => 'btn btn-success']) ?>
         </div>
@@ -46,8 +52,6 @@ use yii\widgets\Pjax;
 
 
     <?php
-
-
 
 
     Pjax::end(); ?>
