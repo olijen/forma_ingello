@@ -43,7 +43,7 @@ class Customer extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['name', 'country_id'], 'required'],
+            [['name'], 'required'],
             [['tax_rate'], 'number'],
             [['name', 'firm'], 'string', 'max' => 100],
             [['address', 'company_email', 'chief_email', 'site_company'], 'string', 'max' => 255],
