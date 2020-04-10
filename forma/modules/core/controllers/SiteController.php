@@ -28,7 +28,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'logout'],
+                'only' => ['login', 'logout', 'confirm'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -37,7 +37,7 @@ class SiteController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'confirm'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -94,14 +94,21 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $googleLink = $this->GoogleAuth();
+        $googleLink = $this->googleAuth();
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        $loginLoad = $model->load(Yii::$app->request->post());
+        $user = $model->getUser();
+        if ($loginLoad) {
+            if ($model->login()){
+                return $this->goBack();
+            }
+            else if(!is_null($user) && $user->confirmed_email == 0){
+                return Yii::$app->response->redirect('http://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
+            }
         }
         return $this->render('login', [
             'model' => $model,
@@ -172,22 +179,45 @@ class SiteController extends Controller
     }
 
     public function actionDoc($page = false) {
-        if ($page) $this->layout = false;
+        if ($page) $this->layout = false;;
         return $this->render('documentation', ['page' => $page]);
     }
 
-    public function GoogleAuth(){
+    public function actionConfirm(){
+        echo "Hello!";
+    }
+
+    public function googleAuth(){
+        //todo перенести переменные в конфигурацию
         $clientID = '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com';
         $clientSecret = 'fwk_NIyYpeiJ7jwKtQsF8hJb';
-        $redirectUri = 'http://localhost:3000/login';
+        $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/login';
+
         $client = new Google_Client();
+        /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config
+        /// который мы настраиваем при инициализации объекта.
+        /// меняем клиентский id, клиентский секрет, ссылка, на которую следует перейти после авторизации
+        ///
         $client->setClientId($clientID);
         $client->setClientSecret($clientSecret);
         $client->setRedirectUri($redirectUri);
+
+        /// существует array Google_Client:requestedScopes, который помещает в себе области, которые
+        /// запрашивает приложение для авторизации, то есть можем просмотреть некоторые данные пользователя
+        /// их следует добавить, чтобы была возможность вызвать страницу гугл авторизации через
+        /// почту и осуществить авторизацию / регистрацию пользователя.
         $client->addScope("email");
         $client->addScope("profile");
 
+
+        // $_GET['code'] присылает гугл после авторизации в его форме и перебросе пользователя на указанный
+        // $redirectUri.
         if (isset($_GET['code'])) {
+            //меняем присланный $_GET['code'] на валидный токен доступа
+            //получаем класс OAuth2, куда передаем $_GET['code']
+            //с помощью обработчика запросов httpHandler получаем токен доступа
+            //$token is array содержащие некоторые данные о токене доступа, собственно который
+            //содержится как элемент массива $token['access_token']
             $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
             $client->setAccessToken($token['access_token']);
 
@@ -198,20 +228,21 @@ class SiteController extends Controller
             $name =  $google_account_info->name;
             $loginForm = new LoginForm();
             $loginForm->email = $email;
-            $loginForm->password = "gigity";
-            if ($loginForm->login()) {
-                return $this->goHome();
+            if($loginForm->getUser() != false){
+                if($loginForm->googleLogin()) return $this->goHome();
             }
             else {
                 $signupForm = new SignupForm();
                 $signupForm->username = $name;
                 $signupForm->email = $email;
-                $signupForm->password = "gigity";
-                $signupForm->signup();
+                $signupForm->password = $signupForm->getRandomPassword();
+                $signupForm->signup(null, true);
             }
 
             // now you can use this profile info to create account in your website and make user logged in.
         } else {
+            //билдим ссылку, которая переводит нас на форму авторизации гугла, после она передает
+            //$_GET['code'] и мы можем авторизоваться
             return $client->createAuthUrl();
         }
     }

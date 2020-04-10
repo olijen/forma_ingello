@@ -80,8 +80,8 @@ JS;
 
         <?php
 
-        //$model->username = 'admin';
-        //$model->password = '111111';
+        $model->email = 'admin@admin.admin';
+        $model->password = '111111';
         $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
 
         <?= $form
@@ -108,8 +108,15 @@ JS;
             <!-- /.col -->
         </div>
 
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Войти как пользователь:</p>
+            </div>
+            <div class="col-xs-12 text-center">
+                <?php echo "<a style='background-color: rgba(200, 200, 200, 0.4); width: 100%; height: 100%; display:block; padding: 5px 0' class='socialAuthorization' href='$googleLink'><img style='height: 18px; padding-bottom: 2px; padding-right: 6px' src='images/google.png' alt=''>Google</a>"; ?>
+            </div>
+        </div>
         <?php ActiveForm::end(); ?>
-        <?php echo "<a href='$googleLink'>Google Authorization</a>"; ?>
 
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
