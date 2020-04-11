@@ -40,7 +40,6 @@ class User extends \yii\db\ActiveRecord
             [['password', 'auth_key', 'access_token'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['parent_id'], 'integer'],
-            [['username'], 'unique'],
         ];
     }
 

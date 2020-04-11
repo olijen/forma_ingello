@@ -16,6 +16,8 @@ use Yii;
  * @property string $auth_key
  * @property string $access_token
  * @property integer $parent_id
+ * @property integer $confirmed_email
+ * @property string $email_string
  */
 class UserIdentity extends User implements IdentityInterface
 {
@@ -49,6 +51,10 @@ class UserIdentity extends User implements IdentityInterface
     public static function findByEmail($email)
     {
         return self::findOne(['email' => $email]);
+    }
+
+    public static function findByEmailString($email_string){
+        return self::findOne(['email_string' => $email_string]);
     }
 
     /**

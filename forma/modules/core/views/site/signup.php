@@ -62,23 +62,19 @@ $fieldOptions4 = [
         <?php else:?>
         <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true]); ?>
         <?php endif; ?>
-        <?= $form
-            ->field($model, 'username', $fieldOptions1)
-            ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
 
         <?= $form
-            ->field($model, 'password', $fieldOptions2)
+            ->field($model, 'email', $fieldOptions3)
             ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+            ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
         <?= $form
             ->field($model, 'phone', $fieldOptions4)
             ->label(false)
             ->textInput(['placeholder' => $model->getAttributeLabel('phone')]) ?>
         <?= $form
-            ->field($model, 'email', $fieldOptions3)
+            ->field($model, 'password', $fieldOptions2)
             ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
+            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
         <?php if (!Yii::$app->user->isGuest): ?>
 
             <?=$form->field($model, 'parent_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
