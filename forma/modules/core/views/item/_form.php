@@ -38,12 +38,7 @@ use yii\widgets\Pjax;
         ]); ?>
 
 
-        <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>//TODO вывести в отдельную табличку???
-
-        <?= $form->field($model, 'color', ['template' => "{input}"])->widget(ColorInput::classname()); ?>
-
-<!--        --><?//= $form->field($model, 'color', ['template' => "{input}"])
-//            ->input('color', ['class' => "input_class"]) ?>
+        <?= $form->field($model, 'color', ['template' => "{input}"])->hiddenInput()->widget(ColorInput::classname()); ?>
 
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Добавить'), ['class' => 'btn btn-success']) ?>

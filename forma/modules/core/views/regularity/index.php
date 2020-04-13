@@ -31,9 +31,8 @@ function show($url, $text = "Открыть", $with = 600, $height = 600, $left 
     return;
     //}
     ?>
-    <a
-            onclick="window.open('<?= $url ?>', 'Window', 'width=600,height=600,left=600')"
-            class="btn btn-primary btn-xs ">
+    <a onclick="window.open('<?= $url ?>', 'Window', 'width=600,height=600,left=600')"
+       class="btn btn-primary btn-xs ">
         <?= $text ?>
     </a>
     <?php
@@ -43,13 +42,30 @@ $regularitys = $dataProvider->getModels();
 ?>
 
 <?php
-function replaceUrl ($text){
-$text = str_ireplace("{{", "<a href = ", $text);
-$text = str_ireplace("||", " class='btn btn-primary btn-xs'>" , $text);
-$text = str_ireplace("}}", "</a>", $text);
+function replaceUrlIngello($text)
+{
+    $text = str_ireplace("{{", "<a  style=\"color: blue;\"  class=\"btn btn-outline-secondary\" type=\"button\" data-toggle=\"modal\" data-target=\"#modal\" onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); $('<iframe src=", $text);
+    $text = str_ireplace("||", " style=width:100%;height:500px frameborder=0 id=myFrame></iframe>').appendTo('#modal .modal-dialog .modal-content .modal-body');\"> <i class=\"fa fa-eye\"></i>", $text);
+    $text = str_ireplace("}}", "</a>", $text);
 
-echo $text;
+    echo $text;
 }
+
+
+?>
+    <section class="
+
+
+<?php
+function replaceUrl($text)
+{
+    $text = str_ireplace("{{", "<a style=\"color: blue;\" onclick=\"window.open(' ", $text);
+    $text = str_ireplace("||", " ', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-outline-secondary\"><i class=\"fa fa-eye\"></i>", $text);
+    $text = str_ireplace("}}", "</a>", $text);
+
+    echo $text;
+}
+
 
 ?>
     <section class="content">
@@ -104,9 +120,9 @@ echo $text;
                                                     </h4>
                                                 </div>
                                                 <div id="collapse_<?= $item['id'] ?>" class="panel-collapse collapse"
-                                                     aria-expanded="false">
+                                                     aria-expanded="false" style="height: 0px;">
                                                     <div class="box-body">
-                                                         <?php replaceUrl($item['description']); ?>
+                                                        <?php replaceUrlIngello($item['description']); ?>
                                                         <?php foreach ($data as $value): ?>
                                                             <?php if ($value['parent_id'] == $item['id']): ?>
                                                                 <div class="panel box box"
