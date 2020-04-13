@@ -32,7 +32,6 @@ $description= null;
 
 
 
-
 <div class="bs-example">
     <div class="detached-block-example">Состояние</div>
 
@@ -89,6 +88,13 @@ $description= null;
                         </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="row selling_link">
+            <div class="col-md-12">
+                <h3>Ссылка на страницу продажи</h3>
+                <a class="btn btn-success" href="http://localhost:3000/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка</a>
             </div>
         </div>
 

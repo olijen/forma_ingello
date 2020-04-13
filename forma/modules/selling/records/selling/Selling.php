@@ -40,7 +40,8 @@ use forma\modules\selling\records\selling\StateDone;
  * @property Customer $customer
  * @property Warehouse $warehouse
  * @property SellingProduct[] $sellingProducts
- * @property string next_step
+ * @property string $next_step
+ * @property string $selling_token
  */
 class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 {
@@ -123,6 +124,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'date_create' => 'Дата создания',
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',
+            'selling_token' => 'Ссылка на страницу продажи',
         ];
     }
 
