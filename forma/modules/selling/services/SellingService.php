@@ -36,6 +36,7 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
+        $model->selling_token = Yii::$app->getSecurity()->generateRandomString();
 
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
