@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 use forma\modules\selling\services\SellingService;
+use forma\modules\selling\records\state\State;
 
 /**
  * Default controller for the `transit` module
@@ -67,7 +68,11 @@ class MainController extends Controller
         if(isset($_GET['selling_token'])) $selling_token = $_GET['selling_token'];
         $model = new Selling();
         $model = $model::findOne(['selling_token'=>$selling_token]);
-        var_dump($model);
+        $state = State::findOne(['id' => $model->state_id]);
+        var_dump($state);
+        echo"<br/><br/>";
+        //var_dump($model);
         echo "<hr><h1>".$model->name."</h1>";
+        echo "<p>Состояние заказа:".$state->name."</p>";
     }
 }
