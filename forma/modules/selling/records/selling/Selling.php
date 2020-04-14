@@ -36,6 +36,7 @@ use forma\modules\selling\records\selling\StateDone;
  * @property string $name
  * @property string $date_create
  * @property string $date_complete
+ * @property integer $state_id
  *
  * @property Customer $customer
  * @property Warehouse $warehouse
@@ -225,5 +226,9 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return array_merge(parent::behaviors(), [
             'getTotalSum' => TotalSumBehavior::className(),
         ]);
+    }
+
+    public function findStateById($id){
+
     }
 }
