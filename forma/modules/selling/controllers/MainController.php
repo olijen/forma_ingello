@@ -9,6 +9,8 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use forma\modules\selling\services\SellingService;
 use forma\modules\selling\records\state\State;
+use forma\modules\customer\records\Customer;
+use forma\modules\country\records\Country;
 
 /**
  * Default controller for the `transit` module
@@ -66,13 +68,28 @@ class MainController extends Controller
         echo "hahhahahaah eto pokazyvajet selling";
         $selling_token = null;
         if(isset($_GET['selling_token'])) $selling_token = $_GET['selling_token'];
-        $model = new Selling();
-        $model = $model::findOne(['selling_token'=>$selling_token]);
-        $state = State::findOne(['id' => $model->state_id]);
+
+        $selling = Selling::findOne(['selling_token'=>$selling_token]);
+        $state = State::findOne(['id' => $selling->state_id]);
+        $customer = $selling->customer;
+        $customer_country = $customer->country;
+        var_dump($customer->country);
         var_dump($state);
         echo"<br/><br/>";
         //var_dump($model);
-        echo "<hr><h1>".$model->name."</h1>";
+        echo "<hr><h1>".$selling->name."</h1>";
         echo "<p>Состояние заказа:".$state->name."</p>";
+        echo "<h3>Ваши личные данные</h3>
+                <p>Ваши лд мы особенно точно не передадим левым третьим лицам, чьи руки перенесут их в Даркнет</p>
+                <p>Ваше имя: {$customer->name}</p>
+                <p>Ваше государство: {$customer_country->name}</p>
+                <p>Ваш адрес(за вами уже выехали): {$customer->address}</p>
+                <p>E-mail личный: {$customer->chief_email}</p>
+                <p>E-mail компании: {$customer->company_email}</p>
+                <p>Телефон личный: {$customer->chief_phone}</p>
+                <p>Телефон компании: {$customer->company_phone}</p>
+                <p>Сайт компании: {$customer->site_company}</p>
+                
+";
     }
 }
