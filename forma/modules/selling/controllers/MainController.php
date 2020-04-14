@@ -66,7 +66,8 @@ class MainController extends Controller
         $selling_token = null;
         if(isset($_GET['selling_token'])) $selling_token = $_GET['selling_token'];
         $model = new Selling();
-        $a = $model::findOne(['selling_token'=>$selling_token]);
-        var_dump($a);
+        $model = $model::findOne(['selling_token'=>$selling_token]);
+        var_dump($model);
+        echo "<hr><h1>".$model->name."</h1>";
     }
 }
