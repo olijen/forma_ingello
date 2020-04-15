@@ -57,11 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'id'),
         ],
-        [
-            'attribute' => 'selling_token',
-            'value' => 'selling_token',
-            'filter' => ActiveRecordHelper::getList(Selling::className()),
-        ]
     ];
     foreach (['date_create', 'date_complete'] as $attribute) {
         $columns[] = [

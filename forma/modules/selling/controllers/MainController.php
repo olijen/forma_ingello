@@ -23,17 +23,12 @@ class MainController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'update', 'createByRemains', 'delete', 'showSelling'],
+                'only' => ['showSelling'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['showSelling',],
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'update', 'createByRemains', 'delete', 'showSelling', ],
-                        'roles' => ['@'],
+                        'actions' => ['showSelling'],
+                        'roles' => ['?', '@'],
                     ],
                 ],
             ],
@@ -65,31 +60,23 @@ class MainController extends Controller
     }
 
     public function actionShowSelling(){
-        echo "hahhahahaah eto pokazyvajet selling";
+
+        $this->layout = 'blank';
+
         $selling_token = null;
         if(isset($_GET['selling_token'])) $selling_token = $_GET['selling_token'];
+
 
         $selling = Selling::findOne(['selling_token'=>$selling_token]);
         $state = State::findOne(['id' => $selling->state_id]);
         $customer = $selling->customer;
-        $customer_country = $customer->country;
-        var_dump($customer->country);
-        var_dump($state);
-        echo"<br/><br/>";
-        //var_dump($model);
-        echo "<hr><h1>".$selling->name."</h1>";
-        echo "<p>Состояние заказа:".$state->name."</p>";
-        echo "<h3>Ваши личные данные</h3>
-                <p>Ваши лд мы особенно точно не передадим левым третьим лицам, чьи руки перенесут их в Даркнет</p>
-                <p>Ваше имя: {$customer->name}</p>
-                <p>Ваше государство: {$customer_country->name}</p>
-                <p>Ваш адрес(за вами уже выехали): {$customer->address}</p>
-                <p>E-mail личный: {$customer->chief_email}</p>
-                <p>E-mail компании: {$customer->company_email}</p>
-                <p>Телефон личный: {$customer->chief_phone}</p>
-                <p>Телефон компании: {$customer->company_phone}</p>
-                <p>Сайт компании: {$customer->site_company}</p>
-                
-";
+
+        if(\Yii::$app->request->isPjax){
+            $customer->chief_email = $_GET['Customer']['chief_email'];
+            $customer->save();
+            return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state'));
+        }
+
+        return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state'));
     }
 }
