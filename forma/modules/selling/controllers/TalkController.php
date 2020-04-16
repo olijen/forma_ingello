@@ -77,7 +77,10 @@ class TalkController extends Controller
     public function actionCommentHistory()
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
-        $selling->dialog .= '<div style="background: orangered;" class="alert alert-primary" role="alert">'.Yii::$app->request->post('comment') . '</div>';
+        if(!Yii::$app->user->isGuest)
+            $selling->dialog .= '<div style="background: orangered;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>';
+        else
+            $selling->dialog .= '<div style="background: #43aa54;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>';
 
         $selling->save();
 
