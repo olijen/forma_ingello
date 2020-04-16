@@ -15,25 +15,24 @@ function show($url, $text = "Открыть", $with = 600, $height = 600, $left 
         }
         $url .= 'without-header';
     }
-    //if ($url{0} == '/') {
-    echo \forma\components\widgets\ModalSrc::widget([
-        'route' => $url,
-        'name' => $text,
-        'icon' => 'eye',
-        'color' => 'blue',
-        'iframe' => true,
-        'options' => [
-            'class' => 'btn btn-primary btn-xs',
-            'style' => ['border' => '1px solid green'],
-            'id' => 'id' . time(),
-        ]
-    ]);
-    return;
-    //}
+    if ($url{0} == '/') {
+        echo \forma\components\widgets\ModalSrc::widget([
+            'route' => $url,
+            'name' => $text,
+            'icon' => 'eye',
+            'color' => 'blue',
+            'iframe' => true,
+            'options' => [
+                'class' => 'btn btn-primary btn-xs',
+                'style' => ['border' => '1px solid green'],
+                'id' => 'id' . time(),
+            ]
+        ]);
+        return;
+    }
     ?>
-    <a
-            onclick="window.open('<?= $url ?>', 'Window', 'width=600,height=600,left=600')"
-            class="btn btn-primary btn-xs ">
+    <a onclick="window.open('<?= $url ?>', 'Window', 'width=600,height=600,left=600')"
+       class="btn btn-primary btn-xs ">
         <?= $text ?>
     </a>
     <?php
@@ -43,120 +42,179 @@ $regularitys = $dataProvider->getModels();
 ?>
 
 <?php
-function showLink($text) {
-
-    $text1 = preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*[^ \.])/is", "$1$2<a id = 'http://$3' onclick=\"window.open('http://$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$3</a>", $text);
-    $text1 = preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*[^ \.])/is", "$1$2<a id = '$3' onclick=\"window.open('$3', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">$3</a>", $text);
-echo $text1;
+function replaceUrl($text)
+{
+    $text = str_ireplace("{{", "<?php show(\"", $text);
+    $text = str_ireplace("||", "\", \"", $text);
+    $text = str_ireplace("}}", "\") ?>", $text);
+    echo $text;
 }
-
 
 ?>
 
-    <section class="content">
+<?php
+function replaceUrlIngello($text)
+{
+    if (strripos($text, "{{/")) {
+        $text = str_ireplace("{{", "<a  style=\"color: blue;\"  class=\"btn btn-outline-secondary\" type=\"button\" data-toggle=\"modal\" data-target=\"#modal\" onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); $('<iframe src=", $text);
+        $text = str_ireplace("||", " style=width:100%;height:500px frameborder=0 id=myFrame></iframe>').appendTo('#modal .modal-dialog .modal-content .modal-body');\"> <i class=\"fa fa-eye\"></i>", $text);
+        $text = str_ireplace("}}", "</a>", $text);
+        echo $text;
+    } else {
+        $text = str_ireplace("{{", "<a onclick=\"window.open(' ", $text);
+        $text = str_ireplace("||", " ', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-primary btn-xs\">", $text);
+        $text = str_ireplace("}}", "</a>", $text);
+        echo $text;
+    }
 
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <?php foreach ($regularitys as $regularity): ?>
-                    <li class="<?= $regularity['order'] == 1 ? 'active' : '' ?> ">
-                        <a href="#tab_<?= $regularity['id'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
-                    </li>
-                <?php endforeach; ?>
-                <a href="/core/regularity/settings"><i class="fa fa-cog"></i></a>
-            </ul>
-            <div class="tab-content">
+}
 
-                <?php foreach ($regularitys as $regularity): ?>
-                    <div class="tab-pane <?= $regularity['id'] == 1 ? 'active' : '' ?>"
-                         id="tab_<?= $regularity['id'] ?>">
-                        <?php foreach ($regularity->items as $item) {
-                            if ($item['parent_id'] != null) {
-                                $data[] = $item;
-                            }
+?>
+
+<?php
+function replaceUrl1($text)
+{
+    $text = str_ireplace("{{", "<a style=\"color: blue;\" onclick=\"window.open(' ", $text);
+    $text = str_ireplace("||", " ', 'Window', 'width=600,height=600,left=600')\" class=\"btn btn-outline-secondary\"><i class=\"fa fa-eye\"></i>", $text);
+    $text = str_ireplace("}}", "</a>", $text);
+
+    echo $text;
+}
+?>
+
+
+
+
+<section class="content">
+
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <?php foreach ($regularitys as $regularity): ?>
+                <li class="<?= $regularity['order'] == 1 ? 'active' : '' ?> ">
+                    <a href="#tab_<?= $regularity['id'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
+                </li>
+            <?php endforeach; ?>
+            <a href="/core/regularity/settings"><i class="fa fa-cog"></i></a>
+        </ul>
+
+        <div class="tab-content">
+            <?php foreach ($regularitys as $regularity): ?>
+                <div class="tab-pane <?= $regularity['id'] == 1 ? 'active' : '' ?>"
+                     id="tab_<?= $regularity['id'] ?>">
+
+                    <?php foreach ($regularity->items as $item) {
+                        if ($item['parent_id'] != null) {
+                            $data[] = $item;
                         }
-                        ?>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h4 class="box-title">
-                                            <i class="fa fa-phone"></i> Этот раздел поможет
-                                            интегрировать систему FORMA с
-                                            любой компанией
-                                        </h4>
-                                    </div>
-                                    <?php foreach ($regularity->items as $item): ?>
-                                        <?php if (is_null($item['parent_id'])): ?>
-                                            <div class="panel box box"
-                                                 style="margin-bottom: 5px; border-top-color: <?= $item['color'] ?>">
-                                                <div class="box-header with-border" style="margin-bottom: 5px">
-                                                    <h4 class="box-title">
-                                                        <a href="/core/item/update?id=<?= $item['id'] ?>"><i
+                    }
+                    ?>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-solid">
+
+                                <div class="box-header with-border">
+                                    <h4 class="box-title"><i class="fa fa-phone"></i> Этот раздел поможет интегрировать
+                                        систему FORMA с
+                                        любой компанией</h4>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="box-group" id="accordion">
+
+                                        <?php foreach ($regularity->items as $item): ?>
+                                            <?php if (is_null($item['parent_id'])): ?>
+                                                <div class="panel box box-success"
+                                                     style="margin-bottom: 5px; border-top-color: <?= $item['color'] ?>">
+                                                    <div class="box-header with-border" style="margin-bottom: 5px">
+                                                        <h4 class="box-title">
+
+                                                            <a href="/core/item/update?id=<?= $item['id'] ?>"><i
                                                                     class="fa fa-edit"></i></a>
-                                                        <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>&parent_id=<?= $item['id'] ?>"><i
+                                                            <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>&parent_id=<?= $item['id'] ?>"><i
                                                                     class="fa fa-plus"></i></a>
-                                                        <a href="/core/item/delet?id=<?= $item['id'] ?>"><i
+                                                            <a href="/core/item/delet?id=<?= $item['id'] ?>"><i
                                                                     class="fa fa-trash"></i></a>
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                           href="#collapse_<?= $item['id'] ?>" class="collapsed"
-                                                           aria-expanded="false">
-                                                            <?= $item['title']; ?>
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapse_<?= $item['id'] ?>" class="panel-collapse collapse"
-                                                     aria-expanded="false">
-                                                    <div class="box-body">
-<!--                                                        --><?php //showLink($item['description']); ?>
-                                                        <?= $item['description'] ?>
-                                                        <?php foreach ($data as $value): ?>
-                                                            <?php if ($value['parent_id'] == $item['id']): ?>
-                                                                <div class="panel box box"
-                                                                     style="margin-bottom: 5px; border-top-color: <?= $value['color'] ?>">
-                                                                    <div class="box-header with-border"
-                                                                         style="margin-bottom: 5px">
-                                                                        <h4 class="box-title">
-                                                                            <a href="/core/item/update?id=<?= $value['id'] ?>">
-                                                                                <i class="fa fa-edit"></i></a>
-                                                                            <a href="/core/item/delet?id=<?= $value['id'] ?>">
-                                                                                <i class="fa fa-trash"></i></a>
-                                                                            <a data-toggle="collapse"
-                                                                               data-parent="#accordion"
-                                                                               href="#capse_<?= $value['id'] ?>"
-                                                                               class="collapsed"
-                                                                               aria-expanded="false">
-                                                                                <?= $value['title']; ?>
-                                                                            </a>
-                                                                        </h4>
-                                                                    </div>
-                                                                    <div id="capse_<?= $value['id'] ?>"
-                                                                         class="panel-collapse collapse"
-                                                                         aria-expanded="true">
-                                                                        <div class="box-body">
-                                                                            <?= $value['description']; ?>
-                                                                        </div>
-                                                                    </div>
+
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                               href="#collapse_<?= $item['id'] ?>" class="collapsed"
+                                                               aria-expanded="false">
+                                                                <?= $item['title']; ?>
+                                                            </a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapse_<?= $item['id'] ?>"
+                                                         class="panel-collapse collapse"
+                                                         aria-expanded="false" style="height: 0px;">
+                                                        <div class="box-body">
+                                                            <?php replaceUrlIngello($item['description']); ?>
+
+                                                            <!-- /.box-header -->
+                                                            <div class="box-body">
+                                                                <div class="box-group" id="accordion1">
+                                                                    <?php foreach ($data as $value): ?>
+                                                                        <?php if ($value['parent_id'] == $item['id']): ?>
+                                                                            <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                                                            <div class="panel box box-primary"
+                                                                                 style="margin-bottom: 5px; border-top-color: <?= $value['color'] ?>">
+                                                                                <div class="box-header with-border" style="margin-bottom: 5px">
+                                                                                    <h4 class="box-title">
+                                                                                        <a href="/core/item/update?id=<?= $value['id'] ?>">
+                                                                                            <i class="fa fa-edit"></i></a>
+                                                                                        <a href="/core/item/delet?id=<?= $value['id'] ?>">
+                                                                                            <i class="fa fa-trash"></i></a>
+
+                                                                                        <a data-toggle="collapse" data-parent="#accordion1"
+                                                                                           href="#capse_<?= $value['id'] ?>"
+                                                                                           class="collapsed"
+                                                                                           aria-expanded="false">
+                                                                                            <?= $value['title']; ?>
+                                                                                        </a>
+                                                                                    </h4>
+                                                                                </div>
+                                                                                <div id="capse_<?= $value['id'] ?>"
+                                                                                     class="panel-collapse collapse"
+                                                                                     aria-expanded="false"
+                                                                                     style="height: 0px;">
+                                                                                    <div class="box-body">
+                                                                                        <?php replaceUrlIngello($value['description']); ?>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php endif; ?>
+                                                                    <?php endforeach; ?>
                                                                 </div>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; ?>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+
+                                    </div>
                                 </div>
+                                <!-- /.box-body -->
                             </div>
+                            <!-- /.box -->
                         </div>
-                        <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>"><i class="fa fa-plus"></i>Добавить
-                            пункт</a>
+                        <div class="col-md-6">
+
+                        </div>
                     </div>
-                <?php endforeach; ?>
-                <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
+
+                    <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>"><i class="fa fa-plus"></i>Добавить
+                        пункт</a>
+                </div>
+            <?php endforeach; ?>
+            <!-- /.tab-pane -->
+
+            <!-- /.tab-pane -->
         </div>
-    </section>
-    <br><br>
+    </div>
+
+</section>
+
 
 <?php
 $warehouses = [
@@ -213,6 +271,8 @@ $menu = [
 
                 ]
             ],
+            ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
+            ['label' => 'Форма ставки FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar'],
         ]
     ],
     [
