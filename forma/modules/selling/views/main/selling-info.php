@@ -11,11 +11,12 @@ use yii\helpers\Html;
         width: 80vw;
     }
 </style>
-<?php Pjax::begin() ?>
+
 <h1 class="text-center">Информация по продаже</h1>
 <hr>
 <h2 class="text-center"><?=$selling->name?></h2>
 <div class="selling_info">
+    <?php Pjax::begin() ?>
     <p>Состояние заказа: <?=$state->name?></p>
     <div class="customer_info">
         <h3>Ваши данные</h3>
@@ -50,10 +51,46 @@ use yii\helpers\Html;
         </div>
 
         <?php ActiveForm::end(); ?>
+    </div>
+    <?php Pjax::end() ?>
 
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
+        </div>
+        <div class="hidden" id="dialog">
+
+            <?php Pjax::begin(['enablePushState' => false]) ?>
+            <?= $selling->dialog ?>
+            <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+            <div class="form-group">
+                <?= Html::textarea('comment', '', ['rows' => 5, 'placeholder' => 'Оставьте комментарий к диалогу']) ?>
+            </div>
+            <?= Html::input('hidden', 'id', $selling->id, ['rows' => 5]) ?>
+            <div class="form-group">
+                <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
+            </div>
+            <?= Html::endForm() ?>
+            <?php Pjax::end() ?>
+        </div>
     </div>
 </div>
-<?php Pjax::end() ?>
+
+
+
+    <script>
+        var flag = false;
+
+        document.getElementById('openDialog').onclick = function () {
+            if (flag === false) {
+                document.getElementById('dialog').classList.remove('hidden');
+                flag = true;
+            } else {
+                document.getElementById('dialog').classList.add('hidden');
+                flag = false;
+            }
+        }
+    </script>
 
 
 <script>
