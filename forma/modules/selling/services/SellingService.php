@@ -36,6 +36,8 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
+        $model->name  = "Очередная продажа с очередным номером №";
+        $model->selling_token = Yii::$app->getSecurity()->generateRandomString();
 
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
@@ -46,6 +48,9 @@ class SellingService
             var_dump($model->getErrors());
             die;
         }
+
+        $model->name .= strval($model->id);
+        $model->save();
 
         if (isset($warehouseId) && $model->warehouse_id != $warehouseId) {
             NomenclatureService::deleteAllBySelling($model->id);
