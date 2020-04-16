@@ -7,35 +7,34 @@ use yii\widgets\Pjax;
 /* @var $searchModel forma\modules\core\records\ItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Items');
+$this->title = Yii::t('app', 'Пункты');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a(Yii::t('app', 'Create Item'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить пункт'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'title',
             'description',
-            'parent_id',
+//            'parent_id',
             'regularity_id',
             //'order',
             //'color',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => ' {update} {delete} ',
+            ],
         ],
     ]); ?>
 
