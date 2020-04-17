@@ -34,12 +34,17 @@ class RegularityController extends Controller
     {
         $searchModel = new RegularitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $regularitys = $dataProvider->getModels();
+        $data = null;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'regularitys' => $regularitys,
+            'data' => $data,
         ]);
     }
+
     public function actionIndex2()
     {
 
