@@ -8,51 +8,49 @@ use yii\widgets\Breadcrumbs;
 /* @var $content string */
 ?>
 <?php
+$bgColor = '#00b65d';
+$bgColorPrimary = '#00b65d';
 
-$url = $_SERVER['REQUEST_URI'];
+if ('selling' == Yii::$app->controller->module->id) {
 
-$url = explode("/", $url);
+    $bgColor = '#58628e';
+    $bgColorPrimary = '#100873';
 
-$module = 'selling';
-$module_hr = 'hr';
-$module_product = 'product';
+} elseif ('product' == Yii::$app->controller->module->id) {
 
+    $bgColor = '#f49258';
 
-if ($module == $url[1]) {
-    ?>
+} elseif ('hr' == Yii::$app->controller->module->id) {
 
-    <style>
-        .skin-green-light .main-header .navbar {
-            background-color: #58628e !important;
-        }
-    </style>
-
-<?php } elseif ($module_product == $url[1]) { ?>
-
-    <style>
-        .skin-green-light .main-header .navbar {
-            background-color: #f49258 !important;
-        }
-    </style>
-
-<?php } elseif ($module_hr == $url[1]) {
-    ?>
-
-    <style>
-        .skin-green-light .main-header .navbar {
-            background-color: #F08080 !important;
-        }
-    </style>
-<?php }
+    $bgColor = '#F08080';
+    $bgColorPrimary = '#A60000';
+}
 
 ?>
+<style>
 
+    .skin-green-light .main-header .navbar {
+        background-color: <?php echo $bgColor ?> !important;
+    }
+
+    .logo-mini {
+        background-color: <?php echo $bgColor ?> !important;
+    }
+
+    .btn-primary {
+        background-color: <?php echo $bgColorPrimary ?> !important;
+    }
+
+    .btn-success {
+        background-color: <?php echo $bgColor ?> !important;
+    }
+</style>
 
 <header class="main-header">
 
 
     <?= Html::a('
-        <span class="logo-mini">F.I</span>
+        <span class="logo-mini" > F.I</span> 
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
 
@@ -355,7 +353,7 @@ JS;
             <?= Breadcrumbs::widget([
                 'tag' => 'ul',
                 'homeLink' => isset($this->params['homeLink']) ? $this->params['homeLink'] : ['label' => 'Панель управления', 'url' => Yii::$app->homeUrl, 'title' => 'Первая страница'],
-                'options' => ['class' => 'breadcrumb', 'style' => 'margin: 5px 0 0 0; display:inline-block; background: #aadea6; width: 101%; border-radius: 0;'],
+                'options' => ['class' => 'breadcrumb', 'style' => 'margin: 5px 0 0 0; display:inline-block; background: #D0D0D0; width: 101%; border-radius: 0;'],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
         </div>
@@ -461,4 +459,3 @@ JS;
 $this->registerJs($js);
 
 ?>
-

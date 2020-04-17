@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->request_id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Request Strategies'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="request-strategy-view">

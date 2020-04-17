@@ -19,9 +19,9 @@ $this->title = 'Продажи';
 ?>
 <div class="selling-index">
 
-    <a href="/selling/form/index" class="btn btn-success" style="background-color: #58628e">Новая продажа</a>
-    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary" style="background-color: #58628e ">План на обзвон</a>
-    <a href="/selling/main-state/index" class="btn btn-success" style="background-color: #58628e">Настроить состояния</a>
+    <a href="/selling/form/index" class="btn btn-success">Новая продажа</a>
+    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary" >План на обзвон</a>
+    <a href="/selling/main-state/index" class="btn btn-success">Настроить состояния</a>
 
     <hr>
 

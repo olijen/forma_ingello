@@ -123,9 +123,10 @@ use forma\modules\product\records\Product;
               'label' => 'Продажи (CRM)',
               'url' => ['/selling/default'],
               'icon' => 'money',
+
               'items' => [
                   [
-                      'label' => 'Панель управления',
+                      'label' => 'Панель управления','style' => 'background-color:red',
                       'url' => ['/selling/default'],
                       'icon' => 'laptop',
                       'items' => [

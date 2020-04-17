@@ -129,7 +129,7 @@ $this->registerJs($js);
     <?php if (!$model->stateIs(new StateConfirm())): ?>
         <div class="row">
             <div class="col-md-12 form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'style'=>'background-color:black','id' => 'selling-form-submit-button']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success','id' => 'selling-form-submit-button']) ?>
                 <?= Html::a('Позвонить', Url::to('strategy?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
             </div>
         </div>

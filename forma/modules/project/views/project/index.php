@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Проекты');
-$this->params['breadcrumbs'][] = $this->title;
+
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
 
 $this->params['panel'] = Html::a(Yii::t('app', '<i class="fa fa-plus"></i> Создать проект'), ['create'], ['class' => 'btn btn-success']);

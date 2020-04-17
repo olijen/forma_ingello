@@ -111,7 +111,7 @@ if (!Yii::$app->request->isPjax) {
     <?php if (!$model->stateIs(new StateDone())): ?>
         <div class="row">
             <div class="col-md-12 form-group"">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success','style'=>'background-color:#58628e', 'id' => 'selling-form-submit-button']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'selling-form-submit-button']) ?>
             </div>
         </div>
     <?php endif; ?>
@@ -128,8 +128,8 @@ if (!Yii::$app->request->isPjax) {
     <?php DetachedBlock::begin(['example' => 'История']); ?>
     <div class="row">
         <div class="col-md-12 form-group">
-        <?= Html::a('Начать разговор', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk', 'style' => 'background-color:#58628e'])?>
-        <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog', 'style'=>'background-color:#58628e']) ?>
+        <?= Html::a('Начать разговор', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
+        <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
     </div>
     <div class="hidden" id="dialog">
 

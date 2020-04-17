@@ -14,7 +14,7 @@ $this->title = Yii::t('app', 'Состояния');
 
 
     <p>
-        <?= Html::a(Yii::t('app', 'Создать состояние'), ['create'], ['class' => 'btn btn-success', 'style'=> 'background-color:#58628e']) ?>
+        <?= Html::a(Yii::t('app', 'Создать состояние'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
