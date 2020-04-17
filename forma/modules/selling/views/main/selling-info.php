@@ -2,6 +2,14 @@
 use yii\widgets\Pjax;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use forma\modules\selling\widgets\NomenclatureView;
+
+use forma\modules\selling\records\selling\Selling;
+use forma\modules\selling\widgets\SellingFormView;
+
+use yii\helpers\Url;
+use yii\grid\GridView;
+use yii\widgets\DetailView;
 ?>
 
 
@@ -61,6 +69,7 @@ use yii\helpers\Html;
         <div class="hidden" id="dialog">
 
             <?php Pjax::begin(['enablePushState' => false]) ?>
+            <?php if(isset($modelProduct)) var_dump($modelProduct);?>
             <?= $selling->dialog ?>
             <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
             <div class="form-group">
@@ -74,6 +83,8 @@ use yii\helpers\Html;
             <?php Pjax::end() ?>
         </div>
     </div>
+
+    <?= NomenclatureView::widget(['sellingId' => $selling->id]) ?>
 </div>
 
 
