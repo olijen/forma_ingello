@@ -71,7 +71,7 @@ use forma\modules\selling\widgets\TotalSumView;
     <div class="col-md-1">
         <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
             'class' => 'btn btn-success form-control',
-            'style' => 'margin-top: 25px; background-color:#58628e;',
+            'style' => 'margin-top: 25px;',
             
         ]) ?>
     </div>

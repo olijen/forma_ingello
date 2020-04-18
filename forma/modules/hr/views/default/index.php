@@ -15,10 +15,10 @@ $panel = '';
 $startUrl = '';
 $list = [
     ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-primary btn-lg btn-fix'],
-    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up'],
+    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' =>'btn btn-hr'],
     ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user'],
-    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card'],
-    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o'],
+    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' =>'btn btn-hr'],
+    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' =>'btn btn-hr'],
 ];
 
 ?>
@@ -134,7 +134,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                         <small><a data-pjax="0" href="/project/project-vacancy?ProjectVacancySearch[project_id]=<?=$project->id?>">Ваканс:</a> <?=$vacacount?></small>
                     </span>
 
-                    <div class="btn-group" style="width: 100%; background-color: red;">
+                    <div class="btn-group" style="width: 100%;">
                         <?php if ($vacacount == 0) : ?>
                             <a data-pjax="0"
                                href="/project/project-vacancy/create?id=<?=$project->id?>"

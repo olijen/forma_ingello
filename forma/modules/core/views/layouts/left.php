@@ -126,7 +126,7 @@ use forma\modules\product\records\Product;
 
               'items' => [
                   [
-                      'label' => 'Панель управления','style' => 'background-color:red',
+                      'label' => 'Панель управления',
                       'url' => ['/selling/default'],
                       'icon' => 'laptop',
                       'items' => [
