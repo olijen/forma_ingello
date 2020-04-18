@@ -15,10 +15,10 @@ $panel = '';
 $startUrl = '';
 $list = [
     ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-primary btn-lg btn-fix'],
-    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' =>'btn btn-hr'],
+    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up'],
     ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user'],
-    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' =>'btn btn-hr'],
-    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' =>'btn btn-hr'],
+    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card'],
+    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o'],
 ];
 
 ?>
