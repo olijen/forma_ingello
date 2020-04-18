@@ -84,7 +84,7 @@ function replaceUrl1($text)
 
 
 
-
+<?php if($regularitys):?>
 <section class="content">
 
     <div class="nav-tabs-custom">
@@ -153,6 +153,7 @@ function replaceUrl1($text)
                                                             <!-- /.box-header -->
                                                             <div class="box-body">
                                                                 <div class="box-group" id="accordion1">
+                                                                    <?php if ($data):?>
                                                                     <?php foreach ($data as $value): ?>
                                                                         <?php if ($value['parent_id'] == $item['id']): ?>
                                                                             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -184,6 +185,7 @@ function replaceUrl1($text)
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -214,7 +216,12 @@ function replaceUrl1($text)
     </div>
 
 </section>
+<?php elseif(!$regularitys): ?>
+    <h4>У вас нет регламентов, но вы можете их добавить пройдя по ссылке <br><br>
+        <a href="/core/regularity/settings">Добавьте регламент</a> </h4>
+    <br><br><br><br>
 
+<?php endif;?>
 
 <?php
 $warehouses = [
