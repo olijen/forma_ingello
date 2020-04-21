@@ -67,8 +67,9 @@ class SellingSearch extends Selling
             ->andWhere(['in', 'accessory.user_id', $ids])
             ->andWhere(['accessory.entity_class' => Selling::className()]);
 
-        $query->join('inner join', 'state', 'state.id = selling.state_id ')
-            ->andWhere(['state.user_id' => Yii::$app->user->id]);
+//        $query->join('join', 'state', 'state.id = selling.state_id ')
+//            ->andWhere(['state.user_id' => Yii::$app->user->id]);
+
 
         // add conditions that should always apply here
 

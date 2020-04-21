@@ -10,7 +10,6 @@ $this->title = Yii::t('app', 'Редактировать Регламент: ', 
     'modelClass' => 'Regularity',
 ]) . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Регламенты'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Редактировать');
 ?>
 <div class="regularity-update">

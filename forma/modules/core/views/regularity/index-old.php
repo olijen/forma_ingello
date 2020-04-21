@@ -516,6 +516,8 @@ $menu = [
 
                 ]
             ],
+            ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
+            ['label' => 'Форма ставки FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar'],
         ]
     ],
     [

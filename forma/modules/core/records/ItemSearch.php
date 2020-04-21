@@ -2,29 +2,28 @@
 
 namespace forma\modules\core\records;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\core\records\Regularity;
+use forma\modules\core\records\Item;
 
 /**
- * RegularitySearch represents the model behind the search form about `forma\modules\core\records\Regularity`.
+ * ItemSearch represents the model behind the search form of `forma\modules\core\records\Item`.
  */
-class RegularitySearch extends Regularity
+class ItemSearch extends Item
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'user_id', 'order'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'parent_id', 'regularity_id', 'order'], 'integer'],
+            [['title', 'description', 'color'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -41,8 +40,9 @@ class RegularitySearch extends Regularity
      */
     public function search($params)
     {
-        $query = Regularity::find()
-            ->orderBy('order');
+        $query = Item::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,13 +56,17 @@ class RegularitySearch extends Regularity
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'parent_id' => $this->parent_id,
+            'regularity_id' => $this->regularity_id,
             'order' => $this->order,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'color', $this->color]);
 
         return $dataProvider;
     }

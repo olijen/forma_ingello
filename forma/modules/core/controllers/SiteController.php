@@ -130,22 +130,44 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
+        $googleLink = $this->googleAuth();
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $modelLogin = new LoginForm();
+        $loginLoad = $modelLogin->load(Yii::$app->request->post());
+        if (isset($_POST['login-button'])) {
+            $user = $modelLogin->getUser();
+            if ($loginLoad) {
+                if ($modelLogin->login()){
+                    return $this->goBack();
+                }
+                else if(!is_null($user) && $user->confirmed_email == 0){
+                    return Yii::$app->response
+                        ->redirect('http://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)
+                        ->send();
+                }
+            }
+        }
+
         $model = new SignupForm();
 
-//        if (!Yii::$app->user->isGuest) {
-//            return $this->goHome();
-//        }
-
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-             return $this->goHome();
+            return $this->goHome();
         }
 
         Yii::$app->controller->layout = 'main-login';
-        return $this->render('signup', compact('model'));
+        return $this->render('signup', compact('model', 'modelLogin', 'googleLink'));
     }
 
     public function actionSignupReferer()
     {
+        $googleLink = $this->googleAuth();
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = new SignupForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->signup(true)) {
@@ -153,7 +175,7 @@ class SiteController extends Controller
         }
 
         Yii::$app->controller->layout = 'main-login';
-        return $this->render('signup', compact('model'));
+        return $this->render('signup-ref', compact('model', 'googleLink'));
     }
 
     public function actionError()
@@ -189,8 +211,8 @@ class SiteController extends Controller
 
     public function googleAuth(){
         //todo перенести переменные в конфигурацию
-        $clientID = '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com';
-        $clientSecret = 'fwk_NIyYpeiJ7jwKtQsF8hJb';
+        $clientID = Yii::$app->params['client_id'];
+        $clientSecret = Yii::$app->params['client_secret'];
         $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/login';
 
         $client = new Google_Client();
