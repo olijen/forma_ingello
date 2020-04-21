@@ -33,7 +33,8 @@ class Regularity extends \yii\db\ActiveRecord
         return [
             [['name', 'user_id', 'order'], 'required'],
             [['user_id', 'order'], 'integer'],
-            [['name'], 'string', 'max' => 55],
+            [['name', 'icon'], 'string', 'max' => 55],
+            [['title'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -48,6 +49,8 @@ class Regularity extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Регламент'),
             'user_id' => Yii::t('app', 'User ID'),
             'order' => Yii::t('app', 'Порядковый номер'),
+            'title' => Yii::t('app', 'Описание'),
+            'icon' => Yii::t('app', 'Иконка'),
         ];
     }
 

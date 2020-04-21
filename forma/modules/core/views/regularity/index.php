@@ -116,9 +116,7 @@ function replaceUrl1($text)
                             <div class="box box-solid">
 
                                 <div class="box-header with-border">
-                                    <h4 class="box-title"><i class="fa fa-phone"></i> Этот раздел поможет интегрировать
-                                        систему FORMA с
-                                        любой компанией</h4>
+                                    <h4 class="box-title"><i class="fa fa-<?= $regularity['icon']?>"></i> <?= $regularity['title']?></h4>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
