@@ -84,23 +84,25 @@ function replaceUrl1($text)
 
 
 
-<?php if($regularitys):?>
+
 <section class="content">
+    <?php if($regularitys):?>
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <?php foreach ($regularitys as $regularity): ?>
                 <li class="<?= $regularity['order'] == 1 ? 'active' : '' ?> ">
-                    <a href="#tab_<?= $regularity['id'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
+                    <a href="#tab_<?= $regularity['order'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
                 </li>
             <?php endforeach; ?>
             <a href="/core/regularity/settings"><i class="fa fa-cog"></i></a>
         </ul>
 
         <div class="tab-content">
-            <?php foreach ($regularitys as $regularity): ?>
-                <div class="tab-pane <?= $regularity['id'] == 1 ? 'active' : '' ?>"
-                     id="tab_<?= $regularity['id'] ?>">
+
+            <?php foreach ($regularitys as $regularity):?>
+                <div class="tab-pane <?= $regularity['order'] == 1 ? 'active' : '' ?>"
+                     id="tab_<?= $regularity['order'] ?>">
 
                     <?php foreach ($regularity->items as $item) {
                         if ($item['parent_id'] != null) {
@@ -108,7 +110,6 @@ function replaceUrl1($text)
                         }
                     }
                     ?>
-
 
                     <div class="row">
                         <div class="col-md-12">
@@ -214,14 +215,14 @@ function replaceUrl1($text)
             <!-- /.tab-pane -->
         </div>
     </div>
-
-</section>
 <?php elseif(!$regularitys): ?>
+
     <h4>У вас нет регламентов, но вы можете их добавить пройдя по ссылке <br><br>
-        <a href="/core/regularity/settings">Добавьте регламент</a> </h4>
-    <br><br><br><br>
+        <a href="/core/regularity/settings">Добавить регламент</a> </h4>
 
 <?php endif;?>
+</section>
+
 
 <?php
 $warehouses = [
