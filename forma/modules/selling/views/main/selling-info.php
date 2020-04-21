@@ -25,21 +25,56 @@ use yii\widgets\DetailView;
 <h2 class="text-center"><?=$selling->name?></h2>
 <div class="selling_info">
     <?php Pjax::begin() ?>
-    <p>Состояние заказа: <?=$state->name?></p>
-    <div class="customer_info">
-        <h3>Ваши данные</h3>
-        <p>Ваши лд мы особенно точно не передадим левым третьим лицам, чьи руки перенесут их в Даркнет</p>
-        <p>Ваше имя: <?=$customer->name?></p>
-        <p>Ваше государство: <?=$customer->country->name?></p>
-        <p>Ваш адрес(за вами уже выехали): <?=$customer->address?></p>
-        <p>E-mail личный: <?=$customer->chief_email?></p>
-        <p>E-mail компании: <?=$customer->company_email?></p>
-        <p>Телефон личный: <?=$customer->chief_phone?></p>
-        <p>Телефон компании: <?=$customer->company_phone?></p>
-        <p>Сайт компании: <?=$customer->site_company?></p>
+    <p>Состояние заказа: <button class="btn btn-success"><?=$state->name?></button></p>
+    <div class="bs-example">
+        <div class="detached-block-example">Ваши данные</div>
+        <div class="customer_info">
+            <table>
+                <tr style="">
+                    <td style="width: 400px;">Ваше имя:</td>
+                    <td><?=$customer->name?></td>
+                </tr>
+                <tr>
+                    <td>Ваше государство:</td>
+                    <td><?=$customer->country->name?></td>
+                </tr>
+                <tr>
+                    <td>Ваш адрес:</td>
+                    <td><?=$customer->address?></td>
+                </tr>
+                <tr>
+                    <td>E-mail личный:</td>
+                    <td><?=$customer->chief_email?></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <p> </p>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p>E-mail компании: <?=$customer->company_email?></p>
+            <p>Телефон личный: <?=$customer->chief_phone?></p>
+            <p>Телефон компании: <?=$customer->company_phone?></p>
+            <p>Сайт компании: <?=$customer->site_company?></p>
+        </div>
     </div>
-    <div class="change_email">
-        <button id="change_email">Сменить e-mail</button>
+    <div class="change_email" style="margin-bottom: 20px">
+        <button id="change_email" class="btn btn-success">Сменить e-mail</button>
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',

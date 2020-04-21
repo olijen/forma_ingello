@@ -200,6 +200,7 @@ class SiteController extends Controller
         ///
         $client->setClientId($clientID);
         $client->setClientSecret($clientSecret);
+        $client->setPrompt("consent");
         $client->setRedirectUri($redirectUri);
 
         /// существует array Google_Client:requestedScopes, который помещает в себе области, которые
