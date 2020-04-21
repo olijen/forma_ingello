@@ -11,6 +11,7 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property int $user_id
+ * @property string $description
  *
  * @property User $user
  */
