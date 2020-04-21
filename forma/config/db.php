@@ -1,6 +1,6 @@
 <?php
 
-define('DB_MODE', 'docker');
+define('DB_MODE', 'remote');
 
 if (DB_MODE == 'docker') {
     //DOCKER

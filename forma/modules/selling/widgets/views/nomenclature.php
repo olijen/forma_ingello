@@ -45,7 +45,7 @@ use forma\modules\selling\widgets\TotalSumView;
     ]); ?>
 
     <?= $form->field($unit, 'selling_id')->hiddenInput()->label(false) ?>
-
+    <input type="hidden" name="<?=Yii::$app->request->csrfParam; ?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
     <div class="col-md-3">
         <?= $form->field($unit, 'product_id')->widget(AutoComplete::className(), [
             'url' => Url::to([

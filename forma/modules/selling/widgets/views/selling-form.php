@@ -12,6 +12,7 @@ use yii\helpers\Url;
 use forma\modules\core\widgets\DetachedBlock;
 use kartik\select2\Select2;
 use forma\components\ActiveRecordHelper;
+use forma\modules\selling\widgets\HistoryView;
 
 /**
  * @var Selling $model
@@ -125,39 +126,5 @@ if (!Yii::$app->request->isPjax) {
 <?php Pjax::end() ?>
 
 <?php if (!$model->isNewRecord): ?>
-    <?php DetachedBlock::begin(['example' => 'История']); ?>
-    <div class="row">
-        <div class="col-md-12 form-group">
-        <?= Html::a('Начать разговор', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
-        <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
-    </div>
-    <div class="hidden" id="dialog">
-
-        <?php Pjax::begin(['enablePushState' => false]) ?>
-        <?= $model->dialog ?>
-        <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-        <div class="form-group">
-            <?= Html::textarea('comment', '', ['rows' => 5, 'placeholder' => 'Оставьте комментарий к диалогу']) ?>
-        </div>
-        <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
-        <div class="form-group">
-            <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
-        </div>
-        <?= Html::endForm() ?>
-        <?php Pjax::end() ?>
-    </div>
-    <script>
-        var flag = false;
-
-        document.getElementById('openDialog').onclick = function () {
-            if (flag === false) {
-                document.getElementById('dialog').classList.remove('hidden');
-                flag = true;
-            } else {
-                document.getElementById('dialog').classList.add('hidden');
-                flag = false;
-            }
-        }
-    </script>
-    <?php DetachedBlock::end() ?>
+    <?= HistoryView::widget(['model' => $model, 'talk' => true])?>
 <?php endif; ?>
