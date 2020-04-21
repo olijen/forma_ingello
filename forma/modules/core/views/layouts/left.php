@@ -146,6 +146,8 @@ use forma\modules\product\records\Product;
 
                       ]
                   ],
+                  ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
+                  ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar'],
               ]
           ],
           [

@@ -45,8 +45,6 @@ $fieldOptions5 = [
   <div class="login-logo">
       <h1 href="#" style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-bar-chart-o"></i>  INGELLO</h1>
   </div>
-  <h4 style="color: white;">Сервис для автоматизации и мониторинга</h4>
-  <h6 style="color: white;">Разработано компанией <a style="color: blue;" href="http://ingello.com">Ingello</a></h6>
 
     <?php /*=\forma\components\widgets\ModalSrc::widget([
         'route' => '/core/site/doc?page=login',
@@ -59,54 +57,8 @@ $fieldOptions5 = [
         'toggleButton' => false,
     ]) */?>
 
-  <h2 style="color: white;">Есть аккаунт?</h2>
 
-
-  <div class="login-box-body">
-
-      <?php echo "
-        <a class='btn btn-primary btn-block btn-flat socialAuthorization' href='$googleLink'>
-          <img style='background: white; height: 18px; padding-bottom: 2px; margin-right: 6px' src='images/google.png' alt=''>
-          Войти через <strong>Google (за секунду)</strong>
-        </a>"; ?>
-
-      <h4 align="center">ИЛИ ввести пароль</h4>
-
-      <?php
-
-      $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
-
-    <div style="">
-
-
-        <?= $form
-            ->field($modelLogin, 'email', $fieldOptions1)
-            ->label(false)
-            ->textInput(['placeholder' => $modelLogin->getAttributeLabel('email')]) ?>
-
-        <?= $form
-            ->field($modelLogin, 'password', $fieldOptions2)
-            ->label(false)
-            ->passwordInput(['placeholder' => $modelLogin->getAttributeLabel('password')]) ?>
-        <?= Html::submitButton('<i class="fa fa-eye"></i> Войти по паролю', ['class' => 'btn btn-success btn-block btn-flat', 'id'=>'info', 'name' => 'login-button']) ?>
-      <div class="row">
-
-        <div style="display: none;" class="col-xs-5">
-            <?= $form->field($modelLogin, 'rememberMe')->checkbox() ?>
-        </div>
-        <!-- /.col -->
-
-        <!-- /.col -->
-      </div>
-    </div>
-
-      <?php ActiveForm::end(); ?>
-
-  </div><!-- /.login-box-body -->
-
-
-
-  <h2 style="color: white;">Нет аккаунта?</h2>
+  <h2 style="color: white;">Настроить бесплатный аккаунт реферала?</h2>
 
 
     <div class="register-box-body">
@@ -128,7 +80,7 @@ $fieldOptions5 = [
         <?= $form
             ->field($model, 'username', $fieldOptions5)
             ->label(false)
-            ->textInput(['placeholder' => 'Как Вас зовут?']) ?>
+            ->textInput(['placeholder' => 'Как зовут реферала?']) ?>
         <?= $form
             ->field($model, 'phone', $fieldOptions4)
             ->label(false)
@@ -148,7 +100,7 @@ $fieldOptions5 = [
 
         <?php endif; ?>
 
-       <?= Html::submitButton('Создать аккаунт', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
+       <?= Html::submitButton('Создать реферала', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
 
         <?php ActiveForm::end(); ?>
 

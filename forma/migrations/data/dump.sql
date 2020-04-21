@@ -1647,3 +1647,11 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-03-20 16:45:50
+
+
+
+
+
+-- ----------
+
+ALTER TABLE customer MODIFY country_id int(11);

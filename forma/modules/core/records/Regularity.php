@@ -45,9 +45,9 @@ class Regularity extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'Регламент'),
             'user_id' => Yii::t('app', 'User ID'),
-            'order' => Yii::t('app', 'Order'),
+            'order' => Yii::t('app', 'Порядковый номер'),
         ];
     }
 
