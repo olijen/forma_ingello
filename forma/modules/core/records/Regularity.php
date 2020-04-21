@@ -31,7 +31,7 @@ class Regularity extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'user_id'], 'required'],
+            [['name', 'user_id', 'order'], 'required'],
             [['user_id', 'order'], 'integer'],
             [['name'], 'string', 'max' => 55],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
