@@ -75,4 +75,8 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 
 </div>
 
-
+<style>
+    tr:hover {
+       background-color: #F08080 !important;
+    }
+</style>
