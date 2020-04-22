@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Create Product Pack Unit';
 $this->params['breadcrumbs'][] = ['label' => 'Product Pack Units', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="product-pack-unit-create">
 

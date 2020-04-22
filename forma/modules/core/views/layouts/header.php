@@ -6,7 +6,57 @@ use yii\widgets\Breadcrumbs;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
+<?php
 
+$bgColor = '#00b65d';
+$bgColorPrimary = '#00b65d';
+
+if ('selling' == Yii::$app->controller->module->id) {
+    $bgColor = '#58628e';
+    $bgColorPrimary = '#100873';
+} elseif ('product' == Yii::$app->controller->module->id) {
+    $bgColor = '#f49258';
+} elseif ('hr' == Yii::$app->controller->module->id) {
+    $bgColor = '#F08080';
+    $bgColorPrimary = '#66C066';
+}elseif ('project' == Yii::$app->controller->module->id){
+    $bgColor = '#58628e';
+    $bgColorPrimary = '#D0B676';
+}elseif ('worker' == Yii::$app->controller->module->id){
+    $bgColor = '#F08080';
+}elseif ('vacancy' == Yii::$app->controller->module->id){
+    $bgColor = '#F08080';
+}elseif ('country' == Yii::$app->controller->module->id){
+    $bgColor = '#f49258';
+}elseif ('warehouse' == Yii::$app->controller->module->id){
+    $bgColor = '#f49258';
+}elseif ('purchase' == Yii::$app->controller->module->id){
+    $bgColor = '#f49258';
+}elseif ('transit' == Yii::$app->controller->module->id){
+    $bgColor = '#f49258';
+}elseif ('customer' == Yii::$app->controller->module->id){
+    $bgColor = '';
+}
+?>
+    <style>
+        .pagination > .active > a, .pagination > .active > a:hover,
+        .skin-green-light .main-header .navbar,
+        .btn-group > .btn:first-child,
+        .list-group-item.active,
+        .list-group-item.hover,
+        .header-list,
+        .btn-success,
+        .btn-success:hover,
+        .logo-mini,
+        .bg-blue,
+        .logo,
+        .bg-green{
+            background-color: <?php echo $bgColor ?>; !important;
+        }
+        .btn-primary {
+            background-color: <?php echo $bgColorPrimary ?> !important;
+        }
+    </style>
 <header class="main-header">
 
     <?= Html::a('

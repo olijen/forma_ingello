@@ -16,7 +16,7 @@ if ($model->date_complete) {
 $this->title .= ' (' . Yii::$app->getUser()->getIdentity()->username . ')';
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
 $this->params['breadcrumbs'][] = ['label' => 'Найм', 'url' => Url::to(['/hr/main'])];
-$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 

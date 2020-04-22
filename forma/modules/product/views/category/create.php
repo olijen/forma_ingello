@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Создать категорию';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="category-create">
 

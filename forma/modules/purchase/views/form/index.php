@@ -15,7 +15,7 @@ use forma\modules\purchase\widgets\AddingFormView;
 
 $this->title = $model->isNewRecord ? 'Создать поставку' : $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Поставки', 'url' => Url::to(['/purchase/main'])];
-$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 

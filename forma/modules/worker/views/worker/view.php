@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Кадры'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="worker-view">

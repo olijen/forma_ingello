@@ -21,7 +21,7 @@ use kartik\export\ExportMenu;
 
 $this->title = 'Все объекты';
 $this->params['breadcrumbs'][] = ['label' => 'Все хранилища', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="warehouse-view">
 

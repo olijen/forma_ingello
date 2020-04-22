@@ -8,7 +8,7 @@ use \wokster\ltewidgets\BoxWidget;
 
 $this->title = 'Создать Сообщение';
 $this->params['breadcrumbs'][] = ['label' => 'Сообщения', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="message-create">
 
