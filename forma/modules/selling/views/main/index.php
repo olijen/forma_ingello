@@ -79,9 +79,3 @@ $this->title = 'Продажи';
 <?php Pjax::end(); ?>
 
 </div>
-
-<style>
-    tr:hover {
-       background-color: #8dcb96 !important;
-    }
-</style>

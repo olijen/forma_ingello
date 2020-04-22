@@ -7,16 +7,16 @@ use yii\widgets\Breadcrumbs;
 /* @var $content string */
 ?>
 <?php
-
 $bgColor = '#00b65d';
 $bgColorPrimary = '#00b65d';
 
 if ('selling' == Yii::$app->controller->module->id) {
     $bgColor = '#58628e';
     $bgColorPrimary = '#100873';
-} elseif ('product' == Yii::$app->controller->module->id) {
+}elseif ('product' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
-} elseif ('hr' == Yii::$app->controller->module->id) {
+    $bgColorPrimary = '#399F85';
+}elseif ('hr' == Yii::$app->controller->module->id) {
     $bgColor = '#F08080';
     $bgColorPrimary = '#66C066';
 }elseif ('project' == Yii::$app->controller->module->id){
@@ -34,12 +34,12 @@ if ('selling' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
 }elseif ('transit' == Yii::$app->controller->module->id){
     $bgColor = '#f49258';
-}elseif ('customer' == Yii::$app->controller->module->id){
-    $bgColor = '';
 }
 ?>
     <style>
         .pagination > .active > a, .pagination > .active > a:hover,
+        .table-striped > tbody > tr:nth-of-type(even):hover,
+        .table-striped > tbody > tr:nth-of-type(odd):hover,
         .skin-green-light .main-header .navbar,
         .btn-group > .btn:first-child,
         .list-group-item.active,
@@ -48,15 +48,27 @@ if ('selling' == Yii::$app->controller->module->id) {
         .btn-success,
         .btn-success:hover,
         .logo-mini,
-        .bg-blue,
         .logo,
         .bg-green{
-            background-color: <?php echo $bgColor ?>; !important;
+            background-color: <?php echo $bgColor ?> !important;
         }
         .btn-primary {
             background-color: <?php echo $bgColorPrimary ?> !important;
         }
+        .bg-blue{
+            background-color: #58628e !important;
+        }
+        .bg-yellow{
+            background-color: #f49258 !important;
+        }
+        .bg-red{
+            background-color: #F08080 !important; ;
+        }
+        tr:hover{
+            background-color: <?php echo $bgColor ?>; !important;
+        }
     </style>
+
 <header class="main-header">
 
     <?= Html::a('
@@ -350,7 +362,7 @@ JS;
             <?= Breadcrumbs::widget([
                 'tag' => 'ul',
                 'homeLink' =>  isset($this->params['homeLink']) ? $this->params['homeLink'] : [ 'label' => 'Панель управления', 'url' => Yii::$app->homeUrl, 'title' => 'Первая страница'],
-                'options' => [ 'class' => 'breadcrumb', 'style'=>'margin: 5px 0 0 0; display:inline-block; background: #aadea6; width: 101%; border-radius: 0;'],
+                'options' => [ 'class' => 'breadcrumb', 'style'=>'margin: 5px 0 0 0; display:inline-block; background: #D0D0D0; width: 101%; border-radius: 0;'],
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
         </div>

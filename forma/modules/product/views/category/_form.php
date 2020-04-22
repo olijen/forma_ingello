@@ -33,7 +33,7 @@ use yii\helpers\Url;
                 'selectId' => 'product-category_id',
             ]) ?>
         <?php else: ?>
-        <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-success']) ?>
         <?php endif; ?>
     </div>
 
