@@ -53,8 +53,10 @@ function replaceUrl($text)
 ?>
 
 <?php
+//todo m
 function replaceUrlIngello($text)
 {
+
     if (strripos($text, "{{/")) {
         $text = str_ireplace("{{", "<a  style=\"color: blue;\"  class=\"btn btn-outline-secondary\" type=\"button\" data-toggle=\"modal\" data-target=\"#modal\" onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); $('<iframe src=", $text);
         $text = str_ireplace("||", " style=width:100%;height:500px frameborder=0 id=myFrame></iframe>').appendTo('#modal .modal-dialog .modal-content .modal-body');\"> <i class=\"fa fa-eye\"></i>", $text);
@@ -72,6 +74,7 @@ function replaceUrlIngello($text)
 ?>
 
 <?php
+//todo m
 function replaceUrl1($text)
 {
     $text = str_ireplace("{{", "<a style=\"color: blue;\" onclick=\"window.open(' ", $text);
@@ -321,14 +324,26 @@ $menu = [
     ['label' => 'Интернет магазин', 'url' => 'http://ecocom.ingello.com', 'icon' => 'money'],
 ];
 
-foreach ($menu as $itemMain): ?>
+?>
 
-    <h2>
-        <?= !empty($itemMain['icon']) ? '<i class="fa fa-' . $itemMain['icon'] . '"></i>' : '' ?>
-        <?= !empty($itemMain['url']) ? '<a href="' . Url::to($itemMain['url']) . '">' : '' ?>
-        <?= $itemMain['label'] ?>
-        <?= !empty($itemMain['url']) ? '</a>' : '' ?>
-    </h2>
+<h1>Эти функции можно использовать в регламенте для прямого запуска компонентов системы</h1>
+
+<?php
+
+foreach ($menu as $itemMain): ?>
+<div style="padding: 5px; border:1px solid #ccc;">
+  <h2>
+      <?= !empty($itemMain['icon']) ? '<i class="fa fa-' . $itemMain['icon'] . '"></i>' : '' ?>
+      <?= !empty($itemMain['url']) ? '<a href="' . Url::to($itemMain['url']) . '">' : '' ?>
+      <?= $itemMain['label'] ?>
+      <?= !empty($itemMain['url']) ? '</a>' : '' ?>
+
+  </h2>
+  Вид:<span class=""><?php show(Url::to($itemMain['url']) , $itemMain['label']) ?></span>
+  Код: <input style="" class="" value="{{<?= Url::to($itemMain['url']) ?>||<?= $itemMain['label'] ?>}}"/>
+
+</div>
+
 
     <?php if (!empty($itemMain['items'])) : $i = 0;
         foreach ($itemMain['items'] as $item): ?>
@@ -337,16 +352,18 @@ foreach ($menu as $itemMain): ?>
                 <div class="row">
             <?php endif; ?>
 
-            <div class="col-md-4">
-                <a href="<?= Url::to($item['url']) ?>">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text"><?= $item['label'] ?></span>
-                        </div>
+                    <div class="col-md-4">
+                          <div class="info-box">
+                              <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
+                              <div class="info-box-content">
+                                  <strong><?=$item['label']?></strong>
+                                <br>
+                                  Вид:<span class=""><?php show(Url::to($item['url']) , $item['label']) ?></span>
+                                <br>
+                                  Код: <input style="width:85%" class="" value="{{<?= Url::to($item['url']) ?>||<?= $item['label'] ?>}}"/>
+                              </div>
+                          </div>
                     </div>
-                </a>
-            </div>
 
             <?php $i++;
             if ($i % 3 == 0 || $i == count($itemMain['items'])): ?>
