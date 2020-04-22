@@ -9,7 +9,7 @@ use \wokster\ltewidgets\BoxWidget;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Регламенты'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="regularity-view">
     <?php BoxWidget::begin([

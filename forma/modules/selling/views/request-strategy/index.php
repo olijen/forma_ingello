@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Вопрос к стратегии');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="request-strategy-index">
 

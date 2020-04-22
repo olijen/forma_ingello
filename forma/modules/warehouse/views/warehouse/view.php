@@ -21,7 +21,7 @@ use yii\widgets\ListView;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="warehouse-view">
 

@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Создать упаковку';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 $this->params['breadcrumbs'][] = ['label' => 'Упаковки', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="pack-unit-create">
 

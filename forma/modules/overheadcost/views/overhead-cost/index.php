@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Overhead Costs';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="overhead-cost-index">
 

@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'События';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="event-index">
 

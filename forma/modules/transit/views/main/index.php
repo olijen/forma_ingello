@@ -9,7 +9,7 @@ use forma\modules\transit\records\transit\Transit;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Перемещение';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="transit-index">
     

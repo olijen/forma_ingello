@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Create Overhead Cost';
 $this->params['breadcrumbs'][] = ['label' => 'Overhead Costs', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="overhead-cost-create">
 
