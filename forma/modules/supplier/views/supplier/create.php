@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Создать поставщика';
 $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default/people'];
 $this->params['breadcrumbs'][] = ['label' => 'Поставщики', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="supplier-create">
 

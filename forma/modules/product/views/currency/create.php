@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Создать валюту';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 $this->params['breadcrumbs'][] = ['label' => 'Валюты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="currency-create">
 

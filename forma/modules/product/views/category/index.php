@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Категории';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="category-index">
     

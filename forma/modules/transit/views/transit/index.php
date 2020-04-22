@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Transits';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="transit-index">
     

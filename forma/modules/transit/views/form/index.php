@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 $this->title = $model->isNewRecord ? 'Создать перемещение' : $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Перемещения', 'url' => Url::to(['/transit/main'])];
-$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 

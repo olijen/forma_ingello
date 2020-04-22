@@ -22,7 +22,7 @@ if ($model->date_complete) {
 $this->title .= ' (' . Yii::$app->getUser()->getIdentity()->username . ')';
 
 $this->params['breadcrumbs'][] = ['label' => 'Продажи', 'url' => Url::to(['/selling/main'])];
-$this->params['breadcrumbs'][] = $this->title;
+
 $description= null;
 
 ?>

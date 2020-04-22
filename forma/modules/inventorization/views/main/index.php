@@ -14,7 +14,7 @@ use forma\modules\inventorization\records\Inventorization;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Инвентаризация';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="inventorization-index">
 

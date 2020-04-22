@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Сообщения';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="message-index">
 

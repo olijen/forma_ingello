@@ -11,7 +11,7 @@ use yii\widgets\Pjax;
  */
 
 $this->title = 'Поставки';
-$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 

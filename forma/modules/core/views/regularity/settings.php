@@ -11,7 +11,7 @@ use yii\grid\GridView;
 
 
 $this->title = Yii::t('app', 'Настройки');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="selling-index">
