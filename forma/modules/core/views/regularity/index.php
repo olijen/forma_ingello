@@ -153,6 +153,7 @@ function replaceUrl1($text)
                                                             <!-- /.box-header -->
                                                             <div class="box-body">
                                                                 <div class="box-group" id="accordion1">
+                                                                    <?php if ($data):?>
                                                                     <?php foreach ($data as $value): ?>
                                                                         <?php if ($value['parent_id'] == $item['id']): ?>
                                                                             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -184,6 +185,7 @@ function replaceUrl1($text)
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
+                                                                    <?php endif ?>
                                                                 </div>
                                                             </div>
                                                         </div>
