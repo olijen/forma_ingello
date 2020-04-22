@@ -20,6 +20,8 @@ class RegularitySearch extends Regularity
         return [
             [['id', 'user_id', 'order'], 'integer'],
             [['name'], 'safe'],
+            [['name', 'icon'], 'string', 'max' => 55],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 

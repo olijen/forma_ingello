@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Редактировать пункт: {name}', [
     'name' => $model->title,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вопрос'), 'url' => ['index']];
+
 $this->params['breadcrumbs'][] = Yii::t('app', 'Настроить');
 ?>
 

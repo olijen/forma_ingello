@@ -29,8 +29,6 @@ $this->title = 'Продажи';
 
     <?php
 
-    var_dump($dataProvider);
-
     $columns = [
         [
             'class' => 'yii\grid\ActionColumn',

@@ -86,21 +86,23 @@ function replaceUrl1($text)
 
 
 <section class="content">
+    <?php if($regularitys):?>
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <?php foreach ($regularitys as $regularity): ?>
                 <li class="<?= $regularity['order'] == 1 ? 'active' : '' ?> ">
-                    <a href="#tab_<?= $regularity['id'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
+                    <a href="#tab_<?= $regularity['order'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
                 </li>
             <?php endforeach; ?>
             <a href="/core/regularity/settings"><i class="fa fa-cog"></i></a>
         </ul>
 
         <div class="tab-content">
-            <?php foreach ($regularitys as $regularity): ?>
-                <div class="tab-pane <?= $regularity['id'] == 1 ? 'active' : '' ?>"
-                     id="tab_<?= $regularity['id'] ?>">
+
+            <?php foreach ($regularitys as $regularity):?>
+                <div class="tab-pane <?= $regularity['order'] == 1 ? 'active' : '' ?>"
+                     id="tab_<?= $regularity['order'] ?>">
 
                     <?php foreach ($regularity->items as $item) {
                         if ($item['parent_id'] != null) {
@@ -115,9 +117,7 @@ function replaceUrl1($text)
                             <div class="box box-solid">
 
                                 <div class="box-header with-border">
-                                    <h4 class="box-title"><i class="fa fa-phone"></i> Этот раздел поможет интегрировать
-                                        систему FORMA с
-                                        любой компанией</h4>
+                                    <h4 class="box-title"><i class="fa fa-<?= $regularity['icon']?>"></i> <?= $regularity['title']?></h4>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
@@ -153,6 +153,7 @@ function replaceUrl1($text)
                                                             <!-- /.box-header -->
                                                             <div class="box-body">
                                                                 <div class="box-group" id="accordion1">
+                                                                    <?php if ($data):?>
                                                                     <?php foreach ($data as $value): ?>
                                                                         <?php if ($value['parent_id'] == $item['id']): ?>
                                                                             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -184,6 +185,7 @@ function replaceUrl1($text)
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
+                                                                    <?php endif ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -212,7 +214,12 @@ function replaceUrl1($text)
             <!-- /.tab-pane -->
         </div>
     </div>
+<?php elseif(!$regularitys): ?>
 
+    <h4>У вас нет регламентов, но вы можете их добавить пройдя по ссылке <br><br>
+        <a href="/core/regularity/settings">Добавить регламент</a> </h4>
+
+<?php endif;?>
 </section>
 
 
@@ -315,14 +322,26 @@ $menu = [
     ['label' => 'Интернет магазин', 'url' => 'http://ecocom.ingello.com', 'icon' => 'money'],
 ];
 
-foreach ($menu as $itemMain): ?>
+?>
 
-    <h2>
-        <?= !empty($itemMain['icon']) ? '<i class="fa fa-' . $itemMain['icon'] . '"></i>' : '' ?>
-        <?= !empty($itemMain['url']) ? '<a href="' . Url::to($itemMain['url']) . '">' : '' ?>
-        <?= $itemMain['label'] ?>
-        <?= !empty($itemMain['url']) ? '</a>' : '' ?>
-    </h2>
+<h1>Эти функции можно использовать в регламенте для прямого запуска компонентов системы</h1>
+
+<?php
+
+foreach ($menu as $itemMain): ?>
+<div style="padding: 5px; border:1px solid #ccc;">
+  <h2>
+      <?= !empty($itemMain['icon']) ? '<i class="fa fa-' . $itemMain['icon'] . '"></i>' : '' ?>
+      <?= !empty($itemMain['url']) ? '<a href="' . Url::to($itemMain['url']) . '">' : '' ?>
+      <?= $itemMain['label'] ?>
+      <?= !empty($itemMain['url']) ? '</a>' : '' ?>
+
+  </h2>
+  Вид:<span class=""><?php show(Url::to($itemMain['url']) , $itemMain['label']) ?></span>
+  Код: <input style="" class="" value="{{<?= Url::to($itemMain['url']) ?>||<?= $itemMain['label'] ?>}}"/>
+
+</div>
+
 
     <?php if (!empty($itemMain['items'])) : $i = 0;
         foreach ($itemMain['items'] as $item): ?>
@@ -331,16 +350,18 @@ foreach ($menu as $itemMain): ?>
                 <div class="row">
             <?php endif; ?>
 
-            <div class="col-md-4">
-                <a href="<?= Url::to($item['url']) ?>">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text"><?= $item['label'] ?></span>
-                        </div>
+                    <div class="col-md-4">
+                          <div class="info-box">
+                              <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
+                              <div class="info-box-content">
+                                  <strong><?=$item['label']?></strong>
+                                <br>
+                                  Вид:<span class=""><?php show(Url::to($item['url']) , $item['label']) ?></span>
+                                <br>
+                                  Код: <input style="width:85%" class="" value="{{<?= Url::to($item['url']) ?>||<?= $item['label'] ?>}}"/>
+                              </div>
+                          </div>
                     </div>
-                </a>
-            </div>
 
             <?php $i++;
             if ($i % 3 == 0 || $i == count($itemMain['items'])): ?>

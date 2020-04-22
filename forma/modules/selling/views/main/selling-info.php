@@ -2,6 +2,9 @@
 use yii\widgets\Pjax;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use forma\modules\selling\widgets\NomenclatureView;
+use forma\modules\selling\widgets\HistoryView;
+;
 ?>
 
 
@@ -10,6 +13,9 @@ use yii\helpers\Html;
         margin: 0 auto;
         width: 80vw;
     }
+    .user_info_point{
+        font-weight: bold;
+    }
 </style>
 
 <h1 class="text-center">Информация по продаже</h1>
@@ -17,21 +23,24 @@ use yii\helpers\Html;
 <h2 class="text-center"><?=$selling->name?></h2>
 <div class="selling_info">
     <?php Pjax::begin() ?>
-    <p>Состояние заказа: <?=$state->name?></p>
-    <div class="customer_info">
-        <h3>Ваши данные</h3>
-        <p>Ваши лд мы особенно точно не передадим левым третьим лицам, чьи руки перенесут их в Даркнет</p>
-        <p>Ваше имя: <?=$customer->name?></p>
-        <p>Ваше государство: <?=$customer->country->name?></p>
-        <p>Ваш адрес(за вами уже выехали): <?=$customer->address?></p>
-        <p>E-mail личный: <?=$customer->chief_email?></p>
-        <p>E-mail компании: <?=$customer->company_email?></p>
-        <p>Телефон личный: <?=$customer->chief_phone?></p>
-        <p>Телефон компании: <?=$customer->company_phone?></p>
-        <p>Сайт компании: <?=$customer->site_company?></p>
+    <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=$state->description?>">
+            <?=$state->name?></button></p>
+    <div class="bs-example">
+        <div class="detached-block-example">Ваши данные</div>
+        <div class="customer_info">
+            <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?></p>
+            <p><span class="user_info_point">Ваше государство:</span> <?=$customer->country->name?></p>
+            <p><span class="user_info_point">Ваш адрес:</span> <?=$customer->address?></p>
+            <p><span class="user_info_point">E-mail личный:</span> <?=$customer->chief_email?></p>
+            <p><span class="user_info_point">E-mail компании:</span> <?=$customer->company_email?></p>
+            <p><span class="user_info_point">Телефон личный:</span> <?=$customer->chief_phone?></p>
+            <p><span class="user_info_point">Телефон компании:</span> <?=$customer->company_phone?></p>
+            <p><span class="user_info_point">Сайт компании:</span> <?=$customer->site_company?></p>
+        </div>
     </div>
-    <div class="change_email">
-        <button id="change_email">Сменить e-mail</button>
+    <div class="change_email bs-example" style="margin-bottom: 20px">
+        <div class="detached-block-example">Сменить e-mail</div>
+        <button id="change_email" class="btn btn-success">Сменить e-mail</button>
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
@@ -54,26 +63,9 @@ use yii\helpers\Html;
     </div>
     <?php Pjax::end() ?>
 
-    <div class="row">
-        <div class="col-md-12 form-group">
-            <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
-        </div>
-        <div class="hidden" id="dialog">
+    <?= HistoryView::widget(['model' => $selling, 'talk' => false])?>
 
-            <?php Pjax::begin(['enablePushState' => false]) ?>
-            <?= $selling->dialog ?>
-            <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-            <div class="form-group">
-                <?= Html::textarea('comment', '', ['rows' => 5, 'placeholder' => 'Оставьте комментарий к диалогу']) ?>
-            </div>
-            <?= Html::input('hidden', 'id', $selling->id, ['rows' => 5]) ?>
-            <div class="form-group">
-                <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
-            </div>
-            <?= Html::endForm() ?>
-            <?php Pjax::end() ?>
-        </div>
-    </div>
+    <?= NomenclatureView::widget(['sellingId' => $selling->id]) ?>
 </div>
 
 
@@ -108,4 +100,7 @@ use yii\helpers\Html;
             count--;
         }
     }
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>

@@ -18,6 +18,7 @@ class EditCellAction extends Action
     public function init()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
+      //  die("skljdaksjfsdkfjsldkflsdkfj");
     }
 
     public function run($id)
@@ -29,11 +30,13 @@ class EditCellAction extends Action
         /** @var ActiveRecord $modelClass */
         $modelClass = $this->modelClass;
         $model = $modelClass::findOne($id);
+        //$this->_response['modelProduct'] = $model;
 
         if (!$model->load(Yii::$app->request->post()) || !$model->save()) {
             $this->_response['success'] = false;
             $this->_response['message'] = $this->getError($model);
         }
+
         return $this->_response;
     }
 
