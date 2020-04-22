@@ -86,21 +86,23 @@ function replaceUrl1($text)
 
 
 <section class="content">
+    <?php if($regularitys):?>
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <?php foreach ($regularitys as $regularity): ?>
                 <li class="<?= $regularity['order'] == 1 ? 'active' : '' ?> ">
-                    <a href="#tab_<?= $regularity['id'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
+                    <a href="#tab_<?= $regularity['order'] ?>" data-toggle="tab"><?= $regularity['name'] ?></a>
                 </li>
             <?php endforeach; ?>
             <a href="/core/regularity/settings"><i class="fa fa-cog"></i></a>
         </ul>
 
         <div class="tab-content">
-            <?php foreach ($regularitys as $regularity): ?>
-                <div class="tab-pane <?= $regularity['id'] == 1 ? 'active' : '' ?>"
-                     id="tab_<?= $regularity['id'] ?>">
+
+            <?php foreach ($regularitys as $regularity):?>
+                <div class="tab-pane <?= $regularity['order'] == 1 ? 'active' : '' ?>"
+                     id="tab_<?= $regularity['order'] ?>">
 
                     <?php foreach ($regularity->items as $item) {
                         if ($item['parent_id'] != null) {
@@ -109,15 +111,12 @@ function replaceUrl1($text)
                     }
                     ?>
 
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box box-solid">
 
                                 <div class="box-header with-border">
-                                    <h4 class="box-title"><i class="fa fa-phone"></i> Этот раздел поможет интегрировать
-                                        систему FORMA с
-                                        любой компанией</h4>
+                                    <h4 class="box-title"><i class="fa fa-<?= $regularity['icon']?>"></i> <?= $regularity['title']?></h4>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
@@ -153,6 +152,7 @@ function replaceUrl1($text)
                                                             <!-- /.box-header -->
                                                             <div class="box-body">
                                                                 <div class="box-group" id="accordion1">
+                                                                    <?php if ($data):?>
                                                                     <?php foreach ($data as $value): ?>
                                                                         <?php if ($value['parent_id'] == $item['id']): ?>
                                                                             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -184,6 +184,7 @@ function replaceUrl1($text)
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -212,7 +213,12 @@ function replaceUrl1($text)
             <!-- /.tab-pane -->
         </div>
     </div>
+<?php elseif(!$regularitys): ?>
 
+    <h4>У вас нет регламентов, но вы можете их добавить пройдя по ссылке <br><br>
+        <a href="/core/regularity/settings">Добавить регламент</a> </h4>
+
+<?php endif;?>
 </section>
 
 
