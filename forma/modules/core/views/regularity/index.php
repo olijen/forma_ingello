@@ -53,10 +53,8 @@ function replaceUrl($text)
 ?>
 
 <?php
-//todo m
 function replaceUrlIngello($text)
 {
-
     if (strripos($text, "{{/")) {
         $text = str_ireplace("{{", "<a  style=\"color: blue;\"  class=\"btn btn-outline-secondary\" type=\"button\" data-toggle=\"modal\" data-target=\"#modal\" onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); $('<iframe src=", $text);
         $text = str_ireplace("||", " style=width:100%;height:500px frameborder=0 id=myFrame></iframe>').appendTo('#modal .modal-dialog .modal-content .modal-body');\"> <i class=\"fa fa-eye\"></i>", $text);
@@ -74,7 +72,6 @@ function replaceUrlIngello($text)
 ?>
 
 <?php
-//todo m
 function replaceUrl1($text)
 {
     $text = str_ireplace("{{", "<a style=\"color: blue;\" onclick=\"window.open(' ", $text);
@@ -113,6 +110,7 @@ function replaceUrl1($text)
                         }
                     }
                     ?>
+
 
                     <div class="row">
                         <div class="col-md-12">
@@ -155,7 +153,6 @@ function replaceUrl1($text)
                                                             <!-- /.box-header -->
                                                             <div class="box-body">
                                                                 <div class="box-group" id="accordion1">
-                                                                    <?php if ($data):?>
                                                                     <?php foreach ($data as $value): ?>
                                                                         <?php if ($value['parent_id'] == $item['id']): ?>
                                                                             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -187,7 +184,6 @@ function replaceUrl1($text)
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
-                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
