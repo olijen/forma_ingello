@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Кадры');
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="worker-index">
 

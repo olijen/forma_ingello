@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 $this->params['breadcrumbs'][] = ['label' => 'Валюты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="currency-view">
 

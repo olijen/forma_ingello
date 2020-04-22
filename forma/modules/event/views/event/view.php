@@ -9,7 +9,7 @@ use \wokster\ltewidgets\BoxWidget;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'События', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="event-view">
     <?php BoxWidget::begin([

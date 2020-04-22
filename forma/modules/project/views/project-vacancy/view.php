@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->project_id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вакансии проектов'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="project-vacancy-view">

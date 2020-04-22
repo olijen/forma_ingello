@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вопросы'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="request-view">
 

@@ -15,7 +15,7 @@ use forma\widgets\DateRangeFilter;
 
 $this->title = 'Найм';
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="selling-index">
 

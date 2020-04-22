@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Patients'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="patient-view">
 

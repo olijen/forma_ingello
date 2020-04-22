@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Create Request Strategy');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Request Strategies'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="request-strategy-create">
 

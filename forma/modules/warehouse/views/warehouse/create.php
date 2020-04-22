@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Создать хранилище';
 $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="warehouse-create">
 

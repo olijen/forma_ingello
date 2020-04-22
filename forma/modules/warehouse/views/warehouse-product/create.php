@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = [
     'url' => Url::to(['/warehouse/warehouse/view', 'id' => $warehouse->id]),
 ];
 
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="warehouse-product-create">
 

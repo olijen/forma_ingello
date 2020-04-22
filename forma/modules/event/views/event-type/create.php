@@ -8,7 +8,7 @@ use \wokster\ltewidgets\BoxWidget;
 
 $this->title = 'Создать ТипСобытия';
 $this->params['breadcrumbs'][] = ['label' => 'ТипыСобытий', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="event-type-create">
 

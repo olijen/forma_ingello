@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Warehouses', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="warehouse-view">
 

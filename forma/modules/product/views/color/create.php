@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = 'Create Color';
 $this->params['breadcrumbs'][] = ['label' => 'Colors', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="color-create">
 

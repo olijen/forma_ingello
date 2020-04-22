@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 $this->params['breadcrumbs'][] = ['label' => 'Страны', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="country-view">
 

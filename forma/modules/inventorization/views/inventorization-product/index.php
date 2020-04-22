@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Inventorization Products';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="inventorization-product-index">
 

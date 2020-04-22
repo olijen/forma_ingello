@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core/default/people'];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="user-index">
     
