@@ -9,16 +9,19 @@ use yii\widgets\Breadcrumbs;
 <?php
 $bgColor = '#00b65d';
 $bgColorPrimary = '#00b65d';
+$color = '';
 
 if ('selling' == Yii::$app->controller->module->id) {
     $bgColor = '#58628e';
     $bgColorPrimary = '#100873';
+    $color = 'white';
 }elseif ('product' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
     $bgColorPrimary = '#399F85';
 }elseif ('hr' == Yii::$app->controller->module->id) {
     $bgColor = '#F08080';
     $bgColorPrimary = '#66C066';
+    $color = 'black';
 }elseif ('project' == Yii::$app->controller->module->id){
     $bgColor = '#58628e';
     $bgColorPrimary = '#D0B676';
@@ -37,9 +40,8 @@ if ('selling' == Yii::$app->controller->module->id) {
 }
 ?>
     <style>
+        .skin-green-light .main-header li.user-header,
         .pagination > .active > a, .pagination > .active > a:hover,
-        .table-striped > tbody > tr:nth-of-type(even):hover,
-        .table-striped > tbody > tr:nth-of-type(odd):hover,
         .skin-green-light .main-header .navbar,
         .btn-group > .btn:first-child,
         .list-group-item.active,
@@ -62,10 +64,15 @@ if ('selling' == Yii::$app->controller->module->id) {
             background-color: #f49258 !important;
         }
         .bg-red{
-            background-color: #F08080 !important; ;
+            background-color: #F08080 !important;
         }
-        tr:hover{
-            background-color: <?php echo $bgColor ?>; !important;
+        .box-success {
+            border-color: <?php echo $bgColor ?> !important;
+        }
+        .table-striped > tbody > tr:nth-of-type(even):hover,
+        .table-striped > tbody > tr:nth-of-type(odd):hover{
+            background-color: <?php echo $bgColor ?> !important;
+            color: <?php echo $color?> !important;
         }
     </style>
 
