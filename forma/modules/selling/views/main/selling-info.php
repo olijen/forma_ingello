@@ -47,17 +47,12 @@ use forma\modules\selling\widgets\HistoryView;
             'layout' => 'horizontal',
             'options' => ['data' => ['pjax' => true], 'method' => 'get'],
             'fieldConfig' => [
-                'template' => '<div class="col-md-1">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
+                'template' => '<div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
             ],
         ]); ?>
 
         <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
-
-        <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
-            </div>
-        </div>
+        <?= Html::submitButton('OK', ['class' => 'btn btn-primary']) ?>
 
         <?php ActiveForm::end(); ?>
     </div>
@@ -92,10 +87,12 @@ use forma\modules\selling\widgets\HistoryView;
     email_form.style.display = 'none';
     change_email.onclick = function(){
         if(count == 0){
+            change_email.style.marginBottom = '20px';
             email_form.style.display = 'block'
             count++;
         }
         else {
+            change_email.style.marginBottom = '0';
             email_form.style.display = 'none';
             count--;
         }

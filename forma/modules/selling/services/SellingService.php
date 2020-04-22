@@ -6,6 +6,7 @@ use forma\modules\customer\records\Customer;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\selling\SellingSearch;
+use forma\modules\selling\records\state\State;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use forma\modules\warehouse\services\RemainsService;
@@ -37,7 +38,14 @@ class SellingService
     {
         $model = self::get($id);
         $model->name  = "Очередная продажа с очередным номером №";
-        $model->selling_token = Yii::$app->getSecurity()->generateRandomString();
+        $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
+
+        $state_id = State::find()
+            ->where(['user_id'=> Yii::$app->user->id])
+            ->orderBy('order')
+            ->one()
+            ->id;
+        $model->state_id = $state_id;
 
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;

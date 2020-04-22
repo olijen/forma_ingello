@@ -94,7 +94,7 @@ $description= null;
         <div class="row selling_link">
             <div class="col-md-12">
                 <h3>Ссылка на страницу продажи</h3>
-                <a class="btn btn-success" href="http://localhost:3000/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка</a>
+                <a class="btn btn-success" href="http://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка</a>
             </div>
         </div>
 
