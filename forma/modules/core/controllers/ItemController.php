@@ -44,18 +44,6 @@ class ItemController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Item model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
 
     /**
      * Creates a new Item model.
@@ -90,12 +78,11 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-//        de($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             return $this->redirect('/core/regularity');
         }
-//        de();
+
         return $this->render('update', [
             'model' => $model,
         ]);
