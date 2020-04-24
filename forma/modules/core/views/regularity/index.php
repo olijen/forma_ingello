@@ -139,7 +139,7 @@ foreach ($menu as $itemMain): ?>
             <?= !empty($itemMain['url']) ? '</a>' : '' ?>
 
         </h2>
-        Вид:<span class=""><?php LinkHelper::show(Url::to($itemMain['url']), $itemMain['label']) ?></span>
+        Вид:<span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($itemMain['url'])."||" .$itemMain['label']."}}") ?></span>
         Код: <input style="" class="" value="{{<?= Url::to($itemMain['url']) ?>||<?= $itemMain['label'] ?>}}"/>
 
     </div>
@@ -158,7 +158,7 @@ foreach ($menu as $itemMain): ?>
                     <div class="info-box-content">
                         <strong><?= $item['label'] ?></strong>
                         <br>
-                        Вид:<span class=""><?php LinkHelper::show(Url::to($item['url']), $item['label']) ?></span>
+                        Вид:<span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($item['url'])."||". $item['label']."}}") ?></span>
                         <br>
                         Код: <input style="width:85%" class=""
                                     value="{{<?= Url::to($item['url']) ?>||<?= $item['label'] ?>}}"/>
