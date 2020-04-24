@@ -16,14 +16,14 @@ foreach ($items as $value): ?>
 
                     <a data-toggle="collapse"
                        data-parent="#accordion1"
-                       href="#capse_<?= $value['id'] ?>"
+                       href="#collapse_<?= $value['id'] ?>"
                        class="collapsed"
                        aria-expanded="false">
                         <?= $value['title']; ?>
                     </a>
                 </h4>
             </div>
-            <div id="capse_<?= $value['id'] ?>"
+            <div id="collapse_<?= $value['id'] ?>"
                  class="panel-collapse collapse"
                  aria-expanded="false"
                  style="height: 0px;">

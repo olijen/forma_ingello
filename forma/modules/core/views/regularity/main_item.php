@@ -41,12 +41,14 @@
                                         <!-- /.box-header -->
                                         <div class="box-body">
                                             <div class="box-group" id="accordion1">
+
                                                 <?php if ($items): ?>
                                                     <?= $this->render('nested_item', [
                                                         'item' => $item,
                                                         'items' => $items,
                                                     ]); ?>
                                                 <?php endif ?>
+
                                             </div>
                                         </div>
                                     </div>

@@ -39,38 +39,6 @@ class LinkHelper
     }
 
 
-    public static function show($url, $text = "Открыть", $with = 600, $height = 600, $left = 600)
-    {
-        if ($url{0} == '/') {
-            if (false === strripos($url, '?')) {
-                $url .= '?';
-            } else {
-                $url .= '&';
-            }
-            $url .= 'without-header';
-        }
-        if ($url{0} == '/') {
-            echo \forma\components\widgets\ModalSrc::widget([
-                'route' => $url,
-                'name' => $text,
-                'icon' => 'eye',
-                'color' => 'blue',
-                'iframe' => true,
-                'options' => [
-                    'class' => 'btn btn-primary btn-xs',
-                    'style' => ['border' => '1px solid green'],
-                    'id' => 'id' . time(),
-                ]
-            ]);
-            return;
-        }
-        ?>
-        <a
-                onclick="window.open('<?= $url ?>', 'Window', 'width=600,height=600,left=600')"
-                class="btn btn-primary btn-xs ">
-            <?= $text ?>
-        </a>
-        <?php
-    }
+
 
 }
