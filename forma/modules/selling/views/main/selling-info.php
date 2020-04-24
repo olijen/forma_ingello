@@ -4,7 +4,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use forma\modules\selling\widgets\NomenclatureView;
 use forma\modules\selling\widgets\HistoryView;
-;
+
 ?>
 
 
@@ -18,9 +18,10 @@ use forma\modules\selling\widgets\HistoryView;
     }
 </style>
 
+
 <h1 class="text-center">Информация по продаже</h1>
 <hr>
-<h2 class="text-center"><?=$selling->name?></h2>
+<h2 class="text-center">Продажа №<?=$selling->id?> <?=$selling->name?></h2>
 <div class="selling_info">
     <?php Pjax::begin() ?>
     <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=$state->description?>">
@@ -28,7 +29,7 @@ use forma\modules\selling\widgets\HistoryView;
     <div class="bs-example">
         <div class="detached-block-example">Ваши данные</div>
         <div class="customer_info">
-            <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?></p>
+            <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?> | <?=$selling->warehouse->name?></p>
             <p><span class="user_info_point">Ваше государство:</span> <?=$customer->country->name?></p>
             <p><span class="user_info_point">Ваш адрес:</span> <?=$customer->address?></p>
             <p><span class="user_info_point">E-mail личный:</span> <?=$customer->chief_email?></p>
@@ -53,6 +54,7 @@ use forma\modules\selling\widgets\HistoryView;
 
         <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
         <?= Html::submitButton('OK', ['class' => 'btn btn-primary']) ?>
+        <a href="<?= $googleButton ?>">Сменить с помощью гугл</a>
 
         <?php ActiveForm::end(); ?>
     </div>

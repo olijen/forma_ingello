@@ -78,10 +78,11 @@ class TalkController extends Controller
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
         if(!Yii::$app->user->isGuest)
-            $selling->dialog .= '<div style="background: orangered;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>';
-        else
-            $selling->dialog .= '<div style="background: #43aa54;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>';
-
+            $selling->dialog .= '<div class="alert alert-primary" role="alert"><span class="from">Менеджер:</span> <p>'.Yii::$app->request->post('comment') . '</p></div>';
+        else if(isset($_POST['selling_token'])){
+            $_GET['selling_token'] = $_POST['selling_token'];
+            $selling->dialog .= '<div class="alert alert-primary" role="alert"><span class="from">Клиент:</span> <p>' . Yii::$app->request->post('comment') . '</p></div>';
+        }
         $selling->save();
 
         return $selling->dialog;

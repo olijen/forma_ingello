@@ -47,10 +47,12 @@ use forma\modules\selling\widgets\TotalSumView;
     <?= $form->field($unit, 'selling_id')->hiddenInput()->label(false) ?>
     <input type="hidden" name="<?=Yii::$app->request->csrfParam; ?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
     <div class="col-md-3">
+        <?php // todo: более правильный способ передачи данных вместо дозаписи гет запроса?>
         <?= $form->field($unit, 'product_id')->widget(AutoComplete::className(), [
             'url' => Url::to([
                 '/warehouse/warehouse-product/search-for-selling',
                 'sellingId' => $unit->selling_id,
+                'selling_token' => isset($_GET['selling_token']) ? $_GET['selling_token'] : null
             ]),
         ]) ?>
     </div>
@@ -77,7 +79,6 @@ use forma\modules\selling\widgets\TotalSumView;
 <?php ActiveForm::end(); ?>
 </div>
 <?php endif; ?>
-
 <div class="row">
     <div class="col-md-12">
     <?php

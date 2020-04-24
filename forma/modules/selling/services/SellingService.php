@@ -37,7 +37,6 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
-        $model->name  = "Очередная продажа с очередным номером №";
         $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
 
         $state_id = State::find()

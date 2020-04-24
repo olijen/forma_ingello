@@ -21,4 +21,6 @@ class HistoryView extends Widget
         $talk = $this->talk === true ? true : null;
         return $this->render('history', compact('model', 'talk'));
     }
+
+
 }

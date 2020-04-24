@@ -14,12 +14,14 @@ use Yii;
 use forma\modules\warehouse\records\WarehouseProduct;
 use forma\modules\warehouse\records\WarehouseProductSearch;
 use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+
 
 /**
  * WarehouseProductController implements the CRUD actions for WarehouseProduct model.
@@ -36,6 +38,17 @@ class WarehouseProductController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['searchForSelling', 'checkAvailable'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['searchForSelling', 'checkAvailable'],
+                        'roles' => ['?', '@'],
+                    ],
                 ],
             ],
         ];
@@ -147,17 +160,25 @@ class WarehouseProductController extends Controller
         }
     }
 
-    public function actionSearchForSelling($sellingId, $q)
+    public function actionSearchForSelling($sellingId, $q, $selling_token = null)
     {
         /** @var Selling $selling */
         $selling = SellingService::get($sellingId);
 
+        /*$selling_token = isset($_COOKIE['selling_token']) ?
+            $selling::find()->where("selling_token = ".$_COOKIE['selling_token'])
+            : null;*/
+
+        Yii::debug('toto '.$selling_token);
+
         /** @var Warehouse $warehouse */
         $warehouse = $selling->warehouse;
 
-        if ($warehouse->belongsToUser()) {
+        //todo: придумать условие на позволение гостю отобразить результаты поиска товара и усл
+        if ($warehouse->belongsToUser() || !is_null($selling_token)) {//существует один из токенов по  таблице selling атрибут selling_token
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
+
                 return ['results' => RemainsService::searchByWarehouse($warehouse->id, $q)];
             }
         }

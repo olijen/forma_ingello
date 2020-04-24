@@ -10,6 +10,7 @@ use Yii;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
 use forma\modules\selling\services\NomenclatureService;
 use forma\modules\selling\widgets\NomenclatureView;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\HttpException;
@@ -17,6 +18,23 @@ use yii\widgets\ActiveForm;
 
 class NomenclatureController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['editCell', 'deletePosition', 'addPosition', 'actionValidate'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['editCell', 'deletePosition', 'addPosition', 'actionValidate'],
+                        'roles' => ['?', '@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function beforeAction($action)
     {
         $this->enableCsrfValidation = false;

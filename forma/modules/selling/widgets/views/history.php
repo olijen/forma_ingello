@@ -11,6 +11,27 @@ use forma\modules\core\widgets\DetachedBlock;
 
 ?>
 
+    <style>
+        .alert {
+            align-items: flex-end;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .alert span {
+            display: block;
+            text-align: left;
+            width: 100%;
+        }
+
+        .alert p {
+            background: #8374f7!important;
+            border-radius: 5px;
+            padding: 5px 10px;
+            width: 90%;
+        }
+    </style>
+
 <?php DetachedBlock::begin(['example' => 'История']); ?>
     <div class="row">
     <div class="col-md-12 form-group">
@@ -19,18 +40,32 @@ use forma\modules\core\widgets\DetachedBlock;
     </div>
     <div class="hidden" id="dialog">
 
-        <?php Pjax::begin(['enablePushState' => false]) ?>
+
+
+        <?php Pjax::begin(['id' => 'dialog_mess'])?>
         <?= $model->dialog ?>
+
         <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
         <div class="form-group">
             <?= Html::textarea('comment', '', ['rows' => 5, 'placeholder' => 'Оставьте комментарий к диалогу']) ?>
         </div>
         <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
+        <?php
+            if(isset($_GET['selling_token'])) echo Html::input('hidden', 'selling_token', $_GET['selling_token']);
+        ?>
         <div class="form-group">
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
         </div>
         <?= Html::endForm() ?>
-        <?php Pjax::end() ?>
+        <?php Pjax::end()?>
+        <?php /*$this->registerJs(<<<JS
+function updateList() {
+    console.log(1);
+  $.pjax.reload({container: '#dialog_mess'});
+}
+setInterval(updateList, 4000);
+JS
+        )*/ ?>
     </div>
     <script>
         var flag = false;
