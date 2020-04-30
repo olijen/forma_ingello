@@ -65,6 +65,12 @@ class Category extends AccessoryActiveRecord
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
     }
 
+
+    public function getFields()
+    {
+        return $this->hasMany(Field::className(), ['category_id' => 'id']);
+    }
+
     /**
      * @inheritdoc
      * @return CategoryQuery the active query used by this AR class.

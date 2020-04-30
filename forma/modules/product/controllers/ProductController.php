@@ -53,6 +53,7 @@ class ProductController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductSearch();
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -62,6 +63,7 @@ class ProductController extends Controller
 
     public function actionCreate()
     {
+
         if (Yii::$app->request->isPost) {
             ProductService::save(null, Yii::$app->request->post());
             return $this->redirect(['index']);
@@ -71,8 +73,16 @@ class ProductController extends Controller
         }
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate($id , $category_id = null)
     {
+
+
+
+        if (Yii::$app->request->isPjax) {
+
+//            Yii::$app->request->isPjax->
+            return $this->renderAjax('update', compact('model'));
+        }
         if (Yii::$app->request->isPost) {
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);

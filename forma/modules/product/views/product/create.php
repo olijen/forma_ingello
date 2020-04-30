@@ -17,3 +17,5 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
     ]) ?>
 
 </div>
+
+`
