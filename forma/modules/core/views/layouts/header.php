@@ -13,7 +13,7 @@ $color = '';
 
 if ('selling' == Yii::$app->controller->module->id) {
     $bgColor = '#58628e';
-    $bgColorPrimary = '#100873';
+    $bgColorPrimary = '#D0B676';
     $color = 'white';
 }elseif ('product' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
