@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния')
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'order')->textInput(['maxlength' => true]) ?>
-
+        
         <?= $form->field($model, 'description')->widget(Widget::className(), [
             'settings' => [
                 'lang' => 'ru',
@@ -40,6 +40,10 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния')
                     ['green', '<span class="label-green">green</span>'],
                     ['blue', '<span class="label-blue">blue</span>'],
                 ],
+                'imageUpload' => \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                'imageManagerJson' => \yii\helpers\Url::to(['/worker/worker/images-get']),
+                'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
+                'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
         ]); ?>
       <div class="form-group">
