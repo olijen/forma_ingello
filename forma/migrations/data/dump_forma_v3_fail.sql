@@ -1019,7 +1019,7 @@ CREATE TABLE `regularity` (
 
 LOCK TABLES `regularity` WRITE;
 /*!40000 ALTER TABLE `regularity` DISABLE KEYS */;
-INSERT INTO `regularity` VALUES (13,'Менеджмент',1,2,'Здесь мы можем создать регламент для работы менеджера','anchor'),(14,'Найм ',1,1,'В этом разделе мы добавили пункты, которые помогают нанимать сотрудников и подрядчиков на проекты','eye');
+INSERT INTO `regularity` VALUES (15,'Менеджмент',1,2,'Здесь мы можем создать регламент для работы менеджера','anchor'),(14,'Найм ',1,1,'В этом разделе мы добавили пункты, которые помогают нанимать сотрудников и подрядчиков на проекты','eye');
 /*!40000 ALTER TABLE `regularity` ENABLE KEYS */;
 UNLOCK TABLES;
 
