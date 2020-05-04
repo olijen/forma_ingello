@@ -60,7 +60,7 @@ class RegularitySearch extends Regularity
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_id' => Yii::$app->user->getId(),
             'order' => $this->order,
         ]);
 

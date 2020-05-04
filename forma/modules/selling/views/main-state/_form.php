@@ -35,6 +35,10 @@ use vova07\imperavi\Widget;
                     ['green', '<span class="label-green">green</span>'],
                     ['blue', '<span class="label-blue">blue</span>'],
                 ],
+                'imageUpload' => \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                'imageManagerJson' => \yii\helpers\Url::to(['/worker/worker/images-get']),
+                'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
+                'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
         ]); ?>
     </div>
