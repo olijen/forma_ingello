@@ -2,6 +2,9 @@
 
 namespace forma\modules\product\controllers;
 
+use forma\modules\product\records\Field;
+use forma\modules\product\records\FieldProductValue;
+use forma\modules\product\records\FieldSearch;
 use forma\modules\purchase\records\purchase\Purchase;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\warehouse\records\Warehouse;
@@ -11,6 +14,7 @@ use forma\modules\product\services\PackUnitService;
 use forma\modules\product\services\ProductService;
 use forma\modules\product\records\Product;
 use forma\modules\product\records\ProductSearch;
+use yii\base\Model;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -41,7 +45,8 @@ class ProductController extends Controller
         ];
     }
 
-    public function beforeAction($action) {
+    public function beforeAction($action)
+    {
         $this->enableCsrfValidation = !in_array($action->id, ['get-sku', 'import-excel']);
         return parent::beforeAction($action);
     }
@@ -73,10 +78,17 @@ class ProductController extends Controller
         }
     }
 
-    public function actionUpdate($id , $category_id = null)
+    public function actionUpdate($id)
     {
 
-
+        $model = ProductService::get($id);
+        $fieldProductValue = new FieldProductValue();
+        $attributes = $fieldProductValue::find()
+            ->join('JOIN', 'field', 'field.id = field_product_value.field_id')
+            ->where(['field.category_id' => 1])
+            ->andwhere(['field_product_value.product_id' => $model->id])
+            ->indexBy('id')
+            ->all();
 
         if (Yii::$app->request->isPjax) {
 
@@ -84,11 +96,25 @@ class ProductController extends Controller
             return $this->renderAjax('update', compact('model'));
         }
         if (Yii::$app->request->isPost) {
-            ProductService::save($id, Yii::$app->request->post());
-            return $this->redirect(['index']);
+
+            if (Model::loadMultiple($attributes, Yii::$app->request->post()) && Model::validateMultiple($attributes)) {
+                foreach ($attributes as $attribute) {
+                    $attribute->save(false);
+                }
+                ProductService::save($id, Yii::$app->request->post());
+                return $this->redirect(['index']);
+            }
+            de('что то не так');
         } else {
             $model = ProductService::get($id);
-            return $this->render('update', compact('model'));
+            $fieldProductValue = new FieldProductValue();
+            $attributes = $fieldProductValue::find()
+                ->join('JOIN', 'field', 'field.id = field_product_value.field_id')
+                ->where(['field.category_id' => 1])
+                ->andwhere(['field_product_value.product_id' => $model->id])
+                ->indexBy('id')
+                ->all();
+            return $this->render('update', compact('model', 'attributes', 'fieldProductValue'));
         }
     }
 
@@ -146,7 +172,7 @@ class ProductController extends Controller
                 ])
                 ->asArray()
                 ->all();
-            
+
             echo json_encode($results);
         }
     }
@@ -155,7 +181,8 @@ class ProductController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             $sku = SkuGenerator::generate(Yii::$app->request->post()['Product']);
-            echo json_encode(['sku' => $sku]); exit;
+            echo json_encode(['sku' => $sku]);
+            exit;
         }
     }
 
@@ -189,7 +216,7 @@ class ProductController extends Controller
 
         foreach ($packsUnitsIds as $packUnitId) {
             if (strpos($packUnitId, '/') !== false) {
-                $packUnit  = new PackUnit;
+                $packUnit = new PackUnit;
                 $packUnit->name = explode('/', $packUnitId)[0];
                 $packUnit->bottles_quantity = explode('/', $packUnitId)[1];
                 $packUnit->save();
@@ -297,7 +324,7 @@ class ProductController extends Controller
         if ($warehouse->belongsToUser()) {
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return ['results' =>ProductService::searchForPurchase($purchase, $q)];
+                return ['results' => ProductService::searchForPurchase($purchase, $q)];
             }
         }
 
@@ -315,7 +342,7 @@ class ProductController extends Controller
         if ($warehouse->belongsToUser()) {
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return ['results' =>ProductService::search($q)];
+                return ['results' => ProductService::search($q)];
             }
         }
 

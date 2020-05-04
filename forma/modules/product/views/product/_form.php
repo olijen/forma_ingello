@@ -63,27 +63,19 @@ use forma\modules\product\records\Color;
                     'theme' => 'krajee-uni',
                 ],
             ]) ?>
-
-            <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
-
+            // ['url' => \yii\helpers\Url::to(['/product/update'])]
             <?php \yii\widgets\Pjax::begin() ?>
-
             <?= $form->field($model, 'category_id')->widget(Select2::className(), [
                 'data' => Category::getList(),
-                'options' => [
-                    'category_id' => $model->category_id,
-                    'placeholder' => 'Выберите категорию ...',
-                    'data-pjax' => true,
-                ],
+//                'route' => Url::to(['/product/category/update']) ,
+                'options' => ['placeholder' => 'Выберите категорию ...'],
                 'addon' => ['prepend' => [
-                    'content' => ModalCreate::widget([
-                        'route' => Url::to(['/product/category/update?id=' . $model->category_id])]),
-                        'asButton' => true,
+                    'content' => ModalCreate::widget(['route' => Url::to(['/product/category/update?id=' . $model->category_id])]),
+                    'asButton' => true,
                 ]],
             ]) ?>
-
             <?php \yii\widgets\Pjax::end() ?>
-
+            <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
 
             <?php DetachedBlock::end() ?>
 
@@ -116,44 +108,60 @@ use forma\modules\product\records\Color;
 
             <?php endif; ?>
 
-            <?= $form->field($model, 'year_chart')->textInput() ?>
 
-            <?= $form->field($model, 'volume')->dropDownList(Product::getVolumesList(), ['prompt' => '']) ?>
+            <!--            --><? //= $form->field($field, 'id')->textInput() ?>
 
-            <?= $form->field($model, 'proof')->textInput() ?>
+            <?php
+            foreach ($attributes as $key => $attribute) {
+//                de($attribute);
+//                de($value->field);
+                echo $form->field($attribute, "[$key]value")->textInput()->label($attribute->field['name']);
 
-            <?= $form->field($model, 'batcher')->dropDownList(Product::getBatchersList(), ['prompt' => '']) ?>
-
-
-            <?= $form->field($model, 'country_id')->widget(kartik\select2\Select2::className(), [
-                'data' => \forma\modules\country\records\Country::getList(),
-                'options' => ['placeholder' => 'Выберите страну ...'],
-                'addon' => ['prepend' => [
-                    'content' => ModalCreate::widget(['route' => Url::to(['/country/country/create'])]),
-                    'asButton' => true,
-                ]],
-            ])
+            }
             ?>
 
-            <?= $form->field($model, 'customs_code')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'color')->widget(ColorInput::className(), [
-                'showDefaultPalette' => false,
-                'options' => [
-                    'placeholder' => 'Выберите цвет ...',
-                    'value' => $model->color ? $model->color->name : null,
-                ],
-                'pluginOptions' => [
-                    'showInput' => true,
-                    'showInitial' => true,
-                    'showPalette' => true,
-                    'showPaletteOnly' => true,
-                    'showSelectionPalette' => true,
-                    'showAlpha' => false,
-                    'preferredFormat' => 'name',
-                    'palette' => Color::getPallet(),
-                ],
-            ]); ?>
+            <!--            --><?php //endforeach;?>
+            <br><br><br><br><br><br><br><br><br>
+            <!--            --><? //= $form->field($model, 'year_chart')->textInput() ?>
+            <!---->
+            <!--            --><? //= $form->field($model, 'volume')->dropDownList(Product::getVolumesList(), ['prompt' => '']) ?>
+            <!---->
+            <!--            --><? //= $form->field($model, 'proof')->textInput() ?>
+            <!---->
+            <!--            --><? //= $form->field($model, 'batcher')->dropDownList(Product::getBatchersList(), ['prompt' => '']) ?>
+            <!---->
+            <!--            --><? //= $form->field($model, 'country_id')->widget(kartik\select2\Select2::className(), [
+            //                'data' => \forma\modules\country\records\Country::getList(),
+            //                'options' => ['placeholder' => 'Выберите страну ...'],
+            //                'addon' => ['prepend' => [
+            //                    'content' => ModalCreate::widget(['route' => Url::to(['/country/country/create'])]),
+            //                    'asButton' => true,
+            //                ]],
+            //            ])
+            //            ?>
+            <!---->
+            <!--            --><? //= $form->field($model, 'customs_code')->textInput(['maxlength' => true]) ?>
+            <!---->
+            <!--            --><? //= $form->field($model, 'color')->widget(ColorInput::className(), [
+            //                'showDefaultPalette' => false,
+            //                'options' => [
+            //                    'placeholder' => 'Выберите цвет ...',
+            //                    'value' => $model->color ? $model->color->name : null,
+            //                ],
+            //                'pluginOptions' => [
+            //                    'showInput' => true,
+            //                    'showInitial' => true,
+            //                    'showPalette' => true,
+            //                    'showPaletteOnly' => true,
+            //                    'showSelectionPalette' => true,
+            //                    'showAlpha' => false,
+            //                    'preferredFormat' => 'name',
+            //                    'palette' => Color::getPallet(),
+            //                ],
+            //            ]); ?>
+
+
 
             <?php DetachedBlock::end() ?>
         </div>

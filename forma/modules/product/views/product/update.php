@@ -11,6 +11,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
     <?= $this->render('_form', [
         'model' => $model,
+        'fieldProductValue' => $fieldProductValue,
+        'attributes' => $attributes,
+
     ]) ?>
 
 </div>
