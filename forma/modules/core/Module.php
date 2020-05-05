@@ -28,4 +28,5 @@ class Module extends \yii\base\Module
     {
         return StateView::widget($data);
     }
+
 }
