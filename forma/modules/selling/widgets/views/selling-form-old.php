@@ -152,7 +152,7 @@ $this->registerJs($js);
             <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
                 <?= Html::textarea('comment', '', ['rows' => 5]) ?>
                 <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
-                <?= Html::submitButton('Добавить')?>
+                <?= Html::submitButton('Добавить!')?>
             <?= Html::endForm() ?>
         <?php Pjax::end() ?>
     </div>

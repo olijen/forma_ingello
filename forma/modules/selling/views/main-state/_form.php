@@ -28,6 +28,8 @@ use vova07\imperavi\Widget;
                 'plugins' => [
                     'clips',
                     'fullscreen',
+                    'imagemanager',
+                    'filemanager',
                 ],
                 'clips' => [
                     ['Lorem ipsum...', 'Lorem...'],
