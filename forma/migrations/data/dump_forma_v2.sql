@@ -1645,3 +1645,41 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-04-22 13:19:12
+
+
+
+
+
+CREATE TABLE field (
+id int(11) NOT NULL AUTO_INCREMENT,
+category_id int(11) NOT NULL,
+widget varchar(55) NOT NULL,
+name varchar(55) NOT NULL,
+PRIMARY KEY (`id`),
+KEY field_ibfk_1 (`category_id`),
+CONSTRAINT field_ibfk_1 FOREIGN KEY (`category_id`) REFERENCES category (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE field_value (
+id int(11) NOT NULL AUTO_INCREMENT,
+field_id int(11) NOT NULL,
+name varchar(55) NOT NULL,
+is_main TINYINT(1),
+PRIMARY KEY (`id`),
+KEY field_value_ibfk_1 (`field_id`),
+CONSTRAINT field_value_ibfk_1 FOREIGN KEY (`field_id`) REFERENCES field (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE field_product_value (
+id int(11) NOT NULL AUTO_INCREMENT,
+field_id int(11) NOT NULL,
+product_id int(11) NOT NULL,
+value varchar(255) ,
+PRIMARY KEY (`id`),
+KEY field_product_value_ibfk_1 (`field_id`),
+KEY field_product_value_ibfk_2 (`product_id`),
+CONSTRAINT field_product_value_ibfk_1 FOREIGN KEY (`field_id`) REFERENCES field (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT field_product_value_ibfk_2 FOREIGN KEY (`product_id`) REFERENCES product (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -213,6 +213,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         <?= !empty($model->dialog) ? $model->dialog : ''?>
         <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
         <?= Html::textarea('comment', '', ['rows' => 5]) ?>
+
         <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
         <?= Html::submitButton('Добавить')?>
         <?= Html::endForm() ?>
