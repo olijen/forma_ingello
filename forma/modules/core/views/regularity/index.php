@@ -14,7 +14,9 @@ $this->title = 'Регламент, правила';
 
         <?= $this->render('regularity', [
             'regularitys' => $regularitys,
-            'items' => $items,]);
+            'items' => $items,
+            'order_id'=> $order_id
+        ]);
         ?>
 
     <?php elseif (!$regularitys): ?>

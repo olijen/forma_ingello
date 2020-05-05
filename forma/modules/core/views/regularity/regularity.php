@@ -1,8 +1,8 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <?php foreach ($regularitys as $regularity): ?>
-            <li class="<?= $regularity['order'] == 0 ? 'active' : '' ?> ">
-                <a href="#tab_<?= $regularity['order'] ?>" data-toggle="tab">
+        <?php foreach ($regularitys as $regularity):?>
+            <li class="<?= $regularity['id'] == $order_id ? 'active' : '' ?> ">
+                <a href="#tab_<?= $regularity['id'] ?>" data-toggle="tab">
                     <?= $regularity['name'] ?>
                 </a>
             </li>
@@ -14,8 +14,8 @@
 
     <div class="tab-content">
         <?php foreach ($regularitys as $regularity): ?>
-            <div class="tab-pane <?= $regularity['order'] == 0 ? 'active' : '' ?>"
-                 id="tab_<?= $regularity['order'] ?>">
+            <div class="tab-pane <?= $regularity['id'] == $order_id ? 'active' : '' ?>"
+                 id="tab_<?= $regularity['id'] ?>">
 
                 <?php foreach ($regularity->items as $item) {
                     if ($item['parent_id'] != null) {
