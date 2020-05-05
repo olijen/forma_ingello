@@ -443,9 +443,14 @@ if ('selling' == Yii::$app->controller->module->id) {
 
 
   .info-box, .box, .form-control, .redactor-box,
-  .navbar, .navbar-static-top, .main-sidebar {
+  .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important;
     border-radius: 0 !important;
+  }
+
+  .form-control, .redactor-box,
+  .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
+    border: 0;
   }
 
 
@@ -460,7 +465,7 @@ if ('selling' == Yii::$app->controller->module->id) {
   .btn-success:hover,
   .logo-mini,
   .logo,
-  .bg-green{
+  .bg-green {
     background-color: <?php echo $bgColor ?> !important;
   }
   .btn-primary {
@@ -476,7 +481,7 @@ if ('selling' == Yii::$app->controller->module->id) {
     background-color: #F08080 !important;
   }
 
-  <?php if ('selling' == Yii::$app->controller->module->id) : ?>
+  <?php if ('selling'!= Yii::$app->controller->module->id && 'core' != Yii::$app->controller->module->id) : ?>
   .box-success {
     border-color: <?php echo $bgColor ?> !important;
   }
