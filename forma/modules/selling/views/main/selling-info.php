@@ -20,7 +20,7 @@ use forma\modules\selling\widgets\HistoryView;
 
 <h1 class="text-center">Информация по продаже</h1>
 <hr>
-<h2 class="text-center"><?=$selling->name?></h2>
+<h2 class="text-center"><?php $name =  strlen($selling->name) != 0 ? $selling->name : "Продажа №".$selling->id; echo $name?></h2>
 <div class="selling_info">
     <?php Pjax::begin() ?>
     <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=$state->description?>">
@@ -63,7 +63,7 @@ use forma\modules\selling\widgets\HistoryView;
     </div>
     <?php Pjax::end() ?>
 
-    <?= HistoryView::widget(['model' => $selling, 'talk' => false])?>
+    <?= HistoryView::widget(['model' => $selling, 'talk' => false, 'history' => null])?>
 
     <?= NomenclatureView::widget(['sellingId' => $selling->id]) ?>
 </div>
