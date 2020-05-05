@@ -40,10 +40,10 @@ $this->title = 'Подтверждение почты';
     <div class="login-box-body">
         <?php if($confirmed) { ?>
             <p>E-mail успешно подтвержден, теперь можете авторизоваться на сайте!<br />
-                <a href='http://localhost:3000/login'>Авторизоваться</a></p>
+                <a href="http://<?=$_SERVER['HTTP_HOST']?>/login">Авторизоваться</a></p>
         <?php } else { ?>
         <p>Спасибо за регистрацию! Подтвердите свою почту. Вам было выслано сообщение с ссылкой, подтверждающую
-            ваш электронный адрес, пройдите по нему.<br /> <a href='http://localhost:3000/login'>На главную</a></p>
+            ваш электронный адрес, пройдите по нему.<br /> <a href="http://<?=$_SERVER['HTTP_HOST']?>/login">На главную</a></p>
         <?php } ?>
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->

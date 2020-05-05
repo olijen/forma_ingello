@@ -186,6 +186,11 @@ class SiteController extends Controller
             return;
         }
 
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->getResponse()->redirect(Url::to(['/login']));
+            return false;
+        }
+
         if (!empty($exception->statusCode)) {
             if ($exception->statusCode == 404) {
                 return $this->render('404');
