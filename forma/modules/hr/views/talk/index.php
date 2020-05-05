@@ -70,6 +70,8 @@ use yii\helpers\Html;
                     'plugins' => [
                         'clips',
                         'fullscreen',
+                        'imagemanager',
+                        'filemanager',
                     ],
                     'clips' => [
                         ['Lorem ipsum...', 'Lorem...'],
@@ -77,6 +79,10 @@ use yii\helpers\Html;
                         ['green', '<span class="label-green">green</span>'],
                         ['blue', '<span class="label-blue">blue</span>'],
                     ],
+                    'imageUpload' => \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                    'imageManagerJson' => \yii\helpers\Url::to(['/worker/worker/images-get']),
+                    'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
+                    'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
                 ],
             ]); ?>
             <div class="col-xs-12 text-center">

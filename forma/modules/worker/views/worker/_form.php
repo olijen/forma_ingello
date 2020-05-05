@@ -93,8 +93,10 @@ use kartik\select2\Select2;
         'lang' => 'ru',
         'minHeight' => 200,
         'plugins' => [
-                'clips',
-                'fullscreen',
+            'clips',
+            'fullscreen',
+            'imagemanager',
+            'filemanager',
             ],
         'clips' => [
                 ['Lorem ipsum...', 'Lorem...'],

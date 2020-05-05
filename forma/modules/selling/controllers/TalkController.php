@@ -39,13 +39,14 @@ class TalkController extends Controller
     public function actionSaveDialog()
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
-        $selling->dialog .= date('d.m.Y H:i:s') .
+        $selling->dialog = date('d.m.Y H:i:s') .
                             '<br/>' .
                             Yii::$app->request->post('dialog') .
                             '<br/>' .
                             Yii::$app->request->post('comment').
                             '<br/>' .
-                            Yii::$app->request->post('nextStep');
+                            Yii::$app->request->post('nextStep')
+                            . $selling->dialog;
 
         $selling->next_step = Yii::$app->request->post('nextStep');
         $selling->save();
@@ -60,7 +61,6 @@ class TalkController extends Controller
 
         return $answer->id;
     }
-
 
     public function actionEndTalk($sellingId)
     {
@@ -77,10 +77,19 @@ class TalkController extends Controller
     public function actionCommentHistory()
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
+
         if(!Yii::$app->user->isGuest)
-            $selling->dialog .= '<div style="background: orangered;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>';
+            $selling->dialog =
+                date('d.m.Y H:i:s') .
+                '<br/>' .
+                '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>'
+                . $selling->dialog;
         else
-            $selling->dialog .= '<div style="background: #43aa54;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>';
+            $selling->dialog =
+                date('d.m.Y H:i:s') .
+                '<br/>' .
+                '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>'
+                . $selling->dialog;
 
         $selling->save();
 

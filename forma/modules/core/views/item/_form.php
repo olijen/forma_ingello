@@ -27,6 +27,8 @@ use yii\widgets\Pjax;
                 'plugins' => [
                     'clips',
                     'fullscreen',
+                    'imagemanager',
+                    'filemanager',
                 ],
                 'clips' => [
                     ['Lorem ipsum...', 'Lorem...'],
