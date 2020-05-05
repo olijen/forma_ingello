@@ -12,6 +12,7 @@ use http\Url;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use forma\modules\selling\widgets\HistoryView;
 
 /**
  * Default controller for the `script` module
@@ -84,7 +85,8 @@ class TalkController extends Controller
 
         $selling->save();
 
-        return $selling->dialog;
+
+        return  HistoryView::widget(['model' => $selling, 'talk' => false, 'history' => null, 'onlyDialog' => true]);
 
     }
 

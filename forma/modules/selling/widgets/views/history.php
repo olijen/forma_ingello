@@ -9,28 +9,17 @@ use forma\modules\core\widgets\DetachedBlock;
  * @var Selling $model
  */
 
+$dialog_block = 'hidden';
+
 ?>
 
 <?php DetachedBlock::begin(['example' => 'История']); ?>
     <div class="row">
-    <div class="col-md-12 form-group">
-        <?php if(!is_null($talk)) echo  Html::a('Начать разговор', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
-        <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
-    </div>
-    <div class="hidden" id="dialog">
-
-        <?php Pjax::begin(['enablePushState' => false]) ?>
-        <?= $model->dialog ?>
-        <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-        <div class="form-group">
-            <?= Html::textarea('comment', '', ['rows' => 5, 'placeholder' => 'Оставьте комментарий к диалогу']) ?>
+        <div class="col-md-12 form-group">
+            <?php if(!is_null($talk)) echo  Html::a('Начать разговор', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
+            <?php if(isset($history) && !is_null($history)){ echo  Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']); } else $dialog_block = ''?>
         </div>
-        <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
-        <div class="form-group">
-            <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
-        </div>
-        <?= Html::endForm() ?>
-        <?php Pjax::end() ?>
+        <?php include_once 'history_dialog.php'?>
     </div>
     <script>
         var flag = false;
