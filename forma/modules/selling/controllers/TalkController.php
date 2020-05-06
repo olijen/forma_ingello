@@ -80,22 +80,20 @@ class TalkController extends Controller
         $selling = SellingService::get(Yii::$app->request->post('id'));
 
         if(!Yii::$app->user->isGuest)
-            $selling->dialog =
+            $selling->dialog .=
                 date('d.m.Y H:i:s') .
                 '<br/>' .
-                '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>'
-                . $selling->dialog;
+                '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>';
         else
-            $selling->dialog =
+            $selling->dialog .=
                 date('d.m.Y H:i:s') .
                 '<br/>' .
-                '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>'
-                . $selling->dialog;
+                '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>';
 
         $selling->save();
 
 
-        return  HistoryView::widget(['model' => $selling, 'talk' => false, 'history' => null, 'onlyDialog' => true]);
+        return  HistoryView::widget(['model' => $selling, 'talk' => false, 'history' => null]);
 
     }
 

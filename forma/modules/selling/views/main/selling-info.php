@@ -22,7 +22,7 @@ use forma\modules\selling\widgets\HistoryView;
 <hr>
 <h2 class="text-center"><?php $name =  strlen($selling->name) != 0 ? $selling->name : "Продажа №".$selling->id; echo $name?></h2>
 <div class="selling_info">
-    <?php Pjax::begin() ?>
+    <?php Pjax::begin(['enablePushState' => false]) ?>
     <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=$state->description?>">
             <?=$state->name?></button></p>
     <div class="bs-example">
@@ -40,26 +40,28 @@ use forma\modules\selling\widgets\HistoryView;
     </div>
     <div class="change_email bs-example" style="margin-bottom: 20px">
         <div class="detached-block-example">Сменить e-mail</div>
-        <button id="change_email" class="btn btn-success">Сменить e-mail</button>
+        <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
             'layout' => 'horizontal',
             'options' => ['data' => ['pjax' => true], 'method' => 'get'],
             'fieldConfig' => [
-                'template' => '<div class="col-md-1">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
+                'template' => '<div class="col-md-1" style="padding: 0">{label}:</div><div class="col-md-1"></div><div class="col-md-5">{input}</div><div class="col-md-5">{error}</div>',
             ],
         ]); ?>
 
         <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
 
         <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
+            <div class=" col-lg-11">
                 <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
+        <a href="<?=$googleLink?>" class="btn btn-primary" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
 
         <?php ActiveForm::end(); ?>
+
     </div>
     <?php Pjax::end() ?>
 
@@ -70,19 +72,7 @@ use forma\modules\selling\widgets\HistoryView;
 
 
 
-    <script>
-        var flag = false;
 
-        document.getElementById('openDialog').onclick = function () {
-            if (flag === false) {
-                document.getElementById('dialog').classList.remove('hidden');
-                flag = true;
-            } else {
-                document.getElementById('dialog').classList.add('hidden');
-                flag = false;
-            }
-        }
-    </script>
 
 
 <script>
