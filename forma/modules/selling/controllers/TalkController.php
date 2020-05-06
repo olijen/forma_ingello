@@ -12,6 +12,7 @@ use http\Url;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
+use forma\modules\selling\widgets\HistoryView;
 
 /**
  * Default controller for the `script` module
@@ -79,21 +80,20 @@ class TalkController extends Controller
         $selling = SellingService::get(Yii::$app->request->post('id'));
 
         if(!Yii::$app->user->isGuest)
-            $selling->dialog =
+            $selling->dialog .=
                 date('d.m.Y H:i:s') .
                 '<br/>' .
-                '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>'
-                . $selling->dialog;
+                '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>';
         else
-            $selling->dialog =
+            $selling->dialog .=
                 date('d.m.Y H:i:s') .
                 '<br/>' .
-                '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>'
-                . $selling->dialog;
+                '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>';
 
         $selling->save();
 
-        return $selling->dialog;
+
+        return  HistoryView::widget(['model' => $selling, 'talk' => false, 'history' => null]);
 
     }
 

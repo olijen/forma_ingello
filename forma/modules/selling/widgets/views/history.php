@@ -12,63 +12,21 @@ use vova07\imperavi\Widget;
 
 ?>
 
+
+
 <?php DetachedBlock::begin(['example' => 'Комунникация']); ?>
-    <div class="row">
+<div class="row">
 
-    <div class="" id="dialog">
+    <?php include_once 'history_dialog.php'?>
+</div>
 
-        <?php Pjax::begin(['enablePushState' => false]) ?>
+    <?php DetachedBlock::end() ?>
 
 
 
-        <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-        <div>
-            <?php
-            echo \vova07\imperavi\Widget::widget([
-                'name' => 'comment',
-                'settings' => [
-                    'lang' => 'ru',
-                    //'minHeight' => 200,
-                    'plugins' => [
-                        'clips',
-                        'fullscreen',
-                        'imagemanager',
-                        'filemanager',
-                    ],
-                    'clips' => [
-                        ['Оставьте комментарий, картинку или файл...', 'Текст...'],
-                        ['red', '<span class="label-red">red</span>'],
-                        ['green', '<span class="label-green">green</span>'],
-                        ['blue', '<span class="label-blue">blue</span>'],
-                    ],
-                    'imageUpload' => \yii\helpers\Url::to(['/worker/worker/image-upload']),
-                    'imageManagerJson' => \yii\helpers\Url::to(['/worker/worker/images-get']),
-                    'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
-                    'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
-                ],
-            ]);
-            ?>
-        </div>
-        <div class="form-group">
-            <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
-        </div>
 
-        <div id="chat" style="max-height: 200px; overflow-x: auto;">
-            <?= $model->dialog ?? 'История сообщений пуста' ?>
-          <br>
-          <br>
-        </div>
-        <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
-
-        <?= Html::endForm() ?>
-
-        <?php Pjax::end() ?>
-    </div>
-
-<?php DetachedBlock::end() ?>
-
-<!--<script>
-  var div = $("#chat");
-  div.scrollTop(div.prop('scrollHeight'));
-</script>
--->
+    <!--<script>
+      var div = $("#chat");
+      div.scrollTop(div.prop('scrollHeight'));
+    </script>
+    -->
