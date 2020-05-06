@@ -36,7 +36,6 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
-        $model->name  = "Очередная продажа с очередным номером №";
         $model->selling_token = Yii::$app->getSecurity()->generateRandomString();
 
         if (!$model->isNewRecord) {
@@ -49,7 +48,6 @@ class SellingService
             die;
         }
 
-        $model->name .= strval($model->id);
         $model->save();
 
         if (isset($warehouseId) && $model->warehouse_id != $warehouseId) {

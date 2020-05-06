@@ -28,20 +28,6 @@ class Module extends \yii\base\Module
 
     public function beforeAction($action)
     {
-        /*if (!parent::beforeAction($action)) {
-            return false;
-        }
-
-        if (!Yii::$app->user->isGuest) {
-            return true;
-        } else if($action->actionMethod == 'actionShowSelling' || $action->actionMethod == 'actionCommentHistory'
-        || $action->actionMethod = 'actionEditCell'){
-            return true;
-        } else {
-            Yii::debug("гость в продажах!!!!!!!!!");
-            Yii::$app->getResponse()->redirect(Url::to(['/login']));
-            return false;
-        }*/
 
         if (!parent::beforeAction($action)) {
             return false;

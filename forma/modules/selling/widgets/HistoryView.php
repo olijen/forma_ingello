@@ -9,6 +9,8 @@ class HistoryView extends Widget
 {
     public $model;
     public $talk;
+    public $history;
+    public $onlyDialog = null;
 
     public function init()
     {
@@ -19,6 +21,8 @@ class HistoryView extends Widget
     {
         $model = $this->model;
         $talk = $this->talk === true ? true : null;
-        return $this->render('history', compact('model', 'talk'));
+        $history = $this->history === true ? true : null;
+        if ($this->onlyDialog) return $this->render('history_dialog', compact('model', 'talk'));
+        return $this->render('history', compact('model', 'talk', 'history'));
     }
 }
