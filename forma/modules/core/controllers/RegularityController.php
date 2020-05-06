@@ -46,15 +46,7 @@ class RegularityController extends Controller
             'dataProvider' => $dataProvider,
             'regularitys' => $regularitys,
             'items' => $items,
-            'order_id'=> $regularitys[0]['id']
-        ]);
-    }
-
-    public function actionIndex2()
-    {
-
-        return $this->render('index-old', [
-
+            'order_id'=> $regularitys[0]['id'] ?? null
         ]);
     }
 
