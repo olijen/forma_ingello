@@ -6,7 +6,7 @@ use \wokster\ltewidgets\BoxWidget;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Regularity */
 
-//$this->title = Yii::t('app', 'Создать Регламент');
+$this->title = Yii::t('app', 'Создать Регламент');
 //$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Регламенты'), 'url' => ['index']];
 //
 ?>
