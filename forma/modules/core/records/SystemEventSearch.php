@@ -60,7 +60,7 @@ class SystemEventSearch extends SystemEvent
         $query->andFilterWhere([
             'id' => $this->id,
             'date_time' => $this->date_time,
-            'user_id' => $this->user_id,
+            'user_id' => \Yii::$app->user->id,
         ]);
 
         $query->andFilterWhere(['like', 'application', $this->application])
