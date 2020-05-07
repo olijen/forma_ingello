@@ -5,12 +5,19 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 
 ?>
+<style>
+    #chat{
+        overflow-x: scroll;
+        max-height: 150px;
+    }
+</style>
+
 <div class="" id="dialog">
 
     <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '1', 'class' => 'form-inline', 'id' => 'history_form']); ?>
     <?php Pjax::begin(['enablePushState' => false, 'id' => 'history_chat']) ?>
 
-    <div id="chat" style="max-height: 150px; overflow-x: auto;">
+    <div id="chat">
 
         <?= $model->dialog ?? 'История сообщений пуста' ?>
 
@@ -73,10 +80,14 @@ use yii\helpers\Url;
 
     <script>
         $('#history_form').on('submit', (e) => {
-            console.log($(e.target).serialize());
             e.preventDefault();
-            $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$(e.target).serialize(),push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset({ top: 100 })});
-        })
+            $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$(e.target).serialize(),push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset()});
+        });
+
+        function updateList() {
+            $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$('#history_form')[0][0].name+"="+$('#history_form')[0][0].value+"&id="+$('#history_form')[0][3].value+"&comment=",push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset()});
+        }
+        setInterval(updateList, 4000);
     </script>
 
 </div>
