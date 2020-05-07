@@ -2,25 +2,28 @@
 
 use yii\bootstrap\Html;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
+
 ?>
 <div class="" id="dialog">
 
-
-
-
-
     <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '1', 'class' => 'form-inline', 'id' => 'history_form']); ?>
     <?php Pjax::begin(['enablePushState' => false, 'id' => 'history_chat']) ?>
-    <div id="chat" style="max-height: 300px; overflow-x: auto;">
+
+    <div id="chat" style="max-height: 150px; overflow-x: auto;">
 
         <?= $model->dialog ?? 'История сообщений пуста' ?>
+
     </div>
+
     <script>
 
         var div = $("#chat");
         div.scrollTop(div.prop('scrollHeight'));
     </script>
+
     <?php Pjax::end() ?>
+
     <div>
         <?php
         echo \vova07\imperavi\Widget::widget([
@@ -50,13 +53,24 @@ use yii\widgets\Pjax;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Добавить!!!!!', ['class' => 'btn btn-success'])?>
+
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
+
+        <?= $talk
+            ? Html::a('Разговор по скрипту', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])
+            : ''
+        ?>
+
+        <?php if ($talk) : ?>
+          <a class="btn btn-success" href="http://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
+        <?php endif ?>
+
     </div>
 
     <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
 
-
     <?= Html::endForm() ?>
+
     <script>
         $('#history_form').on('submit', (e) => {
             console.log($(e.target).serialize());

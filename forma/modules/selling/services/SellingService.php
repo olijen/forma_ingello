@@ -6,6 +6,7 @@ use forma\modules\customer\records\Customer;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\selling\SellingSearch;
+use forma\modules\selling\records\state\State;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use forma\modules\warehouse\services\RemainsService;
@@ -40,6 +41,15 @@ class SellingService
 
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
+        }
+
+        $userState = State::find()
+            ->where(['user_id' => Yii::$app->user->getId()])
+            ->orderBy('order')
+            ->one();
+
+        if ($userState) {
+            $model->state_id = $userState->id;
         }
 
         $model->load($post);
