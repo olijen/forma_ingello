@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * RegularityController implements the CRUD actions for Regularity model.
  */
@@ -35,45 +36,28 @@ class RegularityController extends Controller
         $searchModel = new RegularitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $regularitys = $dataProvider->getModels();
-        $data = null;
+        $items = null;
+
+        $order = array_column($regularitys, 'order');
+        array_multisort($order, SORT_ASC, $regularitys);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'regularitys' => $regularitys,
-            'data' => $data,
-        ]);
-    }
-
-    public function actionIndex2()
-    {
-
-        return $this->render('index-old', [
-
+            'items' => $items,
+            'order_id'=> $regularitys[0]['id'] ?? null
         ]);
     }
 
     public function actionSettings()
     {
-//        de();
         $searchModel = new RegularitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('settings', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Regularity model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 
