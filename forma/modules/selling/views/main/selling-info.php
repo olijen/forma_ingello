@@ -41,6 +41,7 @@ use forma\modules\selling\widgets\HistoryView;
     <div class="change_email bs-example" style="margin-bottom: 20px">
         <div class="detached-block-example">Сменить e-mail</div>
         <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
+        <a href="<?=$googleLink?>" class="btn btn-primary" style="margin-bottom: 10px" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
@@ -58,7 +59,7 @@ use forma\modules\selling\widgets\HistoryView;
                 <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
-        <a href="<?=$googleLink?>" class="btn btn-primary" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
+
 
         <?php ActiveForm::end(); ?>
 

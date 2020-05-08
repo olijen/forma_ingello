@@ -78,20 +78,20 @@ class TalkController extends Controller
     public function actionCommentHistory()
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
+        if (strlen(Yii::$app->request->post('comment')) > 0) {
+            if (!Yii::$app->user->isGuest)
+                $selling->dialog .=
+                    date('d.m.Y H:i:s') .
+                    '<br/>' .
+                    '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: ' . Yii::$app->request->post('comment') . '</div>';
+            else
+                $selling->dialog .=
+                    date('d.m.Y H:i:s') .
+                    '<br/>' .
+                    '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: ' . Yii::$app->request->post('comment') . '</div>';
 
-        if(!Yii::$app->user->isGuest)
-            $selling->dialog .=
-                date('d.m.Y H:i:s') .
-                '<br/>' .
-                '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: '.Yii::$app->request->post('comment') . '</div>';
-        else
-            $selling->dialog .=
-                date('d.m.Y H:i:s') .
-                '<br/>' .
-                '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: '.Yii::$app->request->post('comment') . '</div>';
-
-        $selling->save();
-
+            $selling->save();
+        }
 
         return  HistoryView::widget(['model' => $selling, 'talk' => false, 'history' => null]);
 
