@@ -14,7 +14,7 @@ use yii\widgets\DetailView;
  * @var $toState
  */
 
-$this->title = 'Комунникация';
+$this->title = 'Коммуникация';
 $this->params['breadcrumbs'][] = ['label' => 'Продажи', 'url' => Url::to(['/selling/main'])];
 
 $description= null;
