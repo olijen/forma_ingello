@@ -14,7 +14,7 @@ use vova07\imperavi\Widget;
 
 
 
-<?php DetachedBlock::begin(['example' => 'Комунникация']); ?>
+<?php DetachedBlock::begin(['example' => 'Коммуникация']); ?>
 <div class="row">
 
     <?php include_once 'history_dialog.php'?>
