@@ -43,12 +43,14 @@ $config = [
             Yii::debug(get_class($event->sender) . ' добавлен');
             //
             $systemEvent = new \forma\modules\core\records\SystemEvent();
-            $systemEvent->user_id = Yii::$app->user->id;
+            $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
             $systemEvent->date_time = date('Y-m-d H:i:s');
             $systemEvent->module = 'Modpule'; //$modules[$className];
             //$systemEvent->district = $districts[$this->module];
-            $systemEvent->data = $className . ' Created: "/*$objectName*/" user '.Yii::$app->user->identity->id;
+            //Yii::debug($systemEvent . '----- user');
+            $systemEvent->data = $className . ' Created: "/*$objectName*/" user '.$systemEvent->user_id;
             if (!$systemEvent->save()) {
+                Yii::debug($systemEvent->errors.' - user id = '.$systemEvent->user_id);
                 throw new \Exception(json_encode($systemEvent->errors));
             }
         });

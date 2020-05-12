@@ -12,6 +12,10 @@ use yii\helpers\Url;
     }
 </style>
 
+<script>
+    var ttt = 10;
+</script>
+
 <div class="" id="dialog">
 
     <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '1', 'class' => 'form-inline', 'id' => 'history_form']); ?>
@@ -22,12 +26,12 @@ use yii\helpers\Url;
         <?= $model->dialog ?? 'История сообщений пуста' ?>
 
     </div>
-
     <script>
 
         var div = $("#chat");
-        div.scrollTop(div.prop('scrollHeight'));
+        div[0].scrollTop = ttt;
     </script>
+
 
     <?php Pjax::end() ?>
 
@@ -79,15 +83,25 @@ use yii\helpers\Url;
     <?= Html::endForm() ?>
 
     <script>
+        var div = $("#chat");
         $('#history_form').on('submit', (e) => {
+            ttt = div[0].scrollTop;
             e.preventDefault();
             $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$(e.target).serialize(),push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset()});
         });
 
         function updateList() {
-            $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$('#history_form')[0][0].name+"="+$('#history_form')[0][0].value+"&id="+$('#history_form')[0][3].value+"&comment=",push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset()});
+            ttt = div[0].scrollTop;
+            $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$('#history_form')[0][0].name+"="+$('#history_form')[0][0].value+"&id="+$('#history_form')[0][3].value+"&comment=",push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset()}).done(
+                function(){
+
+                }
+            );
         }
         setInterval(updateList, 4000);
+
+        div.scrollTop(div.prop('scrollHeight'));
+        //console.log(div[0].scrollTop);
     </script>
 
 </div>
