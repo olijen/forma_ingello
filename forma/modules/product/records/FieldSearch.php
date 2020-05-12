@@ -38,8 +38,9 @@ class FieldSearch extends Field
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $category_id = null)
     {
+
         $query = Field::find();
 
         // add conditions that should always apply here
@@ -52,6 +53,9 @@ class FieldSearch extends Field
         $this->load($params);
 
 
+
+//        de($this->attributes);
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -63,6 +67,12 @@ class FieldSearch extends Field
             'id' => $this->id,
             'category_id' => $this->category_id,
         ]);
+
+        if (!is_null($category_id)){
+            $query->andFilterWhere([
+                'category_id' => $category_id,
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'widget', $this->widget])
             ->andFilterWhere(['like', 'name', $this->name]);

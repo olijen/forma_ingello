@@ -43,7 +43,7 @@ class Product extends AccessoryActiveRecord
 {
     const WINE_TYPE_ID = 1;
     const BOOZE_TYPE_ID = 2;
-    
+
     const REF_ID = 0;
     const NRF_ID = 1;
 
@@ -160,6 +160,12 @@ class Product extends AccessoryActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+
+    public function getFieldProductValues()
+    {
+        return $this->hasMany(FieldProductValue::className(), ['product_id' => 'id']);
+    }
+
     public function getParent()
     {
         return $this->hasOne(Product::className(), ['id' => 'parent_id']);
@@ -209,7 +215,7 @@ class Product extends AccessoryActiveRecord
     //todo: Это не относится к модели
     public static function getVolumesList()
     {
-        $centiliters =  [50, 70, 75, 100, 125, 150, 175, 200];
+        $centiliters = [50, 70, 75, 100, 125, 150, 175, 200];
 
         $list = [];
         foreach ($centiliters as $volume) {
@@ -277,7 +283,7 @@ class Product extends AccessoryActiveRecord
         }
         return "{$packUnit->name} ({$packUnit->bottles_quantity} pc.)";
     }
-    
+
     public function getSizeColumnValue()
     {
         if (!$this->volume) {

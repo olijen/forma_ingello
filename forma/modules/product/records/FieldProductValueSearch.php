@@ -38,7 +38,7 @@ class FieldProductValueSearch extends FieldProductValue
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params = null)
     {
         $query = FieldProductValue::find();
 
