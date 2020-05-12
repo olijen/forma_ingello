@@ -1,6 +1,12 @@
 <?php
 
+use forma\modules\product\records\FieldValue;
+use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\product\records\Category */
@@ -19,6 +25,7 @@ $this->params['breadcrumbs'][] = $model->name;
         'searchModel' => $searchModel,
         'searchModelValue' => $searchModelValue,
         'dataProvider' => $dataProvider,
+
     ]) ?>
 
 </div>

@@ -58,9 +58,6 @@ class CategoryController extends Controller
     {
         $model = new Category();
 
-        $searchModel = new FieldValueSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
@@ -71,12 +68,11 @@ class CategoryController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
             ]);
         }
-    }
 
+
+    }
     /**
      * Updates an existing Category model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -85,31 +81,24 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
-//        de(Yii::$app->request->post());
+
         $model = $this->findModel($id);
         $field = new Field();
         $fieldValue = new FieldValue();
 
         $searchModel = new FieldSearch();
         $searchModelValue = new FieldValueSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $model->id );
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($field->load(Yii::$app->request->post())  && $field->save()) {
+            return $this->redirect('update?id=' . $id);
 
-            if ($field->load(Yii::$app->request->post()) && $field->category_id && $field->save()) {
-                de('ne tak');
-                return $this->redirect('update?id=' . $id);
-            } elseif (!$field->save()) {
-                var_dump($id);
-                var_dump($field->errors);
-                 $field->errors;
-                return $this->redirect('update?id=' . $id);
-            }
+        } elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
 
         }
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['index']);
-//        } else {
+
+
         return $this->render('update', [
             'model' => $model,
             'field' => $field,
@@ -118,7 +107,7 @@ class CategoryController extends Controller
             'searchModelValue' => $searchModelValue,
             'dataProvider' => $dataProvider,
         ]);
-//        }
+
     }
 
     /**
@@ -127,6 +116,10 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
+
+
+
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();

@@ -15,6 +15,7 @@ use yii\web\View;
 use forma\modules\product\records\Category;
 use kartik\color\ColorInput;
 use forma\modules\product\records\Color;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\product\records\Product */
@@ -23,11 +24,11 @@ use forma\modules\product\records\Color;
 
 <?php $this->registerJsFile('/js/common.js', ['position' => View::POS_END]); ?>
 
-<?php $form = ActiveForm::begin(['id' => 'product-product-form']); ?>
 
 <div class="product-form">
 
     <div class="row">
+        <?php $form = ActiveForm::begin(); ?>
         <div class="col-md-6">
 
             <?php DetachedBlock::begin(['example' => 'Общее']) ?>
@@ -63,117 +64,81 @@ use forma\modules\product\records\Color;
                     'theme' => 'krajee-uni',
                 ],
             ]) ?>
-            // ['url' => \yii\helpers\Url::to(['/product/update'])]
-            <?php \yii\widgets\Pjax::begin() ?>
+
+            <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
+
+            <?php DetachedBlock::end() ?>
+
+
+    </div>
+        <div class="col-md-6">
+            <?php DetachedBlock::begin() ?>
+
             <?= $form->field($model, 'category_id')->widget(Select2::className(), [
                 'data' => Category::getList(),
-//                'route' => Url::to(['/product/category/update']) ,
+
                 'options' => ['placeholder' => 'Выберите категорию ...'],
+                'pluginEvents' => [
+                    "select2:select" => "function() {
+                    
+                      $.pjax({         
+                             type : 'POST',         
+                             url : '/product/product/pjax-attribute',
+                             container: '#ajax-attributes',         
+                             data :  $(this).serialize(), 
+                             push: false,
+                             replace: false,         
+                             timeout: 10000,         
+                             \"scrollTo\" : false     
+                      })
+                     }",
+                ],
                 'addon' => ['prepend' => [
                     'content' => ModalCreate::widget(['route' => Url::to(['/product/category/update?id=' . $model->category_id])]),
                     'asButton' => true,
                 ]],
             ]) ?>
-            <?php \yii\widgets\Pjax::end() ?>
-            <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
 
-            <?php DetachedBlock::end() ?>
-
-        </div>
-        <div class="col-md-6">
-            <?php DetachedBlock::begin() ?>
-            <?php if ($model->isOriginal()): ?>
-
-                <div class="row">
-                    <div class="col-xs-12 text-center">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Единицы измерения.</div>
-                            <div class="panel-body">
-
-                                <?= $form->field($model, 'packUnits')->widget(Select2::className(), [
-                                    'data' => PackUnit::getList(),
-                                    'options' => [
-                                        'placeholder' => 'Можно добавить новые или выбрать из списка ...',
-                                        'multiple' => true,
-                                    ],
-                                    'pluginOptions' => [
-                                        'tags' => true,
-                                    ],
-                                ])->label(false) ?>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <?php endif; ?>
-
-
-            <!--            --><? //= $form->field($field, 'id')->textInput() ?>
+            <?php Pjax::begin(['id' => 'ajax-attributes',
+//                'enablePushState' => false,
+            ]); ?>
 
             <?php
-            foreach ($attributes as $key => $attribute) {
-//                de($attribute);
-//                de($value->field);
-                echo $form->field($attribute, "[$key]value")->textInput()->label($attribute->field['name']);
+//            foreach ($attributes as $key => $attribute) {
+////                echo $attribute->field->name;
+////                SystemWidget::getByName($attribute->field->widget);
+////                de($attribute);
+////                    $value = $attribute->field['name'];
+////                    $value = 'datePicker';
+////                    echo
+////                de($value->field);
+////                    <input type="text" id="category-name" class="form-control" name="Category[name]" maxlength="255">
+////                    echo $form->field($attribute, "[$key]value")    ;
+//                    echo $form->field($attribute, "[$key]value")->label($attribute->field['name'])->textInput();
+////                        ->field['widget'];
+//            }
 
-            }
             ?>
 
 
-            <!--            --><?php //endforeach;?>
-            <br><br><br><br><br><br><br><br><br>
-            <!--            --><? //= $form->field($model, 'year_chart')->textInput() ?>
-            <!---->
-            <!--            --><? //= $form->field($model, 'volume')->dropDownList(Product::getVolumesList(), ['prompt' => '']) ?>
-            <!---->
-            <!--            --><? //= $form->field($model, 'proof')->textInput() ?>
-            <!---->
-            <!--            --><? //= $form->field($model, 'batcher')->dropDownList(Product::getBatchersList(), ['prompt' => '']) ?>
-            <!---->
-            <!--            --><? //= $form->field($model, 'country_id')->widget(kartik\select2\Select2::className(), [
-            //                'data' => \forma\modules\country\records\Country::getList(),
-            //                'options' => ['placeholder' => 'Выберите страну ...'],
-            //                'addon' => ['prepend' => [
-            //                    'content' => ModalCreate::widget(['route' => Url::to(['/country/country/create'])]),
-            //                    'asButton' => true,
-            //                ]],
-            //            ])
-            //            ?>
-            <!---->
-            <!--            --><? //= $form->field($model, 'customs_code')->textInput(['maxlength' => true]) ?>
-            <!---->
-            <!--            --><? //= $form->field($model, 'color')->widget(ColorInput::className(), [
-            //                'showDefaultPalette' => false,
-            //                'options' => [
-            //                    'placeholder' => 'Выберите цвет ...',
-            //                    'value' => $model->color ? $model->color->name : null,
-            //                ],
-            //                'pluginOptions' => [
-            //                    'showInput' => true,
-            //                    'showInitial' => true,
-            //                    'showPalette' => true,
-            //                    'showPaletteOnly' => true,
-            //                    'showSelectionPalette' => true,
-            //                    'showAlpha' => false,
-            //                    'preferredFormat' => 'name',
-            //                    'palette' => Color::getPallet(),
-            //                ],
-            //            ]); ?>
+            <?= $this->render('pjax_attribute', [
+                'field' => $field,
+                'attributes' => $attributes,
 
+            ]) ?>
 
+            <?php Pjax::end(); ?>
 
             <?php DetachedBlock::end() ?>
         </div>
-    </div>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Сохранить изменения' : 'Сохранить изменения', ['class' => $model->isNewRecord ? 'btn btn-success btn-block' : 'btn btn-primary btn-block']) ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Сохранить изменения' : 'Сохранить изменения', ['class' => $model->isNewRecord ? 'btn btn-success btn-block' : 'btn btn-primary btn-block']) ?>
+        </div>
+        <?php ActiveForm::end(); ?>
     </div>
-
 </div>
 
-<?php ActiveForm::end(); ?>
 
 <?= Modal::widget([
     'id' => 'modal-create',

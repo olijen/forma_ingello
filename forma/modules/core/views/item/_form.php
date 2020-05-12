@@ -42,7 +42,7 @@ use yii\widgets\Pjax;
         ]); ?>
 
 
-        <?= $form->field($model, 'color', ['template' => "{input}"])->hiddenInput()->widget(ColorInput::classname()); ?>
+        <?= $form->field($model, 'color')->widget(ColorInput::classname()); ?>
 
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Добавить'), ['class' => 'btn btn-success']) ?>

@@ -68,14 +68,12 @@ class StateToStateController extends Controller
      */
     public function actionCreate($id = [])
     {
-        $id = 40;
+
         $model = new StateToState();
 
         $state = State::findOne($id);
 
         $toState = $state->state;
-        de($toState);
-//        de($toState[0]->toState->name);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect('main-state/update?id=');
