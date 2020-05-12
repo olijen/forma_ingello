@@ -126,5 +126,5 @@ if (!Yii::$app->request->isPjax) {
 <?php Pjax::end() ?>
 
 <?php if (!$model->isNewRecord): ?>
-    <?= HistoryView::widget(['model' => $model, 'talk' => true])?>
+    <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true])?>
 <?php endif; ?>

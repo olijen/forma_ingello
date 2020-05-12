@@ -38,19 +38,15 @@ class RegularityController extends Controller
         $regularitys = $dataProvider->getModels();
         $items = null;
 
+        $order = array_column($regularitys, 'order');
+        array_multisort($order, SORT_ASC, $regularitys);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'regularitys' => $regularitys,
             'items' => $items,
-        ]);
-    }
-
-    public function actionIndex2()
-    {
-
-        return $this->render('index-old', [
-
+            'order_id'=> $regularitys[0]['id'] ?? null
         ]);
     }
 

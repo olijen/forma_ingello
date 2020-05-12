@@ -146,6 +146,7 @@ class FreelancehuntController extends Controller
         curl_close($curl);
 
         echo "<a href=/selling/freelancehunt/bid-form>Форма ставок</a><hr>";
+        echo "<a href='$link'>Проект</a><hr>";
         echo "<pre>";
         var_dump(json_decode($json));
         echo "</pre>";

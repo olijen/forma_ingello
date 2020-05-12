@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния')
                 'plugins' => [
                     'clips',
                     'fullscreen',
+                    'imagemanager',
+                    'filemanager',
                 ],
                 'clips' => [
                     ['Lorem ipsum...', 'Lorem...'],

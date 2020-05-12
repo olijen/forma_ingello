@@ -125,7 +125,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'date_create' => 'Дата создания',
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',
-            'selling_token' => 'Ссылка на страницу продажи',
+            'selling_token' => 'Токен',
         ];
     }
 
