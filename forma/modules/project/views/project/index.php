@@ -103,11 +103,11 @@ Pjax::begin();
                                class="btn btn-block btn-default"
                                title="Добавить вакансию на проект"
                                aria-label="Добавить вакансию на проект"
-                               style="">
+                               style="color: white">
                                 <i class="fa fa-plus"></i> Добавить вакансию на проект</a>
                         <?php else : ?>
 
-                        <button style="border: 1px solid forestgreen;" type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-list"></i> Выбрать вакансии для найма
                         </button>
 
