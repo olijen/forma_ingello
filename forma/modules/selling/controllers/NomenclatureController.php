@@ -30,6 +30,7 @@ class NomenclatureController extends Controller
         return NomenclatureView::widget([
             'sellingId' => $model->selling_id,
             'model' => $model,
+
         ]);
     }
 

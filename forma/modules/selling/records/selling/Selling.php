@@ -182,6 +182,10 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return $this->warehouse->name;
     }
 
+    public function getSellingToken(){
+        return $this->selling_token;
+    }
+
     //todo: вынести общее из двух методов
     public static function getDateCreateRange()
     {
