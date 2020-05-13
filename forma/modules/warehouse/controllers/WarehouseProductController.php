@@ -155,7 +155,10 @@ class WarehouseProductController extends Controller
         /** @var Warehouse $warehouse */
         $warehouse = $selling->warehouse;
 
-        if ($warehouse->belongsToUser()) {
+        Yii::debug("ahahahaaah");
+        Yii::debug($selling->getSellingToken() . ' = '. Yii::$app->request->get('selling_token'));
+
+        if ($warehouse->belongsToUser() || $selling->getSellingToken() == Yii::$app->request->get('selling_token')) {
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['results' => RemainsService::searchByWarehouse($warehouse->id, $q)];
@@ -185,6 +188,7 @@ class WarehouseProductController extends Controller
 
     public function actionCheckAvailable()
     {
+        Yii::debug("dsa'dlssdlfk;dslkf");
         Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['success' => true];
 

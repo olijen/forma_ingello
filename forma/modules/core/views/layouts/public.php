@@ -1,14 +1,12 @@
 <?php
-
-
+use backend\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-forma\assets\AppAsset::register($this);
-
-$this->beginPage();?>
+dmstr\web\AdminLteAsset::register($this);
+?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -19,7 +17,7 @@ $this->beginPage();?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="">
+<body class="login-page">
 
 <?php $this->beginBody() ?>
 
@@ -29,5 +27,3 @@ $this->beginPage();?>
 </body>
 </html>
 <?php $this->endPage() ?>
-
-
