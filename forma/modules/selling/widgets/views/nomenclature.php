@@ -51,6 +51,7 @@ use forma\modules\selling\widgets\TotalSumView;
             'url' => Url::to([
                 '/warehouse/warehouse-product/search-for-selling',
                 'sellingId' => $unit->selling_id,
+                'selling_token' => Yii::$app->request->get("selling_token") ?? null,
             ]),
         ]) ?>
     </div>
