@@ -33,7 +33,7 @@ $(function() {
         };
 
         var post = function(productId) {
-            console.log('dglkmdddddddddddddddddd');
+            console.log(url + 'POST callback');
             //$.post(url, {productId: productId, warehouseId: getWarehouseId()}, postCallback);
             $.ajax({
                 url:url,

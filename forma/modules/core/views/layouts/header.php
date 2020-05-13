@@ -407,7 +407,7 @@ JS;
 $this->registerJs($js);
 
 $bgColor = '#00b65d';
-$bgColorPrimary = '#00b65d';
+$bgColorPrimary = '#58628e';
 $color = '';
 
 if ('selling' == Yii::$app->controller->module->id) {
@@ -491,5 +491,29 @@ if ('selling' == Yii::$app->controller->module->id) {
   .table-striped > tbody > tr:nth-of-type(odd):hover{
     background-color: <?php echo $bgColor ?> !important;
     color: <?php echo $color?> !important;
+  }
+
+  /* scroll */
+
+  ::-webkit-scrollbar {
+    width:7px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-width:3px 3px 3px 2px;
+    border-color: <?php echo $bgColor ?>;
+    background-color: <?php echo $bgColor ?>;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    border-width: 1px 1px 1px 2px;
+    border-color: <?php echo $bgColorPrimary ?>;
+    background-color: <?php echo $bgColorPrimary ?>;
+  }]
+  ::-webkit-scrollbar-track {
+    border-width:0;
+  }
+  ::-webkit-scrollbar-track:hover {
+    border-left: solid 1px <?php echo $bgColor ?>;
+    background-color: <?php echo $bgColor ?>;
   }
 </style>
