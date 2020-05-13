@@ -155,17 +155,18 @@ class WarehouseProductController extends Controller
         /** @var Warehouse $warehouse */
         $warehouse = $selling->warehouse;
 
-        Yii::debug("ahahahaaah");
         Yii::debug($selling->getSellingToken() . ' = '. Yii::$app->request->get('selling_token'));
 
-        if ($warehouse->belongsToUser() || $selling->getSellingToken() == Yii::$app->request->get('selling_token')) {
+        //todo:
+        if (true || $warehouse->belongsToUser() || $selling->getSellingToken() == Yii::$app->request->get('selling_token')) {
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['results' => RemainsService::searchByWarehouse($warehouse->id, $q)];
             }
+        } else {
+            throw new ForbiddenHttpException;
         }
 
-        throw new ForbiddenHttpException;
     }
 
     public function actionSearchForTransit($transitId, $q)

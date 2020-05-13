@@ -32,6 +32,7 @@ use yii\helpers\Html;
                             'url' => [
                                 '/warehouse/warehouse-product/search-for-selling',
                                 'selling_id' => $nomenclature->selling_id,
+                                'selling_token' => Yii::$app->request->get("selling_token") ?? null,
                             ],
                             'options' => [
                                 'class' => 'form-control',
