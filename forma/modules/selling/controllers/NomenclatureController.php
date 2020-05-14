@@ -26,21 +26,40 @@ class NomenclatureController extends Controller
     public function actionAddPosition()
     {
         /** @var SellingProduct $model */
+        $post = Yii::$app->request->post();
+        $sellingId = $post['SellingProduct']['selling_id'];
+        $selling = Selling::findOne($sellingId);
+        $selling_token = $selling->getSellingToken();
+        if(Yii::$app->user->isGuest){
+            if(!isset($post['selling_token']) || is_null($post['selling_token'])) return false;
+            if($selling_token != $post['selling_token']) return false;
+        }
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
+
         return NomenclatureView::widget([
             'sellingId' => $model->selling_id,
             'model' => $model,
-
+            'selling_token' => $post['selling_token'] ?? null
         ]);
     }
 
     public function actionDeletePosition($id)
     {
         /** @var SellingProduct $model */
+        $selling_token_get = Yii::$app->request->get('selling_token');
+        $selling_token = Selling::findOne(SellingProduct::findOne($id)->selling_id)->selling_token;
+        if(Yii::$app->user->isGuest){
+            if(!isset($selling_token_get) || is_null($selling_token_get)) return false;
+            if($selling_token != $selling_token_get) return false;
+        }
         $model = NomenclatureService::deletePosition($id);
+
+
+        //$selling = Selling::findOne($model->selling_id);
         return NomenclatureView::widget([
             'sellingId' => $model->selling_id,
             'model' => $model,
+            'selling_token' => $selling_token_get
         ]);
     }
 

@@ -40,7 +40,7 @@ $config = [
 
             $objectName = $model->name ?? $model->title ?? '';
 
-            Yii::debug(get_class($event->sender) . ' добавлен');
+
             //
             $systemEvent = new \forma\modules\core\records\SystemEvent();
             $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
@@ -50,7 +50,6 @@ $config = [
             //Yii::debug($systemEvent . '----- user');
             $systemEvent->data = $className . ' Created: "/*$objectName*/" user '.$systemEvent->user_id;
             if (!$systemEvent->save()) {
-                Yii::debug($systemEvent->errors.' - user id = '.$systemEvent->user_id);
                 throw new \Exception(json_encode($systemEvent->errors));
             }
         });
