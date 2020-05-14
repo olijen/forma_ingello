@@ -129,7 +129,7 @@ JS;
                 </a>"; ?>
             </div>
             <div class="col col-md-12">
-                <?= Html::a('Индивидуальный проект', 'http://ingello.com', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
+                <?= Html::a('Индивидуальный проект', 'ingello.com', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
             </div>
 
           </div>
@@ -142,12 +142,12 @@ JS;
 
 
     <div align="center" class="">
-      <span><a target="_blank" style="color:#75c4f2;" href="http://applan.ingello.com" class="app">APPLAN | </a></span>
-      <span><a target="_blank" style="color:#75c4f2;" href="http://dent.ingello.com" class="app">DENT | </a></span>
-      <span><a target="_blank" style="color:#75c4f2;" href="http://business.ingello.com" class="app">BUSINES</a> </span>
+      <span><a target="_blank" style="color:#75c4f2;" href="applan.ingello.com" class="app">APPLAN | </a></span>
+      <span><a target="_blank" style="color:#75c4f2;" href="dent.ingello.com" class="app">DENT | </a></span>
+      <span><a target="_blank" style="color:#75c4f2;" href="business.ingello.com" class="app">BUSINES</a> </span>
         <br>
-        <a id="logoingello"  target="_blank" href="http://ingello.com" class="">
-          <img  style="padding: 5px; width: 75px; filter: drop-shadow(1px 2px 2px #75c4f2);" src="http://ingello.com/img/logos/logo_white_ingello_min.png" />
+        <a id="logoingello"  target="_blank" href="ingello.com" class="">
+          <img  style="padding: 5px; width: 75px; filter: drop-shadow(1px 2px 2px #75c4f2);" src="ingello.com/img/logos/logo_white_ingello_min.png" />
         </a>
         <br>
         <span style="color:white; font-size: 75%;"><?=date('Y')?></span>
