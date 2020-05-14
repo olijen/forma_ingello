@@ -20,6 +20,7 @@ class NomenclatureService
 {
     public static function addPosition($post)
     {
+
         $model = self::getUnitByProduct($post);
         if (!$model->isNewRecord) {
             $addendQty = $model->quantity;
@@ -29,7 +30,7 @@ class NomenclatureService
             $model->quantity += $addendQty;
         }
 
-        $model->pack_unit_id = $model->product->pack_unit_id;
+        $model->pack_unit_id = $model->product->pack_unit_id ?? null;
 
         $model->currency_id = 1;
 

@@ -48,7 +48,7 @@ class Module extends \yii\base\Module
             return false;
         }
 
-        Yii::debug($action->actionMethod);
+
 
         if (!Yii::$app->user->isGuest) {
             return true;
