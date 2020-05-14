@@ -30,7 +30,7 @@ class EditCellAction extends Action
         /** @var ActiveRecord $modelClass */
         $modelClass = $this->modelClass;
         $model = $modelClass::findOne($id);
-        //$this->_response['modelProduct'] = $model;
+        $this->_response['modelProduct'] = $model;
 
         if (!$model->load(Yii::$app->request->post()) || !$model->save()) {
             $this->_response['success'] = false;
