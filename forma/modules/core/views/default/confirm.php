@@ -31,7 +31,7 @@ $this->title = 'Подтверждение почты';
         <a style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-newspaper-o"></i> INGELLO</a>
         <hr>
         <h4 style="color: white;">Демонстрационный веб сервис для автоматизации и мониторинга</h4>
-        <h6 style="color: white;">Разработано компанией <a style="color: red;" href="http://ingello.com">Ingello</a></h6>
+        <h6 style="color: white;">Разработано компанией <a style="color: red;" href="ingello.com">Ingello</a></h6>
 
     </div>
 

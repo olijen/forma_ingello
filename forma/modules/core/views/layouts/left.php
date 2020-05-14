@@ -114,7 +114,7 @@ use forma\modules\product\records\Product;
                   ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                   ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
                   ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-                  ['label' => 'Пациенты', 'url' => 'http://dent.ingello.com', 'icon' => 'heartbeat'],
+                  ['label' => 'Пациенты', 'url' => 'dent.ingello.com', 'icon' => 'heartbeat'],
                   ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
                   ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
               ]
@@ -184,8 +184,8 @@ use forma\modules\product\records\Product;
               'icon' => 'th',
               'items' => $warehouses,
           ],
-          ['label' => 'Командная работа', 'url' => 'http://applan.ingello.com', 'icon' => 'sitemap'],
-          ['label' => 'Интернет магазин', 'url' => 'http://ecocom.ingello.com', 'icon' => 'money'],
+          ['label' => 'Командная работа', 'url' => 'applan.ingello.com', 'icon' => 'sitemap'],
+          ['label' => 'Интернет магазин', 'url' => 'ecocom.ingello.com', 'icon' => 'money'],
       ];
 
         ?>
