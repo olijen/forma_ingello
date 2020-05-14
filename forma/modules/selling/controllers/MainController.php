@@ -80,7 +80,7 @@ class MainController extends Controller
         $state = State::findOne(['id' => $selling->state_id]);
         $customer = $selling->customer;
         $googleLink = $this->googleEmailChange($customer, $selling_token);
-        if(\Yii::$app->request->isPjax){
+        if(\Yii::$app->request->isPjax && isset($_GET['Customer']['chief_email'])){
             $customer->chief_email = $_GET['Customer']['chief_email'];
             $customer->save();
             $_GET['Customer']['chief_email'] = [];
