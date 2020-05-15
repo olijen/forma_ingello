@@ -82,8 +82,8 @@ class MainController extends Controller
         $googleLink = $this->googleEmailChange($customer, $selling_token);
         if(\Yii::$app->request->isPjax && isset($_GET['Customer']['chief_email'])){
             $customer->chief_email = $_GET['Customer']['chief_email'];
+            $customer->selling_token = $selling_token;
             $customer->save();
-            $_GET['Customer']['chief_email'] = [];
             return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state','googleLink'));
         }
 
