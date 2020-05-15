@@ -24,7 +24,7 @@ use yii\widgets\Breadcrumbs;
 <div class='control-sidebar-bg'></div>
 
 <div align="center">
-  <a style="color: white; margin: 4px;" class="btn btn-success" target="_blank" href="ingello.com/site/contact"><i class="fa fa-dollar"></i> Начать планирование проекта</a>
+  <a style="color: white; margin: 4px;" class="btn btn-success" target="_blank" href="https://ingello.com/site/contact"><i class="fa fa-dollar"></i> Начать планирование проекта</a>
 </div>
 
 <?= Modal::widget([

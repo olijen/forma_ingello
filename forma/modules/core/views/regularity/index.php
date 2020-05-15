@@ -50,7 +50,7 @@ $menu = [
             ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
             ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
             ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-            ['label' => 'Пациенты', 'url' => 'dent.ingello.com', 'icon' => 'heartbeat'],
+            ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
             ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
             ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
         ]
@@ -122,8 +122,8 @@ $menu = [
     ],
     ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
     ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree'],
-    ['label' => 'Командная работа', 'url' => 'applan.ingello.com', 'icon' => 'sitemap'],
-    ['label' => 'Интернет магазин', 'url' => 'ecocom.ingello.com', 'icon' => 'money'],
+    ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap'],
+    ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'money'],
 ];
 
 ?>

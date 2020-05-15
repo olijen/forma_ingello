@@ -46,7 +46,7 @@ $fieldOptions5 = [
       <h1 href="#" style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-bar-chart-o"></i>  INGELLO</h1>
   </div>
   <h4 style="color: white;">Сервис для автоматизации и мониторинга</h4>
-  <h6 style="color: white;">Разработано компанией <a style="color: blue;" href="ingello.com">Ingello</a></h6>
+  <h6 style="color: white;">Разработано компанией <a style="color: blue;" href="https://ingello.com">Ingello</a></h6>
 
     <?php /*=\forma\components\widgets\ModalSrc::widget([
         'route' => '/core/site/doc?page=login',
@@ -157,12 +157,12 @@ $fieldOptions5 = [
 
 
   <div align="center" class="">
-    <span><a target="_blank" style="color:#75c4f2;" href="applan.ingello.com" class="app">APPLAN | </a></span>
-    <span><a target="_blank" style="color:#75c4f2;" href="dent.ingello.com" class="app">DENT | </a></span>
-    <span><a target="_blank" style="color:#75c4f2;" href="business.ingello.com" class="app">BUSINES</a> </span>
+    <span><a target="_blank" style="color:#75c4f2;" href="https://applan.ingello.com" class="app">APPLAN | </a></span>
+    <span><a target="_blank" style="color:#75c4f2;" href="https://dent.ingello.com" class="app">DENT | </a></span>
+    <span><a target="_blank" style="color:#75c4f2;" href="https://business.ingello.com" class="app">BUSINES</a> </span>
     <br>
-    <a id="logoingello"  target="_blank" href="ingello.com" class="">
-      <img  style="padding: 5px; width: 75px; filter: drop-shadow(1px 2px 2px #75c4f2);" src="ingello.com/img/logos/logo_white_ingello_min.png" />
+    <a id="logoingello"  target="_blank" href="https://ingello.com" class="">
+      <img  style="padding: 5px; width: 75px; filter: drop-shadow(1px 2px 2px #75c4f2);" src="https://ingello.com/img/logos/logo_white_ingello_min.png" />
     </a>
     <br>
     <span style="color:white; font-size: 75%;"><?=date('Y')?></span>
