@@ -116,7 +116,7 @@ JS;
                   </a>
                 </li>
                 <li>
-                  <a href="fractal.ingello.com">
+                  <a href="https://fractal.ingello.com">
                     <div class="pull-left">
                       <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
                            alt="user image"/>
@@ -129,7 +129,7 @@ JS;
                   </a>
                 </li>
                 <li>
-                  <a href="business.ingello.com">
+                  <a href="https://business.ingello.com">
                     <div class="pull-left">
                       <img src="<?= $directoryAsset ?>/img/user5-128x128.jpg" class="img-circle"
                            alt="user image"/>

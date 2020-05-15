@@ -107,7 +107,7 @@ class SiteController extends Controller
                 return $this->goBack();
             }
             else if(!is_null($user) && $user->confirmed_email == 0){
-                return Yii::$app->response->redirect('http://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
+                return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
             }
         }
         return $this->render('login', [
@@ -145,7 +145,7 @@ class SiteController extends Controller
                 }
                 else if(!is_null($user) && $user->confirmed_email == 0){
                     return Yii::$app->response
-                        ->redirect('http://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)
+                        ->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)
                         ->send();
                 }
             }
@@ -218,7 +218,7 @@ class SiteController extends Controller
         //todo перенести переменные в конфигурацию
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
-        $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/login';
+        $redirectUri = 'https://'.$_SERVER['HTTP_HOST'].'/login';
 
         $client = new Google_Client();
         /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config
