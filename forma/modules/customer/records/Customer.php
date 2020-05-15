@@ -27,6 +27,8 @@ use forma\modules\country\records\Country;
  */
 class Customer extends AccessoryActiveRecord
 {
+    //для того чтобы не accessory active record не создавал соотнешение к юзеру
+    public $selling_token;
 
 
     /**
