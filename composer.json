@@ -94,7 +94,8 @@
     "kotchuprik/yii2-instagram-authclient": "^1.0",
     "himiklab/yii2-sitemap-module": "*",
     "philippfrenzel/yii2fullcalendar": "3.9.0",
-    "php-ai/php-ml": "^0.8.0"
+    "php-ai/php-ml": "^0.8.0",
+    "ext-json": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
