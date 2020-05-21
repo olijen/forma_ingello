@@ -72,14 +72,14 @@ class SystemEventUserController extends Controller
         //получим массив, в котором содержаться все события, на которые подписался пользователь
         if(count(Yii::$app->request->get()) > 0 ) {
             $saveEventsForSubscribe = SystemEventUserService::saveSubscribes(Yii::$app->request->get());
-            echo "<br /><br />";
             foreach ($saveEventsForSubscribe as $key => $value) {
-                var_dump($value);
                 $system_event_user = new SystemEventUser();
                 $system_event_user->loadSubscribe([$key, $value]);
                 $system_event_user->save();
             }
         }
+
+        return $this->redirect(['subscribe']);
     }
 
     /**

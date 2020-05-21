@@ -13,6 +13,9 @@ use Yii;
  * @property string $module
  * @property string $data
  * @property int $user_id
+ * @property string $class_name
+ * @property string $request_uri
+ * @property int $sender_id
  *
  * @property User $user
  */
@@ -32,11 +35,12 @@ class SystemEvent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_time', 'module', 'data', 'user_id'], 'required'],
+            [['date_time', 'module', 'data', 'user_id', 'class_name', 'request_uri', 'sender_id'], 'required'],
             [['date_time'], 'safe'],
-            [['user_id'], 'integer'],
+            [['user_id', 'sender_id'], 'integer'],
             [['application', 'module'], 'string', 'max' => 45],
-            [['data'], 'string', 'max' => 250],
+            [['class_name'], 'string', 'max' => 100],
+            [['data', 'request_uri'], 'string', 'max' => 250],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

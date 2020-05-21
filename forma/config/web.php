@@ -3,6 +3,7 @@
 use yii\db\ActiveRecord;
 use yii\web\AssetBundle;
 use forma\modules\core\records\SystemEventService;
+use forma\modules\core\controllers\SiteController;
 
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
@@ -26,6 +27,9 @@ $config = [
     'on beforeAction' => function($event) {
 
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_INSERT, function ($event) {
+            Yii::debug($event);
+            Yii::debug($_SERVER);
+            Yii::debug($_REQUEST);
             SystemEventService::init();
             SystemEventService::eventAfterInsert($event);
 
@@ -41,6 +45,12 @@ $config = [
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_DELETE, function ($event) {
 
             SystemEventService::eventAfterDelete($event);
+
+        });
+
+        yii\base\Event::on(SiteController::class, SiteController::EVENT_AFTER_LOGIN, function ($event) {
+            Yii::debug($event);
+            SystemEventService::eventAfterLogin();
 
         });
 

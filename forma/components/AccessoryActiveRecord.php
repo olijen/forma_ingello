@@ -51,7 +51,7 @@ class AccessoryActiveRecord extends ActiveRecord
             'entity_class' => get_class($this),
             'entity_id' => $this->id,
             'user_id' => Yii::$app->getUser()->id,
-        ])->one()) && !isset($this->selling_token)) {
+        ])->one())) {
             $this->createAccessoryToUser();
         }
         parent::afterSave($insert, $changedAttributes);
