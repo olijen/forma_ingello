@@ -21,9 +21,7 @@ $this->params['breadcrumbs'][] = $model->name;
     <?= $this->render('_form', [
         'model' => $model,
         'field' => $field,
-        'fieldValue' => $fieldValue,
         'searchModel' => $searchModel,
-        'searchModelValue' => $searchModelValue,
         'dataProvider' => $dataProvider,
 
     ]) ?>

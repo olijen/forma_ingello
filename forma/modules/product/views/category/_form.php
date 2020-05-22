@@ -24,17 +24,25 @@ use yii\helpers\Url;
 
 <?php $form = ActiveForm::begin([
     'id' => 'category-name-form',
-//    'options' => ['class' => 'form-horizontal'],
 ]); ?>
-<?php Pjax::begin() ?>
+
 <div class="col-md-3 block">
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
+    <?php Pjax::begin() ?>
     <?= $form->field($model, 'parent_id')->dropDownList(
         \forma\modules\product\records\Category::getList(),
-        ['prompt' => '']
+        ['prompt' => '', 'onchange' => "$.pjax({         
+                             type : 'POST',         
+                             url : '/product/category/pjax-parent-category-field',
+                             container: '#pjax-drop-down-list-category',         
+                             data :  $(this).serialize(), 
+                             push: false,
+                             replace: false,         
+                             timeout: 10000,         
+                             \"scrollTo\" : false     
+                      })",]
     ) ?>
-
+    <?php Pjax::end() ?>
     <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
 
     <div class="form-group">
@@ -49,17 +57,27 @@ use yii\helpers\Url;
 
     </div>
 </div>
-<?php Pjax::end() ?>
+
+
 <?php ActiveForm::end(); ?>
 
-<?php if ($model->id): ?>
+<?php Pjax::begin(['id' => 'pjax-drop-down-list-category', 'enablePushState' => false,]); ?>
+<?php if (isset($searchParentField) && isset($parentFieldDataProvider)): ?>
+    <?= $this->render('field_widget', [
+        'searchParentField' => $searchParentField,
+        'parentFieldDataProvider' => $parentFieldDataProvider,
+    ]); ?>
+<?php endif; ?>
+<?php Pjax::end(); ?>
+
+
+
+<?php if (isset($model->id)): ?>
 
     <?= $this->render('setting_widget', [
         'model' => $model,
         'field' => $field,
-        'fieldValue' => $fieldValue,
         'searchModel' => $searchModel,
-        'searchModelValue' => $searchModelValue,
         'dataProvider' => $dataProvider,
     ]) ?>
 

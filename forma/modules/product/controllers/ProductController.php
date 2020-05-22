@@ -60,69 +60,80 @@ class ProductController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductSearch();
-
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $category_id['category_id'] = 2;
-        $field = new Field;
-        $attributes = $field->widgetGetList($category_id);
+//        de($dataProvider->getCount());
+//        de($dataProvider->getModels());
 
-//        de($dataProvider->getModels()
-//        [0]->fieldProductValues[0]->field->name
-//        );
+        if (!empty($_GET['ProductSearch']['category_id'])) {
+            $this->getCategoryField($dataProvider, $searchModel);
+        } elseif (!empty($_GET['ProductSearch']['category_id'])&& isset($_GET['catalog'])) {
+            $this->getCategoryField($dataProvider, $searchModel);
+        }
 
         return $this->render('index', [
-            'attributes' => $attributes,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionPjaxGridIndex()
+    public function getCategoryField($dataProvider, $searchModel)
     {
-        $this->layout = false;
-        if (Yii::$app->request->isAjax) {
-            $category_id['category_id'] = $_POST['Category']['id'];
-            $field = new Field;
-            $attributes = $field->widgetGetList($category_id);
-
-            return $this->render('index', [
-                'attributes' => $attributes,
-            ]);
-//de($attributes);
-        }
-
+//        de();
+        $category_id = $dataProvider->getModels()[0]->category_id;
+//        de($category_id);
+        $field = new Field;
+        $fieldAttributes = $field->widgetGetList($category_id);
+//        de($fieldAttributes);
+        return $this->render('index', [
+            'fieldAttributes' => $fieldAttributes,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
+
+    public function getCategoryField_old($category_id)
+    {
+        $field = new Field;
+        $fieldAttributes = $field->widgetGetList($category_id);
+//        de($fieldAttributes);
+        return $fieldAttributes;
+    }
+
+//    public function actionPjaxGridIndex()
+//    {
+//        $this->layout = false;
+//        if (Yii::$app->request->isAjax) {
+//            $category_id['category_id'] = $_POST['Category']['id'];
+//            $field = new Field;
+//            $fieldAttributes = $field->widgetGetList($category_id);
+//
+//            return $this->render('index', [
+//                'fieldAttributes' => $fieldAttributes,
+//            ]);
+////de($fieldAttributes);
+//        }
+//
+//    }
 
 
     public function actionCreate()
     {
         if (Yii::$app->request->isAjax) {
-
             $model = ProductService::save(null, Yii::$app->request->post());
-//            $field = new Field();
-//            $attributes = $field->widgetGetList($model);
             return $this->render('create', [
                 'model' => $model,
-//                'attributes' => $attributes,
-//                '$field' => $field,
             ]);
         }
         if (Yii::$app->request->isPost) {
-
             $modelNewProduct = ProductService::save(null, Yii::$app->request->post());
-//de($modelNewProduct);
             foreach (Yii::$app->request->post()['FieldProductValue'] as $fieldValueId => $fieldValueModel) {
-                de(Yii::$app->request->post());
-                de($fieldValueId);
+//                de($_POST);
                 $saveProductValue = new FieldProductValue();
-                $field_id = FieldProductValue::findOne($fieldValueId);
-//                    ->field_id;
-                var_dump('Тут будет ид нулевого елемнта');
-                de($field_id);
+                $field_id = Field::findOne($fieldValueId);
                 $saveProductValue->product_id = $modelNewProduct->id;
+//            de($fieldValueModel);
                 $saveProductValue->value = $fieldValueModel['value'];
-                $saveProductValue->field_id = $field_id;
-
+                $saveProductValue->field_id = $field_id->id;
                 if (!$saveProductValue->validate()) {
                     $saveProductValue->errors;
                 }
@@ -131,12 +142,11 @@ class ProductController extends Controller
             return $this->redirect(['index']);
         } else {
             $model = ProductService::create();
-            $widgetName = new SystemWidget;
             $field = new Field();
-            $attributes = null;
+            $fieldAttributes = null;
             return $this->render('create', [
                 'model' => $model,
-                'attributes' => $attributes,
+                'fieldAttributes' => $fieldAttributes,
                 'field' => $field,
             ]);
         }
@@ -145,18 +155,17 @@ class ProductController extends Controller
 
     function actionPjaxAttribute()
     {
-
         $this->layout = false;
         if (Yii::$app->request->isPjax) {
 
-            $category_id['category_id'] = Yii::$app->request->post()['Product']['category_id'];
+            $category_id = Yii::$app->request->post()['Product']['category_id'];
             // категория из обьекта продукта постом
             $field = new Field();
-            $attributes = $field->widgetGetList($category_id);
+            $fieldAttributes = $field->widgetGetList($category_id);
 
             return $this->render('pjax_attribute', [
                 'field' => $field,
-                'attributes' => $attributes,
+                'fieldAttributes' => $fieldAttributes,
             ]);
 
         } else {
@@ -169,18 +178,13 @@ class ProductController extends Controller
     {
         $model = ProductService::get($id);
         $field = new Field();
-//        $modelParams = ['id'=> $model->id , 'category_id' => $model->category_id];
-        $attributes = $field->widgetGetList($model);
-//de($attributes);
+        $category_id = $model->category_id;
+        $fieldAttributes = $field->widgetGetList($category_id);
         if (Yii::$app->request->isPost) {
-//de(Yii::$app->request->post());
             foreach (Yii::$app->request->post()['FieldProductValue'] as $fieldValueId => $fieldValueModel) {
-                de($_POST);
-                de($fieldValueId);
-                $saveProductValue = FieldProductValue::findOne($fieldValueId);
-                var_dump($fieldValueModel);
-                $saveProductValue->value = $fieldValueModel['value'];
 
+                $saveProductValue = FieldProductValue::findOne($fieldValueId);
+                $saveProductValue->value = $fieldValueModel['value'];
                 if (!$saveProductValue->validate()) {
                     $saveProductValue->errors;
                 }
@@ -189,9 +193,10 @@ class ProductController extends Controller
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);
         } else {
+
             return $this->render('update', [
                 'model' => $model,
-                'attributes' => $attributes,
+                'fieldAttributes' => $fieldAttributes,
                 'field' => $field,
             ]);
         }

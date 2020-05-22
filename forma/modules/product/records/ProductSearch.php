@@ -15,7 +15,7 @@ class ProductSearch extends Product
     public $color_name;
 
     public $packUnits;
-    
+
     /**
      * @inheritdoc
      */
@@ -46,11 +46,40 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
+//de($params);
+
+//        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
+//        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
+//        var_dump($params);
+//        echo '</pre> </div> </br> </br>';
+
+
         $query = Product::find()
             ->joinWith('color', false, 'LEFT JOIN')
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
             ->andWhere(['accessory.entity_class' => Product::className()]);
+
+        if (isset($params['FieldProductValue'])) {
+            $query->joinWith(['fieldProductValues']);
+
+            foreach ($params['FieldProductValue'] as $fieldId => $fieldValue) {
+                if (!empty($fieldValue['value'])) {
+
+                    echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
+                    echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
+                    var_dump($fieldValue);
+                    echo '</pre> </div> </br> </br>';
+                    $query ->andFilterWhere([
+                        'field_product_value.value' => $fieldValue['value'],
+                        'field_product_value.field_id' => $fieldId,
+                    ]);
+                }
+
+
+            }
+
+        }
 
         // add conditions that should always apply here
 
@@ -58,14 +87,14 @@ class ProductSearch extends Product
             'query' => $query,
         ]);
 
-        $dataProvider->setSort([
-            'attributes' => ArrayHelper::merge($dataProvider->sort->attributes, [
-                'color_name' => [
-                    'asc' => ['color.name' => SORT_ASC],
-                    'desc' => ['color.name' => SORT_DESC],
-                ],
-            ]),
-        ]);
+//        $dataProvider->setSort([
+//            'attributes' => ArrayHelper::merge($dataProvider->sort->attributes, [
+//                'color_name' => [
+//                    'asc' => ['color.name' => SORT_ASC],
+//                    'desc' => ['color.name' => SORT_DESC],
+//                ],
+//            ]),
+//        ]);
 
         $this->load($params);
 
@@ -96,6 +125,8 @@ class ProductSearch extends Product
             ->andFilterWhere(['like', 'product.name', $this->name])
             ->andFilterWhere(['like', 'product.note', $this->note]);
 
+//de($dataProvider->getModels());
+//        de($query->all());
         return $dataProvider;
     }
 }

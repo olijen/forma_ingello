@@ -20,7 +20,6 @@ use Yii;
 class Field extends \yii\db\ActiveRecord
 {
 
-
     /**
      * @inheritdoc
      */
@@ -97,54 +96,28 @@ class Field extends \yii\db\ActiveRecord
         return new FieldQuery(get_called_class());
     }
 
+    public function getValuesForProduct($product_id)
+    {
+
+        return FieldProductValue::find()
+//            ->join('join', 'field', 'field.id = field_product_value.field_id')
+//            ->where(['field.category_id' => $this->category_id])
+            ->where(['field_id' => $this->id])
+            ->andWhere(['product_id' => $product_id])
+            ->one();
+    }
+
     public static function getList()
     {
         return EntityLister::getList(self::className());
     }
 
-    public function widgetGetList($modelParams = null)
+    public function widgetGetList($category_id)
     {
-
-
-        if (is_array($modelParams)) {
-
-//           de($productModel);
-            $category_id = $modelParams['category_id'];
-            var_dump($category_id);
-//de($category_id);
-//            $query = self::find()->join('INNER JOIN', 'field', 'field.id = field_product_value.field_id')
-////                ->andwhere(['field_product_value.product_id' => $productModel->id])
-//                ->andWhere(['field.category_id' => $category_id])
             $query = Field::find()
-//                ->join('JOIN', 'field_product_value', 'field_product_value.field_id = field.id')
-//                ->join('INNER JOIN', 'field_product_value', 'field.id = field_product_value.field_id')
-//                ->andwhere(['field_product_value.product_id' => $productModel->id])
                 ->andWhere(['category_id' => $category_id])
                 ->indexBy('id')
                 ->all();
-//            de($query);
-
-        } elseif (is_null($modelParams)) {
-            de('Нулевая модель');
-//            $query = self::find()->join('JOIN', 'field', 'field.id = field_product_value.field_id')
-////                ->andwhere(['field_product_value.product_id' => $productModel->id])
-//                ->andWhere(['field.category_id' => null])
-//                ->indexBy('id')
-//                ->all();
-            de('field_product_valueModel');
-//            $category_id = null;
-        } else {
-            var_dump('просто модель');
-//            de($modelParams);
-            $query = self::find()
-//                ->join('JOIN', 'field_product_value', 'field_product_value.field_id = field.id')
-//                ->andwhere(['field_product_value.product_id' => $productModel->id])
-                ->andWhere(['field.category_id' => $modelParams->category_id])
-                ->indexBy('id')
-                ->all();
-//            de($query);
-
-        }
 
         return $query;
     }

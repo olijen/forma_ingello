@@ -104,9 +104,12 @@ class FieldController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $fieldId = $model->category_id;
+        $model->delete();
+
+        return $this->redirect(['category/update?id=' . $fieldId]);
     }
 
     /**

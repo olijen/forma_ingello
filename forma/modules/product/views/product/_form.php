@@ -70,16 +70,20 @@ use yii\widgets\Pjax;
             <?php DetachedBlock::end() ?>
 
 
-    </div>
+        </div>
         <div class="col-md-6">
             <?php DetachedBlock::begin() ?>
 
-            <?= $form->field($model, 'category_id')->widget(Select2::className(), [
-                'data' => Category::getList(),
-
-                'options' => ['placeholder' => 'Выберите категорию ...'],
-                'pluginEvents' => [
-                    "select2:select" => "function() {
+            <?php
+//            de($model);
+            if (isset($_GET['id'])): ?>
+                <?= $form->field($model, 'category_id')->textarea([ 'disabled' => true, 'value' => $model->category->name]) ?>
+            <?php else: ?>
+                <?= $form->field($model, 'category_id')->widget(Select2::className(), [
+                    'data' => Category::getList(),
+                    'options' => ['placeholder' => 'Выберите категорию ...'],
+                    'pluginEvents' => [
+                        "select2:select" => "function() {
                     
                       $.pjax({         
                              type : 'POST',         
@@ -92,44 +96,25 @@ use yii\widgets\Pjax;
                              \"scrollTo\" : false     
                       })
                      }",
-                ],
-                'addon' => ['prepend' => [
-                    'content' => ModalCreate::widget(['route' => Url::to(['/product/category/update?id=' . $model->category_id])]),
-                    'asButton' => true,
-                ]],
-            ]) ?>
-
-            <?php Pjax::begin(['id' => 'ajax-attributes',
-//                'enablePushState' => false,
-            ]); ?>
-
+                    ],
+                    'addon' => ['prepend' => [
+                        'content' => ModalCreate::widget(['route' => Url::to(['/product/category/update?id=' . $model->category_id])]),
+                        'asButton' => true,
+                    ]],
+                ]) ?>
+            <?php endif; ?>
             <?php
-//            foreach ($attributes as $key => $attribute) {
-////                echo $attribute->field->name;
-////                SystemWidget::getByName($attribute->field->widget);
-////                de($attribute);
-////                    $value = $attribute->field['name'];
-////                    $value = 'datePicker';
-////                    echo
-////                de($value->field);
-////                    <input type="text" id="category-name" class="form-control" name="Category[name]" maxlength="255">
-////                    echo $form->field($attribute, "[$key]value")    ;
-//                    echo $form->field($attribute, "[$key]value")->label($attribute->field['name'])->textInput();
-////                        ->field['widget'];
-//            }
+            Pjax::begin(['id' => 'ajax-attributes',]);
+            //                'enablePushState' => false,
 
-            ?>
-
-
-            <?= $this->render('pjax_attribute', [
+            echo $this->render('pjax_attribute', [
                 'field' => $field,
-                'attributes' => $attributes,
+                'fieldAttributes' => $fieldAttributes,
 
-            ]) ?>
+            ]);
 
-            <?php Pjax::end(); ?>
-
-            <?php DetachedBlock::end() ?>
+            Pjax::end();
+            DetachedBlock::end(); ?>
         </div>
 
         <div class="form-group">

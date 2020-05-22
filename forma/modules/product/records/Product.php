@@ -294,4 +294,24 @@ class Product extends AccessoryActiveRecord
         }
         return "{$this->packUnit->bottles_quantity}x{$this->volumeLabel}";
     }
+
+
+    public function getWidgetValues($id, $value)
+    {
+
+        $field = FieldProductValue::find()
+            ->where(['field_id' => $value->id ])
+            ->andWhere(['product_id' => $id])
+            ->one();
+        if ($field){
+            return $field->value;
+        }
+
+    }
+
+    public function getTest()
+    {
+        return $this->id;
+    }
+
 }

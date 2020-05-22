@@ -58,7 +58,6 @@ class CategoryController extends Controller
     {
         $model = new Category();
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
                 echo json_encode(['recordId' => $model->id, 'recordName' => $model->name]);
@@ -73,6 +72,7 @@ class CategoryController extends Controller
 
 
     }
+
     /**
      * Updates an existing Category model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -81,33 +81,68 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
+//        de($_POST);
+        if (Yii::$app->request->isPjax) {
+            $this->layout = false;
+            $nameWidgetField = $_POST['Field']['widget'];
+            if ($nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetDropDownList') {
+                return $this->render('field_widget', [
+                    'nameWidgetField' => $nameWidgetField,
+                ]);
+            }
+        }
 
         $model = $this->findModel($id);
         $field = new Field();
-        $fieldValue = new FieldValue();
-
         $searchModel = new FieldSearch();
-        $searchModelValue = new FieldValueSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $model->id );
+        $searchModel->category_id = $model->id;
+        if (!empty($parentCategoryId= $model->parent_id))
 
-        if ($field->load(Yii::$app->request->post())  && $field->save()) {
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $parentCategoryId);
+
+//        if (!empty($parentCategoryId = $model->parent_id)){
+//            $this->getParentCategoryDataProvider($parentCategoryId);
+//        }
+
+        if ($field->load(Yii::$app->request->post()) && $field->save()) {
             return $this->redirect('update?id=' . $id);
 
         } elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
-
         }
-
 
         return $this->render('update', [
             'model' => $model,
             'field' => $field,
-            'fieldValue' => $fieldValue,
             'searchModel' => $searchModel,
-            'searchModelValue' => $searchModelValue,
             'dataProvider' => $dataProvider,
         ]);
 
+    }
+
+    public function getParentCategoryDataProvider($parentCategoryId)
+    {
+        $searchParentField = new FieldSearch();
+        $searchParentField->category_id = $parentCategoryId;
+        $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);
+
+        return $parentFieldDataProvider;
+    }
+
+    public function actionPjaxParentCategoryField()
+    {
+        if (Yii::$app->request->isPjax) {
+            $this->layout = false;
+            $parentCategoryId = $_POST['Category']['parent_id'];
+            $searchParentField = new FieldSearch();
+            $searchParentField->category_id = $parentCategoryId;
+            $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);
+
+            return $this->render('parent_field', [
+                'searchParentField' => $searchParentField,
+                'parentFieldDataProvider' => $parentFieldDataProvider,
+            ]);
+        }
     }
 
     /**
@@ -116,8 +151,6 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
-
-
 
 
     public function actionDelete($id)

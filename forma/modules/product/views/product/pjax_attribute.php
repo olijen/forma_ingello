@@ -2,6 +2,7 @@
 
 
 use forma\modules\product\components\SystemWidget;
+use forma\modules\product\records\FieldProductValue;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use forma\components\widgets\ModalCreate;
@@ -26,11 +27,19 @@ use yii\helpers\ArrayHelper;
 Pjax::begin([
     'enablePushState' => false,
 ]);
+//if (isset($_GET['id'])){
+//    $productValues = \forma\modules\product\records\Field::getValuesForProduct($_GET['id']);
+//}
 
-if (!empty($attributes)) {
-    foreach ($attributes as $key => $attribute) {
-        SystemWidget::getByName($key, $attribute);
+//echo Html::activeInput('text', $fieldAttributes[0], 'name' );
+//echo Html::tag('input', ['class' => 'username', 'name' => 'sawrasd',]);
 
+
+if (!empty($fieldAttributes)) {
+    foreach ($fieldAttributes as $key => $fieldAttribute) {
+//
+//        $productValue = $prod uctValues[$i++];
+        echo SystemWidget::getByName($key, $fieldAttribute);
         echo '</br>';
 
     }

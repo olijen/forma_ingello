@@ -1,5 +1,9 @@
 <?php
+//echo '<pre>';
+//var_dump($fieldAttributes);
+//echo '</pre>';
 
+use forma\modules\product\components\SystemWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -38,6 +42,16 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'volume') ?>
         <?= $form->field($model, 'year_chart') ?>
     </div>
+
+    <?php
+    if (!empty($fieldAttributes)) {
+        foreach ($fieldAttributes as $key => $fieldAttribute) {
+//        $productValue = $productValues[$i++];
+            echo SystemWidget::getByName($key, $fieldAttribute);
+            echo '</br>';
+        }
+    }
+    ?>
 
     <div class="form-group col-md-12">
         <?= Html::submitButton('Искать', ['class' => 'btn btn-primary']) ?>
