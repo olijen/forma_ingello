@@ -2,6 +2,7 @@
 
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use kartik\sortable\Sortable;
 
 $this->title = 'Мониторинг отделов компании';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
@@ -117,7 +118,7 @@ function(calEvent, jsEvent, view) {
 JS;
 ?>
 <div class="row">
-
+    <!-- ВОРОНКА ПРОДАЖ -->
     <div class="col-lg-9 col-xs-12">
 
         <div class="box box-success">
@@ -142,6 +143,8 @@ JS;
         </div>
 
     </div>
+
+    <!-- ИНФОРМАЦИЯ ОБ ОТДЕЛАХ -->
 
     <div class="col-lg-3 col-xs-12">
 
@@ -221,7 +224,7 @@ JS;
 <div class="row">
 
     <div class="col-md-6">
-
+        <!-- УСПЕВАВАЕМОСТЬ ОТДЕЛА ПРОДАЖ -->
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Успеваемость отдела продаж</h3>
@@ -242,6 +245,7 @@ JS;
             <!-- /.box-body -->
         </div>
 
+        <!-- ПРОДАЖИ ЗА НЕДЕЛЮ -->
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Продажи за неделю</h3>
@@ -262,6 +266,7 @@ JS;
             <!-- /.box-body -->
         </div>
 
+        <!-- СОТРУДНИКИ  -->
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Сотрудники</h3>
@@ -327,6 +332,7 @@ JS;
             <!-- /.box-footer -->
         </div>
 
+        <!-- СООБЩЕНИЯ  -->
         <?php
         \insolita\wgadminlte\LteChatBox::begin([
             'type' => \insolita\wgadminlte\LteConst::TYPE_PRIMARY,
@@ -366,8 +372,10 @@ JS;
 
     </div>
 
+
     <div class="col-md-6">
 
+        <!-- ВЫПОЛНЕНИЕ ПЛАНА ПОСТАВОК -->
         <div class="box box-warning">
             <div class="box-header with-border">
                 <h3 class="box-title">Выполнение плана поставок</h3>
@@ -388,6 +396,7 @@ JS;
             <!-- /.box-body -->
         </div>
 
+        <!-- ВЫПОЛНЕНИЕ ЦЕЛЕЙ -->
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Выполнение целей</h3>
@@ -435,6 +444,7 @@ JS;
             <!-- /.box-body -->
         </div>
 
+        <!-- КАЛЕНДАРЬ -->
         <div class="box box-warning">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
                 <i class="fa fa-calendar"></i>
@@ -494,6 +504,7 @@ JS;
             </div>
         </div>
 
+        <!-- ПОСТАВЩИКИ НА КАРТЕ -->
         <div class="box box-danger">
             <div class="box-header with-border">
                 <h3 class="box-title">Поставщики на карте</h3>
@@ -532,6 +543,37 @@ JS;
     </div>
 
 </div>
+
+<div id="sortItems">
+    <div class="grid-item text-danger">Item 1</div>
+    <div class="grid-item text-danger">Item 23</div>
+    <div class="grid-item text-danger">Item 11</div>
+    <div class="grid-item text-danger">Item 41</div>
+    <div class="grid-item text-danger">Item 54</div>
+    <div class="grid-item text-danger">Item 65</div>
+</div>
+
+<script>
+    let sortItems = $("#sortItems").childNodes;
+</script>
+
+<?php
+
+echo Sortable::widget([
+    'type'=>'grid',
+    'items'=>[
+        ['content'=>'<div class="grid-item text-danger">Item 1</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 2</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 3</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 4</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 5</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 6</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 7</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 8</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 9</div>'],
+        ['content'=>'<div class="grid-item text-danger">Item 10</div>'],
+    ]
+]);?>
 
 <script>
     var options = {

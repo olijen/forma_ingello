@@ -95,7 +95,8 @@
     "himiklab/yii2-sitemap-module": "*",
     "philippfrenzel/yii2fullcalendar": "3.9.0",
     "php-ai/php-ml": "^0.8.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "kartik-v/yii2-sortable": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",

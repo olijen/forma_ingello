@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25eac28c88de00e7f6e040bbaa02dc04",
+    "content-hash": "aad90ea9b0665c5a18016b5d0d3244d4",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -277,7 +277,7 @@
             "version": "v1.4.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ajaxorg/ace-builds.git",
+                "url": "git@github.com:ajaxorg/ace-builds.git",
                 "reference": "5ad04a46e8e0981a65dd982693e5d19a2209311c"
             },
             "dist": {
@@ -364,7 +364,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
+                "url": "git@github.com:twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -626,7 +626,7 @@
             "version": "3.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
             },
             "dist": {
@@ -2746,16 +2746,16 @@
         },
         {
             "name": "kartik-v/yii2-sortable",
-            "version": "v1.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-sortable.git",
-                "reference": "a6f9a9adb873d6345de92bbe5e436ac1a1db30bc"
+                "reference": "5b1631ef2aa4d79e01867d83ef1d1e3f8d12a41d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-sortable/zipball/a6f9a9adb873d6345de92bbe5e436ac1a1db30bc",
-                "reference": "a6f9a9adb873d6345de92bbe5e436ac1a1db30bc",
+                "url": "https://api.github.com/repos/kartik-v/yii2-sortable/zipball/5b1631ef2aa4d79e01867d83ef1d1e3f8d12a41d",
+                "reference": "5b1631ef2aa4d79e01867d83ef1d1e3f8d12a41d",
                 "shasum": ""
             },
             "require": {
@@ -2794,7 +2794,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-10-09T13:25:05+00:00"
+            "time": "2019-05-25T07:28:12+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -5510,12 +5510,12 @@
             "version": "4.13.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ckeditor/ckeditor-releases.git",
+                "url": "https://github.com/ckeditor/ckeditor4-releases.git",
                 "reference": "4d6b1722a79009f4627fd338ca872e57914e8235"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/4d6b1722a79009f4627fd338ca872e57914e8235",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor4-releases/zipball/4d6b1722a79009f4627fd338ca872e57914e8235",
                 "reference": "4d6b1722a79009f4627fd338ca872e57914e8235"
             },
             "type": "npm-asset",
@@ -13687,13 +13687,16 @@
         "uranum/yii2-excel-exchange": 20,
         "kartik-v/yii2-widget-datepicker": 20,
         "kartik-v/yii2-widget-fileinput": 20,
-        "zxbodya/yii2-gallery-manager": 20
+        "zxbodya/yii2-gallery-manager": 20,
+        "kartik-v/yii2-sortable": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.1.0",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

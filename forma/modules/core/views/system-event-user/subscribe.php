@@ -13,16 +13,24 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]);
 ?>
-
+    <style>
+        .event_modules {
+            padding-left: 35px;
+        }
+    </style>
 
 
 <?php
     $apps = Yii::$app->params['applications'];
+    $apps = json_decode(Yii::$app->params['main'], true);
     foreach($apps as $app_name => $app_value) {
         echo "<h2> $app_name </h2>";
+        echo "<div class='event_modules'>";
         foreach ($app_value as $mod_name => $mod_value) {
+
             echo "<h3>$mod_name</h3>";
             foreach ($mod_value as $obj_name) {
+                $obj_name = ucfirst($obj_name);
                 echo "<p>$obj_name</p>";
                 ?>
                 <p>События:</p>
@@ -49,6 +57,7 @@ use yii\widgets\ActiveForm;
                 <?php
             }
         }
+        echo "</div>";
     }
 ?>
 

@@ -67,6 +67,8 @@ class SystemEventSearch extends SystemEvent
             ->andFilterWhere(['like', 'module', $this->module])
             ->andFilterWhere(['like', 'data', $this->data]);
 
+        $query->orderBy(['id' => SORT_DESC]);
+
         return $dataProvider;
     }
 }

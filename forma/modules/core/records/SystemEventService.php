@@ -15,7 +15,8 @@ class SystemEventService
     public static $blackListOfEvents = [
         'SystemEvent',
         'Accessory',
-        'StateSearchState'
+        'StateSearchState',
+        'SystemEventUser'
     ];
 
     public static function init(){
@@ -49,6 +50,7 @@ class SystemEventService
     //получим имя приложения и модуля, к которому относится объект при ActiveRecord
     public static function getModuleApplication($className):array{
         $apps = Yii::$app->params['applications'];
+        $apps = json_decode(Yii::$app->params['main'], true);
         $data = [];
         foreach($apps as $app_name => $app_value){
             foreach ($app_value as $mod_name => $mod_value) {
