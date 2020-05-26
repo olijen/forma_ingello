@@ -23,10 +23,7 @@ use yii\helpers\Url;
         'dataProvider' => $parentFieldDataProvider,
         'filterModel' => $searchParentField,
         'columns' => [
-//            ['class' => 'yii\grid\ActionColumn',
-//                'template' => '{delete}',
-//                'controller' => 'field',
-//            ],
+
             'name',
             'widget',
             'defaulted',

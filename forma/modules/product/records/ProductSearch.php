@@ -46,7 +46,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-//de($params);
+
 
 //        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
 //        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
@@ -65,7 +65,6 @@ class ProductSearch extends Product
 
             foreach ($params['FieldProductValue'] as $fieldId => $fieldValue) {
                 if (!empty($fieldValue['value'])) {
-
                     echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
                     echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
                     var_dump($fieldValue);
@@ -75,10 +74,7 @@ class ProductSearch extends Product
                         'field_product_value.field_id' => $fieldId,
                     ]);
                 }
-
-
             }
-
         }
 
         // add conditions that should always apply here
@@ -124,7 +120,7 @@ class ProductSearch extends Product
             ->andFilterWhere(['like', 'product.customs_code', $this->customs_code])
             ->andFilterWhere(['like', 'product.name', $this->name])
             ->andFilterWhere(['like', 'product.note', $this->note]);
-
+//        de($this->category_id);
 //de($dataProvider->getModels());
 //        de($query->all());
         return $dataProvider;

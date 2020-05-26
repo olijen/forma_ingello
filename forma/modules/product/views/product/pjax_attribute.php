@@ -40,6 +40,7 @@ if (!empty($fieldAttributes)) {
 //
 //        $productValue = $prod uctValues[$i++];
         echo SystemWidget::getByName($key, $fieldAttribute);
+//        exit();
         echo '</br>';
 
     }

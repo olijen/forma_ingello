@@ -44,11 +44,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
 ?>
 
+
+
 <div class="product-index">
 
     <input id="import-file-input" type="file" style="display: none;">
 
-    <?php Pjax::begin(['id' => 'pjax-product-grid']); ?>
+<!--    --><?php //Pjax::begin(['id' => 'pjax-product-grid']); ?>
 
     <?php $columns = [
         ['class' => 'kartik\grid\CheckboxColumn'],
@@ -66,9 +68,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'value' => 'type.name',
             'filter' => Type::getList(),
         ],
-        [
-            'label' => 'ochko',
-        ]
 //        [
 //            'attribute' => 'category_id',
 //            'value' => 'category.name',
@@ -88,25 +87,26 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
     ];
 
 
-
-//    de($dataProvider->getModels());
+    //reset ( $columns );
+    //    de($dataProvider->getModels());
     if (isset($fieldAttributes)) {
 
         foreach ($fieldAttributes as $key => $fieldAttribute) {
             $filter = SystemWidget::getByName($key, $fieldAttribute);
-
+            //de($columns);
             $columns [] = [
-                'label' => 'ochko213wq412esa',
-//                'value' => function ($model) use ($fieldAttribute) {
-//                    return $model->getWidgetValues($model->id, $fieldAttribute);
-//                },
-//                'filter' => $filter,
+                'label' => 'что то',
+                'value' => function ($model) use ($fieldAttribute) {
+                    return $model->getWidgetValues($model->id, $fieldAttribute);
+                },
+                'filter' => $filter,
             ];
-//            de($columns);
+            //de($columns);
 //            var_dump($fieldAttribute->name);
 //            de($columns);
 
         }
+        ///de($columns);
     }
     ?>
 
@@ -115,44 +115,29 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
     <?php if (!isset($_GET['catalog'])) : ?>
 
-        <?php $form = ActiveForm::begin(['action' => ['index'], 'method' => 'get']); ?>
+        <?php $form = ActiveForm::begin(
+//                ['action' => ['index'], 'method' => 'get']
+        ); ?>
 
-        <?= $form->field($searchModel, 'category_id')->dropDownList(Category::getList(), ['class' => 'btn btn-info']); ?>
-        <?= Html::submitButton('Выбрать категорию', ['class' => 'btn btn-primary']) ?>
+        <?= $form->field($searchModel, 'category_id')->dropDownList(Category::getList(), ['prompt' => '','class' => 'btn btn-info',
+            'onchange'=>'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()'
+        ,]);
+// {id: $(this).val()}
+        ?>
+
         <?php ActiveForm::end(); ?>
 
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
 
 
-        <br><br>
-        <!--    --><? //=  Select2::widget([
-//            'model' => new Category,
-//            'attribute' => 'id',
-//            'data' => Category::getList(),
-//            'options' => ['placeholder' => 'Select a state ...',],
-//            'pluginEvents' => [
-//                "select2:select" => "function() {
-//
-//                      $.pjax({         
-//                             type : 'POST',         
-//                             url : '/product/product/pjax-grid-index',
-//                             container: '#pjax-product-grid-index',         
-//                             data :  $(this).serialize(),
-//                             push: false,
-//                             replace: false,         
-//                             timeout: 10000,         
-//                             \"scrollTo\" : false     
-//                      })
-//                     }",
-//            ],
-//        ]);
-//        ?>
+
         <br><br>
 
-<!--        --><?php //Pjax::begin(['id' => 'pjax-product-grid-index']); ?>
+        <!--        --><?php
+//Pjax::begin(['id' => 'pjax-product-grid-index']); ?>
         <?= DynaGrid::widget([
-            'id' => 'test_id_pjax',
+//            'id' => 'test_id_pjax',
             'allowSortSetting' => false,
             'showPersonalize' => true,
             'allowFilterSetting' => false,
@@ -210,7 +195,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                 ],
             ],
         ]); ?>
-<!--        --><?php //Pjax::end(); ?>
+        <!--        --><?php //Pjax::end(); ?>
     <?php else : ?>
 
 
@@ -243,6 +228,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
     <?php endif ?>
 
-    <?php Pjax::end(); ?>
+<!--    --><?php //Pjax::end(); ?>
 
 </div>
