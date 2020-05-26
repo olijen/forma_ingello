@@ -68,11 +68,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'value' => 'type.name',
             'filter' => Type::getList(),
         ],
-//        [
-//            'attribute' => 'category_id',
-//            'value' => 'category.name',
-//            'filter' => Category::getList(),
-//        ],
+        [
+            'attribute' => 'category_id',
+            'value' => 'category.name',
+            'filter' => Category::getList(),
+        ],
 //        [
 //            'attribute' => 'manufacturer_id',
 //            'value' => 'manufacturer.name',
@@ -115,20 +115,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
     <?php if (!isset($_GET['catalog'])) : ?>
 
-        <?php $form = ActiveForm::begin(
-//                ['action' => ['index'], 'method' => 'get']
-        ); ?>
-
-        <?= $form->field($searchModel, 'category_id')->dropDownList(Category::getList(), ['prompt' => '','class' => 'btn btn-info',
-            'onchange'=>'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()'
-        ,]);
-// {id: $(this).val()}
-        ?>
-
-        <?php ActiveForm::end(); ?>
-
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
+        <?= Html::activeDropDownList($searchModel, 'category_id',
+        Category::getList(), ['prompt' => '','class' => 'btn btn-info',
+            'onchange'=>'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()'
+            ,]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
+
 
 
 

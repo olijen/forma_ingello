@@ -37,12 +37,8 @@ Pjax::begin([
 
 if (!empty($fieldAttributes)) {
     foreach ($fieldAttributes as $key => $fieldAttribute) {
-//
-//        $productValue = $prod uctValues[$i++];
-        echo SystemWidget::getByName($key, $fieldAttribute);
-//        exit();
+        echo SystemWidget::getByName($key, $fieldAttribute, 'yes');
         echo '</br>';
-
     }
 }
 

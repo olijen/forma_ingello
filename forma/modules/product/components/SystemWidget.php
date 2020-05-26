@@ -27,7 +27,7 @@ class SystemWidget
 
     public function widgetColorInput()
     {
-        $this->getLabel();
+//        $this->getLabel();
         return ColorInput::widget([
             'model' => $this->productValue,
             'attribute' => '[' . $this->productValue->id . ']value',
@@ -37,7 +37,7 @@ class SystemWidget
 
     public function widgetDatePicker()
     {
-        $this->getLabel();
+//        $this->getLabel();
         return DatePicker::widget([
             'name' => 'FieldProductValue[' . $this->productValue->id . '][value]',
             'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -51,7 +51,7 @@ class SystemWidget
 
     public function widgetMultiSelect()
     {
-        $this->getLabel();
+//        $this->getLabel();
         if (!empty($this->productValue->value)) {
             $multiSelectValue = json_decode($this->productValue->value);
 //                de($multiSelectValue);
@@ -82,7 +82,7 @@ class SystemWidget
 
     public function widgetDropDownList()
     {
-        $this->getLabel();
+//        $this->getLabel();
         var_dump($this->attribute->id);
         return Html::dropDownList('FieldProductValue[' . $this->productValue->id . '][value]', 'null',
             ArrayHelper::map(\forma\modules\product\records\FieldValue::find()
@@ -92,7 +92,7 @@ class SystemWidget
 
     public function widgetTextInput()
     {
-        $this->getLabel();
+//        $this->getLabel();
         return Html::activeInput('text', $this->productValue, '[' . $this->productValue->id . ']value', ['class' => 'form-control']);
     }
 
@@ -113,7 +113,7 @@ class SystemWidget
         return $widgetNames;
     }
 
-    public static function getByName($key, Field $attribute)
+    public static function getByName($key, Field $attribute, $getLabel = null)
     {
         $widgetCall = new SystemWidget;
         $widgetCall->attribute = $attribute;
@@ -127,6 +127,9 @@ class SystemWidget
             $widgetCall->productValue->value = '';
         }
         $functionName = $attribute->widget;
+        if ($getLabel == 'yes'){
+            $widgetCall->getLabel();
+        }
         return $widgetCall->$functionName();
 
     }

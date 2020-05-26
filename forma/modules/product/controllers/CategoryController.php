@@ -81,7 +81,6 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
-
         if (Yii::$app->request->isPjax) {
             $this->layout = false;
             $nameWidgetField = $_POST['Field']['widget'];
@@ -98,9 +97,7 @@ class CategoryController extends Controller
         $searchModel->category_id = $model->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-
         if ($field->load(Yii::$app->request->post()) && $field->save()) {
-
             if(isset($_POST['FieldValue'])){
                 foreach ($_POST['FieldValue'] as $value) {
                     if (!empty($value['name'])){
@@ -122,7 +119,6 @@ class CategoryController extends Controller
 
         } elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
-
         }
 
         if (!empty($parentCategoryId = $model->parent_id)){

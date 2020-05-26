@@ -83,7 +83,7 @@ class ProductController extends Controller
         $category_id = $dataProvider->getModels()[0]->category_id;
         $field = new Field;
         $fieldAttributes = $field->widgetGetList($category_id);
-//        de('daw');
+
         return $this->render('index', [
             'fieldAttributes' => $fieldAttributes,
             'searchModel' => $searchModel,
@@ -95,26 +95,8 @@ class ProductController extends Controller
     {
         $field = new Field;
         $fieldAttributes = $field->widgetGetList($category_id);
-//        de($fieldAttributes);
         return $fieldAttributes;
     }
-
-//    public function actionPjaxGridIndex()
-//    {
-//        $this->layout = false;
-//        if (Yii::$app->request->isAjax) {
-//            $category_id['category_id'] = $_POST['Category']['id'];
-//            $field = new Field;
-//            $fieldAttributes = $field->widgetGetList($category_id);
-//
-//            return $this->render('index', [
-//                'fieldAttributes' => $fieldAttributes,
-//            ]);
-////de($fieldAttributes);
-//        }
-//
-//    }
-
 
     public function actionCreate()
     {
@@ -133,13 +115,16 @@ class ProductController extends Controller
                 $field_id = Field::findOne($fieldId);
                 $saveProductValue->product_id = $modelNewProduct->id;
 
-                if (isset($fieldValueModel['multiSelect']['value']) && !empty($fieldValueModel['multiSelect']['value'])) {
-                    $saveProductValue->value = json_encode($fieldValueModel['multiSelect']['value']);
-
-                } elseif (isset($fieldValueModel['value']) && !empty($fieldValueModel['value'])) {
+                if (isset($fieldValueModel['multiSelect']['value'])) {
+                    if (!empty($fieldValueModel['multiSelect']['value'])) {
+                        $saveProductValue->value = json_encode($fieldValueModel['multiSelect']['value']);
+                    } else {
+                        $saveProductValue->value = '';
+                    }
+                } elseif (isset($fieldValueModel['value'])) {
                     $saveProductValue->value = $fieldValueModel['value'];
                 }
-//                }
+//                de($_POST);
                 $saveProductValue->field_id = $field_id->id;
                 if (!$saveProductValue->validate()) {
                     $saveProductValue->errors;
@@ -190,14 +175,18 @@ class ProductController extends Controller
         $category_id = $model->category_id;
         $fieldAttributes = $field->widgetGetList($category_id);
         if (Yii::$app->request->isPost) {
-//            de($_POST);
             foreach (Yii::$app->request->post()['FieldProductValue'] as $fieldValueId => $fieldValueModel) {
-
+//de($_POST);
                 $saveProductValue = FieldProductValue::findOne($fieldValueId);
 
-                if (isset($fieldValueModel['multiSelect']['value']) && !empty($fieldValueModel['multiSelect']['value'])) {
-                    $saveProductValue->value = json_encode($fieldValueModel['multiSelect']['value']);
-                } elseif (isset($fieldValueModel['value']) && !empty($fieldValueModel['value'])) {
+                if (isset($fieldValueModel['multiSelect']['value'])) {
+                    if (!empty($fieldValueModel['multiSelect']['value'])) {
+                        $saveProductValue->value = json_encode($fieldValueModel['multiSelect']['value']);
+                    } else {
+                        $saveProductValue->value = '';
+                    }
+
+                } elseif (isset($fieldValueModel['value'])) {
                     $saveProductValue->value = $fieldValueModel['value'];
                 }
 
