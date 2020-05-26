@@ -1,10 +1,10 @@
 
 <div id="inpy">
-<!--    <label>Значение</label>-->
-<!--    <input id="field-value-name" class="form-control inputsss" name="FieldValue[%%%][name]" aria-required="true"-->
-<!--           aria-invalid="false" >-->
-<!--    <input  id="field-value-is_main" type="checkbox" name="FieldValue[%%%][is_main]">-->
-<!--    </br>-->
+    <label>Значение</label>
+    <input id="field-value-name" class="form-control inputsss" name="FieldValue[0][name]" aria-required="true"
+           aria-invalid="false" >
+    <input  id="field-value-is_main" type="checkbox" name="FieldValue[0][is_main]">
+    </br>
 </div>
 <span id="addInput"  onclick="addInput()">+</span>
 
@@ -20,7 +20,7 @@
     console.log(iii);
     function addInput(){
         inputsss[0] = iii;
-        inputsss.push(newstr);
+        inputsss.push(iii);
         console.log(inputsss);
         var str = "";
         for(var i = 0; i < inputsss.length; i++) {
@@ -28,7 +28,7 @@
             var newstr = iii.replace(re, i);
 
             console.log(newstr);
-            str += inputsss[i];
+            str += newstr;
 
         }
         $("#inpy").html(str);

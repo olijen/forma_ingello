@@ -17,13 +17,14 @@ use yii\helpers\Url;
     'id' => 'update-widget-form',
     'options' => ['class' => 'form-horizontal'],
 ]); ?>
-<div class="col-md-9 block">
-    <?= GridView::widget([
+
+    <?=   'Характеристики текущей категории';
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{delete}',
+                'template' => '{delete}',
                 'controller' => 'field',
             ],
             $field_id = [
@@ -37,42 +38,46 @@ use yii\helpers\Url;
                 'attribute' => 'fieldValues.name',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::activeDropDownList(new FieldValue, 'name',
+                    return Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
                         ArrayHelper::map(FieldValue::find()
                             ->where(['field_id' => $model->id])
                             ->all(), 'id', 'name'));
                 },
-                    'filter' => Html::activeDropDownList(new FieldValue, 'name',
-                        ArrayHelper::map(FieldValue::find()->all(), 'id', 'name'),
-                        ['class'=>'form-control','prompt' => 'Select Category'] ),
+                'filter' => Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
+                    ArrayHelper::map(FieldValue::find()->all(), 'id', 'name'),
+                    ['class' => 'form-control', 'prompt' => 'Select Category']),
             ],
         ],
     ]); ?>
 
-    <!--        --><? //= $this->render('add_attribute', [
-    //            'model' => $model,
-    //            'field' => $field,
-    //            'fieldValue' => $fieldValue,
-    //        ]); ?>
+    <div class="box-header" id="accordion" style="margin-top: 10px">
+        <div class="box-header with-border"
+        ">
+        <h4 class="box-title">
+            <a data-toggle="collapse" data-parent="#accordion"
+               href="#collapse_1" class="collapsed"
+               aria-expanded="false">
+                <i class="fa fa-plus"></i>
+                Добавить
+            </a>
+        </h4>
+    </div>
+    <div id="collapse_1"
+         class="panel-collapse collapse"
+         aria-expanded="false" style="margin-top: 30px;">
 
-</div>
+        <?= $form->field($field, 'name')->textInput(['maxlength' => true]) ?>
 
 
-<div class="col-md-9 block">
+        <input type="hidden" id="field-category_id" class="form-control" name="Field[category_id]" aria-required="true"
+               aria-invalid="false" value="<?= $model->id ?>"">
 
-
-    <?= $form->field($field, 'name')->textInput(['maxlength' => true]) ?>
-
-
-    <input type="hidden" id="field-category_id" class="form-control" name="Field[category_id]" aria-required="true"
-           aria-invalid="false" value="<?= $model->id ?>"">
-
-    <label> Тип виджета</label>
-    <?php
-    $WidgetNames = SystemWidget::getFunctionNames();
-    echo Html::dropDownList('Field[widget]',
-        $WidgetNames, $WidgetNames, ['class' => 'form-control',
-        'onchange'=> "$.pjax({         
+        <label> Тип виджета</label>
+        <?php
+        $WidgetNames = SystemWidget::getFunctionNames();
+        echo Html::dropDownList('Field[widget]',
+            $WidgetNames, $WidgetNames, ['class' => 'form-control',
+                'onchange' => "$.pjax({         
                              type : 'POST',         
                              url : '/product/category/update?id={$_GET['id']}',
                              container: '#my-pjax-container',         
@@ -82,28 +87,23 @@ use yii\helpers\Url;
                              timeout: 10000,         
                              \"scrollTo\" : false     
                       })",
-        ]);?>
+            ]); ?>
 
-<!--    --><?//= $form->field($field, 'widget')
-//        ->dropDownList(\yii\helpers\ArrayHelper::map(\forma\modules\product\records\Field::find()
-//            ->all(), 'name', 'name')
-//        ) ?>
-
-
-    <?php Pjax::begin(['id' => 'my-pjax-container','enablePushState' => false,]); ?>
-        <?php if (isset($nameWidgetField)):?>
+        <?php Pjax::begin(['id' => 'my-pjax-container', 'enablePushState' => false,]); ?>
+        <?php if (isset($nameWidgetField)): ?>
             <?= $this->render('field_widget', [
                 '$nameWidgetField' => $nameWidgetField,
-                'field'=> $field,
-            ]);?>
-        <?php else:?>
+                'field' => $field,
+            ]); ?>
+        <?php else: ?>
             <?= $form->field($field, 'defaulted')->textInput(['maxlength' => true]) ?>
-        <?php endif;?>
-    <?php Pjax::end(); ?>
+        <?php endif; ?>
+        <?php Pjax::end(); ?>
 
 
-    <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
-    <br> <br>
+        <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
+        <br> <br>
 
-    <?php ActiveForm::end(); ?>
-</div>
+    </div>
+
+<?php ActiveForm::end(); ?>

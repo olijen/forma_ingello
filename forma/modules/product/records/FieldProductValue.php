@@ -42,7 +42,7 @@ class FieldProductValue extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['field_id', 'product_id', 'value'], 'required'],
+            [['field_id', 'product_id'], 'required'],
             [['field_id', 'product_id'], 'integer'],
             [['value'], 'string', 'max' => 255]
         ];

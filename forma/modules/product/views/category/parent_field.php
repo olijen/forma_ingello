@@ -16,17 +16,17 @@ use yii\helpers\Url;
 //de($parentFieldDataProvider->getModels());
 ?>
 
-<div class="col-md-9 block">
+
     <?php
-    echo 'Это колонки родительской категории';
+    echo 'Характеристики родительской категории';
     echo GridView::widget([
         'dataProvider' => $parentFieldDataProvider,
         'filterModel' => $searchParentField,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
-                'controller' => 'field',
-            ],
+//            ['class' => 'yii\grid\ActionColumn',
+//                'template' => '{delete}',
+//                'controller' => 'field',
+//            ],
             'name',
             'widget',
             'defaulted',
@@ -47,4 +47,4 @@ use yii\helpers\Url;
         ],
     ]);
     ?>
-</div>
+

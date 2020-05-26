@@ -42,7 +42,7 @@ class CategoryController extends Controller
     {
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+//de($dataProvider->getModels());
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -81,7 +81,7 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
-//        de($_POST);
+
         if (Yii::$app->request->isPjax) {
             $this->layout = false;
             $nameWidgetField = $_POST['Field']['widget'];
@@ -91,24 +91,53 @@ class CategoryController extends Controller
                 ]);
             }
         }
-
         $model = $this->findModel($id);
         $field = new Field();
+
         $searchModel = new FieldSearch();
         $searchModel->category_id = $model->id;
-        if (!empty($parentCategoryId= $model->parent_id))
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $parentCategoryId);
-
-//        if (!empty($parentCategoryId = $model->parent_id)){
-//            $this->getParentCategoryDataProvider($parentCategoryId);
-//        }
 
         if ($field->load(Yii::$app->request->post()) && $field->save()) {
+
+            if(isset($_POST['FieldValue'])){
+                foreach ($_POST['FieldValue'] as $value) {
+                    if (!empty($value['name'])){
+                        $fieldValue = new FieldValue();
+                        $fieldValue->field_id = $field->id;
+                        $fieldValue->name = $value['name'];
+                        if (isset($value['is_main']) && $value['is_main'] == 'on'){
+                            $fieldValue->is_main = '1';
+                        }
+                        if (!$fieldValue->validate()) {
+                            $fieldValue->errors;
+                            de($fieldValue->errors);
+                        }
+                        $fieldValue->save();
+                    }
+                }
+            }
             return $this->redirect('update?id=' . $id);
 
         } elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
+
+        }
+
+        if (!empty($parentCategoryId = $model->parent_id)){
+            $searchParentField = new FieldSearch();
+            $searchParentField->category_id = $model->parent_id;
+            $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);
+
+            return $this->render('update', [
+                'model' => $model,
+                'field' => $field,
+                'searchParentField' => $searchParentField,
+                'parentFieldDataProvider' => $parentFieldDataProvider,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
         }
 
         return $this->render('update', [

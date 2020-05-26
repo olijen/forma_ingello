@@ -18,7 +18,7 @@ class FieldSearch extends Field
     {
         return [
             [['id', 'category_id'], 'integer'],
-            [['widget', 'name'], 'safe'],
+            [['widget', 'name', 'defaulted'], 'safe'],
         ];
     }
 
@@ -38,9 +38,9 @@ class FieldSearch extends Field
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $parentCategoryId = null)
+    public function search($params)
     {
-
+//de($params);
         $query = Field::find();
 
         // add conditions that should always apply here
@@ -65,9 +65,7 @@ class FieldSearch extends Field
             'id' => $this->id,
             'category_id' => $this->category_id,
         ]);
-        $query->orFilterWhere([
-            'category_id' => $parentCategoryId,
-        ]);
+
 
         $query->andFilterWhere(['like', 'widget', $this->widget])
             ->andFilterWhere(['like', 'name', $this->name]);

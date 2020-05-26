@@ -27,6 +27,17 @@ class SystemWidget
     public $productValue;
 
 
+    public function widgetColorInput()
+    {
+        $this->getLabel();
+        return ColorInput::widget([
+            'model' => new FieldProductValue,
+            'attribute' => '[' . $this->productValue->id . ']value',
+            'value' => $this->productValue->value,
+
+        ]);
+    }
+
     public function widgetDatePicker()
     {
         $this->getLabel();
@@ -43,36 +54,55 @@ class SystemWidget
 
     public function widgetMultiSelect()
     {
+        $key = [];
+
+        if (!empty($this->productValue->value)) {
+            $multiSelectValue = json_decode($this->productValue->value);
+            de($this->productValue->value);
+            foreach ($multiSelectValue as $k => $v) {
+                $key[] = $k;
+                de($key);
+            }
+        }
+//        de($key);
+
         $this->getLabel();
+//          Select2::widget([
+////            'model' => new FieldProductValue(),
+//            'name' => 'dwasfwq',
+//            'value' => $key, // value to initialize
+//            'data' => ArrayHelper::map(\forma\modules\product\records\FieldValue::find()
+//                ->where(['field_id' => $this->attribute->id])
+////                ->andWhere()
+//                ->all(), 'id', 'name'),
+//            'options' => [
+//                'placeholder' => 'Можно добавить новые или выбрать из списка ...',
+//                'multiple' => true,
+//            ],
+//        ]);
+
+
         return Select2::widget([
-            'model' => new FieldProductValue(),
-            'attribute' => '[' . $this->productValue->id . ']value',
+//            'name' => 'group_id[location_id]',
+////            'model' => new FieldProductValue(),
+////            'attribute' => '[' . $this->productValue->id . ']value',
+//            'value' => [10, 11],     // TODO узнать почему не подставляются значения
+
             'data' => ArrayHelper::map(\forma\modules\product\records\FieldValue::find()
                 ->where(['field_id' => $this->attribute->id])
-//                ->andWhere()
-                ->all(), 'name', 'name'),
-            'options' => ['placeholder' => 'Select a state ...',],
+                ->all(), 'id', 'name'),
+            'options' => [
+                'placeholder' => 'Можно добавить новые или выбрать из списка ...',
+                'multiple' => true,
+            ],
+            'pluginOptions' => [
+                'tags' => true,
+            ],
         ]);
 
     }
 
-    public function widgetColorInput()
-    {
-        $this->getLabel();
-        return ColorInput::widget([
-            'model' => new FieldProductValue,
-            'attribute' => '[' . $this->productValue->id . ']value',
-            'value' => $this->productValue->value,
 
-        ]);
-    }
-
-    public function widgetTextInput()
-    {
-        $this->getLabel();
-        return Html::activeInput('text', $this->productValue, '[' . $this->productValue->id . ']value', ['class' => 'form-control']);
-
-    }
 
     public function widgetDropDownList()
     {
@@ -90,6 +120,13 @@ class SystemWidget
                 ->where(['field_id' => $this->attribute->id])
 //                ->andWhere()
                 ->all(), 'name', 'name'), ['class' => 'form-control']);
+    }
+
+    public function widgetTextInput()
+    {
+        $this->getLabel();
+        return Html::activeInput('text', $this->productValue, '[' . $this->productValue->id . ']value', ['class' => 'form-control']);
+
     }
 
     public function getLabel()
@@ -113,9 +150,6 @@ class SystemWidget
 
     public static function getByName($key, Field $attribute)
     {
-
-//        de(FieldValue::findAll(['is_main'=> 0 ]));
-
         $widgetCall = new SystemWidget;
         $widgetCall->attribute = $attribute;
 //        de($attribute);
@@ -123,19 +157,19 @@ class SystemWidget
 
         if (isset($_GET['id'])) {
 
-            if ($attribute->id == 8) {
+//            if ($attribute->id == 8) {
 //                de('dwad11111s');
             $widgetCall->productValue = $attribute->getValuesForProduct($_GET['id']);
 //            de($attribute->getValuesForProduct($_GET['id']));
 //            de( $widgetCall->productValue);
-            }
+//            }
 
 //            de($widgetCall->productValue);
-                if (empty($widgetCall->productValue)) {
-//                    de('dwaewadds');
-                    $widgetCall->productValue = new FieldProductValue();
-                    $widgetCall->productValue->id = $attribute->id;
-                    $widgetCall->productValue->value = ' ';
+//                if (empty($widgetCall->productValue)) {
+////                    de('dwaewadds');
+//                    $widgetCall->productValue = new FieldProductValue();
+//                    $widgetCall->productValue->id = $attribute->id;
+//                    $widgetCall->productValue->value = ' ';
 //                $saveProductValue = $widgetCall->productValue = new FieldProductValue();
 //
 //                $fieldProductValueId = $widgetCall->attribute->id;
@@ -151,15 +185,14 @@ class SystemWidget
 //                }
 //                $saveProductValue->save();
 ////                de('daw');
-                }
+//                }
 
         } else {
-            de('dwads');
-//            de($attribute);
+
             $widgetCall->productValue = new FieldProductValue();
-            $widgetCall->productValue->id = $attribute->id;
-            $widgetCall->productValue->value = ' ';
-//            de('dwadsa');
+            $widgetCall->productValue->id = $attribute->id; // TODO переделать тут и в контроллере
+            $widgetCall->productValue->value = '';
+
         }
         $functionName = $attribute->widget;
 //        de($widgetCall->productValue);

@@ -1,5 +1,6 @@
 <?php
 
+
 use forma\modules\product\records\FieldValue;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
@@ -29,8 +30,18 @@ use yii\helpers\Url;
 <div class="col-md-3 block">
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?php Pjax::begin() ?>
-    <?= $form->field($model, 'parent_id')->dropDownList(
-        \forma\modules\product\records\Category::getList(),
+
+    <?php
+    $categoryIdDropDownList = $model->id;
+    if (is_null($model->id)){
+        $categoryIdDropDownList = 0;
+    }
+    echo $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(
+        \forma\modules\product\records\Category::find()
+            ->joinWith(['accessory'])
+            ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
+            ->andWhere(['<>' , 'category.id',$categoryIdDropDownList])
+            ->all(), 'id', 'name'),
         ['prompt' => '', 'onchange' => "$.pjax({         
                              type : 'POST',         
                              url : '/product/category/pjax-parent-category-field',
@@ -45,28 +56,20 @@ use yii\helpers\Url;
     <?php Pjax::end() ?>
     <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
 
-    <div class="form-group">
-        <!--            --><?php //if (Yii::$app->request->isAjax): ?>
-        <!--                --><? //= \forma\components\widgets\ModalCreateButton::widget([
-        //                    'route' => Url::toRoute('/product/category/create'),
-        //                    'selectId' => 'product-category_id',
-        //                ]) ?>
-        <!--            --><?php //else: ?>
-        <!--                --><? //= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-success']) ?>
-        <!--            --><?php //endif; ?>
 
-    </div>
 </div>
 
 
 <?php ActiveForm::end(); ?>
-
+<div class="col-md-9 block">
 <?php Pjax::begin(['id' => 'pjax-drop-down-list-category', 'enablePushState' => false,]); ?>
-<?php if (isset($searchParentField) && isset($parentFieldDataProvider)): ?>
-    <?= $this->render('field_widget', [
+<?php
+
+if (isset($searchParentField) && isset($parentFieldDataProvider)): ?>
+    <?= $this->render('parent_field', [
         'searchParentField' => $searchParentField,
         'parentFieldDataProvider' => $parentFieldDataProvider,
-    ]); ?>
+    ]);?>
 <?php endif; ?>
 <?php Pjax::end(); ?>
 
@@ -82,7 +85,7 @@ use yii\helpers\Url;
     ]) ?>
 
 <?php endif; ?>
-
+</div>
 <?php if (Yii::$app->request->isAjax) {
     Pjax::end();
 } ?>
