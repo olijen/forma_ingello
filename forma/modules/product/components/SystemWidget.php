@@ -101,15 +101,27 @@ class SystemWidget
         echo Html::label($this->attribute->name, 'username', ['class' => 'control-label']);
     }
 
+    public static function setWidgetValueNames($widgetNames)
+    {
+        ArrayHelper::setValue($widgetNames, 'widgetColorInput', 'Цвет');
+        ArrayHelper::setValue($widgetNames, 'widgetDatePicker', 'Дата');
+        ArrayHelper::setValue($widgetNames, 'widgetMultiSelect', 'Мультиселект');
+        ArrayHelper::setValue($widgetNames, 'widgetDropDownList', 'Выпадающий список');
+        ArrayHelper::setValue($widgetNames, 'widgetTextInput', 'Поле ввода');
+        return $widgetNames;
+    }
+
     public static function getFunctionNames()
     {
         $getWidgetName = get_class_methods(new SystemWidget());
         $widgetNames = [];
         foreach ($getWidgetName as $widgetName) {
-            if (stristr($widgetName, 'widget')) {
+            if (strstr($widgetName, 'widget')) {
                 $widgetNames[$widgetName] = $widgetName;
             }
         }
+        $widgetNames = self::setWidgetValueNames($widgetNames);
+
         return $widgetNames;
     }
 
@@ -127,7 +139,7 @@ class SystemWidget
             $widgetCall->productValue->value = '';
         }
         $functionName = $attribute->widget;
-        if ($getLabel == 'yes'){
+        if ($getLabel == 'yes') {
             $widgetCall->getLabel();
         }
         return $widgetCall->$functionName();
