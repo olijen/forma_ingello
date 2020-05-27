@@ -50,7 +50,7 @@ $config = [
 
         yii\base\Event::on(SiteController::class, SiteController::EVENT_AFTER_LOGIN, function ($event) {
             Yii::debug($event);
-            SystemEventService::eventAfterLogin();
+            SystemEventService::eventAfterLogin($event);
 
         });
 

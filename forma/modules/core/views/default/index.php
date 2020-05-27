@@ -3,6 +3,10 @@
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\sortable\Sortable;
+use \forma\modules\core\widgets\ApplicationInfoWidget;
+use \forma\modules\core\widgets\SalesFunnelWidget;
+use \forma\modules\core\widgets\DepartmentPerfomance;
+use \forma\modules\core\widgets\WeeklySalesWidget;
 
 $this->title = 'Мониторинг отделов компании';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
@@ -116,464 +120,142 @@ function(calEvent, jsEvent, view) {
     editEvent(calEvent);
 }
 JS;
+
+
+$widgetsForSortable1 = [];
+$widgetsForSortable2 = [];
 ?>
+
+<style>
+    .sortable.grid > li{
+        width: 100%;
+    }
+
+    .users-list > li {
+        border: none;
+        margin: 0;
+    }
+</style>
+
 <div class="row">
     <!-- ВОРОНКА ПРОДАЖ -->
-    <div class="col-lg-9 col-xs-12">
-
-        <div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title" id="scroll">Воронка продаж <span style="padding-left: 20px; color:#abc"><i class="fa fa-mouse-pointer"></i> кликни на колонку</span></h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="box-body">
-                <div class="chart">
-                    <canvas id="plan" style=""></canvas>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+    <?php
+    $salesFunnelWidget = SalesFunnelWidget::widget();
+    //$widgetsForSortable[]['content'] = $salesFunnelWidget;
+    echo $salesFunnelWidget;
+    //Yii::debug($wsf);
+    ?>
 
     <!-- ИНФОРМАЦИЯ ОБ ОТДЕЛАХ -->
-
-    <div class="col-lg-3 col-xs-12">
-
-      <div class="box box-success">
-        <div class="box-header with-border">
-
-          <h3 class="box-title" id="scroll">
-            Отделы компании <span style="padding-left: 10px; color:#abc">
-              <i class="fa fa-object-group"></i>
-            </span>
-          </h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-              <i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove">
-              <i class="fa fa-times"></i>
-            </button>
-          </div>
-
-        </div>
-
-        <div class="box-body">
-          <div class="">
-
-            <div class="col-lg-12 col-xs-6">
-
-                <?= \insolita\wgadminlte\LteSmallBox::widget([
-                    'type' => \insolita\wgadminlte\LteConst::COLOR_BLUE,
-                    'title' => $completeSellingsCount,
-                    'text' => '<h4>Отдел продаж</h4>',
-                    'icon' => 'fa fa-arrows-alt',
-                    'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
-                    'link' => Url::to(['/selling']),
-                ]); ?>
-
-            </div>
-
-            <div class="col-lg-12 col-xs-6">
-
-                <?= \insolita\wgadminlte\LteSmallBox::widget([
-                    'type' => \insolita\wgadminlte\LteConst::COLOR_YELLOW,
-                    'title' => $productsCount,
-                    'text' => '<h4>Складской учет</h4>',
-                    'icon' => 'fa fa-cube',
-                    'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
-                    'link' => Url::to(['/product/product']),
-                ]); ?>
-
-            </div>
-
-            <div class="col-lg-12 col-xs-6">
-              <a href="">
-
-              </a>
-                <?= \insolita\wgadminlte\LteSmallBox::widget([
-                    'type' => \insolita\wgadminlte\LteConst::COLOR_RED,
-                    'title' => 113,
-                    'text' => '<h4>Отдел кадров</h4>',
-                    'icon' => 'fa fa-users',
-                    'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',
-                    'link' => Url::to(['/hr']),
-                ]); ?>
-
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-    </div>
+    <?php
+    $applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
+        'productsCount' => $productsCount]) ;
+    //$widgetsForSortable[]['content'] = $applicationInfoWidget;
+    echo $applicationInfoWidget;
+    //Yii::debug($wap);
+    ?>
 
 </div>
 
 <div class="row">
-
     <div class="col-md-6">
         <!-- УСПЕВАВАЕМОСТЬ ОТДЕЛА ПРОДАЖ -->
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title">Успеваемость отдела продаж</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <div class="chart">
-                    <canvas id="plan1"></canvas>
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        <?php
+        $departmentPerfomanceWidget = DepartmentPerfomance::widget() ;
+        $widgetsForSortable1[]['content'] = $departmentPerfomanceWidget;
+        //echo $wdf;
+        //Yii::debug($wdf);
+        ?>
 
         <!-- ПРОДАЖИ ЗА НЕДЕЛЮ -->
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title">Продажи за неделю</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <div class="chart">
-                    <canvas id="sales"></canvas>
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        <?php
+        $weeklySalesWidget = \forma\modules\core\widgets\WeeklySalesWidget::widget() ;
+        $widgetsForSortable1[]['content'] = $weeklySalesWidget;
+        //echo $wws;
+        //Yii::debug($wws);
+        ?>
 
         <!-- СОТРУДНИКИ  -->
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3 class="box-title">Сотрудники</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <ul class="users-list clearfix">
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user1-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Виталий</a>
-                        <span class="users-list-date">Today</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user8-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Владимир</a>
-                        <span class="users-list-date">Yesterday</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user7-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Кристина</a>
-                        <span class="users-list-date">12 Jan</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user6-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Олег</a>
-                        <span class="users-list-date">12 Jan</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Александр</a>
-                        <span class="users-list-date">13 Jan</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user5-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Виктор</a>
-                        <span class="users-list-date">14 Jan</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Анастасия</a>
-                        <span class="users-list-date">15 Jan</span>
-                    </li>
-                    <li>
-                        <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Надежда</a>
-                        <span class="users-list-date">15 Jan</span>
-                    </li>
-                </ul>
-                <!-- /.users-list -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">Смотреть всю команду</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
+        <?php
+        $employeesWidget = \forma\modules\core\widgets\EmployeesWidget::widget(['directoryAsset' => $directoryAsset]) ;
+        $widgetsForSortable1[]['content'] = $employeesWidget;
+        //echo $we;
+        //Yii::debug($we);
+        ?>
 
         <!-- СООБЩЕНИЯ  -->
         <?php
-        \insolita\wgadminlte\LteChatBox::begin([
-            'type' => \insolita\wgadminlte\LteConst::TYPE_PRIMARY,
-            'footer'=>'<input type="text" name="newMessage"><input class="btn submit-message" value="Отправить">',
-            'title'=>'Сообщения',
-            'boxTools' => '
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                </button>
-                <button class="btn btn-xs"><i class="fa fa-refresh"></i></button>'
-        ]);
-        echo \insolita\wgadminlte\LteChatMessage::widget([
-            'isRight' => false,
-            'author' => 'Атрур Кольдара',
-            'message' => 'Я всё проверил 10 раз, всё идеально работает.',
-            'image'=>'https://almsaeedstudio.com/themes/AdminLTE/dist/img/user3-128x128.jpg',
-            'createdAt' => '5 минут назад'
-        ]);
-        echo  \insolita\wgadminlte\LteChatMessage::widget([
-            'isRight' => true,
-            'author' => 'Овик Болгаровский',
-            'message' => '#421+40',
-            'image'=>'https://almsaeedstudio.com/themes/AdminLTE/dist/img/user8-128x128.jpg',
-            'createdAt' => '2017-23-03 17:33'
-        ]);
-        echo  \insolita\wgadminlte\LteChatMessage::widget([
-            'isRight' => true,
-            'author' => 'Ламба Дамытанцу',
-            'message' => 'Ему "бара". Весь день я рядом, но еще тебя  не видел. На мне свитер.',
-            'image'=>'https://almsaeedstudio.com/themes/AdminLTE/dist/img/user1-128x128.jpg',
-            'createdAt' => '2017-23-03 17:33'
-        ]);
-        \insolita\wgadminlte\LteChatBox::end();
+        $messagesWidget = \forma\modules\core\widgets\MessagesWidget::widget() ;
+        $widgetsForSortable1[]['content'] = $messagesWidget;
+        //echo $wm;
+        //Yii::debug($wm);
         ?>
+
+        <?php
+        echo Sortable::widget([
+                'connected' => true,
+            'type'=>'grid',
+            'items'=> $widgetsForSortable1
+        ]);?>
 
     </div>
 
 
     <div class="col-md-6">
-
         <!-- ВЫПОЛНЕНИЕ ПЛАНА ПОСТАВОК -->
-        <div class="box box-warning">
-            <div class="box-header with-border">
-                <h3 class="box-title">Выполнение плана поставок</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <div class="chart">
-                    <canvas id="post"></canvas>
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        <?php
+        $deliveryPlanWidget = \forma\modules\core\widgets\DeliveryPlanWidget::widget() ;
+        $widgetsForSortable2[]['content'] = $deliveryPlanWidget;
+        //echo $wdp;
+        //Yii::debug($wdp);
+        ?>
 
         <!-- ВЫПОЛНЕНИЕ ЦЕЛЕЙ -->
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title">Выполнение целей</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <div class="clearfix">
-                    <span class="pull-left">#121 План на неделю</span>
-                    <small class="pull-right">90%</small>
-                </div>
-                <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                </div>
-
-                <div class="clearfix">
-                    <span class="pull-left">#565 Цель месяца</span>
-                    <small class="pull-right">70%</small>
-                </div>
-                <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-                </div>
-                <div class="clearfix">
-                    <span class="pull-left">#320 Задачи по офису</span>
-                    <small class="pull-right">60%</small>
-                </div>
-                <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                </div>
-
-                <div class="clearfix">
-                    <span class="pull-left">#421 Разработка CMS</span>
-                    <small class="pull-right">40%</small>
-                </div>
-                <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
+        <?php
+        $goalsWidget = \forma\modules\core\widgets\GoalsWidget::widget() ;
+        $widgetsForSortable2[]['content'] = $goalsWidget;
+        //echo $wg;
+        //Yii::debug($wg);
+        ?>
 
         <!-- КАЛЕНДАРЬ -->
-        <div class="box box-warning">
-            <div class="box-header ui-sortable-handle" style="cursor: move;">
-                <i class="fa fa-calendar"></i>
-
-                <h3 class="box-title">Календарь</h3>
-
-                <div class="pull-right box-tools">
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bars"></i></button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="#">Добавить новое событие</a></li>
-                            <li><a href="#">Очистить события</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Смотреть календарь</a></li>
-                        </ul>
-                    </div>
-                    <button type="button" class="btn btn-warning btn-sm" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-warning btn-sm" data-widget="remove"><i
-                            class="fa fa-times"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="box-body no-padding">
-                <?= yii2fullcalendar\yii2fullcalendar::widget([
-                    'clientOptions' => [
-                        'header' => [
-                            'left' => 'prev,next today',
-                            'center' => 'title',
-                            'right' => 'month,agendaWeek,listWeek,timelineDay,agendaDay'
-                        ],
-                        'nowIndicator' => true,
-                        'eventLimit' => true,
-                        'selectable' => true,
-                        'selectHelper' => true,
-                        'droppable' => true,
-                        'editable' => true,
-                        'select' => new JsExpression($JSCode),
-                        'eventClick' => new JsExpression($JSEventClick),
-                        'eventResize' => new JsExpression($JSEventResize),
-                        'eventDrop' => new JsExpression($JSEventDrop),
-                        'defaultDate' => date('Y-m-d'),
-                        'defaultView' => $_GET['defaultView'] ?? 'month',
-                    ],
-                    'events' => Url::to(['/event/event/jsoncalendar'])
-                ]);
-                ?>
-            </div>
-
-            <div class="box-footer text-black">
-
-            </div>
-        </div>
+        <?php
+        $calendarWidget = \forma\modules\core\widgets\CalendarWidget::widget(["JSCode" => $JSCode,
+            "JSEventClick" => $JSEventClick,
+            "JSEventResize" => $JSEventResize,
+            "JSEventDrop" => $JSEventDrop]) ;
+        $widgetsForSortable2[]['content'] = $calendarWidget;
+        //echo $wc;
+        //Yii::debug($wc);
+        ?>
 
         <!-- ПОСТАВЩИКИ НА КАРТЕ -->
-        <div class="box box-danger">
-            <div class="box-header with-border">
-                <h3 class="box-title">Поставщики на карте</h3>
+        <?php
+        $suppliersWidget = \forma\modules\core\widgets\SuppliersWidget::widget() ;
+        $widgetsForSortable2[]['content'] = $suppliersWidget;
+        //echo $ws;
+        //Yii::debug($ws);
+        ?>
 
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                            class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <!-- Chat box -->
-                <div class="">
-
-                    <!-- Map box -->
-                    <?= yii2mod\google\maps\markers\GoogleMaps::widget([
-                        'userLocations' => \forma\modules\product\records\Manufacturer::getLocations(),
-                        'wrapperHeight' => '300px',
-                    ]); ?>
-                    <!-- /.box -->
-
-                </div>
-
-                <!-- /.users-list -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">View All Users</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
+        <?php
+        echo Sortable::widget([
+                'connected' => true,
+            'type'=>'grid',
+            'items'=> $widgetsForSortable2
+        ]);?>
 
     </div>
 
-</div>
 
-<div id="sortItems">
-    <div class="grid-item text-danger">Item 1</div>
-    <div class="grid-item text-danger">Item 23</div>
-    <div class="grid-item text-danger">Item 11</div>
-    <div class="grid-item text-danger">Item 41</div>
-    <div class="grid-item text-danger">Item 54</div>
-    <div class="grid-item text-danger">Item 65</div>
 </div>
 
 <script>
     let sortItems = $("#sortItems").childNodes;
 </script>
 
-<?php
+<div class="col-md-6">
 
-echo Sortable::widget([
-    'type'=>'grid',
-    'items'=>[
-        ['content'=>'<div class="grid-item text-danger">Item 1</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 2</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 3</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 4</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 5</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 6</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 7</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 8</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 9</div>'],
-        ['content'=>'<div class="grid-item text-danger">Item 10</div>'],
-    ]
-]);?>
+</div>
 
 <script>
     var options = {

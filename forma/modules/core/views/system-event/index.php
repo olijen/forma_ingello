@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $arr = [];
             $linkView = "";
             $event = "";
-            if(strlen($model->request_uri) > 0) {
+            if(strlen($model->request_uri) > 0 && $model->sender_id != 1) {
                 $arr = explode("/", $model->request_uri);
                 $linkView = "/" . $arr[1] . "/" . $arr[2];
                 if(count($arr) > 3)$event = substr($arr[3], 0, 6);
@@ -141,12 +141,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="timeline-body">
                         <?=$model->data?>
                     </div>
-
+                    <?php if($model->sender_id !=1) { ?>
                     <div class="timeline-footer">
                         <p>Посмотреть список в модуле: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||" .$model->class_name."}}")) ?></p>
 
                         <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
                     </div>
+                    <?php } ?>
                 </div>
             </li>
             <!-- END timeline item -->

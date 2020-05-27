@@ -209,7 +209,7 @@ class SystemEventService
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($className, $objectName);
     }
 
-    public static function eventAfterLogin(){
+    public static function eventAfterLogin($event){
 
         $systemEvent = new SystemEvent();
         $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
@@ -218,6 +218,8 @@ class SystemEventService
         $systemEvent->application = "main";//$districts[$this->module];
         $systemEvent->data = "Вы авторизовались";
         $systemEvent->class_name = "main";
+        $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
+        $systemEvent->sender_id = 1;
         if (!$systemEvent->save()) {
             throw new \Exception(json_encode($systemEvent->errors));
         }
