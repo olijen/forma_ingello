@@ -9,6 +9,7 @@ use forma\modules\product\records\FieldValueSearch;
 use Yii;
 use forma\modules\product\records\Category;
 use forma\modules\product\records\CategorySearch;
+use yii\helpers\Html;
 use yii\validators\Validator;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -85,6 +86,7 @@ class CategoryController extends Controller
             $this->layout = false;
             $nameWidgetField = $_POST['Field']['widget'];
             if ($nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetDropDownList') {
+
                 return $this->render('field_widget', [
                     'nameWidgetField' => $nameWidgetField,
                 ]);
@@ -98,20 +100,22 @@ class CategoryController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if ($field->load(Yii::$app->request->post()) && $field->save()) {
-            if(isset($_POST['FieldValue'])){
-                foreach ($_POST['FieldValue'] as $value) {
-                    if (!empty($value['name'])){
-                        $fieldValue = new FieldValue();
-                        $fieldValue->field_id = $field->id;
-                        $fieldValue->name = $value['name'];
-                        if (isset($value['is_main']) && $value['is_main'] == 'on'){
-                            $fieldValue->is_main = '1';
+
+            if (isset($_POST['FieldValue'])) {
+                foreach ($_POST['FieldValue'] as $fieldValue) {
+                    if (!empty($fieldValue['name'])) {
+                        $fieldValueModel = new FieldValue();
+                        $fieldValueModel->field_id = $field->id;
+                        $fieldValueModel->name = $fieldValue['name'];
+                        if (isset($fieldValue['is_main']) && $fieldValue['is_main'] == '1') {
+                            $fieldValueModel->is_main = '1';
                         }
-                        if (!$fieldValue->validate()) {
-                            $fieldValue->errors;
-                            de($fieldValue->errors);
+                        if (!$fieldValueModel->validate()) {
+                            $fieldValueModel->errors;
+                            de($fieldValueModel->errors);
                         }
-                        $fieldValue->save();
+
+                        $fieldValueModel->save();
                     }
                 }
             }
@@ -121,7 +125,7 @@ class CategoryController extends Controller
             return $this->redirect(['index']);
         }
 
-        if (!empty($parentCategoryId = $model->parent_id)){
+        if (!empty($parentCategoryId = $model->parent_id)) {
             $searchParentField = new FieldSearch();
             $searchParentField->category_id = $model->parent_id;
             $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);

@@ -10,70 +10,133 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 
 //de($dataProvider->getModels());
+
 ?>
+
+
+
+
+<?= 'Характеристики текущей категории';
+echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        ['class' => 'yii\grid\ActionColumn',
+            'template' => '{delete}{update}',
+            'controller' => 'field',
+        ],
+        'name',
+        [
+            'attribute' => 'widget',
+            'value' => function ($model) {
+
+                switch ($model->widget) {
+                    case 'widgetColorInput':
+                        return "Цвет";
+                        break;
+                    case 'widgetDropDownList':
+                        return "Выпадающий список";
+                        break;
+                    case 'widgetDatePicker':
+                        return "Дата";
+                        break;
+                    case 'widgetMultiSelect':
+                        return "Мультиселект";
+                        break;
+                    case 'widgetTextInput' :
+                        return "Поле ввода";
+                        break;
+                }
+//                return $model;
+            },
+
+        ],
+
+        [
+            'attribute' => 'fieldValues.name',
+            'format' => 'raw',
+            'value' => function ($model) {
+                $fieldValueArray = ArrayHelper::map(FieldValue::find()
+                    ->where(['field_id' => $model->id])
+                    ->all(), 'id', 'name');
+                $fieldValueDropDownList = Html::activeDropDownList(new  \forma\modules\product\records\FieldValueSearch(),
+                    'name', $fieldValueArray);
+
+                if(!empty($fieldValueArray)){
+                    $fieldValues = '';
+                    foreach ($fieldValueArray as $fieldValue){
+                        if (empty($fieldValues)){
+                            $fieldValues.= $fieldValue;
+                        }else{
+                            $fieldValues.=', '. $fieldValue;
+                        }
+                    }
+                    return $fieldValues;
+                }else{
+                    return null;
+                }
+
+            },
+            'filter' => Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
+                ArrayHelper::map(FieldValue::find()
+                    ->joinWith('field')
+                    ->andWhere(['field.category_id' => $model->id])
+                    ->all(), 'id', 'name'),
+                ['class' => 'form-control', 'prompt' => '']),
+        ],
+        [
+            'attribute' => 'defaulted',
+            'format' => 'raw',
+            'value' => function ($model) {
+                if (!empty($model->fieldValues)) {
+                    $defaultedField = '';
+                    foreach ($model->fieldValues as $fieldValue) {
+                        if ($fieldValue->is_main == 1)
+                            if (empty($defaultedField)){
+                                $defaultedField .= $fieldValue->name;
+                            }else{
+                                $defaultedField .= ', '. $fieldValue->name;
+                            }
+                    }
+                    return $defaultedField;
+                } else {
+                    return $model->defaulted;
+                }
+            }
+        ],
+
+    ],
+]); ?>
 
 
 <?php $form = ActiveForm::begin([
     'id' => 'update-widget-form',
-    'options' => ['class' => 'form-horizontal'],
 ]); ?>
+<div class="box-header" id="accordion" style="margin-top: 10px">
+    <div class="box-header with-border"
+    ">
+    <h4 class="box-title">
+        <a data-toggle="collapse" data-parent="#accordion"
+           href="#collapse_1" class="collapsed"
+           aria-expanded="false">
+            <i class="fa fa-plus"></i>
+            Добавить
+        </a>
+    </h4>
+</div>
+<div id="collapse_1"
+     class="panel-collapse collapse"
+     aria-expanded="false" style="margin-top: 30px;">
 
-    <?=   'Характеристики текущей категории';
-    echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
-                'controller' => 'field',
-            ],
-            $field_id = [
-                'attribute' => 'id',
-                'visible' => false,
-            ],
-            'name',
-            'widget',
-            'defaulted',
-            [
-                'attribute' => 'fieldValues.name',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
-                        ArrayHelper::map(FieldValue::find()
-                            ->where(['field_id' => $model->id])
-                            ->all(), 'id', 'name'));
-                },
-                'filter' => Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
-                    ArrayHelper::map(FieldValue::find()->all(), 'id', 'name'),
-                    ['class' => 'form-control', 'prompt' => 'Select Category']),
-            ],
-        ],
-    ]); ?>
-
-    <div class="box-header" id="accordion" style="margin-top: 10px">
-        <div class="box-header with-border"
-        ">
-        <h4 class="box-title">
-            <a data-toggle="collapse" data-parent="#accordion"
-               href="#collapse_1" class="collapsed"
-               aria-expanded="false">
-                <i class="fa fa-plus"></i>
-                Добавить
-            </a>
-        </h4>
-    </div>
-    <div id="collapse_1"
-         class="panel-collapse collapse"
-         aria-expanded="false" style="margin-top: 30px;">
-
+    <div>
         <?= $form->field($field, 'name')->textInput(['maxlength' => true]) ?>
 
 
         <input type="hidden" id="field-category_id" class="form-control" name="Field[category_id]" aria-required="true"
                aria-invalid="false" value="<?= $model->id ?>"">
 
-        <label> Тип виджета</label>
         <?php
+        echo ' <label> Тип виджета</label>';
         $WidgetNames = SystemWidget::getFunctionNames();
         echo Html::dropDownList('Field[widget]',
             $WidgetNames, $WidgetNames, ['class' => 'form-control',
@@ -105,5 +168,4 @@ use yii\helpers\Url;
         <br> <br>
 
     </div>
-
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>

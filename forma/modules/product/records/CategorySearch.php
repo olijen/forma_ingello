@@ -68,6 +68,8 @@ class CategorySearch extends Category
 
         $query->andFilterWhere(['like', 'name', $this->name]);
 
+        $query->orderBy(['id' => SORT_ASC,]);
+
         return $dataProvider;
     }
 }

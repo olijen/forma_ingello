@@ -17,31 +17,61 @@ use yii\helpers\Url;
 ?>
 
 
-    <?php
-    echo 'Характеристики родительской категории';
-    echo GridView::widget([
-        'dataProvider' => $parentFieldDataProvider,
-        'filterModel' => $searchParentField,
-        'columns' => [
+<?php
 
-            'name',
-            'widget',
-            'defaulted',
-            [
-                'attribute' => 'fieldValues.name',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return Html::activeDropDownList(new FieldValue, 'name',
-                        ArrayHelper::map(FieldValue::find()
-                            ->where(['field_id' => $model->id])
-                            ->all(), 'id', 'name'));
+echo 'Характеристики родительской категории';
+echo GridView::widget([
+    'dataProvider' => $parentFieldDataProvider,
+    'filterModel' => $searchParentField,
+    'columns' => [
 
-                },
-                 'filter' =>  Html::activeDropDownList(new FieldValue, 'name',
-                     ArrayHelper::map(FieldValue::find()->all(), 'id', 'name'),
-                     ['class'=>'form-control','prompt' => 'Select Category'] ),
-            ],
+        'name',
+        [
+            'attribute' => 'widget',
+            'value' => function ($model) {
+                switch ($model->widget) {
+                    case 'widgetColorInput':
+                        return "Цвет";
+                        break;
+                    case 'widgetDropDownList':
+                        return "Выпадающий список";
+                        break;
+                    case 'widgetDatePicker':
+                        return "Дата";
+                        break;
+                    case 'widgetMultiSelect':
+                        return "Мультиселект";
+                        break;
+                    case 'widgetTextInput' :
+                        return "Поле ввода";
+                        break;
+                }
+//                return $model;
+            },
+
         ],
-    ]);
-    ?>
+
+        [
+            'attribute' => 'fieldValues.name',
+            'format' => 'raw',
+            'value' => function ($model) {
+                $fieldValueArray = ArrayHelper::map(FieldValue::find()
+                    ->where(['field_id' => $model->id])
+                    ->all(), 'id', 'name');
+                $fieldValueDropDownList = Html::activeDropDownList(new  \forma\modules\product\records\FieldValueSearch(),
+                    'name', $fieldValueArray);
+
+                return (!empty($fieldValueArray)) ?  $fieldValueDropDownList : null;
+            },
+            'filter' => Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
+                ArrayHelper::map(FieldValue::find()
+                    ->joinWith('field')
+                    ->all(), 'id', 'name'),
+                ['class' => 'form-control', 'prompt' => '']),
+        ],
+        'defaulted',
+
+    ],
+]);
+?>
 
