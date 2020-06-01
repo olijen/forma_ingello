@@ -100,8 +100,7 @@ class Field extends \yii\db\ActiveRecord
     {
 
         return FieldProductValue::find()
-//            ->join('join', 'field', 'field.id = field_product_value.field_id')
-//            ->where(['field.category_id' => $this->category_id])
+
             ->where(['field_id' => $this->id])
             ->andWhere(['product_id' => $product_id])
             ->one();

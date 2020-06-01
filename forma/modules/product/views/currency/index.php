@@ -12,8 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
 ?>
 <div class="currency-index">
-    
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Создать валюты', ['create'], ['class' => 'btn btn-success']) ?>

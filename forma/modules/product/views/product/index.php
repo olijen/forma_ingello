@@ -19,7 +19,7 @@ use forma\modules\country\records\Country;
 use yii\helpers\Url;
 use forma\extensions\kartik\DynaGrid;
 use yii\widgets\ActiveForm;
-////
+
 
 use forma\modules\product\components\SystemWidget;
 use forma\components\widgets\ModalCreate;
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
         Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
-//            'onchange' => 'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()'
+//            'onchange' => 'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()' TODO Спросить разницу у Олега
             'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>

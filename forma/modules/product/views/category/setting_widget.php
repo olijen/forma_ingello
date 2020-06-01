@@ -9,8 +9,6 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 
-//de($dataProvider->getModels());
-
 ?>
 
 
@@ -47,7 +45,6 @@ echo GridView::widget([
                         return "Поле ввода";
                         break;
                 }
-//                return $model;
             },
 
         ],

@@ -12,8 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
 ?>
 <div class="category-index">
-    
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Создать категорию', ['create'], ['class' => 'btn btn-success']) ?>

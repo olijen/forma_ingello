@@ -64,8 +64,6 @@ class ProductSearch extends Product
             $query->joinWith(['fieldProductValues']);
 
             foreach ($params['FieldProductValue'] as $fieldId => $fieldValue) {
-//                if (isset($fieldValue['value']["multiSelect"])){
-//
                 if (!empty($fieldValue['value']) && !isset($fieldValue['value']["multiSelect"])) {
 
 //                    echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
@@ -77,7 +75,7 @@ class ProductSearch extends Product
                         'field_product_value.field_id' => $fieldId,
                     ]);
                 }
-//                }
+
 
             }
         }
@@ -125,9 +123,7 @@ class ProductSearch extends Product
             ->andFilterWhere(['like', 'product.customs_code', $this->customs_code])
             ->andFilterWhere(['like', 'product.name', $this->name])
             ->andFilterWhere(['like', 'product.note', $this->note]);
-//        de($this->category_id);
-//de($dataProvider->getModels());
-//        de($query->all());
+
         return $dataProvider;
     }
 }

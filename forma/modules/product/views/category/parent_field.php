@@ -12,8 +12,6 @@ use yii\helpers\Url;
 /* @var $parentFieldDataProvider - дата провайдер родительской категории */
 /* @var $searchParentField - FieldSearch родительской категории */
 
-//var_dump($searchParentField);
-//de($parentFieldDataProvider->getModels());
 ?>
 
 
@@ -46,7 +44,6 @@ echo GridView::widget([
                         return "Поле ввода";
                         break;
                 }
-//                return $model;
             },
 
         ],
