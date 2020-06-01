@@ -80,10 +80,10 @@ class MainController extends Controller
         $state = State::findOne(['id' => $selling->state_id]);
         $customer = $selling->customer;
         $googleLink = $this->googleEmailChange($customer, $selling_token);
-        if(\Yii::$app->request->isPjax){
+        if(\Yii::$app->request->isPjax && isset($_GET['Customer']['chief_email'])){
             $customer->chief_email = $_GET['Customer']['chief_email'];
+            $customer->selling_token = $selling_token;
             $customer->save();
-            $_GET['Customer']['chief_email'] = [];
             return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state','googleLink'));
         }
 
@@ -95,7 +95,7 @@ class MainController extends Controller
     public function googleEmailChange(Customer $customer, $selling_token){
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
-        $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
+        $redirectUri = 'https://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
 
         $client = new Google_Client();
         /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config
@@ -116,7 +116,7 @@ class MainController extends Controller
         // $_GET['code'] присылает гугл после авторизации в его форме и перебросе пользователя на указанный
         // $redirectUri.
         if (isset($_GET['code'])) {
-            header("Location: http://".$_SERVER['HTTP_HOST']."/selling/main/show-selling?selling-token=".$_COOKIE['selling_token']);
+            header("Location: https://".$_SERVER['HTTP_HOST']."/selling/main/show-selling?selling-token=".$_COOKIE['selling_token']);
             $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
             $client->setAccessToken($token['access_token']);
             $google_oauth = new Google_Service_Oauth2($client);

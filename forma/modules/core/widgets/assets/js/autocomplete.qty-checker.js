@@ -33,7 +33,16 @@ $(function() {
         };
 
         var post = function(productId) {
-            $.post(url, {productId: productId, warehouseId: getWarehouseId()}, postCallback);
+            console.log(url + 'POST callback');
+            //$.post(url, {productId: productId, warehouseId: getWarehouseId()}, postCallback);
+            $.ajax({
+                url:url,
+                type:"POST",
+                data:{productId: productId, warehouseId: getWarehouseId()},
+                contentType:"application/json; charset=utf-8",
+                dataType:"json",
+                success: postCallback,
+            });
         };
 
         var postCallback = function(response) {

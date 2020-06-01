@@ -9,6 +9,7 @@ class NomenclatureView extends Widget
 {
     public $sellingId;
     public $model;
+    public $selling_token;
 
     public function init()
     {
@@ -23,10 +24,12 @@ class NomenclatureView extends Widget
 
         $unit = $this-> getUnitModel();
         $dataProvider = NomenclatureService::getDataProvider($this->sellingId);
+        $selling_token = $this->selling_token;
+
 
         return $this->render('nomenclature', compact(
             'unit',
-            'dataProvider'
+            'dataProvider', 'selling_token'
         ));
     }
 

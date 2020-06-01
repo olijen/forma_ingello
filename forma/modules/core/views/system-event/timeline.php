@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'application',
             'module',
             'data',
-            'user_id',
+            //'user_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

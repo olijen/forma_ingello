@@ -31,7 +31,7 @@ $this->title = 'Подтверждение почты';
         <a style="color: #f4f4f4;"><b>FORMA</b> <i class="fa fa-newspaper-o"></i> INGELLO</a>
         <hr>
         <h4 style="color: white;">Демонстрационный веб сервис для автоматизации и мониторинга</h4>
-        <h6 style="color: white;">Разработано компанией <a style="color: red;" href="http://ingello.com">Ingello</a></h6>
+        <h6 style="color: white;">Разработано компанией <a style="color: red;" href="https://ingello.com">Ingello</a></h6>
 
     </div>
 
@@ -40,10 +40,10 @@ $this->title = 'Подтверждение почты';
     <div class="login-box-body">
         <?php if($confirmed) { ?>
             <p>E-mail успешно подтвержден, теперь можете авторизоваться на сайте!<br />
-                <a href="http://<?=$_SERVER['HTTP_HOST']?>/login">Авторизоваться</a></p>
+                <a href="https://<?=$_SERVER['HTTP_HOST']?>/login">Авторизоваться</a></p>
         <?php } else { ?>
         <p>Спасибо за регистрацию! Подтвердите свою почту. Вам было выслано сообщение с ссылкой, подтверждающую
-            ваш электронный адрес, пройдите по нему.<br /> <a href="http://<?=$_SERVER['HTTP_HOST']?>/login">На главную</a></p>
+            ваш электронный адрес, пройдите по нему.<br /> <a href="https://<?=$_SERVER['HTTP_HOST']?>/login">На главную</a></p>
         <?php } ?>
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->

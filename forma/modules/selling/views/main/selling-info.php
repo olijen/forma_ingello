@@ -23,12 +23,13 @@ use forma\modules\selling\widgets\HistoryView;
 <h2 class="text-center"><?php $name =  strlen($selling->name) != 0 ? $selling->name : "Продажа №".$selling->id; echo $name?></h2>
 <div class="selling_info">
     <?php Pjax::begin(['enablePushState' => false]) ?>
-    <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=$state->description?>">
-            <?=$state->name?></button></p>
+    <p>Состояние заказа:
+            <button class="btn btn-success"><?=$state->name?></button></p>
+    <div style="max-height: 100px"><?=$state->description?></div>
     <div class="bs-example">
         <div class="detached-block-example">Ваши данные</div>
         <div class="customer_info">
-            <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?></p>
+            <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?> | <?=$selling->warehouse->name?></p>
             <p><span class="user_info_point">Ваше государство:</span> <?=$customer->country->name?></p>
             <p><span class="user_info_point">Ваш адрес:</span> <?=$customer->address?></p>
             <p><span class="user_info_point">E-mail личный:</span> <?=$customer->chief_email?></p>
@@ -41,6 +42,7 @@ use forma\modules\selling\widgets\HistoryView;
     <div class="change_email bs-example" style="margin-bottom: 20px">
         <div class="detached-block-example">Сменить e-mail</div>
         <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
+        <a href="<?=$googleLink?>" class="btn btn-primary" style="margin-bottom: 10px" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
@@ -58,7 +60,7 @@ use forma\modules\selling\widgets\HistoryView;
                 <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
-        <a href="<?=$googleLink?>" class="btn btn-primary" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
+
 
         <?php ActiveForm::end(); ?>
 

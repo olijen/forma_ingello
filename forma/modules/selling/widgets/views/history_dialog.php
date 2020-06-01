@@ -5,22 +5,33 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 
 ?>
+<style>
+    #chat{
+        overflow-x: scroll;
+        max-height: 150px;
+    }
+</style>
+
+<script>
+    var heightForScroll = 10;
+</script>
+
 <div class="" id="dialog">
 
     <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '1', 'class' => 'form-inline', 'id' => 'history_form']); ?>
     <?php Pjax::begin(['enablePushState' => false, 'id' => 'history_chat']) ?>
 
-    <div id="chat" style="max-height: 150px; overflow-x: auto;">
-
-        <?= $model->dialog ?? 'История сообщений пуста' ?>
-
-    </div>
-
     <script>
 
-        var div = $("#chat");
-        div.scrollTop(div.prop('scrollHeight'));
+      console.log('update');
+      var div = $("#chat");
+      div[0].scrollTop = heightForScroll;
+
     </script>
+
+    <div id="chat">
+        <?= $model->dialog ?? 'История сообщений пуста' ?>
+    </div>
 
     <?php Pjax::end() ?>
 
@@ -62,7 +73,7 @@ use yii\helpers\Url;
         ?>
 
         <?php if ($talk) : ?>
-          <a class="btn btn-success" href="http://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
+          <a class="btn btn-success" href="https://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
         <?php endif ?>
 
     </div>
@@ -72,11 +83,48 @@ use yii\helpers\Url;
     <?= Html::endForm() ?>
 
     <script>
+
+        var div = $("#chat");
+
         $('#history_form').on('submit', (e) => {
-            console.log($(e.target).serialize());
+            heightForScroll = div[0].scrollHeight;
             e.preventDefault();
-            $.pjax({type:'POST', url:'/selling/talk/comment-history', container:'#history_chat',data:$(e.target).serialize(),push: false,replace: false,timeout: 10000,"scrollTo" : $('#chat').offset({ top: 100 })});
-        })
+            $.pjax({
+              type:'POST', 
+              url:'/selling/talk/comment-history',
+              container:'#history_chat',
+              data:$(e.target).serialize(),
+              push: false,
+              replace: false,
+              timeout: 10000,
+              scrollTo: $('#chat').offset()
+            });
+        });
+
+        function updateList() {
+          if ($("#chat").prop('scrollHeight') - $("#chat").prop('scrollTop') === $("#chat").prop('clientHeight')) {
+            heightForScroll = div[0].scrollHeight;
+          }
+          else heightForScroll = div[0].scrollTop;
+            $.pjax({
+              type:'POST', 
+              url:'/selling/talk/comment-history',
+              container:'#history_chat',
+              data: $('#history_form')[0][0].name
+                +"="+$('#history_form')[0][0].value
+                +"&id="+$('#history_form')[0][3].value+"&comment=",
+              push: false,
+              replace: false,
+              timeout: 10000,
+              scrollTo: $('#chat').offset()
+            });
+
+
+        }
+        setInterval(updateList, 4000);
+
+        div.scrollTop(div.prop('scrollHeight'));
+        //console.log(div[0].scrollTop);
     </script>
 
 </div>

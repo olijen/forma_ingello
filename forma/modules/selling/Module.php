@@ -35,8 +35,9 @@ class Module extends \yii\base\Module
 
         if (!Yii::$app->user->isGuest) {
             return true;
-        } else if($action->actionMethod == 'actionShowSelling' || $action->actionMethod == 'actionCommentHistory'
-            || $action->actionMethod == 'actionEditCell'){
+        } else if($action->id == 'editCell' || $action->actionMethod == 'actionShowSelling' || $action->actionMethod == 'actionCommentHistory'
+             || $action->actionMethod == 'actionAddPosition' ||
+            $action->actionMethod == 'actionDeletePosition' || $action->actionMethod == 'actionValidate'){
             return true;
         } else {
             Yii::$app->getResponse()->redirect(Url::to(['/login']));
