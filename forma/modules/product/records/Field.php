@@ -59,7 +59,7 @@ class Field extends \yii\db\ActiveRecord
             'category_id' => 'Категория(id)',
             'widget' => 'Тип',
             'name' => 'Название',
-            'defaulted' => 'Значение по умолчанию'
+            'defaulted' => 'Значения по умолчанию'
         ];
     }
 

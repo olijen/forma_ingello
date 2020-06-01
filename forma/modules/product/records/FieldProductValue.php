@@ -57,7 +57,7 @@ class FieldProductValue extends \yii\db\ActiveRecord
             'id' => 'ID',
             'field_id' => 'Виджет(id)',
             'product_id' => 'Продукт(id)',
-            'value' => 'Значение в продуктах',
+            'value' => 'Значения в продуктах',
         ];
     }
 

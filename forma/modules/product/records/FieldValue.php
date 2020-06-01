@@ -56,8 +56,8 @@ class FieldValue extends \yii\db\ActiveRecord
     return [
         'id' => 'ID',
         'field_id' => 'Field ID',
-        'name' => 'Значение',
-        'is_main' => 'Значение по умолчанию',
+        'name' => 'Значения',
+        'is_main' => 'Значения по умолчанию',
     ];
   }
 

@@ -2,6 +2,7 @@
 
 namespace forma\modules\product\controllers;
 
+use forma\modules\product\records\FieldValue;
 use Yii;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\FieldSearch;
@@ -84,15 +85,94 @@ class FieldController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
 
+        $model = $this->findModel($id);
+        if ($post = Yii::$app->request->post()) {
+            if (isset($post['Field'])) {
+                $postField = $post['Field'];
+                $fieldId = $postField['id'];
+                $fieldModel = Field::findOne($fieldId);
+
+                if ($post['Field']['widget'] == 'widgetDropDownList' || $post['Field']['widget'] == 'widgetMultiSelect') {
+                    $fieldModel->defaulted = null;
+                    $fieldModel->widget = $post['Field']['widget'];
+                    $fieldModel->name = $postField['name'];
+                    $fieldModel->save();
+                    if (isset($post['FieldValueNew'])) {
+                        foreach ($post['FieldValueNew'] as $fieldValue) {
+                            if (!empty($fieldValue['name'])) {
+                                $fieldValueModel = new FieldValue();
+                                $fieldValueModel->field_id = $fieldId;
+                                $fieldValueModel->name = $fieldValue['name'];
+                                if (isset($fieldValue['is_main']) && $fieldValue['is_main'] == '1') {
+                                    $fieldValueModel->is_main = '1';
+                                }
+                                if (!$fieldValueModel->validate()) {
+                                    $fieldValueModel->errors;
+                                    de($fieldValueModel->errors);
+                                }
+                                $fieldValueModel->save();
+                            }
+                        }
+                    }
+                    if ($fieldModel->widget == 'widgetDropDownList' || $fieldModel->widget == 'widgetMultiSelect') {
+                        if (isset($post['FieldValue'])) {
+                            foreach ($post['FieldValue'] as $fieldValueId => $fieldValue) {
+                                if (!empty($fieldValue['name'])) {
+                                    $fieldValueModel = FieldValue::findOne($fieldValueId);
+                                    $fieldValueModel->name = $fieldValue['name'];
+                                    $fieldValueModel->is_main = $fieldValue['is_main'];
+                                    if (!$fieldValueModel->validate()) {
+                                        $fieldValueModel->errors;
+                                        de($fieldValueModel->errors);
+                                    }
+                                    $fieldValueModel->save();
+                                } else {
+                                    FieldValue::deleteAll('id = ' . $fieldValueId);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    FieldValue::deleteAll('field_id = ' . $fieldId);
+                    $fieldModel = Field::findOne($postField['id']);
+                    $fieldModel->widget = $postField['widget'];
+                    $fieldModel->name = $postField['name'];
+                    $fieldModel->defaulted = $postField['defaulted'];
+                    if (!$fieldModel->validate()) {
+                        $fieldModel->errors;
+                        de($fieldModel->errors);
+                    }
+                    $fieldModel->save();
+                }
+                return $this->redirect(['category/update?id=' . $fieldModel->category_id]);
+            }
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $fieldId = $model->category_id;
+            return $this->redirect(['category/update?id=' . $fieldId]);
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionGetFieldValuePjax()
+    {
+        if (Yii::$app->request->isPjax) {
+            $this->layout = false;
+            $post = $_POST;
+            $fieldId = $post['id'];
+            $model = Field::findOne($fieldId);
+            $model->widget = $post['Field']['widget'];
+            return $this->render('field_value', [
+                'model' => $model,
+            ]);
+
+
+        }
     }
 
     /**
@@ -104,7 +184,6 @@ class FieldController extends Controller
      */
     public function actionDelete($id)
     {
-
         $model = $this->findModel($id);
         $fieldId = $model->category_id;
         $model->delete();

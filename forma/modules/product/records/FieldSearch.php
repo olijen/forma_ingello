@@ -2,6 +2,7 @@
 
 namespace forma\modules\product\records;
 
+use forma\modules\product\components\SystemWidget;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use forma\modules\product\records\Field;
@@ -40,7 +41,6 @@ class FieldSearch extends Field
      */
     public function search($params)
     {
-//de($params);
         $query = Field::find();
 
         // add conditions that should always apply here
@@ -49,10 +49,7 @@ class FieldSearch extends Field
             'query' => $query,
         ]);
 
-//        de($dataProvider->getModels()[0]->fieldValues);
         $this->load($params);
-
-//        de($this->fieldAttributes);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -66,10 +63,9 @@ class FieldSearch extends Field
             'category_id' => $this->category_id,
         ]);
 
-
         $query->andFilterWhere(['like', 'widget', $this->widget])
             ->andFilterWhere(['like', 'name', $this->name]);
-//        de($dataProvider->getModels());
+
         return $dataProvider;
     }
 }
