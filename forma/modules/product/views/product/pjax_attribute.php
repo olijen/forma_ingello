@@ -27,19 +27,14 @@ use yii\helpers\ArrayHelper;
 Pjax::begin([
     'enablePushState' => false,
 ]);
-//if (isset($_GET['id'])){
-//    $productValues = \forma\modules\product\records\Field::getValuesForProduct($_GET['id']);
-//}
-
-//echo Html::activeInput('text', $fieldAttributes[0], 'name' );
-//echo Html::tag('input', ['class' => 'username', 'name' => 'sawrasd',]);
-
 
 if (!empty($fieldAttributes)) {
     foreach ($fieldAttributes as $key => $fieldAttribute) {
         echo SystemWidget::getByName($key, $fieldAttribute, 'yes');
         echo '</br>';
     }
+}else{
+    echo'В данной категории нет дополнительных характеристик';
 }
 
 Pjax::end();

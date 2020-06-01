@@ -59,17 +59,14 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-
-
+//        $this->layout = '@app/modules/core/views/layouts/modal';
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        if (!empty($_GET['ProductSearch']['category_id'])) {
-            return $this->getCategoryField($dataProvider, $searchModel);
-
-        } elseif (!empty($_GET['ProductSearch']['category_id']) && isset($_GET['catalog'])) {
+        if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
             return $this->getCategoryField($dataProvider, $searchModel);
         }
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -82,21 +79,15 @@ class ProductController extends Controller
 
         $category_id = $dataProvider->getModels()[0]->category_id;
         $field = new Field;
-        $fieldAttributes = $field->widgetGetList($category_id);
+        $fieldValues = $field->widgetGetList($category_id);
 
         return $this->render('index', [
-            'fieldAttributes' => $fieldAttributes,
+            'fieldValues' => $fieldValues,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function getCategoryField_old($category_id)
-    {
-        $field = new Field;
-        $fieldAttributes = $field->widgetGetList($category_id);
-        return $fieldAttributes;
-    }
 
     public function actionCreate()
     {
@@ -106,32 +97,21 @@ class ProductController extends Controller
                 'model' => $model,
             ]);
         }
+
         if (Yii::$app->request->isPost) {
-            $modelNewProduct = ProductService::save(null, Yii::$app->request->post());
-            foreach (Yii::$app->request->post()['FieldProductValue'] as $fieldId => $fieldValueModel) { // TODO переделать тут и в СистемВиджет
+//            de('dwa');
+            $newProduct = ProductService::save(null, Yii::$app->request->post());
+            $productId = $newProduct->id;
 
-//                de(isset($fieldValueModel['multiSelect']['value']));
-                $saveProductValue = new FieldProductValue();
-                $field_id = Field::findOne($fieldId);
-                $saveProductValue->product_id = $modelNewProduct->id;
-
-                if (isset($fieldValueModel['multiSelect']['value'])) {
-                    if (!empty($fieldValueModel['multiSelect']['value'])) {
-                        $saveProductValue->value = json_encode($fieldValueModel['multiSelect']['value']);
-                    } else {
-                        $saveProductValue->value = '';
+            if (isset(Yii::$app->request->post()['FieldProductValue'])) {
+                $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
+                foreach ($fieldProductValues as $fieldId => $fieldValueModel) {
+//                    de($fieldValueModel);
+                    foreach ($fieldValueModel as $fieldValueId => $fieldValue) {
+//                        de($fieldId);
+                        $this->fieldProductValueCreate($fieldId, $fieldValue, $productId);
                     }
-                } elseif (isset($fieldValueModel['value'])) {
-                    $saveProductValue->value = $fieldValueModel['value'];
                 }
-//                de($_POST);
-                $saveProductValue->field_id = $field_id->id;
-                if (!$saveProductValue->validate()) {
-                    $saveProductValue->errors;
-                    de($saveProductValue->errors);
-                }
-
-                $saveProductValue->save();
             }
             return $this->redirect(['index']);
         } else {
@@ -168,40 +148,70 @@ class ProductController extends Controller
 
     }
 
+    public function fieldProductValueCreate($fieldId, $fieldValue, $productId)
+    {
+        $saveProductValue = new FieldProductValue();
+        $field_id = Field::findOne($fieldId);
+        $saveProductValue->product_id = $productId;
+
+        if (isset($fieldValue['multiSelect']['value'])) {
+            if (!empty($fieldValue['multiSelect']['value'])) {
+                $saveProductValue->value = json_encode($fieldValue['multiSelect']['value']);
+            } else {
+                $saveProductValue->value = '';
+            }
+        } elseif (isset($fieldValue['value'])) {
+            $saveProductValue->value = $fieldValue['value'];
+        }
+
+        $saveProductValue->field_id = $field_id->id;
+        if (!$saveProductValue->validate()) {
+            $saveProductValue->errors;
+            de($saveProductValue->errors);
+        }
+        $saveProductValue->save();
+    }
+
+    public function fieldProductValueUpdate($fieldValueId, $fieldValue)
+    {
+        $saveProductValue = FieldProductValue::findOne($fieldValueId);
+
+        if (isset($fieldValue['multiSelect']['value'])) {
+            if (!empty($fieldValue['multiSelect']['value'])) {
+                $saveProductValue->value = json_encode($fieldValue['multiSelect']['value']);
+            } else {
+                $saveProductValue->value = '';
+            }
+
+        } elseif (isset($fieldValue['value'])) {
+            $saveProductValue->value = $fieldValue['value'];
+        }
+
+        if (!$saveProductValue->validate()) {
+            $saveProductValue->errors;
+            de($saveProductValue->errors);
+        }
+        $saveProductValue->save();
+    }
+
     public function actionUpdate($id)
     {
         $model = ProductService::get($id);
         $field = new Field();
+
         $category_id = $model->category_id;
         $fieldAttributes = $field->widgetGetList($category_id);
         if (Yii::$app->request->isPost) {
-            foreach (Yii::$app->request->post()['FieldProductValue'] as $fieldValueId => $fieldValueModel) {
-//de($_POST);
-                $saveProductValue = FieldProductValue::findOne($fieldValueId);
+            $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
 
-                if (isset($fieldValueModel['multiSelect']['value'])) {
-                    if (!empty($fieldValueModel['multiSelect']['value'])) {
-                        $saveProductValue->value = json_encode($fieldValueModel['multiSelect']['value']);
+            foreach ($fieldProductValues as $fieldId => $fieldValueModel) {
+                foreach ($fieldValueModel as $fieldValueId => $fieldValue) {
+                    if ($fieldValueId == 'null') {
+                        $this->fieldProductValueCreate($fieldId, $fieldValue, $productId = $id);
                     } else {
-                        $saveProductValue->value = '';
+                        $this->fieldProductValueUpdate($fieldValueId, $fieldValue);
                     }
-
-                } elseif (isset($fieldValueModel['value'])) {
-                    $saveProductValue->value = $fieldValueModel['value'];
                 }
-
-//                if (!empty($fieldValueModel['value'] || isset($_POST['multiSelect']))) {
-//                    $saveProductValue->value = $fieldValueModel['value'];
-//                } elseif (isset($_POST['multiSelect'])) {
-//                    $fieldValueModel['value'] = json_encode($_POST['multiSelect']);
-//                    $saveProductValue->value = $fieldValueModel['value'];
-//                }
-
-                if (!$saveProductValue->validate()) {
-                    $saveProductValue->errors;
-                    de($saveProductValue->errors);
-                }
-                $saveProductValue->save();
             }
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);
@@ -215,9 +225,6 @@ class ProductController extends Controller
         }
     }
 
-
-
-//
 
     /**
      * Deletes an existing Product model.

@@ -75,32 +75,27 @@ use yii\widgets\Pjax;
             <?php DetachedBlock::begin() ?>
 
             <?php
-//            de($model);
+            //            de($model);
             if (isset($_GET['id'])): ?>
-                <?= $form->field($model, 'category_id')->textarea([ 'disabled' => true, 'value' => $model->category->name]) ?>
+                <?= $form->field($model, 'category_id')->textarea(['disabled' => true, 'value' => $model->category->name]) ?>
             <?php else: ?>
                 <?= $form->field($model, 'category_id')->widget(Select2::className(), [
                     'data' => Category::getList(),
-                    'options' => ['placeholder' => 'Выберите категорию ...'],
+                    'options' => ['placeholder' => '', 'class' => 'form-control'],
                     'pluginEvents' => [
                         "select2:select" => "function() {
-                    
-                      $.pjax({         
-                             type : 'POST',         
-                             url : '/product/product/pjax-attribute',
-                             container: '#ajax-attributes',         
-                             data :  $(this).serialize(), 
-                             push: false,
-                             replace: false,         
-                             timeout: 10000,         
-                             \"scrollTo\" : false     
-                      })
+                            $.pjax({         
+                                   type : 'POST',         
+                                   url : '/product/product/pjax-attribute',
+                                   container: '#ajax-attributes',         
+                                   data :  $(this).serialize(), 
+                                   push: false,
+                                   replace: false,         
+                                   timeout: 10000,         
+                                   \"scrollTo\" : false     
+                            })
                      }",
                     ],
-                    'addon' => ['prepend' => [
-                        'content' => ModalCreate::widget(['route' => Url::to(['/product/category/update?id=' . $model->category_id])]),
-                        'asButton' => true,
-                    ]],
                 ]) ?>
             <?php endif; ?>
             <?php
@@ -110,9 +105,7 @@ use yii\widgets\Pjax;
             echo $this->render('pjax_attribute', [
                 'field' => $field,
                 'fieldAttributes' => $fieldAttributes,
-
             ]);
-
             Pjax::end();
             DetachedBlock::end(); ?>
         </div>

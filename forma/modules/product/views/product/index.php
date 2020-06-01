@@ -45,12 +45,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 ?>
 
 
-
 <div class="product-index">
 
     <input id="import-file-input" type="file" style="display: none;">
-
-<!--    --><?php //Pjax::begin(['id' => 'pjax-product-grid']); ?>
 
     <?php $columns = [
         ['class' => 'kartik\grid\CheckboxColumn'],
@@ -87,26 +84,17 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
     ];
 
 
-    //reset ( $columns );
-    //    de($dataProvider->getModels());
-    if (isset($fieldAttributes)) {
-
-        foreach ($fieldAttributes as $key => $fieldAttribute) {
-            $filter = SystemWidget::getByName($key, $fieldAttribute);
-            //de($columns);
+    if (isset($fieldValues)) {
+        foreach ($fieldValues as $key => $fieldValue) {
+            $filter = SystemWidget::getByName($key, $fieldValue);
             $columns [] = [
-                'label' => 'что то',
-                'value' => function ($model) use ($fieldAttribute) {
-                    return $model->getWidgetValues($model->id, $fieldAttribute);
+                'label' => $fieldValue->name,
+                'value' => function ($model) use ($fieldValue) {
+                    return $model->getFieldProductValue($model->id, $fieldValue);
                 },
                 'filter' => $filter,
             ];
-            //de($columns);
-//            var_dump($fieldAttribute->name);
-//            de($columns);
-
         }
-        ///de($columns);
     }
     ?>
 
@@ -117,20 +105,18 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => '','class' => 'btn btn-info',
-            'onchange'=>'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()'
-            ,]) ?>
+        Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
+//            'onchange' => 'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()'
+            'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
+        ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
-
-
 
 
         <br><br>
 
-        <!--        --><?php
-//Pjax::begin(['id' => 'pjax-product-grid-index']); ?>
+
         <?= DynaGrid::widget([
-//            'id' => 'test_id_pjax',
+
             'allowSortSetting' => false,
             'showPersonalize' => true,
             'allowFilterSetting' => false,
@@ -140,7 +126,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'gridOptions' => [
                 'editableMode' => false,
                 'displayEmptyValue' => true,
-                'pjax' => true,
+//                'pjax' => true,
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'responsiveWrap' => false,
@@ -188,7 +174,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                 ],
             ],
         ]); ?>
-        <!--        --><?php //Pjax::end(); ?>
     <?php else : ?>
 
 
@@ -200,6 +185,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         <?php ActiveForm::end(); ?>
         <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
+        <?= Html::activeDropDownList($searchModel, 'category_id',
+        Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
+            'onchange' => 'window.location.href = "product/index?ProductSearch[category_id]="+ $(this).val()'
+        ]) ?>
         <button class="btn btn-info" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
         </button>
         <br><br>
@@ -220,7 +209,5 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         ]); ?>
 
     <?php endif ?>
-
-<!--    --><?php //Pjax::end(); ?>
 
 </div>

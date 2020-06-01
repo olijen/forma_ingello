@@ -47,7 +47,7 @@ class ProductSearch extends Product
     public function search($params)
     {
 
-
+//
 //        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
 //        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
 //        var_dump($params);
@@ -64,16 +64,21 @@ class ProductSearch extends Product
             $query->joinWith(['fieldProductValues']);
 
             foreach ($params['FieldProductValue'] as $fieldId => $fieldValue) {
-                if (!empty($fieldValue['value'])) {
-                    echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
-                    echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
-                    var_dump($fieldValue);
-                    echo '</pre> </div> </br> </br>';
-                    $query ->andFilterWhere([
+//                if (isset($fieldValue['value']["multiSelect"])){
+//
+                if (!empty($fieldValue['value']) && !isset($fieldValue['value']["multiSelect"])) {
+
+//                    echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
+//                    echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
+//                    var_dump($fieldValue);
+//                    echo '</pre> </div> </br> </br>';
+                    $query->andFilterWhere([
                         'field_product_value.value' => $fieldValue['value'],
                         'field_product_value.field_id' => $fieldId,
                     ]);
                 }
+//                }
+
             }
         }
 

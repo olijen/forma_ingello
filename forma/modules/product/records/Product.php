@@ -61,7 +61,7 @@ class Product extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['type_id', 'manufacturer_id', 'sku', 'name', 'volume', 'country_id'], 'required'],
+            [['type_id', 'category_id','manufacturer_id', 'sku', 'name', 'volume', 'country_id'], 'required'],
             [['type_id', 'category_id', 'manufacturer_id', 'year_chart', 'batcher', 'country_id', 'color_id', 'volume', 'pack_unit_id', 'parent_id'], 'integer'],
             [['note'], 'string'],
             [['proof', 'rating'], 'number'],
@@ -296,7 +296,7 @@ class Product extends AccessoryActiveRecord
     }
 
 
-    public function getWidgetValues($id, $value)
+    public function getFieldProductValue($id, $value)
     {
 
         $field = FieldProductValue::find()
