@@ -25,7 +25,7 @@ class SystemEventUserService {
         $models = [];
 
         foreach($modelTableName as $key => $model) {
-            $models[] = self::getModelName($model['Tables_in_warehouse']);
+            $models[] = self::getModelName($model['Tables_in_forma']);
         }
 
         return $models;

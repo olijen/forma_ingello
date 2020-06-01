@@ -1,5 +1,5 @@
     <div class="box box-info">
-        <div class="box-header with-border">
+        <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Сотрудники</h3>
 
             <div class="box-tools pull-right">
@@ -61,4 +61,7 @@
             <a href="javascript:void(0)" class="uppercase">Смотреть всю команду</a>
         </div>
         <!-- /.box-footer -->
+        <div class="box-header with-border small_widget_header" style="display: none">
+            <h3 class="box-title">Сотрудники</h3>
+        </div>
     </div>

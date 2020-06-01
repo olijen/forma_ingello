@@ -1,6 +1,6 @@
 
     <div class="box box-success">
-        <div class="box-header with-border">
+        <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Выполнение целей</h3>
 
             <div class="box-tools pull-right">
@@ -44,4 +44,8 @@
             </div>
         </div>
         <!-- /.box-body -->
+
+        <div class="box-header with-border small_widget_header" style="display: none">
+            <h3 class="box-title">Выполнение целей</h3>
+        </div>
     </div>

@@ -52,10 +52,10 @@ class SystemEvent extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date_time' => 'Date Time',
-            'application' => 'Application',
-            'module' => 'Module',
-            'data' => 'Data',
+            'date_time' => 'Дата',
+            'application' => 'Отдел',
+            'module' => 'Модуль',
+            'data' => 'Событие',
             'user_id' => 'User ID',
         ];
     }

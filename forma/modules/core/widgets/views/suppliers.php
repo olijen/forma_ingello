@@ -1,6 +1,6 @@
 
     <div class="box box-danger">
-        <div class="box-header with-border">
+        <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Поставщики на карте</h3>
 
             <div class="box-tools pull-right">
@@ -32,4 +32,7 @@
             <a href="javascript:void(0)" class="uppercase">View All Users</a>
         </div>
         <!-- /.box-footer -->
+        <div class="box-header small_widget_header" style="display: none">
+            <h3 class="box-title">Поставщики на карте</h3>
+        </div>
     </div>

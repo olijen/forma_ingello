@@ -15,19 +15,31 @@ use yii\widgets\Pjax;
 $this->title = 'История событий';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+    .content p button#event_user_view {
+        background-color: #56da32;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        float: right;
+    }
+</style>
+
 <div class="system-event-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-danger']) ?>
+        <button id="event_user_view" class="btn" onclick="changeSystemEventView()">
+            Показать таблицей
+        </button>
     </p>
 
-    <button id="event_user_view" onclick="changeSystemEventView()">
-        table
-    </button>
+
     <script>
-        let view = 'table';
+        let view = 'list';
     </script>
     <?php Pjax::begin();
     //todo: последняя точка остановки, отследить Pjax запрос при вводе поля?>
@@ -188,13 +200,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 table.hide();
                 list.show();
                 view = 'list';
-                $("#event_user_view")[0].innerText = 'list';
+                $("#event_user_view")[0].innerText = 'Показать таблицей';
             }
             else {
                 table.show();
                 list.hide();
                 view = 'table';
-                $("#event_user_view")[0].innerText = 'table';
+                $("#event_user_view")[0].innerText = 'Показать списком';
             }
         }
     </script>
