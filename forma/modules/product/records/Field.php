@@ -100,7 +100,6 @@ class Field extends \yii\db\ActiveRecord
     {
 
         return FieldProductValue::find()
-
             ->where(['field_id' => $this->id])
             ->andWhere(['product_id' => $product_id])
             ->one();
@@ -111,12 +110,15 @@ class Field extends \yii\db\ActiveRecord
         return EntityLister::getList(self::className());
     }
 
-    public function widgetGetList($category_id)
+    public function widgetGetList($categoriesId)
     {
-            $query = Field::find()
-                ->andWhere(['category_id' => $category_id])
-                ->indexBy('id')
-                ->all();
+        $query = Field::find()
+            ->indexBy('id');
+        foreach ($categoriesId as $categoryId) {
+            $query->orWhere(['category_id' => $categoryId]);
+        }
+
+        $query = $query->all();
 
         return $query;
     }

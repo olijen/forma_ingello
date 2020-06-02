@@ -4,6 +4,7 @@ namespace forma\modules\product\controllers;
 
 use forma\extensions\kartik\DynaGrid;
 use forma\modules\product\components\SystemWidget;
+use forma\modules\product\records\Category;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\FieldProductValue;
 use forma\modules\product\records\FieldSearch;
@@ -63,7 +64,7 @@ class ProductController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
-            return $this->getCategoryField($dataProvider, $searchModel);
+            return $this->getFieldCategory($dataProvider, $searchModel);
         }
 
 
@@ -73,7 +74,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getCategoryField($dataProvider, $searchModel)
+    public function getFieldCategory($dataProvider, $searchModel)
     {
 
         $category_id = $dataProvider->getModels()[0]->category_id;
@@ -132,7 +133,14 @@ class ProductController extends Controller
             $category_id = Yii::$app->request->post()['Product']['category_id'];
             // категория из обьекта продукта постом
             $field = new Field();
-            $fieldAttributes = $field->widgetGetList($category_id);
+            $parentCategoryId = $category_id;
+            while(!is_null($parentCategoryId)){
+                $categoryModel = Category::findOne($parentCategoryId);
+                $parentCategoryId = $categoryModel->parent_id;
+                $parentsCategoryId [ ] = $categoryModel->id;
+            }
+            $categoriesId = $parentsCategoryId;
+            $fieldAttributes = $field->widgetGetList($categoriesId);
 
             return $this->render('pjax_attribute', [
                 'field' => $field,
@@ -197,7 +205,16 @@ class ProductController extends Controller
         $field = new Field();
 
         $category_id = $model->category_id;
-        $fieldAttributes = $field->widgetGetList($category_id);
+        $parentCategoryId = $category_id;
+
+        while(!is_null($parentCategoryId)){
+            $categoryModel = Category::findOne($parentCategoryId);
+            $parentCategoryId = $categoryModel->parent_id;
+            $parentsCategoryId [ ] = $categoryModel->id;
+        }
+        $categoriesId = $parentsCategoryId;
+        $fieldAttributes = $field->widgetGetList($categoriesId);
+
         if (Yii::$app->request->isPost) {
             $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
 
