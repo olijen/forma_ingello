@@ -38,7 +38,6 @@
             if (i != inputsss.length - 1) {
                 inputValue[i] = getInputsss[i].value;
                 inputChecked[i] = getChechedd[i].checked;
-                // console.log(inputValue[i]);
 
                 newstr = newstr.replace(re2, inputChecked[i]?'checked':"");
                 newstr = newstr.replace(re1, inputValue[i]);

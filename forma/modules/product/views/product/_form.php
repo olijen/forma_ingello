@@ -1,7 +1,9 @@
 <?php
 
+use kartik\form\ActiveForm;
+
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+//use yii\widgets\ActiveForm;
 use forma\components\widgets\ModalCreate;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
@@ -75,13 +77,25 @@ use yii\widgets\Pjax;
             <?php DetachedBlock::begin() ?>
 
             <?php
-            //            de($model);
             if (isset($_GET['id'])): ?>
-                <?= $form->field($model, 'category_id')->textarea(['disabled' => true, 'value' => $model->category->name]) ?>
+                <?= $form->field($model, 'category_id', [
+                    'addon' => [
+                        'prepend' => [
+                            'asButton' => true,
+                            'content' => ModalCreate::widget(['route' => Url::to(['/product/category/create'])]),
+                        ],
+                    ],
+                ])->textInput(['disabled' => true, 'value' => $model->category->name]) ?>
             <?php else: ?>
                 <?= $form->field($model, 'category_id')->widget(Select2::className(), [
                     'data' => Category::getList(),
                     'options' => ['placeholder' => '', 'class' => 'form-control'],
+                    'addon' => [
+                        'prepend' => [
+                            'asButton' => true,
+                            'content' => ModalCreate::widget(['route' => Url::to(['/product/category/create'])]),
+                        ],
+                    ],
                     'pluginEvents' => [
                         "select2:select" => "function() {
                             $.pjax({         
@@ -100,7 +114,6 @@ use yii\widgets\Pjax;
             <?php endif; ?>
             <?php
             Pjax::begin(['id' => 'ajax-attributes',]);
-            //                'enablePushState' => false,
 
             echo $this->render('pjax_attribute', [
                 'field' => $field,

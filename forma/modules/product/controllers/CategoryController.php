@@ -126,9 +126,16 @@ class CategoryController extends Controller
         }
 
         if (!empty($parentCategoryId = $model->parent_id)) {
-            $searchParentField = new FieldSearch();
-            $searchParentField->category_id = $model->parent_id;
-            $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);
+
+                while(!is_null($parentCategoryId)){
+                    $categoryModel = Category::findOne($parentCategoryId);
+                    $parentCategoryId = $categoryModel->parent_id;
+                    $parentsCategoryId [ ] = $categoryModel->id;
+                }
+
+                $searchParentField = new FieldSearch();
+                $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
+
 
             return $this->render('update', [
                 'model' => $model,
@@ -163,10 +170,17 @@ class CategoryController extends Controller
         if (Yii::$app->request->isPjax) {
             $this->layout = false;
             $parentCategoryId = $_POST['Category']['parent_id'];
-            $searchParentField = new FieldSearch();
-            $searchParentField->category_id = $parentCategoryId;
-            $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);
 
+            while(!is_null($parentCategoryId)){
+                $categoryModel = Category::findOne($parentCategoryId);
+                $parentCategoryId = $categoryModel->parent_id;
+                $parentsCategoryId [ ] = $categoryModel->id;
+            }
+
+            $searchParentField = new FieldSearch();
+            $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
+
+            echo 'Характеристики родительской категории';
             return $this->render('parent_field', [
                 'searchParentField' => $searchParentField,
                 'parentFieldDataProvider' => $parentFieldDataProvider,

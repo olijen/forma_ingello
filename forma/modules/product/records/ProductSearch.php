@@ -59,24 +59,24 @@ class ProductSearch extends Product
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
             ->andWhere(['accessory.entity_class' => Product::className()]);
-
+//        Yii::debug('начало вычисления среднего дохода', $params);
         if (isset($params['FieldProductValue'])) {
+//            de($params['FieldProductValue']);
             $query->joinWith(['fieldProductValues']);
-
-            foreach ($params['FieldProductValue'] as $fieldId => $fieldValue) {
-                if (!empty($fieldValue['value']) && !isset($fieldValue['value']["multiSelect"])) {
-
-//                    echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
-//                    echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
-//                    var_dump($fieldValue);
-//                    echo '</pre> </div> </br> </br>';
-                    $query->andFilterWhere([
-                        'field_product_value.value' => $fieldValue['value'],
-                        'field_product_value.field_id' => $fieldId,
-                    ]);
+            foreach ($params['FieldProductValue'] as $fieldId => $productId) {
+                foreach ($productId as $fieldValue) {
+                    if (isset($fieldValue["multiSelect"]['value']) && !empty($fieldValue["multiSelect"]['value'])) {
+                        $query->andFilterWhere([
+                            'field_product_value.value' => $fieldValue["multiSelect"]['value'],
+                            'field_product_value.field_id' => $fieldId,
+                        ]);
+                    }elseif(isset($fieldValue['value']) && !empty($fieldValue['value'])){
+                        $query->andFilterWhere([
+                            'field_product_value.value' => $fieldValue['value'],
+                            'field_product_value.field_id' => $fieldId,
+                        ]);
+                    }
                 }
-
-
             }
         }
 

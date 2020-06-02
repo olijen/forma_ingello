@@ -27,9 +27,6 @@ class SystemWidget
 
     public function widgetColorInput()
     {
-//        if (!isset($_GET['id']) && !empty($this->field->defaulted) && !isset($_GET['ProductSearch'])) {
-//            $this->productValue->value = $this->field->defaulted;
-//        }
         $this->productValue->value = $this->getDefaultValue();
 
         return ColorInput::widget([
@@ -41,13 +38,10 @@ class SystemWidget
 
     public function widgetDatePicker()
     {
-        //        if (!isset($_GET['id']) && !empty($this->field->defaulted) && !isset($_GET['ProductSearch'])) {
-//            $this->productValue->value = $this->field->defaulted;
-//        }
+
         $this->productValue->value = $this->getDefaultValue();
 
         return DatePicker::widget([
-//            'name' => 'FieldProductValue[' . $this->productValue->id . '][value]',
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -146,9 +140,6 @@ class SystemWidget
 
     public function widgetTextInput()
     {
-        //        if (!isset($_GET['id']) && !empty($this->field->defaulted) && !isset($_GET['ProductSearch'])) {
-//            $this->productValue->value = $this->field->defaulted;
-//        }
         $this->productValue->value = $this->getDefaultValue();
 
         return Html::activeInput('text', $this->productValue,
@@ -186,28 +177,22 @@ class SystemWidget
         return $widgetNames;
     }
 
-    public static function getByName($key, Field $attribute, $getLabel = null)
+    public static function getByName($key, Field $field, $getLabel = null)
     {
-
         $widgetCall = new SystemWidget;
-        $widgetCall->field = $attribute;
+        $widgetCall->field = $field;
         $widgetCall->fieldKey = $key;
 
 
-        if (isset($_GET['id']) && !empty($productValue = $attribute->getValuesForProduct($_GET['id']))) {
-//        if (isset($_GET['id']) && !empty($widgetCall->productValue->id)) {
-
-            $widgetCall->productValue = $attribute->getValuesForProduct($_GET['id']);
-//            de('dwa');
+        if (isset($_GET['id']) && !empty($productValue = $field->getValuesForProduct($_GET['id']))) {// TODO
+            $widgetCall->productValue = $field->getValuesForProduct($_GET['id']);
         } else {
-//            de('dwa1edsadw');
             $widgetCall->productValue = new FieldProductValue();
-//            de( $widgetCall->productValue->attributes);
-            $widgetCall->productValue->id = 'null'; // TODO переделать тут и в контроллере
-            $widgetCall->productValue->field_id = $attribute->id;
+            $widgetCall->productValue->id = 'null';
+            $widgetCall->productValue->field_id = $field->id;
             $widgetCall->productValue->value = '';
         }
-        $functionName = $attribute->widget;
+        $functionName = $field->widget;
         if ($getLabel == 'yes') {
             $widgetCall->getLabel();
         }

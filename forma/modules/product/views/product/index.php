@@ -28,7 +28,6 @@ use forma\modules\product\records\Product;
 use forma\modules\product\records\PackUnit;
 use forma\modules\core\widgets\DetachedBlock;
 
-
 use kartik\date\DatePicker;
 
 
@@ -90,7 +89,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             $columns [] = [
                 'label' => $fieldValue->name,
                 'value' => function ($model) use ($fieldValue) {
-                    return $model->getFieldProductValue($model->id, $fieldValue);
+                    $FieldProductValue = $model->getFieldProductValue($model->id, $fieldValue);
+                    $multiSelectValue = json_decode($FieldProductValue);
+                    if (is_array($multiSelectValue)){
+                        $fieldValueArray = \forma\modules\product\records\FieldValue::findAll($multiSelectValue);
+                        if(!empty($fieldValueArray)){
+                            $fieldValues = '';
+                            foreach ($fieldValueArray as $fieldValue){
+                                if (empty($fieldValues)){
+                                    $fieldValues.= $fieldValue->name;
+                                }else{
+                                    $fieldValues.=', '. $fieldValue->name;
+                                }
+                            }
+                            return $fieldValues;
+                        }else{
+                            return null;
+                        }
+                    }
+                    return $FieldProductValue;
                 },
                 'filter' => $filter,
             ];
@@ -106,7 +123,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
         Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
-//            'onchange' => 'window.location.href = "index?ProductSearch%5Bcategory_id%5D="+ $(this).val()' TODO Спросить разницу у Олега
+//            'onchange' => 'window.location.href = "/index?ProductSearch%5Bcategory_id%5D="+ $(this).val()' TODO Спросить разницу у Олега
             'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
@@ -126,7 +143,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'gridOptions' => [
                 'editableMode' => false,
                 'displayEmptyValue' => true,
-//                'pjax' => true,
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'responsiveWrap' => false,
@@ -176,27 +192,28 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         ]); ?>
     <?php else : ?>
 
-
-        <?php $form = ActiveForm::begin(['action' => ['index?catalog'], 'method' => 'get']); ?>
-
-        <?= $form->field($searchModel, 'category_id')->dropDownList(Category::getList(), ['class' => 'btn btn-info']); ?>
-        <?= Html::submitButton('Выбрать категорию', ['class' => 'btn btn-primary']) ?>
-
-        <?php ActiveForm::end(); ?>
+<!---->
+<!--        --><?php //$form = ActiveForm::begin(['action' => ['index?catalog'], 'method' => 'get']); ?>
+<!---->
+<!--        --><?//= $form->field($searchModel, 'category_id')->dropDownList(Category::getList(), ['class' => 'btn btn-info']); ?>
+<!--        --><?//= Html::submitButton('Выбрать категорию', ['class' => 'btn btn-primary']) ?>
+<!---->
+<!--        --><?php //ActiveForm::end(); ?>
+<br><br>
         <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
         Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
-            'onchange' => 'window.location.href = "product/index?ProductSearch[category_id]="+ $(this).val()'
+            'onchange' => 'window.location.href = "/product/product/index?catalog=&ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <button class="btn btn-info" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
         </button>
         <br><br>
         <div class="admin-search collapse" id="hide-me">
-            <?php if (!isset($fieldAttributes)) {
+            <?php if (!isset($fieldValues)) {
                 echo $this->render('_search', ['model' => $searchModel]);
             } else {
-                echo $this->render('_search', ['model' => $searchModel, 'fieldAttributes' => $fieldAttributes,]);
+                echo $this->render('_search', ['model' => $searchModel, 'fieldValues' => $fieldValues,]);
             }
             ?>
         </div>

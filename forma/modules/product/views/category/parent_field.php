@@ -17,12 +17,11 @@ use yii\helpers\Url;
 
 <?php
 
-echo 'Характеристики родительской категории';
+
 echo GridView::widget([
     'dataProvider' => $parentFieldDataProvider,
     'filterModel' => $searchParentField,
     'columns' => [
-
         'name',
         [
             'attribute' => 'widget',
@@ -45,9 +44,7 @@ echo GridView::widget([
                         break;
                 }
             },
-
         ],
-
         [
             'attribute' => 'fieldValues.name',
             'format' => 'raw',
@@ -67,7 +64,6 @@ echo GridView::widget([
                 ['class' => 'form-control', 'prompt' => '']),
         ],
         'defaulted',
-
     ],
 ]);
 ?>

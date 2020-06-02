@@ -28,11 +28,9 @@ class ProductService
 
     public static function save($id, $post)
     {
-//        de($post);
         $model = self::get($id);
 
         $model->load($post);
-//de($model);
         $model->load(['color_id' => self::getColorByPost($post)], '');
         $model->sku = 'VSKR-50';
         $model->volume = '50';

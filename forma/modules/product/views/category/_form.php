@@ -16,12 +16,6 @@ use yii\helpers\Url;
 /* @var $searchModel */
 ?>
 
-<?php if (Yii::$app->request->isAjax) {
-    Yii::$app->controller->layout = false;
-    Pjax::begin();
-} ?>
-
-
 
 <?php $form = ActiveForm::begin([
     'id' => 'category-name-form',
@@ -36,12 +30,18 @@ use yii\helpers\Url;
     if (is_null($model->id)) {
         $categoryIdDropDownList = 0;
     }
+
+    $categories = \forma\modules\product\records\Category::find()
+        ->joinWith(['accessory'])
+        ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
+        ->andWhere(['<>', 'category.id', $categoryIdDropDownList])
+        ->andWhere(['<>', 'category.parent_id', $categoryIdDropDownList]);
+
+
+    $categories  = $categories->all();
+
     echo $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(
-        \forma\modules\product\records\Category::find()
-            ->joinWith(['accessory'])
-            ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
-            ->andWhere(['<>', 'category.id', $categoryIdDropDownList])
-            ->all(), 'id', 'name'),
+        $categories, 'id', 'name'),
         ['prompt' => '', 'onchange' => "$.pjax({         
                              type : 'POST',         
                              url : '/product/category/pjax-parent-category-field',
@@ -61,29 +61,38 @@ use yii\helpers\Url;
 <?php ActiveForm::end(); ?>
 <div class="col-md-9 block">
     <?php Pjax::begin(['id' => 'pjax-drop-down-list-category', 'enablePushState' => false,]); ?>
+
     <?php
 
-    if (isset($searchParentField) && isset($parentFieldDataProvider)): ?>
-        <?= $this->render('parent_field', [
-//            'model' => $model,
-            'searchParentField' => $searchParentField,
-            'parentFieldDataProvider' => $parentFieldDataProvider,
-        ]); ?>
-    <?php endif; ?>
+    if (isset($searchParentField) && isset($parentFieldDataProvider)) {
+
+        echo 'Характеристики родительской категории';
+        echo $this->render('setting_widget', [
+            'model' => $model,
+            'field' => $field,
+            'searchModel' => $searchParentField,
+            'dataProvider' => $parentFieldDataProvider,
+        ]);
+    }
+    ?>
     <?php Pjax::end(); ?>
 
 
-    <?php if (isset($model->id)): ?>
+    <?php if (isset($model->id)) {
 
-        <?= $this->render('setting_widget', [
+        echo 'Характеристики текущей категории';
+        echo $this->render('setting_widget', [
             'model' => $model,
             'field' => $field,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]) ?>
+        ]);
 
-    <?php endif; ?>
+        echo $this->render('add_attribute', [
+            'model' => $model,
+            'field' => $field,
+        ]);
+    } ?>
 </div>
-<?php if (Yii::$app->request->isAjax) {
-    Pjax::end();
-} ?>
+
+

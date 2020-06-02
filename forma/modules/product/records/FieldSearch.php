@@ -68,4 +68,38 @@ class FieldSearch extends Field
 
         return $dataProvider;
     }
+
+    public function searchAllFieldsParentCategory($params, $parentsCategoryId)
+    {
+        $query = Field::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        foreach ($parentsCategoryId as $parentCategoryId){
+            $query->orWhere([
+                'category_id' => $parentCategoryId,
+            ]);
+        }
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+        ]);
+
+        $query->andFilterWhere(['like', 'widget', $this->widget])
+            ->andFilterWhere(['like', 'name', $this->name]);
+
+        return $dataProvider;
+    }
 }

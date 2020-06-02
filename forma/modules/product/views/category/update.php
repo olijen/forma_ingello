@@ -18,8 +18,8 @@ $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="category-update">
 
-    <?php if(isset($searchParentField) && isset($parentFieldDataProvider)){
-       echo $this->render('_form', [
+    <?php if (isset($searchParentField) && isset($parentFieldDataProvider)) {
+        echo $this->render('_form', [
             'model' => $model,
             'field' => $field,
             'searchParentField' => $searchParentField,
@@ -27,14 +27,14 @@ $this->params['breadcrumbs'][] = $model->name;
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }else{
+    } else {
         echo $this->render('_form', [
             'model' => $model,
             'field' => $field,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }?>
+    } ?>
 
 
 </div>

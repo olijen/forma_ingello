@@ -40,7 +40,6 @@ class FieldValueSearch extends FieldValue
      */
     public function search($params)
     {
-//        de($params);
         $query = FieldValue::find();
 
         // add conditions that should always apply here

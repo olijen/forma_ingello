@@ -44,14 +44,14 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php
-    if (!empty($fieldAttributes)) {
-        foreach ($fieldAttributes as $key => $fieldAttribute) {
+    if (!empty($fieldValues)) {
+        foreach ($fieldValues as $key => $fieldValue) {
             $i = 0;
 //        $productValue = $productValues[$i++];
             if ($i%3 == 0 || $i == 0 ){
                 echo '<div class="col-md-4">';
             }
-            echo SystemWidget::getByName($key, $fieldAttribute, 'yes');
+            echo SystemWidget::getByName($key, $fieldValue, 'yes');
             echo '</br>';
 
             if ($i%3 == 0){
