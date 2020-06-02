@@ -37,8 +37,7 @@ use yii\helpers\Url;
         ->andWhere(['<>', 'category.id', $categoryIdDropDownList])
         ->andWhere(['<>', 'category.parent_id', $categoryIdDropDownList]);
 
-
-    $categories  = $categories->all();
+    $categories = $categories->all();
 
     echo $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(
         $categories, 'id', 'name'),

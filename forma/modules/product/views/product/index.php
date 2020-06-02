@@ -192,13 +192,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         ]); ?>
     <?php else : ?>
 
-<!---->
-<!--        --><?php //$form = ActiveForm::begin(['action' => ['index?catalog'], 'method' => 'get']); ?>
-<!---->
-<!--        --><?//= $form->field($searchModel, 'category_id')->dropDownList(Category::getList(), ['class' => 'btn btn-info']); ?>
-<!--        --><?//= Html::submitButton('Выбрать категорию', ['class' => 'btn btn-primary']) ?>
-<!---->
-<!--        --><?php //ActiveForm::end(); ?>
 <br><br>
         <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>

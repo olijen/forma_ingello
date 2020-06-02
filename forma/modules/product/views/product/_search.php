@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
     if (!empty($fieldValues)) {
         foreach ($fieldValues as $key => $fieldValue) {
             $i = 0;
-//        $productValue = $productValues[$i++];
+
             if ($i%3 == 0 || $i == 0 ){
                 echo '<div class="col-md-4">';
             }

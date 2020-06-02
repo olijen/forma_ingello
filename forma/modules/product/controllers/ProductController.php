@@ -59,7 +59,6 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-//        $this->layout = '@app/modules/core/views/layouts/modal';
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -99,16 +98,14 @@ class ProductController extends Controller
         }
 
         if (Yii::$app->request->isPost) {
-//            de('dwa');
+
             $newProduct = ProductService::save(null, Yii::$app->request->post());
             $productId = $newProduct->id;
 
             if (isset(Yii::$app->request->post()['FieldProductValue'])) {
                 $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
                 foreach ($fieldProductValues as $fieldId => $fieldValueModel) {
-//                    de($fieldValueModel);
                     foreach ($fieldValueModel as $fieldValueId => $fieldValue) {
-//                        de($fieldId);
                         $this->fieldProductValueCreate($fieldId, $fieldValue, $productId);
                     }
                 }

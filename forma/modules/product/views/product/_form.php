@@ -1,9 +1,9 @@
 <?php
 
 use kartik\form\ActiveForm;
-
+//use yii\widgets\ActiveForm;  TODO в чем разница???
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
+
 use forma\components\widgets\ModalCreate;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;

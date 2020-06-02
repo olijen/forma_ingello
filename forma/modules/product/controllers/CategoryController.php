@@ -134,7 +134,8 @@ class CategoryController extends Controller
                 }
 
                 $searchParentField = new FieldSearch();
-                $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
+                $parentFieldDataProvider = $searchParentField
+                    ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
 
 
             return $this->render('update', [
