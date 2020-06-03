@@ -43,6 +43,8 @@ class MainController extends Controller
     {
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        Yii::debug("PROVIDER ON PAGE");
+        Yii::debug($dataProvider);
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 

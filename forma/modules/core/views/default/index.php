@@ -728,30 +728,30 @@ $collapsed = 0;
         options: options
     });
 
-    myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: [<?=$salesProgress->getLabelsString()?>],
-
-            datasets: [{
-                label: 'Количество продаж',
-                data: [<?=$salesProgress->getDataString()?>],
-                backgroundColor: [<?=$salesProgress->getColorsString()?>],
-            }]
-        },
-        options: options
-    });
-
-
-    function getId(index) {
-      return [<?=$salesProgress->getComaListOfSales()?>][index];
-    }
-
-    plan.onclick = function(evt){
-        var activePoints = myLineChart.getElementsAtEvent(evt);
-        console.log(activePoints);
-         window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
-    };
+    //myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
+    //    type: 'bar',
+    //    data: {
+    //        labels: [<?//=$salesProgress->getLabelsString()?>//],
+    //
+    //        datasets: [{
+    //            label: 'Количество продаж',
+    //            data: [<?//=$salesProgress->getDataString()?>//],
+    //            backgroundColor: [<?//=$salesProgress->getColorsString()?>//],
+    //        }]
+    //    },
+    //    options: options
+    //});
+    //
+    //
+    //function getId(index) {
+    //  return [<?//=$salesProgress->getComaListOfSales()?>//][index];
+    //}
+    //
+    //plan.onclick = function(evt){
+    //    var activePoints = myLineChart.getElementsAtEvent(evt);
+    //    console.log(activePoints);
+    //     window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
+    //};
 
     new Chart(document.getElementById("plan1").getContext('2d'), {
         type: 'bar',

@@ -1,5 +1,6 @@
 <?php
 
+use forma\modules\core\records\SystemEventSearch;
 use yii\db\ActiveRecord;
 use yii\web\AssetBundle;
 use forma\modules\core\records\SystemEventService;
@@ -26,6 +27,7 @@ $config = [
     ],
     'on beforeAction' => function($event) {
 
+        //СОБЫТИЯ РЕАГИРУЮЩИЕ НА ACTIVE RECORD ОПЕРАЦИИ CUD + CUSTOM + LOGIN
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_INSERT, function ($event) {
             Yii::debug($event);
             Yii::debug($_SERVER);
@@ -53,6 +55,11 @@ $config = [
             SystemEventService::eventAfterLogin($event);
 
         });
+
+
+        //Генерация данных для представления в header
+        //$searchModelHeader = new SystemEventSearch();
+        //$dataProviderHeader = $searchModelHeader->search(Yii::$app->request->queryParams);
 
     },
     'components' => [

@@ -159,4 +159,12 @@ class SellingService
         return $sellingProgress;
     }
     // todo: Вынести в виджет
+
+
+    public static function getLastClientsToHeader(){
+        $searchModelClientsHeader = self::search();
+        $dataProviderClientsHeader = $searchModelClientsHeader->search(Yii::$app->request->queryParams);
+        Yii::debug("ПРОВАЙДЕР");
+        Yii::debug($dataProviderClientsHeader);
+    }
 }

@@ -103,6 +103,8 @@ class SellingSearch extends Selling
             $query->andFilterWhere(DateRangeHelper::getDateRangeCondition($attribute, $this->$rangeAttribute));
         }
 
+        Yii::debug($query);
+
         return $dataProvider;
     }
 }

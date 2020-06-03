@@ -1,4 +1,10 @@
 <?php
+
+use forma\modules\core\components\LinkHelper;
+use forma\modules\core\records\SystemEventSearch;
+use forma\modules\core\widgets\SalesFunnelWidget;
+use forma\modules\selling\forms\SalesProgress;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
@@ -262,6 +268,119 @@ JS;
           </ul>
         </li>
 
+        <!--  СОБЫТИЯ -->
+        <li class="dropdown events-menu tasks-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-car"></i>
+                  <span class="label label-danger">20</span>
+              </a>
+              <ul class="dropdown-menu" style="width: 400px">
+                  <li class="header">20 последних событий</li>
+                  <li>
+                      <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
+                      не было удаления линии которая проходит сквозь весь таймлайн-->
+                      <div class="menu">
+                          <?php
+                          $searchModelHeader = new SystemEventSearch();
+                          $dataProviderHeader = $searchModelHeader->search(Yii::$app->request->queryParams);
+                          ?>
+                          <ul class="timeline" >
+                              <?php
+
+                              $eventDate = "";
+                              $icon = "";
+                              foreach ($dataProviderHeader->models as $model) {
+                                  foreach(Yii::$app->params['icons'] as $kIcon => $vIcon){
+                                      if($model->class_name == $kIcon){
+                                          $icon = $vIcon;
+                                      }
+                                  }
+                                  $color = "";
+                                  foreach(Yii::$app->params['colors'] as $app => $colorValue) {
+                                      if($model->application == $app) $color = $colorValue;
+                                  }
+                                  $arr = [];
+                                  $linkView = "";
+                                  $event = "";
+                                  if(strlen($model->request_uri) > 0 && $model->sender_id != 1) {
+                                      $arr = explode("/", $model->request_uri);
+                                      $linkView = "/" . $arr[1] . "/" . $arr[2];
+                                      if(count($arr) > 3)$event = substr($arr[3], 0, 6);
+                                  }
+                                  if($eventDate != substr($model->date_time, 0, 10)){
+                                      ?>
+
+                                      <!-- timeline time label -->
+                                      <li class="time-label">
+        <span class="bg-red">
+            <?=substr($model->date_time, 0, 10)?>
+        </span>
+                                      </li>
+                                  <?php }?>
+                                  <!-- /.timeline-label -->
+
+                                  <!-- timeline item -->
+                                  <li>
+                                      <!-- timeline icon -->
+                                      <i class="fa fa-<?=$icon!=""? $icon : 'envelope'?>" style="background-color: <?=$color?>; color: #fff"></i>
+                                      <div class="timeline-item">
+                                          <span class="time"><i class="fa fa-clock-o"></i> <?=substr($model->date_time, 11, 5)?></span>
+
+                                          <h3 class="timeline-header">В отделе <a href="#"><?=$model->application?></a> произошло событие</h3>
+                                          <div class="timeline-body">
+                                              <?=$model->data?>
+                                          </div>
+                                          <?php
+                                          //todo: пока что не выводим
+                                          if($model->sender_id !=1 && false) { ?>
+                                              <div class="timeline-footer">
+                                                  <p>Посмотреть список в модуле: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||" .$model->class_name."}}")) ?></p>
+
+                                                  <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
+                                              </div>
+                                          <?php } ?>
+                                      </div>
+                                  </li>
+                                  <!-- END timeline item -->
+                                  <?php
+                                  $eventDate = substr($model->date_time, 0, 10);
+                              }
+                              ?>
+                          </ul>
+                      </div>
+                  </li>
+                  <li class="footer">
+                      <a href="/core/system-event/">Перейти ко всем событиям</a>
+                  </li>
+              </ul>
+          </li>
+
+        <!-- ВОРОНКА ПРОДАЖ И ПОСЛЕДНИЕ 5 КЛИЕНТОВ -->
+        <li class="dropdown events-menu tasks-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-car"></i>
+                  <span class="label label-danger">20</span>
+              </a>
+              <ul class="dropdown-menu" style="width: 400px">
+                  <li class="header">20 последних событий</li>
+                  <li>
+                      <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
+                      не было удаления линии которая проходит сквозь весь таймлайн-->
+                      <div class="menu">
+                          <div class="chart">
+                              <canvas id="planHeader" style=""></canvas>
+                          </div>
+                      </div>
+                      <?php
+                        \forma\modules\selling\services\SellingService::getLastClientsToHeader();
+                      ?>
+                  </li>
+                  <li class="footer">
+                      <a href="/core/system-event/">Перейти ко всем событиям</a>
+                  </li>
+              </ul>
+          </li>
+
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-user"></i>
@@ -308,6 +427,47 @@ JS;
   </nav>
 </header>
 
+<?php
+$salesProgress = new SalesProgress();
+?>
+?>
+<script>
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    myLineChart1 = new Chart(document.getElementById("planHeader").getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: [<?=$salesProgress->getLabelsString()?>],
+
+            datasets: [{
+                label: 'Количество продаж',
+                data: [<?=$salesProgress->getDataString()?>],
+                backgroundColor: [<?=$salesProgress->getColorsString()?>],
+            }]
+        },
+        options: options
+    });
+
+
+    function getId(index) {
+        return [<?=$salesProgress->getComaListOfSales()?>][index];
+    }
+
+    planHeader.onclick = function(evt){
+        console.log('нажали на воронку продаж');
+        var activePoints = myLineChart1.getElementsAtEvent(evt);
+        console.log(activePoints);
+        window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
+    };
+</script>
 
 <?php
 if ($this->title !== null) : ?>
