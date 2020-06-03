@@ -1,4 +1,4 @@
-    <div class="box box-success">
+    <div class="box box-success" data-widget_name="DepartmentPerfomance">
         <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Успеваемость отдела продаж</h3>
 

@@ -1,5 +1,5 @@
 
-    <div class="box box-danger">
+    <div class="box box-danger" data-widget_name="Suppliers">
         <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Поставщики на карте</h3>
 

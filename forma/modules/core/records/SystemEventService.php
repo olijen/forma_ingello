@@ -16,7 +16,8 @@ class SystemEventService
         'SystemEvent',
         'Accessory',
         'StateSearchState',
-        'SystemEventUser'
+        'SystemEventUser',
+        'WidgetUser'
     ];
 
     public static function init(){

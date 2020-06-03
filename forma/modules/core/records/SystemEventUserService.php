@@ -10,7 +10,8 @@ class SystemEventUserService {
 
     public static $blackListOfEvents = [
         'SystemEvent',
-        'Accessory'
+        'Accessory',
+        'WidgetUser'
     ];
 
     public static function init(){

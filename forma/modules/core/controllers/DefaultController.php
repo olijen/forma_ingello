@@ -14,6 +14,7 @@ use Google_Service_Calendar;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use forma\modules\core\components\UserIdentity;
+use forma\modules\core\records\WidgetUser;
 
 class DefaultController extends Controller
 {
@@ -47,12 +48,24 @@ class DefaultController extends Controller
         $completeSellingsCount = SellingService::getCompleteCount();
         $salesProgress = new SalesProgress();
 
+        $widgetUser = new WidgetUser();
+        $widgetUser->getWidgetsInOrder();
+        $widgetOrder = $widgetUser->checkUserWidgets() ?? [];
+        \Yii::debug($widgetOrder);
+        \Yii::debug(count($widgetOrder));
+        $widgetNewOrder = false;
+        if(count($widgetOrder['panelSmallWidget']) == 0 && count($widgetOrder['panelBigWidget1']) == 0 &&
+            count($widgetOrder['panelBigWidget2']) == 0)
+            $widgetNewOrder = true;
+
         return $this->render('index', compact(
             'productsCount',
             'completePurchasesCount',
             'completeTransitsCount',
             'completeSellingsCount',
-            'salesProgress'
+            'salesProgress',
+            'widgetOrder',
+            'widgetNewOrder'
         ));
     }
 
@@ -169,4 +182,5 @@ class DefaultController extends Controller
         }
         return $this->render('confirm', compact('confirmed'));
     }
+
 }

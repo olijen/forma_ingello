@@ -1,4 +1,4 @@
-    <div class="box box-info">
+    <div class="box box-info" data-widget_name="Employees">
         <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Сотрудники</h3>
 

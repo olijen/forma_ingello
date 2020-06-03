@@ -3,7 +3,7 @@ use yii\web\JsExpression;
 use yii\helpers\Url;
 ?>
 
-    <div class="box box-warning">
+    <div class="box box-warning" data-widget_name="Calendar">
         <div class="box-header ui-sortable-handle big_widget_header" style="cursor: move;">
             <i class="fa fa-calendar"></i>
 
@@ -21,7 +21,7 @@ use yii\helpers\Url;
                         <li><a href="#">Смотреть календарь</a></li>
                     </ul>
                 </div>
-                <button type="button" class="btn btn-warning btn-sm" data-widget="collapse"><i
+                <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                         class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-warning btn-sm" data-widget="remove"><i

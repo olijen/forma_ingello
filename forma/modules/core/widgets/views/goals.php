@@ -1,5 +1,5 @@
 
-    <div class="box box-success">
+    <div class="box box-success" data-widget_name="Goals">
         <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Выполнение целей</h3>
 
