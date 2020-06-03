@@ -78,8 +78,15 @@ class ProductController extends Controller
     {
 
         $category_id = $dataProvider->getModels()[0]->category_id;
-        $field = new Field;
-        $fieldValues = $field->widgetGetList($category_id);
+        $field = new Field();
+        $parentCategoryId = $category_id;
+        while(!is_null($parentCategoryId)){
+            $categoryModel = Category::findOne($parentCategoryId);
+            $parentCategoryId = $categoryModel->parent_id;
+            $parentsCategoryId [ ] = $categoryModel->id;
+        }
+        $categoriesId = $parentsCategoryId;
+        $fieldValues = $field->widgetGetList($categoriesId);
 
         return $this->render('index', [
             'fieldValues' => $fieldValues,
@@ -143,6 +150,7 @@ class ProductController extends Controller
             $fieldAttributes = $field->widgetGetList($categoriesId);
 
             return $this->render('pjax_attribute', [
+                'category_id' => $category_id,
                 'field' => $field,
                 'fieldAttributes' => $fieldAttributes,
             ]);

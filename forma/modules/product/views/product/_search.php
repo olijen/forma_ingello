@@ -34,13 +34,7 @@ use yii\widgets\ActiveForm;
             \forma\modules\product\records\Manufacturer::getList(),
             ['prompt' => '']
         ) ?>
-        <?= $form->field($model, 'color_id') ?>
-    </div>
-
-    <div class="col-md-4">
         <?= $form->field($model, 'note') ?>
-        <?= $form->field($model, 'volume') ?>
-        <?= $form->field($model, 'year_chart') ?>
     </div>
 
     <?php

@@ -101,6 +101,7 @@ class Product extends AccessoryActiveRecord
             'color_id' => 'Цвет',
             'pack_unit_id' => 'Упаковка',
             'parent_id' => 'Родитель',
+            'test' => 'тест',
         ];
     }
 

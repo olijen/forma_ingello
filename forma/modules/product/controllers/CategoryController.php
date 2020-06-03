@@ -70,8 +70,6 @@ class CategoryController extends Controller
                 'model' => $model,
             ]);
         }
-
-
     }
 
     /**
@@ -94,6 +92,9 @@ class CategoryController extends Controller
         }
         $model = $this->findModel($id);
         $field = new Field();
+        $currentCategoryId = $model->id;
+
+        $subCategoriesId = $this->getDropDownListPossibleCategories($currentCategoryId);
 
         $searchModel = new FieldSearch();
         $searchModel->category_id = $model->id;
@@ -127,20 +128,20 @@ class CategoryController extends Controller
 
         if (!empty($parentCategoryId = $model->parent_id)) {
 
-                while(!is_null($parentCategoryId)){
-                    $categoryModel = Category::findOne($parentCategoryId);
-                    $parentCategoryId = $categoryModel->parent_id;
-                    $parentsCategoryId [ ] = $categoryModel->id;
-                }
+            while (!is_null($parentCategoryId)) {
+                $categoryModel = Category::findOne($parentCategoryId);
+                $parentCategoryId = $categoryModel->parent_id;
+                $parentsCategoryId [] = $categoryModel->id;
+            }
 
-                $searchParentField = new FieldSearch();
-                $parentFieldDataProvider = $searchParentField
-                    ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
-
+            $searchParentField = new FieldSearch();
+            $parentFieldDataProvider = $searchParentField
+                ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
 
             return $this->render('update', [
                 'model' => $model,
                 'field' => $field,
+                'subCategoriesId' => $subCategoriesId,
                 'searchParentField' => $searchParentField,
                 'parentFieldDataProvider' => $parentFieldDataProvider,
                 'searchModel' => $searchModel,
@@ -151,6 +152,7 @@ class CategoryController extends Controller
         return $this->render('update', [
             'model' => $model,
             'field' => $field,
+            'subCategoriesId' => $subCategoriesId,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -166,26 +168,44 @@ class CategoryController extends Controller
         return $parentFieldDataProvider;
     }
 
+    public function getDropDownListPossibleCategories($currentCategoryId)
+    {
+        $allSubCategoriesId = [];
+        $subCategories = Category::find()->andWhere(['parent_id' => $currentCategoryId])->all();// массив обьектов
+        while (!empty($subCategories)) {
+            $subCategories2 = Category::find();
+            foreach ($subCategories as $subCategory) {
+                $allSubCategoriesId [] = $subCategory->id;
+                $subCategories2 = $subCategories2->orWhere(['parent_id' => $subCategory->id]);
+            }
+            $subCategories = $subCategories2->all();
+        }
+        return $allSubCategoriesId;
+    }
+
     public function actionPjaxParentCategoryField()
     {
         if (Yii::$app->request->isPjax) {
             $this->layout = false;
             $parentCategoryId = $_POST['Category']['parent_id'];
+            if (empty($parentCategoryId)) {
+                return ' ';
+            }
 
-            while(!is_null($parentCategoryId)){
+            while (!is_null($parentCategoryId) && !empty($parentCategoryId)) {
                 $categoryModel = Category::findOne($parentCategoryId);
                 $parentCategoryId = $categoryModel->parent_id;
-                $parentsCategoryId [ ] = $categoryModel->id;
+                $parentsCategoryId [] = $categoryModel->id;
             }
 
             $searchParentField = new FieldSearch();
             $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
-
             echo 'Характеристики родительской категории';
             return $this->render('parent_field', [
                 'searchParentField' => $searchParentField,
                 'parentFieldDataProvider' => $parentFieldDataProvider,
             ]);
+
         }
     }
 
@@ -195,7 +215,6 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
-
 
     public function actionDelete($id)
     {
@@ -211,6 +230,7 @@ class CategoryController extends Controller
      * @return Category the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     protected function findModel($id)
     {
         if (($model = Category::findOne($id)) !== null) {

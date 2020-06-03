@@ -23,20 +23,41 @@ use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 ?>
 
+
+
 <?php
 Pjax::begin([
     'enablePushState' => false,
-]);
+]);?>
+<button class="btn btn-secondary">
+    <a href="/product/category/create"
+       onClick="return (confirm('При переходе по ссылкке не сохраненные данные будут утеряныю?'))?true:false;">
+        Создать новую категорию
+    </a>
+</button>
+<?php if (!empty($fieldAttributes)):?>
 
-if (!empty($fieldAttributes)) {
-    foreach ($fieldAttributes as $key => $fieldAttribute) {
+
+    <button class="btn btn-secondary">
+        <a href="/product/category/update?id=<?= $category_id?>" onClick="return (confirm('При переходе по ссылкке не сохраненные данные будут утеряныю?'))?true:false;">
+            Редактировать текущую категорию
+        </a>
+    </button>
+    </br> </br>
+   <?php foreach ($fieldAttributes as $key => $fieldAttribute) {
         echo SystemWidget::getByName($key, $fieldAttribute, 'yes');
         echo '</br>';
     }
-}else{
-    echo'В данной категории нет дополнительных характеристик';
-}
+    ?>
 
+<?php else:?>
+    </br></br>
+<?='В данной категории нет дополнительных характеристик';
+?>
+
+<?php endif;?>
+
+<?php
 Pjax::end();
 ?>
 

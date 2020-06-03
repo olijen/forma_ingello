@@ -6,7 +6,10 @@
     <input id="field-value-is_main" type="checkbox" class='checkeddd' name="FieldValue[0][is_main]">
     </br>
 </div>
-<span id="addInput" onclick="addInput()">+</span>
+
+<button type="button" onclick="addInput()" class="btn btn-primary">
+    +
+</button>
 
 <script>
     var inputsss = $('.inputsss');

@@ -8,16 +8,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-?>
 
 
+//$columns =;
 
-
-<?php
 echo GridView::widget([
     'dataProvider' => $dataProvider,
-//    'filterModel' => $searchModel,
-    'columns' => [
+    'filterModel' => $searchModel,
+    'columns' =>  [
         ['class' => 'yii\grid\ActionColumn',
             'template' => '{delete}{update}',
             'controller' => 'field',
@@ -58,17 +56,17 @@ echo GridView::widget([
                 $fieldValueDropDownList = Html::activeDropDownList(new  \forma\modules\product\records\FieldValueSearch(),
                     'name', $fieldValueArray);
 
-                if(!empty($fieldValueArray)){
+                if (!empty($fieldValueArray)) {
                     $fieldValues = '';
-                    foreach ($fieldValueArray as $fieldValue){
-                        if (empty($fieldValues)){
-                            $fieldValues.= $fieldValue;
-                        }else{
-                            $fieldValues.=', '. $fieldValue;
+                    foreach ($fieldValueArray as $fieldValue) {
+                        if (empty($fieldValues)) {
+                            $fieldValues .= $fieldValue;
+                        } else {
+                            $fieldValues .= ', ' . $fieldValue;
                         }
                     }
                     return $fieldValues;
-                }else{
+                } else {
                     return null;
                 }
 
@@ -88,10 +86,10 @@ echo GridView::widget([
                     $defaultedField = '';
                     foreach ($model->fieldValues as $fieldValue) {
                         if ($fieldValue->is_main == 1)
-                            if (empty($defaultedField)){
+                            if (empty($defaultedField)) {
                                 $defaultedField .= $fieldValue->name;
-                            }else{
-                                $defaultedField .= ', '. $fieldValue->name;
+                            } else {
+                                $defaultedField .= ', ' . $fieldValue->name;
                             }
                     }
                     return $defaultedField;
@@ -100,7 +98,8 @@ echo GridView::widget([
                 }
             }
         ],
-
     ],
-]); ?>
+]);
+
+?>
 

@@ -16,6 +16,12 @@ use yii\helpers\Url;
 /* @var $searchModel */
 ?>
 
+<?php //if (Yii::$app->request->isAjax) {
+//    Yii::$app->controller->layout = false;
+//    Pjax::begin();
+//} ?>
+
+
 
 <?php $form = ActiveForm::begin([
     'id' => 'category-name-form',
@@ -26,18 +32,27 @@ use yii\helpers\Url;
     <?php Pjax::begin() ?>
 
     <?php
-    $categoryIdDropDownList = $model->id;
+    $currentCategoryId = $model->id;
     if (is_null($model->id)) {
         $categoryIdDropDownList = 0;
     }
 
-    $categories = \forma\modules\product\records\Category::find()
-        ->joinWith(['accessory'])
-        ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
-        ->andWhere(['<>', 'category.id', $categoryIdDropDownList])
-        ->andWhere(['<>', 'category.parent_id', $categoryIdDropDownList]);
-
-    $categories = $categories->all();
+    if (isset($subCategoriesId) && !empty($subCategoriesId)) {
+        $categories = \forma\modules\product\records\Category::find()
+            ->joinWith(['accessory'])
+            ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
+            ->andWhere(['<>', 'category.id', $currentCategoryId]);
+        foreach ($subCategoriesId as $subCategoryId) {
+            $categories->andWhere(['<>', 'category.id', $subCategoryId]);
+        }
+        $categories = $categories->all();
+    } else {
+        $categories = \forma\modules\product\records\Category::find()
+            ->joinWith(['accessory'])
+            ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
+            ->andWhere(['<>', 'category.id', $currentCategoryId])
+            ->all();
+    }
 
     echo $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(
         $categories, 'id', 'name'),
@@ -64,13 +79,14 @@ use yii\helpers\Url;
     <?php
 
     if (isset($searchParentField) && isset($parentFieldDataProvider)) {
-
+        $thisParentGrid = 1;
         echo 'Характеристики родительской категории';
-        echo $this->render('setting_widget', [
-            'model' => $model,
-            'field' => $field,
-            'searchModel' => $searchParentField,
-            'dataProvider' => $parentFieldDataProvider,
+        echo $this->render('parent_field', [
+//            'model' => $model,
+//            'field' => $field,
+            'thisParentGrid' => $thisParentGrid,
+            'searchParentField' => $searchParentField,
+            'parentFieldDataProvider' => $parentFieldDataProvider,
         ]);
     }
     ?>
@@ -94,4 +110,6 @@ use yii\helpers\Url;
     } ?>
 </div>
 
-
+<?php //if (Yii::$app->request->isAjax) {
+//    Pjax::end();
+//} ?>

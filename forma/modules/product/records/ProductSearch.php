@@ -16,6 +16,7 @@ class ProductSearch extends Product
 
     public $packUnits;
 
+    public $test;
     /**
      * @inheritdoc
      */
@@ -23,7 +24,7 @@ class ProductSearch extends Product
     {
         return [
             [['id', 'type_id', 'category_id', 'manufacturer_id', 'year_chart', 'batcher', 'country_id', 'volume'], 'integer'],
-            [['customs_code', 'sku', 'name', 'note', 'type', 'color_name'], 'safe'],
+            [['customs_code', 'sku', 'name', 'note', 'type', 'color_name', 'test'], 'safe'],
             [['proof', 'rating'], 'number'],
         ];
     }
@@ -47,7 +48,6 @@ class ProductSearch extends Product
     public function search($params)
     {
 
-//
 //        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
 //        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
 //        var_dump($params);
@@ -59,10 +59,12 @@ class ProductSearch extends Product
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
             ->andWhere(['accessory.entity_class' => Product::className()]);
-//        Yii::debug('начало вычисления среднего дохода', $params);
+        Yii::debug($params);
         if (isset($params['FieldProductValue'])) {
+
 //            de($params['FieldProductValue']);
             $query->joinWith(['fieldProductValues']);
+
             foreach ($params['FieldProductValue'] as $fieldId => $productId) {
                 foreach ($productId as $fieldValue) {
                     if (isset($fieldValue["multiSelect"]['value']) && !empty($fieldValue["multiSelect"]['value'])) {
@@ -71,6 +73,8 @@ class ProductSearch extends Product
                             'field_product_value.field_id' => $fieldId,
                         ]);
                     }elseif(isset($fieldValue['value']) && !empty($fieldValue['value'])){
+                        $this->test = $fieldValue['value'];
+//                        de($fieldValue['value']);
                         $query->andFilterWhere([
                             'field_product_value.value' => $fieldValue['value'],
                             'field_product_value.field_id' => $fieldId,

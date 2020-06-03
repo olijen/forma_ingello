@@ -55,31 +55,37 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'template' => '{update}{delete}',
         ],
         'name',
+        'test',
+//        'note',
 //        [
 //            'attribute' => 'sku',
 //            'label' => 'Артикул',
 //        ],
-        [
-            'attribute' => 'type_id',
-            'value' => 'type.name',
-            'filter' => Type::getList(),
-        ],
-        [
-            'attribute' => 'category_id',
-            'value' => 'category.name',
-            'filter' => Category::getList(),
-        ],
+//        [
+//            'attribute' => 'type_id',
+//            'value' => 'type.name',
+//            'filter' => Type::getList(),
+//        ],
 //        [
 //            'attribute' => 'manufacturer_id',
 //            'value' => 'manufacturer.name',
 //            'filter' => Manufacturer::getList(),
 //        ],
 //        [
-//            'attribute' => 'country_id',
-//            'value' => 'country.name',
-//            'filter' => Country::getList(),
+//            'class' => CombinedDataColumn::className(),
+//            'labelTemplate' => '{0}  /  {1}',
+//            'valueTemplate' => '{0}  /  {1}',
+//            'attributes' => [
+//                'batcher:text',
+//                'rating:decimal',
+//            ],
+//            'values' => [
+//                'batcherLabel',
+//                'rating',
+//            ],
+//            'filter' => false,
+//            'label' => 'Дозатор / Рейтинг',
 //        ],
-
     ];
 
 
@@ -127,10 +133,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
-
-
         <br><br>
 
+<!---->
+<?//= GridView::widget([
+//
+//        ])?>
 
         <?= DynaGrid::widget([
 

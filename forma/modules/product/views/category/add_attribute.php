@@ -61,8 +61,7 @@ use forma\modules\product\components\SystemWidget;
             <?= $form->field($field, 'defaulted')->textInput(['maxlength' => true]) ?>
         <?php endif; ?>
         <?php Pjax::end(); ?>
-
-
+        <br>
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
         <br> <br>
 

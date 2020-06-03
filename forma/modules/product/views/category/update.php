@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $model->name;
         echo $this->render('_form', [
             'model' => $model,
             'field' => $field,
+            'subCategoriesId' => $subCategoriesId,
             'searchParentField' => $searchParentField,
             'parentFieldDataProvider' => $parentFieldDataProvider,
             'searchModel' => $searchModel,
@@ -31,6 +32,7 @@ $this->params['breadcrumbs'][] = $model->name;
         echo $this->render('_form', [
             'model' => $model,
             'field' => $field,
+            'subCategoriesId' => $subCategoriesId,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

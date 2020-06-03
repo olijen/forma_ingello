@@ -90,12 +90,6 @@ use yii\widgets\Pjax;
                 <?= $form->field($model, 'category_id')->widget(Select2::className(), [
                     'data' => Category::getList(),
                     'options' => ['placeholder' => '', 'class' => 'form-control'],
-                    'addon' => [
-                        'prepend' => [
-                            'asButton' => true,
-                            'content' => ModalCreate::widget(['route' => Url::to(['/product/category/create'])]),
-                        ],
-                    ],
                     'pluginEvents' => [
                         "select2:select" => "function() {
                             $.pjax({         
@@ -112,9 +106,13 @@ use yii\widgets\Pjax;
                     ],
                 ]) ?>
             <?php endif; ?>
+
+
             <?php
             Pjax::begin(['id' => 'ajax-attributes',]);
+            ?>
 
+            <?php
             echo $this->render('pjax_attribute', [
                 'field' => $field,
                 'fieldAttributes' => $fieldAttributes,
