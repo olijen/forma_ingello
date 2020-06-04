@@ -4,6 +4,7 @@ use forma\modules\core\components\LinkHelper;
 use forma\modules\core\records\SystemEventSearch;
 use forma\modules\core\widgets\SalesFunnelWidget;
 use forma\modules\selling\forms\SalesProgress;
+use forma\modules\warehouse\records\WarehouseSearch;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -359,10 +360,10 @@ JS;
         <li class="dropdown events-menu tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-car"></i>
-                  <span class="label label-danger">20</span>
+
               </a>
-              <ul class="dropdown-menu" style="width: 400px">
-                  <li class="header">20 последних событий</li>
+              <ul class="dropdown-menu">
+                  <li class="header">Продажи</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
                       не было удаления линии которая проходит сквозь весь таймлайн-->
@@ -370,13 +371,49 @@ JS;
                           <div class="chart">
                               <canvas id="planHeader" style=""></canvas>
                           </div>
+                          <?php
+                            $lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
+                            foreach($lastClients as $client){?>
+                                <p><?=$client->customer->name?>
+                                <a href="/selling/form?id=<?=$client->id?>">Посмотреть</a></p>
+                           <?php } ?>
+                          ?>
                       </div>
-                      <?php
-                        \forma\modules\selling\services\SellingService::getLastClientsToHeader();
-                      ?>
                   </li>
                   <li class="footer">
-                      <a href="/core/system-event/">Перейти ко всем событиям</a>
+                      <a href="/selling/main/">Перейти ко всем продажам</a>
+                  </li>
+              </ul>
+          </li>
+
+          <!-- ВСЕ СКЛАДЫ ПОЛЬЗОВАТЕЛЯ И КОЛИЧЕСТВО ПРОДУКТОВ НА НЕМ -->
+          <li class="dropdown events-menu tasks-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-car"></i>
+
+              </a>
+              <ul class="dropdown-menu">
+                  <li class="header">Склады</li>
+                  <li>
+                      <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
+                      не было удаления линии которая проходит сквозь весь таймлайн-->
+                      <div class="menu">
+                        <?php
+                            $searchModelWarehouse = new WarehouseSearch();
+                            $warehouses = $searchModelWarehouse->getWarehouseListHeader();
+                            foreach($warehouses as $warehouse){?>
+
+
+                         <?php $sum = 0;  foreach($warehouse->warehouseProducts as $products){
+                             $sum += $products->quantity;
+                                }?>
+                                <p><a href="/warehouse/warehouse/view?id=<?=$warehouse->id?>"><?=$warehouse->name?></a>: <?=$sum?> продуктов</p>
+                           <?php }
+                        ?>
+                      </div>
+                  </li>
+                  <li class="footer">
+                      <a href="/warehouse/warehouse/">Перейти ко всем складам</a>
                   </li>
               </ul>
           </li>

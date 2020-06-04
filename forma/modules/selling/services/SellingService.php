@@ -163,8 +163,7 @@ class SellingService
 
     public static function getLastClientsToHeader(){
         $searchModelClientsHeader = self::search();
-        $dataProviderClientsHeader = $searchModelClientsHeader->search(Yii::$app->request->queryParams);
-        Yii::debug("ПРОВАЙДЕР");
-        Yii::debug($dataProviderClientsHeader);
+        $clientsHeader = $searchModelClientsHeader->searchLastClients();
+        return $clientsHeader;
     }
 }
