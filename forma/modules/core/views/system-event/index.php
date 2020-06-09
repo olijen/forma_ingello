@@ -69,46 +69,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
     <ul class="timeline">
         <?php
-        /*$ccc = 0;
-        $all = [];
-        echo "<pre>";
-        $objColor = [];
-        foreach(Yii::$app->params['menu'] as $applications){
-            foreach($applications as $aKeys => $aValues){
-                if($aKeys == 'url') {
-                    $objName = explode("/", $aValues[0]);
-                    $objName = (ucfirst($objName[count($objName)-1]) != "" && ucfirst($objName[count($objName)-1]) != "Main" && ucfirst($objName[count($objName)-1]) != "Default") ? ucfirst($objName[count($objName)-1]) : ucfirst($objName[count($objName)-2]);
-                    $objColor[$objName] = $applications['icon'];
-                    $all[] = $objName;
-                }
-                if($aKeys == 'items'){
-                    foreach ($aValues as $ItemKey => $ItemValue) {
-
-                        foreach ($ItemValue as $key => $value) {
-                            if($key == 'url') {
-                                echo "-------------";
-                                echo "$key = ";
-                                echo $ccc++;
-                                var_dump($value);
-                                var_dump($ItemValue);
-                                echo "--------------";
-
-                                $objName = explode("/", $value[0]);
-                                $objName = (ucfirst($objName[count($objName)-1]) != "" && ucfirst($objName[count($objName)-1]) != "Main" && ucfirst($objName[count($objName)-1]) != "Default") ? ucfirst($objName[count($objName)-1]) : ucfirst($objName[count($objName)-2]);
-                                $objColor[$objName] = $ItemValue['icon'];
-                                $all[] = $objName;
-
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        print_r($objColor);
-        echo "-----------------";
-        var_dump(array_unique($all));
-        echo "</pre>";*/
 
         $eventDate = "";
         $icon = "";

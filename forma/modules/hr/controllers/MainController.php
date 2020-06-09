@@ -16,6 +16,7 @@ class MainController extends Controller
     {
         $searchModel = InterviewService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        Yii::debug($dataProvider);
 
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }

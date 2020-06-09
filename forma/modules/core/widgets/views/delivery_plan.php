@@ -1,4 +1,4 @@
-    <div class="box box-warning" data-widget_name="DeliveryPlan">
+<div class="box box-warning" data-widget_name="DeliveryPlan">
         <div class="box-header with-border big_widget_header">
             <h3 class="box-title">Выполнение плана поставок</h3>
 
@@ -20,3 +20,32 @@
         </div>
         <!-- /.box-body -->
     </div>
+
+    <script>
+        var options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+        new Chart(document.getElementById("post").getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: ["Поставщик 1", "Поставщик 2", "Поставщик 3", "Поставщик 4"],
+                datasets: [{
+                    label: 'Единиц поставки',
+                    data: [1000, 140, 270, 750],
+                    backgroundColor: [
+                        'rgba(221, 75, 57, 1)',
+                        'rgba(0, 166, 90, 1)',
+                        'rgba(60, 141, 188, 1)',
+                        'rgba(243, 156, 18, 1)',
+                    ],
+                }]
+            },
+            options: options
+        });
+    </script>

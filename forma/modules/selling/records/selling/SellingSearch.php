@@ -3,6 +3,7 @@
 namespace forma\modules\selling\records\selling;
 
 use forma\modules\core\records\User;
+use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -117,5 +118,19 @@ class SellingSearch extends Selling
     public function searchLastClients(){
         $query = $this->getStartQuery();
         return $query->orderBy(['id' => SORT_DESC])->limit(5)->all();
+    }
+
+
+    //todo: добавить селект на поля как минимум date_complete, id
+    public function weeklySales(){
+        $query = $this->getStartQuery();
+        $order_id = State::find()->select(['id'])->where(['user_id' => Yii::$app->user->id])->orderBy(['order' => SORT_DESC])->limit(1)->all();
+        return $query = $query->andWhere(['state_id' => $order_id[0]->id])->all();
+    }
+
+    public function salesInWarehouse(){
+        $query = $this->getStartQuery();
+        $query->select(['selling.warehouse_id', 'COUNT(*) as sale_warehouse'])->groupBy('selling.warehouse_id');
+        return $query->all();
     }
 }

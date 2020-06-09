@@ -4,6 +4,9 @@ namespace forma\modules\core\controllers;
 
 use Composer\Util\Url;
 use Exception;
+use forma\modules\core\records\SystemEventSearch;
+use forma\modules\core\widgets\SystemEventWidget;
+use forma\modules\hr\services\InterviewService;
 use forma\modules\product\services\ProductService;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\selling\forms\SalesProgress;
@@ -11,6 +14,8 @@ use forma\modules\transit\services\TransitService;
 use forma\modules\selling\services\SellingService;
 use Google_Client;
 use Google_Service_Calendar;
+use Yii;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use forma\modules\core\components\UserIdentity;
@@ -58,6 +63,39 @@ class DefaultController extends Controller
             count($widgetOrder['panelBigWidget2']) == 0)
             $widgetNewOrder = true;
 
+
+        //массив продаж по дням на неделю
+        $salesInWeek = SellingService::getSellingInWeek();
+        Yii::debug($salesInWeek);
+        //работающие сотрудники
+        $searchModelWorkers = InterviewService::search();
+        $dataProviderWorkers = $searchModelWorkers->searchWork();
+        $dataProviderWorkers->getModels();
+
+        //продажи по складам
+        $sellingInWarehouse = SellingService::getSellingInWarehouse();
+
+        //история событий
+        $searchModelSystemEvent = new SystemEventSearch();
+
+        $query = $searchModelSystemEvent->search(Yii::$app->request->queryParams);
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->query->count(), 'pageParam' => 'page-event']);
+        $systemEventsRows = $countQuery->query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        Yii::debug($pages);
+
+        if(Yii::$app->request->isPjax && isset($_GET['page-event'])){
+            return \forma\modules\core\widgets\SystemEventWidget::widget(['timeline' => true, 'searchModel' => $searchModelSystemEvent, 'pages' => $pages, 'systemEventsRows' => $systemEventsRows]);
+        }
+
+        if(Yii::$app->request->isPjax && isset($_GET['page'])){
+            return \forma\modules\core\widgets\WorkersWidget::widget(['tableView' => true, 'searchModelWorkers' => $searchModelWorkers,
+                'dataProviderWorkers' => $dataProviderWorkers]);
+        }
+
+
         return $this->render('index', compact(
             'productsCount',
             'completePurchasesCount',
@@ -65,7 +103,14 @@ class DefaultController extends Controller
             'completeSellingsCount',
             'salesProgress',
             'widgetOrder',
-            'widgetNewOrder'
+            'widgetNewOrder',
+            'salesInWeek',
+            'searchModelWorkers',
+            'dataProviderWorkers',
+            'sellingInWarehouse',
+            'searchModelSystemEvent',
+            'pages',
+            'systemEventsRows'
         ));
     }
 

@@ -11,7 +11,9 @@ use \forma\modules\core\widgets\WeeklySalesWidget;
 $this->title = 'Мониторинг отделов компании';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
-
+/**
+ * @var boolean $widgetOrder
+ */
 
 
 $DragJS = <<<JS
@@ -346,6 +348,14 @@ $widgetsForSortable2 = [];
         position: relative;
         margin-bottom: 20px;
     }
+
+    .sortable.grid .pagination li {
+        border: none;
+        margin: 0;
+        min-height: auto;
+        min-width: auto;
+        padding: 0;
+    }
 </style>
 
 <?php
@@ -358,6 +368,12 @@ $weeklySalesWidget = \forma\modules\core\widgets\WeeklySalesWidget::widget();
 $employeesWidget = \forma\modules\core\widgets\EmployeesWidget::widget(['directoryAsset' => $directoryAsset]);
 //сообщения
 $messagesWidget = \forma\modules\core\widgets\MessagesWidget::widget();
+//работающие сотрудники
+$workers = \forma\modules\core\widgets\WorkersWidget::widget(['tableView' => false, 'searchModelWorkers' => $searchModelWorkers,
+    'dataProviderWorkers' => $dataProviderWorkers]);
+//продажи по складам
+$salesWarehouseWidget = \forma\modules\core\widgets\SalesWarehouseWidget::widget(['sellingInWarehouse' => $sellingInWarehouse]);
+
 
 //выполнение плана поставок
 $deliveryPlanWidget = \forma\modules\core\widgets\DeliveryPlanWidget::widget();
@@ -370,7 +386,63 @@ $calendarWidget = \forma\modules\core\widgets\CalendarWidget::widget(["JSCode" =
     "JSEventDrop" => $JSEventDrop]);
 //поставщики на карте
 $suppliersWidget = \forma\modules\core\widgets\SuppliersWidget::widget();
+//воронка найма
+$hiringFunnelWidget = \forma\modules\core\widgets\HiringFunnelWidget::widget();
+//виджет истории событий
+$historyEventWidget = \forma\modules\core\widgets\SystemEventWidget::widget(['timeline' => false, 'searchModel' => $searchModelSystemEvent, 'pages' => $pages, 'systemEventsRows' => $systemEventsRows]);
 
+/*function addToWidgetSection(string $name, $sortableArray, $widgetOrder) {
+    global $departmentPerfomanceWidget;
+    global $suppliersWidget;
+    global $weeklySalesWidget;
+    global $employeesWidget;
+    global $messagesWidget;
+    global $deliveryPlanWidget;
+    global $goalsWidget;
+    global $calendarWidget;
+    global $workers;
+
+    //Yii::debug($workers); = null
+
+    foreach($widgetOrder as $panel => $widgetArray) {
+        if($panel == $name){
+            for($i = 0; $i < count($widgetArray); $i++){
+                switch($widgetArray[$i]){
+                    case 'DepartmentPerfomance':
+                        $sortableArray[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
+                        break;
+                    case 'WeeklySales':
+                        $sortableArray[] = ['content' => $weeklySalesWidget, 'disabled' => true];
+                        break;
+                    case 'Employees':
+                        $sortableArray[] = ['content' => $employeesWidget, 'disabled' => true];
+                        break;
+                    case 'Messages':
+                        $sortableArray[] = ['content' => $messagesWidget, 'disabled' => true];
+                        break;
+                    case 'DeliveryPlan':
+                        $sortableArray[] = ['content' => $deliveryPlanWidget, 'disabled' => true];
+                        break;
+                    case 'Goals':
+                        $sortableArray[] = ['content' => $goalsWidget, 'disabled' => true];
+                        break;
+                    case 'Calendar':
+                        $sortableArray[] = ['content' => $calendarWidget, 'disabled' => true];
+                        break;
+                    case 'Suppliers':
+                        $sortableArray[] = ['content' => $suppliersWidget, 'disabled' => true];
+                        break;
+                    case 'Workers':
+                        $sortableArray[] = ['content' => $workers, 'disabled' => true];
+                        break;
+                }
+            }
+        }
+    }
+    return $sortableArray;
+}
+$widgetsForSortable0 = addToWidgetSection('panelSmallWidget', $widgetsForSortable0, $widgetOrder);*/
+Yii::debug($widgetsForSortable0);
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ МАЛЕНЬКОЙ ПАНЕЛИ
 foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelSmallWidget'){
@@ -399,6 +471,18 @@ foreach($widgetOrder as $panel => $widgetArray) {
                     break;
                 case 'Suppliers':
                     $widgetsForSortable0[] = ['content' => $suppliersWidget, 'disabled' => true];
+                    break;
+                case 'Workers':
+                    $widgetsForSortable0[] = ['content' => $workers, 'disabled' => true];
+                    break;
+                case 'HiringFunnel':
+                    $widgetsForSortable0[] = ['content' => $hiringFunnelWidget, 'disabled' => true];
+                    break;
+                case 'SalesWarehouse':
+                    $widgetsForSortable0[] = ['content' => $salesWarehouseWidget, 'disabled' => true];
+                    break;
+                case 'HistoryEvent':
+                    $widgetsForSortable0[] = ['content' => $historyEventWidget, 'disabled' => true];
                     break;
             }
         }
@@ -435,6 +519,18 @@ foreach($widgetOrder as $panel => $widgetArray) {
                 case 'Suppliers':
                     $widgetsForSortable1[] = ['content' => $suppliersWidget, 'disabled' => true];
                     break;
+                case 'Workers':
+                    $widgetsForSortable1[] = ['content' => $workers, 'disabled' => true];
+                    break;
+                case 'HiringFunnel':
+                    $widgetsForSortable1[] = ['content' => $hiringFunnelWidget, 'disabled' => true];
+                    break;
+                case 'SalesWarehouse':
+                    $widgetsForSortable1[] = ['content' => $salesWarehouseWidget, 'disabled' => true];
+                    break;
+                case 'HistoryEvent':
+                    $widgetsForSortable1[] = ['content' => $historyEventWidget, 'disabled' => true];
+                    break;
             }
         }
     }
@@ -467,6 +563,18 @@ foreach($widgetOrder as $panel => $widgetArray) {
                     break;
                 case 'Suppliers':
                     $widgetsForSortable2[] = ['content' => $suppliersWidget, 'disabled' => true];
+                    break;
+                case 'Workers':
+                    $widgetsForSortable2[] = ['content' => $workers, 'disabled' => true];
+                    break;
+                case 'HiringFunnel':
+                    $widgetsForSortable2[] = ['content' => $hiringFunnelWidget, 'disabled' => true];
+                    break;
+                case 'SalesWarehouse':
+                    $widgetsForSortable2[] = ['content' => $salesWarehouseWidget, 'disabled' => true];
+                    break;
+                case 'HistoryEvent':
+                    $widgetsForSortable2[] = ['content' => $historyEventWidget, 'disabled' => true];
                     break;
             }
         }
@@ -509,6 +617,7 @@ smallWidget();
     echo $applicationInfoWidget;
     //Yii::debug($wap);
     ?>
+
 
 </div>
 
@@ -561,6 +670,7 @@ $collapsed = 0;
             $widgetsForSortable1[] = ['content' => $employeesWidget, 'disabled' => true];
             $widgetOrder[] = ['Employees', $active, $row, $col, $collapsed];
             $row++;
+
         }
         //echo $we;
         //Yii::debug($we);
@@ -573,11 +683,32 @@ $collapsed = 0;
         if($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $messagesWidget, 'disabled' => true];
             $widgetOrder[] = ['Messages', $active, $row, $col, $collapsed];
-            $row = 0;
-            $col = 1;
+            $row++;
         }
         //echo $wm;
         //Yii::debug($wm);
+        ?>
+
+
+        <!-- Работающие сотрудники -->
+        <?php
+
+        if($widgetNewOrder == true) {
+            $widgetsForSortable1[] = ['content' => $workers, 'disabled' => true];
+            $widgetOrder[] = ['Workers', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        ?>
+
+        <!-- Продажи по складам -->
+        <?php
+
+        if($widgetNewOrder == true) {
+            $widgetsForSortable1[] = ['content' => $salesWarehouseWidget, 'disabled' => true];
+            $widgetOrder[] = ['SalesWarehouse', $active, $row, $col, $collapsed];
+            $row = 0;
+            $col = 1;
+        }
         ?>
 
         <?php
@@ -646,6 +777,31 @@ $collapsed = 0;
         if($widgetNewOrder == true) {
             $widgetsForSortable2[] = ['content' => $suppliersWidget, 'disabled' => true];
             $widgetOrder[] = ['Suppliers', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        //echo $ws;
+        //Yii::debug($ws);
+        ?>
+
+        <?php
+
+
+        if($widgetNewOrder == true) {
+            $widgetsForSortable2[] = ['content' => $hiringFunnelWidget, 'disabled' => true];
+            $widgetOrder[] = ['HiringFunnel', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        //echo $ws;
+        //Yii::debug($ws);
+        ?>
+
+        <?php
+
+
+        if($widgetNewOrder == true) {
+            $widgetsForSortable2[] = ['content' => $historyEventWidget, 'disabled' => true];
+            $widgetOrder[] = ['HistoryEvent', $active, $row, $col, $collapsed];
+            $row++;
         }
         //echo $ws;
         //Yii::debug($ws);
@@ -678,9 +834,19 @@ $collapsed = 0;
 </div>
 
 <script>
+    var salesInWeek = [];
+</script>
 
-
-
+<?php
+for($i = 1; $i < count($salesInWeek); $i++){?>
+    <script>
+        salesInWeek.push(<?=$salesInWeek[$i]?>);
+    </script>
+    <?php
+}
+?>
+<script>
+    salesInWeek.push(<?=$salesInWeek[0]?>);
     var options = {
         scales: {
             yAxes: [{
@@ -697,7 +863,7 @@ $collapsed = 0;
             labels: ["ПН", "ВТ", "СР", "ЧВ", "ПТ", "СБ", "ВС"],
             datasets: [{
                 label: '',
-                data: [12, 19, 3, 11, 14, 0],
+                data: salesInWeek,
                 border: [
                     'rgba(221, 75, 57, 1)',
                 ],
@@ -710,23 +876,23 @@ $collapsed = 0;
         options: options,
     });
 
-    new Chart(document.getElementById("post").getContext('2d'), {
-        type: 'pie',
-        data: {
-            labels: ["Поставщик 1", "Поставщик 2", "Поставщик 3", "Поставщик 4"],
-            datasets: [{
-                label: 'Единиц поставки',
-                data: [1000, 140, 270, 750],
-                backgroundColor: [
-                    'rgba(221, 75, 57, 1)',
-                    'rgba(0, 166, 90, 1)',
-                    'rgba(60, 141, 188, 1)',
-                    'rgba(243, 156, 18, 1)',
-                ],
-            }]
-        },
-        options: options
-    });
+    // new Chart(document.getElementById("post").getContext('2d'), {
+    //     type: 'pie',
+    //     data: {
+    //         labels: ["Поставщик 1", "Поставщик 2", "Поставщик 3", "Поставщик 4"],
+    //         datasets: [{
+    //             label: 'Единиц поставки',
+    //             data: [1000, 140, 270, 750],
+    //             backgroundColor: [
+    //                 'rgba(221, 75, 57, 1)',
+    //                 'rgba(0, 166, 90, 1)',
+    //                 'rgba(60, 141, 188, 1)',
+    //                 'rgba(243, 156, 18, 1)',
+    //             ],
+    //         }]
+    //     },
+    //     options: options
+    // });
 
     //myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
     //    type: 'bar',
@@ -877,7 +1043,7 @@ foreach($widgetOrder['collapsedWidgets'] as $widgetName) { ?>
 
 //todo:поставить нормальный ограничитель а не цифру 8
 if($widgetNewOrder == true){
-    for($i = 0; $i < 8; $i++){
+    for($i = 0; $i < 12; $i++){
         $widgetUser = new \forma\modules\core\records\WidgetUser();
         $widgetUser->loadWidgets($widgetOrder[$i]);
         $widgetUser->save();
