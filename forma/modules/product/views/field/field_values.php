@@ -1,10 +1,17 @@
 
 <div id="inpy">
-        <label>Значение <?= $i+1?></label>
+        <label>Значение <?= $fieldItem+1?></label>
+    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
         <input id="field-value-name" class="form-control inputsss" name="FieldValueNew[0][name]" aria-required="true"
                aria-invalid="false">
-        <input id="field-value-is_main" type="checkbox" class='checkeddd' name="FieldValueNew[0][is_main]">
+        <input id="field-value-is_main" type="radio" class='checkeddd' name="FieldValueNew[is_main]">
         </br>
+    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList'): ?>
+        <input id="field-value-name" class="form-control inputsss" name="FieldValueNew[0][name]" aria-required="true"
+               aria-invalid="false">
+        <input id="field-value-is_main" type="checkbox" class='checkeddd' name="FieldValueNew[%checked%][is_main]">
+        </br>
+    <?php endif; ?>
     </div>
     <button type="button" onclick="addInput()" class="btn btn-primary">
 +
@@ -15,13 +22,23 @@
         var inputsss = $('.inputsss');
         var inputValue = [];
         var inputChecked = [];
+        <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
         var iii = "<div id=\"inpy\">" +
-    "<label>Значение %number%</label>" +
-    "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValueNew[%fieldId%][name]\" aria-required=\"true\"\n" +
-    "       aria-invalid=\"false\" value='%inputValue%'>" +
-    "<input type=\"checkbox\" name=\"FieldValueNew[%fieldId%][is_main]\" class='checkeddd' %checked% value='1'>" +
-    " </br>" +
-    "</div>";
+            "<label>Значение %number%</label>" +
+            "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValueNew[%fieldId%][name]\" aria-required=\"true\"\n" +
+            "       aria-invalid=\"false\" value='%inputValue%'>" +
+            "<input type=\"radio\" name=\"FieldValueNew[is_main]\" class='checkeddd' %checked% value='1'>" +
+            " </br>" +
+            "</div>";
+        <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList'): ?>
+        var iii = "<div id=\"inpy\">" +
+            "<label>Значение %number%</label>" +
+            "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValueNew[%fieldId%][name]\" aria-required=\"true\"\n" +
+            "       aria-invalid=\"false\" value='%inputValue%'>" +
+            "<input type=\"checkbox\" name=\"FieldValueNew[%fieldId%][is_main]\" class='checkeddd' %checked% value='1'>" +
+            " </br>" +
+            "</div>";
+        <?php endif; ?>
         console.log(iii);
 
         function addInput() {
@@ -31,9 +48,8 @@
             var str = "";
             var getInputsss = $('.inputsss');
             var getChechedd = $('.checkeddd');
-            var y = <?= $i?>;
+            var y = <?= $fieldItem?>;
             for (var i = 0; i < inputsss.length; i++) {
-
                 y++;
                 var re = /%fieldId%/gi;
                 var re1 = /%inputValue%/gi;

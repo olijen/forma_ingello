@@ -1,10 +1,16 @@
-
 <div id="inpy">
     <label>Значение 1</label>
-    <input id="field-value-name" class="form-control inputsss" name="FieldValue[0][name]" aria-required="true"
-           aria-invalid="false">
-    <input id="field-value-is_main" type="checkbox" class='checkeddd' name="FieldValue[0][is_main]">
-    </br>
+    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
+        <input id="field-value-name" class="form-control inputsss" name="FieldValue[0][name]" aria-required="true"
+               aria-invalid="false">
+        <input id="field-value-is_main" type="radio" class='checkeddd' name="FieldValue[is_main]">
+        </br>
+    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList'): ?>
+        <input id="field-value-name" class="form-control inputsss" name="FieldValue[0][name]" aria-required="true"
+               aria-invalid="false">
+        <input id="field-value-is_main" type="checkbox" class='checkeddd' name="FieldValue[%checked%][is_main]">
+        </br>
+    <?php endif; ?>
 </div>
 
 <button type="button" onclick="addInput()" class="btn btn-primary">
@@ -15,6 +21,15 @@
     var inputsss = $('.inputsss');
     var inputValue = [];
     var inputChecked = [];
+    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
+    var iii = "<div id=\"inpy\">" +
+        "<label>Значение %number%</label>" +
+        "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValue[%fieldId%][name]\" aria-required=\"true\"\n" +
+        "       aria-invalid=\"false\" value='%inputValue%'>" +
+        "<input type=\"radio\" name=\"FieldValue[is_main]\" class='checkeddd' %checked% value='1'>" +
+        " </br>" +
+        "</div>";
+    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList'): ?>
     var iii = "<div id=\"inpy\">" +
         "<label>Значение %number%</label>" +
         "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValue[%fieldId%][name]\" aria-required=\"true\"\n" +
@@ -22,6 +37,7 @@
         "<input type=\"checkbox\" name=\"FieldValue[%fieldId%][is_main]\" class='checkeddd' %checked% value='1'>" +
         " </br>" +
         "</div>";
+    <?php endif; ?>
     console.log(iii);
 
     function addInput() {
@@ -37,12 +53,12 @@
             var re2 = /%checked%/gi;
             var re3 = /%number%/gi;
             var newstr = iii.replace(re, i);
-             newstr = newstr.replace(re3, i+1);
+            newstr = newstr.replace(re3, i + 1);
             if (i != inputsss.length - 1) {
                 inputValue[i] = getInputsss[i].value;
                 inputChecked[i] = getChechedd[i].checked;
 
-                newstr = newstr.replace(re2, inputChecked[i]?'checked':"");
+                newstr = newstr.replace(re2, inputChecked[i] ? 'checked' : "");
                 newstr = newstr.replace(re1, inputValue[i]);
             } else {
                 newstr = newstr.replace(re1, "");

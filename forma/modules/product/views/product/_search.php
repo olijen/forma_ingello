@@ -26,15 +26,11 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="col-md-4">
-        <?= $form->field($model, 'category_id')->dropDownList(
-            \forma\modules\product\records\Category::getList(),
-            ['prompt' => '', 'class' => 'form-control']
-        ) ?>
         <?= $form->field($model, 'manufacturer_id')->dropDownList(
             \forma\modules\product\records\Manufacturer::getList(),
             ['prompt' => '']
         ) ?>
-        <?= $form->field($model, 'note') ?>
+        <?= $form->field($model, 'rating') ?>
     </div>
 
     <?php
@@ -45,7 +41,7 @@ use yii\widgets\ActiveForm;
             if ($i%3 == 0 || $i == 0 ){
                 echo '<div class="col-md-4">';
             }
-            echo SystemWidget::getByName($key, $fieldValue, 'yes');
+            echo SystemWidget::getByName($key, $fieldValue, true);
             echo '</br>';
 
             if ($i%3 == 0){

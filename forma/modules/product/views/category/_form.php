@@ -2,6 +2,7 @@
 
 
 use forma\modules\product\records\FieldValue;
+use kartik\select2\Select2;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -34,7 +35,7 @@ use yii\helpers\Url;
     <?php
     $currentCategoryId = $model->id;
     if (is_null($model->id)) {
-        $categoryIdDropDownList = 0;
+        $currentCategoryId = 0;
     }
 
     if (isset($subCategoriesId) && !empty($subCategoriesId)) {
@@ -54,19 +55,43 @@ use yii\helpers\Url;
             ->all();
     }
 
-    echo $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(
-        $categories, 'id', 'name'),
+    $arrayCategories = ArrayHelper::map(
+        $categories, 'id', 'name');
+    echo $form->field($model, 'parent_id')->dropDownList(
+        $arrayCategories,
         ['prompt' => '', 'onchange' => "$.pjax({         
                              type : 'POST',         
                              url : '/product/category/pjax-parent-category-field',
                              container: '#pjax-drop-down-list-category',         
-                             data :  $(this).serialize(), 
+                             data :  $(this).serialize(),
                              push: false,
                              replace: false,         
                              timeout: 10000,         
                              \"scrollTo\" : false     
                       })",]
-    ) ?>
+    );
+
+//    echo $form->field($model, 'parent_id')->widget(Select2::className(), [
+//        'data' => $arrayCategories,
+//        'options' => ['placeholder' => ' '],
+//        'pluginEvents' => [
+//            "select2:select" => "function() {
+//                            $.pjax({         
+//                                 type : 'POST',         
+//                                 url : '/product/category/pjax-parent-category-field',
+//                                 container: '#pjax-drop-down-list-category',         
+//                                 data :  $(this).serialize(),
+//                                 push: false,
+//                                 replace: false,         
+//                                 timeout: 10000,          
+//                                 \"scrollTo\" : false     
+//                            })
+//                     }",
+//        ],
+//
+//    ])
+
+    ?>
 
     <?php Pjax::end() ?>
     <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>

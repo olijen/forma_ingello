@@ -61,7 +61,7 @@ class Product extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['type_id', 'category_id','manufacturer_id', 'sku', 'name', 'volume', 'country_id'], 'required'],
+            [['type_id', 'category_id', 'manufacturer_id', 'sku', 'name', 'volume', 'country_id'], 'required'],
             [['type_id', 'category_id', 'manufacturer_id', 'year_chart', 'batcher', 'country_id', 'color_id', 'volume', 'pack_unit_id', 'parent_id'], 'integer'],
             [['note'], 'string'],
             [['proof', 'rating'], 'number'],
@@ -101,7 +101,7 @@ class Product extends AccessoryActiveRecord
             'color_id' => 'Цвет',
             'pack_unit_id' => 'Упаковка',
             'parent_id' => 'Родитель',
-            'test' => 'тест',
+
         ];
     }
 
@@ -301,18 +301,15 @@ class Product extends AccessoryActiveRecord
     {
 
         $field = FieldProductValue::find()
-            ->where(['field_id' => $value->id ])
+            ->where(['field_id' => $value->id])
             ->andWhere(['product_id' => $id])
             ->one();
-        if ($field){
+        if ($field) {
             return $field->value;
         }
 
+        return false;
     }
 
-    public function getTest()
-    {
-        return $this->id;
-    }
 
 }

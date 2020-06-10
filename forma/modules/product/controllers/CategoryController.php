@@ -83,8 +83,8 @@ class CategoryController extends Controller
         if (Yii::$app->request->isPjax) {
             $this->layout = false;
             $nameWidgetField = $_POST['Field']['widget'];
-            if ($nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetDropDownList') {
-
+            if ($nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetDropDownList' || $nameWidgetField == 'widgetTypeahead') {
+//                de($nameWidgetField);
                 return $this->render('field_widget', [
                     'nameWidgetField' => $nameWidgetField,
                 ]);
@@ -128,15 +128,11 @@ class CategoryController extends Controller
 
         if (!empty($parentCategoryId = $model->parent_id)) {
 
-            while (!is_null($parentCategoryId)) {
-                $categoryModel = Category::findOne($parentCategoryId);
-                $parentCategoryId = $categoryModel->parent_id;
-                $parentsCategoryId [] = $categoryModel->id;
-            }
+            $parentsCategoriesId = $this->getParentCategoryId($parentCategoryId);
 
             $searchParentField = new FieldSearch();
             $parentFieldDataProvider = $searchParentField
-                ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
+                ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
 
             return $this->render('update', [
                 'model' => $model,
@@ -183,6 +179,21 @@ class CategoryController extends Controller
         return $allSubCategoriesId;
     }
 
+    public function getParentCategoryId($parentCategoryId)
+    {
+        $parentsCategoriesId = [];
+        while (!is_null($parentCategoryId) && !empty($parentCategoryId)) {
+            $categoryModel = Category::findOne($parentCategoryId);
+            if (!is_null($categoryModel)) {
+                $parentCategoryId = $categoryModel->parent_id;
+                $parentsCategoriesId [] = $categoryModel->id;
+            }else{
+                $parentCategoryId = null;
+            }
+        }
+        return $parentsCategoriesId;
+    }
+
     public function actionPjaxParentCategoryField()
     {
         if (Yii::$app->request->isPjax) {
@@ -192,14 +203,10 @@ class CategoryController extends Controller
                 return ' ';
             }
 
-            while (!is_null($parentCategoryId) && !empty($parentCategoryId)) {
-                $categoryModel = Category::findOne($parentCategoryId);
-                $parentCategoryId = $categoryModel->parent_id;
-                $parentsCategoryId [] = $categoryModel->id;
-            }
+            $parentsCategoriesId = $this->getParentCategoryId($parentCategoryId);
 
             $searchParentField = new FieldSearch();
-            $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoryId);
+            $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
             echo 'Характеристики родительской категории';
             return $this->render('parent_field', [
                 'searchParentField' => $searchParentField,

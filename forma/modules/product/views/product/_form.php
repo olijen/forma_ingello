@@ -2,6 +2,7 @@
 
 use kartik\form\ActiveForm;
 //use yii\widgets\ActiveForm;  TODO в чем разница???
+use kartik\switchinput\SwitchInput;
 use yii\helpers\Html;
 
 use forma\components\widgets\ModalCreate;
@@ -108,16 +109,24 @@ use yii\widgets\Pjax;
             <?php endif; ?>
 
 
+
             <?php
             Pjax::begin(['id' => 'ajax-attributes',]);
             ?>
+            <?php if (isset($category_id)):?>
+                <?= $this->render('pjax_attribute', [
+                    'field' => $field,
+                    'category_id' => $category_id,
+                    'fieldAttributes' => $fieldAttributes,
+                ]);?>
+            <?php else:?>
 
-            <?php
-            echo $this->render('pjax_attribute', [
-                'field' => $field,
-                'fieldAttributes' => $fieldAttributes,
-            ]);
-            Pjax::end();
+            <?= $this->render('pjax_attribute', [
+            'field' => $field,
+            'fieldAttributes' => $fieldAttributes,
+            ]);?>
+            <?php endif;?>
+            <?php Pjax::end();
             DetachedBlock::end(); ?>
         </div>
 

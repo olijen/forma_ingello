@@ -11,22 +11,29 @@ use yii\widgets\Pjax;
 
 
 <?php
-if ($model->widget == 'widgetDropDownList' || $model->widget == 'widgetMultiSelect') {
-    $i = 0;
+if ($model->widget == 'widgetDropDownList' || $model->widget == 'widgetMultiSelect' ||  $model->widget == 'widgetTypeahead') {
+    $fieldItem = 0;
 
     foreach ($model->fieldValues as $fieldValue) {
-        $i++;
-        echo Html::label('Значение ' . $i, 'name ', ['class' => 'control-label']);
+        $fieldItem++;
+        echo Html::label('Значение ' . $fieldItem, 'name ', ['class' => 'control-label']);
         echo Html::activeInput('text', $fieldValue,
             '[' . $fieldValue->id . ']name', ['class' => 'form-control']);
-        echo Html::activeCheckbox($fieldValue, '[' . $fieldValue->id . ']is_main', ['label' => false,]);
+        if ($model->widget == 'widgetMultiSelect'  ||  $model->widget == 'widgetTypeahead') {
+            echo Html::activeRadio($fieldValue, 'is_main', ['label' => false,]);
+        } else {
+            echo Html::activeCheckbox($fieldValue, '[' . $fieldValue->id . ']is_main', ['label' => false,]);
+        }
+
         echo '</br>';
+
         echo Html::activeHiddenInput($fieldValue,
             '[' . $fieldValue->id . ']field_id', ['class' => 'form-control']);
-
+//  /category/field_widget
     }
     echo $this->render('field_values', [
-        'i' => $i,
+        'nameWidgetField' => $model->widget,
+        'fieldItem' => $fieldItem,
     ]);
 } else {
 

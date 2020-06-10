@@ -21,31 +21,37 @@ use forma\modules\product\records\Color;
 use yii\widgets\Pjax;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
+use kartik\daterange\DateRangePicker;
+use kartik\datetime\DateTimePicker;
 ?>
 
 
-
+<button class="btn btn-secondary">
+    <a href="/product/category/create"
+       onClick="return (confirm('Вы пытаетесь перейти на страницу создания категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
+        Создать новую категорию
+    </a>
+</button>
+<?php if (isset($category_id)):?>
+<button class="btn btn-secondary">
+    <a href="/product/category/update?id=<?= $category_id?>" onClick="return (confirm('Вы пытаетесь перейти на страницу редактирования категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
+        Редактировать текущую категорию
+    </a>
+</button>
+</br> </br>
+<?php endif;?>
 <?php
 Pjax::begin([
     'enablePushState' => false,
 ]);?>
-<button class="btn btn-secondary">
-    <a href="/product/category/create"
-       onClick="return (confirm('При переходе по ссылкке не сохраненные данные будут утеряныю?'))?true:false;">
-        Создать новую категорию
-    </a>
-</button>
+
 <?php if (!empty($fieldAttributes)):?>
 
 
-    <button class="btn btn-secondary">
-        <a href="/product/category/update?id=<?= $category_id?>" onClick="return (confirm('При переходе по ссылкке не сохраненные данные будут утеряныю?'))?true:false;">
-            Редактировать текущую категорию
-        </a>
-    </button>
-    </br> </br>
+
+
    <?php foreach ($fieldAttributes as $key => $fieldAttribute) {
-        echo SystemWidget::getByName($key, $fieldAttribute, 'yes');
+        echo SystemWidget::getByName($key, $fieldAttribute, true);
         echo '</br>';
     }
     ?>

@@ -67,7 +67,6 @@ class ProductController extends Controller
             return $this->getFieldCategory($dataProvider, $searchModel);
         }
 
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -241,6 +240,7 @@ class ProductController extends Controller
 
             return $this->render('update', [
                 'model' => $model,
+                'category_id' => $category_id,
                 'fieldAttributes' => $fieldAttributes,
                 'field' => $field,
             ]);

@@ -11,7 +11,15 @@ use forma\modules\product\records\FieldProductValue;
 use forma\modules\product\records\FieldValue;
 use kartik\color\ColorInput;
 use kartik\date\DatePicker;
+use kartik\daterange\DateRangePicker;
+use kartik\datetime\DateTimePicker;
+use kartik\number\NumberControl;
+use kartik\range\RangeInput;
+use kartik\rating\StarRating;
 use kartik\select2\Select2;
+use kartik\switchinput\SwitchInput;
+use kartik\touchspin\TouchSpin;
+use kartik\typeahead\Typeahead;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -48,35 +56,173 @@ class SystemWidget
             'value' => $this->productValue->value,
             'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'dd-M-yyyy'
+                'format' => 'dd.mm.yyyy'
             ]
+        ]);
+    }
+
+    public function widgetTypeahead()
+    {
+        if (!isset($_GET['id']) && !empty($this->field->fieldValues) && !isset($_GET['ProductSearch'])) {
+            $defaultValue = '';
+            foreach ($this->field->fieldValues as $k => $value) {
+                if ($value->is_main == 1) {
+                    $defaultValue = $value->name;
+                }
+            }
+            $this->productValue->value = $defaultValue;
+        }
+
+        $arrayHelperValues = ArrayHelper::map(\forma\modules\product\records\FieldValue::find()
+            ->where(['field_id' => $this->field->id])
+            ->all(), 'id', 'name');
+
+        $arrayValues = [];
+        foreach ($arrayHelperValues as $arrayValue) {
+            $arrayValues [] = $arrayValue;
+        }
+
+        return Typeahead::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'value' => $this->productValue->value,
+            'options' => ['placeholder' => 'Filter as you type ...'],
+            'pluginOptions' => ['highlight' => true],
+            'dataset' => [
+                [
+                    'local' => $arrayValues, //Работает при индексах от 0 и до ......
+                    'limit' => 15
+                ]
+            ]
+        ]);
+    }
+
+    public function widgetDateTimePicker()
+    {
+        $this->productValue->value = $this->getDefaultValue();
+
+        return DateTimePicker::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'type' => DateTimePicker::TYPE_COMPONENT_PREPEND,
+            'value' => $this->productValue->value,
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'dd.mm.yyyy  hh:ii'
+            ]
+        ]);
+    }
+
+    public function widgetDateRangePicker()
+    {
+        $this->productValue->value = $this->getDefaultValue();
+
+        return DateRangePicker::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'convertFormat' => true,
+            'value' => $this->productValue->value,
+            'pluginOptions' => [
+                'timePicker' => true,
+                'timePickerIncrement' => 30,
+                'locale' => [
+                    'format' => 'y.m.d  H:i:s'
+                ]
+            ]
+        ]);
+    }
+
+    public function widgetRangeInput()
+    {
+        $this->productValue->value = $this->getDefaultValue();
+
+        return RangeInput::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'value' => $this->productValue->value,
+            'html5Container' => ['style' => 'width:250px'],
+            'html5Options' => ['min' => 0, 'max' => 100, 'step' => 1],
+            'options' => ['placeholder' => 'Rate (0 - 100)...'],
+            'addon' => ['append' => ['content' => '%']],
+        ]);
+    }
+
+    public function widgetNumberControl()
+    {
+        $this->productValue->value = $this->getDefaultValue();
+
+        return NumberControl::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'value' => $this->productValue->value,
+//            'options' => $saveOptions,
+//            'displayOptions' => $dispOptions,
+//            'saveInputContainer' => $saveCont
+        ]);
+    }
+
+//
+    public function widgetTouchSpin()
+    {
+        $this->productValue->value = $this->getDefaultValue();
+
+        return TouchSpin::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'value' => $this->productValue->value,
+            'options' => ['placeholder' => ' '],
+            'pluginOptions' => [
+//                'min' => 0 ,
+//                'step' => 1,
+                'postfix' => '%',
+//                'prefix' => '$'
+                'initval' => 0.00,
+                'step' => 0.5,
+                'decimals' => 2,
+                'boostat' => 5,
+//                'maxboostedstep' => 10,
+            ]
+        ]);
+    }
+
+
+    public function widgetStarRating()
+    {
+        $this->productValue->value = $this->getDefaultValue();
+
+        return StarRating::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'value' => $this->productValue->value,
+            'pluginOptions' => ['size' => 'lg']
         ]);
     }
 
     public function widgetMultiSelect()
     {
-        if (!empty($this->productValue->value)) {
+
+        if (!empty($this->productValue->value) && is_string($this->productValue->value)) {
+
             $multiSelectValue = json_decode($this->productValue->value);
-            $key = [];
-            if (!is_array($multiSelectValue)){
+            $values = [];
+            if (!is_array($multiSelectValue)) {
                 $this->productValue->value = '';
-            }elseif (is_array($multiSelectValue)){
+            } elseif (is_array($multiSelectValue)) {
                 foreach ($multiSelectValue as $k => $value) {
-                    $key[] = $value;
-
+                    $values[] = $value;
                 }
-                $this->productValue->value = $key;
+                $this->productValue->value = $values;
             }
-
-
-        } elseif (!isset($_GET['id']) && !empty($this->field->fieldValues) && !isset($_GET['ProductSearch'])) {
-            foreach ($this->field->fieldValues as $k => $value) {
-                if ($value->is_main == 1) {
-                    $key[] = $value;
+        } else
+            if (!isset($_GET['id']) && !empty($this->field->fieldValues) && !isset($_GET['ProductSearch'])) {
+                $values = [];
+                foreach ($this->field->fieldValues as $k => $value) {
+                    if ($value->is_main === 1) {
+                        $values[] = $value;
+                    }
                 }
+                $this->productValue->value = $values;
             }
-            $this->productValue->value = $key;
-        }
 
         return Select2::widget([
             'model' => $this->productValue,
@@ -95,28 +241,18 @@ class SystemWidget
         ]);
     }
 
-    public function getDefaultValue()
+    public function widgetSwitchInput()
     {
-        if (!isset($_GET['id']) && !empty($this->field->defaulted) && !isset($_GET['ProductSearch'])) {
-            return $this->productValue->value = $this->field->defaulted;
-        }
-        return $this->productValue->value;
+        $this->productValue->value = $this->getDefaultValue();
+
+        return SwitchInput::widget([
+            'model' => $this->productValue,
+            'attribute' => $this->getAttribute(),
+            'value' => $this->productValue->value,
+//            'disabled' => true
+        ]);
     }
 
-    public function getAttribute()
-    {
-        return '[' . $this->productValue->field_id . '][' . $this->productValue->id . ']value';
-    }
-
-    public function getDefaultValues()
-    {
-        foreach ($this->field->fieldValues as $k => $value) {
-            if ($value->is_main == 1) {
-                $defaultValue = $value;
-            }
-        }
-        return $defaultValue;
-    }
 
     public function widgetDropDownList()
     {
@@ -147,6 +283,29 @@ class SystemWidget
             ['class' => 'form-control', 'options' => ['value' => $this->productValue->value]]);
     }
 
+    public function getDefaultValue()
+    {
+        if (!isset($_GET['id']) && !empty($this->field->defaulted) && !isset($_GET['ProductSearch'])) {
+            return $this->productValue->value = $this->field->defaulted;
+        }
+        return $this->productValue->value;
+    }
+
+    public function getAttribute()
+    {
+        return '[' . $this->productValue->field_id . '][' . $this->productValue->id . ']value';
+    }
+
+    public function getDefaultValuesMultiSelect()
+    {
+        foreach ($this->field->fieldValues as $k => $value) {
+            if ($value->is_main == 1) {
+                $defaultValue = $value;
+            }
+        }
+        return $defaultValue;
+    }
+
     public function getLabel()
     {
         echo Html::label($this->field->name, 'username', ['class' => 'control-label']);
@@ -159,6 +318,8 @@ class SystemWidget
         ArrayHelper::setValue($widgetNames, 'widgetDatePicker', 'Дата');
         ArrayHelper::setValue($widgetNames, 'widgetMultiSelect', 'Мультиселект');
         ArrayHelper::setValue($widgetNames, 'widgetTextInput', 'Поле ввода');
+        ArrayHelper::setValue($widgetNames, 'widgetDateTimePicker', 'Дата и время');
+        ArrayHelper::setValue($widgetNames, 'widgetDateRangePicker', 'Промежуток времени');
         return $widgetNames;
     }
 
@@ -177,7 +338,35 @@ class SystemWidget
         return $widgetNames;
     }
 
-    public static function getByName($key, Field $field, $getLabel = null)
+    public static function gridFilter($key, Field $field, $getLabel, $arrayValue = null)
+    {
+        $widgetCall = new SystemWidget;
+        $widgetCall->field = $field;
+        $widgetCall->fieldKey = $key;
+
+        $widgetCall->productValue = new FieldProductValue();
+        $widgetCall->productValue->id = 'null';
+        $widgetCall->productValue->field_id = $field->id;
+        $widgetCall->productValue->value = '';
+
+        if (isset($arrayValue)) {
+            if (isset($arrayValue['multiSelect']["value"]) && !empty($arrayValue['multiSelect']["value"])) {
+                $t = $widgetCall->productValue->value = $arrayValue['multiSelect']["value"];
+
+            } elseif (isset($arrayValue["value"]) && !empty($arrayValue["value"])) {
+                $widgetCall->productValue->value = $arrayValue['value'];
+
+            }
+
+        }
+        $functionName = $field->widget;
+
+        return $widgetCall->$functionName();
+
+
+    }
+
+    public static function getByName($key, Field $field, $getLabel)
     {
         $widgetCall = new SystemWidget;
         $widgetCall->field = $field;
@@ -193,7 +382,7 @@ class SystemWidget
             $widgetCall->productValue->value = '';
         }
         $functionName = $field->widget;
-        if ($getLabel == 'yes') {
+        if ($getLabel === true) {
             $widgetCall->getLabel();
         }
         return $widgetCall->$functionName();

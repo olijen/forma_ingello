@@ -2,6 +2,7 @@
 
 namespace forma\modules\product\controllers;
 
+use forma\modules\product\records\FieldProductValue;
 use forma\modules\product\records\FieldValue;
 use Yii;
 use forma\modules\product\records\Field;
@@ -118,9 +119,12 @@ class FieldController extends Controller
                     if ($fieldModel->widget == 'widgetDropDownList' || $fieldModel->widget == 'widgetMultiSelect') {
                         if (isset($post['FieldValue'])) {
                             foreach ($post['FieldValue'] as $fieldValueId => $fieldValue) {
+de($post);
                                 if (!empty($fieldValue['name'])) {
                                     $fieldValueModel = FieldValue::findOne($fieldValueId);
+//                                    de($fieldValueId);
                                     $fieldValueModel->name = $fieldValue['name'];
+
                                     $fieldValueModel->is_main = $fieldValue['is_main'];
                                     if (!$fieldValueModel->validate()) {
                                         $fieldValueModel->errors;
@@ -135,6 +139,7 @@ class FieldController extends Controller
                     }
                 } else {
                     FieldValue::deleteAll('field_id = ' . $fieldId);
+                    FieldProductValue::deleteAll('field_id = ' . $fieldId);
                     $fieldModel = Field::findOne($postField['id']);
                     $fieldModel->widget = $postField['widget'];
                     $fieldModel->name = $postField['name'];

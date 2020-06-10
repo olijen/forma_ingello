@@ -44,6 +44,12 @@ $columns = [
                 case 'widgetTextInput' :
                     return "Поле ввода";
                     break;
+                case 'widgetDateTimePicker':
+                    return "Дата и время";
+                    break;
+                case 'widgetDateRangePicker':
+                    return "Промежуток времени";
+                    break;
             }
         },
 
@@ -65,7 +71,7 @@ $columns = [
                     if (empty($fieldValues)) {
                         $fieldValues .= $fieldValue;
                     } else {
-                        $fieldValues .= ', ' . $fieldValue;
+                        $fieldValues .= ' , ' . $fieldValue;
                     }
                 }
                 return $fieldValues;
@@ -74,12 +80,15 @@ $columns = [
             }
 
         },
-        'filter' => Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
+        'filter' => function ($model) {
+
+          return Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
             ArrayHelper::map(FieldValue::find()
                 ->joinWith('field')
-                ->andWhere(['field.category_id' => $parentFieldDataProvider->getModels()[0]->category_id])
+                ->andWhere(['field.category_id' => $model->category_id])
                 ->all(), 'id', 'name'),
-            ['class' => 'form-control', 'prompt' => '']),
+            ['class' => 'form-control', 'prompt' => '']);
+        }
     ],
     [
         'attribute' => 'defaulted',
@@ -92,7 +101,7 @@ $columns = [
                         if (empty($defaultedField)) {
                             $defaultedField .= $fieldValue->name;
                         } else {
-                            $defaultedField .= ', ' . $fieldValue->name;
+                            $defaultedField .= ' , ' . $fieldValue->name;
                         }
                 }
                 return $defaultedField;

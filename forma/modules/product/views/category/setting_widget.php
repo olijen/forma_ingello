@@ -41,6 +41,12 @@ echo GridView::widget([
                     case 'widgetTextInput' :
                         return "Поле ввода";
                         break;
+                    case 'widgetDateTimePicker':
+                        return "Дата и время";
+                        break;
+                    case 'widgetDateRangePicker':
+                        return "Промежуток времени";
+                        break;
                 }
             },
 
@@ -62,7 +68,7 @@ echo GridView::widget([
                         if (empty($fieldValues)) {
                             $fieldValues .= $fieldValue;
                         } else {
-                            $fieldValues .= ', ' . $fieldValue;
+                            $fieldValues .= ' , ' . $fieldValue;
                         }
                     }
                     return $fieldValues;
@@ -89,7 +95,7 @@ echo GridView::widget([
                             if (empty($defaultedField)) {
                                 $defaultedField .= $fieldValue->name;
                             } else {
-                                $defaultedField .= ', ' . $fieldValue->name;
+                                $defaultedField .= ' , ' . $fieldValue->name;
                             }
                     }
                     return $defaultedField;

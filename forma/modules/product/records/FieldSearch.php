@@ -69,7 +69,7 @@ class FieldSearch extends Field
         return $dataProvider;
     }
 
-    public function searchAllFieldsParentCategory($params, $parentsCategoryId)
+    public function searchAllFieldsParentCategory($params, $parentsCategoriesId)
     {
         $query = Field::find();
 
@@ -87,7 +87,7 @@ class FieldSearch extends Field
             return $dataProvider;
         }
 
-        foreach ($parentsCategoryId as $parentCategoryId){
+        foreach ($parentsCategoriesId as $parentCategoryId){
             $query->orWhere([
                 'category_id' => $parentCategoryId,
             ]);
