@@ -86,7 +86,6 @@ class FieldController extends Controller
      */
     public function actionUpdate($id)
     {
-
         $model = $this->findModel($id);
         if ($post = Yii::$app->request->post()) {
             if (isset($post['Field'])) {
@@ -94,41 +93,47 @@ class FieldController extends Controller
                 $fieldId = $postField['id'];
                 $fieldModel = Field::findOne($fieldId);
 
-                if ($post['Field']['widget'] == 'widgetDropDownList' || $post['Field']['widget'] == 'widgetMultiSelect') {
+                if ($post['Field']['widget'] == 'widgetDropDownList' || $post['Field']['widget'] == 'widgetMultiSelect'|| $post['Field']['widget'] == 'widgetTypeahead') {
                     $fieldModel->defaulted = null;
                     $fieldModel->widget = $post['Field']['widget'];
                     $fieldModel->name = $postField['name'];
                     $fieldModel->save();
                     if (isset($post['FieldValueNew'])) {
-                        foreach ($post['FieldValueNew'] as $fieldValue) {
+                        foreach ($post['FieldValueNew'] as $key => $fieldValue) {
                             if (!empty($fieldValue['name'])) {
                                 $fieldValueModel = new FieldValue();
                                 $fieldValueModel->field_id = $fieldId;
                                 $fieldValueModel->name = $fieldValue['name'];
-                                if (isset($fieldValue['is_main']) && $fieldValue['is_main'] == '1') {
+                                if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {
                                     $fieldValueModel->is_main = '1';
                                 }
                                 if (!$fieldValueModel->validate()) {
                                     $fieldValueModel->errors;
-                                    de($fieldValueModel->errors);
+                                    var_dump($fieldValueModel->errors);
+                                    die();
                                 }
                                 $fieldValueModel->save();
                             }
                         }
                     }
-                    if ($fieldModel->widget == 'widgetDropDownList' || $fieldModel->widget == 'widgetMultiSelect') {
+                    if ($fieldModel->widget == 'widgetDropDownList' || $fieldModel->widget == 'widgetMultiSelect' || $fieldModel->widget == 'widgetTypeahead' ) {
                         if (isset($post['FieldValue'])) {
                             foreach ($post['FieldValue'] as $fieldValueId => $fieldValue) {
-de($post);
+
                                 if (!empty($fieldValue['name'])) {
                                     $fieldValueModel = FieldValue::findOne($fieldValueId);
-//                                    de($fieldValueId);
                                     $fieldValueModel->name = $fieldValue['name'];
 
-                                    $fieldValueModel->is_main = $fieldValue['is_main'];
+                                    if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $fieldValueId){
+                                        $fieldValueModel->is_main = 1;
+                                    }else{
+                                        $fieldValueModel->is_main = 0;
+                                    }
+
                                     if (!$fieldValueModel->validate()) {
                                         $fieldValueModel->errors;
-                                        de($fieldValueModel->errors);
+                                        var_dump($fieldValueModel->errors);
+                                        die();
                                     }
                                     $fieldValueModel->save();
                                 } else {
@@ -146,7 +151,8 @@ de($post);
                     $fieldModel->defaulted = $postField['defaulted'];
                     if (!$fieldModel->validate()) {
                         $fieldModel->errors;
-                        de($fieldModel->errors);
+                        var_dump($fieldModel->errors);
+                        die();
                     }
                     $fieldModel->save();
                 }

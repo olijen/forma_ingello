@@ -19,10 +19,6 @@ use yii\helpers\Url;
 <?php
 
 $columns = [
-    ['class' => 'yii\grid\ActionColumn',
-        'template' => '{delete}{update}',
-        'controller' => 'field',
-    ],
     'name',
     [
         'attribute' => 'widget',

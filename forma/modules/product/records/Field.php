@@ -117,9 +117,7 @@ class Field extends \yii\db\ActiveRecord
         foreach ($categoriesId as $categoryId) {
             $query->orWhere(['category_id' => $categoryId]);
         }
-
         $query = $query->all();
-
         return $query;
     }
 }

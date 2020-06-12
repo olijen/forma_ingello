@@ -44,7 +44,7 @@ class FieldValue extends \yii\db\ActiveRecord
             [['field_id', 'name'], 'required'],
             [['field_id'], 'integer'],
             [['name'], 'string', 'max' => 55],
-            [['is_main'], 'string', 'max' => 1]
+            [['is_main'], 'integer', 'max' => 1]
         ];
   }
 

@@ -1,6 +1,7 @@
 <?php
 
 
+use forma\modules\product\records\Category;
 use forma\modules\product\records\FieldValue;
 use kartik\select2\Select2;
 use yii\grid\GridView;
@@ -23,7 +24,6 @@ use yii\helpers\Url;
 //} ?>
 
 
-
 <?php $form = ActiveForm::begin([
     'id' => 'category-name-form',
 ]); ?>
@@ -33,30 +33,26 @@ use yii\helpers\Url;
     <?php Pjax::begin() ?>
 
     <?php
-    $currentCategoryId = $model->id;
-    if (is_null($model->id)) {
-        $currentCategoryId = 0;
-    }
+    $categories = Category::find()
+        ->joinWith(['accessory'])
+        ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
+    ->andWhere(['accessory.entity_class' => Category::className()]);
 
     if (isset($subCategoriesId) && !empty($subCategoriesId)) {
-        $categories = \forma\modules\product\records\Category::find()
-            ->joinWith(['accessory'])
-            ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
-            ->andWhere(['<>', 'category.id', $currentCategoryId]);
         foreach ($subCategoriesId as $subCategoryId) {
-            $categories->andWhere(['<>', 'category.id', $subCategoryId]);
+            $categories =  $categories->andWhere(['<>', 'category.id', $subCategoryId]);
         }
-        $categories = $categories->all();
-    } else {
-        $categories = \forma\modules\product\records\Category::find()
-            ->joinWith(['accessory'])
-            ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
-            ->andWhere(['<>', 'category.id', $currentCategoryId])
-            ->all();
     }
+
+    if (!is_null($model->id)) {
+        $currentCategoryId = $model->id;
+        $categories = $categories->andWhere(['<>', 'category.id', $currentCategoryId]);
+    }
+    $categories = $categories->all();
 
     $arrayCategories = ArrayHelper::map(
         $categories, 'id', 'name');
+
     echo $form->field($model, 'parent_id')->dropDownList(
         $arrayCategories,
         ['prompt' => '', 'onchange' => "$.pjax({         
@@ -71,26 +67,6 @@ use yii\helpers\Url;
                       })",]
     );
 
-//    echo $form->field($model, 'parent_id')->widget(Select2::className(), [
-//        'data' => $arrayCategories,
-//        'options' => ['placeholder' => ' '],
-//        'pluginEvents' => [
-//            "select2:select" => "function() {
-//                            $.pjax({         
-//                                 type : 'POST',         
-//                                 url : '/product/category/pjax-parent-category-field',
-//                                 container: '#pjax-drop-down-list-category',         
-//                                 data :  $(this).serialize(),
-//                                 push: false,
-//                                 replace: false,         
-//                                 timeout: 10000,          
-//                                 \"scrollTo\" : false     
-//                            })
-//                     }",
-//        ],
-//
-//    ])
-
     ?>
 
     <?php Pjax::end() ?>
@@ -104,14 +80,13 @@ use yii\helpers\Url;
     <?php
 
     if (isset($searchParentField) && isset($parentFieldDataProvider)) {
-        $thisParentGrid = 1;
+//        de('dwa');
+        $thisParentGrid = true;
         echo 'Характеристики родительской категории';
-        echo $this->render('parent_field', [
-//            'model' => $model,
-//            'field' => $field,
+        echo $this->render('setting_widget', [
             'thisParentGrid' => $thisParentGrid,
-            'searchParentField' => $searchParentField,
-            'parentFieldDataProvider' => $parentFieldDataProvider,
+            'searchModel' => $searchParentField,
+            'dataProvider' => $parentFieldDataProvider,
         ]);
     }
     ?>
@@ -123,7 +98,6 @@ use yii\helpers\Url;
         echo 'Характеристики текущей категории';
         echo $this->render('setting_widget', [
             'model' => $model,
-            'field' => $field,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

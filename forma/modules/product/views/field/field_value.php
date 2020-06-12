@@ -6,9 +6,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
-
 ?>
-
 
 <?php
 if ($model->widget == 'widgetDropDownList' || $model->widget == 'widgetMultiSelect' ||  $model->widget == 'widgetTypeahead') {
@@ -20,16 +18,14 @@ if ($model->widget == 'widgetDropDownList' || $model->widget == 'widgetMultiSele
         echo Html::activeInput('text', $fieldValue,
             '[' . $fieldValue->id . ']name', ['class' => 'form-control']);
         if ($model->widget == 'widgetMultiSelect'  ||  $model->widget == 'widgetTypeahead') {
-            echo Html::activeRadio($fieldValue, 'is_main', ['label' => false,]);
+            echo '<input id="field-value-is_main" type="radio" class=\'checkeddd\' name="FieldValueRadioButton" value='.$fieldValue->id.'>';
         } else {
             echo Html::activeCheckbox($fieldValue, '[' . $fieldValue->id . ']is_main', ['label' => false,]);
         }
-
         echo '</br>';
 
         echo Html::activeHiddenInput($fieldValue,
             '[' . $fieldValue->id . ']field_id', ['class' => 'form-control']);
-//  /category/field_widget
     }
     echo $this->render('field_values', [
         'nameWidgetField' => $model->widget,

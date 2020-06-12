@@ -19,6 +19,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
+    <?= $form->field($model, 'category_id')->hiddenInput()->label(false)?>
     <div class="col-md-4">
         <?= $form->field($model, 'id') ?>
         <?= $form->field($model, 'sku') ?>

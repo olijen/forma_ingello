@@ -13,6 +13,7 @@ use kartik\color\ColorInput;
 use kartik\date\DatePicker;
 use kartik\daterange\DateRangePicker;
 use kartik\datetime\DateTimePicker;
+use kartik\file\FileInput;
 use kartik\number\NumberControl;
 use kartik\range\RangeInput;
 use kartik\rating\StarRating;
@@ -176,7 +177,7 @@ class SystemWidget
 //                'step' => 1,
                 'postfix' => '%',
 //                'prefix' => '$'
-                'initval' => 0.00,
+//                'initval' => 0.00,
                 'step' => 0.5,
                 'decimals' => 2,
                 'boostat' => 5,
@@ -320,6 +321,12 @@ class SystemWidget
         ArrayHelper::setValue($widgetNames, 'widgetTextInput', 'Поле ввода');
         ArrayHelper::setValue($widgetNames, 'widgetDateTimePicker', 'Дата и время');
         ArrayHelper::setValue($widgetNames, 'widgetDateRangePicker', 'Промежуток времени');
+        ArrayHelper::setValue($widgetNames, 'widgetStarRating', 'Рейтинг');
+        ArrayHelper::setValue($widgetNames, 'widgetTypeahead', 'Автодополнение');
+        ArrayHelper::setValue($widgetNames, 'widgetSwitchInput', 'Переключатель');
+        ArrayHelper::setValue($widgetNames, 'widgetTouchSpin', 'Каунтер');
+        ArrayHelper::setValue($widgetNames, 'widgetNumberControl', 'Число');
+        ArrayHelper::setValue($widgetNames, 'widgetRangeInput', 'Диапазон');
         return $widgetNames;
     }
 

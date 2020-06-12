@@ -49,33 +49,6 @@ $this->registerJsFile('@web/js/common.js', ['position' => View::POS_END]);
 $this->title = 'Объекты учета';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 
-$data1 = Category::getList();
-$data1 = [
-    'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
-    'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-    'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-    'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-    'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-    'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-    'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-    'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-    'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-];
-//de($data1);
-echo Typeahead::widget([
-    'name' => 'state_12',
-    'options' => ['placeholder' => 'Filter as you type ...'],
-    'pluginOptions' => ['highlight'=>true],
-    'dataset' => [
-        [
-            'local' => $data1,
-            'limit' => 15
-        ]
-    ]
-]);
-
-
-
 //echo FileInput::widget([
 //    'model' => $searchModel,
 //    'attribute' => 'id',
@@ -98,33 +71,33 @@ echo Typeahead::widget([
         ],
         'name',
 
-//        [
-//            'attribute' => 'category_id',
-//            'value' => 'category.name',
-//            'filter' => Category::getList(),
-//        ],
-//        [
-//            'attribute' => 'sku',
-//            'label' => 'Артикул',
-//        ],
-//
-//        [
-//            'attribute' => 'type_id',
-//            'value' => 'type.name',
-//            'filter' => Type::getList(),
-//        ],
-//        [
-//            'attribute' => 'manufacturer_id',
-//            'value' => 'manufacturer.name',
-//            'filter' => Manufacturer::getList(),
-//        ],
-//        [
-//            'class' => CombinedDataColumn::className(),
-//            'attributes' => 'rating:decimal',
-//            'values' => 'rating',
-//            'filter' => false,
-//            'label' => 'Рейтинг',
-//        ],
+        [
+            'attribute' => 'category_id',
+            'value' => 'category.name',
+            'filter' => Category::getList(),
+        ],
+        [
+            'attribute' => 'sku',
+            'label' => 'Артикул',
+        ],
+
+        [
+            'attribute' => 'type_id',
+            'value' => 'type.name',
+            'filter' => Type::getList(),
+        ],
+        [
+            'attribute' => 'manufacturer_id',
+            'value' => 'manufacturer.name',
+            'filter' => Manufacturer::getList(),
+        ],
+        [
+            'class' => CombinedDataColumn::className(),
+            'attributes' => 'rating:decimal',
+            'values' => 'rating',
+            'filter' => false,
+            'label' => 'Рейтинг',
+        ],
     ];
 
     if (isset($fieldValues)) {
@@ -192,19 +165,7 @@ echo Typeahead::widget([
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <br><br>
 
-        <!---->
-        <?php
-//= GridView::widget([
-//
-//        ])
 
-
-//        $columns [] = [
-//            'label' => 'widget',
-//        ];
-
-
-        ?>
 
         <?= DynaGrid::widget([
 
@@ -288,8 +249,7 @@ echo Typeahead::widget([
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => '_list',
-
-            'itemOptions' => ['class' => 'col-md-4', 'style' => 'height: 150px; padding-left: 0;']
+            'itemOptions' => ['class' => 'col-md-3', 'style' => 'height: 150px; padding-left: 0;']
         ]); ?>
 
     <?php endif ?>

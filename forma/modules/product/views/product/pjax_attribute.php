@@ -25,19 +25,18 @@ use kartik\daterange\DateRangePicker;
 use kartik\datetime\DateTimePicker;
 ?>
 
-
-<button class="btn btn-secondary">
     <a href="/product/category/create"
+       class="btn btn-secondary"
        onClick="return (confirm('Вы пытаетесь перейти на страницу создания категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
         Создать новую категорию
     </a>
-</button>
 <?php if (isset($category_id)):?>
-<button class="btn btn-secondary">
-    <a href="/product/category/update?id=<?= $category_id?>" onClick="return (confirm('Вы пытаетесь перейти на страницу редактирования категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
+    <a href="/product/category/update?id=<?= $category_id?>"
+       class="btn btn-secondary"
+       onClick="return (confirm('Вы пытаетесь перейти на страницу редактирования категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
         Редактировать текущую категорию
     </a>
-</button>
+
 </br> </br>
 <?php endif;?>
 <?php

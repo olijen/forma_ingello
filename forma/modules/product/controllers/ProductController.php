@@ -64,7 +64,7 @@ class ProductController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
-            return $this->getFieldCategory($dataProvider, $searchModel);
+            return $this->getCurrentAndParentFieldCategory($dataProvider, $searchModel);
         }
 
         return $this->render('index', [
@@ -73,18 +73,22 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getFieldCategory($dataProvider, $searchModel)
+    public function getCurrentAndParentFieldCategory($dataProvider, $searchModel)
     {
-
         $category_id = $dataProvider->getModels()[0]->category_id;
         $field = new Field();
         $parentCategoryId = $category_id;
+        $parentsCategoriesId = [];
         while(!is_null($parentCategoryId)){
             $categoryModel = Category::findOne($parentCategoryId);
-            $parentCategoryId = $categoryModel->parent_id;
-            $parentsCategoryId [ ] = $categoryModel->id;
+            if (!is_null($categoryModel)) {
+                $parentCategoryId = $categoryModel->parent_id;
+                $parentsCategoriesId [] = $categoryModel->id;
+            }else{
+                $parentCategoryId = null;
+            }
         }
-        $categoriesId = $parentsCategoryId;
+        $categoriesId = $parentsCategoriesId;
         $fieldValues = $field->widgetGetList($categoriesId);
 
         return $this->render('index', [
@@ -105,7 +109,6 @@ class ProductController extends Controller
         }
 
         if (Yii::$app->request->isPost) {
-
             $newProduct = ProductService::save(null, Yii::$app->request->post());
             $productId = $newProduct->id;
 
@@ -165,7 +168,6 @@ class ProductController extends Controller
         $saveProductValue = new FieldProductValue();
         $field_id = Field::findOne($fieldId);
         $saveProductValue->product_id = $productId;
-
         if (isset($fieldValue['multiSelect']['value'])) {
             if (!empty($fieldValue['multiSelect']['value'])) {
                 $saveProductValue->value = json_encode($fieldValue['multiSelect']['value']);
@@ -179,7 +181,8 @@ class ProductController extends Controller
         $saveProductValue->field_id = $field_id->id;
         if (!$saveProductValue->validate()) {
             $saveProductValue->errors;
-            de($saveProductValue->errors);
+            var_dump($saveProductValue->errors);
+            die();
         }
         $saveProductValue->save();
     }
@@ -201,7 +204,8 @@ class ProductController extends Controller
 
         if (!$saveProductValue->validate()) {
             $saveProductValue->errors;
-            de($saveProductValue->errors);
+            var_dump($saveProductValue->errors);
+            die();
         }
         $saveProductValue->save();
     }

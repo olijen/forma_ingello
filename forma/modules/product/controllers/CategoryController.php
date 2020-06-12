@@ -84,7 +84,6 @@ class CategoryController extends Controller
             $this->layout = false;
             $nameWidgetField = $_POST['Field']['widget'];
             if ($nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetDropDownList' || $nameWidgetField == 'widgetTypeahead') {
-//                de($nameWidgetField);
                 return $this->render('field_widget', [
                     'nameWidgetField' => $nameWidgetField,
                 ]);
@@ -101,21 +100,21 @@ class CategoryController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if ($field->load(Yii::$app->request->post()) && $field->save()) {
-
-            if (isset($_POST['FieldValue'])) {
-                foreach ($_POST['FieldValue'] as $fieldValue) {
+            $post = $_POST;
+            if (isset($post['FieldValue'])) {
+                foreach ($post['FieldValue'] as $key => $fieldValue) {
                     if (!empty($fieldValue['name'])) {
                         $fieldValueModel = new FieldValue();
                         $fieldValueModel->field_id = $field->id;
                         $fieldValueModel->name = $fieldValue['name'];
-                        if (isset($fieldValue['is_main']) && $fieldValue['is_main'] == '1') {
+                        if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {
                             $fieldValueModel->is_main = '1';
                         }
                         if (!$fieldValueModel->validate()) {
                             $fieldValueModel->errors;
-                            de($fieldValueModel->errors);
+                            var_dump($fieldValueModel->errors);
+                            die();
                         }
-
                         $fieldValueModel->save();
                     }
                 }
@@ -187,7 +186,7 @@ class CategoryController extends Controller
             if (!is_null($categoryModel)) {
                 $parentCategoryId = $categoryModel->parent_id;
                 $parentsCategoriesId [] = $categoryModel->id;
-            }else{
+            } else {
                 $parentCategoryId = null;
             }
         }
@@ -207,12 +206,13 @@ class CategoryController extends Controller
 
             $searchParentField = new FieldSearch();
             $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
+            $thisParentGrid = true;
             echo 'Характеристики родительской категории';
-            return $this->render('parent_field', [
-                'searchParentField' => $searchParentField,
-                'parentFieldDataProvider' => $parentFieldDataProvider,
+            return $this->render('setting_widget', [
+                'thisParentGrid' => $thisParentGrid,
+                'searchModel' => $searchParentField,
+                'dataProvider' => $parentFieldDataProvider,
             ]);
-
         }
     }
 

@@ -44,7 +44,8 @@ class FieldProductValue extends \yii\db\ActiveRecord
         return [
             [['field_id', 'product_id'], 'required'],
             [['field_id', 'product_id'], 'integer'],
-            [['value'], 'string', 'max' => 255]
+//            [['value'], 'string', 'max' => 255],
+            [['value'], 'safe']
         ];
     }
 

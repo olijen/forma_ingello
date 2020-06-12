@@ -54,79 +54,65 @@ class ProductSearch extends Product
         var_dump($params);
         echo '</pre> </div> </br> </br>';
 
+
         $query = Product::find()
-            ->joinWith('color', false, 'LEFT JOIN')
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
             ->andWhere(['accessory.entity_class' => Product::className()]);
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        if (isset($params['FieldProductValue'])) {
 
+        if (isset($params['FieldProductValue']) ||
+            isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
             $query->joinWith(['fieldProductValues']);
-            $fieldProductValue = [];
+        }
+        if (isset($params['FieldProductValue'])) {
+            $i = 0;
             foreach ($params['FieldProductValue'] as $fieldId => $productId) {
-                foreach ($productId as $fieldValue) {
-                    if (isset($fieldValue["multiSelect"]['value']) && !empty($fieldValue["multiSelect"]['value'])) {
-
-                        $query->andWhere(['like', 'field_product_value.value', $fieldValue["multiSelect"]['value']])
-                            ->andWhere(['field_product_value.field_id' => $fieldId]);
-
-                    } elseif (isset($fieldValue['value']) && !empty($fieldValue['value'])) {
-
-                        $query->andWhere(['like', 'field_product_value.value', $fieldValue['value']]);
-//                            ->andWhere(['field_product_value.field_id'=>$fieldId]);
-
+                foreach ($productId as $fieldProductValue) {
+                    $sqlFieldProductValue = '';
+                    if (isset($fieldProductValue["multiSelect"]['value']) && !empty($fieldProductValue["multiSelect"]['value'])) {
+                        $sqlFieldProductValue = $fieldProductValue["multiSelect"]['value'];
+                    } elseif (isset($fieldProductValue['value']) && !empty($fieldProductValue['value'])) {
+                        $sqlFieldProductValue = $fieldProductValue['value'];
                     }
+                    if (!empty($sqlFieldProductValue)){
+                        $sql = '`value` = ANY (SELECT value
+                         FROM `field_product_value`
+                         WHERE value LIKE \'%' . $sqlFieldProductValue . '%\' and `field_id` = ' . $fieldId . ')';
+                        if ($i === 0) {
+                            $query->andWhere($sql);
+                        } else {
+                            $query->orWhere($sql);
+                        }
+                    }
+                    $i++;
                 }
-                $dataProvider->setSort([
-                    'attributes' =>
-                        ArrayHelper::merge($dataProvider->sort->attributes,
-                            [
-                                'FieldProductValue'.$fieldId
-                                =>[
-                                    'asc' => ['field_product_value.value' => SORT_ASC],
-                                    'desc' => ['field_product_value.value' => SORT_DESC],
-                                ],
-                            ]),
-                ]);
             }
-//de($fieldProductValue);
+        }
+
+        if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
+            $sortFieldProductValue = $params['sort'];
+            if (stristr($sortFieldProductValue, '-')) {
+                $sortFieldProductValue[0] = ' ';
+                $sortFieldProductValue = trim($sortFieldProductValue);
+            }
             $dataProvider->setSort([
                 'attributes' =>
                     ArrayHelper::merge($dataProvider->sort->attributes,
                         [
-                            'fieldProductVal'=>[
-                    'asc' => ['color.name' => SORT_ASC],
-                    'desc' => ['color.name' => SORT_DESC],
-                ],
-//                'color_name' => [
-//                    'asc' => ['color.name' => SORT_ASC],
-//                    'desc' => ['color.name' => SORT_DESC],
-//                ],
+                            $sortFieldProductValue
+                            => [
+                                'asc' => ['field_product_value.value' => SORT_ASC],
+                                'desc' => ['field_product_value.value' => SORT_DESC],
+                            ],
                         ]),
             ]);
         }
-
-        // add conditions that should always apply here
-
-
-        $dataProvider->setSort([
-            'attributes' =>
-                ArrayHelper::merge($dataProvider->sort->attributes,
-                    [
-
-//                'color_name' => [
-//                    'asc' => ['color.name' => SORT_ASC],
-//                    'desc' => ['color.name' => SORT_DESC],
-//                ],
-                    ]),
-        ]);
-
-//        de($dataProvider->sort->attributes);
 
         $this->load($params);
 

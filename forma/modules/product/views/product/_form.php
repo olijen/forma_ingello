@@ -27,11 +27,11 @@ use yii\widgets\Pjax;
 
 <?php $this->registerJsFile('/js/common.js', ['position' => View::POS_END]); ?>
 
-
+<?php $form = ActiveForm::begin(['id' => 'product-product-form']); ?>
 <div class="product-form">
 
     <div class="row">
-        <?php $form = ActiveForm::begin(); ?>
+
         <div class="col-md-6">
 
             <?php DetachedBlock::begin(['example' => 'Общее']) ?>
@@ -133,10 +133,10 @@ use yii\widgets\Pjax;
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Сохранить изменения' : 'Сохранить изменения', ['class' => $model->isNewRecord ? 'btn btn-success btn-block' : 'btn btn-primary btn-block']) ?>
         </div>
-        <?php ActiveForm::end(); ?>
+
     </div>
 </div>
-
+<?php ActiveForm::end(); ?>
 
 <?= Modal::widget([
     'id' => 'modal-create',
