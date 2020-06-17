@@ -23,9 +23,9 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'type_id', 'category_id', 'manufacturer_id', 'year_chart', 'batcher', 'country_id', 'volume'], 'integer'],
-            [['customs_code', 'sku', 'name', 'note', 'type', 'color_name',], 'safe'],
-            [['proof', 'rating'], 'number'],
+            [['id', 'type_id', 'category_id', 'manufacturer_id'], 'integer'],
+            [['sku', 'name', 'note', 'type',], 'safe'],
+            [['rating'], 'number'],
         ];
     }
 
@@ -49,48 +49,55 @@ class ProductSearch extends Product
 
     public function search($params)
     {
-        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
-        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
-        var_dump($params);
-        echo '</pre> </div> </br> </br>';
+//        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
+//        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
+//        var_dump($params);
+//        echo '</pre> </div> </br> </br>';
 
-
-        $query = Product::find()
+           $query = Product::find()
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
             ->andWhere(['accessory.entity_class' => Product::className()]);
 
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
 
         if (isset($params['FieldProductValue']) ||
             isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
             $query->joinWith(['fieldProductValues']);
         }
         if (isset($params['FieldProductValue'])) {
+            $FieldProductValues = $params['FieldProductValue'];
+
             $i = 0;
-            foreach ($params['FieldProductValue'] as $fieldId => $productId) {
+            foreach ($FieldProductValues as $fieldId => $productId) {
                 foreach ($productId as $fieldProductValue) {
                     $sqlFieldProductValue = '';
                     if (isset($fieldProductValue["multiSelect"]['value']) && !empty($fieldProductValue["multiSelect"]['value'])) {
-                        $sqlFieldProductValue = $fieldProductValue["multiSelect"]['value'];
-                    } elseif (isset($fieldProductValue['value']) && !empty($fieldProductValue['value'])) {
-                        $sqlFieldProductValue = $fieldProductValue['value'];
+                        $fieldValueMultiSelectIds = $fieldProductValue["multiSelect"]['value'];
+                            foreach ($fieldValueMultiSelectIds as $fieldValueMultiSelectId) {
+                                if (empty($sqlFieldProductValue)) {
+                                    $sqlFieldProductValue .= '\'%"' . $fieldValueMultiSelectId . '"%\'';
+                                } else {
+                                    $sqlFieldProductValue .= ' and value like \'%"' . $fieldValueMultiSelectId . '"%\'';
+                                }
+                            }
+                    } elseif (isset($fieldProductValue['value']) && !empty($fieldProductValue['value']) || $fieldProductValue['value'] === '0') {
+                        $sqlFieldProductValue = '\'%' . $fieldProductValue['value'] . '%\'';
                     }
-                    if (!empty($sqlFieldProductValue)){
+
+                    if (!empty($sqlFieldProductValue)) {
                         $sql = '`value` = ANY (SELECT value
                          FROM `field_product_value`
-                         WHERE value LIKE \'%' . $sqlFieldProductValue . '%\' and `field_id` = ' . $fieldId . ')';
+                         WHERE value LIKE ' . $sqlFieldProductValue . ' and `field_id` = ' . $fieldId . ')';
                         if ($i === 0) {
                             $query->andWhere($sql);
+                            $i++;
                         } else {
                             $query->orWhere($sql);
                         }
                     }
-                    $i++;
                 }
             }
         }

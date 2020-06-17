@@ -135,16 +135,15 @@ class SystemWidget
 
     public function widgetRangeInput()
     {
-        $this->productValue->value = $this->getDefaultValue();
+        $maxValue = $this->field->defaulted;
 
         return RangeInput::widget([
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
             'html5Container' => ['style' => 'width:250px'],
-            'html5Options' => ['min' => 0, 'max' => 100, 'step' => 1],
-            'options' => ['placeholder' => 'Rate (0 - 100)...'],
-            'addon' => ['append' => ['content' => '%']],
+            'html5Options' => ['min' => 0, 'max' => $maxValue, 'step' => 1],
+            'options' => ['placeholder' => ' '],
         ]);
     }
 
@@ -156,32 +155,25 @@ class SystemWidget
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
-//            'options' => $saveOptions,
-//            'displayOptions' => $dispOptions,
-//            'saveInputContainer' => $saveCont
         ]);
     }
 
-//
     public function widgetTouchSpin()
     {
         $this->productValue->value = $this->getDefaultValue();
-
+//de( $this->productValue->value);
         return TouchSpin::widget([
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
             'options' => ['placeholder' => ' '],
             'pluginOptions' => [
-//                'min' => 0 ,
-//                'step' => 1,
-                'postfix' => '%',
-//                'prefix' => '$'
-//                'initval' => 0.00,
-                'step' => 0.5,
-                'decimals' => 2,
-                'boostat' => 5,
-//                'maxboostedstep' => 10,
+                'buttonup_class' => 'btn btn-primary',
+                'buttondown_class' => 'btn btn-info',
+                'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                'min' => 0,
+                'max' => 1000000000000000000000000000000000000000000000,
             ]
         ]);
     }
@@ -347,6 +339,7 @@ class SystemWidget
 
     public static function gridFilter($key, Field $field, $getLabel, $arrayValue = null)
     {
+
         $widgetCall = new SystemWidget;
         $widgetCall->field = $field;
         $widgetCall->fieldKey = $key;
@@ -358,7 +351,7 @@ class SystemWidget
 
         if (isset($arrayValue)) {
             if (isset($arrayValue['multiSelect']["value"]) && !empty($arrayValue['multiSelect']["value"])) {
-                $t = $widgetCall->productValue->value = $arrayValue['multiSelect']["value"];
+                $widgetCall->productValue->value = $arrayValue['multiSelect']["value"];
 
             } elseif (isset($arrayValue["value"]) && !empty($arrayValue["value"])) {
                 $widgetCall->productValue->value = $arrayValue['value'];
@@ -366,6 +359,7 @@ class SystemWidget
             }
 
         }
+
         $functionName = $field->widget;
 
         return $widgetCall->$functionName();

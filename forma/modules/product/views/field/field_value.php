@@ -18,9 +18,9 @@ if ($model->widget == 'widgetDropDownList' || $model->widget == 'widgetMultiSele
         echo Html::activeInput('text', $fieldValue,
             '[' . $fieldValue->id . ']name', ['class' => 'form-control']);
         if ($model->widget == 'widgetMultiSelect'  ||  $model->widget == 'widgetTypeahead') {
-            echo '<input id="field-value-is_main" type="radio" class=\'checkeddd\' name="FieldValueRadioButton" value='.$fieldValue->id.'>';
-        } else {
             echo Html::activeCheckbox($fieldValue, '[' . $fieldValue->id . ']is_main', ['label' => false,]);
+        } elseif($model->widget == 'widgetDropDownList') {
+            echo '<input id="field-value-is_main" type="radio" class=\'checkeddd\' name="FieldValueRadioButton" value='.$fieldValue->id.'>';
         }
         echo '</br>';
 

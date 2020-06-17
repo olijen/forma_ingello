@@ -52,10 +52,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['in
             'filter' => Type::getList(),
             'label' => 'Группа товаров',
         ],
-        [
-            'attribute' => 'product.sizeColumnValue',
-            'label' => 'Размер',
-        ],
+//        [
+//            'attribute' => 'product.sizeColumnValue',
+//            'label' => 'Размер',
+//        ],
     ];
 
     $columns = array_merge($columns, [
@@ -122,71 +122,73 @@ $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['in
             'hide' => true,
             'label' => 'Накладной расход',
         ],
+//        [
+//            'attribute' => 'product_country_id',
+//            'value' => 'product.country.name',
+//            'filter' => Country::getList(),
+//            'label' => 'Страна',
+//        ],
+//        [
+//            'class' => '\kartik\grid\DataColumn',
+//            'attribute' => 'product_color_name',
+//            'value' => function($model, $value, $index, $widget) {
+//                if (!$model->product->color) {
+//                    return null;
+//                }
+//                $color = $model->product->color->name;
+//                return '<span class="badge" style="border: 1px #777 solid; background-color: ' . $color . ';">&nbsp;</span>' .
+//                '<code>' . $color . '</code>';
+//            },
+//            'filterType' => GridView::FILTER_COLOR,
+//            'filterWidgetOptions' => [
+//                'showDefaultPalette' => false,
+//                'pluginOptions' => [
+//                    'showPaletteOnly' => true,
+//                    'preferredFormat' => 'name',
+//                    'palette' => Color::getPallet(),
+//                ],
+//                'options' => ['style' => 'display: none;'],
+//                'pluginEvents' => [
+//                    'change' => 'function() {
+//                        $(".sp-palette-only").hide();
+//                    }',
+//                ],
+//            ],
+//            'format' => 'raw',
+//            'label' => 'Цвет',
+////        ],
+//        [
+//            'attribute' => 'product_customs_code',
+//            'value' => 'product.customs_code',
+//            'label' => 'Таможенный код',
+//        ],
+//        [
+//            'attribute' => 'product_proof',
+//            'value' => 'product.proof',
+//            'label' => 'Крепость',
+//            'shortLabel' => 'Кр',
+//        ],
         [
-            'attribute' => 'product_country_id',
-            'value' => 'product.country.name',
-            'filter' => Country::getList(),
-            'label' => 'Страна',
-        ],
-        [
-            'class' => '\kartik\grid\DataColumn',
-            'attribute' => 'product_color_name',
-            'value' => function($model, $value, $index, $widget) {
-                if (!$model->product->color) {
-                    return null;
-                }
-                $color = $model->product->color->name;
-                return '<span class="badge" style="border: 1px #777 solid; background-color: ' . $color . ';">&nbsp;</span>' .
-                '<code>' . $color . '</code>';
-            },
-            'filterType' => GridView::FILTER_COLOR,
-            'filterWidgetOptions' => [
-                'showDefaultPalette' => false,
-                'pluginOptions' => [
-                    'showPaletteOnly' => true,
-                    'preferredFormat' => 'name',
-                    'palette' => Color::getPallet(),
-                ],
-                'options' => ['style' => 'display: none;'],
-                'pluginEvents' => [
-                    'change' => 'function() {
-                        $(".sp-palette-only").hide();
-                    }',
-                ],
-            ],
-            'format' => 'raw',
-            'label' => 'Цвет',
-        ],
-        [
-            'attribute' => 'product_customs_code',
-            'value' => 'product.customs_code',
-            'label' => 'Таможенный код',
-        ],
-        [
-            'attribute' => 'product_proof',
-            'value' => 'product.proof',
-            'label' => 'Крепость',
-            'shortLabel' => 'Кр',
-        ],
-        [
-            'class' => CombinedDataColumn::className(),
-            'labelTemplate' => '{0}  /  {1}',
-            'valueTemplate' => '{0}  /  {1}',
-            'attributes' => [
-                'product.batcher:text',
+//            'class' => CombinedDataColumn::className(),
+////            'labelTemplate' => '{0}  /  {1}',
+//            'valueTemplate' => '{0}  /  {1}',
+            'attribute' =>
+//                [
+//                'product.batcher:text',
                 'product.rating:decimal',
-            ],
-            'values' => [
-                'product.batcherLabel',
+//            ],
+            'value' =>
+//                [
+//                'product.batcherLabel',
                 'product.rating',
-            ],
+//            ],
             'filter' => false,
-            'label' => 'Дозатор / Рейтинг',
+            'label' => ' Рейтинг',
         ],
-        [
-            'attribute' => 'product.year_chart',
-            'hide' => true,
-        ],
+//        [
+//            'attribute' => 'product.year_chart',
+//            'hide' => true,
+//        ],
         [
             'value' => 'product.category.name',
             'label' => 'Категория',

@@ -61,6 +61,8 @@ class ProductController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductSearch();
+
+//        de(Yii::$app->request->queryParams);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
@@ -294,25 +296,25 @@ class ProductController extends Controller
         }
     }
 
-    public
-    function actionSearch($term)
-    {
-        if (Yii::$app->request->isAjax) {
-            $results = Product::find()
-                ->joinWith(['manufacturer', 'category'], false, 'INNER JOIN')
-                ->select(['product.id', 'product.name as label'])
-                ->where(['or',
-                    ['like', 'product.name', $term],
-                    ['like', 'product.sku', $term],
-                    ['like', 'manufacturer.name', $term],
-                    ['like', 'category.name', $term],
-                ])
-                ->asArray()
-                ->all();
-
-            echo json_encode($results);
-        }
-    }
+//    public
+//    function actionSearch($term)
+//    {
+//        if (Yii::$app->request->isAjax) {
+//            $results = Product::find()
+//                ->joinWith(['manufacturer', 'category'], false, 'INNER JOIN')
+//                ->select(['product.id', 'product.name as label'])
+//                ->where(['or',
+//                    ['like', 'product.name', $term],
+//                    ['like', 'product.sku', $term],
+//                    ['like', 'manufacturer.name', $term],
+//                    ['like', 'category.name', $term],
+//                ])
+//                ->asArray()
+//                ->all();
+//
+//            echo json_encode($results);
+//        }
+//    }
 
     public
     function actionGetSku()
@@ -397,37 +399,37 @@ class ProductController extends Controller
         die;
     }
 
-    public
-    function actionGetPackUnits()
-    {
-        $response = ['success' => false];
+//    public
+//    function actionGetPackUnits()
+//    {
+//        $response = ['success' => false];
+//
+//        $productId = Yii::$app->request->post('productId');
+//        if ($productId) {
+//            $response['data'] = PackUnitService::getAllByProduct($productId);
+//            $response['success'] = true;
+//        }
+//
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        return $response;
+//    }
 
-        $productId = Yii::$app->request->post('productId');
-        if ($productId) {
-            $response['data'] = PackUnitService::getAllByProduct($productId);
-            $response['success'] = true;
-        }
-
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $response;
-    }
-
-    public
-    function actionGetPackUnitsOnWarehouse()
-    {
-        $response = ['success' => false];
-
-        $productId = Yii::$app->request->post('productId');
-        $warehouseId = Yii::$app->request->post('warehouseId');
-
-        if ($productId && $warehouseId) {
-            $response['data'] = PackUnitService::getAllByProduct($productId, $warehouseId);
-            $response['success'] = true;
-        }
-
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $response;
-    }
+//    public
+//    function actionGetPackUnitsOnWarehouse()
+//    {
+//        $response = ['success' => false];
+//
+//        $productId = Yii::$app->request->post('productId');
+//        $warehouseId = Yii::$app->request->post('warehouseId');
+//
+//        if ($productId && $warehouseId) {
+//            $response['data'] = PackUnitService::getAllByProduct($productId, $warehouseId);
+//            $response['success'] = true;
+//        }
+//
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        return $response;
+//    }
 
     public
     static function actionGetVariationByPackUnit()

@@ -27,12 +27,12 @@ class ExcelImporter
 
         'product.name' => 'Товар',
         'product.sku' => 'Артикул',
-        'product.proof' => 'Крепость',
-        'product.customs_code' => 'Таможенный код',
-        'product.year_chart' => 'Год производства',
-
-        'product.sizeColumnValue' => 'Размер',
-        'product.combinedColumn' => 'Дозатор / Рейтинг',
+//        'product.proof' => 'Крепость',
+//        'product.customs_code' => 'Таможенный код',
+//        'product.year_chart' => 'Год производства',
+//
+//        'product.sizeColumnValue' => 'Размер',
+//        'product.combinedColumn' => 'Дозатор / Рейтинг',
 
         'warehouse_product.quantity' => 'Количество',
         'warehouse_product.purchase_cost' => 'Цена закупки',
@@ -96,39 +96,39 @@ class ExcelImporter
                     '\forma\modules\product\records\Manufacturer',
                     $row[$this->_excelFields['manufacturer.name']]
                 );
-                $product->country_id = $this->getRelationIdByValue(
-                    '\forma\modules\country\records\Country',
-                    $row[$this->_excelFields['country.name']]
-                );
-                $product->color_id = $this->getRelationIdByValue(
-                    '\forma\modules\product\records\Color',
-                    $row[$this->_excelFields['color.name']]
-                );
+//                $product->country_id = $this->getRelationIdByValue(
+//                    '\forma\modules\country\records\Country',
+//                    $row[$this->_excelFields['country.name']]
+//                );
+//                $product->color_id = $this->getRelationIdByValue(
+//                    '\forma\modules\product\records\Color',
+//                    $row[$this->_excelFields['color.name']]
+//                );
                 $product->type_id = $this->getRelationIdByValue(
                     '\forma\modules\product\records\Type',
                     $row[$this->_excelFields['type.name']]
                 );
 
-                $product->pack_unit_id = $this->getPackUnitIdBySizeColumn(
-                    $row[$this->_excelFields['product.sizeColumnValue']]
-                );
-
-                $product->batcher = $this->getBatcherByCombinedColumn(
-                    $row[$this->_excelFields['product.combinedColumn']]
-                );
+//                $product->pack_unit_id = $this->getPackUnitIdBySizeColumn(
+//                    $row[$this->_excelFields['product.sizeColumnValue']]
+//                );
+//
+//                $product->batcher = $this->getBatcherByCombinedColumn(
+//                    $row[$this->_excelFields['product.combinedColumn']]
+//                );
                 $product->rating = $this->getRatingByCombinedColumn(
                     $row[$this->_excelFields['product.combinedColumn']]
                 );
 
 
-                $product->volume = $this->getVolumeBySizeColumn(
-                    $row[$this->_excelFields['product.sizeColumnValue']]
-                );
-                $product->proof = $row[$this->_excelFields['product.proof']];
-                $product->customs_code = $row[$this->_excelFields['product.customs_code']];
+//                $product->volume = $this->getVolumeBySizeColumn(
+//                    $row[$this->_excelFields['product.sizeColumnValue']]
+//                );
+//                $product->proof = $row[$this->_excelFields['product.proof']];
+//                $product->customs_code = $row[$this->_excelFields['product.customs_code']];
 
-                $product->year_chart = isset($row[$this->_excelFields['product.year_chart']]) ?
-                    $row[$this->_excelFields['product.year_chart']] : null;
+//                $product->year_chart = isset($row[$this->_excelFields['product.year_chart']]) ?
+//                    $row[$this->_excelFields['product.year_chart']] : null;
 
                 $product->sku = SkuGenerator::generate(ArrayHelper::toArray($product));
 
@@ -177,15 +177,15 @@ class ExcelImporter
         return true;
     }
 
-    protected function getBatcherByCombinedColumn($value)
-    {
-        if (!$value || mb_strpos($value, ' / ') === false) {
-            return null;
-        }
-
-        $batcherLabel = array_shift(explode(' / ', $value));
-        return Product::getBatcherIdByLabel($batcherLabel);
-    }
+//    protected function getBatcherByCombinedColumn($value)
+//    {
+//        if (!$value || mb_strpos($value, ' / ') === false) {
+//            return null;
+//        }
+//
+//        $batcherLabel = array_shift(explode(' / ', $value));
+//        return Product::getBatcherIdByLabel($batcherLabel);
+//    }
 
     protected function getRatingByCombinedColumn($value)
     {
@@ -197,28 +197,28 @@ class ExcelImporter
         return (int)$ratingLabel;
     }
 
-    protected function getVolumeBySizeColumn($value)
-    {
-        if (!$value) {
-            return null;
-        }
-        $volumeLabel = array_pop(explode('x', $value));
-        return (int)$volumeLabel;
-    }
+//    protected function getVolumeBySizeColumn($value)
+//    {
+//        if (!$value) {
+//            return null;
+//        }
+//        $volumeLabel = array_pop(explode('x', $value));
+//        return (int)$volumeLabel;
+//    }
 
-    protected function getPackUnitIdBySizeColumn($value)
-    {
-        if (!$value || mb_strpos($value, 'x') === false) {
-            return null;
-        }
-        $packUnitLabel = array_shift(explode('x', $value));
-        /* @var $model \forma\modules\product\records\PackUnit */
-        return $this->getRelationIdByValue(
-            '\forma\modules\product\records\PackUnit',
-            (int)$packUnitLabel,
-            'bottles_quantity'
-        );
-    }
+//    protected function getPackUnitIdBySizeColumn($value)
+//    {
+//        if (!$value || mb_strpos($value, 'x') === false) {
+//            return null;
+//        }
+//        $packUnitLabel = array_shift(explode('x', $value));
+//        /* @var $model \forma\modules\product\records\PackUnit */
+//        return $this->getRelationIdByValue(
+//            '\forma\modules\product\records\PackUnit',
+//            (int)$packUnitLabel,
+//            'bottles_quantity'
+//        );
+//    }
     
     protected function getRelationIdByValue($modelName, $value, $field = 'name')
     {

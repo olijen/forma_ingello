@@ -106,6 +106,8 @@ class FieldController extends Controller
                                 $fieldValueModel->name = $fieldValue['name'];
                                 if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {
                                     $fieldValueModel->is_main = '1';
+                                }elseif(isset($fieldValue['is_main']) && $fieldValue['is_main'] == 1){
+                                    $fieldValueModel->is_main = '1';
                                 }
                                 if (!$fieldValueModel->validate()) {
                                     $fieldValueModel->errors;
@@ -129,7 +131,9 @@ class FieldController extends Controller
                                     }else{
                                         $fieldValueModel->is_main = 0;
                                     }
-
+                                    if(isset($fieldValue['is_main']) && $fieldValue['is_main'] == 1){
+                                        $fieldValueModel->is_main = '1';
+                                    }
                                     if (!$fieldValueModel->validate()) {
                                         $fieldValueModel->errors;
                                         var_dump($fieldValueModel->errors);

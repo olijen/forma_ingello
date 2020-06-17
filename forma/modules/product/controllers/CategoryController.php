@@ -107,7 +107,10 @@ class CategoryController extends Controller
                         $fieldValueModel = new FieldValue();
                         $fieldValueModel->field_id = $field->id;
                         $fieldValueModel->name = $fieldValue['name'];
+
                         if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {
+                            $fieldValueModel->is_main = '1';
+                        }elseif(isset($fieldValue['is_main']) && $fieldValue['is_main'] == 1){
                             $fieldValueModel->is_main = '1';
                         }
                         if (!$fieldValueModel->validate()) {

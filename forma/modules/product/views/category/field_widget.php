@@ -1,11 +1,11 @@
 <div id="inpy">
     <label>Значение 1</label>
-    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
+    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList' || $nameWidgetField == 'widgetTypeahead'): ?>
         <input id="field-value-name" class="form-control inputsss" name="FieldValue[0][name]" aria-required="true"
                aria-invalid="false">
         <input id="field-value-is_main" type="radio" class='checkeddd' name="FieldValueRadioButton" value='0'>
         </br>
-    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList'): ?>
+    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect'): ?>
         <input id="field-value-name" class="form-control inputsss" name="FieldValue[0][name]" aria-required="true"
                aria-invalid="false">
         <input id="field-value-is_main" type="checkbox" class='checkeddd' name="FieldValue[%checked%][is_main]">
@@ -21,7 +21,7 @@
     var inputsss = $('.inputsss');
     var inputValue = [];
     var inputChecked = [];
-    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
+    <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList' || $nameWidgetField == 'widgetTypeahead'): ?>
     var iii = "<div id=\"inpy\">" +
         "<label>Значение %number%</label>" +
         "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValue[%fieldId%][name]\" aria-required=\"true\"\n" +
@@ -29,7 +29,7 @@
         "<input type=\"radio\" name=\"FieldValueRadioButton\" class='checkeddd' %checked% value='%radioInput%'>" +
         " </br>" +
         "</div>";
-    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList'): ?>
+    <?php elseif (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect'): ?>
     var iii = "<div id=\"inpy\">" +
         "<label>Значение %number%</label>" +
         "<input id=\"field-value-name\" class=\"form-control inputsss\" name=\"FieldValue[%fieldId%][name]\" aria-required=\"true\"\n" +
@@ -54,7 +54,7 @@
             var reNumber = /%number%/gi;
             var reRadioInput = /%radioInput%/gi;
             var newstr = iii.replace(reFieldId, i);
-            <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetTypeahead'): ?>
+            <?php if (isset($nameWidgetField) && $nameWidgetField == 'widgetDropDownList' || $nameWidgetField == 'widgetTypeahead'): ?>
             newstr = newstr.replace(reRadioInput, i);
             <?php endif; ?>
             newstr = newstr.replace(reNumber, i + 1);

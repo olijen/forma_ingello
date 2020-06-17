@@ -56,7 +56,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 //]);
 
 
-
 ?>
 
 <div class="product-index">
@@ -91,41 +90,38 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'value' => 'manufacturer.name',
             'filter' => Manufacturer::getList(),
         ],
-        [
-            'class' => CombinedDataColumn::className(),
-            'attributes' => 'rating:decimal',
-            'values' => 'rating',
-            'filter' => false,
-            'label' => 'Рейтинг',
-        ],
+        'rating',
     ];
 
     if (isset($fieldValues)) {
         $params = Yii::$app->request->queryParams;
         foreach ($fieldValues as $key => $fieldValue) {
-            if (isset($params['FieldProductValue'])){
+
+            if (isset($params['FieldProductValue']) && isset($params['FieldProductValue'][$key])) {
                 $filter = SystemWidget::gridFilter($key, $fieldValue, false, $params['FieldProductValue'][$key]['null']);
-            }else{
+            } else {
                 $filter = SystemWidget::gridFilter($key, $fieldValue, false);
             }
             $dataProvider->setSort([
                 'attributes' =>
                     ArrayHelper::merge($dataProvider->sort->attributes,
                         [
-                            'FieldProductValue'.$key
-                            =>[
-                                'asc' => ['field_product_value.value' => SORT_ASC],
-                                'desc' => ['field_product_value.value' => SORT_DESC],
+                            'FieldProductValue' . $key
+                            => [
                                 'label' => $fieldValue->name,
                             ],
                         ]),
             ]);
             $columns [] = [
+//                'class' => DataColumn::className(),
                 'label' => $fieldValue->name,
-                'attribute'=> 'FieldProductValue'.$key,
+                'attribute' => 'FieldProductValue' . $key,
                 'value' => function ($model) use ($fieldValue) {
+
                     $FieldProductValue = $model->getFieldProductValue($model->id, $fieldValue);
+
                     $multiSelectValue = json_decode($FieldProductValue);
+
                     if (is_array($multiSelectValue)) {
                         $fieldValueArray = \forma\modules\product\records\FieldValue::findAll($multiSelectValue);
                         if (!empty($fieldValueArray)) {
@@ -164,7 +160,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <br><br>
-
 
 
         <?= DynaGrid::widget([
