@@ -9,8 +9,8 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 
+$currentCategory = '';
 if (!isset($thisParentGrid)) {
-
     $actionColumn = [
         ['class' => 'yii\grid\ActionColumn',
             'template' => '{delete}{update}',
@@ -21,6 +21,7 @@ if (!isset($thisParentGrid)) {
         $currentCategory = $model->id;
     }
 } elseif (isset($thisParentGrid)) {
+    echo 'Характеристики родительской категории';
     if (isset($dataProvider->getModels()[0])) {
         $currentCategory = $dataProvider->getModels()[0]->category_id;
     }

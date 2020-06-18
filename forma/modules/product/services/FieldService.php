@@ -3,7 +3,14 @@
 namespace forma\modules\product\services;
 
 use forma\modules\product\records\Field;
+use forma\modules\product\records\FieldProductValue;
+use forma\modules\product\records\FieldValue;
 
+/**
+ * @property string $widget
+ * @property string $name
+ * @property string $is_main
+ */
 class FieldService
 {
     public static function get($id = null)
@@ -19,33 +26,37 @@ class FieldService
         return new Field();
     }
 
-    public static function save($id, $post)
+    public static function updateField($post)
+    {
+        $postField = $post['Field'];
+        $fieldId = $postField['id'];
+        $fieldModel = Field::findOne($fieldId);
+        if (!isset($post['FieldValueNew']) && !isset($post['FieldValue'])) {
+            FieldValue::deleteAll('field_id = ' . (int)$fieldId);
+            FieldProductValue::deleteAll('field_id = ' . (int)$fieldId);
+            $fieldModel->widget = $postField['widget'];
+            $fieldModel->name = $postField['name'];
+            $fieldModel->defaulted = $postField['defaulted'];
+            if (!$fieldModel->validate()) {
+                $fieldModel->errors;
+                var_dump($fieldModel->errors);
+                die();
+            }
+            $fieldModel->save();
+        } else {
+            $fieldModel->defaulted = null;
+            $fieldModel->widget = $postField['widget'];
+            $fieldModel->name = $postField['name'];
+            $fieldModel->save();
+        }
+        return $fieldModel;
+    }
+
+    public static function save($id, $fieldValue, $is_main)
     {
 
         $model = self::get($id);
 
-        $model->load($post);
-
-        $model->load(['color_id' => self::getColorByPost($post)], '');
-        $model->sku = 'VSKR-50';
-        $model->volume = '50';
-        $model->country_id = '6';
-
-        //todo: нормально обработать ошибку
-        if (!$model->save()) {
-            var_dump($model->getErrors());
-            die;
-        }
-
-//        $packUnits = $post['Product']['packUnits'];
-//        if (!is_array($post['Product']['packUnits'])) {
-//            return $model;
-//        }
-//
-//        ProductPackUnit::deleteAll(['product_id' => $model->id]);
-//        foreach ($packUnits as $packUnitId) {
-//            PackUnitService::save($model->id, $packUnitId);
-//        }
 
         return $model;
     }

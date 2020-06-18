@@ -17,17 +17,17 @@ if ($model->widget == 'widgetDropDownList' || $model->widget == 'widgetMultiSele
         echo Html::label('Значение ' . $fieldItem, 'name ', ['class' => 'control-label']);
         echo Html::activeInput('text', $fieldValue,
             '[' . $fieldValue->id . ']name', ['class' => 'form-control']);
-        if ($model->widget == 'widgetMultiSelect'  ||  $model->widget == 'widgetTypeahead') {
+        if (SystemWidget::manyIsMainValue($model->widget)) {
             echo Html::activeCheckbox($fieldValue, '[' . $fieldValue->id . ']is_main', ['label' => false,]);
-        } elseif($model->widget == 'widgetDropDownList') {
-            echo '<input id="field-value-is_main" type="radio" class=\'checkeddd\' name="FieldValueRadioButton" value='.$fieldValue->id.'>';
+        } elseif(SystemWidget::oneIsMainValue($model->widget)) {
+            echo '<input id="field-value-is_main" type="radio" class=\'FieldValueChecked\' name="FieldValueRadioButton" value='.$fieldValue->id.'>';
         }
         echo '</br>';
 
         echo Html::activeHiddenInput($fieldValue,
             '[' . $fieldValue->id . ']field_id', ['class' => 'form-control']);
     }
-    echo $this->render('field_values', [
+    echo $this->render('/category/field_widget', [
         'nameWidgetField' => $model->widget,
         'fieldItem' => $fieldItem,
     ]);

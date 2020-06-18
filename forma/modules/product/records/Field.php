@@ -12,6 +12,7 @@ use Yii;
  * @property integer $category_id
  * @property string $widget
  * @property string $name
+ * @property string defaulted
  *
  * @property Category $category
  * @property FieldProductValue[] $fieldProductValues
