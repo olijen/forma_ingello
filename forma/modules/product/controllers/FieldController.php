@@ -141,14 +141,14 @@ class FieldController extends Controller
                                     }
                                     $fieldValueModel->save();
                                 } else {
-                                    FieldValue::deleteAll('id = ' . $fieldValueId);
+                                    FieldValue::deleteAll(['id = ' . $fieldValueId]);
                                 }
                             }
                         }
                     }
                 } else {
-                    FieldValue::deleteAll('field_id = ' . $fieldId);
-                    FieldProductValue::deleteAll('field_id = ' . $fieldId);
+                    FieldValue::deleteAll(['field_id = ' . $fieldId]);
+                    FieldProductValue::deleteAll(['field_id = ' . $fieldId]);
                     $fieldModel = Field::findOne($postField['id']);
                     $fieldModel->widget = $postField['widget'];
                     $fieldModel->name = $postField['name'];
