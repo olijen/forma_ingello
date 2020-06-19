@@ -31,7 +31,6 @@ class ProductService
         $model = self::get($id);
 
         $model->load($post);
-        $model->load(['color_id' => self::getColorByPost($post)], '');
 
         //todo: нормально обработать ошибку
         if (!$model->save()) {

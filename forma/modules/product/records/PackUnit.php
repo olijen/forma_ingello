@@ -92,7 +92,6 @@ class PackUnit extends AccessoryActiveRecord
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
             ->andWhere(['accessory.entity_class' => self::className()])
-            //->andWhere((['>', 'bottles_quantity', 0]))
         ;
 
         return ArrayHelper::map($query->all(), 'id', 'name');

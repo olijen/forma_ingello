@@ -9,22 +9,21 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 
-$currentCategory = '';
 if (!isset($thisParentGrid)) {
+    echo 'Характеристики текущей категории';
     $actionColumn = [
         ['class' => 'yii\grid\ActionColumn',
             'template' => '{delete}{update}',
             'controller' => 'field',
         ],
     ];
-    if (isset($model)) {
-        $currentCategory = $model->id;
-    }
-} elseif (isset($thisParentGrid)) {
+
+}
+if (isset($thisParentGrid)) {
     echo 'Характеристики родительской категории';
-    if (isset($dataProvider->getModels()[0])) {
-        $currentCategory = $dataProvider->getModels()[0]->category_id;
-    }
+    $dataProvider = $parentFieldDataProvider;
+    $searchModel = $searchParentField;
+    $fieldValuesNameFilterArray = $parentFieldValuesNameFilterArray;
 }
 
 $columns = [
@@ -81,30 +80,26 @@ $columns = [
     [
         'attribute' => 'fieldValues.name',
         'format' => 'raw',
-        'value' => function ($model) {
-            $fieldValueArray = ArrayHelper::map(FieldValue::find()
-                ->where(['field_id' => $model->id])
-                ->all(), 'id', 'name');
-
-            if (!empty($fieldValueArray)) {
+        'value' => function ($model) use ($allFieldValue) {
+            if (isset($allFieldValue)) {
                 $fieldValues = '';
-                foreach ($fieldValueArray as $fieldValue) {
-                    if (empty($fieldValues)) {
-                        $fieldValues .= $fieldValue;
-                    } else {
-                        $fieldValues .= ' , ' . $fieldValue;
+                foreach ($allFieldValue as $fieldValue) {
+                    if ($fieldValue->field_id == $model->id) {
+                        if (empty($fieldValues)) {
+                            $fieldValues .= $fieldValue->name;
+                        } else {
+                            $fieldValues .= ' , ' . $fieldValue->name;
+                        }
                     }
                 }
-                return $fieldValues;
-            } else {
-                return null;
+                if (!empty($fieldValues)) {
+                    return $fieldValues;
+                }
             }
+            return null;
         },
         'filter' => Html::activeDropDownList(new \forma\modules\product\records\FieldValueSearch(), 'name',
-            ArrayHelper::map(FieldValue::find()
-                ->joinWith('field')
-                ->andWhere(['field.category_id' => $currentCategory])
-                ->all(), 'id', 'name'),
+            $fieldValuesNameFilterArray,
             ['class' => 'form-control', 'prompt' => ''])
         ,
     ],

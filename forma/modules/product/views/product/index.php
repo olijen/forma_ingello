@@ -49,13 +49,6 @@ $this->registerJsFile('@web/js/common.js', ['position' => View::POS_END]);
 $this->title = 'Объекты учета';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 
-//echo FileInput::widget([
-//    'model' => $searchModel,
-//    'attribute' => 'id',
-//    'options' => ['multiple' => true]
-//]);
-
-
 ?>
 
 <div class="product-index">
@@ -113,7 +106,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                         ]),
             ]);
             $columns [] = [
-//                'class' => DataColumn::className(),
                 'label' => $fieldValue->name,
                 'attribute' => 'FieldProductValue' . $key,
                 'value' => function ($model) use ($fieldValue) {
@@ -160,7 +152,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <br><br>
-
 
         <?= DynaGrid::widget([
 

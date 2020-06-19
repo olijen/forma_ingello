@@ -44,7 +44,6 @@ class FieldProductValue extends \yii\db\ActiveRecord
         return [
             [['field_id', 'product_id'], 'required'],
             [['field_id', 'product_id'], 'integer'],
-//            [['value'], 'string', 'max' => 255],
             [['value'], 'safe']
         ];
     }
@@ -87,4 +86,44 @@ class FieldProductValue extends \yii\db\ActiveRecord
         return new FieldProductValueQuery(get_called_class());
     }
 
+    public static function eachFieldProductValueSave($fieldProductValues, $productId)
+    {
+        foreach ($fieldProductValues as $fieldId => $fieldValueModel) {
+            foreach ($fieldValueModel as $fieldValueId => $fieldValue) {
+                if ($fieldValueId == 'null') {
+                    self::fieldProductValueSave(null, $fieldValue, $fieldId, $productId);
+                } else {
+                    self::fieldProductValueSave($fieldValueId, $fieldValue, null, null);
+                }
+            }
+        }
+    }
+
+    public static function fieldProductValueSave($id, $fieldValue, $fieldId, $productId)
+    {
+        if (is_null($id)) {
+            $model = new FieldProductValue();
+            $model->product_id = $productId;
+            $model->field_id = $fieldId;
+        }else{
+            $model = FieldProductValue::findOne($id);
+        }
+
+        if (isset($fieldValue['multiSelect']['value'])) {
+            if (!empty($fieldValue['multiSelect']['value'])) {
+                $model->value = json_encode($fieldValue['multiSelect']['value']);
+            } else {
+                $model->value = '';
+            }
+        } elseif (isset($fieldValue['value'])) {
+            $model->value = $fieldValue['value'];
+        }
+
+        if (!$model->validate()) {
+            $model->errors;
+            var_dump($model->errors);
+            die();
+        }
+        $model->save();
+    }
 }

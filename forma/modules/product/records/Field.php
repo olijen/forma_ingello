@@ -121,4 +121,19 @@ class Field extends \yii\db\ActiveRecord
         $query = $query->all();
         return $query;
     }
+
+    public static function getCurrentAndParentField($dataProvider, $searchModel)
+    {
+        $category_id = $dataProvider->getModels()[0]->category_id;
+        $field = new Field();
+        $parentCategoryId = $category_id;
+        $categoriesId = Category::getParentCategoryId($parentCategoryId);
+        $fieldValues = $field->widgetGetList($categoriesId);
+
+        return [
+            'fieldValues' => $fieldValues,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ];
+    }
 }

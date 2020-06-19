@@ -1,6 +1,5 @@
 <?php
 
-
 use forma\modules\product\components\SystemWidget;
 use forma\modules\product\records\FieldProductValue;
 use yii\helpers\Html;
@@ -23,17 +22,19 @@ use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\daterange\DateRangePicker;
 use kartik\datetime\DateTimePicker;
-?>
 
+?>
     <a href="/product/category/create"
        class="btn btn-secondary"
-       onClick="return (confirm('Вы пытаетесь перейти на страницу создания категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
+       onClick="return (confirm('Вы пытаетесь перейти на страницу создания категории, если вы продолжите, ' +
+        'все данные с этой страницы не сохранятся!'))?true:false;">
         Создать новую категорию
     </a>
 <?php if (isset($category_id)):?>
     <a href="/product/category/update?id=<?= $category_id?>"
        class="btn btn-secondary"
-       onClick="return (confirm('Вы пытаетесь перейти на страницу редактирования категории, если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
+       onClick="return (confirm('Вы пытаетесь перейти на страницу редактирования категории,' +
+        ' если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
         Редактировать текущую категорию
     </a>
 
@@ -46,15 +47,11 @@ Pjax::begin([
 
 <?php if (!empty($fieldAttributes)):?>
 
-
-
-
    <?php foreach ($fieldAttributes as $key => $fieldAttribute) {
         echo SystemWidget::getByName($key, $fieldAttribute, true);
         echo '</br>';
     }
     ?>
-
 <?php else:?>
     </br></br>
 <?='В данной категории нет дополнительных характеристик';

@@ -49,11 +49,6 @@ class ProductSearch extends Product
 
     public function search($params)
     {
-//        echo '<div style="margin-left: 60px; margin-top: 70px;"> <pre>';
-//        echo 'параметры namespace forma\modules\product\records\ProductSearch->search </br>';
-//        var_dump($params);
-//        echo '</pre> </div> </br> </br>';
-
            $query = Product::find()
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])

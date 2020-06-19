@@ -9,6 +9,7 @@ use forma\modules\product\records\Field;
 use forma\modules\product\records\FieldProductValue;
 use forma\modules\product\records\FieldValue;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class FieldValueService
 {
@@ -31,31 +32,41 @@ class FieldValueService
         if (SystemWidget::manyValuesWidgets($post['Field']['widget'])) {
 
             if (isset($post['FieldValueNew'])) {
-                foreach ($post['FieldValueNew'] as $key => $fieldValue) {
-                    if (!empty($fieldValue['name'])) {
-                        if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {  // мы присваеваем отмеченому радио (значение) идентификатор текущего поля
-                            FieldValueService::save(null, $fieldValue, true, $fieldId);
-                        } else {
-                            FieldValueService::save(null, $fieldValue, false, $fieldId);
-                        }
-                    }
-                }
+                self::eachFieldValueForCreate($post['FieldValueNew'], $fieldId, $post);
             }
             if (SystemWidget::manyValuesWidgets($fieldModel->widget)) {
+
                 if (isset($post['FieldValue'])) {
-                    foreach ($post['FieldValue'] as $fieldValueId => $fieldValue) {
+                    self::eachFieldValueForUpdate($post['FieldValueNew'], $post);
+                }
+            }
+        }
+    }
 
-                        if (!empty($fieldValue['name'])) {
-                            if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $fieldValueId) {
+    public static function eachFieldValueForUpdate($eachFieldValue, $post)
+    {
+        foreach ($eachFieldValue as $fieldValueId => $fieldValue) {
 
-                                FieldValueService::save($fieldValueId, $fieldValue, true);
-                            } else {
-                                FieldValueService::save($fieldValueId, $fieldValue, false);
-                            }
-                        } else {
-                            FieldValue::deleteAll('id = ' . (int)$fieldValueId);
-                        }
-                    }
+            if (!empty($fieldValue['name'])) {
+                if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $fieldValueId) {
+                    self::save($fieldValueId, $fieldValue, true);
+                } else {
+                    self::save($fieldValueId, $fieldValue, false);
+                }
+            } else {
+                FieldValue::deleteAll('id = ' . (int)$fieldValueId);
+            }
+        }
+    }
+
+    public static function eachFieldValueForCreate($eachFieldValue, $fieldId, $post)
+    {
+        foreach ($eachFieldValue as $key => $fieldValue) {
+            if (!empty($fieldValue['name'])) {
+                if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {  // мы присваеваем отмеченому радио (значение) идентификатор текущего поля
+                    self::save(null, $fieldValue, true, $fieldId);
+                } else {
+                    self::save(null, $fieldValue, false, $fieldId);
                 }
             }
         }
@@ -63,7 +74,6 @@ class FieldValueService
 
     public static function save($id, $fieldValue, $isMainRadio = false, $fieldId = null)
     {
-
         $model = self::get($id);
         if (!is_null($fieldId)) {   //при создании новой модели нужно присвоить field id , при изменении - не нужно
             $model->field_id = $fieldId;
@@ -86,8 +96,20 @@ class FieldValueService
         }
 
         $model->save();
-
         return $model;
+    }
+
+    public static function getFieldValue()
+    {
+        return FieldValue::find()->all();
+    }
+
+    public static function getFieldValuesNameFilterArray($currentCategoryId)
+    {
+        return ArrayHelper::map(FieldValue::find()
+            ->joinWith('field')
+            ->andWhere(['field.category_id' => $currentCategoryId])
+            ->all(), 'id', 'name');
     }
 
 }

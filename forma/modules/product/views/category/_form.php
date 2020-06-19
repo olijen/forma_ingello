@@ -18,12 +18,6 @@ use yii\helpers\Url;
 /* @var $searchModel */
 ?>
 
-<?php //if (Yii::$app->request->isAjax) {
-//    Yii::$app->controller->layout = false;
-//    Pjax::begin();
-//} ?>
-
-
 <?php $form = ActiveForm::begin([
     'id' => 'category-name-form',
 ]); ?>
@@ -33,38 +27,23 @@ use yii\helpers\Url;
     <?php Pjax::begin() ?>
 
     <?php
-    $categories = Category::find()
-        ->joinWith(['accessory'])
-        ->where(['accessory.user_id' => Yii::$app->getUser()->getId()])
-    ->andWhere(['accessory.entity_class' => Category::className()]);
-
-    if (isset($subCategoriesId) && !empty($subCategoriesId)) {
-        foreach ($subCategoriesId as $subCategoryId) {
-            $categories =  $categories->andWhere(['<>', 'category.id', $subCategoryId]);
-        }
-    }
-
-    if (!is_null($model->id)) {
-        $currentCategoryId = $model->id;
-        $categories = $categories->andWhere(['<>', 'category.id', $currentCategoryId]);
-    }
-    $categories = $categories->all();
-
     $arrayCategories = ArrayHelper::map(
-        $categories, 'id', 'name');
+        $possibleCategories, 'id', 'name');
 
     echo $form->field($model, 'parent_id')->dropDownList(
         $arrayCategories,
-        ['prompt' => '', 'onchange' => "$.pjax({         
-                             type : 'POST',         
-                             url : '/product/category/pjax-parent-category-field',
-                             container: '#pjax-drop-down-list-category',         
-                             data :  $(this).serialize(),
-                             push: false,
-                             replace: false,         
-                             timeout: 10000,         
-                             \"scrollTo\" : false     
-                      })",]
+        ['prompt' => '',
+         'onchange' => "$.pjax({         
+                            type : 'POST',         
+                            url : '/product/category/pjax-parent-category-field',
+                            container: '#pjax-drop-down-list-category',         
+                            data :  $(this).serialize(),
+                            push: false,
+                            replace: false,         
+                            timeout: 10000,         
+                            \"scrollTo\" : false     
+                        })"
+            ,]
     );
 
     ?>
@@ -78,15 +57,16 @@ use yii\helpers\Url;
     <?php Pjax::begin(['id' => 'pjax-drop-down-list-category', 'enablePushState' => false,]); ?>
 
     <?php
-
     if (isset($searchParentField) && isset($parentFieldDataProvider)) {
-//        de('dwa');
+
+//Характеристики родительской категории
         $thisParentGrid = true;
-        echo 'Характеристики родительской категории';
         echo $this->render('setting_widget', [
             'thisParentGrid' => $thisParentGrid,
-            'searchModel' => $searchParentField,
-            'dataProvider' => $parentFieldDataProvider,
+            'allFieldValue' => $allFieldValue,
+            'parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray,
+            'searchParentField' => $searchParentField,
+            'parentFieldDataProvider' => $parentFieldDataProvider,
         ]);
     }
     ?>
@@ -95,9 +75,11 @@ use yii\helpers\Url;
 
     <?php if (isset($model->id)) {
 
-        echo 'Характеристики текущей категории';
+//Характеристики текущей категории
         echo $this->render('setting_widget', [
             'model' => $model,
+            'allFieldValue' => $allFieldValue,
+            'fieldValuesNameFilterArray' => $fieldValuesNameFilterArray,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -109,6 +91,3 @@ use yii\helpers\Url;
     } ?>
 </div>
 
-<?php //if (Yii::$app->request->isAjax) {
-//    Pjax::end();
-//} ?>

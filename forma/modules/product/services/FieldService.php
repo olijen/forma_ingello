@@ -52,12 +52,5 @@ class FieldService
         return $fieldModel;
     }
 
-    public static function save($id, $fieldValue, $is_main)
-    {
 
-        $model = self::get($id);
-
-
-        return $model;
-    }
 }

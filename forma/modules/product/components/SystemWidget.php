@@ -161,7 +161,7 @@ class SystemWidget
     public function widgetTouchSpin()
     {
         $this->productValue->value = $this->getDefaultValue();
-//de( $this->productValue->value);
+
         return TouchSpin::widget([
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
@@ -242,7 +242,6 @@ class SystemWidget
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
-//            'disabled' => true
         ]);
     }
 
@@ -265,6 +264,27 @@ class SystemWidget
                 ->all(), 'id', 'name'),
             ['class' => 'form-control', 'prompt' => ' ',
                 'options' => ['value' => $this->productValue->value,]]);
+    }
+
+    public static function manyValuesWidgets($widget)
+    {
+      if  ($widget == 'widgetDropDownList' || $widget == 'widgetMultiSelect' ||$widget == 'widgetTypeahead'){
+          return true;
+      }
+      return false;
+    }
+
+    public static function oneIsMainValue($widget){
+        if ($widget == 'widgetDropDownList' ||  $widget == 'widgetTypeahead'){
+            return true;
+        }
+        return false;
+    }
+    public static function manyIsMainValue($widget){
+        if ($widget == 'widgetMultiSelect'){
+            return true;
+        }
+        return false;
     }
 
     public function widgetTextInput()

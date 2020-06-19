@@ -62,11 +62,11 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
 
-//        de(Yii::$app->request->queryParams);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
-            return $this->getCurrentAndParentFieldCategory($dataProvider, $searchModel);
+            $currentAndParentField = Field::getCurrentAndParentField($dataProvider, $searchModel);
+            return $this->render('index', $currentAndParentField);
         }
 
         return $this->render('index', [
@@ -74,32 +74,6 @@ class ProductController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    public function getCurrentAndParentFieldCategory($dataProvider, $searchModel)
-    {
-        $category_id = $dataProvider->getModels()[0]->category_id;
-        $field = new Field();
-        $parentCategoryId = $category_id;
-        $parentsCategoriesId = [];
-        while(!is_null($parentCategoryId)){
-            $categoryModel = Category::findOne($parentCategoryId);
-            if (!is_null($categoryModel)) {
-                $parentCategoryId = $categoryModel->parent_id;
-                $parentsCategoriesId [] = $categoryModel->id;
-            }else{
-                $parentCategoryId = null;
-            }
-        }
-        $categoriesId = $parentsCategoriesId;
-        $fieldValues = $field->widgetGetList($categoriesId);
-
-        return $this->render('index', [
-            'fieldValues' => $fieldValues,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
 
     public function actionCreate()
     {
@@ -109,30 +83,27 @@ class ProductController extends Controller
                 'model' => $model,
             ]);
         }
-
         if (Yii::$app->request->isPost) {
-            $newProduct = ProductService::save(null, Yii::$app->request->post());
-            $productId = $newProduct->id;
+            $post = Yii::$app->request->post();
+            $model = ProductService::save(null, $post);
+            $productId = $model->id;
 
-            if (isset(Yii::$app->request->post()['FieldProductValue'])) {
-                $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
-                foreach ($fieldProductValues as $fieldId => $fieldValueModel) {
-                    foreach ($fieldValueModel as $fieldValueId => $fieldValue) {
-                        $this->fieldProductValueCreate($fieldId, $fieldValue, $productId);
-                    }
-                }
+            if (isset($post['FieldProductValue'])) {
+                $fieldProductValues = $post['FieldProductValue'];
+                FieldProductValue::eachFieldProductValueSave($fieldProductValues, $productId);
             }
+
             return $this->redirect(['index']);
-        } else {
-            $model = ProductService::create();
-            $field = new Field();
-            $fieldAttributes = null;
-            return $this->render('create', [
-                'model' => $model,
-                'fieldAttributes' => $fieldAttributes,
-                'field' => $field,
-            ]);
         }
+        $model = ProductService::create();
+        $field = new Field();
+        $fieldAttributes = null;
+        return $this->render('create', [
+            'model' => $model,
+            'fieldAttributes' => $fieldAttributes,
+            'field' => $field,
+        ]);
+
     }
 
 
@@ -145,12 +116,7 @@ class ProductController extends Controller
             // категория из обьекта продукта постом
             $field = new Field();
             $parentCategoryId = $category_id;
-            while(!is_null($parentCategoryId)){
-                $categoryModel = Category::findOne($parentCategoryId);
-                $parentCategoryId = $categoryModel->parent_id;
-                $parentsCategoryId [ ] = $categoryModel->id;
-            }
-            $categoriesId = $parentsCategoryId;
+            $categoriesId = Category::getParentCategoryId($parentCategoryId);
             $fieldAttributes = $field->widgetGetList($categoriesId);
 
             return $this->render('pjax_attribute', [
@@ -165,52 +131,6 @@ class ProductController extends Controller
 
     }
 
-    public function fieldProductValueCreate($fieldId, $fieldValue, $productId)
-    {
-        $saveProductValue = new FieldProductValue();
-        $field_id = Field::findOne($fieldId);
-        $saveProductValue->product_id = $productId;
-        if (isset($fieldValue['multiSelect']['value'])) {
-            if (!empty($fieldValue['multiSelect']['value'])) {
-                $saveProductValue->value = json_encode($fieldValue['multiSelect']['value']);
-            } else {
-                $saveProductValue->value = '';
-            }
-        } elseif (isset($fieldValue['value'])) {
-            $saveProductValue->value = $fieldValue['value'];
-        }
-
-        $saveProductValue->field_id = $field_id->id;
-        if (!$saveProductValue->validate()) {
-            $saveProductValue->errors;
-            var_dump($saveProductValue->errors);
-            die();
-        }
-        $saveProductValue->save();
-    }
-
-    public function fieldProductValueUpdate($fieldValueId, $fieldValue)
-    {
-        $saveProductValue = FieldProductValue::findOne($fieldValueId);
-
-        if (isset($fieldValue['multiSelect']['value'])) {
-            if (!empty($fieldValue['multiSelect']['value'])) {
-                $saveProductValue->value = json_encode($fieldValue['multiSelect']['value']);
-            } else {
-                $saveProductValue->value = '';
-            }
-
-        } elseif (isset($fieldValue['value'])) {
-            $saveProductValue->value = $fieldValue['value'];
-        }
-
-        if (!$saveProductValue->validate()) {
-            $saveProductValue->errors;
-            var_dump($saveProductValue->errors);
-            die();
-        }
-        $saveProductValue->save();
-    }
 
     public function actionUpdate($id)
     {
@@ -219,38 +139,23 @@ class ProductController extends Controller
 
         $category_id = $model->category_id;
         $parentCategoryId = $category_id;
-
-        while(!is_null($parentCategoryId)){
-            $categoryModel = Category::findOne($parentCategoryId);
-            $parentCategoryId = $categoryModel->parent_id;
-            $parentsCategoryId [ ] = $categoryModel->id;
-        }
-        $categoriesId = $parentsCategoryId;
+        $categoriesId = Category::getParentCategoryId($parentCategoryId);
         $fieldAttributes = $field->widgetGetList($categoriesId);
 
         if (Yii::$app->request->isPost) {
             $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
+            FieldProductValue::eachFieldProductValueSave($fieldProductValues, $model->id);
 
-            foreach ($fieldProductValues as $fieldId => $fieldValueModel) {
-                foreach ($fieldValueModel as $fieldValueId => $fieldValue) {
-                    if ($fieldValueId == 'null') {
-                        $this->fieldProductValueCreate($fieldId, $fieldValue, $productId = $id);
-                    } else {
-                        $this->fieldProductValueUpdate($fieldValueId, $fieldValue);
-                    }
-                }
-            }
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);
-        } else {
-
-            return $this->render('update', [
-                'model' => $model,
-                'category_id' => $category_id,
-                'fieldAttributes' => $fieldAttributes,
-                'field' => $field,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+            'category_id' => $category_id,
+            'fieldAttributes' => $fieldAttributes,
+            'field' => $field,
+        ]);
+
     }
 
 

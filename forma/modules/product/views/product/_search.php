@@ -1,7 +1,4 @@
 <?php
-//echo '<pre>';
-//var_dump($fieldAttributes);
-//echo '</pre>';
 
 use forma\modules\product\components\SystemWidget;
 use yii\helpers\Html;

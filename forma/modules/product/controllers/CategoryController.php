@@ -2,10 +2,12 @@
 
 namespace forma\modules\product\controllers;
 
+use forma\modules\product\components\SystemWidget;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\FieldSearch;
 use forma\modules\product\records\FieldValue;
 use forma\modules\product\records\FieldValueSearch;
+use forma\modules\product\services\FieldValueService;
 use Yii;
 use forma\modules\product\records\Category;
 use forma\modules\product\records\CategorySearch;
@@ -58,7 +60,7 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $model = new Category();
-
+        $possibleCategories = Category::getPossibleCategories();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
                 echo json_encode(['recordId' => $model->id, 'recordName' => $model->name]);
@@ -68,6 +70,7 @@ class CategoryController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'possibleCategories' => $possibleCategories,
             ]);
         }
     }
@@ -83,7 +86,7 @@ class CategoryController extends Controller
         if (Yii::$app->request->isPjax) {
             $this->layout = false;
             $nameWidgetField = $_POST['Field']['widget'];
-            if ($nameWidgetField == 'widgetMultiSelect' || $nameWidgetField == 'widgetDropDownList' || $nameWidgetField == 'widgetTypeahead') {
+            if (SystemWidget::manyValuesWidgets($nameWidgetField)) {
                 return $this->render('field_widget', [
                     'nameWidgetField' => $nameWidgetField,
                 ]);
@@ -93,107 +96,50 @@ class CategoryController extends Controller
         $field = new Field();
         $currentCategoryId = $model->id;
 
-        $subCategoriesId = $this->getDropDownListPossibleCategories($currentCategoryId);
+        $subCategoriesId = Category::getDropDownListPossibleCategories($currentCategoryId);
+        $possibleCategories = Category::getPossibleCategories($subCategoriesId, $currentCategoryId);
+        $fieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($currentCategoryId);
 
         $searchModel = new FieldSearch();
         $searchModel->category_id = $model->id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        if ($field->load(Yii::$app->request->post()) && $field->save()) {
-            $post = $_POST;
-            if (isset($post['FieldValue'])) {
-                foreach ($post['FieldValue'] as $key => $fieldValue) {
-                    if (!empty($fieldValue['name'])) {
-                        $fieldValueModel = new FieldValue();
-                        $fieldValueModel->field_id = $field->id;
-                        $fieldValueModel->name = $fieldValue['name'];
+        $this->fieldLoadAndSave($field, $model->id);
 
-                        if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $key) {
-                            $fieldValueModel->is_main = '1';
-                        }elseif(isset($fieldValue['is_main']) && $fieldValue['is_main'] == 1){
-                            $fieldValueModel->is_main = '1';
-                        }
-                        if (!$fieldValueModel->validate()) {
-                            $fieldValueModel->errors;
-                            var_dump($fieldValueModel->errors);
-                            die();
-                        }
-                        $fieldValueModel->save();
-                    }
-                }
-            }
-            return $this->redirect('update?id=' . $id);
-
-        } elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
-
-        if (!empty($parentCategoryId = $model->parent_id)) {
-
-            $parentsCategoriesId = $this->getParentCategoryId($parentCategoryId);
-
-            $searchParentField = new FieldSearch();
-            $parentFieldDataProvider = $searchParentField
-                ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
-
-            return $this->render('update', [
-                'model' => $model,
-                'field' => $field,
-                'subCategoriesId' => $subCategoriesId,
-                'searchParentField' => $searchParentField,
-                'parentFieldDataProvider' => $parentFieldDataProvider,
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-
-        return $this->render('update', [
+        $allFieldValue = FieldValueService::getFieldValue();
+        $renderVar = [
             'model' => $model,
             'field' => $field,
             'subCategoriesId' => $subCategoriesId,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-
-    }
-
-    public function getParentCategoryDataProvider($parentCategoryId)
-    {
-        $searchParentField = new FieldSearch();
-        $searchParentField->category_id = $parentCategoryId;
-        $parentFieldDataProvider = $searchParentField->search(Yii::$app->request->queryParams);
-
-        return $parentFieldDataProvider;
-    }
-
-    public function getDropDownListPossibleCategories($currentCategoryId)
-    {
-        $allSubCategoriesId = [];
-        $subCategories = Category::find()->andWhere(['parent_id' => $currentCategoryId])->all();// массив обьектов
-        while (!empty($subCategories)) {
-            $subCategories2 = Category::find();
-            foreach ($subCategories as $subCategory) {
-                $allSubCategoriesId [] = $subCategory->id;
-                $subCategories2 = $subCategories2->orWhere(['parent_id' => $subCategory->id]);
-            }
-            $subCategories = $subCategories2->all();
+            'allFieldValue' => $allFieldValue,
+            'fieldValuesNameFilterArray' => $fieldValuesNameFilterArray,
+            'possibleCategories' => $possibleCategories,
+        ];
+        if (!empty($parentCategoryId = $model->parent_id)) {
+            $parentProviderAndSearch = Category::getParentFieldDataProviderAndParentFieldSearch($parentCategoryId);
+            $parentFieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($parentCategoryId);
+            $renderVar = array_merge($renderVar,
+                $parentProviderAndSearch, ['parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray]);
         }
-        return $allSubCategoriesId;
+
+        return $this->render('update', $renderVar);
+
     }
 
-    public function getParentCategoryId($parentCategoryId)
+    public function fieldLoadAndSave($field, $categoryId)
     {
-        $parentsCategoriesId = [];
-        while (!is_null($parentCategoryId) && !empty($parentCategoryId)) {
-            $categoryModel = Category::findOne($parentCategoryId);
-            if (!is_null($categoryModel)) {
-                $parentCategoryId = $categoryModel->parent_id;
-                $parentsCategoriesId [] = $categoryModel->id;
-            } else {
-                $parentCategoryId = null;
+        if ($field->load(Yii::$app->request->post()) && $field->save()) {
+            $post = $_POST;
+            if (isset($post['FieldValue'])) {
+                FieldValueService::eachFieldValueForCreate($post['FieldValue'], $field->id, $post);
             }
+            return $this->redirect('update?id=' . $categoryId);
         }
-        return $parentsCategoriesId;
     }
 
     public function actionPjaxParentCategoryField()
@@ -204,18 +150,15 @@ class CategoryController extends Controller
             if (empty($parentCategoryId)) {
                 return ' ';
             }
-
-            $parentsCategoriesId = $this->getParentCategoryId($parentCategoryId);
-
-            $searchParentField = new FieldSearch();
-            $parentFieldDataProvider = $searchParentField->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
             $thisParentGrid = true;
-            echo 'Характеристики родительской категории';
-            return $this->render('setting_widget', [
-                'thisParentGrid' => $thisParentGrid,
-                'searchModel' => $searchParentField,
-                'dataProvider' => $parentFieldDataProvider,
-            ]);
+            $parentProviderAndSearch = Category::getParentFieldDataProviderAndParentFieldSearch($parentCategoryId);
+            $allFieldValue = FieldValueService::getFieldValue();
+            $parentFieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($parentCategoryId);
+            $renderVar = array_merge(['allFieldValue' => $allFieldValue, 'thisParentGrid' => $thisParentGrid, 'parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray]
+                , $parentProviderAndSearch);
+
+
+            return $this->render('setting_widget', $renderVar);
         }
     }
 

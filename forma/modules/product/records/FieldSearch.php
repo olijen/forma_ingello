@@ -6,6 +6,7 @@ use forma\modules\product\components\SystemWidget;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use forma\modules\product\records\Field;
+use yii\helpers\ArrayHelper;
 
 /**
  * FieldSearch represents the model behind the search form of `forma\modules\product\records\Field`.
@@ -92,6 +93,7 @@ class FieldSearch extends Field
                 'category_id' => $parentCategoryId,
             ]);
         }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
