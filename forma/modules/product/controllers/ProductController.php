@@ -64,9 +64,13 @@ class ProductController extends Controller
 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
-            $currentAndParentField = Field::getCurrentAndParentField($dataProvider, $searchModel);
-            return $this->render('index', $currentAndParentField);
+            $category_id = $_GET['ProductSearch']['category_id'];
+            $currentAndParentField = Field::getCurrentAndParentField($dataProvider, $searchModel, $category_id);
+            $allFieldProductValue = Product::getAllFieldProductValue();
+            $renderVar = array_merge($currentAndParentField, ['allFieldProductValue' => $allFieldProductValue]);
+            return $this->render('index', $renderVar);
         }
 
         return $this->render('index', [
@@ -116,7 +120,7 @@ class ProductController extends Controller
             // категория из обьекта продукта постом
             $field = new Field();
             $parentCategoryId = $category_id;
-            $categoriesId = Category::getParentCategoryId($parentCategoryId);
+            $categoriesId = Category::getCurrentAndParentId($parentCategoryId);
             $fieldAttributes = $field->widgetGetList($categoriesId);
 
             return $this->render('pjax_attribute', [
@@ -139,7 +143,7 @@ class ProductController extends Controller
 
         $category_id = $model->category_id;
         $parentCategoryId = $category_id;
-        $categoriesId = Category::getParentCategoryId($parentCategoryId);
+        $categoriesId = Category::getCurrentAndParentId($parentCategoryId);
         $fieldAttributes = $field->widgetGetList($categoriesId);
 
         if (Yii::$app->request->isPost) {

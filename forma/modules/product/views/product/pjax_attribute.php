@@ -24,42 +24,40 @@ use kartik\daterange\DateRangePicker;
 use kartik\datetime\DateTimePicker;
 
 ?>
-    <a href="/product/category/create"
-       class="btn btn-secondary"
-       onClick="return (confirm('Вы пытаетесь перейти на страницу создания категории, если вы продолжите, ' +
+<a href="/product/category/create"
+   class="btn btn-secondary"
+   onClick="return (confirm('Вы пытаетесь перейти на страницу создания категории, если вы продолжите, ' +
         'все данные с этой страницы не сохранятся!'))?true:false;">
-        Создать новую категорию
-    </a>
-<?php if (isset($category_id)):?>
-    <a href="/product/category/update?id=<?= $category_id?>"
+    Создать новую категорию
+</a>
+<?php if (isset($category_id)): ?>
+    <a href="/product/category/update?id=<?= $category_id ?>"
        class="btn btn-secondary"
        onClick="return (confirm('Вы пытаетесь перейти на страницу редактирования категории,' +
         ' если вы продолжите, все данные с этой страницы не сохранятся!'))?true:false;">
         Редактировать текущую категорию
     </a>
 
-</br> </br>
-<?php endif;?>
+    </br> </br>
+<?php endif; ?>
 <?php
 Pjax::begin([
     'enablePushState' => false,
-]);?>
+]);
 
-<?php if (!empty($fieldAttributes)):?>
+    if (!empty($fieldAttributes)) {
 
-   <?php foreach ($fieldAttributes as $key => $fieldAttribute) {
-        echo SystemWidget::getByName($key, $fieldAttribute, true);
-        echo '</br>';
+        foreach ($fieldAttributes as $key => $fieldAttribute) {
+            echo SystemWidget::getByName($key, $fieldAttribute, true);
+            echo '</br>';
+        }
+    } else {
+
+    echo '</br></br>';
+    echo 'В данной категории нет дополнительных характеристик';
+
     }
-    ?>
-<?php else:?>
-    </br></br>
-<?='В данной категории нет дополнительных характеристик';
-?>
 
-<?php endif;?>
-
-<?php
 Pjax::end();
 ?>
 

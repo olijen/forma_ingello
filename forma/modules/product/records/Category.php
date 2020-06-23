@@ -85,7 +85,7 @@ class Category extends AccessoryActiveRecord
         return EntityLister::getList(self::className());
     }
 
-    public static function getParentCategoryId($parentCategoryId)
+    public static function getCurrentAndParentId($parentCategoryId)
     {
         if (!is_null($parentCategoryId)) {
             while (!is_null($parentCategoryId)) {
@@ -139,7 +139,7 @@ class Category extends AccessoryActiveRecord
 
     public static function getParentFieldDataProviderAndParentFieldSearch($parentCategoryId)
     {
-        $parentsCategoriesId = Category::getParentCategoryId($parentCategoryId);
+        $parentsCategoriesId = Category::getCurrentAndParentId($parentCategoryId);
         $searchParentField = new FieldSearch();
         $parentFieldDataProvider = $searchParentField
             ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);

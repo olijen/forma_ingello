@@ -72,7 +72,6 @@ use yii\widgets\Pjax;
 
             <?php DetachedBlock::end() ?>
 
-
         </div>
         <div class="col-md-6">
             <?php DetachedBlock::begin() ?>
@@ -107,8 +106,6 @@ use yii\widgets\Pjax;
                     ],
                 ]) ?>
             <?php endif; ?>
-
-
 
             <?php
             Pjax::begin(['id' => 'ajax-attributes',]);

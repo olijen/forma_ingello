@@ -86,52 +86,47 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         'rating',
     ];
 
-    if (isset($fieldValues)) {
+    if (isset($fieldsList) && isset($allFieldProductValue)) {
         $params = Yii::$app->request->queryParams;
-        foreach ($fieldValues as $key => $fieldValue) {
+        foreach ($fieldsList as $fieldId => $field) {
 
-            if (isset($params['FieldProductValue']) && isset($params['FieldProductValue'][$key])) {
-                $filter = SystemWidget::gridFilter($key, $fieldValue, false, $params['FieldProductValue'][$key]['null']);
+            if (isset($params['FieldProductValue']) && isset($params['FieldProductValue'][$fieldId])) {
+                $filter = SystemWidget::gridFilter($fieldId, $field, $params['FieldProductValue'][$fieldId]['null']);
             } else {
-                $filter = SystemWidget::gridFilter($key, $fieldValue, false);
+                $filter = SystemWidget::gridFilter($fieldId, $field);
             }
             $dataProvider->setSort([
                 'attributes' =>
                     ArrayHelper::merge($dataProvider->sort->attributes,
                         [
-                            'FieldProductValue' . $key
+                            'FieldProductValue' . $fieldId
                             => [
-                                'label' => $fieldValue->name,
+                                'label' => $field->name,
                             ],
                         ]),
             ]);
             $columns [] = [
-                'label' => $fieldValue->name,
-                'attribute' => 'FieldProductValue' . $key,
-                'value' => function ($model) use ($fieldValue) {
+                'label' => $field->name,
+                'attribute' => 'FieldProductValue' . $fieldId,
+                'value' => function ($model) use ($field, $allFieldProductValue) {
+                    foreach ($allFieldProductValue as $fieldProductValue) {
+                        if($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id){
 
-                    $FieldProductValue = $model->getFieldProductValue($model->id, $fieldValue);
-
-                    $multiSelectValue = json_decode($FieldProductValue);
-
-                    if (is_array($multiSelectValue)) {
-                        $fieldValueArray = \forma\modules\product\records\FieldValue::findAll($multiSelectValue);
-                        if (!empty($fieldValueArray)) {
-                            $fieldValues = '';
-                            foreach ($fieldValueArray as $fieldValue) {
-                                if (empty($fieldValues)) {
-                                    $fieldValues .= $fieldValue->name;
-                                } else {
-                                    $fieldValues .= ', ' . $fieldValue->name;
+                        if (is_array($fieldProductValue->value)) {
+                            $multiSelectFieldProductValues = '';
+                                foreach ($fieldProductValue->value as $multiSelectFieldProductValue) {
+                                    if (empty($multiSelectFieldProductValues)){
+                                        $multiSelectFieldProductValues = $multiSelectFieldProductValue;
+                                    }else{
+                                        $multiSelectFieldProductValues .= ', '. $multiSelectFieldProductValue;
+                                    }
                                 }
-                            }
-                            return $fieldValues;
-                        } else {
-                            return null;
+                            return $multiSelectFieldProductValues;
                         }
+                        return $fieldProductValue->value;
                     }
-
-                    return $FieldProductValue;
+                    }
+                    return null;
                 },
                 'filter' => $filter,
             ];

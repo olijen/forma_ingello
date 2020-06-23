@@ -357,12 +357,12 @@ class SystemWidget
         return $widgetNames;
     }
 
-    public static function gridFilter($key, Field $field, $getLabel, $arrayValue = null)
+    public static function gridFilter($fieldId, Field $field,  $arrayValue = null)
     {
 
         $widgetCall = new SystemWidget;
         $widgetCall->field = $field;
-        $widgetCall->fieldKey = $key;
+        $widgetCall->fieldKey = $fieldId;
 
         $widgetCall->productValue = new FieldProductValue();
         $widgetCall->productValue->id = 'null';
@@ -375,9 +375,7 @@ class SystemWidget
 
             } elseif (isset($arrayValue["value"]) && !empty($arrayValue["value"])) {
                 $widgetCall->productValue->value = $arrayValue['value'];
-
             }
-
         }
 
         $functionName = $field->widget;

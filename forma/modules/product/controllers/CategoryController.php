@@ -123,8 +123,8 @@ class CategoryController extends Controller
         if (!empty($parentCategoryId = $model->parent_id)) {
             $parentProviderAndSearch = Category::getParentFieldDataProviderAndParentFieldSearch($parentCategoryId);
             $parentFieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($parentCategoryId);
-            $renderVar = array_merge($renderVar,
-                $parentProviderAndSearch, ['parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray]);
+            $renderVar = array_merge($renderVar, $parentProviderAndSearch,
+                ['parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray]);
         }
 
         return $this->render('update', $renderVar);

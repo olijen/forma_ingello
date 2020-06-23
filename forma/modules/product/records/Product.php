@@ -156,14 +156,14 @@ class Product extends AccessoryActiveRecord
         return EntityLister::getList(self::className());
     }
 
-    public function getFieldProductValue($id, $value)
+    public function getFieldProductValue($id, $field)
     {
         $fieldProductValue = FieldProductValue::find()
-            ->where(['field_id' => $value->id])
+            ->where(['field_id' => $field->id])
             ->andWhere(['product_id' => $id])
             ->one();
 
-        if ($value->widget === 'widgetDropDownList') {
+        if ($field->widget === 'widgetDropDownList') {
             $dropDownListValueId = $fieldProductValue['value'];
             $fieldValue = FieldValue::findOne($dropDownListValueId);
 //            de($fieldValue->name);  // TODO выдает ошибку Trying to get property 'name' of non-object
@@ -178,5 +178,37 @@ class Product extends AccessoryActiveRecord
         return false;
     }
 
+    public static function getAllFieldProductValue()
+    {
+
+        $allFieldProductValue = FieldProductValue::find()->joinWith(['field'])->all();
+
+        foreach ($allFieldProductValue as $DropDownList) {
+            if ($DropDownList->field->widget == 'widgetDropDownList' && !empty($DropDownList->value)) {
+                foreach ($DropDownList->field->fieldValues as $fieldValue) {
+                    if ($DropDownList->value == $fieldValue->id) {
+                        $DropDownList->value = $fieldValue->name;
+                    }
+                }
+            }
+        }
+
+        foreach ($allFieldProductValue as $MultiSelect) {
+            if ($MultiSelect->field->widget == 'widgetMultiSelect' && !empty($MultiSelect->value)) {
+                $MultiSelect->value = json_decode($MultiSelect->value);
+                $MultiSelectValues = [];
+                foreach ($MultiSelect->value as $multiSelectId) {
+                    foreach ($MultiSelect->field->fieldValues as $fieldValue) {
+                        if ($multiSelectId == $fieldValue->id) {
+                            $MultiSelectValues [] = $fieldValue->name;
+                        }
+                    }
+                }
+                $MultiSelect->value = $MultiSelectValues;
+            }
+        }
+
+        return $allFieldProductValue;
+    }
 
 }
