@@ -31,50 +31,7 @@ $columns = [
     [
         'attribute' => 'widget',
         'value' => function ($model) {
-
-            switch ($model->widget) {
-                case 'widgetColorInput':
-                    return "Цвет";
-                    break;
-                case 'widgetDropDownList':
-                    return "Выпадающий список";
-                    break;
-                case 'widgetDatePicker':
-                    return "Дата";
-                    break;
-                case 'widgetMultiSelect':
-                    return "Мультиселект";
-                    break;
-                case 'widgetTextInput' :
-                    return "Поле ввода";
-                    break;
-                case 'widgetDateTimePicker':
-                    return "Дата и время";
-                    break;
-                case 'widgetDateRangePicker':
-                    return "Промежуток времени";
-                    break;
-                case 'widgetRangeInput':
-                    return "Диапазон";
-                    break;
-                case 'widgetNumberControl':
-                    return "Число";
-                    break;
-                case 'widgetTouchSpin':
-                    return "Каунтер";
-                    break;
-                case 'widgetSwitchInput':
-                    return "Переключатель";
-                    break;
-                case 'widgetTypeahead':
-                    return "Автодополнение";
-                    break;
-                case 'widgetStarRating':
-                    return "Рейтинг";
-                    break;
-
-            }
-            return $model->widget;
+            SystemWidget::getWidgetNamesForGrid($model->widget);
         },
     ],
     [

@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
 ?>
 <div class="category-index">
-
     <p>
         <?= Html::a('Создать категорию', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

@@ -61,59 +61,17 @@ class ProductSearch extends Product
         if (isset($params['FieldProductValue']) ||
             isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
             $query->joinWith(['fieldProductValues']);
+
         }
+
         if (isset($params['FieldProductValue'])) {
-            $FieldProductValues = $params['FieldProductValue'];
-
-            $i = 0;
-            foreach ($FieldProductValues as $fieldId => $productId) {
-                foreach ($productId as $fieldProductValue) {
-                    $sqlFieldProductValue = '';
-                    if (isset($fieldProductValue["multiSelect"]['value']) && !empty($fieldProductValue["multiSelect"]['value'])) {
-                        $fieldValueMultiSelectIds = $fieldProductValue["multiSelect"]['value'];
-                            foreach ($fieldValueMultiSelectIds as $fieldValueMultiSelectId) {
-                                if (empty($sqlFieldProductValue)) {
-                                    $sqlFieldProductValue .= '\'%"' . $fieldValueMultiSelectId . '"%\'';
-                                } else {
-                                    $sqlFieldProductValue .= ' and value like \'%"' . $fieldValueMultiSelectId . '"%\'';
-                                }
-                            }
-                    } elseif (isset($fieldProductValue['value']) && !empty($fieldProductValue['value']) || $fieldProductValue['value'] === '0') {
-                        $sqlFieldProductValue = '\'%' . $fieldProductValue['value'] . '%\'';
-                    }
-
-                    if (!empty($sqlFieldProductValue)) {
-                        $sql = '`value` = ANY (SELECT value
-                         FROM `field_product_value`
-                         WHERE value LIKE ' . $sqlFieldProductValue . ' and `field_id` = ' . $fieldId . ')';
-                        if ($i === 0) {
-                            $query->andWhere($sql);
-                            $i++;
-                        } else {
-                            $query->orWhere($sql);
-                        }
-                    }
-                }
-            }
+            $query = FieldProductValue::getSqlFieldProductValueFilter($query, $params['FieldProductValue']);
         }
 
         if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
-            $sortFieldProductValue = $params['sort'];
-            if (stristr($sortFieldProductValue, '-')) {
-                $sortFieldProductValue[0] = ' ';
-                $sortFieldProductValue = trim($sortFieldProductValue);
-            }
-            $dataProvider->setSort([
-                'attributes' =>
-                    ArrayHelper::merge($dataProvider->sort->attributes,
-                        [
-                            $sortFieldProductValue
-                            => [
-                                'asc' => ['field_product_value.value' => SORT_ASC],
-                                'desc' => ['field_product_value.value' => SORT_DESC],
-                            ],
-                        ]),
-            ]);
+            $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
+        }else{
+            $query->groupBy(['product.id']);
         }
 
         $this->load($params);

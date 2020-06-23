@@ -110,7 +110,14 @@ class CategoryController extends Controller
             return $this->redirect(['index']);
         }
         $allFieldValue = FieldValueService::getFieldValue();
-        $renderVar = [
+        $renderVar = [];
+        if (!empty($parentCategoryId = $model->parent_id)) {
+            $parentProviderAndSearch = Category::getParentFieldDataProviderAndParentFieldSearch($parentCategoryId);
+            $parentFieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($parentCategoryId);
+            $renderVar = array_merge($parentProviderAndSearch,
+                ['parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray]);
+        }
+        $renderVar = array_merge($renderVar, [
             'model' => $model,
             'field' => $field,
             'subCategoriesId' => $subCategoriesId,
@@ -119,13 +126,7 @@ class CategoryController extends Controller
             'allFieldValue' => $allFieldValue,
             'fieldValuesNameFilterArray' => $fieldValuesNameFilterArray,
             'possibleCategories' => $possibleCategories,
-        ];
-        if (!empty($parentCategoryId = $model->parent_id)) {
-            $parentProviderAndSearch = Category::getParentFieldDataProviderAndParentFieldSearch($parentCategoryId);
-            $parentFieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($parentCategoryId);
-            $renderVar = array_merge($renderVar, $parentProviderAndSearch,
-                ['parentFieldValuesNameFilterArray' => $parentFieldValuesNameFilterArray]);
-        }
+        ]);
 
         return $this->render('update', $renderVar);
 

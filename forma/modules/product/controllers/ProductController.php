@@ -61,9 +61,7 @@ class ProductController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductSearch();
-
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
 
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
             $category_id = $_GET['ProductSearch']['category_id'];
