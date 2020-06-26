@@ -79,30 +79,20 @@ class ProductController extends Controller
 
     public function actionCreate()
     {
-        if (Yii::$app->request->isAjax) {
-            $model = ProductService::save(null, Yii::$app->request->post());
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $model = ProductService::save(null, $post);
-            $productId = $model->id;
 
             if (isset($post['FieldProductValue'])) {
-                $fieldProductValues = $post['FieldProductValue'];
-                FieldProductValue::eachFieldProductValueSave($fieldProductValues, $productId);
+                FieldProductValue::eachFieldProductValueSave($post['FieldProductValue'], $model->id);
             }
 
             return $this->redirect(['index']);
         }
         $model = ProductService::create();
         $field = new Field();
-        $fieldAttributes = null;
         return $this->render('create', [
             'model' => $model,
-            'fieldAttributes' => $fieldAttributes,
             'field' => $field,
         ]);
 
