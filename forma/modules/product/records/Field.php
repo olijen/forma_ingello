@@ -113,13 +113,10 @@ class Field extends \yii\db\ActiveRecord
 
     public function widgetGetList($categoriesId)
     {
-        $query = Field::find()
-            ->indexBy('id');
-        foreach ($categoriesId as $categoryId) {
-            $query->orWhere(['category_id' => $categoryId]);
-        }
-        $query = $query->all();
-        return $query;
+        return Field::find()
+            ->indexBy('id')
+            ->orWhere(['category_id' => $categoriesId])
+            ->all();
     }
 
     public static function getCurrentAndParentField($dataProvider, $searchModel, $category_id)

@@ -88,31 +88,39 @@ class Category extends AccessoryActiveRecord
     public static function getCurrentAndParentId($parentCategoryId)
     {
         if (!is_null($parentCategoryId)) {
+            $currentAndParentId = [];
+            $allModel = self::find()->all();
             while (!is_null($parentCategoryId)) {
-                $categoryModel = self::findOne($parentCategoryId);
-                if (!is_null($categoryModel)) {
-                    $parentCategoryId = $categoryModel->parent_id;
-                    $parentsCategoriesId [] = $categoryModel->id;
-                } else {
-                    $parentCategoryId = null;
+                foreach ($allModel as $model) {
+                    if ($model->id === $parentCategoryId) {
+                        $currentAndParentId [] = $parentCategoryId;
+                        $parentCategoryId = $model->parent_id;
+                    }
                 }
             }
-            return $parentsCategoriesId;
+            return $currentAndParentId;
         }
         return false;
     }
 
-    public static function getDropDownListPossibleCategories($currentCategoryId)
+    public static function getDropDownListPossibleCategories($categoryId)
     {
-        $allSubCategoriesId = [];
-        $subCategories = self::find()->andWhere(['parent_id' => $currentCategoryId])->all();// массив обьектов
-        while (!empty($subCategories)) {
-            $subCategories2 = self::find();
-            foreach ($subCategories as $subCategory) {
-                $allSubCategoriesId [] = $subCategory->id;
-                $subCategories2 = $subCategories2->orWhere(['parent_id' => $subCategory->id]);
+
+        $allSubCategoriesId [] = $categoryId;
+        $currentCategoryId [] = $categoryId;
+
+        $allModel = self::find()->all();
+        while (!empty($currentCategoryId)) {
+            $currentCategoriesId = [];
+            foreach ($currentCategoryId as $id) {
+                foreach ($allModel as $model) {
+                    if ($model->parent_id === $id) {
+                        $allSubCategoriesId [] = $model->id;
+                        $currentCategoriesId [] = $model->id;
+                    }
+                }
+                $currentCategoryId = $currentCategoriesId;
             }
-            $subCategories = $subCategories2->all();
         }
         return $allSubCategoriesId;
     }
