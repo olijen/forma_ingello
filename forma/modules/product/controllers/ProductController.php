@@ -117,10 +117,7 @@ class ProductController extends Controller
                 'fieldAttributes' => $fieldAttributes,
             ]);
 
-        } else {
-            return 'Все плохо (actionPjaxAttribute)';
         }
-
     }
 
 
@@ -130,8 +127,7 @@ class ProductController extends Controller
         $field = new Field();
 
         $category_id = $model->category_id;
-        $parentCategoryId = $category_id;
-        $categoriesId = Category::getCurrentAndParentId($parentCategoryId);
+        $categoriesId = Category::getCurrentAndParentId($category_id);
         $fieldAttributes = $field->widgetGetList($categoriesId);
 
         if (Yii::$app->request->isPost) {

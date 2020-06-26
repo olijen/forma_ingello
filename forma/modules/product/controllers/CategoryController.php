@@ -94,11 +94,10 @@ class CategoryController extends Controller
         }
         $model = $this->findModel($id);
         $field = new Field();
-        $currentCategoryId = $model->id;
 
-        $subCategoriesId = Category::getDropDownListPossibleCategories($currentCategoryId);
-        $possibleCategories = Category::getPossibleCategories($subCategoriesId, $currentCategoryId);
-        $fieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($currentCategoryId);
+        $subCategoriesId = Category::getDropDownListPossibleCategories($model->id);
+        $possibleCategories = Category::getPossibleCategories($subCategoriesId, $model->id);
+        $fieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($model->id);
 
         $searchModel = new FieldSearch();
         $searchModel->category_id = $model->id;
