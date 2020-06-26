@@ -40,7 +40,7 @@ class FieldSearch extends Field
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $parentsCategoriesId = null)
     {
         $query = Field::find();
 
@@ -56,47 +56,16 @@ class FieldSearch extends Field
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if (!empty($parentsCategoriesId)) {
+            $this->category_id = $parentsCategoriesId;
         }
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
-        ]);
-
-        $query->andFilterWhere(['like', 'widget', $this->widget])
-            ->andFilterWhere(['like', 'name', $this->name]);
-
-        return $dataProvider;
-    }
-
-    public function searchAllFieldsParentCategory($params, $parentsCategoriesId)
-    {
-        $query = Field::find();
-
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
-        foreach ($parentsCategoriesId as $parentCategoryId){
-            $query->orWhere([
-                'category_id' => $parentCategoryId,
-            ]);
-        }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
         ]);
 
         $query->andFilterWhere(['like', 'widget', $this->widget])

@@ -92,7 +92,7 @@ class Category extends AccessoryActiveRecord
             $allModel = self::find()->all();
             while (!is_null($parentCategoryId)) {
                 foreach ($allModel as $model) {
-                    if ($model->id === $parentCategoryId) {
+                    if ($model->id == $parentCategoryId) {
                         $currentAndParentId [] = $parentCategoryId;
                         $parentCategoryId = $model->parent_id;
                     }
@@ -150,7 +150,8 @@ class Category extends AccessoryActiveRecord
         $parentsCategoriesId = Category::getCurrentAndParentId($parentCategoryId);
         $searchParentField = new FieldSearch();
         $parentFieldDataProvider = $searchParentField
-            ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
+            ->search(Yii::$app->request->queryParams, $parentsCategoriesId);
+
         return ['searchParentField' => $searchParentField, 'parentFieldDataProvider' => $parentFieldDataProvider,];
     }
 }
