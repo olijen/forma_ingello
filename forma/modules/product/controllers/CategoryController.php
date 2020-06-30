@@ -81,6 +81,8 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
+
+
     public function actionUpdate($id)
     {
         if (Yii::$app->request->isPjax) {
@@ -95,8 +97,8 @@ class CategoryController extends Controller
         $model = $this->findModel($id);
         $field = new Field();
 
-        $subCategoriesId = Category::getDropDownListPossibleCategories($model->id);
-        $possibleCategories = Category::getPossibleCategories($subCategoriesId, $model->id);
+        $subAndCurrentCategoriesId = Category::getDropDownListPossibleCategories($model->id);
+        $possibleCategories = Category::getPossibleCategories($subAndCurrentCategoriesId);
         $fieldValuesNameFilterArray = FieldValueService::getFieldValuesNameFilterArray($model->id);
 
         $searchModel = new FieldSearch();
@@ -119,7 +121,6 @@ class CategoryController extends Controller
         $renderVar = array_merge($renderVar, [
             'model' => $model,
             'field' => $field,
-            'subCategoriesId' => $subCategoriesId,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'allFieldValue' => $allFieldValue,

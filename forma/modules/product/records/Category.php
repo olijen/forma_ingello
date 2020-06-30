@@ -106,7 +106,7 @@ class Category extends AccessoryActiveRecord
     public static function getDropDownListPossibleCategories($categoryId)
     {
 
-        $allSubCategoriesId [] = $categoryId;
+        $subAndCurrentCategoriesId [] = $categoryId;
         $currentCategoryId [] = $categoryId;
 
         $allModel = self::find()->all();
@@ -115,17 +115,17 @@ class Category extends AccessoryActiveRecord
             foreach ($currentCategoryId as $id) {
                 foreach ($allModel as $model) {
                     if ($model->parent_id === $id) {
-                        $allSubCategoriesId [] = $model->id;
+                        $subAndCurrentCategoriesId [] = $model->id;
                         $currentCategoriesId [] = $model->id;
                     }
                 }
                 $currentCategoryId = $currentCategoriesId;
             }
         }
-        return $allSubCategoriesId;
+        return $subAndCurrentCategoriesId;
     }
 
-    public static function getPossibleCategories($subCategoriesId = null, $currentCategoryId = null)
+    public static function getPossibleCategories($subCategoriesId = null)
     {
         $categories = Category::find()
             ->joinWith(['accessory'])
@@ -133,16 +133,12 @@ class Category extends AccessoryActiveRecord
             ->andWhere(['accessory.entity_class' => Category::className()]);
 
         if (isset($subCategoriesId) && !empty($subCategoriesId)) {
-            foreach ($subCategoriesId as $subCategoryId) {
-                $categories = $categories->andWhere(['<>', 'category.id', $subCategoryId]);
-            }
-        }
-        if (!is_null($currentCategoryId)) {
-            $categories = $categories->andWhere(['<>', 'category.id', $currentCategoryId]);
+            
+            count($subCategoriesId) === 1 ? $subCategoriesId = $subCategoriesId[0] : false;
+            $categories->andWhere(['<>', 'category.id', $subCategoriesId]);
         }
 
-        $categories = $categories->all();
-        return $categories;
+        return $categories->all();
     }
 
     public static function getParentFieldDataProviderAndParentFieldSearch($parentCategoryId)
