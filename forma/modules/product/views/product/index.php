@@ -90,7 +90,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         $params = Yii::$app->request->queryParams;
         foreach ($fieldsList as $fieldId => $field) {
 
-            if (isset($params['FieldProductValue']) && isset($params['FieldProductValue'][$fieldId])) {
+            if (isset($params['FieldProductValue'][$fieldId])) {
                 $filter = SystemWidget::gridFilter($fieldId, $field, $params['FieldProductValue'][$fieldId]['null']);
             } else {
                 $filter = SystemWidget::gridFilter($fieldId, $field);

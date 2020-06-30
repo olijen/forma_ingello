@@ -63,18 +63,16 @@ class ProductController extends Controller
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $renderVar = ['searchModel' => $searchModel,
+                      'dataProvider' => $dataProvider,];
+
         if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
-            $category_id = $_GET['ProductSearch']['category_id'];
-            $currentAndParentField = Field::getCurrentAndParentField($dataProvider, $searchModel, $category_id);
+            $currentAndParentField = Field::getCurrentAndParentField($dataProvider, $searchModel, $_GET['ProductSearch']['category_id']);
             $allFieldProductValue = Product::getAllFieldProductValue();
             $renderVar = array_merge($currentAndParentField, ['allFieldProductValue' => $allFieldProductValue]);
-            return $this->render('index', $renderVar);
         }
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index', $renderVar);
     }
 
     public function actionCreate()
@@ -153,8 +151,7 @@ class ProductController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionDelete($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -179,8 +176,7 @@ class ProductController extends Controller
      * @return Product the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected
-    function findModel($id)
+    protected function findModel($id)
     {
         if (($model = Product::findOne($id)) !== null) {
             return $model;
@@ -189,28 +185,7 @@ class ProductController extends Controller
         }
     }
 
-//    public
-//    function actionSearch($term)
-//    {
-//        if (Yii::$app->request->isAjax) {
-//            $results = Product::find()
-//                ->joinWith(['manufacturer', 'category'], false, 'INNER JOIN')
-//                ->select(['product.id', 'product.name as label'])
-//                ->where(['or',
-//                    ['like', 'product.name', $term],
-//                    ['like', 'product.sku', $term],
-//                    ['like', 'manufacturer.name', $term],
-//                    ['like', 'category.name', $term],
-//                ])
-//                ->asArray()
-//                ->all();
-//
-//            echo json_encode($results);
-//        }
-//    }
-
-    public
-    function actionGetSku()
+    public function actionGetSku()
     {
         if (Yii::$app->request->isAjax) {
             $sku = SkuGenerator::generate(Yii::$app->request->post()['Product']);
@@ -219,8 +194,7 @@ class ProductController extends Controller
         }
     }
 
-    public
-    function actionImportExcel()
+    public function actionImportExcel()
     {
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -235,97 +209,8 @@ class ProductController extends Controller
         }
     }
 
-    public
-    function actionAddPacksUnits()
-    {
-        $productId = Yii::$app->request->post()['Product']['id'];
-        $packsUnitsIds = Yii::$app->request->post()['Product']['packUnits'];
 
-        $productPackUnit = new ProductPackUnit;
-        $productPackUnit->deleteAll(['in', 'product_id', $productId]);
-
-        $packsUnitsIds = (array)$packsUnitsIds;
-        $packsUnitsIds[] = PackUnit::findOne(['bottles_quantity' => 1])->id;
-
-        $model = $this->findModel($productId);
-
-        foreach ($packsUnitsIds as $packUnitId) {
-            if (strpos($packUnitId, '/') !== false) {
-                $packUnit = new PackUnit;
-                $packUnit->name = explode('/', $packUnitId)[0];
-                $packUnit->bottles_quantity = explode('/', $packUnitId)[1];
-                $packUnit->save();
-                $packUnitId = $packUnit->id;
-            }
-
-            $productPackUnit->isNewRecord = true;
-            $productPackUnit->id = null;
-
-            $productPackUnit->setAttributes([
-                'product_id' => $productId,
-                'pack_unit_id' => $packUnitId,
-            ]);
-
-            $productPackUnit->save();
-
-            ProductService::cloneByPackUnit($model, PackUnit::findOne($packUnitId));
-        }
-
-        return $this->render('packs-units', compact('model'));
-    }
-
-    public
-    function actionDownloadExampleFile()
-    {
-        $filePath = Yii::getAlias('@app') . '/import/example.xls';
-
-        header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Cache-Control: private', false);
-        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . filesize($filePath));
-
-        readfile($filePath);
-        die;
-    }
-
-//    public
-//    function actionGetPackUnits()
-//    {
-//        $response = ['success' => false];
-//
-//        $productId = Yii::$app->request->post('productId');
-//        if ($productId) {
-//            $response['data'] = PackUnitService::getAllByProduct($productId);
-//            $response['success'] = true;
-//        }
-//
-//        Yii::$app->response->format = Response::FORMAT_JSON;
-//        return $response;
-//    }
-
-//    public
-//    function actionGetPackUnitsOnWarehouse()
-//    {
-//        $response = ['success' => false];
-//
-//        $productId = Yii::$app->request->post('productId');
-//        $warehouseId = Yii::$app->request->post('warehouseId');
-//
-//        if ($productId && $warehouseId) {
-//            $response['data'] = PackUnitService::getAllByProduct($productId, $warehouseId);
-//            $response['success'] = true;
-//        }
-//
-//        Yii::$app->response->format = Response::FORMAT_JSON;
-//        return $response;
-//    }
-
-    public
-    static function actionGetVariationByPackUnit()
+    public static function actionGetVariationByPackUnit()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['success' => true];
@@ -340,8 +225,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    public
-    function actionCheckAvailable()
+    public function actionCheckAvailable()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['success' => true];
@@ -353,8 +237,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    public
-    function actionSearchBySupplier($purchaseId, $q)
+    public function actionSearchBySupplier($purchaseId, $q)
     {
         /** @var Purchase $purchase */
         $purchase = PurchaseService::get($purchaseId);
@@ -372,8 +255,7 @@ class ProductController extends Controller
         throw new ForbiddenHttpException;
     }
 
-    public
-    function actionSearchForPurchase($purchaseId, $q)
+    public function actionSearchForPurchase($purchaseId, $q)
     {
         /** @var Purchase $purchase */
         $purchase = PurchaseService::get($purchaseId);

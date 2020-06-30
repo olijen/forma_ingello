@@ -133,7 +133,7 @@ class Category extends AccessoryActiveRecord
             ->andWhere(['accessory.entity_class' => Category::className()]);
 
         if (isset($subCategoriesId) && !empty($subCategoriesId)) {
-            
+
             count($subCategoriesId) === 1 ? $subCategoriesId = $subCategoriesId[0] : false;
             $categories->andWhere(['<>', 'category.id', $subCategoriesId]);
         }
