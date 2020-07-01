@@ -134,7 +134,7 @@ class Category extends AccessoryActiveRecord
 
         if (isset($subCategoriesId) && !empty($subCategoriesId)) {
 
-            count($subCategoriesId) === 1 ? $subCategoriesId = $subCategoriesId[0] : false;
+            count($subCategoriesId) === 1 ?: $subCategoriesId = $subCategoriesId[0];
             $categories->andWhere(['<>', 'category.id', $subCategoriesId]);
         }
 
