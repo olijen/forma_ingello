@@ -37,19 +37,17 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
-        $model->selling_token = Yii::$app->getSecurity()->generateRandomString();
+        $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
+
+        $state_id = State::find()
+            ->where(['user_id'=> Yii::$app->user->id])
+            ->orderBy('order')
+            ->one()
+            ->id;
+        $model->state_id = $state_id;
 
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
-        }
-
-        $userState = State::find()
-            ->where(['user_id' => Yii::$app->user->getId()])
-            ->orderBy('order')
-            ->one();
-
-        if ($userState) {
-            $model->state_id = $userState->id;
         }
 
         $model->load($post);
@@ -58,6 +56,7 @@ class SellingService
             die;
         }
 
+        $model->name .= strval($model->id);
         $model->save();
 
         if (isset($warehouseId) && $model->warehouse_id != $warehouseId) {

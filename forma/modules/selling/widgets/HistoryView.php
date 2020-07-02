@@ -25,4 +25,6 @@ class HistoryView extends Widget
         if ($this->onlyDialog) return $this->render('history_dialog', compact('model', 'talk'));
         return $this->render('history', compact('model', 'talk', 'history'));
     }
+
+
 }

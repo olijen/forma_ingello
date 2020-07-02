@@ -44,14 +44,14 @@ class AccessoryActiveRecord extends ActiveRecord
         $name = explode('Search!!!', $name.'!!!')[0];
         $query->andFilterWhere(['in', strtolower($name).'.id', $accessedIds]);
     }
-
+// todo: немного подругому описать токен, не пустой, не тот который есть в БД
     public function afterSave($insert, $changedAttributes)
     {
         if (empty(Accessory::find()->where([
             'entity_class' => get_class($this),
             'entity_id' => $this->id,
             'user_id' => Yii::$app->getUser()->id,
-        ])->one()) && !isset($this->selling_token)) {
+        ])->one()) && !isset($_GET['selling_token'])) {
             $this->createAccessoryToUser();
         }
         parent::afterSave($insert, $changedAttributes);
