@@ -43,6 +43,8 @@ class MainController extends Controller
     {
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //Yii::debug("PROVIDER ON PAGE");
+        //Yii::debug($dataProvider);
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
@@ -66,7 +68,6 @@ class MainController extends Controller
     public function actionShowSelling(){
 
         $this->layout = 'blank';
-
         $selling_token = null;
         if(isset($_GET['selling_token'])){
             $selling_token = $_GET['selling_token'];
@@ -75,23 +76,25 @@ class MainController extends Controller
             $selling_token = $_COOKIE['selling_token'];
             $_GET['selling_token'] = $_COOKIE['selling_token'];
         }
+
+
         $selling = Selling::findOne(['selling_token'=>$selling_token]);
         $state = State::findOne(['id' => $selling->state_id]);
         $customer = $selling->customer;
-
+        $googleLink = $this->googleEmailChange($customer, $selling_token);
         if(\Yii::$app->request->isPjax && isset($_GET['Customer']['chief_email'])){
             $customer->chief_email = $_GET['Customer']['chief_email'];
+            $customer->selling_token = $selling_token;
             $customer->save();
-            return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state'));
+            return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state','googleLink'));
         }
 
-        $googleButton = $this->googleEmailChange($customer, $selling_token);
 
-        return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state', 'googleButton'));
+
+        return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state', 'googleLink'));
     }
 
     public function googleEmailChange(Customer $customer, $selling_token){
-        //todo перенести переменные в конфигурацию
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
         $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
@@ -115,14 +118,16 @@ class MainController extends Controller
         // $_GET['code'] присылает гугл после авторизации в его форме и перебросе пользователя на указанный
         // $redirectUri.
         if (isset($_GET['code'])) {
+            header("Location: http://".$_SERVER['HTTP_HOST']."/selling/main/show-selling?selling-token=".$_COOKIE['selling_token']);
             $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
             $client->setAccessToken($token['access_token']);
-
             $google_oauth = new Google_Service_Oauth2($client);
             $google_account_info = $google_oauth->userinfo->get();
             $email =  $google_account_info->email;
             $customer->chief_email = $email;
             $customer->save();
+            Yii::$app->getResponse()->redirect(Url::to(['/selling/main/show-selling?selling_token='.$_COOKIE['selling_token']]));
+
 
         }
         return $client->createAuthUrl();

@@ -141,4 +141,11 @@ class InterviewService
         return $interviewProgress;
     }
     // todo: Вынести в виджет
+
+
+
+    public static function getInterviewWork(){
+        $searchModel = self::search();
+        $searchModel->searchWork();
+    }
 }

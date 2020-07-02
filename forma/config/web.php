@@ -1,5 +1,6 @@
 <?php
 
+use yii\db\ActiveRecord;
 use yii\web\AssetBundle;
 
 $params = require(__DIR__ . '/params.php');
@@ -21,6 +22,39 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'on beforeAction' => function($event) {
+
+        yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_INSERT, function ($event) {
+
+            $model = $event->sender;
+            $classNameWithNS = $event->sender::className();
+            $className = explode('\\', $event->sender::className())[count(explode('\\', $event->sender::className()))-1];
+
+            $blackListOfEvents = [
+                'SystemEvent', 'Accessory'
+            ];
+
+            if (in_array($className, $blackListOfEvents)) {
+                return false;
+            }
+
+            $objectName = $model->name ?? $model->title ?? '';
+
+
+            //
+            $systemEvent = new \forma\modules\core\records\SystemEvent();
+            $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
+            $systemEvent->date_time = date('Y-m-d H:i:s');
+            $systemEvent->module = 'Modpule'; //$modules[$className];
+            //$systemEvent->district = $districts[$this->module];
+            //Yii::debug($systemEvent . '----- user');
+            $systemEvent->data = $className . ' Created: "/*$objectName*/" user '.$systemEvent->user_id;
+            if (!$systemEvent->save()) {
+                throw new \Exception(json_encode($systemEvent->errors));
+            }
+        });
+
+    },
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

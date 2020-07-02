@@ -91,4 +91,8 @@ class User extends \yii\db\ActiveRecord
     {
        return self::find()->where(['id' => $this->parent_id])->all();
     }
+
+    public function getEmail(){
+        return $this->email;
+    }
 }

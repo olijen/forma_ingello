@@ -5,6 +5,7 @@ namespace forma\modules\core\controllers;
 use Yii;
 use forma\modules\core\records\SystemEvent;
 use forma\modules\core\records\SystemEventSearch;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,9 +39,19 @@ class SystemEventController extends Controller
         $searchModel = new SystemEventSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $query = $searchModel->search(Yii::$app->request->queryParams);
+        //$query = SystemEventSearch::find()->where(['user_id' => 77]);
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->query->count()]);
+        $systemEventsRows = $countQuery->query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'systemEventsRows'=> $systemEventsRows,
+            'pages' => $pages
         ]);
     }
 
