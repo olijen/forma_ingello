@@ -16,9 +16,9 @@ if (DB_MODE == 'docker') {
     //REMOTE
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=ingello.com;dbname=warehouse;port=3301',
+        'dsn' => 'mysql:host=ingello.com;dbname=forma;port=3306',
         'username' => 'root',
-        'password' => 'root',
+        'password' => 'rootingello138096152382',
         'charset' => 'utf8',
     ];
 } elseif (DB_MODE == 'custom') {
