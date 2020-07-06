@@ -37,19 +37,17 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
-        $model->selling_token = Yii::$app->getSecurity()->generateRandomString();
+        $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
+
+        $state_id = State::find()
+            ->where(['user_id'=> Yii::$app->user->id])
+            ->orderBy('order')
+            ->one()
+            ->id;
+        $model->state_id = $state_id;
 
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
-        }
-
-        $userState = State::find()
-            ->where(['user_id' => Yii::$app->user->getId()])
-            ->orderBy('order')
-            ->one();
-
-        if ($userState) {
-            $model->state_id = $userState->id;
         }
 
         $model->load($post);
@@ -58,6 +56,7 @@ class SellingService
             die;
         }
 
+        $model->name .= strval($model->id);
         $model->save();
 
         if (isset($warehouseId) && $model->warehouse_id != $warehouseId) {
@@ -159,4 +158,36 @@ class SellingService
         return $sellingProgress;
     }
     // todo: Вынести в виджет
+
+
+    public static function getLastClientsToHeader(){
+        $searchModelClientsHeader = self::search();
+        $clientsHeader = $searchModelClientsHeader->searchLastClients();
+        return $clientsHeader;
+    }
+
+    public static function getSellingInWeek(){
+        $searchModel = self::search();
+        $weekly = $searchModel->weeklySales();
+
+        $dates = [];
+
+        foreach($weekly as $sale){
+            $dates[] = date("w", strtotime(substr($sale->date_create, 0, 10)));
+        }
+
+        $week = [0, 0, 0, 0, 0, 0, 0];
+
+        foreach($dates as $dateSale){
+            $week[$dateSale]++;
+        }
+
+        return $week;
+    }
+
+    public static function getSellingInWarehouse(){
+        $searchModel = self::search();
+        $sellingInWarehouse = $searchModel->salesInWarehouse();
+        return $sellingInWarehouse;
+    }
 }

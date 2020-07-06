@@ -110,19 +110,22 @@ use yii\widgets\Pjax;
             <?php
             Pjax::begin(['id' => 'ajax-attributes',]);
             ?>
-            <?php if (isset($category_id)):?>
+            <?php if (isset($category_id)): ?>
                 <?= $this->render('pjax_attribute', [
                     'field' => $field,
                     'category_id' => $category_id,
                     'fieldAttributes' => $fieldAttributes,
-                ]);?>
-            <?php else:?>
+                ]); ?>
+            <?php else: ?>
 
-            <?= $this->render('pjax_attribute', [
-            'field' => $field,
-            'fieldAttributes' => $fieldAttributes,
-            ]);?>
-            <?php endif;?>
+
+                <?php
+                $renderPjaxAttribute = ['field' => $field,];
+                if (isset($fieldAttributes)) {
+                    $renderPjaxAttribute = array_merge(['fieldAttributes' => $fieldAttributes,], $renderPjaxAttribute);
+                }
+                echo $this->render('pjax_attribute', $renderPjaxAttribute); ?>
+            <?php endif; ?>
             <?php Pjax::end();
             DetachedBlock::end(); ?>
         </div>

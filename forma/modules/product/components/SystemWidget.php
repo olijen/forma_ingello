@@ -242,7 +242,7 @@ class SystemWidget
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
-            'tristate' => true
+            'tristate' => true,
         ]);
     }
 
@@ -269,20 +269,23 @@ class SystemWidget
 
     public static function manyValuesWidgets($widget)
     {
-      if  ($widget == 'widgetDropDownList' || $widget == 'widgetMultiSelect' ||$widget == 'widgetTypeahead'){
-          return true;
-      }
-      return false;
-    }
-
-    public static function oneIsMainValue($widget){
-        if ($widget == 'widgetDropDownList' ||  $widget == 'widgetTypeahead'){
+        if ($widget == 'widgetDropDownList' || $widget == 'widgetMultiSelect' || $widget == 'widgetTypeahead') {
             return true;
         }
         return false;
     }
-    public static function manyIsMainValue($widget){
-        if ($widget == 'widgetMultiSelect'){
+
+    public static function oneIsMainValue($widget)
+    {
+        if ($widget == 'widgetDropDownList' || $widget == 'widgetTypeahead') {
+            return true;
+        }
+        return false;
+    }
+
+    public static function manyIsMainValue($widget)
+    {
+        if ($widget == 'widgetMultiSelect') {
             return true;
         }
         return false;
@@ -325,7 +328,8 @@ class SystemWidget
         echo Html::label($this->field->name, 'username', ['class' => 'control-label']);
     }
 
-    public static function getWidgetNamesForGrid($widget){
+    public static function getWidgetNamesForGrid($widget)
+    {
         switch ($widget) {
             case 'widgetColorInput':
                 return "Цвет";
@@ -370,6 +374,7 @@ class SystemWidget
         }
         return $widget;
     }
+
     public static function setWidgetValueNames($widgetNames)
     {
         ArrayHelper::setValue($widgetNames, 'widgetColorInput', 'Цвет');
@@ -403,9 +408,8 @@ class SystemWidget
         return $widgetNames;
     }
 
-    public static function gridFilter($fieldId, Field $field,  $arrayValue = null)
+    public static function gridFilter($fieldId, Field $field, $arrayValue = null)
     {
-
         $widgetCall = new SystemWidget;
         $widgetCall->field = $field;
         $widgetCall->fieldKey = $fieldId;
@@ -413,13 +417,13 @@ class SystemWidget
         $widgetCall->productValue = new FieldProductValue();
         $widgetCall->productValue->id = 'null';
         $widgetCall->productValue->field_id = $field->id;
-        $widgetCall->productValue->value = '';
+
 
         if (isset($arrayValue)) {
             if (isset($arrayValue['multiSelect']["value"]) && !empty($arrayValue['multiSelect']["value"])) {
                 $widgetCall->productValue->value = $arrayValue['multiSelect']["value"];
 
-            } elseif (isset($arrayValue["value"]) && !empty($arrayValue["value"])) {
+            } elseif (isset($arrayValue["value"])) {
                 $widgetCall->productValue->value = $arrayValue['value'];
             }
         }

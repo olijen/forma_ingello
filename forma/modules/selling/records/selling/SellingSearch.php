@@ -3,6 +3,7 @@
 namespace forma\modules\selling\records\selling;
 
 use forma\modules\core\records\User;
+use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -45,27 +46,8 @@ class SellingSearch extends Selling
      */
     public function search($params)
     {
-        $user = \Yii::$app->getUser()->getIdentity();
-        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
-        $condition = '';
 
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
-        }
-
-        foreach (User::find()->where($condition)->all() as $user) {
-            array_push($ids, $user->id);
-        }
-
-        $query = Selling::find()->joinWith(['accessory'])
-            ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
-            ->where(['warehouse_user.user_id' => Yii::$app->user->id])
-            ->andWhere(['in', 'accessory.user_id', $ids])
-            ->andWhere(['accessory.entity_class' => Selling::className()]);
+        $query = $this->getStartQuery();
 
 //        $query->join('join', 'state', 'state.id = selling.state_id ')
 //            ->andWhere(['state.user_id' => Yii::$app->user->id]);
@@ -103,6 +85,52 @@ class SellingSearch extends Selling
             $query->andFilterWhere(DateRangeHelper::getDateRangeCondition($attribute, $this->$rangeAttribute));
         }
 
+
         return $dataProvider;
+    }
+
+    public function getStartQuery(){
+        $user = \Yii::$app->getUser()->getIdentity();
+        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
+        $condition = '';
+
+        if ($user->parent_id != null) {
+            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
+            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
+        } else {
+            // Выбирает себя (начальника, реферера) и всех рефералов.
+            $condition = "parent_id = {$user->id} OR id = {$user->id}";
+        }
+
+        foreach (User::find()->where($condition)->all() as $user) {
+            array_push($ids, $user->id);
+        }
+
+        $query = Selling::find()->joinWith(['accessory'])
+            ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
+            ->where(['warehouse_user.user_id' => Yii::$app->user->id])
+            ->andWhere(['in', 'accessory.user_id', $ids])
+            ->andWhere(['accessory.entity_class' => Selling::className()]);
+
+        return $query;
+    }
+
+    public function searchLastClients(){
+        $query = $this->getStartQuery();
+        return $query->orderBy(['id' => SORT_DESC])->limit(5)->all();
+    }
+
+
+    //todo: добавить селект на поля как минимум date_complete, id
+    public function weeklySales(){
+        $query = $this->getStartQuery();
+        $order_id = State::find()->select(['id'])->where(['user_id' => Yii::$app->user->id])->orderBy(['order' => SORT_DESC])->limit(1)->all();
+        return $query = $query->andWhere(['state_id' => $order_id[0]->id])->all();
+    }
+
+    public function salesInWarehouse(){
+        $query = $this->getStartQuery();
+        $query->select(['selling.warehouse_id', 'COUNT(*) as sale_warehouse'])->groupBy('selling.warehouse_id');
+        return $query->all();
     }
 }

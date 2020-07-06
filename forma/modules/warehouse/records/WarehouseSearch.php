@@ -70,4 +70,12 @@ class WarehouseSearch extends Warehouse
 
         return $dataProvider;
     }
+
+    public function getWarehouseListHeader(){
+        $query = Warehouse::find()
+            ->joinWith(['warehouseUsers'])
+            ->where(['warehouse_user.user_id' => Yii::$app->user->id])->all();
+
+        return $query;
+    }
 }

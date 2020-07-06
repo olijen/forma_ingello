@@ -43,9 +43,12 @@ use forma\modules\selling\records\selling\StateDone;
  * @property SellingProduct[] $sellingProducts
  * @property string $next_step
  * @property string $selling_token
+ * @property integer $sale_warehouse
  */
 class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 {
+
+    public $sale_warehouse;
 
     //Это временная заглушка, для того что бы работали элементы с StateActiveRecord
     public function stateIs($state)
@@ -233,6 +236,10 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     }
 
     public function findStateById($id){
+
+    }
+
+    public function getSellingInWeek(){
 
     }
 }

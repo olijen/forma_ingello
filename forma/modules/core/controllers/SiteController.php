@@ -20,6 +20,9 @@ use forma\modules\core\forms\SignupForm;
 
 class SiteController extends Controller
 {
+    const EVENT_AFTER_LOGIN = "eventAfterLogin";
+
+
     /**
      * @inheritdoc
      */
@@ -110,6 +113,8 @@ class SiteController extends Controller
                 return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
             }
         }
+
+
         return $this->render('login', [
             'model' => $model,
             'googleLink' => $googleLink
@@ -141,6 +146,8 @@ class SiteController extends Controller
             $user = $modelLogin->getUser();
             if ($loginLoad) {
                 if ($modelLogin->login()){
+                    Yii::debug("trigger");
+                    $this->trigger(self::EVENT_AFTER_LOGIN);
                     return $this->goBack();
                 }
                 else if(!is_null($user) && $user->confirmed_email == 0){

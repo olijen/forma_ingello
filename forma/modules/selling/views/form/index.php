@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
 
+
 /**
  * @var $model Selling
  * @var $sellingState
@@ -14,9 +15,14 @@ use yii\widgets\DetailView;
  * @var $toState
  */
 
-$this->title = 'Коммуникация';
-$this->params['breadcrumbs'][] = ['label' => 'Продажи', 'url' => Url::to(['/selling/main'])];
+$this->title = 'Новая продажа от ' . Yii::$app->formatter->asDatetime($model->date_create, 'php:d.m.Y');
+if ($model->date_complete) {
+    $this->title .= ' до ' . Yii::$app->formatter->asDatetime($model->date_complete, 'php:d.m.Y');
+}
+$this->title .= ' (' . Yii::$app->getUser()->getIdentity()->username . ')';
 
+$this->params['breadcrumbs'][] = ['label' => 'Продажи', 'url' => Url::to(['/selling/main'])];
+$this->params['breadcrumbs'][] = $this->title;
 $description= null;
 
 ?>
@@ -24,7 +30,7 @@ $description= null;
 
 <?= SellingFormView::widget(compact('model')) ?>
 
-<?php if (!empty($_GET['id'])) : ?>
+
 
 <div class="bs-example">
     <div class="detached-block-example">Состояние</div>
@@ -84,10 +90,26 @@ $description= null;
                 <?php endif; ?>
             </div>
         </div>
+
+        <div class="row selling_link">
+            <div class="col-md-12">
+                <h3>Ссылка на страницу продажи</h3>
+                <a class="btn btn-success" href="http://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка</a>
+            </div>
+        </div>
+
     </div>
 
 </div>
 
-<?php endif ?>
 
 <?= NomenclatureView::widget(['sellingId' => $model->id]) ?>
+
+
+
+
+
+
+
+
+

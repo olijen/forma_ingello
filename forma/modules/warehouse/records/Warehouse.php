@@ -153,12 +153,13 @@ class Warehouse extends \yii\db\ActiveRecord
 
         return ArrayHelper::map($products, 'product.id', 'product.name');
     }
-
+//todo: побезопаснее отписать, то как юзер должен как то относится к продаже
     public function belongsToUser()
     {
+        $user = Yii::$app->user->id;
         return WarehouseUser::find()->where([
             'warehouse_id' => $this->id,
-            'user_id' => Yii::$app->user->id,
+            'user_id' => $user,
         ])->exists();
     }
 

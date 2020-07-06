@@ -91,4 +91,46 @@ class InterviewSearch extends Interview
 
         return $dataProvider;
     }
+
+    public function searchWork()
+    {
+        $query = Interview::find()->where(['state' => 4]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5
+                ]
+        ]);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+        $query->joinWith(['worker']);
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'interview.id' => $this->id,
+            'interview.worker_id' => $this->worker_id,
+            'interview.project_id' => $this->project_id,
+            'interview.vacancy_id' => $this->vacancy_id,
+            'state' => $this->state,
+        ]);
+
+        $query->andFilterWhere(['like', 'worker.name', $this->worker_name]);
+
+        $query->andFilterWhere(['<', 'state', $this->state_min]);
+
+        $query->andFilterWhere(['like', 'name', $this->name]);
+
+        foreach (['date_create', 'date_complete'] as $attribute) {
+            $rangeAttribute = $attribute . 'Range';
+            if (empty($this->$rangeAttribute)) {
+                continue;
+            }
+            $query->andFilterWhere(DateRangeHelper::getDateRangeCondition($attribute, $this->$rangeAttribute));
+        }
+
+        return $dataProvider;
+    }
 }

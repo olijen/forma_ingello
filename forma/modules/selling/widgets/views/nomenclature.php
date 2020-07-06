@@ -20,21 +20,18 @@ use forma\modules\selling\widgets\TotalSumView;
  * @var ActiveDataProvider $dataProvider
  * @var float $sumTotal
  */
+
 ?>
 
 <?php Pjax::begin([
     'id' => 'selling-nomenclature-pjax',
     'enablePushState' => false,
     'enableReplaceState' => false,
-]);
- $token = Yii::$app->request->get("selling_token") ?? $selling_token ?? null;
-?>
+]) ?>
 
 <?php DetachedBlock::begin([
     'example' => 'Товар',
 ]); ?>
-
-
 
 <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
 
@@ -47,20 +44,18 @@ use forma\modules\selling\widgets\TotalSumView;
         'options' => ['data-pjax' => '1'],
     ]); ?>
 
-    <input type="hidden" name="selling_token" value="<?=$token?>">
-
     <?= $form->field($unit, 'selling_id')->hiddenInput()->label(false) ?>
     <input type="hidden" name="<?=Yii::$app->request->csrfParam; ?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
     <div class="col-md-3">
+        <?php // todo: более правильный способ передачи данных вместо дозаписи гет запроса?>
         <?= $form->field($unit, 'product_id')->widget(AutoComplete::className(), [
             'url' => Url::to([
                 '/warehouse/warehouse-product/search-for-selling',
                 'sellingId' => $unit->selling_id,
-                'selling_token' => $token,
+                'selling_token' => isset($_GET['selling_token']) ? $_GET['selling_token'] : null
             ]),
         ]) ?>
     </div>
-
     <div class="col-md-2">
         <?= $form->field($unit, 'currency_id')->dropDownList(Currency::getList())
             ->label('Валюта') ?>
@@ -84,7 +79,6 @@ use forma\modules\selling\widgets\TotalSumView;
 <?php ActiveForm::end(); ?>
 </div>
 <?php endif; ?>
-
 <div class="row">
     <div class="col-md-12">
     <?php
@@ -136,9 +130,9 @@ use forma\modules\selling\widgets\TotalSumView;
             'template' => '{delete}',
             'contentOptions' => ['class' => 'action-column'],
             'buttons' => [
-                'delete' => function ($url, $model, $key) use ($token) {
+                'delete' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',
-                        '/selling/nomenclature/delete-position?id='.$model->id.'&selling_token='.$token, [
+                        '/selling/nomenclature/delete-position?id='.$model->id, [
                             'title' => Yii::t('yii', 'Delete'),
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                             'data-method' => 'post',

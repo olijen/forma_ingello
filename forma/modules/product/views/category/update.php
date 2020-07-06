@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $model->name;
     $renderVar = [
         'model' => $model,
         'field' => $field,
-        'subCategoriesId' => $subCategoriesId,
         'searchModel' => $searchModel,
         'dataProvider' => $dataProvider,
         'possibleCategories' => $possibleCategories,

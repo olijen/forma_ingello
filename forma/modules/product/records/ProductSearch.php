@@ -49,10 +49,9 @@ class ProductSearch extends Product
 
     public function search($params)
     {
-           $query = Product::find()
-            ->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => Product::className()]);
+
+        $query = Product::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,7 +60,6 @@ class ProductSearch extends Product
         if (isset($params['FieldProductValue']) ||
             isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
             $query->joinWith(['fieldProductValues']);
-
         }
 
         if (isset($params['FieldProductValue'])) {
@@ -70,7 +68,7 @@ class ProductSearch extends Product
 
         if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
             $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
-        }else{
+        } else {
             $query->groupBy(['product.id']);
         }
 

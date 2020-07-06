@@ -88,36 +88,44 @@ class Category extends AccessoryActiveRecord
     public static function getCurrentAndParentId($parentCategoryId)
     {
         if (!is_null($parentCategoryId)) {
+            $currentAndParentId = [];
+            $allModel = self::find()->all();
             while (!is_null($parentCategoryId)) {
-                $categoryModel = self::findOne($parentCategoryId);
-                if (!is_null($categoryModel)) {
-                    $parentCategoryId = $categoryModel->parent_id;
-                    $parentsCategoriesId [] = $categoryModel->id;
-                } else {
-                    $parentCategoryId = null;
+                foreach ($allModel as $model) {
+                    if ($model->id == $parentCategoryId) {
+                        $currentAndParentId [] = $parentCategoryId;
+                        $parentCategoryId = $model->parent_id;
+                    }
                 }
             }
-            return $parentsCategoriesId;
+            return $currentAndParentId;
         }
         return false;
     }
 
-    public static function getDropDownListPossibleCategories($currentCategoryId)
+    public static function getDropDownListPossibleCategories($categoryId)
     {
-        $allSubCategoriesId = [];
-        $subCategories = self::find()->andWhere(['parent_id' => $currentCategoryId])->all();// массив обьектов
-        while (!empty($subCategories)) {
-            $subCategories2 = self::find();
-            foreach ($subCategories as $subCategory) {
-                $allSubCategoriesId [] = $subCategory->id;
-                $subCategories2 = $subCategories2->orWhere(['parent_id' => $subCategory->id]);
+
+        $subAndCurrentCategoriesId [] = $categoryId;
+        $currentCategoryId [] = $categoryId;
+
+        $allModel = self::find()->all();
+        while (!empty($currentCategoryId)) {
+            $currentCategoriesId = [];
+            foreach ($currentCategoryId as $id) {
+                foreach ($allModel as $model) {
+                    if ($model->parent_id === $id) {
+                        $subAndCurrentCategoriesId [] = $model->id;
+                        $currentCategoriesId [] = $model->id;
+                    }
+                }
+                $currentCategoryId = $currentCategoriesId;
             }
-            $subCategories = $subCategories2->all();
         }
-        return $allSubCategoriesId;
+        return $subAndCurrentCategoriesId;
     }
 
-    public static function getPossibleCategories($subCategoriesId = null, $currentCategoryId = null)
+    public static function getPossibleCategories($subCategoriesId = null)
     {
         $categories = Category::find()
             ->joinWith(['accessory'])
@@ -125,16 +133,11 @@ class Category extends AccessoryActiveRecord
             ->andWhere(['accessory.entity_class' => Category::className()]);
 
         if (isset($subCategoriesId) && !empty($subCategoriesId)) {
-            foreach ($subCategoriesId as $subCategoryId) {
-                $categories = $categories->andWhere(['<>', 'category.id', $subCategoryId]);
-            }
-        }
-        if (!is_null($currentCategoryId)) {
-            $categories = $categories->andWhere(['<>', 'category.id', $currentCategoryId]);
+
+            $categories->andWhere(['not in', 'category.id', $subCategoriesId]);
         }
 
-        $categories = $categories->all();
-        return $categories;
+        return $categories->all();
     }
 
     public static function getParentFieldDataProviderAndParentFieldSearch($parentCategoryId)
@@ -142,7 +145,8 @@ class Category extends AccessoryActiveRecord
         $parentsCategoriesId = Category::getCurrentAndParentId($parentCategoryId);
         $searchParentField = new FieldSearch();
         $parentFieldDataProvider = $searchParentField
-            ->searchAllFieldsParentCategory(Yii::$app->request->queryParams, $parentsCategoriesId);
+            ->search(Yii::$app->request->queryParams, $parentsCategoriesId);
+
         return ['searchParentField' => $searchParentField, 'parentFieldDataProvider' => $parentFieldDataProvider,];
     }
 }
