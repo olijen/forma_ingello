@@ -41,20 +41,26 @@ use forma\modules\selling\widgets\HistoryView;
     </div>
     <div class="change_email bs-example" style="margin-bottom: 20px">
         <div class="detached-block-example">Сменить e-mail</div>
-        <button id="change_email" class="btn btn-success">Сменить e-mail</button>
+        <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
+        <a href="<?=$googleLink?>" class="btn btn-primary" style="margin-bottom: 10px" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
             'layout' => 'horizontal',
             'options' => ['data' => ['pjax' => true], 'method' => 'get'],
             'fieldConfig' => [
-                'template' => '<div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
+                'template' => '<div class="col-md-1" style="padding: 0">{label}:</div><div class="col-md-1"></div><div class="col-md-5">{input}</div><div class="col-md-5">{error}</div>',
             ],
         ]); ?>
 
         <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
-        <?= Html::submitButton('OK', ['class' => 'btn btn-primary']) ?>
-        <a href="<?= $googleButton ?>">Сменить с помощью гугл</a>
+
+        <div class="form-group">
+            <div class=" col-lg-11">
+                <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
+            </div>
+        </div>
+
 
         <?php ActiveForm::end(); ?>
     </div>
