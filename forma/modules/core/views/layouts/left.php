@@ -106,6 +106,9 @@ use forma\modules\product\records\Product;
           ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
 
           ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+            [
+                'label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'car'
+                ],
           [
               'label' => 'Люди',
               'url' => ['/core/default/people'],

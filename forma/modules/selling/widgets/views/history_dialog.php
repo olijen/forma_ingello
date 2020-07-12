@@ -73,7 +73,7 @@ use yii\helpers\Url;
         ?>
 
         <?php if ($talk) : ?>
-          <a class="btn btn-success" href="http://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
+          <a class="btn btn-success" href="/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
         <?php endif ?>
 
     </div>
