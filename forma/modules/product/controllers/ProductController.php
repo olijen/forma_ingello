@@ -2,6 +2,12 @@
 
 namespace forma\modules\product\controllers;
 
+use forma\extensions\kartik\DynaGrid;
+use forma\modules\product\components\SystemWidget;
+use forma\modules\product\records\Category;
+use forma\modules\product\records\Field;
+use forma\modules\product\records\FieldProductValue;
+use forma\modules\product\records\FieldSearch;
 use forma\modules\purchase\records\purchase\Purchase;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\warehouse\records\Warehouse;
@@ -11,6 +17,7 @@ use forma\modules\product\services\PackUnitService;
 use forma\modules\product\services\ProductService;
 use forma\modules\product\records\Product;
 use forma\modules\product\records\ProductSearch;
+use yii\base\Model;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -41,7 +48,8 @@ class ProductController extends Controller
         ];
     }
 
-    public function beforeAction($action) {
+    public function beforeAction($action)
+    {
         $this->enableCsrfValidation = !in_array($action->id, ['get-sku', 'import-excel']);
         return parent::beforeAction($action);
     }
@@ -54,33 +62,88 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+
+        $renderVar = ['searchModel' => $searchModel,
+                      'dataProvider' => $dataProvider,];
+
+        if (!empty($_GET['ProductSearch']['category_id']) && !empty($dataProvider->getModels()[0])) {
+            $currentAndParentField = Field::getCurrentAndParentField($dataProvider, $searchModel, $_GET['ProductSearch']['category_id']);
+            $allFieldProductValue = Product::getAllFieldProductValue();
+            $renderVar = array_merge($currentAndParentField, ['allFieldProductValue' => $allFieldProductValue]);
+        }
+
+        return $this->render('index', $renderVar);
     }
 
     public function actionCreate()
     {
         if (Yii::$app->request->isPost) {
-            ProductService::save(null, Yii::$app->request->post());
+            $post = Yii::$app->request->post();
+            $model = ProductService::save(null, $post);
+
+            if (isset($post['FieldProductValue'])) {
+                FieldProductValue::eachFieldProductValueSave($post['FieldProductValue'], $model->id);
+            }
+
             return $this->redirect(['index']);
-        } else {
-            $model = ProductService::create();
-            return $this->render('create', compact('model'));
+        }
+        $model = ProductService::create();
+        $field = new Field();
+        return $this->render('create', [
+            'model' => $model,
+            'field' => $field,
+        ]);
+
+    }
+
+
+    function actionPjaxAttribute()
+    {
+        $this->layout = '@app/modules/core/views/layouts/modal';
+        if (Yii::$app->request->isPjax) {
+
+            $category_id = Yii::$app->request->post()['Product']['category_id'];
+            // категория из обьекта продукта постом
+            $field = new Field();
+            $parentCategoryId = $category_id;
+            $categoriesId = Category::getCurrentAndParentId($parentCategoryId);
+            $fieldAttributes = $field->widgetGetList($categoriesId);
+
+            return $this->render('pjax_attribute', [
+                'category_id' => $category_id,
+                'field' => $field,
+                'fieldAttributes' => $fieldAttributes,
+            ]);
+
         }
     }
 
+
     public function actionUpdate($id)
     {
+        $model = ProductService::get($id);
+        $field = new Field();
+
+        $category_id = $model->category_id;
+        $categoriesId = Category::getCurrentAndParentId($category_id);
+        $fieldAttributes = $field->widgetGetList($categoriesId);
+
         if (Yii::$app->request->isPost) {
+            $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
+            FieldProductValue::eachFieldProductValueSave($fieldProductValues, $model->id);
+
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);
-        } else {
-            $model = ProductService::get($id);
-            return $this->render('update', compact('model'));
         }
+        return $this->render('update', [
+            'model' => $model,
+            'category_id' => $category_id,
+            'fieldAttributes' => $fieldAttributes,
+            'field' => $field,
+        ]);
+
     }
+
 
     /**
      * Deletes an existing Product model.
@@ -122,30 +185,12 @@ class ProductController extends Controller
         }
     }
 
-    public function actionSearch($term)
-    {
-        if (Yii::$app->request->isAjax) {
-            $results = Product::find()
-                ->joinWith(['manufacturer', 'category'], false, 'INNER JOIN')
-                ->select(['product.id', 'product.name as label'])
-                ->where(['or',
-                    ['like', 'product.name', $term],
-                    ['like', 'product.sku', $term],
-                    ['like', 'manufacturer.name', $term],
-                    ['like', 'category.name', $term],
-                ])
-                ->asArray()
-                ->all();
-            
-            echo json_encode($results);
-        }
-    }
-
     public function actionGetSku()
     {
         if (Yii::$app->request->isAjax) {
             $sku = SkuGenerator::generate(Yii::$app->request->post()['Product']);
-            echo json_encode(['sku' => $sku]); exit;
+            echo json_encode(['sku' => $sku]);
+            exit;
         }
     }
 
@@ -164,90 +209,6 @@ class ProductController extends Controller
         }
     }
 
-    public function actionAddPacksUnits()
-    {
-        $productId = Yii::$app->request->post()['Product']['id'];
-        $packsUnitsIds = Yii::$app->request->post()['Product']['packUnits'];
-
-        $productPackUnit = new ProductPackUnit;
-        $productPackUnit->deleteAll(['in', 'product_id', $productId]);
-
-        $packsUnitsIds = (array)$packsUnitsIds;
-        $packsUnitsIds[] = PackUnit::findOne(['bottles_quantity' => 1])->id;
-
-        $model = $this->findModel($productId);
-
-        foreach ($packsUnitsIds as $packUnitId) {
-            if (strpos($packUnitId, '/') !== false) {
-                $packUnit  = new PackUnit;
-                $packUnit->name = explode('/', $packUnitId)[0];
-                $packUnit->bottles_quantity = explode('/', $packUnitId)[1];
-                $packUnit->save();
-                $packUnitId = $packUnit->id;
-            }
-
-            $productPackUnit->isNewRecord = true;
-            $productPackUnit->id = null;
-
-            $productPackUnit->setAttributes([
-                'product_id' => $productId,
-                'pack_unit_id' => $packUnitId,
-            ]);
-
-            $productPackUnit->save();
-
-            ProductService::cloneByPackUnit($model, PackUnit::findOne($packUnitId));
-        }
-
-        return $this->render('packs-units', compact('model'));
-    }
-
-    public function actionDownloadExampleFile()
-    {
-        $filePath = Yii::getAlias('@app') . '/import/example.xls';
-
-        header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Cache-Control: private', false);
-        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . filesize($filePath));
-
-        readfile($filePath);
-        die;
-    }
-
-    public function actionGetPackUnits()
-    {
-        $response = ['success' => false];
-
-        $productId = Yii::$app->request->post('productId');
-        if ($productId) {
-            $response['data'] = PackUnitService::getAllByProduct($productId);
-            $response['success'] = true;
-        }
-
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $response;
-    }
-
-    public function actionGetPackUnitsOnWarehouse()
-    {
-        $response = ['success' => false];
-
-        $productId = Yii::$app->request->post('productId');
-        $warehouseId = Yii::$app->request->post('warehouseId');
-
-        if ($productId && $warehouseId) {
-            $response['data'] = PackUnitService::getAllByProduct($productId, $warehouseId);
-            $response['success'] = true;
-        }
-
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $response;
-    }
 
     public static function actionGetVariationByPackUnit()
     {
@@ -287,7 +248,7 @@ class ProductController extends Controller
         if ($warehouse->belongsToUser()) {
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return ['results' =>ProductService::searchForPurchase($purchase, $q)];
+                return ['results' => ProductService::searchForPurchase($purchase, $q)];
             }
         }
 
@@ -305,7 +266,7 @@ class ProductController extends Controller
         if ($warehouse->belongsToUser()) {
             if (Yii::$app->request->isAjax && $q) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return ['results' =>ProductService::search($q)];
+                return ['results' => ProductService::search($q)];
             }
         }
 

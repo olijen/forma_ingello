@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['in
 
     <?= $this->render('_form', [
         'model' => $model,
+        'possibleCategories' => $possibleCategories,
     ]) ?>
 
 </div>

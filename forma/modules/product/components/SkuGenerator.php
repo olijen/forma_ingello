@@ -22,10 +22,6 @@ class SkuGenerator
             $sku .= self::$_separator . self::formatBatcher($post['batcher']);
         }
 
-        if ($post['volume']) {
-            $sku .= self::$_separator . $post['volume'];
-        }
-
         if (self::skuExists($sku)) {
             $i = 0;
             do {

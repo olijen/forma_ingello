@@ -84,7 +84,7 @@ class SignupForm extends Model
             if($google)
                 return Yii::$app->user->login($user);
             else
-                return Yii::$app->response->redirect('http://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
+                return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
         }
 
         return false;
@@ -114,7 +114,7 @@ class SignupForm extends Model
             ->setTo($this->email)
             ->setSubject('Forma: Подтверждение почты')
             ->setTextBody('Подтвердите пароль, перейдя по ссылке:')
-            ->setHtmlBody('Подтвердите пароль, перейдя по ссылке: <a href="http://'.$_SERVER['HTTP_HOST'].'/core/default/confirm?email_string='.$email_string.'">Подтвердить почту</a>')
+            ->setHtmlBody('Подтвердите пароль, перейдя по ссылке: <a href="https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm?email_string='.$email_string.'">Подтвердить почту</a>')
             ->send();
     }
 

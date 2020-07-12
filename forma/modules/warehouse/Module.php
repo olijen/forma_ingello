@@ -48,13 +48,11 @@ class Module extends \yii\base\Module
             return false;
         }
 
-
-
         if (!Yii::$app->user->isGuest) {
             return true;
-        } else if($action->actionMethod == 'actionSearchForSelling' || $action->actionMethod == 'actionCheckAvailable'){
+        }  else if($action->actionMethod == 'actionSearchForSelling' || $action->actionMethod == 'actionCheckAvailable'){
             return true;
-        }  else {
+        } else {
             Yii::$app->getResponse()->redirect(Url::to(['/login']));
             return false;
         }

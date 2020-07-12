@@ -49,9 +49,11 @@ use forma\modules\product\records\Product;
                     'attribute' => 'name',
 
                     // todo: Хорошо протестировать всегда ли есть ui.item.id
-                    'afterSelect' => 'function(event, ui) {
-                        $("#searching-product-id").val(ui.item.id);
-                    }',
+                    // todo: Выдает ошибку Unknown Property – yii\base\UnknownPropertyException
+                    // todo: Setting unknown property: keygenqt\autocompleteAjax\AutocompleteAjax::afterSelect
+//                    'afterSelect' => 'function(event, ui) {
+//                        $("#searching-product-id").val(ui.item.id);
+//                    }',
                 ]); ?>
 
               <span class="input-group-btn">
@@ -104,9 +106,6 @@ use forma\modules\product\records\Product;
           ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
 
           ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
-            [
-                'label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'car'
-                ],
           [
               'label' => 'Люди',
               'url' => ['/core/default/people'],

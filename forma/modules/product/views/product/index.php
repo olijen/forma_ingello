@@ -1,5 +1,17 @@
 <?php
 
+use kartik\color\ColorInput;
+use kartik\datetime\DateTimePicker;
+use kartik\file\FileInput;
+use kartik\number\NumberControl;
+use kartik\range\RangeInput;
+use kartik\rating\StarRating;
+use kartik\select2\Select2;
+use kartik\switchinput\SwitchInput;
+use kartik\touchspin\TouchSpin;
+use kartik\typeahead\Typeahead;
+use yii\bootstrap\Html as htmlBootstrap;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
@@ -14,6 +26,18 @@ use kartik\grid\GridView;
 use forma\modules\country\records\Country;
 use yii\helpers\Url;
 use forma\extensions\kartik\DynaGrid;
+use yii\widgets\ActiveForm;
+
+
+use forma\modules\product\components\SystemWidget;
+use forma\components\widgets\ModalCreate;
+use yii\bootstrap\Modal;
+use forma\modules\product\records\Product;
+use forma\modules\product\records\PackUnit;
+use forma\modules\core\widgets\DetachedBlock;
+use kartik\daterange\DateRangePicker;
+use kartik\date\DatePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\product\records\ProductSearch */
@@ -31,110 +55,101 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
     <input id="import-file-input" type="file" style="display: none;">
 
-    <?php Pjax::begin(['id' => 'pjax-product-grid']); ?>
-
     <?php $columns = [
-        ['class'=>'kartik\grid\CheckboxColumn'],
+        ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update}{delete}',
         ],
         'name',
-        [
-            'attribute' => 'sku',
-            'label' => 'Артикул',
-        ],
-        [
-            'attribute' => 'type_id',
-            'value' => 'type.name',
-            'filter' => Type::getList(),
-        ],
-        [
-            'attribute' => 'sizeColumnValue',
-            'label' => 'Размер',
-        ],
+
         [
             'attribute' => 'category_id',
             'value' => 'category.name',
             'filter' => Category::getList(),
         ],
         [
+            'attribute' => 'sku',
+            'label' => 'Артикул',
+        ],
+
+        [
+            'attribute' => 'type_id',
+            'value' => 'type.name',
+            'filter' => Type::getList(),
+        ],
+        [
             'attribute' => 'manufacturer_id',
             'value' => 'manufacturer.name',
             'filter' => Manufacturer::getList(),
         ],
-        [
-            'attribute' => 'volume',
-            'value' => 'volumeLabel',
-            'shortLabel' => 'Об',
-        ],
-        [
-            'class' => '\kartik\grid\DataColumn',
-            'attribute' => 'color_name',
-            'value' => function($model, $value, $index, $widget) {
-                if (!$model->color) {
+        'rating',
+    ];
+
+    if (isset($fieldsList) && isset($allFieldProductValue)) {
+        $params = Yii::$app->request->queryParams;
+        foreach ($fieldsList as $fieldId => $field) {
+
+            if (isset($params['FieldProductValue'][$fieldId])) {
+                $filter = SystemWidget::gridFilter($fieldId, $field, $params['FieldProductValue'][$fieldId]['null']);
+            } else {
+                $filter = SystemWidget::gridFilter($fieldId, $field);
+            }
+            $dataProvider->setSort([
+                'attributes' =>
+                    ArrayHelper::merge($dataProvider->sort->attributes,
+                        [
+                            'FieldProductValue' . $fieldId
+                            => [
+                                'label' => $field->name,
+                            ],
+                        ]),
+            ]);
+            $columns [] = [
+                'label' => $field->name,
+                'attribute' => 'FieldProductValue' . $fieldId,
+                'value' => function ($model) use ($field, $allFieldProductValue) {
+                    foreach ($allFieldProductValue as $fieldProductValue) {
+                        if($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id){
+
+                        if (is_array($fieldProductValue->value)) {
+                            $multiSelectFieldProductValues = '';
+                                foreach ($fieldProductValue->value as $multiSelectFieldProductValue) {
+                                    if (empty($multiSelectFieldProductValues)){
+                                        $multiSelectFieldProductValues = $multiSelectFieldProductValue;
+                                    }else{
+                                        $multiSelectFieldProductValues .= ', '. $multiSelectFieldProductValue;
+                                    }
+                                }
+                            return $multiSelectFieldProductValues;
+                        }
+                        return $fieldProductValue->value;
+                    }
+                    }
                     return null;
-                }
-                $color = $model->color->name;
-                return '<span class="badge" style="border: 1px #777 solid; background-color: ' . $color . ';">&nbsp;</span>' .
-                    '<code>' . $color . '</code>';
-            },
-            'filterType' => GridView::FILTER_COLOR,
-            'filterWidgetOptions' => [
-                'showDefaultPalette' => false,
-                'pluginOptions' => [
-                    'showPaletteOnly' => true,
-                    'preferredFormat' => 'name',
-                    'palette' => Color::getPallet(),
-                ],
-                'options' => ['style' => 'display: none;'],
-                'pluginEvents' => [
-                    'change' => 'function() {
-                        $(".sp-palette-only").hide();
-                    }',
-                ],
-            ],
-            'format' => 'raw',
-            'label' => 'Цвет',
-        ],
-        [
-            'attribute' => 'year_chart',
-            'shortLabel' =>'Год',
-        ],
-        [
-            'attribute' => 'proof',
-            'shortLabel' =>'Кр',
-        ],
-        [
-            'class' => CombinedDataColumn::className(),
-            'labelTemplate' => '{0}  /  {1}',
-            'valueTemplate' => '{0}  /  {1}',
-            'attributes' => [
-                'batcher:text',
-                'rating:decimal',
-            ],
-            'values' => [
-                'batcherLabel',
-                'rating',
-            ],
-            'filter' => false,
-            'label' => 'Дозатор / Рейтинг',
-        ],
-        [
-            'attribute' => 'country_id',
-            'value' => 'country.name',
-            'filter' => Country::getList(),
-        ],
-    ]; ?>
+                },
+                'filter' => $filter,
+            ];
+        }
+    }
+    ?>
+
+
+
 
     <?php if (!isset($_GET['catalog'])) : ?>
 
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
+        <?= Html::activeDropDownList($searchModel, 'category_id',
+        Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
+//            'onchange' => 'window.location.href = "/index?ProductSearch%5Bcategory_id%5D="+ $(this).val()' TODO Спросить разницу у Олега
+            'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
+        ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
-
         <br><br>
 
         <?= DynaGrid::widget([
+
             'allowSortSetting' => false,
             'showPersonalize' => true,
             'allowFilterSetting' => false,
@@ -144,7 +159,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'gridOptions' => [
                 'editableMode' => false,
                 'displayEmptyValue' => true,
-                'pjax' => true,
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'responsiveWrap' => false,
@@ -155,8 +169,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                     ],
                     [
                         'content' => Html::button('<i class="glyphicon glyphicon-trash"></i>', [
-                            'type'=>'button',
-                            'class'=>'btn btn-danger',
+                            'type' => 'button',
+                            'class' => 'btn btn-danger',
                             'onclick' => '$("#grid-' . $searchModel->tableName() . '")
                         .groupOperation("' . Url::to(['/product/product/delete-selection']) . '", {
                             message: "Are you sure you want to delete selected items?"
@@ -191,27 +205,34 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                     '{dynagrid}',
                 ],
             ],
-        ]);?>
-
+        ]); ?>
     <?php else : ?>
 
+        <br><br>
         <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
-        <button class="btn btn-info" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск</button>
+        <?= Html::activeDropDownList($searchModel, 'category_id',
+        Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
+            'onchange' => 'window.location.href = "/product/product/index?catalog=&ProductSearch[category_id]="+ $(this).val()'
+        ]) ?>
+        <button class="btn btn-info" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
+        </button>
         <br><br>
         <div class="admin-search collapse" id="hide-me">
-            <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?php if (!isset($fieldValues)) {
+                echo $this->render('_search', ['model' => $searchModel]);
+            } else {
+                echo $this->render('_search', ['model' => $searchModel, 'fieldValues' => $fieldValues,]);
+            }
+            ?>
         </div>
 
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => '_list',
-
-            'itemOptions' => ['class' => 'col-md-4', 'style' => 'height: 150px; padding-left: 0;']
-        ]);?>
+            'itemOptions' => ['class' => 'col-md-3', 'style' => 'height: 150px; padding-left: 0;']
+        ]); ?>
 
     <?php endif ?>
-
-    <?php Pjax::end(); ?>
 
 </div>

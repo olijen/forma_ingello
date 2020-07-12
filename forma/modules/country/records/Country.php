@@ -58,10 +58,10 @@ class Country extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProducts()
-    {
-        return $this->hasMany(Product::className(), ['country_id' => 'id']);
-    }
+//    public function getProducts()
+//    {
+//        return $this->hasMany(Product::className(), ['country_id' => 'id']);
+//    }
 
     /**
      * @inheritdoc

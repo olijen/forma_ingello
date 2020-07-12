@@ -12,13 +12,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
 ?>
 <div class="category-index">
-    
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a('Создать категорию', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+    <?= GridView::widget([
         'id' => 'category-grid',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

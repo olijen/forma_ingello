@@ -1,5 +1,6 @@
 <?php
 
+use forma\modules\product\components\SystemWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -15,6 +16,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
+    <?= $form->field($model, 'category_id')->hiddenInput()->label(false)?>
     <div class="col-md-4">
         <?= $form->field($model, 'id') ?>
         <?= $form->field($model, 'sku') ?>
@@ -22,22 +24,31 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="col-md-4">
-        <?= $form->field($model, 'category_id')->dropDownList(
-            \forma\modules\product\records\Category::getList(),
-            ['prompt' => '', 'class' => 'form-control']
-        ) ?>
         <?= $form->field($model, 'manufacturer_id')->dropDownList(
             \forma\modules\product\records\Manufacturer::getList(),
             ['prompt' => '']
         ) ?>
-        <?= $form->field($model, 'color_id') ?>
+        <?= $form->field($model, 'rating') ?>
     </div>
 
-    <div class="col-md-4">
-        <?= $form->field($model, 'note') ?>
-        <?= $form->field($model, 'volume') ?>
-        <?= $form->field($model, 'year_chart') ?>
-    </div>
+    <?php
+    if (!empty($fieldValues)) {
+        foreach ($fieldValues as $fieldId => $fieldValue) {
+            $i = 0;
+
+            if ($i%3 == 0 || $i == 0 ){
+                echo '<div class="col-md-4">';
+            }
+            echo SystemWidget::getByName($fieldId, $fieldValue, true);
+            echo '</br>';
+
+            if ($i%3 == 0){
+                echo '</div>';
+            }
+            $i++;
+        }
+    }
+    ?>
 
     <div class="form-group col-md-12">
         <?= Html::submitButton('Искать', ['class' => 'btn btn-primary']) ?>

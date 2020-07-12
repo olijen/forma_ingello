@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "08ba2e857cc9ead51c6d90e50e34bf3d",
+    "content-hash": "25eac28c88de00e7f6e040bbaa02dc04",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -295,7 +296,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
+                "url": "git@github.com:twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -393,7 +394,7 @@
             "version": "1.10.20",
             "source": {
                 "type": "git",
-                "url": "https://github.com/DataTables/DataTables.git",
+                "url": "git@github.com:DataTables/DataTables.git",
                 "reference": "83657a29e33ce93ee940ce25684940eb3acb2913"
             },
             "dist": {
@@ -614,7 +615,7 @@
             "version": "2.26.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:moment/moment.git",
+                "url": "https://github.com/moment/moment.git",
                 "reference": "a0f3c74374b638b769d9ab1ae54ba5266ef0976f"
             },
             "dist": {
@@ -647,12 +648,12 @@
             "version": "4.0.13",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ivaynberg/select2.git",
+                "url": "https://github.com/select2/select2.git",
                 "reference": "45f2b83ceed5231afa7b3d5b12b58ad335edd82e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivaynberg/select2/zipball/45f2b83ceed5231afa7b3d5b12b58ad335edd82e",
+                "url": "https://api.github.com/repos/select2/select2/zipball/45f2b83ceed5231afa7b3d5b12b58ad335edd82e",
                 "reference": "45f2b83ceed5231afa7b3d5b12b58ad335edd82e"
             },
             "type": "bower-asset",
@@ -4944,55 +4945,6 @@
             ],
             "description": "Flysystem adapter for Google Drive",
             "time": "2020-03-05T02:25:41+00:00"
-        },
-        {
-            "name": "nex/yii2-datepicker",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/RomeroMsk/yii2-datepicker.git",
-                "reference": "14a5623e3ac8b487dd615db8c89fb7e53110a6f0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/RomeroMsk/yii2-datepicker/zipball/14a5623e3ac8b487dd615db8c89fb7e53110a6f0",
-                "reference": "14a5623e3ac8b487dd615db8c89fb7e53110a6f0",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/eonasdan-bootstrap-datetimepicker": "4.17.*",
-                "bower-asset/moment": "*",
-                "yiisoft/yii2": "*",
-                "yiisoft/yii2-bootstrap": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "nex\\datepicker\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Ovchinnikov",
-                    "email": "nex.software@gmail.com",
-                    "homepage": "https://github.com/RomeroMsk"
-                }
-            ],
-            "description": "Bootstrap 3 Date/time picker widget for Yii2",
-            "homepage": "https://github.com/RomeroMsk/yii2-datepicker",
-            "keywords": [
-                "DateTimePicker",
-                "bootstrap",
-                "datepicker",
-                "extension",
-                "widget",
-                "yii2"
-            ],
-            "time": "2018-01-30T04:44:28+00:00"
         },
         {
             "name": "nezhelskoy/yii2-highlight",
@@ -13887,6 +13839,5 @@
         "ext-intl": "*",
         "ext-json": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }

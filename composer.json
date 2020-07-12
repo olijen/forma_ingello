@@ -99,6 +99,12 @@
     "ext-json": "*",
     "kartik-v/yii2-sortable": "dev-master",
     "nex/yii2-datepicker": "*"
+    "kartik-v/yii2-sortable": "dev-master",
+    "kartik-v/yii2-number": "dev-master",
+    "kartik-v/yii2-widget-touchspin": "dev-master",
+    "kartik-v/yii2-widget-switchinput": "dev-master",
+    "kartik-v/yii2-widget-rangeinput": "dev-master"
+
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",

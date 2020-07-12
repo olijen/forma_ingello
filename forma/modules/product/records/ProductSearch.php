@@ -15,16 +15,17 @@ class ProductSearch extends Product
     public $color_name;
 
     public $packUnits;
-    
+
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'type_id', 'category_id', 'manufacturer_id', 'year_chart', 'batcher', 'country_id', 'volume'], 'integer'],
-            [['customs_code', 'sku', 'name', 'note', 'type', 'color_name'], 'safe'],
-            [['proof', 'rating'], 'number'],
+            [['id', 'type_id', 'category_id', 'manufacturer_id'], 'integer'],
+            [['sku', 'name', 'note', 'type',], 'safe'],
+            [['rating'], 'number'],
         ];
     }
 
@@ -44,28 +45,32 @@ class ProductSearch extends Product
      *
      * @return ActiveDataProvider
      */
+
+
     public function search($params)
     {
-        $query = Product::find()
-            ->joinWith('color', false, 'LEFT JOIN')
-            ->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => Product::className()]);
 
-        // add conditions that should always apply here
+        $query = Product::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $dataProvider->setSort([
-            'attributes' => ArrayHelper::merge($dataProvider->sort->attributes, [
-                'color_name' => [
-                    'asc' => ['color.name' => SORT_ASC],
-                    'desc' => ['color.name' => SORT_DESC],
-                ],
-            ]),
-        ]);
+        if (isset($params['FieldProductValue']) ||
+            isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
+            $query->joinWith(['fieldProductValues']);
+        }
+
+        if (isset($params['FieldProductValue'])) {
+            $query = FieldProductValue::getSqlFieldProductValueFilter($query, $params['FieldProductValue']);
+        }
+
+        if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
+            $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
+        } else {
+            $query->groupBy(['product.id']);
+        }
 
         $this->load($params);
 

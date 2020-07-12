@@ -123,7 +123,7 @@ JS;
                   </a>
                 </li>
                 <li>
-                  <a href="http://fractal.ingello.com">
+                  <a href="https://fractal.ingello.com">
                     <div class="pull-left">
                       <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
                            alt="user image"/>
@@ -136,7 +136,7 @@ JS;
                   </a>
                 </li>
                 <li>
-                  <a href="http://business.ingello.com">
+                  <a href="https://business.ingello.com">
                     <div class="pull-left">
                       <img src="<?= $directoryAsset ?>/img/user5-128x128.jpg" class="img-circle"
                            alt="user image"/>
@@ -456,7 +456,7 @@ JS;
         <?= Breadcrumbs::widget([
             'tag' => 'ul',
             'homeLink' =>  isset($this->params['homeLink']) ? $this->params['homeLink'] : [ 'label' => 'Панель управления', 'url' => Yii::$app->homeUrl, 'title' => 'Первая страница'],
-            'options' => [ 'class' => 'breadcrumb', 'style'=>'margin: 5px 0 0 0; display:inline-block; background: #D0D0D0; width: 101%; border-radius: 0;'],
+            'options' => [ 'class' => 'breadcrumb', 'style'=>'margin: 5px 0 0 0; display:inline-block; background: #D0D0D0; width: 100%; border-radius: 0;'],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
     </div>
@@ -606,39 +606,97 @@ $this->registerJs($js);
 $bgColor = '#00b65d';
 $bgColorPrimary = '#58628e';
 $color = '';
+$textColor = '';
+$hoverP = '#228957';
+$hoverS = '';
+$a = '';
 
 if ('selling' == Yii::$app->controller->module->id) {
     $bgColor = '#58628e';
-    $bgColorPrimary = '#100873';
+    $bgColorPrimary = '#D0B676';
     $color = 'white';
+    $hoverP = '#9C8D69';
+    $hoverS ='#1D285C';
+
 } elseif ('product' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
     $bgColorPrimary = '#399F85';
+    $hover ='#9F4D1D';
+    $color = 'white';
+    $hoverP = '#3E7769';
+    $hoverS ='#9F4D1D';
+    $a = '#f49258';
 } elseif ('hr' == Yii::$app->controller->module->id) {
     $bgColor = '#F08080';
     $bgColorPrimary = '#66C066';
-    $color = 'black';
+    $color = 'white';
+    $hoverP ='#228957';
+    $hoverS ='#9C2A2A';
+    $a = '#F08080';
 } elseif ('project' == Yii::$app->controller->module->id) {
-    $bgColor = '#58628e';
-    $bgColorPrimary = '#D0B676';
+    $bgColor = '#F08080';
+    $bgColorPrimary = '#66C066';
+    $color = 'white';
+    $hoverP ='#228957';
+    $hoverS ='#9C2A2A';
+    $a = '#F08080';
 } elseif ('worker' == Yii::$app->controller->module->id) {
     $bgColor = '#F08080';
+    $color = 'white';
+    $hoverP ='#228957';
+    $hoverS ='#9C2A2A';
+    $a = '#F08080';
 } elseif ('vacancy' == Yii::$app->controller->module->id) {
     $bgColor = '#F08080';
+    $color = 'white';
+    $hoverP ='#228957';
+    $hoverS ='#9C2A2A';
+    $a = '#F08080';
 } elseif ('country' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
+    $hover ='#9F4D1D';
+    $color = 'white';
+    $hoverP = '#3E7769';
+    $hoverS ='#9F4D1D';
+    $a = '#f49258';
+    $a = '#f49258';
 } elseif ('warehouse' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
+    $hover ='#9F4D1D';
+    $color = 'white';
+    $hoverP = '#3E7769';
+    $hoverS ='#9F4D1D';
+    $a = '#f49258';
 } elseif ('purchase' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
+    $hover ='#9F4D1D';
+    $hover ='#9F4D1D';
+    $color = 'white';
+    $hoverP = '#3E7769';
+    $hoverS ='#9F4D1D';
+    $a = '#f49258';
 } elseif ('transit' == Yii::$app->controller->module->id) {
     $bgColor = '#f49258';
+    $hover ='#9F4D1D';
+    $color = 'white';
+    $hoverP = '#3E7769';
+    $hoverS ='#9F4D1D';
+    $a = '#f49258';
+}elseif ('customer' == Yii::$app->controller->module->id){
+    $color = 'white';
 }
 ?>
 
 <style>
 
-
+  tr:hover {
+      background-color: <?php echo $bgColor ?> !important;
+      color: <?php echo $textColor ?> !important;
+  }
+  .table-striped > tbody > tr:hover *{
+      background-color: <?php echo $bgColor ?> !important;
+      color: <?php echo $color?> !important;
+  }
   .info-box, .box, .form-control, .redactor-box,
   .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important;
@@ -659,36 +717,34 @@ if ('selling' == Yii::$app->controller->module->id) {
   .list-group-item.hover,
   .header-list,
   .btn-success,
-  .btn-success:hover,
+  .btn-primary,
   .logo-mini,
   .logo,
   .bg-green {
     background-color: <?php echo $bgColor ?> !important;
   }
-  .btn-primary {
-    background-color: <?php echo $bgColorPrimary ?> !important;
-  }
-  .bg-blue{
-    background-color: #58628e !important;
-  }
-  .bg-yellow{
-    background-color: #f49258 !important;
-  }
-  .bg-red{
-    background-color: #F08080 !important;
-  }
+
+    .btn-primary:hover{
+        background-color: <?php  echo $hoverP ?> !important;
+    }
+    .btn-success:hover{
+        background-color: <?php echo $hoverS ?> !important;
+    }
+    .bg-blue{
+      background-color: #58628e !important;
+    }
+    .bg-yellow{
+       background-color: #f49258 !important;
+     }
+    .bg-red{
+     background-color: #F08080 !important;
+   }
 
   <?php if ('selling'!= Yii::$app->controller->module->id && 'core' != Yii::$app->controller->module->id) : ?>
   .box-success {
     border-color: <?php echo $bgColor ?> !important;
   }
   <?php endif ?>
-
-  .table-striped > tbody > tr:nth-of-type(even):hover,
-  .table-striped > tbody > tr:nth-of-type(odd):hover{
-    background-color: <?php echo $bgColor ?> !important;
-    color: <?php echo $color?> !important;
-  }
 
   /* scroll */
 

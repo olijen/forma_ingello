@@ -29,27 +29,14 @@ class ProductService
     public static function save($id, $post)
     {
         $model = self::get($id);
+
         $model->load($post);
-
-        $model->load(['color_id' => self::getColorByPost($post)], '');
-
 
         //todo: нормально обработать ошибку
         if (!$model->save()) {
             var_dump($model->getErrors());
             die;
         }
-
-        $packUnits = $post['Product']['packUnits'];
-        if (!is_array($packUnits)) {
-            return $model;
-        }
-
-        ProductPackUnit::deleteAll(['product_id' => $model->id]);
-        foreach ($packUnits as $packUnitId) {
-            PackUnitService::save($model->id, $packUnitId);
-        }
-
         return $model;
     }
 

@@ -40,10 +40,10 @@ class WarehouseProductSearch extends WarehouseProduct
                     'warehouse_id',
                     'quantity',
                     'product_type_id',
-                    'product_country_id',
-                    'product_volume',
+//                    'product_country_id',
+//                    'product_volume',
                     'warehouse_id',
-                    'product_pack_unit_id',
+//                    'product_pack_unit_id',
                 ],
                 'integer',
             ],
@@ -53,8 +53,8 @@ class WarehouseProductSearch extends WarehouseProduct
                     'product_category_name',
                     'product_manufacturer_name',
                     'product_sku',
-                    'product_color_name',
-                    'product_customs_code',
+//                    'product_color_name',
+//                    'product_customs_code',
                 ],
                 'string',
             ],
@@ -65,7 +65,7 @@ class WarehouseProductSearch extends WarehouseProduct
                     'recommended_cost',
                     'trade_cost',
                     'tax',
-                    'product_proof'
+//                    'product_proof'
                 ],
                 'number'
             ],
@@ -96,10 +96,10 @@ class WarehouseProductSearch extends WarehouseProduct
                 'product.category',
                 'product.manufacturer',
                 'product.type',
-                'product.color',
+//                'product.color',
                 'warehouse',
                 'warehouse.warehouseUsers',
-                'product.packUnit',
+//                'product.packUnit',
             ]);
 
         // add conditions that should always apply here
@@ -130,34 +130,34 @@ class WarehouseProductSearch extends WarehouseProduct
                     'asc' => ['product.sku' => SORT_ASC],
                     'desc' => ['product.sku' => SORT_DESC],
                 ],
-                'product_country_id' => [
-                    'asc' => ['product.country_id' => SORT_ASC],
-                    'desc' => ['product.country_id' => SORT_DESC],
-                ],
-                'product_color_name' => [
-                    'asc' => ['product.color_id' => SORT_ASC],
-                    'desc' => ['product.color_id' => SORT_DESC],
-                ],
-                'product_customs_code' => [
-                    'asc' => ['product.customs_code' => SORT_ASC],
-                    'desc' => ['product.customs_code' => SORT_DESC],
-                ],
-                'product_proof' => [
-                    'asc' => ['product.proof' => SORT_ASC],
-                    'desc' => ['product.proof' => SORT_DESC],
-                ],
-                'product_volume' => [
-                    'asc' => ['product.volume' => SORT_ASC],
-                    'desc' => ['product.volume' => SORT_DESC],
-                ],
+//                'product_country_id' => [
+//                    'asc' => ['product.country_id' => SORT_ASC],
+//                    'desc' => ['product.country_id' => SORT_DESC],
+//                ],
+//                'product_color_name' => [
+//                    'asc' => ['product.color_id' => SORT_ASC],
+//                    'desc' => ['product.color_id' => SORT_DESC],
+//                ],
+//                'product_customs_code' => [
+//                    'asc' => ['product.customs_code' => SORT_ASC],
+//                    'desc' => ['product.customs_code' => SORT_DESC],
+//                ],
+//                'product_proof' => [
+//                    'asc' => ['product.proof' => SORT_ASC],
+//                    'desc' => ['product.proof' => SORT_DESC],
+//                ],
+//                'product_volume' => [
+//                    'asc' => ['product.volume' => SORT_ASC],
+//                    'desc' => ['product.volume' => SORT_DESC],
+//                ],
                 'warehouse_id' => [
                     'asc' => ['warehouse.id' => SORT_ASC],
                     'desc' => ['warehouse.id' => SORT_DESC],
                 ],
-                'product_pack_unit_id' => [
-                    'asc' => ['pack_unit.id' => SORT_ASC],
-                    'desc' => ['pack_unit.id' => SORT_DESC],
-                ],
+//                'product_pack_unit_id' => [
+//                    'asc' => ['pack_unit.id' => SORT_ASC],
+//                    'desc' => ['pack_unit.id' => SORT_DESC],
+//                ],
             ]),
         ]);
 
@@ -179,18 +179,18 @@ class WarehouseProductSearch extends WarehouseProduct
             'trade_cost' => $this->trade_cost,
             'tax' => $this->tax,
             'type.id' => $this->product_type_id,
-            'product.country_id' => $this->product_country_id,
-            'color.name' => $this->product_color_name,
-            'product.proof' => $this->product_proof,
-            'product.volume' => $this->product_volume,
+//            'product.country_id' => $this->product_country_id,
+//            'color.name' => $this->product_color_name,
+//            'product.proof' => $this->product_proof,
+//            'product.volume' => $this->product_volume,
             'warehouse.id' => $this->warehouse_id,
-            'pack_unit.id' => $this->product_pack_unit_id,
+//            'pack_unit.id' => $this->product_pack_unit_id,
         ]);
 
         $query->andFilterWhere(['like', 'product.name', $this->product_name])
             ->andFilterWhere(['like', 'category.name', $this->product_category_name])
             ->andFilterWhere(['like', 'manufacturer.name', $this->product_manufacturer_name])
-            ->andFilterWhere(['like', 'product.customs_code', $this->product_customs_code])
+//            ->andFilterWhere(['like', 'product.customs_code', $this->product_customs_code])
             ->andFilterWhere(['like', 'product.sku', $this->product_sku]);
 
         $query->andFilterWhere(['in', 'warehouse_user.user_id', Yii::$app->user->id]);

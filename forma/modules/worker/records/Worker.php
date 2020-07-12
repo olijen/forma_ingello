@@ -62,7 +62,6 @@ class Worker extends AccessoryActiveRecord
         if ($this->getIsNewRecord()) {
             return [];
         }
-
         return ArrayHelper::getColumn(
             WorkerVacancy::findAll(['worker_id' => $this->id]),
             'vacancy_id'

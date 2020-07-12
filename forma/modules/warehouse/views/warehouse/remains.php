@@ -54,11 +54,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Все хранилища', 'url' 
             'filter' => Type::getList(),
             'label' => 'Группа товара',
         ],
-        [
-            'attribute' => 'product.sizeColumnValue',
-            'encodeLabel' => false,
-            'label' => '<span>Размер</span>',
-        ],
+//        [
+//            'attribute' => 'product.sizeColumnValue',
+//            'encodeLabel' => false,
+//            'label' => '<span>Размер</span>',
+//        ],
         [
             'attribute' => 'quantity',
         ],
@@ -109,52 +109,52 @@ $this->params['breadcrumbs'][] = ['label' => 'Все хранилища', 'url' 
             'label' => '<span title="Оптовая цена">О.Ц.</span>',
         ],
         'tax',
-        [
-            'attribute' => 'product_country_id',
-            'value' => 'product.country.name',
-            'filter' => Country::getList(),
-            'label' => 'Страна',
-        ],
-        [
-            'class' => '\kartik\grid\DataColumn',
-            'attribute' => 'product_color_name',
-            'value' => function($model, $value, $index, $widget) {
-                if (!$model->product->color) {
-                    return null;
-                }
-                $color = $model->product->color->name;
-                return '<span class="badge" style="border: 1px #777 solid; background-color: ' . $color . ';">&nbsp;</span>' .
-                '<code>' . $color . '</code>';
-            },
-            'filterType' => GridView::FILTER_COLOR,
-            'filterWidgetOptions' => [
-                'showDefaultPalette' => false,
-                'pluginOptions' => [
-                    'showPaletteOnly' => true,
-                    'preferredFormat' => 'name',
-                    'palette' => Color::getPallet(),
-                ],
-                'options' => ['style' => 'display: none;'],
-                'pluginEvents' => [
-                    'change' => 'function() {
-                        $(".sp-palette-only").hide();
-                    }',
-                ],
-            ],
-            'format' => 'raw',
-            'label' => 'Цвет',
-        ],
-        [
-            'attribute' => 'product_customs_code',
-            'value' => 'product.customs_code',
-            'label' => 'Таможенный код',
-        ],
-        [
-            'attribute' => 'product_proof',
-            'value' => 'product.proof',
-            'encodeLabel' => false,
-            'label' => '<span title="Крепость">Кр...</span>',
-        ],
+//        [
+//            'attribute' => 'product_country_id',
+//            'value' => 'product.country.name',
+//            'filter' => Country::getList(),
+//            'label' => 'Страна',
+//        ],
+//        [
+//            'class' => '\kartik\grid\DataColumn',
+//            'attribute' => 'product_color_name',
+//            'value' => function($model, $value, $index, $widget) {
+//                if (!$model->product->color) {
+//                    return null;
+//                }
+//                $color = $model->product->color->name;
+//                return '<span class="badge" style="border: 1px #777 solid; background-color: ' . $color . ';">&nbsp;</span>' .
+//                '<code>' . $color . '</code>';
+//            },
+//            'filterType' => GridView::FILTER_COLOR,
+//            'filterWidgetOptions' => [
+//                'showDefaultPalette' => false,
+//                'pluginOptions' => [
+//                    'showPaletteOnly' => true,
+//                    'preferredFormat' => 'name',
+//                    'palette' => Color::getPallet(),
+//                ],
+//                'options' => ['style' => 'display: none;'],
+//                'pluginEvents' => [
+//                    'change' => 'function() {
+//                        $(".sp-palette-only").hide();
+//                    }',
+//                ],
+//            ],
+//            'format' => 'raw',
+//            'label' => 'Цвет',
+//        ],
+//        [
+//            'attribute' => 'product_customs_code',
+//            'value' => 'product.customs_code',
+//            'label' => 'Таможенный код',
+//        ],
+//        [
+//            'attribute' => 'product_proof',
+//            'value' => 'product.proof',
+//            'encodeLabel' => false,
+//            'label' => '<span title="Крепость">Кр...</span>',
+//        ],
     ];
 
     $columns[] = [
