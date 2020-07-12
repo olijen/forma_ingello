@@ -1056,4 +1056,50 @@ if($widgetNewOrder == true){
         $("[data-widget_name = "+collapsedWidget[i]+"]")[0].className += ' collapsed-box';
         $("[data-widget_name = "+collapsedWidget[i]+"]").find('.fa-minus')[0].className = 'fa fa-plus';
     }
+
+
+
+    //Для того, чтобы сортировка не забирала весь экран
+    $('.item')
+        .each(function(i){ $(this).data('i', i);})
+        .on({dragstart:function(e){
+                console.log('ITEM : dragstart');
+                draggedItem = $(this);
+                e.stopImmediatePropagation();
+            },
+            dragend:function(e){e.preventDefault();},
+            dragenter:function(e){e.preventDefault();},
+            dragover:function(e){e.preventDefault();},
+            dragleave:function(e){e.preventDefault();},
+            drop: function(e){e.preventDefault();},
+            dblclick:function(e){
+                if (1 === $(this).parent('.slot.filled').length) {
+                    console.log('ITEM : dblclick');
+                    var i = $(this).data('i');
+                    var last_before = $('.left > .item')
+                        .filter(function(){
+                            return $(this).data('i') < i;
+                        })
+                        .last();
+                    $(this).parent('.slot').removeClass('filled');
+                    if (0 === last_before.length){
+                        $('.left').prepend($(this));
+                    } else {
+                        last_before.after($(this));
+                    }
+                }
+                e.preventDefault();
+            }
+        });
+
+    $('.disabled').on({dragstart:function(e){
+            console.log('ITEM : dragstart');
+            draggedItem = $(this);
+            e.stopImmediatePropagation();
+            e.preventDefault();
+        },dragend:function(e){e.preventDefault();},
+        dragenter:function(e){e.preventDefault();},
+        dragover:function(e){e.preventDefault();},
+        dragleave:function(e){e.preventDefault();},
+        drop: function(e){e.preventDefault();}});
 </script>

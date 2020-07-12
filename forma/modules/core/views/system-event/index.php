@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
+use nex\datepicker\DatePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\core\records\SystemEventSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,11 +19,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <style>
     .content p button#event_user_view {
-        background-color: #56da32;
         border: none;
         color: #fff;
-        font-size: 18px;
         float: right;
+    }
+
+    .btn-event {
+        background-color: #00b65d;
+        color: #fff;
+    }
+
+    .btn-event:hover,
+    .btn-event:focus,
+    .btn-event:active{
+        color: #fff;
     }
 </style>
 
@@ -31,8 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-danger']) ?>
-        <button id="event_user_view" class="btn" onclick="changeSystemEventView()">
+        <?= Html::a('Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-event']) ?>
+        <button id="event_user_view" class="btn btn-event" onclick="changeSystemEventView()">
             Показать таблицей
         </button>
     </p>
@@ -65,9 +75,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     </div>
-    <div id="system_event_list">
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-    <ul class="timeline">
+    <div id="system_event_list" style="margin-top: 30px">
+        <div class="search_event" style="display:none">
+            <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+        </div>
+        <button class="btn btn-event buttonSearch" onclick="showSearch(this)">
+            Поиск по событиям
+        </button>
+    <ul class="timeline" style="margin-top: 15px;">
         <?php
 
         $eventDate = "";
@@ -85,11 +100,18 @@ $this->params['breadcrumbs'][] = $this->title;
             $arr = [];
             $linkView = "";
             $event = "";
-            if(strlen($model->request_uri) > 0 && $model->sender_id != 1) {
+            if(strlen($model->request_uri) > 0 && $model->sender_id >= 1) {
                 $arr = explode("/", $model->request_uri);
                 $linkView = "/" . $arr[1] . "/" . $arr[2];
                 if(count($arr) > 3)$event = substr($arr[3], 0, 6);
             }
+
+            // исключения на ссылки по объектам
+            if(isset($arr[1]) && $arr[1]=='selling' && ($arr[2] == 'form' || $arr[2] == 'talk')) $linkView = '/selling/main';
+
+
+
+
             if($eventDate != substr($model->date_time, 0, 10)){
                 ?>
 
@@ -113,11 +135,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="timeline-body">
                         <?=$model->data?>
                     </div>
-                    <?php if($model->sender_id !=1) { ?>
+                    <?php if($model->class_name != 'Login' && $model->class_name != 'WarehouseUser' && $model->class_name != 'RequestStrategy'
+                    && $model->class_name != 'WorkerVacancy') { ?>
                     <div class="timeline-footer">
                         <p>Посмотреть список в модуле: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||" .$model->class_name."}}")) ?></p>
 
-                        <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
+                        <?php
+                        //в объекте используем replaceUrlOnButtonAmp чтобы к GET['id'] который стоит в начале запроса подставлялся &without-header
+                            if($linkView == '/selling/main'){
+                                $linkView = '/selling/form';?>
+                                <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
+                        <?php } else {
+                        ?>
+
+
+
+                        <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
+                        <?php }?>
                     </div>
                     <?php } ?>
                 </div>
@@ -141,6 +175,15 @@ $this->params['breadcrumbs'][] = $this->title;
             $("#system_event_table").hide();
         }
     </script>
+
+    <?php
+        if (Yii::$app->request->get('SystemEventSearch')){?>
+            <script>
+                document.getElementsByClassName('search_event')[0].style.display = 'block';
+                document.getElementsByClassName('buttonSearch')[0].innerText = 'Скрыть поиск';
+            </script>
+    <?php    }
+    ?>
     <?php Pjax::end(); ?>
     <script>
         let table = $("#system_event_table");
@@ -173,3 +216,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
+
+<script>
+    function showSearch(e){
+        if(e.innerText == 'Поиск по событиям') {
+            document.getElementsByClassName('search_event')[0].style.display = 'block';
+            e.innerText = 'Скрыть поиск';
+        }
+        else {
+            document.getElementsByClassName('search_event')[0].style.display = 'none';
+            e.innerText = 'Поиск по событиям';
+        }
+    }
+</script>

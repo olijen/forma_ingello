@@ -30,13 +30,13 @@ use forma\modules\selling\widgets\HistoryView;
         <div class="detached-block-example">Ваши данные</div>
         <div class="customer_info">
             <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?> | <?=$selling->warehouse->name?></p>
-            <p><span class="user_info_point">Ваше государство:</span> <?=$customer->country->name?></p>
-            <p><span class="user_info_point">Ваш адрес:</span> <?=$customer->address?></p>
-            <p><span class="user_info_point">E-mail личный:</span> <?=$customer->chief_email?></p>
-            <p><span class="user_info_point">E-mail компании:</span> <?=$customer->company_email?></p>
-            <p><span class="user_info_point">Телефон личный:</span> <?=$customer->chief_phone?></p>
-            <p><span class="user_info_point">Телефон компании:</span> <?=$customer->company_phone?></p>
-            <p><span class="user_info_point">Сайт компании:</span> <?=$customer->site_company?></p>
+            <p><span class="user_info_point">Ваше государство:</span> <?=$customer->country->name??'не задано'?></p>
+            <p><span class="user_info_point">Ваш адрес:</span> <?=$customer->address??'не задано'?></p>
+            <p><span class="user_info_point">E-mail личный:</span> <?=$customer->chief_email??'не задано'?></p>
+            <p><span class="user_info_point">E-mail компании:</span> <?=$customer->company_email??'не задано'?></p>
+            <p><span class="user_info_point">Телефон личный:</span> <?=$customer->chief_phone??'не задано'?></p>
+            <p><span class="user_info_point">Телефон компании:</span> <?=$customer->company_phone??'не задано'?></p>
+            <p><span class="user_info_point">Сайт компании:</span> <?=$customer->site_company??'не задано'?></p>
         </div>
     </div>
     <div class="change_email bs-example" style="margin-bottom: 20px">

@@ -55,19 +55,18 @@ class SystemEventSearch extends SystemEvent
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        if($this->application != 'Все отделы' || $this->module != 'Все модули') {
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'date_time' => $this->date_time,
             'user_id' => \Yii::$app->user->id,
         ]);
 
         $query->andFilterWhere(['like', 'application', $this->application])
             ->andFilterWhere(['like', 'module', $this->module])
-            ->andFilterWhere(['like', 'data', $this->data]);
+            ->andFilterWhere(['like', 'date_time', $this->date_time]);
 
-        $query->orderBy(['id' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);}
 
         return $dataProvider;
     }

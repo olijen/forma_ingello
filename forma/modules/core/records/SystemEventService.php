@@ -86,7 +86,8 @@ class SystemEventService
         }
 
         $objectName = "";
-
+        $subject = '';
+        $text = '';
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
 
@@ -99,9 +100,17 @@ class SystemEventService
             if (!$systemEvent->save()) {
                 throw new \Exception(json_encode($systemEvent->errors));
             }
+            $arr = explode("/", $systemEvent->request_uri);
+            if(isset($arr[1]) && $arr[1]=='selling' && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
+
+            $subject = 'Forma: в отделе '.$systemEvent->application.' был добавлен объект: ('. $systemEvent->class_name .') '
+                . $objectName;
+            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' добавлен объект: ('. $systemEvent->class_name .') '
+                . $objectName .' <br /> Посмотреть список <a href="http://' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>' .
+                '<br /> Посмотреть объект <a href="http://'.$_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] .'/update?id='.$systemEvent->sender_id.'">Перейти</a>';
         }
 
-        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($className, $objectName);
+        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
 
     public static function eventAfterUpdate($event) {
@@ -124,7 +133,8 @@ class SystemEventService
                 $sendEmail = true;
             }
         }
-
+        $subject = '';
+        $text = '';
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
 
@@ -137,9 +147,15 @@ class SystemEventService
             if (!$systemEvent->save()) {
                 throw new \Exception(json_encode($systemEvent->errors));
             }
+            $arr = explode("/", $systemEvent->request_uri);
+            $subject = 'Forma: в отделе '.$systemEvent->application.' был обновлен объект: ('. $systemEvent->class_name .') '
+                . $objectName;
+            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' обновлен объект: ('. $systemEvent->class_name .') '
+                . $objectName .' <br /> Посмотреть список <a href="http://' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>' .
+            '<br /> Посмотреть объект <a href="http://'.$_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] .'/update?id='.$systemEvent->sender_id.'">Перейти</a>';
         }
 
-        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($className, $objectName);
+        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
 
     public static function eventAfterDelete($event){
@@ -158,7 +174,8 @@ class SystemEventService
                 $sendEmail = true;
             }
         }
-
+        $subject = "";
+        $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
 
@@ -168,17 +185,27 @@ class SystemEventService
             $systemEvent->class_name = $className;
             $systemEvent->sender_id = $model->id;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
+            $systemEvent1 = clone $systemEvent;
             if (!$systemEvent->save()) {
                 throw new \Exception(json_encode($systemEvent->errors));
             }
+            $arr = explode("/", $systemEvent->request_uri);
+            $subject = 'Forma: из отдела '.$systemEvent->application.' удален объект: ('. $systemEvent->class_name .') '
+                . $objectName;
+            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' удален объект: ('. $systemEvent->class_name .') '
+                . $objectName .' <br /> Посмотреть список <a href="' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>';
         }
 
-        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($className, $objectName);
+
+
+        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
+        //if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($className, $objectName);
     }
 
     //Пользовательские подписки, такие как подписка на обновление состояния продажи
     public static function eventAfterCustom($event, string $message){
         $model = $event->sender;
+        $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
         $className = self::getClassName($event);
 
         //получить название модуля и приложения
@@ -207,7 +234,10 @@ class SystemEventService
             }
         }
 
-        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($className, $objectName);
+        $subject = 'Forma: обновлено состояние продажи';
+        $text = 'FORMA INGELLO: обновлен статус продажи: '.$_SERVER['HTTP_HOST'].'/selling/form?id='.$model->id;
+
+        if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
 
     public static function eventAfterLogin($event){
@@ -215,11 +245,11 @@ class SystemEventService
         $systemEvent = new SystemEvent();
         $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
         $systemEvent->date_time = date('Y-m-d H:i:s');
-        $systemEvent->module = "main"; //$modules[$className];
-        $systemEvent->application = "main";//$districts[$this->module];
+        $systemEvent->module = "Ядро"; //$modules[$className];
+        $systemEvent->application = "BOSS";//$districts[$this->module];
         $systemEvent->data = "Вы авторизовались";
-        $systemEvent->class_name = "main";
-        $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
+        $systemEvent->class_name = "Login";
+        $systemEvent->request_uri = $_SERVER['REQUEST_URI'].'/zaglushka';
         $systemEvent->sender_id = 1;
         if (!$systemEvent->save()) {
             throw new \Exception(json_encode($systemEvent->errors));
