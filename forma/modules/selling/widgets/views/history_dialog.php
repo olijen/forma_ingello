@@ -73,7 +73,7 @@ use yii\helpers\Url;
         ?>
 
         <?php if ($talk) : ?>
-          <a class="btn btn-success" href="https://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
+          <a class="btn btn-success" href="http://<?=$_SERVER['HTTP_HOST']?>/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
         <?php endif ?>
 
     </div>
@@ -122,6 +122,7 @@ use yii\helpers\Url;
 
         }
         setInterval(updateList, 4000);
+
 
         div.scrollTop(div.prop('scrollHeight'));
         //console.log(div[0].scrollTop);
