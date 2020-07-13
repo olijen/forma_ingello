@@ -77,202 +77,11 @@ JS;
 
             ?>
         </li>
-        <li class="dropdown messages-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-comment"></i>
-            <span class="label label-success">4</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="header">Новых сообщений: 4</li>
-            <li>
-              <ul class="menu">
-                <li>
-                  <a href="/product">
-                    <div class="pull-left">
-                      <img src="<?= $directoryAsset ?>/img/user1-128x128.jpg" class="img-circle" alt="Иконка пользователя"/>
-                    </div>
-                    <h4>
-                      Бизнес-аналитик
-                      <small><i class="fa fa-clock-o"></i> 1 мин</small>
-                    </h4>
-                    <p>Посетите раздел объектов</p>
-                  </a>
-                </li>
-                <li>
-                  <a href="/warehouse/warehouse">
-                    <div class="pull-left">
-                      <img src="<?= $directoryAsset ?>/img/user6-128x128.jpg" class="img-circle" alt="Иконка пользователя"/>
-                    </div>
-                    <h4>
-                      Кладовщик
-                      <small><i class="fa fa-clock-o"></i> 1 мин</small>
-                    </h4>
-                    <p>Перейдите в панель хранилищ</p>
-                  </a>
-                </li>
-                <li>
-                  <a href="/selling/main">
-                    <div class="pull-left">
-                      <img src="<?= $directoryAsset ?>/img/user3-128x128.jpg" class="img-circle" alt="Иконка пользователя"/>
-                    </div>
-                    <h4>
-                      Менеджер по продажам
-                      <small><i class="fa fa-clock-o"></i> 1 мин</small>
-                    </h4>
-                    <p>Начните управлять клиентами</p>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://fractal.ingello.com">
-                    <div class="pull-left">
-                      <img src="<?= $directoryAsset ?>/img/user4-128x128.jpg" class="img-circle"
-                           alt="user image"/>
-                    </div>
-                    <h4>
-                      Команда SYSTEMS.I
-                      <small><i class="fa fa-clock-o"></i> 1 мин</small>
-                    </h4>
-                    <p>Вы можете заказать персональную систему для Вашей компании на базе FRACTAL.I Кликните для подробностей.</p>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://business.ingello.com">
-                    <div class="pull-left">
-                      <img src="<?= $directoryAsset ?>/img/user5-128x128.jpg" class="img-circle"
-                           alt="user image"/>
-                    </div>
-                    <h4>
-                      Общество BUSINESS.I
-                      <small><i class="fa fa-clock-o"></i> 1 мин</small>
-                    </h4>
-                    <p>Интересуетесь бизнесом и технологиями? Любите читать или писать статьи об этом? Есть идеи или советы? Посетите наше сообщество BUSINESS.I</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="footer"><a href="#"> Смотреть все сообщения</a></li>
-          </ul>
-        </li>
-        <li class="dropdown notifications-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell"></i>
-            <span class="label label-warning">10</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="header">У Вас 10 уведомлений</li>
-            <li>
-              <ul class="menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-aqua"></i> 5 новых пользователей
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-warning text-yellow"></i> 13 непрочитанных сообщений
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-red"></i> 1 пользователь удалился
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-green"></i> 25 сделок завершено
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-red"></i> Вы зарегистрировались в системе
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="footer"><a href="#">Смотреть все</a></li>
-          </ul>
-        </li>
-        <li class="dropdown tasks-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-tasks"></i>
-            <span class="label label-danger">9</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="header">У Вас 9 задач</li>
-            <li>
-              <ul class="menu">
-                <li>
-                  <a href="#">
-                    <h3>
-                      Начать проектирование
-                      <small class="pull-right">5%</small>
-                    </h3>
-                    <div class="progress xs">
-                      <div class="progress-bar progress-bar-aqua" style="width: 5%"
-                           role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                           aria-valuemax="100">
-                        <span class="sr-only">0% Готово</span>
-                      </div>
-                    </div>
-                  </a>
-                </li><li>
-                  <a href="#">
-                    <h3>
-                      Утвердить бюджет и сроки
-                      <small class="pull-right">30%</small>
-                    </h3>
-                    <div class="progress xs">
-                      <div class="progress-bar progress-bar-yellow" style="width: 30%"
-                           role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                           aria-valuemax="100">
-                        <span class="sr-only">30% Готово</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <h3>
-                      Утвердить ТЗ
-                      <small class="pull-right">60%</small>
-                    </h3>
-                    <div class="progress xs">
-                      <div class="progress-bar progress-bar-red" style="width: 60%"
-                           role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                           aria-valuemax="100">
-                        <span class="sr-only">60% Complete</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <h3>
-                      Определиться с исполнителями
-                      <small class="pull-right">99%</small>
-                    </h3>
-                    <div class="progress xs">
-                      <div class="progress-bar progress-bar-green" style="width: 99%"
-                           role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                           aria-valuemax="100">
-                        <span class="sr-only">99% Complete</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="footer">
-              <a href="#">Смотреть все задачи</a>
-            </li>
-          </ul>
-        </li>
 
         <!--  СОБЫТИЯ -->
         <li class="dropdown events-menu tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-car"></i>
+                  <i class="fa fa-history"></i>
                   <span class="label label-danger">20</span>
               </a>
               <ul class="dropdown-menu" style="width: 400px">
@@ -359,7 +168,7 @@ JS;
         <!-- ВОРОНКА ПРОДАЖ И ПОСЛЕДНИЕ 5 КЛИЕНТОВ -->
         <li class="dropdown events-menu tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-car"></i>
+                  <i class="fa fa-money-bill-wave"></i>
 
               </a>
               <ul class="dropdown-menu">
@@ -389,7 +198,7 @@ JS;
           <!-- ВСЕ СКЛАДЫ ПОЛЬЗОВАТЕЛЯ И КОЛИЧЕСТВО ПРОДУКТОВ НА НЕМ -->
           <li class="dropdown events-menu tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-car"></i>
+                  <i class="fa fa-boxes"></i>
 
               </a>
               <ul class="dropdown-menu">
@@ -466,7 +275,6 @@ JS;
 
 <?php
 $salesProgress = new SalesProgress();
-?>
 ?>
 <script>
     var options = {

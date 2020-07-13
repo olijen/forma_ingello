@@ -79,7 +79,7 @@ use forma\modules\product\records\Product;
                 'icon' => 'th'
             ],
 
-            ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'money'],
+            ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
             ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
             ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
 
@@ -107,7 +107,7 @@ use forma\modules\product\records\Product;
 
           ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
             [
-                'label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'car'
+                'label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'
                 ],
           [
               'label' => 'Люди',
@@ -127,7 +127,7 @@ use forma\modules\product\records\Product;
           [
               'label' => 'Продажи (CRM)',
               'url' => ['/selling/default'],
-              'icon' => 'money',
+              'icon' => 'money-bill-wave',
               'items' => [
                   [
                       'label' => 'Панель управления',
@@ -139,7 +139,7 @@ use forma\modules\product\records\Product;
                   ], [
                       'label' => 'Продажи клиентам',
                       'url' => ['/selling/main'],
-                      'icon' => 'money',
+                      'icon' => 'money-bill-wave',
                       'items' => [
 
                       ]
@@ -152,7 +152,7 @@ use forma\modules\product\records\Product;
                       ]
                   ],
                   ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
-                  ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar'],
+                  ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign'],
               ]
           ],
           [
@@ -161,7 +161,7 @@ use forma\modules\product\records\Product;
               'icon' => 'user-plus',
               'items' => [
                   ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
-                  ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper-o'],
+                  ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
                   ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                   ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                   ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],

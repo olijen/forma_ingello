@@ -3,8 +3,8 @@
 return [
     'adminEmail' => 'admin@example.com',
     'bsDependencyEnabled' => false,
-    'client_id' => '---',
-    'client_secret' => '---',
+    'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
+    'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
     'applications' => [
         'Apps1' => [
             'Mod0' => [
