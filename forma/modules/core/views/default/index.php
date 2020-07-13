@@ -15,7 +15,6 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
  * @var boolean $widgetOrder
  */
 
-
 $DragJS = <<<JS
 
 (function($){//fix jquery
@@ -125,6 +124,24 @@ function(calEvent, jsEvent, view) {
 }
 JS;
 ?>
+
+<style>
+    .first_block {
+        margin-top: 100px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .small_widgets {
+            display: none;
+        }
+
+        .first_block {
+            margin-top: 10px;
+        }
+    }
+
+
+</style>
 
 <script>
     var small_widgets_in_block = [];
@@ -600,7 +617,7 @@ smallWidget();
 </script>
 </div>
 
-<div class="row" style="margin-top: 100px">
+<div class="row first_block">
     <!-- ВОРОНКА ПРОДАЖ -->
     <?php
     $salesFunnelWidget = SalesFunnelWidget::widget();

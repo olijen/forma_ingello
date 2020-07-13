@@ -225,7 +225,7 @@ class SiteController extends Controller
         //todo перенести переменные в конфигурацию
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
-        $redirectUri = 'https://'.$_SERVER['HTTP_HOST'].'/login';
+        $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/login';
 
         $client = new Google_Client();
         /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config
