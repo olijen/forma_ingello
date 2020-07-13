@@ -41,7 +41,7 @@ use yii\widgets\Pjax;
         </div>
     </div>
     <div class="box-body" style="max-height: 400px; overflow: scroll">
-        <?php Pjax::begin(['enablePushState' => false]);
+        <?php Pjax::begin(['enablePushState' => false, 'timeout' => 3000]);
 
             require_once 'history_event_timeline.php';
         Pjax::end();

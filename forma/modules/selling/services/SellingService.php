@@ -50,6 +50,15 @@ class SellingService
             $warehouseId = $model->warehouse_id;
         }
 
+        $userState = State::find()
+            ->where(['user_id' => Yii::$app->user->getId()])
+            ->orderBy('order')
+            ->one();
+
+        if ($userState) {
+            $model->state_id = $userState->id;
+        }
+
         $model->load($post);
         if (!$model->save()) {
             var_dump($model->getErrors());

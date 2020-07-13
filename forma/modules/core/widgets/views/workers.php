@@ -16,7 +16,7 @@
 
         use yii\widgets\Pjax;
 
-        Pjax::begin(['enablePushState' => false]);
+        Pjax::begin(['enablePushState' => false, 'timeout' => 3000]);
             require_once 'workers_table.php';
         Pjax::end();
         ?>
