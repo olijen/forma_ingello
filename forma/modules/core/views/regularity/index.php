@@ -140,12 +140,15 @@ foreach ($menu as $itemMain): ?>
             <?= $itemMain['label'] ?>
             <?= !empty($itemMain['url']) ? '</a>' : '' ?>
 
+          <span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($itemMain['url'])."||" .$itemMain['label']."}}") ?></span>
+          <input style="font-size: 17px; width: 30%;" class="" value="{{<?= Url::to($itemMain['url']) ?>||<?= $itemMain['label'] ?>}}"/>
+
+
         </h2>
-        Вид:<span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($itemMain['url'])."||" .$itemMain['label']."}}") ?></span>
-        Код: <input style="" class="" value="{{<?= Url::to($itemMain['url']) ?>||<?= $itemMain['label'] ?>}}"/>
 
     </div>
 
+<br>
 
     <?php if (!empty($itemMain['items'])) : $i = 0;
         foreach ($itemMain['items'] as $item): ?>
@@ -158,11 +161,11 @@ foreach ($menu as $itemMain): ?>
                 <div class="info-box">
                     <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
                     <div class="info-box-content">
-                        <strong><?= $item['label'] ?></strong>
-                        <br>
-                        Вид:<span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($item['url'])."||". $item['label']."}}") ?></span>
-                        <br>
-                        Код: <input style="width:85%" class=""
+
+
+                        <span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($item['url'])."||". $item['label']."}}") ?></span>
+                      <br>                      <br>
+                        <input style="width:100%" class=""
                                     value="{{<?= Url::to($item['url']) ?>||<?= $item['label'] ?>}}"/>
                     </div>
                 </div>
