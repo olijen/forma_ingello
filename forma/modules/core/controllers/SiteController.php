@@ -97,6 +97,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        //var_dump(Yii::$app->request->referrer); exit;
         $googleLink = $this->googleAuth();
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -107,7 +108,10 @@ class SiteController extends Controller
         $user = $model->getUser();
         if ($loginLoad) {
             if ($model->login()){
-                return $this->goBack();
+                if (isset($_COOKIE['after_login_link'])) {
+                    return Yii::$app->response->redirect($_COOKIE['after_login_link']);
+                }
+                return Yii::$app->response->redirect('/');
             }
             else if(!is_null($user) && $user->confirmed_email == 0){
                 return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
@@ -194,8 +198,14 @@ class SiteController extends Controller
         }
 
         if (Yii::$app->user->isGuest) {
-            Yii::$app->getResponse()->redirect(Url::to(['/login']));
-            return false;
+            setcookie(
+                "after_login_link",
+                $actual_link =
+                    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+                    . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
+            );
+
+            return $this->redirect(Url::to(['/login']));
         }
 
         if (!empty($exception->statusCode)) {
