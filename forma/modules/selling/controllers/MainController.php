@@ -71,7 +71,7 @@ class MainController extends Controller
         $selling_token = null;
         if(isset($_GET['selling_token'])){
             $selling_token = $_GET['selling_token'];
-            setcookie('selling_token', $selling_token);
+            setcookie('selling_token', $selling_token, time()+36000);
         } else if(isset($_COOKIE['selling_token'])){
             $selling_token = $_COOKIE['selling_token'];
             $_GET['selling_token'] = $_COOKIE['selling_token'];
