@@ -38,6 +38,7 @@ class VacancyController extends Controller
     {
         $searchModel = new VacancySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        Yii::debug($dataProvider->getModels());
 
         return $this->render('index', [
             'searchModel' => $searchModel,

@@ -94,6 +94,7 @@ class ProjectController extends Controller
     {
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //Yii::debug($dataProvider->getModels());
 
         return $this->render('index', [
             'searchModel' => $searchModel,

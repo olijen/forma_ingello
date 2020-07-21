@@ -43,6 +43,7 @@ class ProjectSearch extends Project
     public function search($params)
     {
         $query = Project::find();
+        \Yii::debug($query);
         $this->access($query);
 
         // add conditions that should always apply here
@@ -50,6 +51,8 @@ class ProjectSearch extends Project
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //\Yii::debug($dataProvider->getModels());
 
         $this->load($params);
         

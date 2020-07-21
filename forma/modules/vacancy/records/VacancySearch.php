@@ -44,6 +44,7 @@ class VacancySearch extends Vacancy
     public function search($params)
     {
         $query = Vacancy::find();
+        \Yii::debug($query);
         $this->access($query);
         // add conditions that should always apply here
 

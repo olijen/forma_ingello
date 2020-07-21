@@ -151,8 +151,10 @@ use forma\modules\product\records\Product;
 
                       ]
                   ],
-                  ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
-                  ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign'],
+                  ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users',
+                      'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
+                  ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign',
+                       'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
               ]
           ],
           [

@@ -14,6 +14,7 @@ class AccessoryActiveRecord extends ActiveRecord
     {
         $user = \Yii::$app->getUser()->getIdentity();
         $ids = []; //$ids - это массив типа [1,2,3,4,5...]
+
         $condition = '';
 
         if ($user->parent_id != null) {
@@ -28,10 +29,14 @@ class AccessoryActiveRecord extends ActiveRecord
             array_push($ids, $user->id);
         }
 
+        Yii::debug($ids);
+
         $results = Accessory::find()
             ->andWhere([ 'in', 'accessory.user_id', $ids])
             ->andWhere([ 'accessory.entity_class' => explode('Search!!!', static::class.'!!!')[0] ])
             ->all();
+
+
 
         $accessedIds = [];
         foreach ($results as $result) {
@@ -41,8 +46,11 @@ class AccessoryActiveRecord extends ActiveRecord
         $searchClass = static::class;
         $searchClass = new $searchClass;
         $name = (new ReflectionClass($searchClass))->getShortName();
+        Yii::debug($name);
         $name = explode('Search!!!', $name.'!!!')[0];
-        $query->andFilterWhere(['in', strtolower($name).'.id', $accessedIds]);
+        Yii::debug($name);
+        if (empty($results)) {$query->andFilterWhere(['in', strtolower($name).'.id', [-1]]);}
+        if (!empty($accessedIds)) $query->andFilterWhere(['in', strtolower($name).'.id', $accessedIds]);
     }
 
     public function afterSave($insert, $changedAttributes)

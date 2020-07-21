@@ -45,15 +45,15 @@
             $model->password = '111111';
             $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
 
-          <div style="display: none;">
+          <div style="display: ;">
               <?= $form
                   ->field($model, 'email', $fieldOptions1)
-                  ->label(false)
+
                   ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
 
               <?= $form
                   ->field($model, 'password', $fieldOptions2)
-                  ->label(false)
+
                   ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
             <div class="row">

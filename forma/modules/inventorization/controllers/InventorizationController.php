@@ -39,6 +39,8 @@ class InventorizationController extends Controller
         $searchModel = new InventorizationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
