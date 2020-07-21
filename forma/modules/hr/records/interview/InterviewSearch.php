@@ -47,7 +47,7 @@ class InterviewSearch extends Interview
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $pagination = 20)
     {
         $query = Interview::find();
         $this->access($query);
@@ -56,6 +56,9 @@ class InterviewSearch extends Interview
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => $pagination
+            ]
         ]);
 
         $this->load($params);

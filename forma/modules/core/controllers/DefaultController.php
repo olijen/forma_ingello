@@ -67,9 +67,10 @@ class DefaultController extends Controller
         //массив продаж по дням на неделю
         $salesInWeek = SellingService::getSellingInWeek();
         Yii::debug($salesInWeek);
+        
         //работающие сотрудники
         $searchModelWorkers = InterviewService::search();
-        $dataProviderWorkers = $searchModelWorkers->searchWork();
+        $dataProviderWorkers = $searchModelWorkers->search(Yii::$app->request->queryParams, 5);
         $dataProviderWorkers->getModels();
 
         //продажи по складам
