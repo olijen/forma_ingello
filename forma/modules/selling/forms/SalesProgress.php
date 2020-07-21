@@ -24,6 +24,7 @@ class SalesProgress extends Model
         // Получили список продаж
         $this->salesDP = SellingService::search()->search([]);
         $this->models = $this->salesDP->models;
+
         //список состояний пользователа
         $this->states = State::find()
             ->where(['user_id' => Yii::$app->user->getId()])
@@ -36,6 +37,7 @@ class SalesProgress extends Model
 
         //мы находим каких состояний сколько
         foreach ($this->models as $model) {
+            Yii::debug($model->id . ' - id; ' . $model->state_id);
             if ($model->state_id !== null) {
                 $this->sales[$model->state_id]['sum']++;
             }

@@ -57,6 +57,9 @@ class SellingSearch extends Selling
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 0
+            ]
         ]);
 
         $this->load($params);
