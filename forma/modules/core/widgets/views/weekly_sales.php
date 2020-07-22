@@ -21,6 +21,6 @@
         </div>
         <!-- /.box-body -->
         <div class="box-header small_widget_header" style="display: none">
-            <h3 class="box-title">Продажи за неделю</h3>
+            <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Продажи за неделю"><i class="fas fa-shopping-cart"></i></h3>
         </div>
     </div>

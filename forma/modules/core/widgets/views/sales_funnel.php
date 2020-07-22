@@ -23,7 +23,7 @@
         </div>
 
     <div class="small_widget_header box-header" style="display: none">
-        <h3 class="box-title">Воронка продаж</h3>
+        <h3 class="box-title"  data-toggle="tooltip" data-placement="top" title="Воронка продаж"><i class="fas fa-funnel-dollar"></i> </h3>
     </div>
 
 

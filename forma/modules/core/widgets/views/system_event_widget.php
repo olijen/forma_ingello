@@ -52,7 +52,7 @@ use yii\widgets\Pjax;
         ?>
     </div>
     <div class="small_widget_header box-header" style="display: none">
-        <h3 class="box-title">История событий</h3>
+        <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="История событий"> <i class="fas fa-history"></i> </h3>
     </div>
     <!-- /.box-body -->
 </div>

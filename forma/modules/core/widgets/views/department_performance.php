@@ -22,6 +22,6 @@
         <!-- /.box-body -->
 
         <div class="box-header with-border small_widget_header" style="display:none">
-            <h3 class="box-title">Успеваемость отдела продаж</h3>
+            <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Успеваемость отдела продаж"><i class="fas fa-user-clock"></i></h3>
         </div>
     </div>

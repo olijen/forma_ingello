@@ -5,9 +5,9 @@ use yii\helpers\Url;
 
     <div class="box box-warning" data-widget_name="Calendar">
         <div class="box-header ui-sortable-handle big_widget_header" style="cursor: move;">
-            <i class="fa fa-calendar"></i>
 
-            <h3 class="box-title">Календарь</h3>
+
+            <h3 class="box-title"><i class="fa fa-calendar"></i> Календарь</h3>
 
             <div class="pull-right box-tools">
 
@@ -59,9 +59,6 @@ use yii\helpers\Url;
         </div>
 
         <div class="box-header ui-sortable-handle small_widget_header" style="display: none">
-            <i class="fa fa-calendar"></i>
-
-            <h3 class="box-title">Календарь</h3>
-
+            <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Календарь"><i class="fa fa-calendar"></i></h3>
         </div>
     </div>

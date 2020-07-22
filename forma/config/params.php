@@ -3,8 +3,10 @@
 return [
     'adminEmail' => 'admin@example.com',
     'bsDependencyEnabled' => false,
-    'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
-    'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
+   // 'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
+    'client_id' => '573197289123-bf4oqdrq58pihbf0eqjdql1act4q7o6c.apps.googleusercontent.com',
+   // 'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
+    'client_secret' => '6uAuwMd1jVeNsbAHtsimAapB',
     'applications' => [
         'Apps1' => [
             'Mod0' => [

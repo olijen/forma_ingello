@@ -66,6 +66,6 @@
         </div>
         <!-- /.box-footer -->
         <div class="box-header with-border small_widget_header" style="display: none">
-            <h3 class="box-title">Сотрудники</h3>
+            <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Сотрудники"><i class="fas fa-user-tie"></i></h3>
         </div>
     </div>

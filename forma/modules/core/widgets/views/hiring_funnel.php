@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="box-header with-border small_widget_header" style="display: none">
-        <h3 class="box-title">Этапы (воронка найма)</h3>
+        <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Этапы (воронка найма)"><i class="fas fa-user-friends"></i></h3>
     </div>
 </div>
 <script>

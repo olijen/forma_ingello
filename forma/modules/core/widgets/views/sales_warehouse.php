@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="small_widget_header box-header" style="display: none">
-        <h3 class="box-title">Продажи по складам</h3>
+        <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Продажи по складам"><i class="fas fa-boxes"></i></h3>
     </div>
     <!-- /.box-body -->
 </div>

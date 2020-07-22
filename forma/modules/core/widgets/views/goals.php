@@ -50,6 +50,6 @@
         <!-- /.box-body -->
 
         <div class="box-header with-border small_widget_header" style="display: none">
-            <h3 class="box-title">Выполнение целей</h3>
+            <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Выполнение целей"><i class="fas fa-bullseye"></i></h3>
         </div>
     </div>

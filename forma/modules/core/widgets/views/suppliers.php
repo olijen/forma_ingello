@@ -37,6 +37,6 @@
         </div>
         <!-- /.box-footer -->
         <div class="box-header small_widget_header" style="display: none">
-            <h3 class="box-title">Поставщики на карте</h3>
+            <h3 class="box-title"  data-toggle="tooltip" data-placement="top" title="Поставщики на карте"><i class="fas fa-map-marker-alt"></i></h3>
         </div>
     </div>

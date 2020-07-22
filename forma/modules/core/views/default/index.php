@@ -312,12 +312,17 @@ $widgetsForSortable2 = [];
 
 <style>
     .small_widgets .sortable li{
+        border: none;
         min-height: 20px;
-        max-width: 400px;
+        max-width: 40px;
+    }
+
+    .small_widgets .sortable li h3{
+        font-size: 28px;
     }
 
     .small_widgets .sortable .sortable-placeholder {
-        min-height: 80px;
+        min-height: 60px;
     }
 
     .sortable {
@@ -1130,4 +1135,7 @@ if($widgetNewOrder == true){
         $("[data-widget_name = "+collapsedWidget[i]+"]")[0].className += ' collapsed-box';
         $("[data-widget_name = "+collapsedWidget[i]+"]").find('.fa-minus')[0].className = 'fa fa-plus';
     }
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
