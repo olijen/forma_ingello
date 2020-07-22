@@ -24,9 +24,6 @@ use yii\helpers\Url;
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                         class="fa fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-warning btn-sm" data-widget="remove"><i
-                        class="fa fa-times"></i>
-                </button>
             </div>
 
         </div>

@@ -3,13 +3,18 @@
     \insolita\wgadminlte\LteChatBox::begin([
         'type' => \insolita\wgadminlte\LteConst::TYPE_PRIMARY,
         'footer'=>'<input type="text" name="newMessage"><input class="btn submit-message" value="Отправить">',
-        'title'=>'Сообщения',
+        'title'=>'<i class="fas fa-envelope"></i> Сообщения',
         'boxTools' => '
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                    class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="#">Смотреть сообщения</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
+                        class="fa fa-minus"></i>
+                  
                     <button class="btn btn-xs"><i class="fa fa-refresh"></i></button>'
     ]);
     echo \insolita\wgadminlte\LteChatMessage::widget([

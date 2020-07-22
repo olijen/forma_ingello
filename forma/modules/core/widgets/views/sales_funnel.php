@@ -2,14 +2,18 @@
 
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title" id="scroll">Воронка продаж <span style="padding-left: 20px; color:#abc"><i class="fa fa-mouse-pointer"></i> кликни на колонку</span></h3>
+            <h3 class="box-title" id="scroll"><i class="fas fa-funnel-dollar"></i> Воронка продаж <span style="padding-left: 20px; color:#abc"><i class="fa fa-mouse-pointer"></i> кликни на колонку</span></h3>
 
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="/selling/main/">Смотреть продажи</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                         class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                </button>
             </div>
         </div>
 

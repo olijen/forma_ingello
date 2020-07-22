@@ -373,6 +373,12 @@ $widgetsForSortable2 = [];
         min-width: auto;
         padding: 0;
     }
+
+    .sortable.grid li .dropdown-menu > li {
+        border: none;
+        min-height: 0px;
+        padding: 1px;
+    }
 </style>
 
 <?php

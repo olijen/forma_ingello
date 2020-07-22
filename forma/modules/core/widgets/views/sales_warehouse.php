@@ -6,14 +6,18 @@
 
 <div class="box box-warning" data-widget_name="SalesWarehouse">
     <div class="box-header with-border big_widget_header">
-        <h3 class="box-title">Продажи по складам</h3>
+        <h3 class="box-title"><i class="fas fa-boxes"></i> Продажи по складам</h3>
 
         <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bars"></i></button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="/warehouse/warehouse/">Смотреть склады</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                     class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-            </button>
         </div>
     </div>
     <div class="box-body">
