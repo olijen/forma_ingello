@@ -314,11 +314,11 @@ $widgetsForSortable2 = [];
     .small_widgets .sortable li{
         border: none;
         min-height: 20px;
-        max-width: 40px;
+        max-width: 110px;
     }
 
     .small_widgets .sortable li h3{
-        font-size: 28px;
+        font-size: 48px;
     }
 
     .small_widgets .sortable .sortable-placeholder {
