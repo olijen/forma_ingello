@@ -97,8 +97,10 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        Yii::debug("hosoposapoap");
         //var_dump(Yii::$app->request->referrer); exit;
         $googleLink = $this->googleAuth();
+        Yii::debug($googleLink);
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -108,6 +110,7 @@ class SiteController extends Controller
         $user = $model->getUser();
         if ($loginLoad) {
             if ($model->login()){
+                $this->trigger(self::EVENT_AFTER_LOGIN);
                 if (isset($_COOKIE['after_login_link'])) {
                     return Yii::$app->response->redirect($_COOKIE['after_login_link']);
                 }
@@ -275,7 +278,10 @@ class SiteController extends Controller
             $loginForm = new LoginForm();
             $loginForm->email = $email;
             if($loginForm->getUser() != false){
-                if($loginForm->googleLogin()) return $this->goHome();
+                if($loginForm->googleLogin()) {
+                    $this->trigger(self::EVENT_AFTER_LOGIN);
+                    return $this->goHome();
+                }
             }
             else {
                 $signupForm = new SignupForm();

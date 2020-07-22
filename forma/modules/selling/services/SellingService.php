@@ -180,15 +180,16 @@ class SellingService
         $weekly = $searchModel->weeklySales();
 
         $dates = [];
-
-        foreach($weekly as $sale){
-            $dates[] = date("w", strtotime(substr($sale->date_create, 0, 10)));
-        }
-
         $week = [0, 0, 0, 0, 0, 0, 0];
 
-        foreach($dates as $dateSale){
-            $week[$dateSale]++;
+        if (!empty($weekly)) {
+            foreach ($weekly as $sale) {
+                $dates[] = date("w", strtotime(substr($sale->date_create, 0, 10)));
+            }
+
+            foreach ($dates as $dateSale) {
+                $week[$dateSale]++;
+            }
         }
 
         return $week;

@@ -17,7 +17,8 @@ class SystemEventService
         'Accessory',
         'StateSearchState',
         'SystemEventUser',
-        'WidgetUser'
+        'WidgetUser',
+        'UserIdentity'//при регистрации не учитывать ничего в системных событиях
     ];
 
     public static function init(){
@@ -88,6 +89,7 @@ class SystemEventService
         $objectName = "";
         $subject = '';
         $text = '';
+        Yii::debug($className);
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
 
@@ -252,7 +254,8 @@ class SystemEventService
         $systemEvent->request_uri = $_SERVER['REQUEST_URI'].'/zaglushka';
         $systemEvent->sender_id = 1;
         if (!$systemEvent->save()) {
-            throw new \Exception(json_encode($systemEvent->errors));
+            var_dump(($systemEvent->errors));
+            exit;
         }
     }
 

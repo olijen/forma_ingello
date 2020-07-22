@@ -167,8 +167,6 @@ use forma\modules\product\records\Product;
                   ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                   ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                   ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
-                  ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
-                  ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
               ],
           ],
           [

@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\forms;
 
+use forma\modules\core\controllers\SiteController;
 use yii\base\Model;
 use forma\modules\core\components\UserIdentity;
 use Yii;
@@ -81,8 +82,10 @@ class SignupForm extends Model
         }
 
         if ($user->save()) {
-            if($google)
+            if($google) {
+                $this->trigger(SiteController::EVENT_AFTER_LOGIN);
                 return Yii::$app->user->login($user);
+            }
             else
                 return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
         }

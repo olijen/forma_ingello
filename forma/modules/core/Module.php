@@ -36,9 +36,10 @@ class Module extends \yii\base\Module
             return true;
         }
 
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest || isset($_GET['code'])) {
             return true;
         } else {
+            Yii::debug("chtotototo???????????");
             setcookie(
                 "after_login_link",
                 $actual_link =
