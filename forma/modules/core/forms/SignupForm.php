@@ -103,9 +103,8 @@ class SignupForm extends Model
         Yii::$app->mailer->compose()
             ->setFrom('forma@gmail.com')
             ->setTo($this->email)
-            ->setSubject('Пароль на сайте от формы')
-            ->setTextBody('Пароль на форму')
-            ->setHtmlBody('Ваш пароль: <b>'.$password.'</b>')
+            ->setSubject('Спасибо за регистрацию')
+            ->setHtmlBody('Вы зарегистрировались в приложении Форма. <a href="https://'.$_SERVER['HTTP_HOST'].'">Перейти к приложению</a>')
             ->send();
 
     }

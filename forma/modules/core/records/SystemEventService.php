@@ -103,8 +103,10 @@ class SystemEventService
                 throw new \Exception(json_encode($systemEvent->errors));
             }
             $arr = explode("/", $systemEvent->request_uri);
-            if(isset($arr[1]) && $arr[1]=='selling' && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
-
+            Yii::debug("ebanina");
+            Yii::debug($arr);
+            if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1]=='inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
+            Yii::debug($arr);
             $subject = 'Forma: в отделе '.$systemEvent->application.' был добавлен объект: ('. $systemEvent->class_name .') '
                 . $objectName;
             $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' добавлен объект: ('. $systemEvent->class_name .') '

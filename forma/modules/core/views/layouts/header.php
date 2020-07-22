@@ -77,14 +77,13 @@ JS;
 
             ?>
         </li>
-
         <!--  СОБЫТИЯ -->
         <li class="dropdown events-menu tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-history"></i>
                   <span class="label label-danger">20</span>
               </a>
-              <ul class="dropdown-menu" style="width: 400px">
+              <ul class="dropdown-menu" style="width: 400px; left: 0; padding: 5px;">
                   <li class="header">20 последних событий</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
@@ -171,7 +170,7 @@ JS;
                   <i class="fa fa-money-bill-wave"></i>
 
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="left: 0; padding: 5px;">
                   <li class="header">Продажи</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
@@ -186,7 +185,6 @@ JS;
                                 <p><?=$client->customer->name?>
                                 <a href="/selling/form?id=<?=$client->id?>">Посмотреть</a></p>
                            <?php } ?>
-                          ?>
                       </div>
                   </li>
                   <li class="footer">
@@ -201,7 +199,7 @@ JS;
                   <i class="fa fa-boxes"></i>
 
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="left: 0; padding: 5px">
                   <li class="header">Склады</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы

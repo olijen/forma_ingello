@@ -107,6 +107,8 @@ return [
     ],
 
 
+
+
     'warehouse' => [
         [
             'label' => 'Смотреть все',

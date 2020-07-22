@@ -2,7 +2,7 @@
 <?php $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();?>
 <div class="box box-success" data-widget_name="HiringFunnel">
     <div class="box-header with-border big_widget_header">
-        <h3 class="box-title" id="scroll"><i class="fas user-friends"></i> Этапы (воронка найма)</h3>
+        <h3 class="box-title" id="scroll"><i class="fas fa-user-friends"></i> Этапы (воронка найма)</h3>
 
         <div class="box-tools pull-right">
             <div class="btn-group">

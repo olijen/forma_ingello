@@ -3,24 +3,26 @@ use yii\helpers\Url;
 ?>
 
 
-<div class="col-lg-3 col-xs-12">
+<div class="box box-success" data-widget_name="ApplicationInfo">
 
-    <div class="box box-success">
-        <div class="box-header with-border">
+        <div class="box-header with-border big_widget_header">
 
             <h3 class="box-title" id="scroll">
-                Отделы компании <span style="padding-left: 10px; color:#abc">
+                <i class="fas fa-building"></i> Отделы компании <span style="padding-left: 10px; color:#abc">
               <i class="fa fa-object-group"></i>
             </span>
             </h3>
 
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove">
-                    <i class="fa fa-times"></i>
-                </button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="/">Отделы</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
+                            class="fa fa-minus"></i>
             </div>
 
         </div>
@@ -72,6 +74,8 @@ use yii\helpers\Url;
             </div>
         </div>
 
+    <div class="small_widget_header box-header" style="display: none">
+        <h3 class="box-title">Отделы компании</h3>
     </div>
 
 </div>

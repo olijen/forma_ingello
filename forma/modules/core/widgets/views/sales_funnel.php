@@ -1,7 +1,6 @@
-<div class="col-lg-9 col-xs-12">
+<div class="box box-success" data-widget_name="SalesFunnel">
 
-    <div class="box box-success">
-        <div class="box-header with-border">
+        <div class="box-header with-border big_widget_header">
             <h3 class="box-title" id="scroll"><i class="fas fa-funnel-dollar"></i> Воронка продаж <span style="padding-left: 20px; color:#abc"><i class="fa fa-mouse-pointer"></i> кликни на колонку</span></h3>
 
             <div class="box-tools pull-right">
@@ -23,7 +22,10 @@
             </div>
         </div>
 
+    <div class="small_widget_header box-header" style="display: none">
+        <h3 class="box-title">Воронка продаж</h3>
     </div>
+
 
 </div>
 

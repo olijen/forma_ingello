@@ -334,8 +334,8 @@ $widgetsForSortable2 = [];
         margin: 0;
     }
 
-    .panel_big_widget.sortable h3,
-    #panel_small_widget.sortable h3{
+    .panel_big_widget.sortable .box-header,
+    #panel_small_widget.sortable .box-header{
         cursor: grabbing;
     }
 
@@ -383,6 +383,8 @@ $widgetsForSortable2 = [];
 
 <?php
 //ОБЪЯВЛЯЕМ ВСЕ ВИДЖЕТЫ НА ГЛАВНОЙ СТРАНИЦЕ
+//воронка продаж
+$salesFunnelWidget = SalesFunnelWidget::widget();
 //успеваемость отдела продаж
 $departmentPerfomanceWidget = DepartmentPerfomance::widget();
 //недельные продажи
@@ -398,6 +400,9 @@ $workers = \forma\modules\core\widgets\WorkersWidget::widget(['tableView' => fal
 $salesWarehouseWidget = \forma\modules\core\widgets\SalesWarehouseWidget::widget(['sellingInWarehouse' => $sellingInWarehouse]);
 
 
+//информация об отделах
+$applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
+        'productsCount' => $productsCount]) ;
 //выполнение плана поставок
 $deliveryPlanWidget = \forma\modules\core\widgets\DeliveryPlanWidget::widget();
 //выполнение целей
@@ -467,10 +472,18 @@ $historyEventWidget = \forma\modules\core\widgets\SystemEventWidget::widget(['ti
 $widgetsForSortable0 = addToWidgetSection('panelSmallWidget', $widgetsForSortable0, $widgetOrder);*/
 Yii::debug($widgetsForSortable0);
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ МАЛЕНЬКОЙ ПАНЕЛИ
+Yii::debug('sssssss');
+Yii::debug($widgetOrder);
 foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelSmallWidget'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
+                case 'SalesFunnel':
+                    $widgetsForSortable0[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+                    break;
+                case 'ApplicationInfo':
+                    $widgetsForSortable0[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+                    break;
                 case 'DepartmentPerfomance':
                     $widgetsForSortable0[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
                     break;
@@ -518,6 +531,12 @@ foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelBigWidget1'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
+                case 'SalesFunnel':
+                    $widgetsForSortable1[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+                    break;
+                case 'ApplicationInfo':
+                    $widgetsForSortable1[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+                    break;
                 case 'DepartmentPerfomance':
                     $widgetsForSortable1[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
                     break;
@@ -563,6 +582,12 @@ foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelBigWidget2'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
+                case 'SalesFunnel':
+                    $widgetsForSortable2[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+                    break;
+                case 'ApplicationInfo':
+                    $widgetsForSortable2[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+                    break;
                 case 'DepartmentPerfomance':
                     $widgetsForSortable2[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
                     break;
@@ -626,18 +651,18 @@ smallWidget();
 <div class="row first_block">
     <!-- ВОРОНКА ПРОДАЖ -->
     <?php
-    $salesFunnelWidget = SalesFunnelWidget::widget();
+    //$salesFunnelWidget = SalesFunnelWidget::widget();
     //$widgetsForSortable[]['content'] = $salesFunnelWidget;
-    echo $salesFunnelWidget;
+    //echo $salesFunnelWidget;
     //Yii::debug($wsf);
     ?>
 
     <!-- ИНФОРМАЦИЯ ОБ ОТДЕЛАХ -->
     <?php
-    $applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
-        'productsCount' => $productsCount]) ;
+    //$applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
+    //    'productsCount' => $productsCount]) ;
     //$widgetsForSortable[]['content'] = $applicationInfoWidget;
-    echo $applicationInfoWidget;
+    //echo $applicationInfoWidget;
     //Yii::debug($wap);
     ?>
 
@@ -661,6 +686,18 @@ $collapsed = 0;
 ?>
 <div class="row">
     <div class="col-md-6">
+
+        <!-- ВОРОНКА ПРОДАЖ -->
+        <?php
+        if($widgetNewOrder == true) {
+            $widgetsForSortable1[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+            $widgetOrder[] = ['SalesFunnel', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        //echo $wdf;
+        //Yii::debug($wdf);
+        ?>
+
         <!-- УСПЕВАВАЕМОСТЬ ОТДЕЛА ПРОДАЖ -->
         <?php
         if($widgetNewOrder == true) {
@@ -754,6 +791,20 @@ $collapsed = 0;
 
 
     <div class="col-md-6">
+
+
+        <!-- ИНФОРМАЦИЯ ОБ ОТДЕЛАХ -->
+        <?php
+
+
+        if($widgetNewOrder == true) {
+            $widgetsForSortable2[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+            $widgetOrder[] = ['ApplicationInfo', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        //echo $wdp;
+        //Yii::debug($wdp);
+        ?>
         <!-- ВЫПОЛНЕНИЕ ПЛАНА ПОСТАВОК -->
         <?php
 
@@ -994,19 +1045,19 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 var dom = document.getElementsByClassName('panel_big_widget')[0];
 
     new Sortable(dom, {
-        handle: '.box-title'
+        handle: '.box-header'
     });
 
     var dom1 = document.getElementsByClassName('panel_big_widget')[1];
 
     new Sortable(dom1, {
-        handle: '.box-title'
+        handle: '.box-header'
     });
 
     var dom0 = document.getElementById('panel_small_widget');
 
     new Sortable(dom0, {
-        handle: '.box-title'
+        handle: '.box-header'
     });
     console.log(1324567);
 
@@ -1066,7 +1117,7 @@ foreach($widgetOrder['collapsedWidgets'] as $widgetName) { ?>
 
 //todo:поставить нормальный ограничитель а не цифру 8
 if($widgetNewOrder == true){
-    for($i = 0; $i < 12; $i++){
+    for($i = 0; $i < 14; $i++){
         $widgetUser = new \forma\modules\core\records\WidgetUser();
         $widgetUser->loadWidgets($widgetOrder[$i]);
         $widgetUser->save();
