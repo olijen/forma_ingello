@@ -7,7 +7,9 @@
                 <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-bars"></i></button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                    <li><a href="/worker/worker">Смотреть сотрудников</a></li>
+                    <li><a href="/hr"><i class="fa fa-laptop"></i>Отдел кадров</a></li>
+                    <li><a href="/worker/worker"><i class="fa fa-user"></i>Кадры</a></li>
+                    <li><a href="/project/project?ProjectSearch[state]=1"><i class="fa fa-newspaper"></i>Проекты</a></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
@@ -32,6 +34,6 @@
     </div>
     <!-- /.box-footer -->
     <div class="box-header with-border small_widget_header" style="display: none">
-        <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Сотрудники"><i class="fas fa-users"></i></h3>
+        <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Работающие сотрудники"><i class="fas fa-users"></i></h3>
     </div>
 </div>

@@ -9,7 +9,9 @@
                 <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-bars"></i></button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                    <li><a href="/hr/main/">Смотреть найм</a></li>
+                    <li><a href="/hr/main/"><i class="fa fa-user-plus"></i>Смотреть найм</a></li>
+                    <li><a href="/worker/worker"><i class="fa fa-user"></i>Кадры</a></li>
+                    <li><a href="/vacancy/vacancy"><i class="fa fa-id-card"></i>Вакансии</a></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i

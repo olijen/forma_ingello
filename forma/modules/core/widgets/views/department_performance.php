@@ -7,7 +7,8 @@
                     <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="#">Смотреть отдел продаж</a></li>
+                        <li><a href="/selling/main"><i class="fa fa-money-bill-wave"></i>Продажи клиентам</a></li>
+                        <li><a href="/worker/worker"><i class="fa fa-user"></i>Кадры</a></li>
                     </ul>
                 </div>
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i

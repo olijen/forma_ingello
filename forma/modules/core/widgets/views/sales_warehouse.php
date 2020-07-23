@@ -13,7 +13,9 @@
                 <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-bars"></i></button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                    <li><a href="/warehouse/warehouse/">Смотреть склады</a></li>
+                    <li><a href="/warehouse/warehouse/"><i class="fa fa-th"></i>Смотреть склады</a></li>
+                    <li><a href="/inventorization/main"><i class="fa fa-boxes"></i>Инвентаризация</a></li>
+                    <li><a href="/selling/main"><i class="fa fa-money-bill-wave"></i>Перейти в отдел продаж</a></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i

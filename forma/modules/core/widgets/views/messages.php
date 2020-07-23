@@ -9,7 +9,8 @@
                     <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="#">Смотреть сообщения</a></li>
+                        <li><a href="/customer/customer"><i class="fa fa-user-circle"></i>Клиенты</a></li>
+                        <li><a href="/vacancy/vacancy"><i class="fa fa-id-card"></i>Вакансии</a></li>
                     </ul>
                 </div>
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i

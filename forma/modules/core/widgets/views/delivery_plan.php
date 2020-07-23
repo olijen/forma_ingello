@@ -7,7 +7,9 @@
                     <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="/supplier/supplier/">Смотреть поставщиков</a></li>
+                        <li><a href="/supplier/supplier/"><i class="fa fa-truck"></i>Смотреть поставщиков</a></li>
+                        <li><a href="/supplier/supplier/"><i class="fa fa-id-card"></i>Смотреть производителей</a></li>
+                        <li><a href="/transit/main"><i class="fa fa-retweet"></i>Перемещения</a></li>
                     </ul>
                 </div>
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i

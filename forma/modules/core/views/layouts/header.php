@@ -13,7 +13,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
-
+<?php if (!Yii::$app->user->isGuest) { ?>
 <header class="main-header">
 
     <?= Html::a('
@@ -387,7 +387,7 @@ JS;
     <?php endif ?>
 
 <?php endif ?>
-
+<?php } ?>
 
 <?php
 

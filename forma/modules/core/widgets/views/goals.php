@@ -8,7 +8,8 @@
                     <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="#">Смотреть цели</a></li>
+                        <li><a href="/project/project?ProjectSearch[state]=1"><i class="fa fa-newspaper"></i>Проекты</a></li>
+                        <li><a href="/selling/main"><i class="fa fa-money-bill-wave"></i>Продажи клиентам</a></li>
                     </ul>
                 </div>
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i

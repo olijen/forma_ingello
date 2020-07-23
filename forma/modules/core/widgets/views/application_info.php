@@ -14,13 +14,6 @@ use yii\helpers\Url;
             </h3>
 
             <div class="box-tools pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bars"></i></button>
-                    <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="/">Отделы</a></li>
-                    </ul>
-                </div>
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                             class="fa fa-minus"></i>
             </div>

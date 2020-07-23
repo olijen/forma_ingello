@@ -48,12 +48,12 @@
           <div style="display: none;">
               <?= $form
                   ->field($model, 'email', $fieldOptions1)
-
+                  ->label(false)
                   ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
 
               <?= $form
                   ->field($model, 'password', $fieldOptions2)
-
+                  ->label(false)
                   ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
             <div class="row">
