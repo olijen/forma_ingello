@@ -79,7 +79,8 @@ class TalkController extends Controller
     public function actionCommentHistory()
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
-        $_GET['selling_token'] = 1;
+        $_COOKIE['selling_token'] = $_POST['selling_token'];
+        $_GET['selling_token'] = $_POST['selling_token'];
         if (strlen(Yii::$app->request->post('comment')) > 0) {
             if (!Yii::$app->user->isGuest)
                 $selling->dialog .=

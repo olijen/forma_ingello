@@ -46,13 +46,14 @@ use forma\modules\selling\widgets\TotalSumView;
 
     <?= $form->field($unit, 'selling_id')->hiddenInput()->label(false) ?>
     <input type="hidden" name="<?=Yii::$app->request->csrfParam; ?>" value="<?=Yii::$app->request->getCsrfToken(); ?>" />
+    <?php if (Yii::$app->user->isGuest) { ?><input type="hidden" name="selling_token" value="<?=isset($_GET['selling_token']) ? $_GET['selling_token'] : $_COOKIE['selling_token']; ?>" /> <?php } ?>
     <div class="col-md-3">
         <?php // todo: более правильный способ передачи данных вместо дозаписи гет запроса?>
         <?= $form->field($unit, 'product_id')->widget(AutoComplete::className(), [
             'url' => Url::to([
                 '/warehouse/warehouse-product/search-for-selling',
                 'sellingId' => $unit->selling_id,
-                'selling_token' => isset($_GET['selling_token']) ? $_GET['selling_token'] : null
+                'selling_token' =>  $_GET['selling_token'] ?? $_COOKIE['selling_token'] ?? null
             ]),
         ]) ?>
     </div>
@@ -132,7 +133,7 @@ use forma\modules\selling\widgets\TotalSumView;
             'buttons' => [
                 'delete' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',
-                        '/selling/nomenclature/delete-position?id='.$model->id, [
+                        '/selling/nomenclature/delete-position?id='.$model->id.'&selling_token='.($_GET['selling_token'] ?? $_COOKIE['selling_token'] ?? null), [
                             'title' => Yii::t('yii', 'Delete'),
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                             'data-method' => 'post',

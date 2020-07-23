@@ -43,16 +43,31 @@ class NomenclatureController extends Controller
 
     public function actionAddPosition()
     {
+
+        $selling_token = null;
+        if(isset($_POST['selling_token'])){
+            $selling_token = $_POST['selling_token'];
+            setcookie('selling_token', $selling_token, time()+36000);
+        } else if(isset($_COOKIE['selling_token'])){
+            $selling_token = $_COOKIE['selling_token'];
+            $_GET['selling_token'] = $_COOKIE['selling_token'];
+        }
+
+
+
         /** @var SellingProduct $model */
         $post = Yii::$app->request->post();
         $sellingId = $post['SellingProduct']['selling_id'];
         $selling = Selling::findOne($sellingId);
         $selling_token = $selling->getSellingToken();
+        Yii::debug($selling_token);
+        Yii::debug($post);
         if(Yii::$app->user->isGuest){
             if(!isset($post['selling_token']) || is_null($post['selling_token'])) return false;
             if($selling_token != $post['selling_token']) return false;
         }
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
+        if ($model->hasErrors()) Yii::debug(json_encode($model->errors));
 
         return NomenclatureView::widget([
             'sellingId' => $model->selling_id,
@@ -66,12 +81,15 @@ class NomenclatureController extends Controller
         /** @var SellingProduct $model */
         $selling_token_get = Yii::$app->request->get('selling_token');
         $selling_token = Selling::findOne(SellingProduct::findOne($id)->selling_id)->selling_token;
+        Yii::debug($selling_token . ' = ' . $selling_token_get);
         if(Yii::$app->user->isGuest){
             if(!isset($selling_token_get) || is_null($selling_token_get)) return false;
             if($selling_token != $selling_token_get) return false;
         }
+        Yii::debug('suda proshli');
         $model = NomenclatureService::deletePosition($id);
-
+        Yii::debug('after delete');
+        if ($model->hasErrors()) Yii::debug(json_encode($model->errors));
 
         //$selling = Selling::findOne($model->selling_id);
         return NomenclatureView::widget([

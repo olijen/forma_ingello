@@ -45,7 +45,7 @@
             $model->password = '111111';
             $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
 
-          <div style="display: ;">
+          <div style="display: none;">
               <?= $form
                   ->field($model, 'email', $fieldOptions1)
 
@@ -85,15 +85,15 @@
                     '/signup', [
                         'class' => 'btn btn-primary btn-block btn-flat',
                         'name' => 'login-button']) */?>
-            </div>-->
+            </div>
             <div style="padding:0;" class="col col-md-6">
-                <?php echo "
+                <?php /*echo "
                 <a class='btn btn-primary btn-block btn-flat socialAuthorization' href='$googleLink'>
                   <img style='background: white; height: 18px; padding-bottom: 2px; margin-right: 6px' src='images/google.png' alt=''>
                   Зайти через <strong>Google</strong>
-                </a>"; ?>
+                </a>"; */?>
             </div>
-           <!-- <div class="col col-md-12">
+            <div class="col col-md-12">
                 <?/*= Html::a('Индивидуальный проект', 'https://ingello.com', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) */?>
             </div>-->
 
