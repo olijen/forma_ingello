@@ -38,6 +38,7 @@ Yii::debug($systemEventsRows);
                     $linkView = "/" . $arr[1] . "/" . $arr[2];
                     if(count($arr) > 3)$event = substr($arr[3], 0, 6);
                 }
+                if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1] == 'inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $linkView = '/'.$arr[1].'/main';
                 if($eventDate != substr($model->date_time, 0, 10)){
                     ?>
 
@@ -51,22 +52,35 @@ Yii::debug($systemEventsRows);
                 <!-- /.timeline-label -->
 
                 <!-- timeline item -->
-                <li>
+                <li style="margin-bottom: 10px; font-size: 18px;">
                     <!-- timeline icon -->
-                    <i class="fa fa-<?=$icon!=""? $icon : 'envelope'?>" style="background-color: <?=$color?>; color: #fff"></i>
-                    <div class="timeline-item">
+                    <i class="fa fa-<?=$icon!=""? $icon : 'envelope'?>" style="background-color: <?=$color?>; color: #fff; font-size: 18px;"></i>
+                    <div class="timeline-item" style="font-size: 18px">
                         <span class="time"><i class="fa fa-clock-o"></i> <?=substr($model->date_time, 11, 5)?></span>
 
-                        <h3 class="timeline-header">В отделе <a href="#"><?=$model->application?></a> произошло событие</h3>
-                        <div class="timeline-body">
-                            <?=$model->data?>
-                        </div>
-                        <?php if($model->sender_id !=1) { ?>
-                            <div class="timeline-footer">
-                                <p>Посмотреть список в модуле: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||" .$model->class_name."}}")) ?></p>
+                        <h3 class="timeline-header" style="font-size: 18px">В отделе <a href="#"><?=$model->application?></a> произошло событие</h3>
+                        <div class="timeline-body row" style="padding: 20px">
+                            <div class="col-md-5" style="font-size: 18px">
+                                <?php if($model->class_name != 'Login' && $model->class_name != 'WarehouseUser' && $model->class_name != 'RequestStrategy'
+                                && $model->class_name != 'WorkerVacancy') { ?>
+                                <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||"  . "Список " ."}}")) ?>
 
-                                <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
+                                <?php
+                                //в объекте используем replaceUrlOnButtonAmp чтобы к GET['id'] который стоит в начале запроса подставлялся &without-header
+                                if($linkView == '/selling/main'){
+                                    $linkView = '/selling/form';?>
+                                    <?php if($event != "delete"){?> <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/?id=".$model->sender_id."||" . "Объект"."}}")) ?><?php }?>
+                                <?php } else {
+                                    ?>
+
+
+
+                                    <?php if($event != "delete"){?> <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" . "Объект"."}}")) ?><?php }?>
+                                <?php }?></div>
+                            <div class="col-md-7" style="padding: 5px; display: inline-block; font-size: 18px">
+                                <?=$model->data?>
                             </div>
+                        </div>
                         <?php } ?>
                     </div>
                 </li>

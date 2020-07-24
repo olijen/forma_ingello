@@ -90,12 +90,13 @@ class SystemEventService
         $subject = '';
         $text = '';
         Yii::debug($className);
+
         if(self::checkBlackList($className)) {
-            $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
+            $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
-            $systemEvent->data = $className . ' Created: "' . $objectName . '" by user '.$systemEvent->user_id;
+            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Создан: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
             $systemEvent->sender_id = $model->id;
             $systemEvent->class_name = $className;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
@@ -140,11 +141,11 @@ class SystemEventService
         $subject = '';
         $text = '';
         if(self::checkBlackList($className)) {
-            $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
+            $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
-            $systemEvent->data = $className . ' Updated: "' . $objectName . '" by user '.$systemEvent->user_id;
+            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Обновлен: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
             $systemEvent->class_name = $className;
             $systemEvent->sender_id = $model->id;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
@@ -181,11 +182,11 @@ class SystemEventService
         $subject = "";
         $text = "";
         if(self::checkBlackList($className)) {
-            $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
+            $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
-            $systemEvent->data = $className . ' Deleted: "' . $objectName . '" by user '.$systemEvent->user_id;
+            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Удален: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
             $systemEvent->class_name = $className;
             $systemEvent->sender_id = $model->id;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
