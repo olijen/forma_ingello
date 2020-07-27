@@ -1136,6 +1136,22 @@ if($widgetNewOrder == true){
         $("[data-widget_name = "+collapsedWidget[i]+"]").find('.fa-minus')[0].className = 'fa fa-plus';
     }
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip({
+            open: function (e, o) {
+                $(o.tooltip).mouseover(function (e) {
+                    $('[data-toggle="tooltip"]').tooltip('close');
+                });
+                setTimeout(function () {
+                    $('[data-toggle="tooltip"]').tooltip('close'); //close the tooltip
+                }, 3000);
+                $(o.tooltip).mouseout(function (e) {});
+            },
+            close: function (e, o) {},
+            show: {
+                duration: 800
+            }
+        });
+
     })
 </script>

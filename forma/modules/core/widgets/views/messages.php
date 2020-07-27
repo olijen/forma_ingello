@@ -16,7 +16,20 @@
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                         class="fa fa-minus"></i>
                   
-                    <button class="btn btn-xs"><i class="fa fa-refresh"></i></button>'
+                    <button class="btn btn-xs"><i class="fa fa-refresh"></i></button>',
+        'topTemplate' =>  <<<HTML
+            <div class="direct-chat direct-chat-primary box box-primary  " data-widget_name="Messages">
+            <div class="box-header big_widget_header"><h3 class="box-title"><i class="fas fa-envelope"></i> Сообщения</h3>{box-tools}</div>
+            <div class="box-body">
+            <div class="direct-chat-messages">
+HTML,
+        'bottomTemplate' => <<<HTML
+</div>
+</div>
+<div class="box-footer {footerOptions}">{footer}</div>
+<div class="small_widget_header box-header" style="display:none"><h3 style="margin-top: 0" class="box-title" data-toggle="tooltip" data-placement="top" title="Сообщения" ><i class="fas fa-envelope"></i> </h3></div>
+</div>
+HTML
     ]);
     echo \insolita\wgadminlte\LteChatMessage::widget([
         'isRight' => false,
