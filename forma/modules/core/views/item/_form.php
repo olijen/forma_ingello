@@ -1,7 +1,10 @@
 <?php
 
 use kartik\color\ColorInput;
+use kartik\file\FileInput;
+use yii\helpers\BaseHtml;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 use yii\widgets\Pjax;
@@ -9,6 +12,14 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Item */
 /* @var $form yii\widgets\ActiveForm */
+
+
+if (!empty($model->picture)) {
+    $picture = Html::img($model->picture,
+        $options = ['class' => 'postImg', 'style' => ['width' => '200px']]);
+} else {
+    $picture = false;
+}
 ?>
 
 <div class="item-form">
@@ -19,6 +30,17 @@ use yii\widgets\Pjax;
     <div class="col-md-6 block">
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
+            'options' => [
+                'accept' => 'image/*',
+            ],
+            'pluginOptions' => [
+                'initialPreview' => $picture,
+            ],
+        ]); ?>
+
+        <?= BaseHtml::hiddenInput('Item[pictureUrl]', $model->picture); ?>
 
         <?= $form->field($model, 'description')->widget(Widget::className(), [
             'settings' => [
@@ -43,19 +65,16 @@ use yii\widgets\Pjax;
             ],
         ]); ?>
 
-
         <?= $form->field($model, 'color')->widget(ColorInput::classname()); ?>
+
+        <?= $form->field($model, 'access')->checkbox([], false);?>
 
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Добавить'), ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 
-
-    <?php
-
-
-    Pjax::end(); ?>
+    <?php Pjax::end(); ?>
     <?php ActiveForm::end(); ?>
 
 </div>

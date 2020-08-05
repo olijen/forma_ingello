@@ -2,9 +2,11 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\services\RegularityAndItemPictureService;
 use Yii;
 use forma\modules\core\records\Item;
 use forma\modules\core\records\ItemSearch;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,13 +55,13 @@ class ItemController extends Controller
     public function actionCreate($regularity_id = null, $parent_id = null)
     {
         $model = new Item();
-        if($regularity_id){
+        if ($regularity_id) {
             $model->regularity_id = $regularity_id;
         }
-        if($parent_id){
+        if ($parent_id) {
             $model->parent_id = $parent_id;
         }
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         }
 
@@ -78,7 +80,7 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
 
             return $this->redirect('/core/regularity');
         }

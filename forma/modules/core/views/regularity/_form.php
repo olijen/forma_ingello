@@ -1,7 +1,13 @@
 <?php
 
+use kartik\file\FileInput;
+use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use kartik\form\ActiveForm;
+use kartik\color\ColorInput;
+use yii\helpers\Url;
+use vova07\imperavi\Widget;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Regularity */
@@ -22,12 +28,18 @@ if ($model->hasErrors()):
     \wokster\ltewidgets\BoxWidget::end();
 endif;
 
+if (!empty($model->picture)) {
+    $picture = Html::img($model->picture,
+        $options = ['class' => 'postImg', 'style' => ['width' => '200px']]);
+} else {
+    $picture = false;
+}
 ?>
 
 <div class="col-md-6 block">
 
-    <?php $form = ActiveForm::begin([
-    ]); ?>
+    <?php $form = ActiveForm::begin([]); ?>
+
     <?= $form->field($model, 'name', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
     <?= $form->field($model, 'order', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
@@ -36,6 +48,18 @@ endif;
 
     <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
+    <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
+        'options' => [
+            'accept' => 'image/*',
+        ],
+        'pluginOptions' => [
+            'initialPreview' => $picture,
+        ],
+    ]); ?>
+
+    <?= BaseHtml::hiddenInput('Item[pictureUrl]', $model->picture); ?>
+
+    <?= $form->field($model, 'access')->checkbox([], false); ?>
 
     <div class="col-xs-12 col-md-12">
         <div class="form-group">

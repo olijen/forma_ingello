@@ -32,4 +32,11 @@ class RegularityQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function publicRegularities()
+    {
+        $this->where(['access' => 1, 'user_id' => \Yii::$app->user->id])
+             ->orderBy(['order' => SORT_ASC, 'id' => SORT_ASC]);
+        return $this;
+    }
 }

@@ -2,6 +2,12 @@
 
 namespace forma\modules\core\controllers;
 
+
+use forma\modules\core\records\Item;
+use forma\modules\core\records\ItemQuery;
+use forma\modules\core\records\RegularityQuery;
+use forma\modules\core\services\RegularityAndItemPictureService;
+use forma\modules\product\records\Product;
 use Yii;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
@@ -46,7 +52,21 @@ class RegularityController extends Controller
             'dataProvider' => $dataProvider,
             'regularitys' => $regularitys,
             'items' => $items,
-            'order_id'=> $regularitys[0]['id'] ?? null
+            'order_id' => $regularitys[0]['id'] ?? null
+        ]);
+    }
+
+    public function actionRegularity()
+    {
+        $regularities = (new RegularityQuery(new Regularity()))->publicRegularities()->all();
+        $regularitiesId = Regularity::getRegularitiesId($regularities);
+        $items = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
+        $subItems = Item::getSubItems($items);
+
+        return $this->render('user-regularity', [
+            'regularities' => $regularities,
+            'items' => $items,
+            'subItems' => $subItems,
         ]);
     }
 
@@ -71,7 +91,7 @@ class RegularityController extends Controller
         $model = new Regularity();
         $model->loadDefaultValues(); //load default data from db
         $model->user_id = Yii::$app->user->identity->id;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
             return $this->render('create', [
@@ -90,7 +110,7 @@ class RegularityController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
             return $this->render('update', [

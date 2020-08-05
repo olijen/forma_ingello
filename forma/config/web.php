@@ -110,6 +110,7 @@ $config = [
                 'login' => 'core/site/login',
                 'logout' => 'core/site/logout',
                 'signup' => 'core/site/signup',
+                '<user-name:>/regularity' => 'core/regularity/regularity',
             ],
         ],
         'assetManager' => [

@@ -49,8 +49,6 @@ use forma\modules\product\records\Product;
                     'attribute' => 'name',
 
                     // todo: Хорошо протестировать всегда ли есть ui.item.id
-                    // todo: Выдает ошибку Unknown Property – yii\base\UnknownPropertyException
-                    // todo: Setting unknown property: keygenqt\autocompleteAjax\AutocompleteAjax::afterSelect
 //                    'afterSelect' => 'function(event, ui) {
 //                        $("#searching-product-id").val(ui.item.id);
 //                    }',
@@ -105,7 +103,7 @@ use forma\modules\product\records\Product;
         Yii::$app->params['menu'] = [
           ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
 
-          ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+          ['label' => 'Регламент', 'url' => ['/core/regularity/index'], 'icon' => 'tree' ],
           [
               'label' => 'Люди',
               'url' => ['/core/default/people'],
@@ -116,7 +114,7 @@ use forma\modules\product\records\Product;
                   ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                   ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
                   ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-                  ['label' => 'Пациенты', 'url' => 'http://dent.ingello.com', 'icon' => 'heartbeat'],
+                  ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
                   ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
                   ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
               ]
@@ -186,8 +184,8 @@ use forma\modules\product\records\Product;
               'icon' => 'th',
               'items' => $warehouses,
           ],
-          ['label' => 'Командная работа', 'url' => 'http://applan.ingello.com', 'icon' => 'sitemap'],
-          ['label' => 'Интернет магазин', 'url' => 'http://ecocom.ingello.com', 'icon' => 'money'],
+          ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap'],
+          ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'money'],
       ];
 
         ?>

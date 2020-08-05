@@ -3,6 +3,7 @@
 namespace forma\modules\core\records;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "item".
@@ -14,6 +15,7 @@ use Yii;
  * @property int $regularity_id
  * @property int $order
  * @property string $color
+ * @property string $picture
  *
  * @property Regularity $regularity
  * @property Item $parent
@@ -37,8 +39,10 @@ class Item extends \yii\db\ActiveRecord
         return [
             [['parent_id', 'regularity_id', 'order'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [[ 'description'], 'string'],
+            [['description'], 'string'],
             [['color'], 'string', 'max' => 55],
+            [['picture'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['access'], 'integer', 'max' => 1],
             [['regularity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Regularity::className(), 'targetAttribute' => ['regularity_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
@@ -57,6 +61,8 @@ class Item extends \yii\db\ActiveRecord
             'regularity_id' => Yii::t('app', 'Регламент вопроса'),
             'order' => Yii::t('app', 'Порядковый номер'),
             'color' => Yii::t('app', 'Цвет'),
+            'picture' => Yii::t('app', 'Картинка'),
+            'access' => Yii::t('app', 'Публичный'),
         ];
     }
 
@@ -83,4 +89,18 @@ class Item extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Item::className(), ['parent_id' => 'id'])->inverseOf('parent');
     }
+
+    public static function getSubItems($items)
+    {
+        $subItems = [];
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                if (!is_null($item->parent_id)) {
+                    $subItems [] = $item;
+                }
+            }
+        }
+        return $subItems;
+    }
+
 }
