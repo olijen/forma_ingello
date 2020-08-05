@@ -103,7 +103,7 @@ use forma\modules\product\records\Product;
         Yii::$app->params['menu'] = [
           ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
 
-          ['label' => 'Регламент', 'url' => ['/core/regularity/index'], 'icon' => 'tree' ],
+          ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
           [
               'label' => 'Люди',
               'url' => ['/core/default/people'],

@@ -39,21 +39,16 @@ use yii\helpers\Html;
 
                 <div class="tab-pane <?= $regularity['id'] == $regularities[0]->id ? 'active' : '' ?>"
                      id="tab_<?= $regularity['id'] ?>">
+
                     <?= $this->render('user-main-item', [
                         'regularity' => $regularity,
                         'items' => $items,
                         'subItems' => $subItems,
                     ]) ?>
-                    <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>">
-                        <i class="fa fa-plus"></i>
-                        Добавить пункт
-                    </a>
-                    <!-- /.tab-pane -->
+
                 </div>
             <?php endforeach; ?>
-            <!-- /.tab-pane -->
         </div>
-
     </div>
 <?php endif; ?>
 
