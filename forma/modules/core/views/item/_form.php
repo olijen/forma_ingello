@@ -1,5 +1,6 @@
 <?php
 
+use forma\modules\core\services\RegularityAndItemPictureService;
 use kartik\color\ColorInput;
 use kartik\file\FileInput;
 use yii\helpers\BaseHtml;
@@ -13,13 +14,7 @@ use yii\widgets\Pjax;
 /* @var $model forma\modules\core\records\Item */
 /* @var $form yii\widgets\ActiveForm */
 
-
-if (!empty($model->picture)) {
-    $picture = Html::img($model->picture,
-        $options = ['class' => 'postImg', 'style' => ['width' => '200px']]);
-} else {
-    $picture = false;
-}
+$picture = RegularityAndItemPictureService::getPictureUrl($model);
 ?>
 
 <div class="item-form">

@@ -4,6 +4,7 @@
 namespace forma\modules\core\services;
 
 
+use yii\helpers\Html;
 use yii\web\UploadedFile;
 
 class RegularityAndItemPictureService
@@ -16,8 +17,8 @@ class RegularityAndItemPictureService
             if ($model->validate()) {
 
                 $model->picture->SaveAs($_SERVER['DOCUMENT_ROOT'] . '/regularity_images'
-                    . '/' . $model->picture->baseName . $model->picture->extension);
-                $model->picture = ('@web/regularity_images/' . $model->picture->baseName . $model->picture->extension);
+                    . '/' . $model->picture->baseName . '.' . $model->picture->extension);
+                $model->picture = ('/regularity_images/' . $model->picture->baseName . '.' . $model->picture->extension);
                 $model->save(false);  // without validation
 
                 return true;
@@ -41,8 +42,17 @@ class RegularityAndItemPictureService
             if (!$model->save()) {
                 throw new \Exception('Сохранение итема или регламента' . json_encode($model->attributes));
             }
-
-            return true;
         }
+
+        return true;
+    }
+
+    public static function getPictureUrl($model)
+    {
+        if (!empty($model->picture)) {
+            return Html::img('@web' . $model->picture,
+                $options = ['class' => 'postImg', 'style' => ['width' => '200px']]);
+        }
+        return false;
     }
 }

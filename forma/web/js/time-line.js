@@ -1,3 +1,17 @@
+
+function changeArea(description, nameOnPicture, pictureUrl)
+{
+    regularity_title.value = description;
+    document.getElementById("name_on_picture").innerHTML = nameOnPicture;
+    console.log();
+    if (!isEmpty(pictureUrl)){
+        document.getElementById("picture").style.backgroundImage = "url("+pictureUrl+")";
+    }else {
+        document.getElementById("picture").style.backgroundImage = "url(/images/bot.jpg)";
+    }
+
+}
+
 jQuery(document).ready(function ($) {
     var timelines = $('.cd-horizontal-timeline'),
         eventsMinDistance = 60;

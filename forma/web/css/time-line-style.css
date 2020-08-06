@@ -3,7 +3,10 @@ body{
     background:#eee;
 }
 
+/*#picture {*/
+/*    background: url(/images/bot.jpg);*/
 
+/*}*/
 
 .cd-horizontal-timeline ol, .cd-horizontal-timeline ul {
     list-style: none;

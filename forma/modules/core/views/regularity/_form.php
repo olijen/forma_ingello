@@ -1,5 +1,6 @@
 <?php
 
+use forma\modules\core\services\RegularityAndItemPictureService;
 use kartik\file\FileInput;
 use yii\helpers\BaseHtml;
 use yii\helpers\Html;
@@ -28,12 +29,7 @@ if ($model->hasErrors()):
     \wokster\ltewidgets\BoxWidget::end();
 endif;
 
-if (!empty($model->picture)) {
-    $picture = Html::img($model->picture,
-        $options = ['class' => 'postImg', 'style' => ['width' => '200px']]);
-} else {
-    $picture = false;
-}
+$picture = RegularityAndItemPictureService::getPictureUrl($model);
 ?>
 
 <div class="col-md-6 block">
