@@ -1,14 +1,14 @@
 
-function changeArea(description, nameOnPicture, pictureUrl)
+function changeArea(description, nameOnPicture)
 {
     regularity_title.value = description;
     document.getElementById("name_on_picture").innerHTML = nameOnPicture;
     console.log();
-    if (!isEmpty(pictureUrl)){
-        document.getElementById("picture").style.backgroundImage = "url("+pictureUrl+")";
-    }else {
-        document.getElementById("picture").style.backgroundImage = "url(/images/bot.jpg)";
-    }
+    // if (!isEmpty(pictureUrl)){
+    //     document.getElementById("picture").style.backgroundImage = "url("+pictureUrl+")";
+    // }else {
+    //     document.getElementById("picture").style.backgroundImage = "url(/images/bot.jpg)";
+    // }
 
 }
 

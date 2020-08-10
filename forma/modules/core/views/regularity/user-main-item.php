@@ -1,40 +1,67 @@
-<?php use forma\modules\core\components\LinkHelper; ?>
+<?php use forma\modules\core\components\LinkHelper;
 
+//if ($item->regularity_id == $regularity->id && is_null($item->parent_id)):
+$dataDateCount = '2010-09-02';
+$timeChange = 100400;
+$y = 1;
 
-<ul class="nav nav-tabs">
-    <?php foreach ($items as $item): ?>
-        <?php if ($item->regularity_id == $regularity->id && is_null($item->parent_id))
-            echo $this->render('create-li', [
-                'id' => $item->id,
-                'activeId' => false,
-                'addHrefName' => 'item',
-                'navBarName' => $item->title,
-                'description' => $item->description,
-                'nameOnPicture' => 'Регламент: ' . $regularity->name . '  Пунтк: ' . $item->title,
-                'picture' => $item->picture,
-            ]);
-        ?>
-    <?php endforeach; ?>
-</ul>
+?>
 
-<div class="tab-content">
-    <?php foreach ($items as $item): ?>
-        <?php if ($regularity->id == $item->regularity_id): ?>
-            <div class="tab-pane <?= $item->id ?>" id="tab_item_<?= $item['id'] ?>">
-                <div class="box-body">
-                    <?= $item->description ?>
+<div class="cd-horizontal-timeline loaded">
+    <div class="timeline">
+        <div class="events-wrapper">
+            <div class="events">
+                <ol>
+                    <?php foreach ($items as $key => $item): ?>
+                        <?php if ($item->regularity_id == $regularity->id & is_null($item->parent_id)): ?>
+                            <?php $dataDateCount = date('Y-m-d', strtotime($dataDateCount) + $timeChange); ?>
+                            <li>
+                                <a href="#0" data-date="<?= $dataDateCount ?>"
+                                   style="left: <?= 120 * $y++ ?>px;">
+                                    <?= $item->title; ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
 
-                    <?= $this->render('user-sub-item', [
-                        'item' => $item,
-                        'subItems' => $subItems,
-                        'regularity' => $regularity,
-                    ]) ?>
-                </div>
+                </ol>
+                <span class="filling-line" aria-hidden="true"></span>
             </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
-    <!-- /.tab-pane -->
+        </div>
+        <!-- .events-wrapper -->
+        <ul class="cd-timeline-navigation">
+            <li><a href="#0" class="prev inactive">Prev</a></li>
+            <li><a href="#0" class="next">Next</a></li>
+        </ul>
+        <!-- .cd-timeline-navigation -->
+    </div>
+
+    <!-- .timeline -->
+    <div class="events-content" style="height: 225px;">
+        <?php $dataDateCount = '2010-09-02'; ?>
+        <ol>
+            <?php foreach ($items as $key => $item): ?>
+            <?php if ($item->regularity_id == $regularity->id & is_null($item->parent_id)): ?>
+                <?php $dataDateCount = date('Y-m-d', strtotime($dataDateCount) + $timeChange); ?>
+                <li class="" data-date="<?= $dataDateCount ?>">
+                    <p>
+                        <?php  echo $item->id.' '.$item->title.' main-item'; ?>
+                    </p>
+
+                        <?= $this->render('user-sub-item', [
+                            'regularity' => $regularity,
+                            'items' => $items,
+                            'subItems' => $subItems,
+                        ]) ?>
+
+                </li>
+            <?php endif;?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
 </div>
+
+
 
 
 
