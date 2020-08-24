@@ -1,9 +1,7 @@
-
-function changeArea(description, nameOnPicture)
-{
+function changeArea(description, nameOnPicture) {
     regularity_title.value = description;
     document.getElementById("name_on_picture").innerHTML = nameOnPicture;
-    console.log();
+    console.log('что то');
     // if (!isEmpty(pictureUrl)){
     //     document.getElementById("picture").style.backgroundImage = "url("+pictureUrl+")";
     // }else {
@@ -11,6 +9,81 @@ function changeArea(description, nameOnPicture)
     // }
 
 }
+
+
+$(document).ready(function () {
+
+    // var navBar = $('.nav-tabs-custom');
+    console.log($('.nav-tabs-custom').find('.active')[0]);// active nav-bar
+    // $('.nav-tabs-custom')[0].children[0].children[0].classList.toggle("active");
+    $('.nav-tabs-custom')[0].children[0].children[1].previousSibling.previousSibling;
+
+    // $('.tab-pane a[href="#menu26"]').tab('show')
+    // $(".checkbox-wrapper>input[data-id='99']");
+    // var article = document.getElementById('electriccars');
+    //
+    // article.dataset.columns // "3"
+    // article.dataset.indexNumber // "12314"
+    // article.dataset.parent // "cars"
+    // parentElement – родитель-элемент.
+    // navBar.each(){
+    //
+    // }
+    $(".navigator").click(function () {
+        // let q = $('.tab-content a[id= ' + activeNavBarHref + ' ]')[0];
+        let activeNavBar = $('.nav-tabs-custom').find('.active')[0];
+        let activeNavBarHref = activeNavBar.children[0].name;
+        let activeTabPaneRegularity = $('#' + activeNavBarHref);
+        let activeTabPaneItem = activeTabPaneRegularity.find('.container').find('.active');
+
+        console.log(this.classList[3]);
+        changeItem(activeTabPaneItem, this.classList[3]);
+
+    });
+
+    function changeItem(activeTabPaneItem, side) {
+
+        if (activeTabPaneItem.find('a').length > 1) {// суб итемы
+            let hrefId = '';
+            if (activeTabPaneItem.find('.active ').length >= 1) {
+
+                hrefId = navigatorSide(activeTabPaneItem.find('.active ')[0], side);
+                hrefId = "#" + hrefId;
+
+            } else {
+                hrefId = "#" + activeTabPaneItem.find('.tab-pane ')[0].id;
+            }
+
+            let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
+            tabPaneHref[0].children[0].checked = true;
+            tabPaneHref.tab('show');
+
+        } else if (activeTabPaneItem.length = 1) {// основные итемы
+
+            let hrefId = navigatorSide(activeTabPaneItem[0], side);
+            hrefId = '#' + hrefId;
+
+            let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
+            tabPaneHref[0].children[0].checked = true;
+            tabPaneHref.tab('show');
+        }
+
+    }
+
+    function navigatorSide(hrefId, side) {
+        if (side == 'next') {
+            return hrefId.nextSibling.id;
+        } else if (side == 'prev') {
+            return hrefId.previousSibling.id;
+        }
+    }
+
+    $(".carousel a").click(function () {
+        console.log($(this));// active nav-bar
+        // $(this)[0].classList.add('active');
+        $(this).tab('show');
+    });
+});
 
 jQuery(document).ready(function ($) {
     var timelines = $('.cd-horizontal-timeline'),
@@ -31,7 +104,7 @@ jQuery(document).ready(function ($) {
             timelineComponents['eventsMinLapse'] = minLapse(timelineComponents['timelineDates']);
             timelineComponents['timelineNavigation'] = timeline.find('.cd-timeline-navigation');
             timelineComponents['eventsContent'] = timeline.children('.events-content');
-            console.log(timelineComponents);
+
             //assign a left postion to the single events along the timeline
             setDatePosition(timelineComponents, eventsMinDistance);
             //assign a width to the timeline
@@ -194,7 +267,6 @@ jQuery(document).ready(function ($) {
                 timelineStyle.getPropertyValue("-ms-transform") ||
                 timelineStyle.getPropertyValue("-o-transform") ||
                 timelineStyle.getPropertyValue("transform");
-
         if (timelineTranslate.indexOf('(') >= 0) {
             var timelineTranslate = timelineTranslate.split('(')[1];
             timelineTranslate = timelineTranslate.split(')')[0];
@@ -280,3 +352,8 @@ jQuery(document).ready(function ($) {
         return window.getComputedStyle(document.querySelector('.cd-horizontal-timeline'), '::before').getPropertyValue('content').replace(/'/g, "").replace(/"/g, "");
     }
 });
+
+
+
+
+
