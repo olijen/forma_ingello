@@ -103,4 +103,17 @@ class Item extends \yii\db\ActiveRecord
         return $subItems;
     }
 
+    public static function getMainItems($allItems)
+    {
+        $items = [];
+        if (!empty($allItems)) {
+            foreach ($allItems as $item) {
+                if (is_null($item->parent_id)) {
+                    $items [] = $item;
+                }
+            }
+        }
+        return $items;
+    }
+
 }

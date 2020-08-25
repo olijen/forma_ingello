@@ -11,6 +11,7 @@ use forma\modules\product\records\Product;
 use Yii;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -30,6 +31,19 @@ class RegularityController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                'only' => ['regularity'],
+//                'rules' => [
+//                    [
+//                        'allow' => true,
+//                        'actions' => ['regularity'],
+//                        'roles' => ['?'],
+//                    ],
+//
+//                ],
+//            ]
         ];
     }
 
@@ -60,8 +74,9 @@ class RegularityController extends Controller
     {
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities()->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
-        $items = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
-        $subItems = Item::getSubItems($items);
+        $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
+        $subItems = Item::getSubItems($allItems);
+        $items = Item::getMainItems($allItems);
 
         return $this->render('user-regularity', [
             'regularities' => $regularities,

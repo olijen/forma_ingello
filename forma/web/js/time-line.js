@@ -1,7 +1,7 @@
 function changeArea(description, nameOnPicture) {
     regularity_title.value = description;
     document.getElementById("name_on_picture").innerHTML = nameOnPicture;
-    console.log('что то');
+    // console.log('что то');
     // if (!isEmpty(pictureUrl)){
     //     document.getElementById("picture").style.backgroundImage = "url("+pictureUrl+")";
     // }else {
@@ -13,74 +13,117 @@ function changeArea(description, nameOnPicture) {
 
 $(document).ready(function () {
 
-    // var navBar = $('.nav-tabs-custom');
-    console.log($('.nav-tabs-custom').find('.active')[0]);// active nav-bar
-    // $('.nav-tabs-custom')[0].children[0].children[0].classList.toggle("active");
-    $('.nav-tabs-custom')[0].children[0].children[1].previousSibling.previousSibling;
-
-    // $('.tab-pane a[href="#menu26"]').tab('show')
-    // $(".checkbox-wrapper>input[data-id='99']");
-    // var article = document.getElementById('electriccars');
-    //
-    // article.dataset.columns // "3"
-    // article.dataset.indexNumber // "12314"
-    // article.dataset.parent // "cars"
-    // parentElement – родитель-элемент.
-    // navBar.each(){
-    //
-    // }
     $(".navigator").click(function () {
-        // let q = $('.tab-content a[id= ' + activeNavBarHref + ' ]')[0];
         let activeNavBar = $('.nav-tabs-custom').find('.active')[0];
         let activeNavBarHref = activeNavBar.children[0].name;
         let activeTabPaneRegularity = $('#' + activeNavBarHref);
         let activeTabPaneItem = activeTabPaneRegularity.find('.container').find('.active');
 
-        console.log(this.classList[3]);
-        changeItem(activeTabPaneItem, this.classList[3]);
+        console.log(activeTabPaneItem);
+        console.log(activeTabPaneRegularity.is('.tab-pane '));
+        console.log(activeTabPaneRegularity.find('.container').length <= 1);
+
+        let side = this.classList[3];
+
+        if (activeTabPaneItem.length == 0 && activeTabPaneRegularity.find('.container').length > 1) {
+            let hrefId = "#" + activeTabPaneRegularity.find('.container').find('.tab-pane ')[0].id;
+            checkedRadioAndShowTab(hrefId);
+
+            return;
+        }else if (activeTabPaneRegularity.find('.container').length <= 1){
+            console.log(activeTabPaneRegularity.find('.container'));
+            navigatorRegularityTab(activeNavBar, side);
+            return;
+        }
+
+
+        let falseMe = changeItems(activeTabPaneItem, side);
+
+        if (falseMe === false) {
+            navigatorRegularityTab(activeNavBar, side);
+        }
+
+        console.log('___________________________________________________________________________________________');
 
     });
 
-    function changeItem(activeTabPaneItem, side) {
+    function navigatorRegularityTab(activeNavBar, side) {
+        let hrefTabRegularityId = '';
 
-        if (activeTabPaneItem.find('a').length > 1) {// суб итемы
-            let hrefId = '';
-            if (activeTabPaneItem.find('.active ').length >= 1) {
-
-                hrefId = navigatorSide(activeTabPaneItem.find('.active ')[0], side);
-                hrefId = "#" + hrefId;
-
-            } else {
-                hrefId = "#" + activeTabPaneItem.find('.tab-pane ')[0].id;
-            }
-
-            let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
-            tabPaneHref[0].children[0].checked = true;
-            tabPaneHref.tab('show');
-
-        } else if (activeTabPaneItem.length = 1) {// основные итемы
-
-            let hrefId = navigatorSide(activeTabPaneItem[0], side);
-            hrefId = '#' + hrefId;
-
-            let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
-            tabPaneHref[0].children[0].checked = true;
-            tabPaneHref.tab('show');
+        if (side == 'next') {
+            hrefTabRegularityId = activeNavBar.nextElementSibling.dataset.href;
+        } else if (side == 'prev') {
+            hrefTabRegularityId = activeNavBar.previousElementSibling.dataset.href;
         }
 
+        hrefTabRegularityId = '#' + hrefTabRegularityId;
+        let tabPaneHref = $('a[href$=' + hrefTabRegularityId + ']');
+        tabPaneHref.tab('show');
     }
 
-    function navigatorSide(hrefId, side) {
+    function changeItems(activeTabPaneItem, side) {
+
+        let hrefId = navigatorSide(activeTabPaneItem[0], side);
+        let currentActiveTab = activeTabPaneItem[0];
+        hrefId = '#' + hrefId;
+        let mainHrefId = hrefId;
+
+        if (activeTabPaneItem.find('a').length >= 1) {// суб итемы
+            if (activeTabPaneItem.find('.active ').length >= 1) {
+                hrefId = navigatorSide(activeTabPaneItem.find('.active ')[0], side);
+                currentActiveTab = activeTabPaneItem.find('.active ')[0];
+
+                if (hrefId === undefined) {
+                    if (mainHrefId == '#undefined') {
+                        return false;
+                    }
+                    checkedRadioAndShowTab(mainHrefId);
+                    currentActiveTab.className = 'tab-pane fade';
+
+                    return;
+                }
+                hrefId = "#" + hrefId;
+                // Первый эллемент суб итемов
+            } else if (side == 'next') {
+                hrefId = "#" + activeTabPaneItem.find('.tab-pane ')[0].id;
+            } else if (side == 'prev') {
+                hrefId = "#" + activeTabPaneItem.find('.tab-pane ').last()[0].id;
+            }
+        }
+
+        if (hrefId == '#undefined') {
+            return false;
+        }
+
+        checkedRadioAndShowTab(hrefId);
+    }
+
+    function checkedRadioAndShowTab(hrefId) {
+
+        let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
+        tabPaneHref[0].children[0].checked = true;
+        tabPaneHref.tab('show');
+    }
+
+    function navigatorSide(activeTabPaneItem, side) {
+
         if (side == 'next') {
-            return hrefId.nextSibling.id;
-        } else if (side == 'prev') {
-            return hrefId.previousSibling.id;
+
+            return activeTabPaneItem.nextSibling.id;
+        }
+        if (side == 'prev') {
+            if (activeTabPaneItem.parentNode.parentNode.parentNode.className == 'tab-pane fade'
+                && activeTabPaneItem !== activeTabPaneItem.parentNode.parentNode.parentNode) {
+
+                return activeTabPaneItem.parentNode.parentNode.parentNode.id;
+            }
+
+            return activeTabPaneItem.previousSibling.id;
         }
     }
 
     $(".carousel a").click(function () {
         console.log($(this));// active nav-bar
-        // $(this)[0].classList.add('active');
         $(this).tab('show');
     });
 });
