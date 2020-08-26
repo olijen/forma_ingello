@@ -13,89 +13,87 @@ use yii\web\JsExpression;
 
 
 $this->registerCss('
-.line {
-     position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 50px;
-    height: 2px;
-    /* width will be set using JavaScript */
-    background: #dfdfdf;
-    -webkit-transition: -webkit-transform 0.4s;
-    -moz-transition: -moz-transform 0.4s;
-    transition: transform 0.4s;
-}
 
-.filling-line {
-    /* this is used to create the green line filling the timeline */
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #313740;
-    -webkit-transform: scaleX(0);
-    -moz-transform: scaleX(0);
-    -ms-transform: scaleX(0);
-    -o-transform: scaleX(0);
-    transform: scaleX(0);
-    -webkit-transform-origin: left center;
-    -moz-transform-origin: left center;
-    -ms-transform-origin: left center;
-    -o-transform-origin: left center;
-    transform-origin: left center;
-    -webkit-transition: -webkit-transform 0.3s;
-    -moz-transition: -moz-transform 0.3s;
-    transition: transform 0.3s;
-}
-----------------------------------------------------------
-
-fieldset {
-      overflow: hidden
-    }
-    
-    .some-class {
-      float: left;
-      clear: none;
-    }
     
     label {
-      float: left;
-      clear: none;
-      display: block;
-      padding: 0px 1em 0px 8px;
+        float: left;
+        clear: none;
+        display: block;
+
     }
     
     input[type=radio],
     input.radio {
-      float: left;
-      clear: none;
-      margin: 2px 0 0 2px;
+        position: relative;
+        top: 40px;
     }
     
-    .carousel-test {
-  position: relative;
-  width: 398px;
-  padding: 10px 40px;
-  border: 1px solid #CCC;
+    .cont-carousel{
+        position: relative;
+        width: 800px;
+         height:80px;
+        padding: 10px 40px;
+        border: 10px;
+        border-radius: 15px;
+
+  }
+.carousel {
+border-radius: 15px;
+    width: 800px;
+    height:80px;
+    overflow: hidden;
+    overflow-x: scroll;
+    white-space:nowrap;
+}
+
+.carousel-child {
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
+    height:60px;
+
+}
+
+#text-div{
+    background: #ffffff; /* Цвет фона */
+    padding: 5px; /* Поля вокруг текста */
+    color: #000000; /* Цвет текста */
+
+}
+.arrow {
+  position: absolute;
+  top: 30px;
+  padding: 0;
+  background: #ffffff;
   border-radius: 15px;
-  background: #eee;
+  border: 1px solid gray;
+  font-size: 24px;
+  line-height: 24px;
+  color: #444;
+  display: block;
+}
+
+.prev {
+  left: 7px;
+}
+
+.next {
+  right: 7px;
 }
 ');
 ?>
 
-
     <div id="picture" style="padding-top: 550px ">
         <p id="name_on_picture" style="display: flex; justify-content: center; color: #ff0000">wdafes</p>
         <div class="navigator" style="display: flex; justify-content: center; ">
-            <button class='btn btn-success navigator prev' onclick="event.stopPropagation()" >Назад</button>
-            <button class='btn btn-success navigator next' onclick="event.stopPropagation()" style=" margin-left: 15px;">Вперед</button>
+            <button class='btn btn-success navigator prev' onclick="event.stopPropagation()">Назад</button>
+            <button class='btn btn-success navigator next' onclick="event.stopPropagation()"
+                    style=" margin-left: 15px;">Вперед
+            </button>
         </div>
-        <?= Html::textarea('title', 'тут будет описание регламента',
-            ['style' => "margin: 5px; width: 1105px; height: 41px;",
-                'readonly' => true, 'id' => 'regularity_title'])
-        ?>
+        <div id="text-div">
+
+        </div>
     </div>
 
 
@@ -104,12 +102,15 @@ fieldset {
         <ul class="nav nav-tabs">
             <?php foreach ($regularities as $regularity): ?>
 
-                <li class=" <?php if($regularity->id == $regularities[0]->id) { echo 'active' ;} ?> "  data-href = "tab_regularity_<?= $regularity['id'] ?>">
-                    <a href="#tab_regularity_<?= $regularity['id'] ?>" data-toggle="tab" name="tab_regularity_<?= $regularity['id'] ?>"
-                       onclick="changeArea()"
-                       data-description ="<?= $regularity->title ?> " data-name = "<?= 'Итемы: ' . $regularity->name ?>"
-                       aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>"
-                    >
+                <li class=" <?php if ($regularity->id == $regularities[0]->id) {
+                    echo 'active';
+                } ?> "
+                    data-href="tab_regularity_<?= $regularity['id'] ?>">
+                    <a href="#tab_regularity_<?= $regularity['id'] ?>" data-toggle="tab"
+                       name="tab_regularity_<?= $regularity['id'] ?>"
+                       data-description="<?= $regularity->title ?> " data-name="<?= 'Итемы: ' . $regularity->name ?>"
+                       data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
+                       aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
                         <?= $regularity['name'] ?>
                     </a>
                 </li>
@@ -123,12 +124,11 @@ fieldset {
                      id="tab_regularity_<?= $regularity['id'] ?>">
 
                     <?php if ($regularity === $regularities[0]): ?>
-                        <?php is_null($regularity->picture) ? $regularity->picture = '' : true ?>
                         <script>
-                            //changeArea('<?//= $regularity->title ?>//', '<?//= $regularity->name ?>//', '<?//= $regularity->picture?>//');
+                            //TODO почему не работает?  changeArea('<?//= $regularity->title ?>//', '<?//= $regularity->name ?>//', '<?//= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>//');
                             regularity_title.value = '<?= $regularity->title ?>';//меняю значение по id (textarea)
                             document.getElementById("name_on_picture").innerHTML = '<?= 'Регламент: ' . $regularity->name ?>';
-                            //document.getElementById("picture").style.backgroundImage = "url('<?//= $regularity->picture?>//')";
+                            document.getElementById("picture").style.backgroundImage = "url('<?= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>')";
                         </script>
                     <?php endif; ?>
 

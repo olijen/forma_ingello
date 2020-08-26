@@ -1,13 +1,18 @@
-function changeArea(description, nameOnPicture) {
+function changeArea(description, nameOnPicture, picture) {
 
-    regularity_title.value = description;
+    // $("#text-div").html(description);
+    // document.getElementById("picture").
+    // document.getElementById("text-div").insertAdjacentHTML('beforebegin', description);
+    $("#text-div").html(description);
     document.getElementById("name_on_picture").innerHTML = nameOnPicture;
-    // console.log('что то');
-    // if (!isEmpty(pictureUrl)){
-    //     document.getElementById("picture").style.backgroundImage = "url("+pictureUrl+")";
-    // }else {
-    //     document.getElementById("picture").style.backgroundImage = "url(/images/bot.jpg)";
-    // }
+    let pictureUrl = "url(/images/bot.jpg)";
+
+    if (picture == 'false') {
+        document.getElementById("picture").style.backgroundImage = pictureUrl;
+    } else {
+        pictureUrl = "url(" + picture + ")";
+        document.getElementById("picture").style.backgroundImage = pictureUrl;
+    }
 
 }
 
@@ -31,19 +36,16 @@ $(document).ready(function () {
             checkedRadioAndShowTab(hrefId);
 
             return;
-        }else if (activeTabPaneRegularity.find('.container').length <= 1){
+        } else if (activeTabPaneRegularity.find('.container').length <= 1) {
             console.log(activeTabPaneRegularity.find('.container'));
             navigatorRegularityTab(activeNavBar, side);
             return;
         }
 
-
         let falseMe = changeItems(activeTabPaneItem, side);
-
         if (falseMe === false) {
             navigatorRegularityTab(activeNavBar, side);
         }
-
         console.log('___________________________________________________________________________________________');
 
     });
@@ -58,9 +60,7 @@ $(document).ready(function () {
         }
 
         hrefTabRegularityId = '#' + hrefTabRegularityId;
-        let tabPaneHref = $('a[href$=' + hrefTabRegularityId + ']');
-        tabPaneHref.tab('show');
-        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name)
+        checkedRadioAndShowTab(hrefTabRegularityId);
     }
 
     function changeItems(activeTabPaneItem, side) {
@@ -102,10 +102,12 @@ $(document).ready(function () {
 
     function checkedRadioAndShowTab(hrefId) {
 
-        let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
-        tabPaneHref[0].children[0].checked = true;
+        let tabPaneHref = $('a[href$=' + hrefId + ']');
+        if (tabPaneHref[0].children[0] !== undefined) {
+            tabPaneHref[0].children[0].checked = true;
+        }
         tabPaneHref.tab('show');
-        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name)
+        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture)
     }
 
     function navigatorSide(activeTabPaneItem, side) {
@@ -126,11 +128,39 @@ $(document).ready(function () {
     }
 
     $("a").click(function () {
-        console.log($(this));// active nav-bar
         $(this).tab('show');
-        changeArea($(this)[0].dataset.description, $(this)[0].dataset.name)
+        changeArea($(this)[0].dataset.description, $(this)[0].dataset.name, $(this)[0].dataset.picture)
+        console.log($(this)[0].dataset.description);
+
     });
 });
+
+$(document).ready(function (){
+    let width = 200; // ширина картинки
+    let count = 2; // видимое количество изображений
+
+    let position = 0; // положение ленты прокрутки
+
+
+    $(".cont-carousel").querySelector('.arrow prev').onclick = function() {
+
+        // сдвиг влево
+        position += width * count;
+        // последнее передвижение влево может быть не на 3, а на 2 или 1 элемент
+        position = Math.min(position, 0);
+        $(".carousel").style.marginLeft = position + 'px';
+    };
+
+    $(".cont-carousel").find('.next').onclick = function() {
+        // сдвиг вправо
+        position -= width * count;
+        // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
+        position = Math.max(position, -width * ($(".carousel").querySelectorAll('.carousel-child').length - count));
+        $(".carousel").style.marginLeft = position + 'px';
+    };
+
+});
+
 
 jQuery(document).ready(function ($) {
     var timelines = $('.cd-horizontal-timeline'),

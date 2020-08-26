@@ -28,7 +28,7 @@ foreach ($items as $value): ?>
                  aria-expanded="false"
                  style="height: 0px;">
                 <div class="box-body">
-                    <?php LinkHelper::replaceUrlOnButton($value['description']); ?>
+                    <?php echo LinkHelper::replaceUrlOnButton($value['description']); ?>
                 </div>
             </div>
         </div>

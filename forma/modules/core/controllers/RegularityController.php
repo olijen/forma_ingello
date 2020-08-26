@@ -32,18 +32,18 @@ class RegularityController extends Controller
                 ],
             ],
 
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'only' => ['regularity'],
-//                'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'actions' => ['regularity'],
-//                        'roles' => ['?'],
-//                    ],
-//
-//                ],
-//            ]
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['regularity'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['regularity'],
+                        'roles' => ['?', '@'],
+                    ],
+
+                ],
+            ]
         ];
     }
 

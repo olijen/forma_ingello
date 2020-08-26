@@ -27,14 +27,14 @@ class LinkHelper
                         .appendTo('#modal .modal-dialog .modal-content .modal-body');\">
                         <i class=\"fa fa-eye\"></i>", $text);
             $text = str_ireplace("}}", "</a>", $text);
-            echo $text;
+            return $text;
         } else {// если ссылка вняшняя то превратится в кнопку
             $text = str_ireplace("{{", "<a onclick=\"window.open(' ", $text);
             $text = str_ireplace("||", " ', 'Window', 
                 'width=600,height=600,left=600')\" 
                  class=\"btn btn-primary btn-xs\">", $text);
             $text = str_ireplace("}}", "</a>", $text);
-            echo $text;
+            return $text;
         }
     }
 

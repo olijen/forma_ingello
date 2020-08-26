@@ -6,8 +6,7 @@ use forma\modules\core\components\LinkHelper;
 
 $this->title = 'Регламент, правила';
 
-$publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity['username']]));
-
+$publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
 ?>
 <a class="btn btn-success" href='<?= $publicRegularityUrl?>'
    style="position: absolute; top: 80px; right: 20px;">
