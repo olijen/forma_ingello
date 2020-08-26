@@ -106,7 +106,8 @@ fieldset {
 
                 <li class=" <?php if($regularity->id == $regularities[0]->id) { echo 'active' ;} ?> "  data-href = "tab_regularity_<?= $regularity['id'] ?>">
                     <a href="#tab_regularity_<?= $regularity['id'] ?>" data-toggle="tab" name="tab_regularity_<?= $regularity['id'] ?>"
-                       onclick="changeArea('<?= $regularity->title ?>', '<?= 'Регламент: ' . $regularity->name ?>', '<?= $regularity->picture ?>')"
+                       onclick="changeArea()"
+                       data-description ="<?= $regularity->title ?> " data-name = "<?= 'Итемы: ' . $regularity->name ?>"
                        aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>"
                     >
                         <?= $regularity['name'] ?>

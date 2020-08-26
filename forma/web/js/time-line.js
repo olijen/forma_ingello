@@ -1,4 +1,5 @@
 function changeArea(description, nameOnPicture) {
+
     regularity_title.value = description;
     document.getElementById("name_on_picture").innerHTML = nameOnPicture;
     // console.log('что то');
@@ -59,6 +60,7 @@ $(document).ready(function () {
         hrefTabRegularityId = '#' + hrefTabRegularityId;
         let tabPaneHref = $('a[href$=' + hrefTabRegularityId + ']');
         tabPaneHref.tab('show');
+        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name)
     }
 
     function changeItems(activeTabPaneItem, side) {
@@ -103,6 +105,7 @@ $(document).ready(function () {
         let tabPaneHref = $('.tab-pane a[href=' + hrefId + ']');
         tabPaneHref[0].children[0].checked = true;
         tabPaneHref.tab('show');
+        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name)
     }
 
     function navigatorSide(activeTabPaneItem, side) {
@@ -122,9 +125,10 @@ $(document).ready(function () {
         }
     }
 
-    $(".carousel a").click(function () {
+    $("a").click(function () {
         console.log($(this));// active nav-bar
         $(this).tab('show');
+        changeArea($(this)[0].dataset.description, $(this)[0].dataset.name)
     });
 });
 
