@@ -38,6 +38,7 @@
                                      aria-expanded="false" style="height: 0px;">
                                     <div class="box-body">
                                         <?php echo LinkHelper::replaceUrlOnButton($item['description']); ?>
+
                                         <!-- /.box-header -->
                                         <div class="box-body">
                                             <div class="box-group" id="accordion1">

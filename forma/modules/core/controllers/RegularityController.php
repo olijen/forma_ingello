@@ -6,12 +6,14 @@ namespace forma\modules\core\controllers;
 use forma\modules\core\records\Item;
 use forma\modules\core\records\ItemQuery;
 use forma\modules\core\records\RegularityQuery;
+use forma\modules\core\records\User;
 use forma\modules\core\services\RegularityAndItemPictureService;
 use forma\modules\product\records\Product;
 use Yii;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -72,17 +74,28 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
-        $regularities = (new RegularityQuery(new Regularity()))->publicRegularities()->all();
+        $currentUserId = Yii::$app->user->isGuest == true ? $this->getCurrentUserId() : null ;
+        $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
         $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
         $subItems = Item::getSubItems($allItems);
         $items = Item::getMainItems($allItems);
+
 
         return $this->render('user-regularity', [
             'regularities' => $regularities,
             'items' => $items,
             'subItems' => $subItems,
         ]);
+    }
+
+    public function getCurrentUserId()
+    {
+        $this->layout = 'empty-layouts';
+//        $this->layout = 'public.php';
+        $currentUrl = Url::current();
+        $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);
+        return User::findOne(['username' => $currentUserName,]);
     }
 
     public function actionSettings()

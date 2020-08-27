@@ -60,31 +60,20 @@ border-radius: 15px;
     color: #000000; /* Цвет текста */
 
 }
-.arrow {
-  position: absolute;
-  top: 30px;
-  padding: 0;
-  background: #ffffff;
-  border-radius: 15px;
-  border: 1px solid gray;
-  font-size: 24px;
-  line-height: 24px;
-  color: #444;
-  display: block;
-}
 
-.prev {
-  left: 7px;
-}
-
-.next {
-  right: 7px;
-}
+#name_on_picture {
+	position: absolute;
+	top: 30px;
+	left: 0;
+	width: 100%;
+	display: flex; 
+	justify-content: center; 
+	color: #ff0000;
 ');
 ?>
 
     <div id="picture" style="padding-top: 550px ">
-        <p id="name_on_picture" style="display: flex; justify-content: center; color: #ff0000">wdafes</p>
+        <h1 id="name_on_picture" style="">wdafes</h1>
         <div class="navigator" style="display: flex; justify-content: center; ">
             <button class='btn btn-success navigator prev' onclick="event.stopPropagation()">Назад</button>
             <button class='btn btn-success navigator next' onclick="event.stopPropagation()"
@@ -106,9 +95,11 @@ border-radius: 15px;
                     echo 'active';
                 } ?> "
                     data-href="tab_regularity_<?= $regularity['id'] ?>">
-                    <a href="#tab_regularity_<?= $regularity['id'] ?>" data-toggle="tab"
-                       name="tab_regularity_<?= $regularity['id'] ?>"
-                       data-description="<?= $regularity->title ?> " data-name="<?= 'Итемы: ' . $regularity->name ?>"
+                    <a href="#tab_regularity_<?= $regularity['id'] ?>"
+                       data-toggle="tab"
+                       data-href="tab_regularity_<?= $regularity['id'] ?>"
+                       data-description="<?= $regularity->title ?> "
+                       data-name="<?= $regularity->name ?>"
                        data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
                        aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
                         <?= $regularity['name'] ?>
@@ -125,10 +116,11 @@ border-radius: 15px;
 
                     <?php if ($regularity === $regularities[0]): ?>
                         <script>
-                            //TODO почему не работает?  changeArea('<?//= $regularity->title ?>//', '<?//= $regularity->name ?>//', '<?//= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>//');
-                            regularity_title.value = '<?= $regularity->title ?>';//меняю значение по id (textarea)
-                            document.getElementById("name_on_picture").innerHTML = '<?= 'Регламент: ' . $regularity->name ?>';
-                            document.getElementById("picture").style.backgroundImage = "url('<?= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>')";
+                            $(document).ready(function () {
+                                changeArea('<?= $regularity->title ?>',
+                                    '<?= $regularity->name ?>',
+                                    '<?= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>');
+                            });
                         </script>
                     <?php endif; ?>
 
