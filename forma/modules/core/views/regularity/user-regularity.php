@@ -73,7 +73,7 @@ border-radius: 15px;
 ?>
 
     <div id="picture" style="padding-top: 550px ">
-        <h1 id="name_on_picture" style="">wdafes</h1>
+        <h1 id="name_on_picture" style=""></h1>
         <div class="navigator" style="display: flex; justify-content: center; ">
             <button class='btn btn-success navigator prev' onclick="event.stopPropagation()">Назад</button>
             <button class='btn btn-success navigator next' onclick="event.stopPropagation()"

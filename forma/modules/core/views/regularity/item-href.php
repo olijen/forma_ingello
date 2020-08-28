@@ -15,7 +15,9 @@ $dataName = $regularity->name . '<br>' . $parentItemStr . $item->title;
        data-href="menu<?= $item->id ?>"
        data-description="<?= $item->description ?> "
        data-name="<?= $dataName ?>"
-       data-picture="<?= $item->picture ?>">
+       data-picture="<?= $item->picture ?>"
+    >
+
 
         <input type="radio" class="radio" name=<?= $radioName ?> id="<?= $item->id ?>">
         <label for="<?= $item->id ?>"> <?= $item->title ?> </label>
