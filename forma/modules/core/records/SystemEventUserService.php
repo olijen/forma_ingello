@@ -94,14 +94,14 @@ class SystemEventUserService {
     }
 
     // отправить юзеру письмо что произошло то событие, на которое он подписан
-    public static function sendEmailSystemEventUser(string $class_name, string $object_name) : void{
+    public static function sendEmailSystemEventUser(string $subject, string $text) : void{
         $user = User::findOne(['id' => Yii::$app->user->id]);
         Yii::$app->mailer->compose()
             ->setFrom('forma@gmail.com')
             ->setTo($user->getEmail())
-            ->setSubject('Forma: Произошло событие')
+            ->setSubject($subject)
             ->setTextBody('По вашей подписке произошло событие')
-            ->setHtmlBody('Произошло, событие такое,'.$class_name.' = '.$object_name.' что вы подписались на событие, которое отправляется на e-mail')
+            ->setHtmlBody($text)
             ->send();
     }
 }
