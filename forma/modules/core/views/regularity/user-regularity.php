@@ -1,16 +1,11 @@
 <?php
 $this->registerCssFile('@web/css/time-line-style.css');
-$this->registerJsFile('@web/js/time-line.js');
+$this->registerJsFile('@web/js/time-line.js', ['position' => \yii\web\View::POS_BEGIN ]);
 
+use forma\modules\core\components\LinkHelper;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\web\JsExpression;
-
-
-?>
-
-<?php
-
 
 $this->registerCss('
 
@@ -58,7 +53,9 @@ border-radius: 15px;
     background: #ffffff; /* Цвет фона */
     padding: 5px; /* Поля вокруг текста */
     color: #000000; /* Цвет текста */
-
+    overflow: scroll;
+    height: 120px;
+    border: 2px solid #cccccc
 }
 
 #name_on_picture {
@@ -72,6 +69,7 @@ border-radius: 15px;
 ');
 ?>
 
+<?php if (isset($regularities) && !empty($regularities)): ?>
     <div id="picture" style="padding-top: 550px ">
         <h1 id="name_on_picture" style=""></h1>
         <div class="navigator" style="display: flex; justify-content: center; ">
@@ -85,8 +83,6 @@ border-radius: 15px;
         </div>
     </div>
 
-
-<?php if (isset($regularities) && !empty($regularities)): ?>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <?php foreach ($regularities as $regularity): ?>
@@ -96,6 +92,7 @@ border-radius: 15px;
                 } ?> "
                     data-href="tab_regularity_<?= $regularity['id'] ?>">
                     <a href="#tab_regularity_<?= $regularity['id'] ?>"
+                       class="change-item"
                        data-toggle="tab"
                        data-href="tab_regularity_<?= $regularity['id'] ?>"
                        data-description="<?= $regularity->title ?> "
@@ -116,11 +113,11 @@ border-radius: 15px;
 
                     <?php if ($regularity === $regularities[0]): ?>
                         <script>
-                            $(document).ready(function () {
+                            // $(document).ready(function () {
                                 changeArea('<?= $regularity->title ?>',
                                     '<?= $regularity->name ?>',
                                     '<?= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>');
-                            });
+                            // });
                         </script>
                     <?php endif; ?>
 
@@ -134,4 +131,7 @@ border-radius: 15px;
             <?php endforeach; ?>
         </div>
     </div>
-<?php endif; ?>
+<?php else: ?>
+<?= 'Регламентов или юзера не существует'?>
+
+<?php endif;?>

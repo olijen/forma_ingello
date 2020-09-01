@@ -74,13 +74,12 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
-        $currentUserId = Yii::$app->user->isGuest == true ? $this->getCurrentUserId() : null ;
+        $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
         $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
         $subItems = Item::getSubItems($allItems);
         $items = Item::getMainItems($allItems);
-
 
         return $this->render('user-regularity', [
             'regularities' => $regularities,
@@ -89,13 +88,12 @@ class RegularityController extends Controller
         ]);
     }
 
-    public function getCurrentUserId()
+    public function getPublicCurrentUserId() // http://localhost:8891/admin/regularity передается ссылка подобного формата
     {
-        $this->layout = 'empty-layouts';
-//        $this->layout = 'public.php';
+        $_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
         $currentUrl = Url::current();
-        $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);
-        return User::findOne(['username' => $currentUserName,]);
+        $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
+        return User::findOne(['username' => $currentUserName,]);// по логину находим юзера
     }
 
     public function actionSettings()

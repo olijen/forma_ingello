@@ -75,9 +75,8 @@ $(document).ready(function () {
         let falseMe = changeItems(activeTabPaneItem, side, activeTabPaneRegularity);
         if (falseMe === false) {
             for (let i = 0; i < activeTabPaneItem.length; i++) {
-                activeTabPaneItem[i].className = 'tab-pane fade';
-                let hrefId = activeTabPaneItem[i].id;
-                $('a[href$="' + hrefId + '"]')[0].children[0].checked = false;
+                deactivationTabPaneItem(activeTabPaneItem[i]);
+
             }
             navigatorRegularityTab(activeNavBar, side);  // Переключение табов при крайних итемах
         }
@@ -85,6 +84,11 @@ $(document).ready(function () {
 
     });
 
+    function deactivationTabPaneItem(activeTabPaneItem) {
+        activeTabPaneItem.className = 'tab-pane fade';
+        let hrefId = activeTabPaneItem.id;
+        $('a[href$="' + hrefId + '"]')[0].children[0].checked = false;
+    }
 
     function changeItems(activeTabPaneItem, side, activeTabPaneRegularity) {
 
@@ -96,8 +100,8 @@ $(document).ready(function () {
 
         if (currentActiveTabDatasetPrev == 'false') {
             if (mainHrefIdSide == '#undefined'
-                && currentMainActiveTab !== $('.tab-pane')[1]
-            ) { // проверка на крайность интемов для перехода в следующий таб
+                && currentMainActiveTab !== $('.tab-pane')[1]) { // проверка на крайность интемов для перехода в следующий таб
+
                 console.log('32');
                 currentMainActiveTab.className = 'tab-pane fade';
                 currentMainActiveTab.dataset.prev = true;
@@ -105,14 +109,10 @@ $(document).ready(function () {
             }
             console.log('31');
 
-            // let tabPaneHref = $('a[href$="' + hrefId + '"]');
-            //
-            //
-            // console.log(tabPaneHref);
-            // console.log(tabPaneHref.tab);
-            // return;
-            checkedRadioAndShowTab(hrefId);
+
             currentMainActiveTab.dataset.prev = true;
+            checkedRadioAndShowTab(mainHrefIdSide);
+            return;
 
         }
         if (activeTabPaneItem.find('a').length >= 1) {// суб итемы
@@ -128,6 +128,7 @@ $(document).ready(function () {
 
                         if ($(".tab-pane")[1] !== currentMainActiveTab) {
                             currentMainActiveTab.dataset.prev = false;
+                            console.log('51');
                         }
 
                         return;
@@ -170,12 +171,31 @@ $(document).ready(function () {
         checkedRadioAndShowTab(hrefId);
     }
 
+    function scrollItemsDivs(tabPaneHref, childCount) {
+        let divWhitScroll = tabPaneHref.tab()[0].offsetParent;
+        let scrollChange = 200; // ширина дива в каруселе
+        let scrollLength = 600;
+        for (i = 1; i < childCount; i++) {
+            if (tabPaneHref.tab()[0].offsetParent.children[i].children[0] == tabPaneHref.tab()[0]) {
+                if (i > 3) {
+                    divWhitScroll.scrollLeft = scrollChange * i - scrollLength;
+                } else if (i <= 3) {
+                    divWhitScroll.scrollLeft = 0;
+                }
+            }
+        }
+    }
+
     function checkedRadioAndShowTab(hrefId) {
-        console.log('checkedRadioAndShowTab++++++++++++++++++++++++++++++++++');
+
         let tabPaneHref = $('a[href$="' + hrefId + '"]');
-        console.log(tabPaneHref);
-        console.log('checkedRadioAndShowTab++++++++++++++++++++++++++++++++++');
+        let childCount = tabPaneHref.tab()[0].offsetParent.childElementCount;
+
+        if (childCount > 4) { // ширина лока 800 т е вмещает 4 еллемента по 200
+            scrollItemsDivs(tabPaneHref, childCount);
+        }
         tabPaneHref.tab('show');
+
         changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
         if (tabPaneHref[0].children[0]) {
             tabPaneHref[0].children[0].checked = true;
@@ -190,7 +210,7 @@ $(document).ready(function () {
             return activeTabPaneItem.nextSibling.id;
         }
         if (side == 'prev') {
-            
+
             console.log('prev22222222222');
             return activeTabPaneItem.previousSibling.id;
         }
@@ -212,14 +232,30 @@ $(document).ready(function () {
         checkedRadioAndShowTab(hrefTabRegularityId);
     }
 
-    $("a").click(function () {
+    $("a.change-item").click(function (event) {
 
+        let currentActiveItemsTabs = $('.tab-pane.fade.active');
+        console.log(currentActiveItemsTabs);
+        let thisItemTab = $('div[id$="' + this.dataset.href + '"]');
+        // let parent = thisItemTab.parent().parent().parent()[0];
+        let parent = thisItemTab.parents('.parent')[0];
+        if (currentActiveItemsTabs.length > 1) {
+            for (i = 0; i < currentActiveItemsTabs.length - 1; i++) {
+
+                if (currentActiveItemsTabs[i] !== parent) {
+                    deactivationTabPaneItem(currentActiveItemsTabs[i]);
+                } else {
+                    console.log('------------------');
+                    console.log(currentActiveItemsTabs[i]);
+                    console.log(parent);
+                    console.log('------------------');
+                }
+            }
+        }
         checkedRadioAndShowTab(this.dataset.href);
-        // $(this).tab('show');
-        console.log(this.dataset.href);
-        console.log($(this));
-        // changeArea($(this)[0].dataset.description, $(this)[0].dataset.name, $(this)[0].dataset.picture);
 
+        return false;
+        // event.stopPropagation();
     });
 });
 

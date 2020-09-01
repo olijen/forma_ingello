@@ -32,8 +32,8 @@
 
     <div class="tab-content">
         <?php foreach ($items as $item) {
-
-            $openTabPaneDiv = '<div id="menu' . $item->id . '"   class="tab-pane fade"
+            $parentClass = !isset($checkSubItem) ? 'parent' : '';
+            $openTabPaneDiv = '<div id="menu' . $item->id . '"   class="tab-pane fade ' . $parentClass . '"
                                     data-prev="true"   data-href="menu' . $item->id . '"
                                >';
             $content = $item->id;
@@ -42,14 +42,12 @@
             if (isset($checkSubItem) && isset($parentItem)) {//условие для контента субитемов(вложеных итемов)
                 if ($item->parent_id == $parentItem->id) {//разные сравнения
                     echo $openTabPaneDiv;
-                    echo $content;
                     echo $closeTabPaneDiv;
 
                 }
 
             } elseif ($item->regularity_id == $regularity->id && is_null($item->parent_id)) {//условие для контента итемов родителей
                 echo $openTabPaneDiv;
-                echo $content;
                 echo $this->render('user-main-item', [  //рендер субитемов
                     'regularity' => $regularity,
                     'items' => $subItems,

@@ -16,6 +16,7 @@ $dataName = $regularity->name . '<br>' . $parentItemStr . $item->title;
        data-description="<?= $item->description ?> "
        data-name="<?= $dataName ?>"
        data-picture="<?= $item->picture ?>"
+       class="change-item"
     >
 
 
