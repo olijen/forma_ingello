@@ -21,7 +21,7 @@ services:
       - app
 
   mailcatcher:
-    image: schickling/mailcatcher:latest
+    image: schickling/mailcatcher
     ports:
       - 1089:1080
 

@@ -125,24 +125,6 @@ function(calEvent, jsEvent, view) {
 JS;
 ?>
 
-<style>
-    .first_block {
-        margin-top: 100px;
-    }
-
-    @media screen and (max-width: 768px) {
-        .small_widgets {
-            display: none;
-        }
-
-        .first_block {
-            margin-top: 10px;
-        }
-    }
-
-
-</style>
-
 <script>
     var small_widgets_in_block = [];
 </script>
@@ -652,6 +634,10 @@ foreach($widgetOrder as $panel => $widgetArray) {
 smallWidget();
 </script>
 </div>
+<div class="row small_widgets_text" style="display: none; color: red;">
+    Конструктор виджетов не доступен на мобильных устройствах.
+    Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
+</div>
 
 <div class="row first_block">
     <!-- ВОРОНКА ПРОДАЖ -->
@@ -1155,3 +1141,52 @@ if($widgetNewOrder == true){
 
     })
 </script>
+
+<style>
+    .sortable-placeholder {
+        margin-top: 15px !important;
+        border: 3px dotted #18a718 !important;
+        background-color: #4f8e4f !important;
+    }
+
+    #panel_small_widget {
+        width: 300% !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    #panel_small_widget li {
+        display: inline-block  !important;
+        background: #acbfac;
+        margin: 0px !important;
+        padding: 0px !important;
+        padding-right: 15px !important;
+    }
+
+    #panel_small_widget .box {
+        margin: 0 !important;
+   }
+    .content-wrapper {
+        min-height: 100% !important;
+    }
+
+
+    .first_block {
+        margin-top: 100px;
+    }
+
+   /* @media screen and (max-width: 768px) {
+        .small_widgets {
+            display: none;
+        }
+
+        .small_widgets_text {
+            display: block !important;
+            padding-left: 20px;
+        }
+
+        .first_block {
+            margin-top: 10px;
+        }
+    }*/
+</style>
