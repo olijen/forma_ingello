@@ -424,57 +424,7 @@ $hiringFunnelWidget = \forma\modules\core\widgets\HiringFunnelWidget::widget();
 //виджет истории событий
 $historyEventWidget = \forma\modules\core\widgets\SystemEventWidget::widget(['timeline' => false, 'searchModel' => $searchModelSystemEvent, 'pages' => $pages, 'systemEventsRows' => $systemEventsRows]);
 
-/*function addToWidgetSection(string $name, $sortableArray, $widgetOrder) {
-    global $departmentPerfomanceWidget;
-    global $suppliersWidget;
-    global $weeklySalesWidget;
-    global $employeesWidget;
-    global $messagesWidget;
-    global $deliveryPlanWidget;
-    global $goalsWidget;
-    global $calendarWidget;
-    global $workers;
 
-    //Yii::debug($workers); = null
-
-    foreach($widgetOrder as $panel => $widgetArray) {
-        if($panel == $name){
-            for($i = 0; $i < count($widgetArray); $i++){
-                switch($widgetArray[$i]){
-                    case 'DepartmentPerfomance':
-                        $sortableArray[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
-                        break;
-                    case 'WeeklySales':
-                        $sortableArray[] = ['content' => $weeklySalesWidget, 'disabled' => true];
-                        break;
-                    case 'Employees':
-                        $sortableArray[] = ['content' => $employeesWidget, 'disabled' => true];
-                        break;
-                    case 'Messages':
-                        $sortableArray[] = ['content' => $messagesWidget, 'disabled' => true];
-                        break;
-                    case 'DeliveryPlan':
-                        $sortableArray[] = ['content' => $deliveryPlanWidget, 'disabled' => true];
-                        break;
-                    case 'Goals':
-                        $sortableArray[] = ['content' => $goalsWidget, 'disabled' => true];
-                        break;
-                    case 'Calendar':
-                        $sortableArray[] = ['content' => $calendarWidget, 'disabled' => true];
-                        break;
-                    case 'Suppliers':
-                        $sortableArray[] = ['content' => $suppliersWidget, 'disabled' => true];
-                        break;
-                    case 'Workers':
-                        $sortableArray[] = ['content' => $workers, 'disabled' => true];
-                        break;
-                }
-            }
-        }
-    }
-    return $sortableArray;
-}
-$widgetsForSortable0 = addToWidgetSection('panelSmallWidget', $widgetsForSortable0, $widgetOrder);*/
 Yii::debug($widgetsForSortable0);
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ МАЛЕНЬКОЙ ПАНЕЛИ
 Yii::debug('sssssss');

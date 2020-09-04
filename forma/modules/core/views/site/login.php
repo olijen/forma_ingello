@@ -45,7 +45,7 @@
             $model->password = '111111';
             $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
 
-          <div style="display: ;">
+          <div style="display: none;">
               <?= $form
                   ->field($model, 'email', $fieldOptions1)
                   ->label(false)
