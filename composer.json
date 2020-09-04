@@ -97,8 +97,7 @@
     "philippfrenzel/yii2fullcalendar": "3.9.0",
     "php-ai/php-ml": "^0.8.0",
     "ext-json": "*",
-    "kartik-v/yii2-sortable": "dev-master",
-    "nex/yii2-datepicker": "*"
+    "nex/yii2-datepicker": "*",
     "kartik-v/yii2-sortable": "dev-master",
     "kartik-v/yii2-number": "dev-master",
     "kartik-v/yii2-widget-touchspin": "dev-master",
