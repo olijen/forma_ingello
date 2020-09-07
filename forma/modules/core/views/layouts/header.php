@@ -521,8 +521,8 @@ if ('selling' == Yii::$app->controller->module->id) {
       color: <?php echo $color?> !important;
   }
   .info-box, .box, .form-control, .redactor-box,
-  .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
-    box-shadow: 2px 1px 3px rgba(0,0,0,1.3), 0px 0px 2px rgba(0,0,0,0.22) !important;
+  .navbar, .navbar-static-top, .main-sidebar, .btn,s .select2-selection {
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5), 1px 1px 3px rgba(0,0,0,0.22) !important;
     border-radius: 2px !important;
   }
 
@@ -618,14 +618,25 @@ if ('selling' == Yii::$app->controller->module->id) {
       padding: 3px;
   }
 
+  h1 {
+      padding-left: 3px;
+  }
+
   @media screen and (max-width: 768px) {
-      .col-md-12, .col-md-6, .col-xs-12 {
-          padding: 0;
+      .col-md-12, .col-md-6, .col-md-4, .col-xs-12, .tab-content {
+          padding: 0 !important;
       }
       .row {
           margin: 0;
           padding: 0;
       }
+      .navbar-custom-menu .dropdown-menu {
+          width: 100% !important;
+      }
   }
+
+    .breadcrumb {
+        display: none !important;
+    }
 
 </style>
