@@ -15,8 +15,7 @@
                 </div>
                 <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
                         class="fa fa-minus"></i>
-                  
-                    <button class="btn btn-xs"><i class="fa fa-refresh"></i></button>',
+        ',
         'topTemplate' =>  '
             <div class="direct-chat direct-chat-primary box box-primary  " data-widget_name="Messages">
             <div class="box-header big_widget_header"><h3 class="box-title"><i class="fas fa-envelope"></i> Сообщения</h3>{box-tools}</div>

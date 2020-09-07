@@ -519,8 +519,8 @@ if ('selling' == Yii::$app->controller->module->id) {
   }
   .info-box, .box, .form-control, .redactor-box,
   .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
-    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important;
-    border-radius: 0 !important;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.30), 0 5px 3px rgba(0,0,0,0.22) !important;
+    border-radius: 2px !important;
   }
 
   .form-control, .redactor-box,
@@ -589,4 +589,40 @@ if ('selling' == Yii::$app->controller->module->id) {
     border-left: solid 1px <?php echo $bgColor ?>;
     background-color: <?php echo $bgColor ?>;
   }
+
+  .container-fluid {
+      padding: 0;
+  }
+
+   /* Misha ept */
+    section.content>section.content {
+        padding: 0;
+    }
+
+    /*section.content {
+        padding: 0;
+    }*/
+
+    .menu a {
+        color: #008d4c !important;
+    }
+
+    .btn {
+        margin-bottom: 4px;
+    }
+
+  .modal-body {
+      padding: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+      .col-md-12, .col-md-6, .col-xs-12 {
+          padding: 0;
+      }
+      .row {
+          margin: 0;
+          padding: 0;
+      }
+  }
+
 </style>
