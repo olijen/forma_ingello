@@ -774,6 +774,7 @@ $collapsed = 0;
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
             ],
+            'itemOptions'=>['class'=>'disabled'],
             'options' => ['class' => 'panel_big_widget first'],
             'items'=> $widgetsForSortable1,
 
@@ -881,9 +882,10 @@ $collapsed = 0;
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
             ],
+            'itemOptions'=>['class'=>'disabled'],
             'options' => ['class' => 'panel_big_widget second'],
             'items'=> $widgetsForSortable2,
-            'disabled' => false
+
 
         ]);?>
 
@@ -1037,22 +1039,29 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 
 var dom = document.getElementsByClassName('panel_big_widget')[0];
 
-    new Sortable(dom, {
-        handle: '.box-header'
-    });
+    var dom0 = document.getElementById('panel_small_widget');
 
     var dom1 = document.getElementsByClassName('panel_big_widget')[1];
 
-    new Sortable(dom1, {
-        handle: '.box-header'
-    });
+    if (window.innerWidth >= 768) {
+        alert(window.innerWidth);
+        new Sortable(dom, {
+            handle: '.box-header'
+        });
 
-    var dom0 = document.getElementById('panel_small_widget');
+        new Sortable(dom1, {
+            handle: '.box-header'
+        });
 
-    new Sortable(dom0, {
-        handle: '.box-header'
-    });
-    console.log(1324567);
+        new Sortable(dom0, {
+            handle: '.box-header'
+        });
+        console.log(1324567);
+    }
+    else {
+        console.log('РАзмер экрана телефона');
+    }
+
 
     function setWidgetCollapse(){
         var big_widgets_in_block = [];
