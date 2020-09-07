@@ -16,7 +16,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
  */
 
 $DragJS = <<<JS
-
+$('.chartjs-size-monitor').remove();
 (function($){//fix jquery
     jQuery.fn.zIndex = function(a) {
         console.log(a);
@@ -1175,7 +1175,7 @@ if($widgetNewOrder == true){
         margin-top: 100px;
     }
 
-   /* @media screen and (max-width: 768px) {
+    @media screen and (max-width: 768px) {
         .small_widgets {
             display: none;
         }
@@ -1188,5 +1188,38 @@ if($widgetNewOrder == true){
         .first_block {
             margin-top: 10px;
         }
-    }*/
+        .box-title {
+            max-width: 73%;
+            white-space: nowrap !important;
+            overflow: hidden;
+        }
+
+        .dropdown-menu {
+            width: 100% !important;
+        }
+    }
+
+    .sortable.grid {
+        border: 0 !important;
+    }
+
+    .sortable.grid li {
+        text-align: left !important;
+        border: 0;
+    }
+
+    .container-fluid {
+        padding: 0;
+    }
+    .col-md-6 {
+        padding: 0;
+    }
+
+    li.disabled {
+        margin: 0;
+    }
+
+    .sortable.grid {
+        margin: 0;
+    }
 </style>
