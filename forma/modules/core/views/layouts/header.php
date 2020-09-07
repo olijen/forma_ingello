@@ -188,8 +188,11 @@ JS;
                               return \forma\modules\selling\services\SellingService::getLastClientsToHeader();
                           });
                             //$lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
-                            foreach($lastClients as $client){?>
+                            foreach($lastClients as $client){
+                                if (isset($client->customer)) {
+                                ?>
                                 <p><?=$client->customer->name?>
+                                    <?php } ?>
                                 <a href="/selling/form?id=<?=$client->id?>">Посмотреть</a></p>
                            <?php } ?>
                       </div>
