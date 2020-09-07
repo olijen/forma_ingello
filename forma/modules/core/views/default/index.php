@@ -229,6 +229,8 @@ JS;
 
 $JSUpdateBigWidgets = <<<JS
 function(calEvent, jsEvent, view) {
+    console.log($('.chartjs-size-monitor'));
+    $('.chartjs-size-monitor').remove();
     var big_widgets_in_block = [];
     var ul = $('.panel_big_widget').length;
     var li = $('.panel_big_widget').children('li').length;
@@ -1140,3 +1142,7 @@ if($widgetNewOrder == true){
         }
     }*/
 </style>
+
+<script>
+    $('.chartjs-size-monitor').remove();
+</script>
