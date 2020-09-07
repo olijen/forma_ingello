@@ -91,7 +91,10 @@ JS;
                       <div class="menu">
                           <?php
                           $searchModelHeader = new SystemEventSearch();
-                          $dataProviderHeader = $searchModelHeader->search(Yii::$app->request->queryParams);
+                          $dataProviderHeader = Yii::$app->cache->getOrSet('dataProviderHeader', function () use ($searchModelHeader) {
+                              return $searchModelHeader->search(Yii::$app->request->queryParams);
+                          });
+
                           ?>
                           <ul class="timeline" >
                               <?php
@@ -180,9 +183,16 @@ JS;
                               <canvas id="planHeader" style=""></canvas>
                           </div>
                           <?php
-                            $lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
-                            foreach($lastClients as $client){?>
+
+                          $lastClients = Yii::$app->cache->getOrSet('lastClients', function () {
+                              return \forma\modules\selling\services\SellingService::getLastClientsToHeader();
+                          });
+                            //$lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
+                            foreach($lastClients as $client){
+                                if (isset($client->customer)) {
+                                ?>
                                 <p><?=$client->customer->name?>
+                                    <?php } ?>
                                 <a href="/selling/form?id=<?=$client->id?>">Посмотреть</a></p>
                            <?php } ?>
                       </div>
@@ -207,7 +217,11 @@ JS;
                       <div class="menu">
                         <?php
                             $searchModelWarehouse = new WarehouseSearch();
-                            $warehouses = $searchModelWarehouse->getWarehouseListHeader();
+                            //$warehouses = $searchModelWarehouse->getWarehouseListHeader();
+                        $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
+                            return $searchModelWarehouse->getWarehouseListHeader();
+                        });
+
                             foreach($warehouses as $warehouse){?>
 
 
@@ -272,7 +286,10 @@ JS;
 </header>
 
 <?php
-$salesProgress = new SalesProgress();
+//$salesProgress = new SalesProgress();
+    $salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
+        return new SalesProgress();
+    });
 ?>
 <script>
     var options = {
