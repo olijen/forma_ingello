@@ -1194,8 +1194,12 @@ if($widgetNewOrder == true){
             overflow: hidden;
         }
 
-        .dropdown-menu {
+        .navbar-custom-menu .dropdown-menu {
             width: 100% !important;
+        }
+
+        .sortable.grid li {
+           padding: 5px;
         }
     }
 

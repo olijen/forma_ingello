@@ -241,9 +241,9 @@ JS;
               </p>
             </li>
             <li class="user-footer">
-              <div class="pull-left">
+              <!--<div class="pull-left">
                 <a href="#" class="btn btn-default btn-flat">Профиль</a>
-              </div>
+              </div>-->
               <div class="pull-right">
                   <?= Html::a(
                       'Выйти из системы',
@@ -505,7 +505,7 @@ if ('selling' == Yii::$app->controller->module->id) {
   }
   .info-box, .box, .form-control, .redactor-box,
   .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
-    box-shadow: 0 5px 10px rgba(0,0,0,0.30), 0 5px 3px rgba(0,0,0,0.22) !important;
+    box-shadow: 2px 1px 3px rgba(0,0,0,1.3), 0px 0px 2px rgba(0,0,0,0.22) !important;
     border-radius: 2px !important;
   }
 
@@ -598,7 +598,7 @@ if ('selling' == Yii::$app->controller->module->id) {
     }
 
   .modal-body {
-      padding: 0;
+      padding: 3px;
   }
 
   @media screen and (max-width: 768px) {
