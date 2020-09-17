@@ -80,12 +80,11 @@ $(document).ready(function () {
             }
             navigatorRegularityTab(activeNavBar, side);  // Переключение табов при крайних итемах
         }
-        console.log('___________________________________________________________________________________________');
-
     });
 
     function deactivationTabPaneItem(activeTabPaneItem) {
-        activeTabPaneItem.className = 'tab-pane fade';
+        checkAndChangeParentTabPane(activeTabPaneItem);
+
         let hrefId = activeTabPaneItem.id;
         $('a[href$="' + hrefId + '"]')[0].children[0].checked = false;
     }
@@ -102,16 +101,15 @@ $(document).ready(function () {
             if (mainHrefIdSide == '#undefined'
                 && currentMainActiveTab !== $('.tab-pane')[1]) { // проверка на крайность интемов для перехода в следующий таб
 
-                console.log('32');
                 currentMainActiveTab.className = 'tab-pane fade';
                 currentMainActiveTab.dataset.prev = true;
+
                 return false;
             }
-            console.log('31');
-
 
             currentMainActiveTab.dataset.prev = true;
             checkedRadioAndShowTab(mainHrefIdSide);
+
             return;
 
         }
@@ -120,7 +118,6 @@ $(document).ready(function () {
                 hrefId = navigatorSide(activeTabPaneItem.find('.active ')[0], side);
                 let currentActiveTab = activeTabPaneItem.find('.active ')[0];
                 if (hrefId === undefined) {           // проверка на крайность суб итемов для перехода в след суб итем
-                    console.log('5555555');
                     if (activeTabPaneItem.find('.active ').length >= 1 && side == 'prev') {
                         $('a[href$="#' + activeTabPaneItem.find('.active ')[0].id + '"]')[0].children[0].checked = false;
                         activeTabPaneItem.find('.active ')[0].className = 'tab-pane fade';
@@ -128,7 +125,6 @@ $(document).ready(function () {
 
                         if ($(".tab-pane")[1] !== currentMainActiveTab) {
                             currentMainActiveTab.dataset.prev = false;
-                            console.log('51');
                         }
 
                         return;
@@ -136,29 +132,27 @@ $(document).ready(function () {
                     if (mainHrefIdSide == '#undefined') { // проверка на крайность интемов для перехода в следующий таб
                         activeTabPaneItem.find('.active ')[0].className = 'tab-pane fade';
                         currentMainActiveTab.className = 'tab-pane fade';
+
                         return false;
                     }
                     checkedRadioAndShowTab(mainHrefIdSide);
                     $('a[href$="#' + currentActiveTab.id + '"]')[0].children[0].checked = false;
                     currentActiveTab.className = 'tab-pane fade';
-                    console.log('5');
+
                     return;
                 }
                 hrefId = "#" + hrefId;
                 // Первый эллемент суб итемов
             } else if (side == 'next') {
-                console.log('next');
                 hrefId = "#" + activeTabPaneItem.find('.tab-pane ')[0].id;
             } else if (side == 'prev') {
-                console.log('prev');
                 if (mainHrefIdSide == '#undefined'
                     && currentMainActiveTab !== $('.tab-pane')[1]
                     && currentActiveTabDatasetPrev !== 'true') { // проверка на крайность интемов для перехода в следующий таб
-                    console.log('32');
+
                     currentMainActiveTab.className = 'tab-pane fade';
                     return false;
                 }
-                console.log('prev2');
 
                 hrefId = "#" + activeTabPaneItem.find('.tab-pane ').last()[0].id;
             }
@@ -235,28 +229,47 @@ $(document).ready(function () {
     $("a.change-item").click(function (event) {
 
         let currentActiveItemsTabs = $('.tab-pane.fade.active');
-        console.log(currentActiveItemsTabs);
         let thisItemTab = $('div[id$="' + this.dataset.href + '"]');
-        // let parent = thisItemTab.parent().parent().parent()[0];
         let parent = thisItemTab.parents('.parent')[0];
+
         if (currentActiveItemsTabs.length > 1) {
             for (i = 0; i < currentActiveItemsTabs.length - 1; i++) {
-
                 if (currentActiveItemsTabs[i] !== parent) {
                     deactivationTabPaneItem(currentActiveItemsTabs[i]);
-                } else {
-                    console.log('------------------');
-                    console.log(currentActiveItemsTabs[i]);
-                    console.log(parent);
-                    console.log('------------------');
                 }
             }
         }
         checkedRadioAndShowTab(this.dataset.href);
 
         return false;
-        // event.stopPropagation();
+
     });
+
+    $("a.change-regularity").click(function (event) {
+
+        let activeItems = $('.tab-content').find('.tab-pane.fade.active');
+        let activeRadio = $("input[type='radio']:checked");
+
+        if (activeItems.length > 0) {
+            for (i = 0; i < activeItems.length; i++) {
+                checkAndChangeParentTabPane(activeItems[i]);
+            }
+        }
+
+        if (activeRadio.length > 0) {
+            for (i = 0; i < activeRadio.length; i++) {
+                activeRadio[i].checked = false;
+            }
+        }
+    });
+
+    function checkAndChangeParentTabPane(activeItem) {
+        if (activeItem.className.indexOf('parent') !== -1) {
+            activeItem.className = 'tab-pane fade parent';
+        } else {
+            activeItem.className = 'tab-pane fade';
+        }
+    }
 });
 
 
