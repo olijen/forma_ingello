@@ -2,14 +2,15 @@ function changeArea(description, nameOnPicture, picture) {
 
     description = replaceUrlOnButton(description);
     $("#text-div").html(description);
-    document.getElementById("name_on_picture").innerHTML = nameOnPicture;
+    $("div#name_on_picture").html(nameOnPicture);
     let pictureUrl = "url(/images/bot.jpg)";
 
+
     if (picture == 'false') {
-        document.getElementById("picture").style.backgroundImage = pictureUrl;
+        $('div#picture').css('background-image', pictureUrl);
     } else {
         pictureUrl = "url(" + picture + ")";
-        document.getElementById("picture").style.backgroundImage = pictureUrl;
+        $('div#picture').css('background-image', pictureUrl);
     }
 
 }
@@ -48,7 +49,6 @@ $(document).ready(function () {
 
         let side = this.classList[3];
         if (activeTabPaneItem.length == 0 && activeTabPaneRegularity.find('.container').length > 1) {
-
             let hrefId = "#";
             if (side == 'next') {
                 hrefId = hrefId + activeTabPaneRegularity.find('.container').find('.tab-pane ')[0].id;
@@ -58,50 +58,55 @@ $(document).ready(function () {
                 activeTabPaneRegularity = activeTabPaneRegularity[0].children[childLength].children[1].children[lastItem].id;
                 hrefId = hrefId + activeTabPaneRegularity;
             }
-
+            changeBorderTopColor($('a[href$="' + hrefId + '"]'), true);
             checkedRadioAndShowTab(hrefId);    // Переход в первый итем (когда они не активны) при первом нажатии таба регулярити
 
             return;
         } else if (activeTabPaneRegularity.find('.container').length <= 1) {   // Переход по табам регулярити в случаее его пустаты
-            console.log('------------');
-            console.log(activeTabPaneRegularity.find('.container'));
-            console.log('------------');
-            console.log(activeTabPaneRegularity.find('.container'));
             navigatorRegularityTab(activeNavBar, side);
+
             return;
         }
 
-
-        let falseMe = changeItems(activeTabPaneItem, side, activeTabPaneRegularity);
+        let falseMe = changeItems(activeTabPaneItem, side);
         if (falseMe === false) {
             for (let i = 0; i < activeTabPaneItem.length; i++) {
                 deactivationTabPaneItem(activeTabPaneItem[i]);
-
             }
             navigatorRegularityTab(activeNavBar, side);  // Переключение табов при крайних итемах
         }
     });
 
     function deactivationTabPaneItem(activeTabPaneItem) {
-        checkAndChangeParentTabPane(activeTabPaneItem);
-
+        changeClassName(activeTabPaneItem);
         let hrefId = activeTabPaneItem.id;
-        $('a[href$="' + hrefId + '"]')[0].children[0].checked = false;
+        $('a[href$="' + hrefId + '"]').find('.check-radio')[0].checked = false;
     }
 
-    function changeItems(activeTabPaneItem, side, activeTabPaneRegularity) {
+    function changeBorderTopColor(jQueryObjA, changeBorder) { //jQuery.fn.init [a.change-item, prevObject: jQuery.fn.init(1)]
+        if (changeBorder == false) {
+            // jQueryObjA.parent('.carousel-child').css({'border-top': ''});
+        } else {
+            // jQueryObjA.parent('.carousel-child').css({'border-top': '2px solid #3c8dbc'});
+        }
+    }
+
+    function changeItems(activeTabPaneItem, side) {
 
         let hrefId = navigatorSide(activeTabPaneItem[0], side);
         let currentMainActiveTab = activeTabPaneItem[0];
+        changeBorderTopColor($('a[href$="#' + currentMainActiveTab.id + '"]'), false);
+
         let currentActiveTabDatasetPrev = currentMainActiveTab.dataset.prev;
         hrefId = '#' + hrefId;
         let mainHrefIdSide = hrefId;
+        let changeTopBorderHref = hrefId;
 
         if (currentActiveTabDatasetPrev == 'false') {
             if (mainHrefIdSide == '#undefined'
                 && currentMainActiveTab !== $('.tab-pane')[1]) { // проверка на крайность интемов для перехода в следующий таб
 
-                currentMainActiveTab.className = 'tab-pane fade';
+                changeClassName(currentMainActiveTab);
                 currentMainActiveTab.dataset.prev = true;
 
                 return false;
@@ -114,13 +119,15 @@ $(document).ready(function () {
 
         }
         if (activeTabPaneItem.find('a').length >= 1) {// суб итемы
+            changeBorderTopColor($('a[href$="#' + currentMainActiveTab.id + '"]'), true);
             if (activeTabPaneItem.find('.active ').length >= 1) {
                 hrefId = navigatorSide(activeTabPaneItem.find('.active ')[0], side);
                 let currentActiveTab = activeTabPaneItem.find('.active ')[0];
+
                 if (hrefId === undefined) {           // проверка на крайность суб итемов для перехода в след суб итем
                     if (activeTabPaneItem.find('.active ').length >= 1 && side == 'prev') {
-                        $('a[href$="#' + activeTabPaneItem.find('.active ')[0].id + '"]')[0].children[0].checked = false;
-                        activeTabPaneItem.find('.active ')[0].className = 'tab-pane fade';
+                        $('a[href$="#' + activeTabPaneItem.find('.active ')[0].id + '"]').find('.check-radio')[0].checked = false;
+                        changeClassName(activeTabPaneItem.find('.active ')[0]);
                         checkedRadioAndShowTab(activeTabPaneItem[0].id);
 
                         if ($(".tab-pane")[1] !== currentMainActiveTab) {
@@ -130,30 +137,36 @@ $(document).ready(function () {
                         return;
                     }
                     if (mainHrefIdSide == '#undefined') { // проверка на крайность интемов для перехода в следующий таб
-                        activeTabPaneItem.find('.active ')[0].className = 'tab-pane fade';
-                        currentMainActiveTab.className = 'tab-pane fade';
+                        changeClassName(activeTabPaneItem.find('.active ')[0]);
+                        changeClassName(currentMainActiveTab);
 
                         return false;
                     }
+
                     checkedRadioAndShowTab(mainHrefIdSide);
-                    $('a[href$="#' + currentActiveTab.id + '"]')[0].children[0].checked = false;
-                    currentActiveTab.className = 'tab-pane fade';
+                    $('a[href$="#' + currentActiveTab.id + '"]').find('.check-radio')[0].checked = false;
+                    changeClassName(currentActiveTab);
+                    changeBorderTopColor($('a[href$="#' + activeTabPaneItem[0].id + '"]'), false);
+                    changeBorderTopColor($('a[href$="' + mainHrefIdSide + '"]'), true);
 
                     return;
                 }
+                changeTopBorderHref = '#' + activeTabPaneItem[0].id;
                 hrefId = "#" + hrefId;
                 // Первый эллемент суб итемов
             } else if (side == 'next') {
                 hrefId = "#" + activeTabPaneItem.find('.tab-pane ')[0].id;
+                changeTopBorderHref = '#' + activeTabPaneItem[0].id;
             } else if (side == 'prev') {
                 if (mainHrefIdSide == '#undefined'
                     && currentMainActiveTab !== $('.tab-pane')[1]
                     && currentActiveTabDatasetPrev !== 'true') { // проверка на крайность интемов для перехода в следующий таб
 
-                    currentMainActiveTab.className = 'tab-pane fade';
+                    changeClassName(currentMainActiveTab);
+
                     return false;
                 }
-
+                changeTopBorderHref = '#' + activeTabPaneItem[0].id;
                 hrefId = "#" + activeTabPaneItem.find('.tab-pane ').last()[0].id;
             }
         }
@@ -162,18 +175,19 @@ $(document).ready(function () {
             return false;
         }
 
+        changeBorderTopColor($('a[href$="' + changeTopBorderHref + '"]'), true);
         checkedRadioAndShowTab(hrefId);
     }
 
     function scrollItemsDivs(tabPaneHref, childCount) {
         let divWhitScroll = tabPaneHref.tab()[0].offsetParent;
         let scrollChange = 200; // ширина дива в каруселе
-        let scrollLength = 600;
+        let scrollLength = 300;
         for (i = 1; i < childCount; i++) {
             if (tabPaneHref.tab()[0].offsetParent.children[i].children[0] == tabPaneHref.tab()[0]) {
-                if (i > 3) {
+                if (i > 1) {
                     divWhitScroll.scrollLeft = scrollChange * i - scrollLength;
-                } else if (i <= 3) {
+                } else if (i <= 1) {
                     divWhitScroll.scrollLeft = 0;
                 }
             }
@@ -184,16 +198,16 @@ $(document).ready(function () {
 
         let tabPaneHref = $('a[href$="' + hrefId + '"]');
         let childCount = tabPaneHref.tab()[0].offsetParent.childElementCount;
-
-        if (childCount > 4) { // ширина лока 800 т е вмещает 4 еллемента по 200
+        if (childCount > 3) { // ширина лока 800 т е вмещает 4 еллемента по 200
             scrollItemsDivs(tabPaneHref, childCount);
         }
-        tabPaneHref.tab('show');
 
-        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
+        tabPaneHref.tab('show');
         if (tabPaneHref[0].children[0]) {
-            tabPaneHref[0].children[0].checked = true;
+            tabPaneHref.find('.check-radio')[0].checked = true;
         }
+        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
+
 
     }
 
@@ -205,7 +219,6 @@ $(document).ready(function () {
         }
         if (side == 'prev') {
 
-            console.log('prev22222222222');
             return activeTabPaneItem.previousSibling.id;
         }
     }
@@ -229,16 +242,28 @@ $(document).ready(function () {
     $("a.change-item").click(function (event) {
 
         let currentActiveItemsTabs = $('.tab-pane.fade.active');
+        let currentParentActiveItemsTabs = $('.tab-pane.fade.parent.active');
+
+        let thisItemTabParentClass = $('div[id$="' + this.dataset.href + '"].parent');
         let thisItemTab = $('div[id$="' + this.dataset.href + '"]');
         let parent = thisItemTab.parents('.parent')[0];
 
         if (currentActiveItemsTabs.length > 1) {
-            for (i = 0; i < currentActiveItemsTabs.length - 1; i++) {
+            for (i = 0; i < currentActiveItemsTabs.length; i++) {
                 if (currentActiveItemsTabs[i] !== parent) {
                     deactivationTabPaneItem(currentActiveItemsTabs[i]);
                 }
             }
         }
+
+        if (currentParentActiveItemsTabs.length > 0 && parent == undefined) {
+            changeBorderTopColor($('a[href$="#' + currentParentActiveItemsTabs[0].id + '"]'), false);
+        }
+
+        if (thisItemTabParentClass.length > 0) {
+            changeBorderTopColor($('a[href$="#' + this.dataset.href + '"]'), true);
+        }
+
         checkedRadioAndShowTab(this.dataset.href);
 
         return false;
@@ -248,22 +273,16 @@ $(document).ready(function () {
     $("a.change-regularity").click(function (event) {
 
         let activeItems = $('.tab-content').find('.tab-pane.fade.active');
-        let activeRadio = $("input[type='radio']:checked");
-
         if (activeItems.length > 0) {
             for (i = 0; i < activeItems.length; i++) {
-                checkAndChangeParentTabPane(activeItems[i]);
+                deactivationTabPaneItem(activeItems[i]);
             }
         }
-
-        if (activeRadio.length > 0) {
-            for (i = 0; i < activeRadio.length; i++) {
-                activeRadio[i].checked = false;
-            }
-        }
+        changeArea(this.dataset.description, this.dataset.name, this.dataset.picture);
     });
 
-    function checkAndChangeParentTabPane(activeItem) {
+
+    function changeClassName(activeItem) {
         if (activeItem.className.indexOf('parent') !== -1) {
             activeItem.className = 'tab-pane fade parent';
         } else {

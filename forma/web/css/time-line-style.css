@@ -1,420 +1,238 @@
-body{
-    margin-top:20px;
-    background:#eee;
-}
-
-/*#picture {*/
-/*    background: url(/images/bot.jpg);*/
-
-/*}*/
-
-.cd-horizontal-timeline ol, .cd-horizontal-timeline ul {
-    list-style: none;
-}
-.cd-timeline-navigation a:hover, .cd-timeline-navigation a:focus {
-    border-color:#313740;
-
-}
-.cd-horizontal-timeline a, .cd-horizontal-timeline a:hover, .cd-horizontal-timeline a:focus{ color:#313740;}
-.cd-horizontal-timeline blockquote, .cd-horizontal-timeline q {
-    quotes: none;
-}
-.cd-horizontal-timeline blockquote:before, .cd-horizontal-timeline blockquote:after,
-.cd-horizontal-timeline q:before, .cd-horizontal-timeline q:after {
-    content: '';
-    content: none;
-}
-.cd-horizontal-timeline table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-.cd-horizontal-timeline {
-    opacity: 0;
-    margin: 2em auto;
-    -webkit-transition: opacity 0.2s;
-    -moz-transition: opacity 0.2s;
-    transition: opacity 0.2s;
-}
-.cd-horizontal-timeline::before {
-    /* never visible - this is used in jQuery to check the current MQ */
-    content: 'mobile';
-    display: none;
-}
-.cd-horizontal-timeline.loaded {
-    /* show the timeline after events position has been set (using JavaScript) */
-    opacity: 1;
-}
-.cd-horizontal-timeline .timeline {
-    position: relative;
-    height: 100px;
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-}
-.cd-horizontal-timeline .events-wrapper {
-    position: relative;
-    height: 100%;
-    margin: 0 40px;
-    overflow: hidden;
-}
-.cd-horizontal-timeline .events-wrapper::after, .cd-horizontal-timeline .events-wrapper::before {
-    /* these are used to create a shadow effect at the sides of the timeline */
-    content: '';
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    height: 100%;
-    width: 20px;
-}
-.cd-horizontal-timeline .events-wrapper::before {
-    left: 0;
-
-}
-.cd-horizontal-timeline .events-wrapper::after {
-    right: 0;
-
-}
-.cd-horizontal-timeline .events {
-    /* this is the grey line/timeline */
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 50px;
-    height: 2px;
-    /* width will be set using JavaScript */
-    background: #dfdfdf;
-    -webkit-transition: -webkit-transform 0.4s;
-    -moz-transition: -moz-transform 0.4s;
-    transition: transform 0.4s;
-}
-.cd-horizontal-timeline .filling-line {
-    /* this is used to create the green line filling the timeline */
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #313740;
-    -webkit-transform: scaleX(0);
-    -moz-transform: scaleX(0);
-    -ms-transform: scaleX(0);
-    -o-transform: scaleX(0);
-    transform: scaleX(0);
-    -webkit-transform-origin: left center;
-    -moz-transform-origin: left center;
-    -ms-transform-origin: left center;
-    -o-transform-origin: left center;
-    transform-origin: left center;
-    -webkit-transition: -webkit-transform 0.3s;
-    -moz-transition: -moz-transform 0.3s;
-    transition: transform 0.3s;
-}
-.cd-horizontal-timeline .events a {
-    position: absolute;
-    bottom: 0;
-    z-index: 2;
+label {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    font-size: 1rem;
-    padding-bottom: 15px;
-
-    /* fix bug on Safari - text flickering while timeline translates */
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    -o-transform: translateZ(0);
-    transform: translateZ(0);
-}
-.cd-horizontal-timeline .events a::after {
-    /* this is used to create the event spot */
-    content: '';
-    position: absolute;
-    left: 50%;
-    right: auto;
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-    transform: translateX(-50%);
-    bottom: -5px;
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-    border: 2px solid #dfdfdf;
-    background-color: #f8f8f8;
-    -webkit-transition: background-color 0.3s, border-color 0.3s;
-    -moz-transition: background-color 0.3s, border-color 0.3s;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-.no-touch .cd-horizontal-timeline .events a:hover::after {
-    background-color: #313740;
-    border-color: #313740;
-}
-.cd-horizontal-timeline .events a.selected {
-    pointer-events: none;
-}
-.cd-horizontal-timeline .events a.selected::after {
-    background-color: #313740;
-    border-color: #313740;
-}
-.cd-horizontal-timeline .events a.older-event::after {
-    border-color: #313740;
-}
-@media only screen and (min-width: 1100px) {
-    .cd-horizontal-timeline::before {
-        /* never visible - this is used in jQuery to check the current MQ */
-        content: 'desktop';
-    }
+    margin-bottom: 0px;
 }
 
-.cd-timeline-navigation a {
-    /* these are the left/right arrows to navigate the timeline */
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    bottom: auto;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-    height: 34px;
-    width: 34px;
-    border-radius: 50%;
-    border: 2px solid #dfdfdf;
-    /* replace text with an icon */
+
+.check-radio {
+    margin: 4px auto;
+    display: inline-block;
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+
+.cont-carousel {
+    position: relative;
+    width: 800px;
+    height: 45px;
+    padding: 10px 40px;
+    border: 10px;
+    border-radius: 15px;
+}
+
+.carousel {
+    border-radius: 7px;
+    width: 80%;
+    height: 50px;
     overflow: hidden;
-    color: transparent;
-    text-indent: 100%;
+    overflow-x: scroll;
     white-space: nowrap;
-    -webkit-transition: border-color 0.3s;
-    -moz-transition: border-color 0.3s;
-    transition: border-color 0.3s;
 }
-.cd-timeline-navigation a::after {
-    /* arrow icon */
-    content: '';
+
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.carousel::-webkit-scrollbar {
+    width: 7px;
+    height: 4px;
+    background-color: #ffffff;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+    border-width: 3px 3px 3px 2px;
+    border-color: #00b65d;
+    background-color: #3c8dbc;
+}
+
+#text-div::-webkit-scrollbar {
+    width: 7px;
+    height: 4px;
+    background-color: #ffffff;
+}
+
+#text-div::-webkit-scrollbar-thumb {
+    border-width: 3px 3px 3px 2px;
+    border-color: #00b65d;
+    background-color: #3c8dbc;
+}
+
+.carousel-child {
+    display: inline-block;
+    vertical-align: top;
+    width: 25%;
+    height: 60px;
+
+}
+
+#text-div {
+    background: #ffffff; /* Цвет фона */
+    color: #000000; /* Цвет текста */
+    overflow-y: scroll;
+    height: 125px;
+}
+
+#name_on_picture {
     position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+}
+
+h4, h2, h3 {
+    text-shadow: 4px 3px 9px black;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 30px;
+    top: 0px;
+}
+
+h3 {
+    font-size: 23px;
+    top: 33px;
+}
+
+h4 {
+    font-size: 20px;
+    top: 69px;
+}
+
+.content {
+    padding: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#border {
+    margin-left: 50px;
+    /*margin-right: ' . $borderMarginRight . 'px;*/
+}
+
+.content-header {
+    position: relative;
+    padding: 0px 0px 0 0px;
+}
+
+p {
+    margin: 0 0 3px;
+}
+
+
+.container-label {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 16px;
     width: 16px;
-    left: 50%;
-    top: 50%;
-    bottom: auto;
-    right: auto;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -o-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    background: url(../img/cd-arrow.svg) no-repeat 0 0;
-}
-.cd-timeline-navigation a.prev {
-    left: 0;
-    -webkit-transform: translateY(-50%) rotate(180deg);
-    -moz-transform: translateY(-50%) rotate(180deg);
-    -ms-transform: translateY(-50%) rotate(180deg);
-    -o-transform: translateY(-50%) rotate(180deg);
-    transform: translateY(-50%) rotate(180deg);
-}
-.cd-timeline-navigation a.next {
-    right: 0;
-}
-.no-touch .cd-timeline-navigation a:hover {
-    border-color: #7b9d6f;
-}
-.cd-timeline-navigation a.inactive {
-    cursor: not-allowed;
-}
-.cd-timeline-navigation a.inactive::after {
-    background-position: 0 -16px;
-}
-.no-touch .cd-timeline-navigation a.inactive:hover {
-    border-color: #dfdfdf;
+    background-color: #eee;
+    border-radius: 50%;
 }
 
-.cd-horizontal-timeline .events-content {
-    position: relative;
-    width: 100%;
-    margin: 2em 0;
-    overflow: hidden;
-    -webkit-transition: height 0.4s;
-    -moz-transition: height 0.4s;
-    transition: height 0.4s;
+/* On mouse-over, add a grey background color */
+.container-label:hover input ~ .checkmark {
+    background-color: #ccc;
 }
-.cd-horizontal-timeline .events-content li {
+
+/* When the radio button is checked, add a blue background */
+.container-label input:checked ~ .checkmark {
+    background-color: #3c8dbc;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
     position: absolute;
-    z-index: 1;
-    width: 100%;
-    left: 0;
-    top: 0;
-    -webkit-transform: translateX(-100%);
-    -moz-transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
-    -o-transform: translateX(-100%);
-    transform: translateX(-100%);
-    padding: 0 5%;
-    opacity: 0;
-    -webkit-animation-duration: 0.4s;
-    -moz-animation-duration: 0.4s;
-    animation-duration: 0.4s;
-    -webkit-animation-timing-function: ease-in-out;
-    -moz-animation-timing-function: ease-in-out;
-    animation-timing-function: ease-in-out;
+    display: none;
 }
-.cd-horizontal-timeline .events-content li.selected {
-    /* visible event content */
-    position: relative;
-    z-index: 2;
-    opacity: 1;
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
-    transform: translateX(0);
-}
-.cd-horizontal-timeline .events-content li.enter-right, .cd-horizontal-timeline .events-content li.leave-right {
-    -webkit-animation-name: cd-enter-right;
-    -moz-animation-name: cd-enter-right;
-    animation-name: cd-enter-right;
-}
-.cd-horizontal-timeline .events-content li.enter-left, .cd-horizontal-timeline .events-content li.leave-left {
-    -webkit-animation-name: cd-enter-left;
-    -moz-animation-name: cd-enter-left;
-    animation-name: cd-enter-left;
-}
-.cd-horizontal-timeline .events-content li.leave-right, .cd-horizontal-timeline .events-content li.leave-left {
-    -webkit-animation-direction: reverse;
-    -moz-animation-direction: reverse;
-    animation-direction: reverse;
-}
-.cd-horizontal-timeline .events-content li > * {
-    max-width: 800px;
-    margin: 0 auto;
-}
-.cd-horizontal-timeline .events-content h4 {
-    font-weight: 700;
-    margin-bottom: 0px;
-    line-height: 20px;
-    margin-bottom: 15px;
-}
-.cd-horizontal-timeline .events-content h4 small {
-    font-weight: 400;
-    line-height: normal;
-    font-size: 15px;
-}
-.cd-horizontal-timeline .events-content em {
+
+/* Show the indicator (dot/circle) when checked */
+.container-label input:checked ~ .checkmark:after {
     display: block;
-    font-style: italic;
-    margin: 10px auto;
-}
-.cd-horizontal-timeline .events-content em::before {
-    content: '- ';
-}
-.cd-horizontal-timeline .events-content p {
-    font-size: 16px;
-    margin-top: 15px;
-
 }
 
-@media only screen and (min-width: 768px) {
 
-    .cd-horizontal-timeline .events-content em {
-        font-size: 1rem;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-
-    .cd-horizontal-timeline.loaded{ margin: 0;}
-    .cd-horizontal-timeline .timeline{ width: 100%;}
-    .cd-horizontal-timeline ol, .cd-horizontal-timeline ul{padding: 0;margin: 0;}
-    .cd-horizontal-timeline .events-content h4{ font-size: 16px;}
-    .cd-horizontal-timeline .events-content{ margin: 0;}
-
+.container-label .checkmark:after {
+    top: 27%;
+    left: 27%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
 }
 
-@-webkit-keyframes cd-enter-right {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateX(100%);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: translateX(0%);
-    }
+.skin-green-light .wrapper {
+    background-color: white;
 }
-@-moz-keyframes cd-enter-right {
-    0% {
-        opacity: 0;
-        -moz-transform: translateX(100%);
-    }
-    100% {
-        opacity: 1;
-        -moz-transform: translateX(0%);
-    }
+
+#picture {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
-@keyframes cd-enter-right {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateX(100%);
-        -moz-transform: translateX(100%);
-        -ms-transform: translateX(100%);
-        -o-transform: translateX(100%);
-        transform: translateX(100%);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: translateX(0%);
-        -moz-transform: translateX(0%);
-        -ms-transform: translateX(0%);
-        -o-transform: translateX(0%);
-        transform: translateX(0%);
-    }
+
+#nav-tabs{
+    margin-bottom: 0px;
 }
-@-webkit-keyframes cd-enter-left {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: translateX(0%);
-    }
+
+
+.navigator{
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 10px;
+    margin-bottom: 20px;
 }
-@-moz-keyframes cd-enter-left {
-    0% {
-        opacity: 0;
-        -moz-transform: translateX(-100%);
+@media screen and (max-width: 768px) {
+    .desc {
+        display: none;
     }
-    100% {
-        opacity: 1;
-        -moz-transform: translateX(0%);
+
+    #nav-tabs{
+        visibility: hidden;
     }
-}
-@keyframes cd-enter-left {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100%);
-        -moz-transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-        -o-transform: translateX(-100%);
-        transform: translateX(-100%);
+
+    #border {
+        margin-left: 5px;
+        margin-right: 5px;
     }
-    100% {
-        opacity: 1;
-        -webkit-transform: translateX(0%);
-        -moz-transform: translateX(0%);
-        -ms-transform: translateX(0%);
-        -o-transform: translateX(0%);
-        transform: translateX(0%);
-    }
-}
-.timeline:before{
-    content: " ";
-    display:none;
-    bottom: 0;
-    left: 0%;
-    width: 0px;
-    margin-left: -1.5px;
-    background-color: #eeeeee;
 }
