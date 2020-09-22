@@ -3,14 +3,32 @@
     \insolita\wgadminlte\LteChatBox::begin([
         'type' => \insolita\wgadminlte\LteConst::TYPE_PRIMARY,
         'footer'=>'<input type="text" name="newMessage"><input class="btn submit-message" value="Отправить">',
-        'title'=>'Сообщения',
+        'title'=>'<i class="fas fa-envelope"></i> Сообщения',
         'boxTools' => '
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                    class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                    <button class="btn btn-xs"><i class="fa fa-refresh"></i></button>'
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="/customer/customer"><i class="fa fa-user-circle"></i>Клиенты</a></li>
+                        <li><a href="/vacancy/vacancy"><i class="fa fa-id-card"></i>Вакансии</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
+                        class="fa fa-minus"></i>
+        ',
+        'topTemplate' =>  '
+            <div class="direct-chat direct-chat-primary box box-primary  " data-widget_name="Messages">
+            <div class="box-header big_widget_header"><h3 class="box-title"><i class="fas fa-envelope"></i> Сообщения</h3>{box-tools}</div>
+            <div class="box-body">
+            <div class="direct-chat-messages">
+',
+        'bottomTemplate' => '
+</div>
+</div>
+<div class="box-footer {footerOptions}">{footer}</div>
+<div class="small_widget_header box-header" style="display:none"><h3 style="margin-top: 0" class="box-title" data-toggle="tooltip" data-placement="top" title="Сообщения" ><i class="fas fa-envelope"></i> </h3></div>
+</div>
+'
     ]);
     echo \insolita\wgadminlte\LteChatMessage::widget([
         'isRight' => false,

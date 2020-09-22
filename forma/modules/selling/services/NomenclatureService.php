@@ -22,6 +22,9 @@ class NomenclatureService
     {
 
         $model = self::getUnitByProduct($post);
+
+        Yii::debug($model);
+
         if (!$model->isNewRecord) {
             $addendQty = $model->quantity;
         }
@@ -46,6 +49,7 @@ class NomenclatureService
 
     public static function getUnitByProduct($post)
     {
+        Yii::debug('getUnitByProduct');
         $sellingId = $post['SellingProduct']['selling_id'];
         $productId = $post['SellingProduct']['product_id'];
 
@@ -53,6 +57,7 @@ class NomenclatureService
             'selling_id' => $sellingId,
             'product_id' => $productId,
         ]);
+        Yii::debug($unit);
         return $unit ?? self::createPosition($sellingId);
     }
 
@@ -68,6 +73,8 @@ class NomenclatureService
     {
         $model = new SellingProduct;
         $model->selling_id = $sellingId;
+        Yii::debug('createPosition');
+        Yii::debug($model);
         return $model;
     }
 

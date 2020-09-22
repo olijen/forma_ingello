@@ -8,13 +8,6 @@ use yii\widgets\Breadcrumbs;
 ?>
 <div class="content-wrapper" style="">
     <div class="container-fluid">
-        <section class="content-header">
-            <div>
-
-            </div>
-
-        </section>
-
         <section class="content">
             <?= $content ?>
         </section>

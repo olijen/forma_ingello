@@ -23,8 +23,11 @@ $this->title = 'Найм';
 
     <?= DynaGrid::widget([
         'id' => 'interview',
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'gridOptions' => [
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+        ],
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -48,8 +51,8 @@ $this->title = 'Найм';
                 'filter' => \kartik\daterange\DateRangePicker::widget([
                     'model' => $searchModel,
                     'attribute' => 'date_create',
-                    'startAttribute' => 'date_create_from',
-                    'endAttribute' => 'date_create_to',
+                    //'startAttribute' => 'date_create_from',
+                    //'endAttribute' => 'date_create_to',
                     'convertFormat' => true,
                     'pluginOptions' => [
                         'locale' => [
@@ -66,8 +69,8 @@ $this->title = 'Найм';
                     'model' => $searchModel,
                     'convertFormat' => true,
                     'attribute' => 'date_complete',
-                    'startAttribute' => 'date_complete_from',
-                    'endAttribute' => 'date_complete_to',
+                    //'startAttribute' => 'date_complete_from',
+                    //'endAttribute' => 'date_complete_to',
                     'pluginOptions' => [
                         'locale' => [
                             'format' => 'd.m.Y',

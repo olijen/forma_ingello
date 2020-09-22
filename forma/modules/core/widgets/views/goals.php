@@ -1,14 +1,19 @@
 
     <div class="box box-success" data-widget_name="Goals">
         <div class="box-header with-border big_widget_header">
-            <h3 class="box-title">Выполнение целей</h3>
+            <h3 class="box-title"><i class="fas fa-bullseye"></i> Выполнение целей</h3>
 
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                        class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                </button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i></button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="/project/project?ProjectSearch[state]=1"><i class="fa fa-newspaper"></i>Проекты</a></li>
+                        <li><a href="/selling/main"><i class="fa fa-money-bill-wave"></i>Продажи клиентам</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
+                            class="fa fa-minus"></i>
             </div>
         </div>
         <div class="box-body">
@@ -46,6 +51,6 @@
         <!-- /.box-body -->
 
         <div class="box-header with-border small_widget_header" style="display: none">
-            <h3 class="box-title">Выполнение целей</h3>
+            <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Выполнение целей"><i class="fas fa-bullseye"></i></h3>
         </div>
     </div>

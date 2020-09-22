@@ -4,7 +4,7 @@ $this->title = 'Люди';
 $this->params['doc-page'] = 'people';
 
 $list = [
-    ['label' => 'Пользователи', 'url' => '/core/user', 'icon' => 'user',
+    ['label' => 'Пользователи', 'url' => '/core/user/referral', 'icon' => 'user',
 
     ],
     ['label' => 'Поставщики', 'url' => '/supplier/supplier', 'icon' => 'truck',

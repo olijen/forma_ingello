@@ -13,7 +13,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
-
+<?php if (!Yii::$app->user->isGuest) { ?>
 <header class="main-header">
 
     <?= Html::a('
@@ -77,14 +77,13 @@ JS;
 
             ?>
         </li>
-
         <!--  СОБЫТИЯ -->
         <li class="dropdown events-menu tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-history"></i>
                   <span class="label label-danger">20</span>
               </a>
-              <ul class="dropdown-menu" style="width: 400px">
+              <ul class="dropdown-menu" style="width: 400px; left: 0; padding: 5px;">
                   <li class="header">20 последних событий</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
@@ -92,7 +91,10 @@ JS;
                       <div class="menu">
                           <?php
                           $searchModelHeader = new SystemEventSearch();
-                          $dataProviderHeader = $searchModelHeader->search(Yii::$app->request->queryParams);
+                          $dataProviderHeader = Yii::$app->cache->getOrSet('dataProviderHeader', function () use ($searchModelHeader) {
+                              return $searchModelHeader->search(Yii::$app->request->queryParams);
+                          });
+
                           ?>
                           <ul class="timeline" >
                               <?php
@@ -171,7 +173,7 @@ JS;
                   <i class="fa fa-money-bill-wave"></i>
 
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="left: 0; padding: 5px;">
                   <li class="header">Продажи</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
@@ -181,12 +183,18 @@ JS;
                               <canvas id="planHeader" style=""></canvas>
                           </div>
                           <?php
-                            $lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
-                            foreach($lastClients as $client){?>
+
+                          $lastClients = Yii::$app->cache->getOrSet('lastClients', function () {
+                              return \forma\modules\selling\services\SellingService::getLastClientsToHeader();
+                          });
+                            //$lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
+                            foreach($lastClients as $client){
+                                if (isset($client->customer)) {
+                                ?>
                                 <p><?=$client->customer->name?>
+                                    <?php } ?>
                                 <a href="/selling/form?id=<?=$client->id?>">Посмотреть</a></p>
                            <?php } ?>
-                          ?>
                       </div>
                   </li>
                   <li class="footer">
@@ -201,7 +209,7 @@ JS;
                   <i class="fa fa-boxes"></i>
 
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="left: 0; padding: 5px">
                   <li class="header">Склады</li>
                   <li>
                       <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
@@ -209,7 +217,11 @@ JS;
                       <div class="menu">
                         <?php
                             $searchModelWarehouse = new WarehouseSearch();
-                            $warehouses = $searchModelWarehouse->getWarehouseListHeader();
+                            //$warehouses = $searchModelWarehouse->getWarehouseListHeader();
+                        $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
+                            return $searchModelWarehouse->getWarehouseListHeader();
+                        });
+
                             foreach($warehouses as $warehouse){?>
 
 
@@ -243,9 +255,9 @@ JS;
               </p>
             </li>
             <li class="user-footer">
-              <div class="pull-left">
+              <!--<div class="pull-left">
                 <a href="#" class="btn btn-default btn-flat">Профиль</a>
-              </div>
+              </div>-->
               <div class="pull-right">
                   <?= Html::a(
                       'Выйти из системы',
@@ -274,7 +286,10 @@ JS;
 </header>
 
 <?php
-$salesProgress = new SalesProgress();
+//$salesProgress = new SalesProgress();
+    $salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
+        return new SalesProgress();
+    });
 ?>
 <script>
     var options = {
@@ -389,7 +404,7 @@ JS;
     <?php endif ?>
 
 <?php endif ?>
-
+<?php } ?>
 
 <?php
 
@@ -506,9 +521,9 @@ if ('selling' == Yii::$app->controller->module->id) {
       color: <?php echo $color?> !important;
   }
   .info-box, .box, .form-control, .redactor-box,
-  .navbar, .navbar-static-top, .main-sidebar, .btn, .select2-selection {
-    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important;
-    border-radius: 0 !important;
+  .navbar, .navbar-static-top, .main-sidebar, .btn,s .select2-selection {
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5), 1px 1px 3px rgba(0,0,0,0.22) !important;
+    border-radius: 2px !important;
   }
 
   .form-control, .redactor-box,
@@ -577,4 +592,51 @@ if ('selling' == Yii::$app->controller->module->id) {
     border-left: solid 1px <?php echo $bgColor ?>;
     background-color: <?php echo $bgColor ?>;
   }
+
+  .container-fluid {
+      padding: 0;
+  }
+
+   /* Misha ept */
+    section.content>section.content {
+        padding: 0;
+    }
+
+    /*section.content {
+        padding: 0;
+    }*/
+
+    .menu a {
+        color: #008d4c !important;
+    }
+
+    .btn {
+        margin-bottom: 4px;
+    }
+
+  .modal-body {
+      padding: 3px;
+  }
+
+  h1 {
+      padding-left: 3px;
+  }
+
+  @media screen and (max-width: 768px) {
+      .col-md-12, .col-md-6, .col-md-4, .col-xs-12, .tab-content {
+          padding: 0 !important;
+      }
+      .row {
+          margin: 0;
+          padding: 0;
+      }
+      .navbar-custom-menu .dropdown-menu {
+          width: 100% !important;
+      }
+  }
+
+    .breadcrumb {
+        display: none !important;
+    }
+
 </style>

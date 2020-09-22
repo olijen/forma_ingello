@@ -36,7 +36,7 @@ class Module extends \yii\base\Module
             return true;
         }
 
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest || isset($_GET['code'])) {
             return true;
         } else if ($action->actionMethod == 'actionRegularity') {
             return true;

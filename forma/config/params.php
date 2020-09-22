@@ -3,8 +3,10 @@
 return [
     'adminEmail' => 'admin@example.com',
     'bsDependencyEnabled' => false,
-    'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
-    'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
+   // 'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
+    'client_id' => '573197289123-bf4oqdrq58pihbf0eqjdql1act4q7o6c.apps.googleusercontent.com',
+   // 'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
+    'client_secret' => '6uAuwMd1jVeNsbAHtsimAapB',
     'applications' => [
         'Apps1' => [
             'Mod0' => [
@@ -106,6 +108,68 @@ return [
         "BOSS" => '#00b65d',
     ],
 
+    "translate" => [
+        'DashbordWidget' => 'Виджет на главной странице',
+        'Item' => "Шаблон",
+        'Regularity' => "Регламент",
+        'Accessory' => "Доступ",
+        'Color' => "Цвет",
+        'Country' => "Страна",
+        'Currency' => "Валюта",
+        'Event' => "Событие",
+        'EventType' => "Тип события",
+        'Migration' => "Миграция",
+        'SystemEvent' => "Системное событие",
+        'User' => "Пользователь",
+        'Message' => "Сообщение",
+        'Customer' => "Покупатель",
+        'Selling' => "Продажа",
+        'SellingProduct' => "Продукт в продаже",
+        'State' => "Состояние",
+        'StateToState' => "Состояние к состоянию",
+        'Answer' => "Ответ",
+        'Request' => "Запрос",
+        'RequestStrategy' => "Стратегия запроса",
+        'RequestStrategyOld' => "Старая стратегия запроса",
+        'Strategy' => "Стратегия",
+        'Category' => "Категория",
+        'Field' => "Поле",
+        'FieldProductValue' => "Значение поля продукта",
+        'FieldValue' => "Значение поля",
+        'Manufacturer' => "Производитель",
+        'PackUnit' => "Упаковка",
+        'Product' => "Продукт",
+        'ProductPackUnit' => "Упаковка продукта",
+        'Type' => "Тип",
+        'Inventorization' => "Инвентаризация",
+        'InventorizationProduct' => "Инвентаризация продукта",
+        'OverheadCost' => "Накладные расходы",
+        'Purchase' => "Закупка",
+        'PurchaseOverheadCost' => "Расходы на закупку",
+        'PurchaseProduct' => "Закупка продукта",
+        'Supplier' => "Поставщик",
+        'TaxRate' => "Налоговая ставка",
+        'TblDynagrid' => "Таблица",
+        'TblDynagridDtl' => "Таблица",
+        'Transit' => "Перевозка (транзит)",
+        'TransitOverheadCost' => "Расходы на перевозку (транзит)",
+        'TransitProduct' => "Транзитный продукт",
+        'Warehouse' => "Склад",
+        'WarehouseProduct' => "Склад продукта",
+        'WarehouseUser' => "Склад пользователя",
+        'Interview' => "Найм",
+        'InterviewVacancy' => "Вакансия для найма",
+        'Worker' => "Работник",
+        'WorkerVacancy' => "Вакансия для работника",
+        'Project' => "Проект",
+        'ProjectUser' => "Проект пользователя",
+        'ProjectVacancy' => "Вакансия для проекта",
+        'ProjectVacancyOld' => "Старая вакансия для проекта",
+        'Vacancy' => "Вакансия",
+    ],
+
+
+
 
     'warehouse' => [
         [
@@ -139,7 +203,7 @@ return [
     'Dent.ingello.com' => 'heartbeat',
     'Signup' => 'globe',
     'Referral' => 'book',
-    'Selling' => 'money',
+    'Selling' => 'money-bill-wave',
     'SpeechModule' => 'list',
         'Freelancehunt' => 'users',
     'BidForm' => 'dollar',
@@ -153,7 +217,7 @@ return [
     'Currency' => 'money-bill-alt',
     'TaxRate' => 'balance-scale',
     'Warehouse' => 'th',
-    'Inventorization' => 'money',
+    'Inventorization' => 'boxes',
     'Purchase' => 'download',
     'Transit' => 'retweet',
     '#' => 'square',
@@ -162,9 +226,11 @@ return [
     ],
 
     'menu' => [
-        ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
+        ['label' => 'Главная', 'url' => ['/'], 'icon' => 'home'],
+        ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
 
         ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+        ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
         [
             'label' => 'Люди',
             'url' => ['/core/default/people'],
@@ -175,7 +241,7 @@ return [
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
                 ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-                ['label' => 'Пациенты', 'url' => ['https://dent.ingello.com'], 'icon' => 'heartbeat'],
+                ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
                 ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
                 ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
             ]
@@ -183,7 +249,7 @@ return [
         [
             'label' => 'Продажи (CRM)',
             'url' => ['/selling/default'],
-            'icon' => 'money',
+            'icon' => 'money-bill-wave',
             'items' => [
                 [
                     'label' => 'Панель управления',
@@ -195,7 +261,7 @@ return [
                 ], [
                     'label' => 'Продажи клиентам',
                     'url' => ['/selling/main'],
-                    'icon' => 'money',
+                    'icon' => 'money-bill-wave',
                     'items' => [
 
                     ]
@@ -207,27 +273,27 @@ return [
 
                     ]
                 ],
-                ['label' => 'Генерация лидов FLH', 'url' => ['/selling/freelancehunt/'], 'icon' => 'users'],
-                ['label' => 'Скрипты для FLH', 'url' => ['/selling/freelancehunt/bid-form'], 'icon' => 'dollar'],
+                ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users',
+                    'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
+                ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign',
+                    'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
             ]
         ],
         [
             'label' => 'Найм и проекты',
-            'url' => ['/hr/'],
+            'url' => '/hr/',
             'icon' => 'user-plus',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
-                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper-o'],
+                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
-                ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
-                ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
             ],
         ],
         [
             'label' => 'Продукты и услуги',
-            'url' => ['/product/default/'],
+            'url' => '/product/default/',
             'icon' => 'cube',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
@@ -250,21 +316,13 @@ return [
                     'icon' => 'th'
                 ],
 
-                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'money'],
+                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
                 ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
                 ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
-
-                [
-                    'label' => 'Список хранилищ',
-                    'url' => ['/#'],
-                    'icon' => 'square',
-                    'items' => [
-                    ]
-                ],
-
             ],
         ],
-        ['label' => 'Командная работа', 'url' => ['https://applan.ingello.com'], 'icon' => 'sitemap'],
-        ['label' => 'Интернет магазин', 'url' => ['https://ecocom.ingello.com'], 'icon' => 'money'],
+        ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap'],
+        ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'shopping-cart'],
+        ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
     ],
 ];

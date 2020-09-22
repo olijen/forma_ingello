@@ -67,11 +67,11 @@ class MainController extends Controller
 
     public function actionShowSelling(){
 
-        $this->layout = 'blank';
+        //$this->layout = 'blank';
         $selling_token = null;
         if(isset($_GET['selling_token'])){
             $selling_token = $_GET['selling_token'];
-            setcookie('selling_token', $selling_token);
+            setcookie('selling_token', $selling_token, time()+36000);
         } else if(isset($_COOKIE['selling_token'])){
             $selling_token = $_COOKIE['selling_token'];
             $_GET['selling_token'] = $_COOKIE['selling_token'];
@@ -97,7 +97,7 @@ class MainController extends Controller
     public function googleEmailChange(Customer $customer, $selling_token){
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
-        $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
+        $redirectUri = 'https://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
 
         $client = new Google_Client();
         /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config

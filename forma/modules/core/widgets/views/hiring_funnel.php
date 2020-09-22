@@ -2,12 +2,20 @@
 <?php $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();?>
 <div class="box box-success" data-widget_name="HiringFunnel">
     <div class="box-header with-border big_widget_header">
-        <h3 class="box-title" id="scroll">Этапы (воронка найма)</h3>
+        <h3 class="box-title" id="scroll"><i class="fas fa-user-friends"></i> Этапы (воронка найма)</h3>
 
         <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                    class="fa fa-minus"></i>
-            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bars"></i></button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="/hr/main/"><i class="fa fa-user-plus"></i>Смотреть найм</a></li>
+                    <li><a href="/worker/worker"><i class="fa fa-user"></i>Кадры</a></li>
+                    <li><a href="/vacancy/vacancy"><i class="fa fa-id-card"></i>Вакансии</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
+                        class="fa fa-minus"></i>
         </div>
     </div>
 
@@ -17,7 +25,7 @@
         </div>
     </div>
     <div class="box-header with-border small_widget_header" style="display: none">
-        <h3 class="box-title">Этапы (воронка найма)</h3>
+        <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Этапы (воронка найма)"><i class="fas fa-user-friends"></i></h3>
     </div>
 </div>
 <script>

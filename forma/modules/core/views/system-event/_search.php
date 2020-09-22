@@ -29,19 +29,26 @@ foreach(json_decode(Yii::$app->params['main'], true) as $app_name => $app_value)
         ],
     ]); ?>
 
+    <div class="row">
+    <div class="col-md-4">
+        <?= $form->field($model, 'date_time')->widget(DatePicker::classname(), [
+            'options' => ['placeholder' => 'Введите дату события'],
+            'pluginOptions' => [
+                'autoclose'=>true,
+                'format' => 'yyyy-mm-dd'
+            ]
+        ]); ?>
+    </div>
 
+    <div class="col-md-4">
+        <?= $form->field($model, 'application')->dropDownList($applications) ?>
+    </div>
 
-    <?= $form->field($model, 'date_time')->widget(DatePicker::classname(), [
-        'options' => ['placeholder' => 'Enter birth date ...'],
-        'pluginOptions' => [
-            'autoclose'=>true,
-            'format' => 'yyyy-mm-dd'
-        ]
-    ]); ?>
+    <div class="col-md-4">
+        <?= $form->field($model, 'module')->dropDownList($modules) ?>
+    </div>
+    </div>
 
-    <?= $form->field($model, 'application')->dropDownList($applications) ?>
-
-    <?= $form->field($model, 'module')->dropDownList($modules) ?>
 
 
     <?php // echo $form->field($model, 'user_id') ?>

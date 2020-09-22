@@ -33,103 +33,8 @@ $publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Y
 
 
 <?php
-$warehouses = [
-    [
-        'label' => 'Смотреть все',
-        'url' => ['/warehouse/warehouse'],
-        'icon' => 'th'
-    ],
-    ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'money'],
-    ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
-    ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
-];
 
-$menu = [
-    [
-        'label' => 'Люди',
-        'url' => ['/core/default/people'],
-        'icon' => 'users',
-        'items' => [
-            ['label' => 'Панель управления', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
-            ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
-            ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
-            ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
-            ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-            ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
-            ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
-            ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
-        ]
-    ],
-    [
-        'label' => 'Продажи (CRM)',
-        'url' => ['/selling/default'],
-        'icon' => 'money',
-        'items' => [
-            [
-                'label' => 'Панель управления',
-                'url' => ['/selling/default'],
-                'icon' => 'laptop',
-                'items' => [
-
-                ]
-            ], [
-                'label' => 'Продажи клиентам',
-                'url' => ['/selling/main'],
-                'icon' => 'money',
-                'items' => [
-
-                ]
-            ], [
-                'label' => 'Скрипты',
-                'url' => ['/selling/speech-module'],
-                'icon' => 'list',
-                'items' => [
-
-                ]
-            ],
-            ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
-            ['label' => 'Форма ставки FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar'],
-        ]
-    ],
-    [
-        'label' => 'Найм и проекты',
-        'url' => '/hr/',
-        'icon' => 'user-plus',
-        'items' => [
-            ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
-            ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper-o'],
-            ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
-            ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
-            ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
-            ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
-            ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
-        ],
-    ],
-    [
-        'label' => 'Продукты и услуги',
-        'url' => '/product/default/',
-        'icon' => 'cube',
-        'items' => [
-            ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
-            ['label' => 'Продукты и услуги', 'url' => ['/product/product'], 'icon' => 'cube'],
-            ['label' => 'Категории', 'url' => ['/product/category'], 'icon' => 'object-group'],
-            ['label' => 'Упаковки', 'url' => ['/product/pack-unit'], 'icon' => 'cubes'],
-            ['label' => 'Страны', 'url' => ['/country/country'], 'icon' => 'podcast'],
-            ['label' => 'Валюты', 'url' => ['/product/currency'], 'icon' => 'money-bill-alt'],
-            ['label' => 'Налоги', 'url' => ['/product/tax-rate'], 'icon' => 'balance-scale'],
-        ],
-    ],
-    [
-        'label' => 'Хранилища',
-        'url' => ['/warehouse/warehouse'],
-        'icon' => 'th',
-        'items' => $warehouses,
-    ],
-    ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'line-chart'],
-    ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree'],
-    ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap'],
-    ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'money'],
-];
+$menu = Yii::$app->params['menu'];
 
 ?>
 
@@ -184,3 +89,19 @@ foreach ($menu as $itemMain): ?>
         <?php endforeach; endif; ?>
 
 <?php endforeach; ?>
+
+<style>
+    .nav-tabs li {
+        border-top: 3px solid #ccc !important;
+    }.nav-tabs li.active {
+        border-top: 3px solid green !important;
+    }
+     a {
+         color: green;
+     }
+    @media screen and (max-width: 768px) {
+        .nav-tabs > a > i {
+            width: 100px;
+        }
+    }
+</style>

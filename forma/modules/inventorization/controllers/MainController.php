@@ -14,6 +14,8 @@ class MainController extends Controller
     public function actionIndex()
     {
         $searchModel = InventorizationService::search();
+
+        Yii::debug($searchModel->search(Yii::$app->request->get())->getModels());
         return $this->render('index', [
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
             'searchModel' => $searchModel,

@@ -21,7 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
     .content p button#event_user_view {
         border: none;
         color: #fff;
-        float: right;
     }
 
     .btn-event {
@@ -34,18 +33,49 @@ $this->params['breadcrumbs'][] = $this->title;
     .btn-event:active{
         color: #fff;
     }
+
+    .timeline a.btn {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .button_system {
+        display: inline-block;
+    }
+
+    @media screen and (max-width: 576px) {
+        .button_system {
+            display: block;
+        }
+
+        .button_system button,
+        .button_system a{
+            display: block;
+            margin-top: 20px;
+            width: 100%
+        }
+    }
 </style>
 
 <div class="system-event-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-event']) ?>
-        <button id="event_user_view" class="btn btn-event" onclick="changeSystemEventView()">
-            Показать таблицей
-        </button>
-    </p>
+    <div>
+        <div class="button_system">
+            <?= Html::a('Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-event']) ?>
+        </div>
+        <div class="button_system">
+            <button id="event_user_view" class="btn btn-event" onclick="changeSystemEventView()">
+                Показать таблицей
+            </button>
+        </div>
+        <div class="button_system">
+            <button class="btn btn-event buttonSearch" onclick="showSearch(this)">
+                Поиск по событиям
+            </button>
+        </div>
+    </div>
 
 
     <script>
@@ -75,13 +105,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     </div>
-    <div id="system_event_list" style="margin-top: 30px">
+    <div id="system_event_list" style="margin-top: 10px">
         <div class="search_event" style="display:none">
             <?php echo $this->render('_search', ['model' => $searchModel]); ?>
         </div>
-        <button class="btn btn-event buttonSearch" onclick="showSearch(this)">
-            Поиск по событиям
-        </button>
+
     <ul class="timeline" style="margin-top: 15px;">
         <?php
 
@@ -99,15 +127,16 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             $arr = [];
             $linkView = "";
-            $event = "";
+            Yii::debug($model);
             if(strlen($model->request_uri) > 0 && $model->sender_id >= 1) {
-                $arr = explode("/", $model->request_uri);
+                $arr = explode("/", $model->request_uri); $event = ""; Yii::debug($arr);
                 $linkView = "/" . $arr[1] . "/" . $arr[2];
                 if(count($arr) > 3)$event = substr($arr[3], 0, 6);
             }
 
+
             // исключения на ссылки по объектам
-            if(isset($arr[1]) && $arr[1]=='selling' && ($arr[2] == 'form' || $arr[2] == 'talk')) $linkView = '/selling/main';
+            if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1] == 'inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $linkView = '/'.$arr[1].'/main';
 
 
 
@@ -117,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <!-- timeline time label -->
                 <li class="time-label">
-        <span class="bg-red">
+        <span class="bg-red" style="font-size: 18px; padding: 6px 10px">
             <?=substr($model->date_time, 0, 10)?>
         </span>
                 </li>
@@ -125,33 +154,34 @@ $this->params['breadcrumbs'][] = $this->title;
             <!-- /.timeline-label -->
 
             <!-- timeline item -->
-            <li>
+            <li style="margin-bottom: 10px; font-size: 18px;">
                 <!-- timeline icon -->
-                <i class="fa fa-<?=$icon!=""? $icon : 'envelope'?>" style="background-color: <?=$color?>; color: #fff"></i>
-                <div class="timeline-item">
+                <i class="fa fa-<?=$icon!=""? $icon : 'envelope'?>" style="background-color: <?=$color?>; color: #fff; font-size: 18px;"></i>
+                <div class="timeline-item" style="font-size: 18px">
                     <span class="time"><i class="fa fa-clock-o"></i> <?=substr($model->date_time, 11, 5)?></span>
 
-                    <h3 class="timeline-header">В отделе <a href="#"><?=$model->application?></a> произошло событие</h3>
-                    <div class="timeline-body">
-                        <?=$model->data?>
-                    </div>
+                    <h3 class="timeline-header" style="font-size: 18px">В отделе <a href="#"><?=$model->application?></a> произошло событие</h3>
+                    <div class="timeline-body row" style="padding: 20px">
+                      <div class="col-md-5" style="font-size: 18px">
                     <?php if($model->class_name != 'Login' && $model->class_name != 'WarehouseUser' && $model->class_name != 'RequestStrategy'
                     && $model->class_name != 'WorkerVacancy') { ?>
-                    <div class="timeline-footer">
-                        <p>Посмотреть список в модуле: <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||" .$model->class_name."}}")) ?></p>
+                     <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||"  . "Список " ."}}")) ?>
 
                         <?php
                         //в объекте используем replaceUrlOnButtonAmp чтобы к GET['id'] который стоит в начале запроса подставлялся &without-header
                             if($linkView == '/selling/main'){
                                 $linkView = '/selling/form';?>
-                                <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
+                                <?php if($event != "delete"){?> <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/?id=".$model->sender_id."||" . "Объект"."}}")) ?><?php }?>
                         <?php } else {
                         ?>
 
 
 
-                        <p><?php if($event != "delete"){?>Посмотреть на объект: <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" .$model->class_name."}}")) ?><?php }?></p>
-                        <?php }?>
+                        <?php if($event != "delete"){?> <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" . "Объект"."}}")) ?><?php }?>
+                        <?php }?></div>
+                    <div class="col-md-7" style="padding: 5px; display: inline-block; font-size: 18px">
+                            <?=$model->data?>
+                        </div>
                     </div>
                     <?php } ?>
                 </div>

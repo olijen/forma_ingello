@@ -22,7 +22,7 @@ $this->title = 'Инвентаризация';
         <?php
 
         $items = [];
-        foreach (InventorizationService::getWarehousesList() as $id => $name) {
+        foreach (Warehouse::getList() as $id => $name) {
             $items[] = ['label' => $name, 'url' => Url::to(['/inventorization/form/create', 'warehouseId' => $id])];
         }
 

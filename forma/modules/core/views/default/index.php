@@ -16,7 +16,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
  */
 
 $DragJS = <<<JS
-
+$('.chartjs-size-monitor').remove();
 (function($){//fix jquery
     jQuery.fn.zIndex = function(a) {
         console.log(a);
@@ -125,24 +125,6 @@ function(calEvent, jsEvent, view) {
 JS;
 ?>
 
-<style>
-    .first_block {
-        margin-top: 100px;
-    }
-
-    @media screen and (max-width: 768px) {
-        .small_widgets {
-            display: none;
-        }
-
-        .first_block {
-            margin-top: 10px;
-        }
-    }
-
-
-</style>
-
 <script>
     var small_widgets_in_block = [];
 </script>
@@ -247,6 +229,8 @@ JS;
 
 $JSUpdateBigWidgets = <<<JS
 function(calEvent, jsEvent, view) {
+    console.log($('.chartjs-size-monitor'));
+    $('.chartjs-size-monitor').remove();
     var big_widgets_in_block = [];
     var ul = $('.panel_big_widget').length;
     var li = $('.panel_big_widget').children('li').length;
@@ -312,12 +296,17 @@ $widgetsForSortable2 = [];
 
 <style>
     .small_widgets .sortable li{
+        border: none;
         min-height: 20px;
-        max-width: 400px;
+        max-width: 110px;
+    }
+
+    .small_widgets .sortable li h3{
+        font-size: 48px;
     }
 
     .small_widgets .sortable .sortable-placeholder {
-        min-height: 80px;
+        min-height: 60px;
     }
 
     .sortable {
@@ -334,8 +323,8 @@ $widgetsForSortable2 = [];
         margin: 0;
     }
 
-    .panel_big_widget.sortable h3,
-    #panel_small_widget.sortable h3{
+    .panel_big_widget.sortable .box-header,
+    #panel_small_widget.sortable .box-header{
         cursor: grabbing;
     }
 
@@ -373,10 +362,18 @@ $widgetsForSortable2 = [];
         min-width: auto;
         padding: 0;
     }
+
+    .sortable.grid li .dropdown-menu > li {
+        border: none;
+        min-height: 0px;
+        padding: 1px;
+    }
 </style>
 
 <?php
 //ОБЪЯВЛЯЕМ ВСЕ ВИДЖЕТЫ НА ГЛАВНОЙ СТРАНИЦЕ
+//воронка продаж
+$salesFunnelWidget = SalesFunnelWidget::widget();
 //успеваемость отдела продаж
 $departmentPerfomanceWidget = DepartmentPerfomance::widget();
 //недельные продажи
@@ -392,6 +389,9 @@ $workers = \forma\modules\core\widgets\WorkersWidget::widget(['tableView' => fal
 $salesWarehouseWidget = \forma\modules\core\widgets\SalesWarehouseWidget::widget(['sellingInWarehouse' => $sellingInWarehouse]);
 
 
+//информация об отделах
+$applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
+        'productsCount' => $productsCount]) ;
 //выполнение плана поставок
 $deliveryPlanWidget = \forma\modules\core\widgets\DeliveryPlanWidget::widget();
 //выполнение целей
@@ -461,10 +461,18 @@ $historyEventWidget = \forma\modules\core\widgets\SystemEventWidget::widget(['ti
 $widgetsForSortable0 = addToWidgetSection('panelSmallWidget', $widgetsForSortable0, $widgetOrder);*/
 Yii::debug($widgetsForSortable0);
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ МАЛЕНЬКОЙ ПАНЕЛИ
+Yii::debug('sssssss');
+Yii::debug($widgetOrder);
 foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelSmallWidget'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
+                case 'SalesFunnel':
+                    $widgetsForSortable0[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+                    break;
+                case 'ApplicationInfo':
+                    $widgetsForSortable0[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+                    break;
                 case 'DepartmentPerfomance':
                     $widgetsForSortable0[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
                     break;
@@ -512,6 +520,12 @@ foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelBigWidget1'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
+                case 'SalesFunnel':
+                    $widgetsForSortable1[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+                    break;
+                case 'ApplicationInfo':
+                    $widgetsForSortable1[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+                    break;
                 case 'DepartmentPerfomance':
                     $widgetsForSortable1[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
                     break;
@@ -557,6 +571,12 @@ foreach($widgetOrder as $panel => $widgetArray) {
     if($panel == 'panelBigWidget2'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
+                case 'SalesFunnel':
+                    $widgetsForSortable2[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+                    break;
+                case 'ApplicationInfo':
+                    $widgetsForSortable2[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+                    break;
                 case 'DepartmentPerfomance':
                     $widgetsForSortable2[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
                     break;
@@ -616,22 +636,26 @@ foreach($widgetOrder as $panel => $widgetArray) {
 smallWidget();
 </script>
 </div>
+<div class="row small_widgets_text" style="display: none; color: red;">
+    Конструктор виджетов не доступен на мобильных устройствах.
+    Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
+</div>
 
 <div class="row first_block">
     <!-- ВОРОНКА ПРОДАЖ -->
     <?php
-    $salesFunnelWidget = SalesFunnelWidget::widget();
+    //$salesFunnelWidget = SalesFunnelWidget::widget();
     //$widgetsForSortable[]['content'] = $salesFunnelWidget;
-    echo $salesFunnelWidget;
+    //echo $salesFunnelWidget;
     //Yii::debug($wsf);
     ?>
 
     <!-- ИНФОРМАЦИЯ ОБ ОТДЕЛАХ -->
     <?php
-    $applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
-        'productsCount' => $productsCount]) ;
+    //$applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
+    //    'productsCount' => $productsCount]) ;
     //$widgetsForSortable[]['content'] = $applicationInfoWidget;
-    echo $applicationInfoWidget;
+    //echo $applicationInfoWidget;
     //Yii::debug($wap);
     ?>
 
@@ -655,6 +679,18 @@ $collapsed = 0;
 ?>
 <div class="row">
     <div class="col-md-6">
+
+        <!-- ВОРОНКА ПРОДАЖ -->
+        <?php
+        if($widgetNewOrder == true) {
+            $widgetsForSortable1[] = ['content' => $salesFunnelWidget, 'disabled' => true];
+            $widgetOrder[] = ['SalesFunnel', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        //echo $wdf;
+        //Yii::debug($wdf);
+        ?>
+
         <!-- УСПЕВАВАЕМОСТЬ ОТДЕЛА ПРОДАЖ -->
         <?php
         if($widgetNewOrder == true) {
@@ -738,6 +774,7 @@ $collapsed = 0;
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
             ],
+            'itemOptions'=>['class'=>'disabled'],
             'options' => ['class' => 'panel_big_widget first'],
             'items'=> $widgetsForSortable1,
 
@@ -748,6 +785,20 @@ $collapsed = 0;
 
 
     <div class="col-md-6">
+
+
+        <!-- ИНФОРМАЦИЯ ОБ ОТДЕЛАХ -->
+        <?php
+
+
+        if($widgetNewOrder == true) {
+            $widgetsForSortable2[] = ['content' => $applicationInfoWidget, 'disabled' => true];
+            $widgetOrder[] = ['ApplicationInfo', $active, $row, $col, $collapsed];
+            $row++;
+        }
+        //echo $wdp;
+        //Yii::debug($wdp);
+        ?>
         <!-- ВЫПОЛНЕНИЕ ПЛАНА ПОСТАВОК -->
         <?php
 
@@ -831,9 +882,10 @@ $collapsed = 0;
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
             ],
+            'itemOptions'=>['class'=>'disabled'],
             'options' => ['class' => 'panel_big_widget second'],
             'items'=> $widgetsForSortable2,
-            'disabled' => false
+
 
         ]);?>
 
@@ -987,22 +1039,29 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 
 var dom = document.getElementsByClassName('panel_big_widget')[0];
 
-    new Sortable(dom, {
-        handle: '.box-title'
-    });
+    var dom0 = document.getElementById('panel_small_widget');
 
     var dom1 = document.getElementsByClassName('panel_big_widget')[1];
 
-    new Sortable(dom1, {
-        handle: '.box-title'
-    });
+    if (window.innerWidth >= 768) {
+        alert(window.innerWidth);
+        new Sortable(dom, {
+            handle: '.box-header'
+        });
 
-    var dom0 = document.getElementById('panel_small_widget');
+        new Sortable(dom1, {
+            handle: '.box-header'
+        });
 
-    new Sortable(dom0, {
-        handle: '.box-title'
-    });
-    console.log(1324567);
+        new Sortable(dom0, {
+            handle: '.box-header'
+        });
+        console.log(1324567);
+    }
+    else {
+        console.log('РАзмер экрана телефона');
+    }
+
 
     function setWidgetCollapse(){
         var big_widgets_in_block = [];
@@ -1060,7 +1119,7 @@ foreach($widgetOrder['collapsedWidgets'] as $widgetName) { ?>
 
 //todo:поставить нормальный ограничитель а не цифру 8
 if($widgetNewOrder == true){
-    for($i = 0; $i < 12; $i++){
+    for($i = 0; $i < 14; $i++){
         $widgetUser = new \forma\modules\core\records\WidgetUser();
         $widgetUser->loadWidgets($widgetOrder[$i]);
         $widgetUser->save();
@@ -1073,4 +1132,109 @@ if($widgetNewOrder == true){
         $("[data-widget_name = "+collapsedWidget[i]+"]")[0].className += ' collapsed-box';
         $("[data-widget_name = "+collapsedWidget[i]+"]").find('.fa-minus')[0].className = 'fa fa-plus';
     }
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip({
+            open: function (e, o) {
+                $(o.tooltip).mouseover(function (e) {
+                    $('[data-toggle="tooltip"]').tooltip('close');
+                });
+                setTimeout(function () {
+                    $('[data-toggle="tooltip"]').tooltip('close'); //close the tooltip
+                }, 3000);
+                $(o.tooltip).mouseout(function (e) {});
+            },
+            close: function (e, o) {},
+            show: {
+                duration: 800
+            }
+        });
+
+    })
+</script>
+
+<style>
+    .sortable-placeholder {
+        margin-top: 15px !important;
+        border: 3px dotted #18a718 !important;
+        background-color: #4f8e4f !important;
+    }
+
+    #panel_small_widget {
+        width: 300% !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    #panel_small_widget li {
+        display: inline-block  !important;
+        background: #acbfac;
+        margin: 0px !important;
+        padding: 0px !important;
+        padding-right: 15px !important;
+    }
+
+    #panel_small_widget .box {
+        margin: 0 !important;
+   }
+    .content-wrapper {
+        min-height: 100% !important;
+    }
+
+
+    .first_block {
+        margin-top: 100px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .small_widgets {
+            display: none;
+        }
+
+        .small_widgets_text {
+            display: block !important;
+            padding-left: 20px;
+        }
+
+        .first_block {
+            margin-top: 10px;
+        }
+        .box-title {
+            max-width: 73%;
+            white-space: nowrap !important;
+            overflow: hidden;
+        }
+
+        .sortable.grid li {
+           padding: 5px;
+        }
+    }
+
+    .sortable.grid {
+        border: 0 !important;
+    }
+
+    .sortable.grid li {
+        text-align: left !important;
+        border: 0;
+    }
+
+    .container-fluid {
+        padding: 0;
+    }
+    .col-md-6 {
+        padding: 0;
+    }
+
+    li.disabled {
+        margin: 0;
+    }
+
+    .sortable.grid {
+        margin: 0;
+    }
+</style>
+
+<script>
+    $('.chartjs-size-monitor').remove();
 </script>

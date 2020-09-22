@@ -79,6 +79,7 @@ use yii\helpers\Url;
     </div>
 
     <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
+    <?= Html::input('hidden', 'selling_token', isset($_GET['selling_token']) ? $_GET['selling_token'] : null) ?>
 
     <?= Html::endForm() ?>
 
@@ -112,7 +113,7 @@ use yii\helpers\Url;
               container:'#history_chat',
               data: $('#history_form')[0][0].name
                 +"="+$('#history_form')[0][0].value
-                +"&id="+$('#history_form')[0][3].value+"&comment=",
+                +"&id="+$('#history_form')[0][3].value+"&comment=&selling_token=<?=isset($_GET['selling_token'])?$_GET['selling_token']:null?>",
               push: false,
               replace: false,
               timeout: 10000,

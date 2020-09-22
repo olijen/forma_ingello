@@ -57,6 +57,9 @@ class SellingSearch extends Selling
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 0
+            ]
         ]);
 
         $this->load($params);
@@ -89,7 +92,8 @@ class SellingSearch extends Selling
         return $dataProvider;
     }
 
-    public function getStartQuery(){
+    public function getStartQuery()
+    {
         $user = \Yii::$app->getUser()->getIdentity();
         $ids = []; //$ids - это массив типа [1,2,3,4,5...]
         $condition = '';
@@ -110,7 +114,9 @@ class SellingSearch extends Selling
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->andWhere(['in', 'accessory.user_id', $ids])
-            ->andWhere(['accessory.entity_class' => Selling::className()]);
+            ->andWhere(['accessory.entity_class' => Selling::className()])
+            //->orderBy(['date_create' => SORT_DESC])
+        ;
 
         return $query;
     }
@@ -125,7 +131,7 @@ class SellingSearch extends Selling
     public function weeklySales(){
         $query = $this->getStartQuery();
         $order_id = State::find()->select(['id'])->where(['user_id' => Yii::$app->user->id])->orderBy(['order' => SORT_DESC])->limit(1)->all();
-        return $query = $query->andWhere(['state_id' => $order_id[0]->id])->all();
+        if (!empty($order_id)) return $query = $query->andWhere(['state_id' => $order_id[0]->id])->all();
     }
 
     public function salesInWarehouse(){

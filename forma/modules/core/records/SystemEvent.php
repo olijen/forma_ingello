@@ -40,7 +40,7 @@ class SystemEvent extends \yii\db\ActiveRecord
             [['user_id', 'sender_id'], 'integer'],
             [['application', 'module'], 'string', 'max' => 45],
             [['class_name'], 'string', 'max' => 100],
-            [['data', 'request_uri'], 'string', 'max' => 250],
+            [['data', 'request_uri'], 'string', 'max' => 500],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

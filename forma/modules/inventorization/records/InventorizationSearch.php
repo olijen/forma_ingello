@@ -2,6 +2,7 @@
 
 namespace forma\modules\inventorization\records;
 
+use forma\modules\warehouse\records\Warehouse;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -52,6 +53,14 @@ class InventorizationSearch extends Inventorization
             'query' => $query,
         ]);
 
+        $warehouseArray = [];
+        $warehouses = Warehouse::getList();
+        //Yii::debug($warehouses);
+        foreach ($warehouses as $k => $v) {
+            $warehouseArray[] = $k;
+        }
+
+        $query->andWhere(['in', 'warehouse_id', $warehouseArray]);
         $this->load($params);
 
         if (!$this->validate()) {
