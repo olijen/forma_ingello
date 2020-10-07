@@ -110,21 +110,21 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                 'attribute' => 'FieldProductValue' . $fieldId,
                 'value' => function ($model) use ($field, $allFieldProductValue) {
                     foreach ($allFieldProductValue as $fieldProductValue) {
-                        if($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id){
+                        if ($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id) {
 
-                        if (is_array($fieldProductValue->value)) {
-                            $multiSelectFieldProductValues = '';
+                            if (is_array($fieldProductValue->value)) {
+                                $multiSelectFieldProductValues = '';
                                 foreach ($fieldProductValue->value as $multiSelectFieldProductValue) {
-                                    if (empty($multiSelectFieldProductValues)){
+                                    if (empty($multiSelectFieldProductValues)) {
                                         $multiSelectFieldProductValues = $multiSelectFieldProductValue;
-                                    }else{
-                                        $multiSelectFieldProductValues .= ', '. $multiSelectFieldProductValue;
+                                    } else {
+                                        $multiSelectFieldProductValues .= ', ' . $multiSelectFieldProductValue;
                                     }
                                 }
-                            return $multiSelectFieldProductValues;
+                                return $multiSelectFieldProductValues;
+                            }
+                            return $fieldProductValue->value;
                         }
-                        return $fieldProductValue->value;
-                    }
                     }
                     return null;
                 },
@@ -141,8 +141,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
-//            'onchange' => 'window.location.href = "/index?ProductSearch%5Bcategory_id%5D="+ $(this).val()' TODO Спросить разницу у Олега
+        Category::getList(), ['prompt' => '', 'class' => 'btn btn-success',
             'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
@@ -212,10 +211,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => '', 'class' => 'btn btn-info',
+        Category::getList(), ['prompt' => '', 'class' => 'btn btn-success',
             'onchange' => 'window.location.href = "/product/product/index?catalog=&ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
-        <button class="btn btn-info" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
+        <button class="btn btn-success" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
         </button>
         <br><br>
         <div class="admin-search collapse" id="hide-me">
