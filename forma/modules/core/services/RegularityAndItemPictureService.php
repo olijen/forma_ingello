@@ -15,10 +15,10 @@ class RegularityAndItemPictureService
         $model->picture = UploadedFile::getInstance($model, 'picture');
         if ($model->picture !== null) {
             if ($model->validate()) {
-
+                $baseName = str_replace(" ", "_", $model->picture->baseName);
                 $model->picture->SaveAs($_SERVER['DOCUMENT_ROOT'] . '/regularity_images'
-                    . '/' . $model->picture->baseName . '.' . $model->picture->extension);
-                $model->picture = ('/regularity_images/' . $model->picture->baseName . '.' . $model->picture->extension);
+                    . '/' . $baseName . '.' . $model->picture->extension);
+                $model->picture = ('/regularity_images/' . $baseName . '.' . $model->picture->extension);
                 $model->save(false);  // without validation
 
                 return true;

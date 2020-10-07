@@ -4,12 +4,16 @@ function changeArea(description, nameOnPicture, picture) {
     $("#text-div").html(description);
     $("div#name_on_picture").html(nameOnPicture);
     let pictureUrl = "url(/images/bot.jpg)";
-
-
+    console.log(picture);
     if (picture == 'false') {
+        console.log('picture == \'false\'');
+        console.log(pictureUrl);
         $('div#picture').css('background-image', pictureUrl);
     } else {
+        console.log('picture == \'else\'');
+        console.log(pictureUrl);
         pictureUrl = "url(" + picture + ")";
+        console.log(pictureUrl);
         $('div#picture').css('background-image', pictureUrl);
     }
 
