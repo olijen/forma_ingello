@@ -1044,7 +1044,6 @@ var dom = document.getElementsByClassName('panel_big_widget')[0];
     var dom1 = document.getElementsByClassName('panel_big_widget')[1];
 
     if (window.innerWidth >= 768) {
-        alert(window.innerWidth);
         new Sortable(dom, {
             handle: '.box-header'
         });
