@@ -51,6 +51,10 @@ use yii\widgets\ActiveForm;
    <?= $form->field($model, 'start_time') ?>
 </div>
 
+    <div class="col-xs-3">
+        <?= $form->field($model, 'end_time') ?>
+    </div>
+
 <div class="form-group col-xs-12">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

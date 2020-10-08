@@ -50,14 +50,15 @@ endif;
             ]
         ])
         ?>
-
         <?= $form->field($model, 'status', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
-        <?= $form->field($model, 'date_from', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+        <?= $form->field($model, 'date_from', ['options' => ['class' => 'col-xs-12']])->textInput(['type'=>'date']) ?>
 
-        <?= $form->field($model, 'date_to', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+        <?= $form->field($model, 'date_to', ['options' => ['class' => 'col-xs-12']])->textInput(['type'=>'date']) ?>
 
-        <?= $form->field($model, 'start_time', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+        <?= $form->field($model, 'start_time', ['options' => ['class' => 'col-xs-12']])->textInput(['value'=>date('H:i:s')]) ?>
+
+        <?= $form->field($model, 'end_time', ['options' => ['class' => 'col-xs-12']])->textInput(['type'=>'time']) ?>
 
         <div class="col-xs-12 col-md-12">
             <div class="form-group">

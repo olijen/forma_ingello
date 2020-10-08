@@ -1,13 +1,19 @@
 <?php
 
 use forma\modules\core\widgets\DetachedBlock;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use yii\widgets\Pjax;
 use yii\helpers\Html;
+use yii2fullcalendar\yii2fullcalendar;
+use yii\web\JsExpression;
+use forma\modules\core\widgets\CalendarWidget;
+use yii\bootstrap\Modal;
+
 
 \forma\modules\selling\assets\ScriptAsset::register($this);
 
 ?>
+
 <?php \forma\components\widgets\ModalCreate::begin() ?>
 <style>
     .bs-example {
@@ -76,7 +82,43 @@ use yii\helpers\Html;
 
         </form>
         <label for="next_step">Следуйщий шаг</label>
-        <input type="text" name="next_step" id="next_step" class="form-control">
+        <input type="text" name="next_step" id="next_step" class="form-control"><br>
+
+<!--        <input type="submit" name="calendar" class="btn btn-link" value="Выбать дату">-->
+
+            <?php
+            Modal::begin([
+                'header' => '<h2>Планирование</h2>',
+                'toggleButton' => [
+                    'label' => 'Выбрать дату',
+                    'tag' => 'button',
+                    'class' => 'btn btn-success',
+                    'onclick'=>'next()',
+                ],
+            ]);?>
+        <script>
+            function next() {
+                let next_step = document.getElementById("next_step").value;
+                console.log(next_step);
+            }
+            next();
+        </script>
+        <div id="test"></div>
+            <label for="next_step">Следуйщий шаг</label>
+        <input type="text" name="next_step" id="next_step" class="form-control"><br>
+
+
+            <?php
+            $form = ActiveForm::begin(['id'=>'contact-form']);
+            require_once 'forma/modules/event/views/default/index.php';
+
+            ?>
+        <br>
+             <div class="form-group">
+        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+    </div>
+            <?php ActiveForm::end();?>
+           <?php Modal::end(); ?>
         <div class="form-group" style="margin-top: 10px">
             <a href="/selling/form" class="btn-success" type="submit" id="end-talk">
                 Завершить разгавор

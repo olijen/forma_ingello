@@ -33,15 +33,21 @@ class FormController extends Controller
         $model = SellingService::get($id);
         $state_id = $_GET['state_id'];
         $sellingState = State::findOne($state_id);
+        if ($state_id == 6){
+            $model->date_complete = date('Y-m-d H:i:s');
+        }
         if($sellingState){
             $model->state_id = $sellingState->id;
             $model->save();
+
         }
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])->asArray()
             ->all();
 
+
         if ($sellingState){
             $toState = $sellingState->state;
+
             return $this->render('index', compact('model', 'userState', 'sellingState','toState'));
         }else{
             return $this->render('index', compact('model', 'userState', 'sellingState'));
@@ -52,6 +58,7 @@ class FormController extends Controller
     public function actionSave($id = null)
     {
         $model = SellingService::save($id, Yii::$app->request->post());
+
         if (!$id) {
             return $this->redirect(Url::to(['/selling/form', 'id' => $model->id]));
         }
