@@ -53,13 +53,13 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
                     ['green', '<span class="label-green">green</span>'],
                     ['blue', '<span class="label-blue">blue</span>'],
                 ],
-                'imageUpload' => \yii\helpers\Url::to(['/worker/worker/image-upload']),
-                'imageManagerJson' => \yii\helpers\Url::to(['/worker/worker/images-get']),
-                'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
-                'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
+                'imageUpload' =>      '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                'imageManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/images-get']),
+                'fileManagerJson' =>  '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
+                'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
         ]); ?>
-
+<?php echo \yii\helpers\Url::to(['/worker/worker/files-get'])?>
         <?= $form->field($model, 'color')->widget(ColorInput::classname()); ?>
 
         <?= $form->field($model, 'access')->checkbox([], false);?>

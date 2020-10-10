@@ -3,17 +3,12 @@ function changeArea(description, nameOnPicture, picture) {
     description = replaceUrlOnButton(description);
     $("#text-div").html(description);
     $("div#name_on_picture").html(nameOnPicture);
-    let pictureUrl = "url(/images/bot.jpg)";
-    console.log(picture);
+    let pictureUrl = "url(https://cdn.pixabay.com/photo/2017/07/16/09/11/road-2508733_960_720.jpg )";
+
     if (picture == 'false') {
-        console.log('picture == \'false\'');
-        console.log(pictureUrl);
         $('div#picture').css('background-image', pictureUrl);
     } else {
-        console.log('picture == \'else\'');
-        console.log(pictureUrl);
         pictureUrl = "url(" + picture + ")";
-        console.log(pictureUrl);
         $('div#picture').css('background-image', pictureUrl);
     }
 
@@ -74,10 +69,14 @@ $(document).ready(function () {
 
         let falseMe = changeItems(activeTabPaneItem, side);
         if (falseMe === false) {
+            if (navigatorRegularityTab(activeNavBar, side) == false) {
+                return;
+            }
             for (let i = 0; i < activeTabPaneItem.length; i++) {
                 deactivationTabPaneItem(activeTabPaneItem[i]);
             }
-            navigatorRegularityTab(activeNavBar, side);  // Переключение табов при крайних итемах
+            // Переключение табов при крайних итемах
+
         }
     });
 
@@ -88,6 +87,7 @@ $(document).ready(function () {
     }
 
     function changeBorderTopColor(jQueryObjA, changeBorder) { //jQuery.fn.init [a.change-item, prevObject: jQuery.fn.init(1)]
+        // функция для изменнения дивов итемов при их переключении
         if (changeBorder == false) {
             // jQueryObjA.parent('.carousel-child').css({'border-top': ''});
         } else {
@@ -210,9 +210,16 @@ $(document).ready(function () {
         if (tabPaneHref[0].children[0]) {
             tabPaneHref.find('.check-radio')[0].checked = true;
         }
-        changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
 
+        console.log(getDescription(tabPaneHref));
 
+        changeArea(getDescription(tabPaneHref), tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
+        // changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
+
+    }
+
+    function getDescription(thisElement) {
+       return thisElement.find('div.hidden-description').html(); //$(this).find('input.hidden-description')[0].value
     }
 
     function navigatorSide(activeTabPaneItem, side) {
@@ -236,7 +243,7 @@ $(document).ready(function () {
             hrefTabRegularityId = activeNavBar.previousElementSibling;
         }
         if (hrefTabRegularityId == null) { // проверка на крайность интемов для перехода в следующий таб
-            return;
+            return false;
         }
         hrefTabRegularityId = '#' + hrefTabRegularityId.dataset.href;
 
@@ -267,7 +274,7 @@ $(document).ready(function () {
         if (thisItemTabParentClass.length > 0) {
             changeBorderTopColor($('a[href$="#' + this.dataset.href + '"]'), true);
         }
-
+        // let description = this.find('input.hidden-description');
         checkedRadioAndShowTab(this.dataset.href);
 
         return false;
@@ -282,7 +289,8 @@ $(document).ready(function () {
                 deactivationTabPaneItem(activeItems[i]);
             }
         }
-        changeArea(this.dataset.description, this.dataset.name, this.dataset.picture);
+
+        changeArea(getDescription($(this)), this.dataset.name, this.dataset.picture);
     });
 
 

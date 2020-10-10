@@ -280,11 +280,13 @@ p {
                            class="change-regularity"
                            data-toggle="tab"
                            data-href="tab_regularity_<?= $regularity['id'] ?>"
-                           data-description="<?= $regularity->title ?> "
                            data-name="<?= '<h2>' . $regularity->name . '</h2>' ?>"
                            data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
                            aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
                             <?= $regularity['name'] ?>
+                            <input type="hidden" class="hidden-description" value="<?= $regularity->title ?>">
+                            <div class="hidden-description" style="visibility: hidden; display: none;">
+                                <?= $regularity->title ?></div>
                         </a>
                     </li>
                 <?php endforeach; ?>
