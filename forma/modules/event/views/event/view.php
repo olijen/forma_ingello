@@ -37,6 +37,8 @@ $this->params['breadcrumbs'][] = ['label' => 'События', 'url' => ['index'
 					'date_from',
 					'date_to',
 					'start_time',
+                    'end_time',
         ],
     ]) ?>
+    <a href="/">Вернуться на главную</a>
     <?php BoxWidget::end();?></div>

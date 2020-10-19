@@ -227,25 +227,36 @@ return [
 
     'menu' => [
         ['label' => 'Главная', 'url' => ['/'], 'icon' => 'home'],
-        ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
 
-        ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
-        ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
-        [
-            'label' => 'Люди',
-            'url' => ['/core/default/people'],
-            'icon' => 'users',
-            'items' => [
-                ['label' => 'Панель управления', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
-                ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
-                ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
-                ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
-                ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-                ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
-                ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
-                ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
-            ]
+
+
+
+        ['label'=>'Управление',
+            'url'=>['/core'],
+            'icon'=>'calendar',
+            'items'=>[
+                ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar'],
+                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+                ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
+                [
+                'label' => 'Люди',
+                'url' => ['/core/default/people'],
+                'icon' => 'users',
+                'items' => [
+                    ['label' => 'Панель управления', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
+                    ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
+                    ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
+                    ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
+                    ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
+                    ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
+                    ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
+                    ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
+                ]
+            ],
         ],
+],
+
         [
             'label' => 'Продажи (CRM)',
             'url' => ['/selling/default'],

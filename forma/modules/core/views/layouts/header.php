@@ -426,7 +426,7 @@ $("#fs").click(function () {
 JS;
 $this->registerJs($js);
 
-$bgColor = '#00b65d';
+$bgColor = '';
 $bgColorPrimary = '#58628e';
 $color = '';
 $textColor = '';

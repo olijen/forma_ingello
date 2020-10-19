@@ -46,10 +46,10 @@ class Event extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['event_type_id', 'name', 'text', 'status', 'date_from', 'date_to', 'start_time','end_time'], 'required'],
+            [['name', 'text', 'date_from', 'date_to', 'start_time','end_time'], 'required'],
             [['event_type_id', 'status'], 'integer'],
             [['text'], 'string'],
-            [['date_from', 'date_to', 'start_time','end_time'], 'safe'],
+            [['date_from', 'date_to', 'start_time','end_time','event_type_id','status'], 'safe'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -65,10 +65,10 @@ class Event extends \yii\db\ActiveRecord
             'name' => 'Имя',
             'text' => 'Текст',
             'status' => 'Статус',
-            'date_from' => 'Начало',
-            'date_to' => 'Конец',
-            'start_time' => 'Начало по времени',
-            'end_time' => 'Конец по времени',
+            'date_from' => 'Дата начала',
+            'date_to' => 'Дата завешения',
+            'start_time' => 'Время',
+            'end_time' => 'Время',
         ];
     }
 

@@ -63,20 +63,26 @@ class EventController extends Controller
     {
         $model = new Event();
         $model->loadDefaultValues(); //load default data from db
+        $searchModel = new EventSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if (Yii::$app->request->isAjax) {
-           $this->layout = false;
+           $this->layout = '@app/modules/core/views/layouts/modal';
         }
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 if (isset($_GET['json'])) {
+
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     return $model;
                 }
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
+                return $this->redirect('/');
+//                [
+//                    'model' => $model,
+//                    'dataProvider'=>$dataProvider,
+//                    'searchModel'=>$searchModel
+//                ];
             } else {
                 if (isset($_GET['json'])) {
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
