@@ -23,14 +23,11 @@ $('.chartjs-size-monitor').remove();
         return $(this).css("zIndex", a);
     }
 })(jQuery);
-
 $("document").ready(function(){
     $("#create-event").on("pjax:end", function() {
       $.pjax.reload({container:"#calendar"});  //Reload GridView
     });
 });
-
-
 function editEvent(event) 
 {
     var ServerMapper;
@@ -52,7 +49,6 @@ function editEvent(event)
         }); 
     }
 }
-
 function createEvent(start, end, title)
 {
     var eventData;
@@ -129,25 +125,25 @@ JS;
     var small_widgets_in_block = [];
 </script>
 
-    <script>
-        function smallWidget() {
-            small_widgets_in_block = [];
-            var num = $('#panel_small_widget').children('li').length;
-            for(var i = 0; i < num; i++){
-                small_widgets_in_block.push($('#panel_small_widget').children('li').children('.box')[i]);
-            }
+<script>
+    function smallWidget() {
+        small_widgets_in_block = [];
+        var num = $('#panel_small_widget').children('li').length;
+        for(var i = 0; i < num; i++){
+            small_widgets_in_block.push($('#panel_small_widget').children('li').children('.box')[i]);
+        }
 
-            for(var i = 0; i < small_widgets_in_block.length; i++){
-                if(small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
-                    small_widgets_in_block[i].className += ' collapsed-box small_widget';
-                $('.small_widget').find('.small_widget_header').css('display', 'block');
-                $('.small_widget').find('.big_widget_header').css('display', 'none');
-
-            }
-
+        for(var i = 0; i < small_widgets_in_block.length; i++){
+            if(small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
+                small_widgets_in_block[i].className += ' collapsed-box small_widget';
+            $('.small_widget').find('.small_widget_header').css('display', 'block');
+            $('.small_widget').find('.big_widget_header').css('display', 'none');
 
         }
-    </script>
+
+
+    }
+</script>
 
 <?php
 
@@ -223,7 +219,6 @@ function(calEvent, jsEvent, view) {
      
     });
     
-
 }
 JS;
 
@@ -249,10 +244,8 @@ function(calEvent, jsEvent, view) {
             big_widgets_in_block[i].className = big_widgets_in_block[i].className.replace(/small_widget/gi, '');
             big_widgets_in_block[i].className = big_widgets_in_block[i].className.replace(/collapsed-box/gi, '');
         }
-
     }
     for(var i = 0, k = 0; i < ul; i++){
-
          for(var j = 0; j < $('.panel_big_widget')[i].children.length; j++, k++){
             
             request_string += "WidgetUser["+big_widgets_in_block[k].dataset.widget_name+"][active]=1&" +
@@ -391,7 +384,7 @@ $salesWarehouseWidget = \forma\modules\core\widgets\SalesWarehouseWidget::widget
 
 //информация об отделах
 $applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
-        'productsCount' => $productsCount]) ;
+    'productsCount' => $productsCount]) ;
 //выполнение плана поставок
 $deliveryPlanWidget = \forma\modules\core\widgets\DeliveryPlanWidget::widget();
 //выполнение целей
@@ -418,9 +411,7 @@ $historyEventWidget = \forma\modules\core\widgets\SystemEventWidget::widget(['ti
     global $goalsWidget;
     global $calendarWidget;
     global $workers;
-
     //Yii::debug($workers); = null
-
     foreach($widgetOrder as $panel => $widgetArray) {
         if($panel == $name){
             for($i = 0; $i < count($widgetArray); $i++){
@@ -464,6 +455,7 @@ Yii::debug($widgetsForSortable0);
 Yii::debug('sssssss');
 Yii::debug($widgetOrder);
 foreach($widgetOrder as $panel => $widgetArray) {
+
     if($panel == 'panelSmallWidget'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
@@ -517,6 +509,7 @@ foreach($widgetOrder as $panel => $widgetArray) {
 
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ ДВУХ ПАНЕЛЕЙ
 foreach($widgetOrder as $panel => $widgetArray) {
+
     if($panel == 'panelBigWidget1'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
@@ -632,9 +625,9 @@ foreach($widgetOrder as $panel => $widgetArray) {
         'items'=> $widgetsForSortable0
     ]);
     ?>
-<script>
-smallWidget();
-</script>
+    <script>
+        smallWidget();
+    </script>
 </div>
 <div class="row small_widgets_text" style="display: none; color: red;">
     Конструктор виджетов не доступен на мобильных устройствах.
@@ -769,8 +762,8 @@ $collapsed = 0;
 
         //var_dump($widgetsForSortable1);
         echo Sortable::widget([
-                'connected' => true,
-                'type' => 'grid',
+            'connected' => true,
+            'type' => 'grid',
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
             ],
@@ -877,7 +870,7 @@ $collapsed = 0;
 
         <?php
         echo Sortable::widget([
-                'connected' => true,
+            'connected' => true,
             'type' => 'grid',
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
@@ -1037,7 +1030,7 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
         console.log($('ul').find('.small_widget'));
     });
 
-var dom = document.getElementsByClassName('panel_big_widget')[0];
+    var dom = document.getElementsByClassName('panel_big_widget')[0];
 
     var dom0 = document.getElementById('panel_small_widget');
 
@@ -1175,7 +1168,7 @@ if($widgetNewOrder == true){
 
     #panel_small_widget .box {
         margin: 0 !important;
-   }
+    }
     .content-wrapper {
         min-height: 100% !important;
     }
@@ -1204,8 +1197,8 @@ if($widgetNewOrder == true){
             overflow: hidden;
         }
 
-        .sortable.grid li {
-           padding: 5px;
+        .dropdown-menu {
+            width: 100% !important;
         }
     }
 

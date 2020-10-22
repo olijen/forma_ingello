@@ -71,12 +71,20 @@ class EventController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
+
             if ($model->save()) {
                 if (isset($_GET['json'])) {
-
-                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     return $model;
                 }
+
+                if($_POST['close']){
+                    echo "<script>$('#modal').modal('hide')</script>";
+                    echo "<script>$('#w2').fullCalendar('refetchEvents');</script>";
+
+                    exit;
+                }
+
                 return $this->redirect('/');
 //                [
 //                    'model' => $model,
@@ -101,7 +109,9 @@ class EventController extends Controller
                 'model' => $model,
             ]);
         }
-    }
+            }
+
+
 
     /**
      * Updates an existing Event model.
@@ -167,8 +177,8 @@ class EventController extends Controller
             $Event = new \yii2fullcalendar\models\Event();
             $Event->id = $real->id;
             $Event->title = $real->name;
-            $Event->backgroundColor = $real->eventType->color;
-            $Event->borderColor = $real->eventType->color;
+//            $Event->backgroundColor = $real->eventType->color;
+//            $Event->borderColor = $real->eventType->color;
             $Event->start = date('Y-m-d\TH:i:s\Z',strtotime($real->date_from.' '.$real->start_time));
             $Event->end = date('Y-m-d\TH:i:s\Z',strtotime($real->date_to));
             $events[] = $Event;

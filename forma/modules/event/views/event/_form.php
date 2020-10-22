@@ -36,6 +36,7 @@ endif;
             ]
         ]); ?>
         <div class="row">
+            <input type="hidden" name="close" value="close">
             <div class="col-xs-12"><?= $form->field($model, 'name')->textInput() ?></div>
             <div class="col-xs-6"><?= $form->field($model, 'event_type_id')->textInput() ?></div>
             <div class="col-xs-6"><?= $form->field($model, 'status')->textInput() ?></div>
@@ -120,7 +121,7 @@ endif;
         <div class="col-xs-12 col-md-12">
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Сохранить',
-                    ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-primary',]) ?>
+                    ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-primary',2]) ?>
             </div>
         </div>
         <?php ActiveForm::end(); ?>
