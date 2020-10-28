@@ -218,10 +218,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
         </button>
         <br><br>
         <div class="admin-search collapse" id="hide-me">
-            <?php if (!isset($fieldValues)) {
+            <?php if (!isset($fieldsList)) {
                 echo $this->render('_search', ['model' => $searchModel]);
             } else {
-                echo $this->render('_search', ['model' => $searchModel, 'fieldValues' => $fieldValues,]);
+                echo $this->render('_search', ['model' => $searchModel, 'fieldsList' => $fieldsList,]);
             }
             ?>
         </div>

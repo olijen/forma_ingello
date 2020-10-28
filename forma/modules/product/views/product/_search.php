@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'category_id')->hiddenInput()->label(false)?>
+    <?= $form->field($model, 'category_id')->hiddenInput()->label(false) ?>
     <div class="col-md-4">
         <?= $form->field($model, 'id') ?>
         <?= $form->field($model, 'sku') ?>
@@ -32,20 +32,14 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php
-    if (!empty($fieldValues)) {
-        foreach ($fieldValues as $fieldId => $fieldValue) {
-            $i = 0;
+    if (!empty($fieldsList)) {
+        foreach ($fieldsList as $fieldId => $field) {
 
-            if ($i%3 == 0 || $i == 0 ){
-                echo '<div class="col-md-4">';
-            }
-            echo SystemWidget::getByName($fieldId, $fieldValue, true);
+            echo '<div class="col-md-4">';
+            echo SystemWidget::getByName($fieldId, $field, true);
             echo '</br>';
+            echo '</div>';
 
-            if ($i%3 == 0){
-                echo '</div>';
-            }
-            $i++;
         }
     }
     ?>

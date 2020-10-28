@@ -31,7 +31,7 @@ $columns = [
     [
         'attribute' => 'widget',
         'value' => function ($model) {
-            SystemWidget::getWidgetNamesForGrid($model->widget);
+           return SystemWidget::getWidgetNamesForGrid($model->widget);
         },
     ],
     [
