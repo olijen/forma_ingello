@@ -4,13 +4,6 @@ use yii\helpers\Html;
 use yii\web\JsExpression;
 
 ?>
-<script>
-    function next() {
-        let next_step = document.getElementById("next_step").value;
-        console.log(next_step);
-    }
-    next();
-</script>
 <?php
 
 

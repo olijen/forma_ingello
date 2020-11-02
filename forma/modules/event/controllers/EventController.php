@@ -78,14 +78,14 @@ class EventController extends Controller
                     return $model;
                 }
 
-                if($_POST['close']){
+                if(isset($_POST['close'])){
                     echo "<script>$('#modal').modal('hide')</script>";
                     echo "<script>$('#w2').fullCalendar('refetchEvents');</script>";
 
                     exit;
                 }
 
-                return $this->redirect('/');
+//                return $this->redirect('/');
 //                [
 //                    'model' => $model,
 //                    'dataProvider'=>$dataProvider,
@@ -125,11 +125,11 @@ class EventController extends Controller
         $model = Event::find()->where(['id' => $id])->one();
 
         if (!$model) {
-            throw new HttpException('ОШибка');
+            throw new HttpException('Ошибка');
         }
 
         if (Yii::$app->request->isAjax) {
-            $this->layout = false;
+            $this->layout = '@app/modules/core/views/layouts/modal';
         }
 
         if ($model->load(Yii::$app->request->post())) {

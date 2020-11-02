@@ -93,7 +93,7 @@ use forma\extensions\fullcalendar;
                <p style="margin: 0 0 5px">Выбирете дату</p>
                <?php
                 Modal::begin([
-                    'header' => '<h2>Планирование</h2>',
+                    'header' => '<h2>Планирование</h2><h3 id="step"></h3>',
                     'toggleButton' => [
                         'label' => 'Календарь',
                         'tag' => 'button',
@@ -107,11 +107,13 @@ use forma\extensions\fullcalendar;
 
         <script>
             function next() {
-                let next_step = document.getElementById("next_step").value;
-                console.log(next_step);
+              let next = document.getElementById("next_step").value;
+                step.textContent= next;
+                inputValue = next;
             }
             next();
         </script>
+
         <?php
 
 
@@ -187,11 +189,13 @@ JS;
         $this->registerJs($DragJS);
 
         $JSCode = <<<JS
+
 function(start, end) {
     $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('YYYY-MM-DD')+
     '&date_to='+end.format('YYYY-MM-DD')+
     '&start_time='+start.format('H:m:ss')+
-    '&end_time='+end.format('H:m:ss'));
+    '&end_time='+end.format('H:m:ss')+
+    '&name='+[inputValue]);
     $('#modal').modal();
     
 
@@ -458,7 +462,7 @@ JS;
         <div class="row" style="margin-top: 10px">
             <div class="col-xs-12">
             <a href="/selling/form" class="btn btn-success btn-lg btn-block" type="submit" id="end-talk">
-                Завершить разгавор
+                Завершить разговор
             </a>
             </div>
         </div>

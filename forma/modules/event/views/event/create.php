@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => 'События', 'url' => ['index'
     ?>
 
     <?= $this->render('_form', [
+
         'model' => $model,
     ]) ?>
 
