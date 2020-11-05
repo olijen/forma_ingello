@@ -5,8 +5,13 @@ use kartik\color\ColorInput;
 use forma\modules\core\components\LinkHelper;
 
 $this->title = 'Регламент';
-
+Url::remember(['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]);
+$publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
 ?>
+<a class="btn btn-success" href='<?= $publicRegularityUrl?>'
+   style="position: absolute; top: 80px; right: 20px;">
+    <i class="fa fa-code"></i>
+</a>
 
 <!-- Вывод регламентов и их пунктов-->
 <section class="content">

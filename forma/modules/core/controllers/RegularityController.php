@@ -2,9 +2,18 @@
 
 namespace forma\modules\core\controllers;
 
+
+use forma\modules\core\records\Item;
+use forma\modules\core\records\ItemQuery;
+use forma\modules\core\records\RegularityQuery;
+use forma\modules\core\records\User;
+use forma\modules\core\services\RegularityAndItemPictureService;
+use forma\modules\product\records\Product;
 use Yii;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
+use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,6 +33,19 @@ class RegularityController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['regularity'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['regularity'],
+                        'roles' => ['?', '@'],
+                    ],
+
+                ],
+            ]
         ];
     }
 
@@ -46,8 +68,32 @@ class RegularityController extends Controller
             'dataProvider' => $dataProvider,
             'regularitys' => $regularitys,
             'items' => $items,
-            'order_id'=> $regularitys[0]['id'] ?? null
+            'order_id' => $regularitys[0]['id'] ?? null
         ]);
+    }
+
+    public function actionRegularity()
+    {
+        $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
+        $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
+        $regularitiesId = Regularity::getRegularitiesId($regularities);
+        $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
+        $subItems = Item::getSubItems($allItems);
+        $items = Item::getMainItems($allItems);
+
+        return $this->render('user-regularity', [
+            'regularities' => $regularities,
+            'items' => $items,
+            'subItems' => $subItems,
+        ]);
+    }
+
+    public function getPublicCurrentUserId() // http://localhost:8891/admin/regularity передается ссылка подобного формата
+    {
+        $_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
+        $currentUrl = Url::current();
+        $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
+        return User::findOne(['username' => $currentUserName,]);// по логину находим юзера
     }
 
     public function actionSettings()
@@ -71,7 +117,7 @@ class RegularityController extends Controller
         $model = new Regularity();
         $model->loadDefaultValues(); //load default data from db
         $model->user_id = Yii::$app->user->identity->id;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
             return $this->render('create', [
@@ -90,7 +136,7 @@ class RegularityController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
             return $this->render('update', [

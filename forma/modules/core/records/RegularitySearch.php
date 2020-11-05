@@ -1,7 +1,6 @@
 <?php
 
 namespace forma\modules\core\records;
-
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

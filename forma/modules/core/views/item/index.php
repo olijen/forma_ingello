@@ -26,10 +26,7 @@ $this->title = Yii::t('app', 'Пункты');
             'id',
             'title',
             'description',
-//            'parent_id',
             'regularity_id',
-            //'order',
-            //'color',
 
             [
                 'class' => 'yii\grid\ActionColumn',
