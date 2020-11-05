@@ -455,7 +455,6 @@ Yii::debug($widgetsForSortable0);
 Yii::debug('sssssss');
 Yii::debug($widgetOrder);
 foreach($widgetOrder as $panel => $widgetArray) {
-
     if($panel == 'panelSmallWidget'){
         for($i = 0; $i < count($widgetArray); $i++){
             switch($widgetArray[$i]){
@@ -760,7 +759,6 @@ $collapsed = 0;
         <?php
 
 
-        //var_dump($widgetsForSortable1);
         echo Sortable::widget([
             'connected' => true,
             'type' => 'grid',
@@ -810,6 +808,7 @@ $collapsed = 0;
 
 
         if($widgetNewOrder == true) {
+
             $widgetsForSortable2[] = ['content' => $goalsWidget, 'disabled' => true];
             $widgetOrder[] = ['Goals', $active, $row, $col, $collapsed];
             $row++;
@@ -820,10 +819,9 @@ $collapsed = 0;
 
         <!-- КАЛЕНДАРЬ -->
         <?php
-
-
         if($widgetNewOrder == true) {
-            $widgetsForSortable2[] = ['content' => $calendarWidget, 'disabled' => true];
+
+            $widgetsForSortable2[] = ['content' => $calendarWidget, 'disabled' => false];
             $widgetOrder[] = ['Calendar', $active, $row, $col, $collapsed];
             $row++;
         }

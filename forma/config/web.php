@@ -63,6 +63,10 @@ $config = [
 
     },
     'components' => [
+        'formatter' => [
+            'dateFormat'=>'dd-MM-yyyy',
+            'datetimeFormat' => 'yyyy-MM-dd HH:mm:ss',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'e003MQ-QvRSydQdwqp6GROv-QdqLDt3m',

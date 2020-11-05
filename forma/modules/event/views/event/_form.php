@@ -35,10 +35,9 @@ endif;
         ]
     ]); ?>
 
-
     <div class="row">
+        <input type="hidden" name="close" value="close">
         <?php if (isset($_GET['name'])): ?>
-            <input type="hidden" name="close" value="close">
             <div class="col-xs-12"><?= $form->field($model, 'name')->textInput(['value'=>$_GET['name']]) ?></div>
         <?php else: ?>
             <div class="col-xs-12"><?= $form->field($model, 'name')->textInput() ?></div>
@@ -58,7 +57,10 @@ endif;
             <?php if(isset($_GET['date_from']) && isset($_GET['start_time'])): ?>
             <?php $model->date_from = $_GET['date_from'] ?>
             <div class="col-xs-6">
-                <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(), []) ?>
+                <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd' ,
+                    ]])?>
             </div>
             <div class="col-xs-6">
                 <?php $model->start_time = $_GET['start_time'] ?>
@@ -69,7 +71,11 @@ endif;
                     'secondStep' => 5,
                 ]]) ?></div>
             <?php else: ?>
-            <div class="col-xs-6"> <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[]) ?></div>
+            <div class="col-xs-6"> <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ]]) ?></div>
             <div class="col-xs-6"><?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
                     'pluginOptions' => [
                         'showSeconds' => true,
@@ -83,7 +89,10 @@ endif;
             <?php if (isset($_GET['date_to']) && isset($_GET['end_time'])): ?>
             <div class="col-xs-6">
                 <?php $model->date_to = $_GET['date_to'] ?>
-                <?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(), []) ?></div>
+                <?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd' ,
+                    ]]) ?></div>
             <div class="col-xs-6">
                 <?php $model->end_time = $_GET['end_time'] ?>
                 <?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(), ['pluginOptions' => [
@@ -93,7 +102,10 @@ endif;
                     'secondStep' => 5,
                 ]]) ?></div>
             <?php else: ?>
-            <div class="col-xs-6"><?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[]) ?></div>
+            <div class="col-xs-6"><?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd' ,
+                    ]]) ?></div>
             <div class="col-xs-6"><?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
                     'pluginOptions' => [
                         'showSeconds' => true,

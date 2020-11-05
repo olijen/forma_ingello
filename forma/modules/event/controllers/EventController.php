@@ -80,18 +80,14 @@ class EventController extends Controller
 
                 if(isset($_POST['close'])){
                     echo "<script>$('#modal').modal('hide')</script>";
-                    echo "<script>$('#w2').fullCalendar('refetchEvents');</script>";
+                    echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
+                    echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
 
                     exit;
                 }
 
-//                return $this->redirect('/');
-//                [
-//                    'model' => $model,
-//                    'dataProvider'=>$dataProvider,
-//                    'searchModel'=>$searchModel
-//                ];
             } else {
+
                 if (isset($_GET['json'])) {
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     return $model->getErrors();
@@ -101,6 +97,7 @@ class EventController extends Controller
                 ]);
             }
         } else {
+
             if (isset($_GET['json'])) {
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return $model->getErrors();
@@ -123,6 +120,7 @@ class EventController extends Controller
     public function actionUpdate($id)
     {
         $model = Event::find()->where(['id' => $id])->one();
+
 
         if (!$model) {
             throw new HttpException('Ошибка');
