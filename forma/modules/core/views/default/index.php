@@ -394,6 +394,7 @@ $calendarWidget = \forma\modules\core\widgets\CalendarWidget::widget(["JSCode" =
     "JSEventClick" => $JSEventClick,
     "JSEventResize" => $JSEventResize,
     "JSEventDrop" => $JSEventDrop]);
+
 //поставщики на карте
 $suppliersWidget = \forma\modules\core\widgets\SuppliersWidget::widget();
 //воронка найма

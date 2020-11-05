@@ -29,7 +29,9 @@ class FormController extends Controller
 
     public function actionTest()
     {
+
         $id = $_GET['id'];
+
         $model = SellingService::get($id);
         $state_id = $_GET['state_id'];
         $sellingState = State::findOne($state_id);

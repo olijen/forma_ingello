@@ -15,7 +15,7 @@ $this->title = 'События';
 <div class="event-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
+
     <?php BoxWidget::begin([
         'title'=>'Событие <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
         'buttons' => [

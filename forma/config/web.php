@@ -1,6 +1,6 @@
 <?php
 
-use forma\modules\core\records\SystemEventSearch;
+use     forma\modules\core\records\SystemEventSearch;
 use yii\db\ActiveRecord;
 use yii\web\AssetBundle;
 use forma\modules\core\records\SystemEventService;

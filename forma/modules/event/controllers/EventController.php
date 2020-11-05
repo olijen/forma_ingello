@@ -66,6 +66,7 @@ class EventController extends Controller
         $searchModel = new EventSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
         if (Yii::$app->request->isAjax) {
            $this->layout = '@app/modules/core/views/layouts/modal';
         }
