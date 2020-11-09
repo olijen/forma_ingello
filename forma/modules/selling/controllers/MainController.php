@@ -97,7 +97,7 @@ class MainController extends Controller
     public function googleEmailChange(Customer $customer, $selling_token){
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
-        $redirectUri = 'https://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
+        $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
 
         $client = new Google_Client();
         /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config

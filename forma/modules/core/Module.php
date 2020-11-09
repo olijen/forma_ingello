@@ -32,7 +32,9 @@ class Module extends \yii\base\Module
             return false;
         }
 
-        if ($_SERVER['REQUEST_URI'] == '/login') {
+        Yii::debug($_SERVER['REQUEST_URI']);
+        Yii::debug(strpos($_SERVER['REQUEST_URI'], '/core/default/confirm'));
+        if ($_SERVER['REQUEST_URI'] == '/login' || $_SERVER['REQUEST_URI'] == '/signup' || strpos($_SERVER['REQUEST_URI'], '/core/default/confirm') !== false) {
             return true;
         }
 

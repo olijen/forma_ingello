@@ -16,6 +16,7 @@ use forma\modules\supplier\records\Supplier;
  *
  * @property integer $id
  * @property integer $manufacturer_id
+ * @property integer $type_id
  * @property string $sku
  * @property string $name
  * @property string $note
@@ -38,6 +39,7 @@ use forma\modules\supplier\records\Supplier;
  *
  * @property Product $parent
  * @property PackUnit $packUnit
+ * @property Type $type
  */
 class Product extends AccessoryActiveRecord
 {
