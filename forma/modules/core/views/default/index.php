@@ -8,7 +8,7 @@ use \forma\modules\core\widgets\SalesFunnelWidget;
 use \forma\modules\core\widgets\DepartmentPerfomance;
 use \forma\modules\core\widgets\WeeklySalesWidget;
 
-$this->title = 'Мониторинг отделов компании';
+$this->title = 'Мониторинг отделов';
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 /**
@@ -65,14 +65,14 @@ function createEvent(start, end, title)
             end: end
         };
         serverMapper = {
-            'Event[name]': title,
-            'Event[text]': title,
-            'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
-            'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
-            'Event[start_time]': $.fullCalendar.formatDate(start,"H:00:00"),
-            'Event[end_time]': $.fullCalendar.formatDate(end,"H:00:00"),
-            'Event[event_type_id]': 4,
-            'Event[status]': 1,
+                'Event[name]': title,
+                'Event[text]': title,
+                'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
+                'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
+                'Event[start_time]': $.fullCalendar.formatDate(start,"H:00:00"),
+                'Event[end_time]': $.fullCalendar.formatDate(end,"H:00:00"),
+                'Event[event_type_id]': 4,
+                'Event[status]': 1,
         }
         $.post( "/event/event/create?json", serverMapper, function( data ) {
           $('#w0').fullCalendar('renderEvent', eventData, true);
