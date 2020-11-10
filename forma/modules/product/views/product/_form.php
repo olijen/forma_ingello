@@ -36,14 +36,15 @@ use yii\widgets\Pjax;
 
             <?php DetachedBlock::begin(['example' => 'Общее']) ?>
 
-            <?= $form->field($model, 'type_id')->widget(Select2::className(), [
-                'data' => Type::getList(),
-                'options' => ['placeholder' => 'У каждого типа своя форма.'],
-                'addon' => ['prepend' => [
-                    'content' => ModalCreate::widget(['route' => Url::to(['/product/type/create'])]),
-                    'asButton' => true,
-                ]],
-            ])
+            <?php
+//            $form->field($model, 'type_id')->widget(Select2::className(), [
+//                'data' => Type::getList(),
+//                'options' => ['placeholder' => 'У каждого типа своя форма.'],
+//                'addon' => ['prepend' => [
+//                    'content' => ModalCreate::widget(['route' => Url::to(['/product/type/create'])]),
+//                    'asButton' => true,
+//                ]],
+//            ])
             ?>
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>

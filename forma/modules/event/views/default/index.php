@@ -343,9 +343,3 @@ $widgetsForSortable2 = [];
         <h3 class="box-title" data-toggle="tooltip" data-placement="top" title="Календарь"><i class="fa fa-calendar"></i></h3>
     </div>
 </div>
-
-
-<br>
-<div class="form-group">
-    <?= Html::submitButton('Submit', ['class' => 'btn btn-block', 'name' => 'contact-button','on-click']) ?>
-</div>

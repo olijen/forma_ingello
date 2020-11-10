@@ -6,10 +6,12 @@ use yii\helpers\Html;
 
 use keygenqt\autocompleteAjax\AutocompleteAjax;
 use forma\modules\product\records\Product;
-
 ?>
-
+<?php if (Yii::$app->user->isGuest): ?>
+<aside class="main-sidebar" style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: -50px; visibility: hidden">
+    <?php else:?>
 <aside class="main-sidebar" style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: -50px;">
+    <?php endif; ?>
 
     <section class="sidebar">
 
