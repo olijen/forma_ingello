@@ -19,7 +19,7 @@ class EventSearch extends Event
     {
         return [
             [['id', 'event_type_id', 'status'], 'integer'],
-            [['name', 'text', 'date_from', 'date_to', 'start_time'], 'safe'],
+            [['name', 'text', 'date_from', 'date_to', 'start_time','end_time'], 'safe'],
         ];
     }
 
@@ -49,6 +49,7 @@ class EventSearch extends Event
 
         $this->load($params);
 
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -62,6 +63,7 @@ class EventSearch extends Event
             'date_from' => $this->date_from,
             'date_to' => $this->date_to,
             'start_time' => $this->start_time,
+            'end_time'=>$this->end_time,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

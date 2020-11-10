@@ -426,7 +426,7 @@ $("#fs").click(function () {
 JS;
 $this->registerJs($js);
 
-$bgColor = '#00b65d';
+$bgColor = '';
 $bgColorPrimary = '#58628e';
 $color = '';
 $textColor = '';
@@ -512,10 +512,6 @@ if ('selling' == Yii::$app->controller->module->id) {
 
 <style>
 
-  tr:hover {
-      background-color: <?php echo $bgColor ?> !important;
-      color: <?php echo $textColor ?> !important;
-  }
   .table-striped > tbody > tr:hover *{
       background-color: <?php echo $bgColor ?> !important;
       color: <?php echo $color?> !important;

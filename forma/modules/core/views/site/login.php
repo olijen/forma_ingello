@@ -94,26 +94,26 @@ $fieldOptions2 = [
 
                 <div class="col col-md-12">
                     <?= Html::submitButton('<i class="fa fa-eye"></i> ВОЙТИ В СИСТЕМУ', [
-                        'class' => 'btn btn-success btn-block btn-flat',
+                        'class' => 'btn btn-success btn-block btn-flat btn_login',
                         'style' => 'font-size: 20px;',
                         'id'=>'info',
                         'name' => 'login-button']) ?>
                 </div>
-                <!--<div style="padding:0;" class="col col-md-6">
-                <?/*= Html::a('Личный аккаунт',
+                <div class="col col-md-12">
+                <?= Html::a('ЛИЧНЫЙ АККАУНТ',
                     '/signup', [
-                        'class' => 'btn btn-primary btn-block btn-flat',
-                        'name' => 'login-button']) */?>
-            </div>
-            <div style="padding:0;" class="col col-md-6">
-                <?php /*echo "
-                <a class='btn btn-primary btn-block btn-flat socialAuthorization' href='$googleLink'>
-                  <img style='background: white; height: 18px; padding-bottom: 2px; margin-right: 6px' src='images/google.png' alt=''>
-                  Зайти через <strong>Google</strong>
-                </a>"; */?>
+                        'class' => 'btn btn-success btn-block btn-flat btn_login',
+                        'name' => 'login-button', 'style' => 'font-size: 20px;',]) ?>
             </div>
             <div class="col col-md-12">
-                <?/*= Html::a('Индивидуальный проект', 'https://ingello.com', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) */?>
+                <?php echo "
+                <a style='font-size: 20px;' class='btn btn-success btn-block btn-flat btn_login socialAuthorization' href='$googleLink'>
+                  <img style='background: white; height: 18px; padding-bottom: 2px; margin-right: 6px' src='images/google.png' alt=''>
+                  Зайти через <strong>Google</strong>
+                </a>"; ?>
+            </div>
+            <!--<div class="col col-md-12">
+                <?/*= Html::a('Индивидуальный проект', 'https://ingello.com', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button'])    */?>
             </div>-->
 
             </div>
@@ -152,7 +152,7 @@ $fieldOptions2 = [
           $(document).ready(function() {
               setInterval(function () {
                   setTimeout(function() {
-                      $('#info').css('color', '#aaeeaa');
+                      $('.btn_login').css('color', '#aaeeaa');
                   }, 250);
                   $('#info').css('color', 'white');
               }, 500);

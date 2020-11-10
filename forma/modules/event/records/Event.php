@@ -15,6 +15,7 @@ use Yii;
  * @property string $date_from
  * @property string $date_to
  * @property string $start_time
+ * @property string $end_time
  *
  * @property EventType $eventType
  */
@@ -45,10 +46,10 @@ class Event extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['event_type_id', 'name', 'text', 'status', 'date_from', 'date_to', 'start_time'], 'required'],
+            [['name', 'date_from', 'date_to', 'start_time','end_time'], 'required'],
             [['event_type_id', 'status'], 'integer'],
             [['text'], 'string'],
-            [['date_from', 'date_to', 'start_time'], 'safe'],
+            [['date_from', 'date_to', 'start_time','end_time','event_type_id','status','text'], 'safe'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -61,12 +62,13 @@ class Event extends \yii\db\ActiveRecord
         return [
             'id' => 'ИД',
             'event_type_id' => 'Тип',
-            'name' => 'Имя',
+            'name' => 'Название',
             'text' => 'Текст',
             'status' => 'Статус',
-            'date_from' => 'Начало',
-            'date_to' => 'Конец',
+            'date_from' => 'Дата начала',
+            'date_to' => 'Дата завешения',
             'start_time' => 'Время',
+            'end_time' => 'Время',
         ];
     }
 

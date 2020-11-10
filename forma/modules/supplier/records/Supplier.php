@@ -42,7 +42,7 @@ class Supplier extends AccessoryActiveRecord
             [['name'], 'required'],
             [['tax_rate'], 'number'],
             [['name', 'firm', 'contact_name'], 'string', 'max' => 100],
-            [['address', 'email'], 'string', 'max' => 32],
+            [['address', 'email'], 'string', 'max' => 255],
             [['country_id'], 'integer'],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];

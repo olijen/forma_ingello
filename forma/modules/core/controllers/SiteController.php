@@ -31,16 +31,16 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'logout', 'confirm'],
+                'only' => ['login', 'logout', 'confirm', 'signup'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['login', ],
+                        'actions' => ['login', 'signup', 'confirm'],
                         'roles' => ['?'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['logout', 'confirm'],
+                        'actions' => ['logout', ],
                         'roles' => ['@'],
                     ],
                 ],
@@ -99,8 +99,10 @@ class SiteController extends Controller
     {
         Yii::debug("hosoposapoap");
         //var_dump(Yii::$app->request->referrer); exit;
+        //если от гугла пришел отвте = мы регаем/авторизуем пользователя и теперь он не гость
         $googleLink = $this->googleAuth();
         Yii::debug($googleLink);
+        //не гость - редирект на главную
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -143,9 +145,14 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $googleLink = $this->googleAuth();
+        Yii::debug('зашли на туда регистрация');
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+
+
+        Yii::debug('зашли на туда регистрация');
+
 
         $modelLogin = new LoginForm();
         $loginLoad = $modelLogin->load(Yii::$app->request->post());
@@ -166,7 +173,7 @@ class SiteController extends Controller
         }
 
         $model = new SignupForm();
-
+        Yii::debug('зашли на туда регистрация');
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             return $this->goHome();
         }

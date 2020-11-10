@@ -15,7 +15,7 @@ $this->title = 'События';
 <div class="event-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
+
     <?php BoxWidget::begin([
         'title'=>'Событие <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
         'buttons' => [
@@ -25,8 +25,9 @@ $this->title = 'События';
     ?>
 
     <?php Pjax::begin(['id' => 'grid'])?>
-    
-    <?= GridView::widget([
+
+    <?=  GridView::widget([
+
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -34,17 +35,14 @@ $this->title = 'События';
             'id',
             'event_type_id',
             'name',
-            'text:ntext',
+            'text:text',
             [
                 'attribute' => 'status',
                 'filter'=> $searchModel->getStatusList(),
-                'value' => function ($data) {
-                    return $data->statusName;
-                },
             ],
             'date_from',
             'date_to',
-            // 'start_time',
+             'start_time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -39,6 +39,7 @@ class Module extends \yii\base\Module
         } else if($action->actionMethod == 'actionShowSelling' || $action->actionMethod == 'actionCommentHistory'
         || $action->actionMethod == 'actionEditCell' || $action->actionMethod == 'actionDeletePosition'
             || $action->actionMethod == 'actionAddPosition' || $action->actionMethod == 'actionValidate'){
+            Yii::debug($action->actionMethod);
             return true;
         } else {
             setcookie(

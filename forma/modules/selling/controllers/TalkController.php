@@ -100,4 +100,5 @@ class TalkController extends Controller
 
     }
 
+
 }
