@@ -17,12 +17,16 @@ class EditCellAction extends Action
 
     public function init()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        Yii::debug('sdf');
+        return 1;
+        //Yii::$app->response->format = Response::FORMAT_JSON;
       //  die("skljdaksjfsdkfjsldkflsdkfj");
     }
 
     public function run($id)
     {
+        Yii::debug('Something new');
+
         if (empty($this->modelClass)) {
             throw new InvalidConfigException('Property modelClass cannot be blank');
         }

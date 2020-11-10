@@ -165,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                       <div class="col-md-5" style="font-size: 18px">
                     <?php if($model->class_name != 'Login' && $model->class_name != 'WarehouseUser' && $model->class_name != 'RequestStrategy'
                     && $model->class_name != 'WorkerVacancy') { ?>
-                     <?php LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||"  . "Список " ."}}")) ?>
+                     <?php echo LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||"  . "Список " ."}}")) ?>
 
                         <?php
                         //в объекте используем replaceUrlOnButtonAmp чтобы к GET['id'] который стоит в начале запроса подставлялся &without-header
