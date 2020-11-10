@@ -309,6 +309,7 @@ return [
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
                 ['label' => 'Продукты и услуги', 'url' => ['/product/product'], 'icon' => 'cube'],
+                ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
                 ['label' => 'Категории', 'url' => ['/product/category'], 'icon' => 'object-group'],
                 ['label' => 'Упаковки', 'url' => ['/product/pack-unit'], 'icon' => 'cubes'],
                 ['label' => 'Страны', 'url' => ['/country/country'], 'icon' => 'podcast'],
