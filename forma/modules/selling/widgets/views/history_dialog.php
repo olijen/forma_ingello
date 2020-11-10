@@ -122,7 +122,7 @@ use yii\helpers\Url;
 
 
         }
-        //setInterval(updateList, 4000);
+        setInterval(updateList, 4000);
 
 
         div.scrollTop(div.prop('scrollHeight'));
