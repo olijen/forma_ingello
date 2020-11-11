@@ -87,10 +87,12 @@ class SellingService
     public static function getCompleteCount()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Selling::find(),
+            'query' => Selling::find()->where(['customer_id' => 15 ]),
         ]);
 
-        return $dataProvider->getTotalCount();
+
+
+        return (new SellingSearch())->search([])->getTotalCount();
     }
 
 //    public static function changeState($id, $state)
