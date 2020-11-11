@@ -6,6 +6,7 @@ use forma\modules\product\records\Color;
 use forma\modules\product\records\PackUnit;
 use forma\modules\product\records\Product;
 use forma\modules\product\records\ProductPackUnit;
+use forma\modules\product\records\ProductSearch;
 use forma\modules\purchase\records\purchase\Purchase;
 use forma\modules\purchase\services\PurchaseService;
 use yii\data\ActiveDataProvider;
@@ -88,7 +89,7 @@ class ProductService
             'query' => Product::find(),
         ]);
 
-        return $dataProvider->getTotalCount();
+        return (new ProductSearch())->search([])->getTotalCount();
     }
 
     public static function getListBySupplier($supplierId)
