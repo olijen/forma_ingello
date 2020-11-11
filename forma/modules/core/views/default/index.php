@@ -136,7 +136,7 @@ JS;
         for(var i = 0; i < small_widgets_in_block.length; i++){
             if(small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
                 small_widgets_in_block[i].className += ' collapsed-box small_widget';
-            $('.small_widget').find('.small_widget_header').css('display', 'block');
+            $('.small_widget').find('.small_widget_header').css('display', 'flex').css('justify-content', 'center');
             $('.small_widget').find('.big_widget_header').css('display', 'none');
 
         }
@@ -175,7 +175,7 @@ function(calEvent, jsEvent, view) {
         if(small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
             small_widgets_in_block[i].className += ' collapsed-box small_widget';
         console.log('ищем внутренние хедеры');
-        $('.small_widget').find('.small_widget_header').css('display', 'block');
+        $('.small_widget').find('.small_widget_header').css('display', 'flex').css('justify-content', 'center');
         $('.small_widget').find('.big_widget_header').css('display', 'none');
         
     }
@@ -201,7 +201,7 @@ function(calEvent, jsEvent, view) {
     for(var i = 0; i < small_widgets_in_block.length; i++){
         if(small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
             small_widgets_in_block[i].className += ' collapsed-box small_widget';
-        $('.small_widget').find('.small_widget_header').css('display', 'block');
+        $('.small_widget').find('.small_widget_header').css('display', 'flex').css('justify-content', 'center');
         $('.small_widget').find('.big_widget_header').css('display', 'none');
         request_string += "WidgetUser["+small_widgets_in_block[i].dataset.widget_name+"][active]=0&" +
          "WidgetUser["+small_widgets_in_block[i].dataset.widget_name+"][col]=0&" +
@@ -297,10 +297,11 @@ $widgetsForSortable2 = [];
     .small_widgets .sortable li h3{
         font-size: 48px;
     }
-
     .small_widgets .sortable .sortable-placeholder {
-        min-height: 60px;
+        border: 0;
+        min-height: 75px;
     }
+
 
     .sortable {
         min-height: 50px;
@@ -1152,14 +1153,12 @@ if($widgetNewOrder == true){
     }
 
     #panel_small_widget {
-        width: 300% !important;
         margin: 0 !important;
         white-space: nowrap !important;
     }
 
     #panel_small_widget li {
         display: inline-block  !important;
-        background: #acbfac;
         margin: 0px !important;
         padding: 0px !important;
         padding-right: 15px !important;
@@ -1203,6 +1202,12 @@ if($widgetNewOrder == true){
 
     .sortable.grid {
         border: 0 !important;
+    }
+
+    .small_widgets #panel_small_widget.sortable.grid {
+        border: 2px dashed rgba(0,0,0,0.9) !important;
+        border-radius: 10px;
+        padding: 10px;
     }
 
     .sortable.grid li {
