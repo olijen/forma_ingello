@@ -180,7 +180,8 @@ JS;
                       не было удаления линии которая проходит сквозь весь таймлайн-->
                       <div class="menu">
                           <div class="chart">
-                              <canvas id="planHeader" style=""></canvas>
+
+                              <?=SalesFunnelWidget::widget(['onlyChart' => true])?>
                           </div>
                           <?php
 
@@ -302,19 +303,7 @@ JS;
         }
     };
 
-    myLineChart1 = new Chart(document.getElementById("planHeader").getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: [<?=$salesProgress->getLabelsString()?>],
 
-            datasets: [{
-                label: 'Количество продаж',
-                data: [<?=$salesProgress->getDataString()?>],
-                backgroundColor: [<?=$salesProgress->getColorsString()?>],
-            }]
-        },
-        options: options
-    });
 
 
     function getId(index) {
