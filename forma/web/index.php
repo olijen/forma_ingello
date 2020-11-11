@@ -31,12 +31,16 @@ define('YII_DEBUG', true);
 //}
 
 
-function de($data){
+function de($data, $exit = true)
+{
     echo '<pre>';
     var_dump($data);
     echo '</pre>';
-    exit();
+    if ($exit) {
+        exit();
+    }
 }
+
 // Composer
 require(__DIR__ . '/../../vendor/autoload.php');
 
