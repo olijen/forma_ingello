@@ -227,6 +227,7 @@ class SystemWidget
             'options' => [
                 'placeholder' => ' ',
                 'multiple' => true,
+                'class' => 'select2 field',
             ],
             'pluginOptions' => [
                 'tags' => true,

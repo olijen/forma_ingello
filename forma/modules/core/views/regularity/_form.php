@@ -40,19 +40,42 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
 
     <?= $form->field($model, 'order', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
-    <?= $form->field($model, 'title', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
-
+    <div class="col-xs-12">
+        <?= $form->field($model, 'title')->widget(Widget::className(), [
+            'settings' => [
+                'lang' => 'ru',
+                'minHeight' => 200,
+                'plugins' => [
+                    'clips',
+                    'fullscreen',
+                    'imagemanager',
+                    'filemanager',
+                ],
+                'clips' => [
+                    ['Lorem ipsum...', 'Lorem...'],
+                    ['red', '<span class="label-red">red</span>'],
+                    ['green', '<span class="label-green">green</span>'],
+                    ['blue', '<span class="label-blue">blue</span>'],
+                ],
+                'imageUpload' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                'imageManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/images-get']),
+                'fileManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
+                'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
+            ],
+        ]); ?>
+    </div>
     <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
-    <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
-        'options' => [
-            'accept' => 'image/*',
-        ],
-        'pluginOptions' => [
-            'initialPreview' => $picture,
-        ],
-    ]); ?>
-
+    <div class="col-xs-12">
+        <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
+            'options' => [
+                'accept' => 'image/*',
+            ],
+            'pluginOptions' => [
+                'initialPreview' => $picture,
+            ],
+        ]); ?>
+    </div>
     <?= BaseHtml::hiddenInput('Item[pictureUrl]', $model->picture); ?>
 
     <?= $form->field($model, 'access')->checkbox([], false); ?>

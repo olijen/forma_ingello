@@ -128,13 +128,23 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                     return null;
                 },
                 'filter' => $filter,
-            ];
+                ];
         }
     }
     ?>
 
 
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.select2.field').on('change', function (e) {
+            console.log('эчто');
+            if (e.keyCode === 13){
+                alert('dwafesgr');
+            }
+        })
+    })
 
+</script>
 
     <?php if (!isset($_GET['catalog'])) : ?>
 
