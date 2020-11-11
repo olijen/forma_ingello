@@ -9,7 +9,7 @@ Url::remember(['/core/regularity/regularity', 'user-name' => Yii::$app->user->id
 $publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
 ?>
 <a class="btn btn-success" href='<?= $publicRegularityUrl?>'
-   style="position: absolute; top: 80px; right: 20px;">
+   style="float: right; text-align: right; padding-left: 5px;">
     <i class="fa fa-code"></i>
 </a>
 

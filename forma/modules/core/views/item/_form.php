@@ -59,7 +59,7 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
                 'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
         ]); ?>
-<?php echo \yii\helpers\Url::to(['/worker/worker/files-get'])?>
+
         <?= $form->field($model, 'color')->widget(ColorInput::classname()); ?>
 
         <?= $form->field($model, 'access')->checkbox([], false);?>

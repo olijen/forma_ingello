@@ -93,7 +93,8 @@ class RegularityController extends Controller
         $_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
         $currentUrl = Url::current();
         $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
-        return User::findOne(['username' => $currentUserName,]);// по логину находим юзера
+
+        return User::findOne(['username' => $currentUserName,])->id;// по логину находим юзера
     }
 
     public function actionSettings()
