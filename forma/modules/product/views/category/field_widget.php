@@ -1,4 +1,4 @@
-<div id="inpy">
+<div id="inpy" style="margin-top: 12px">
     <label>Значение <?php if (isset($fieldItem)){
         echo $fieldItem+1;
         }else{

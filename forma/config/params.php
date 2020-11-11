@@ -228,12 +228,12 @@ return [
     'menu' => [
         ['label' => 'Главная', 'url' => ['/'], 'icon' => 'home'],
 
-
-
-
         ['label'=>'Управление',
+            'options' => [
+                'style'=>'background-color:#00a65a; color:white;',
+                ],
             'url'=>['/core'],
-            'icon'=>'calendar',
+            'icon'=>'calendar',['options'=>['style'=>'color:white']],
             'items'=>[
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar'],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
@@ -259,6 +259,9 @@ return [
 
         [
             'label' => 'Продажи (CRM)',
+            'options' => [
+                'style'=>'color: white; background-color: #58628e;',
+            ],
             'url' => ['/selling/default'],
             'icon' => 'money-bill-wave',
             'items' => [
@@ -291,7 +294,11 @@ return [
             ]
         ],
         [
+
             'label' => 'Найм и проекты',
+            'options' => [
+                'style'=>'background-color:#F08080;',
+            ],
             'url' => '/hr/',
             'icon' => 'user-plus',
             'items' => [
@@ -304,6 +311,9 @@ return [
         ],
         [
             'label' => 'Продукты и услуги',
+            'options' => [
+                'style'=>'background-color:#f49258;',
+            ],
             'url' => '/product/default/',
             'icon' => 'cube',
             'items' => [
@@ -319,6 +329,9 @@ return [
         ],
         [
             'label' => 'Хранилища',
+            'options' => [
+                'style'=>'background-color:#dc7d22;',
+            ],
             'url' => ['/warehouse/warehouse'],
             'icon' => 'th',
             'items' => [
