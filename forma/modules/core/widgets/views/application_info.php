@@ -55,7 +55,7 @@ use yii\helpers\Url;
                     </a>
                     <?= \insolita\wgadminlte\LteSmallBox::widget([
                         'type' => \insolita\wgadminlte\LteConst::COLOR_RED,
-                        'title' => 113,
+                        'title' => (new \forma\modules\worker\records\WorkerSearch())->search([])->getTotalCount(),
                         'text' => '<h4>Отдел кадров</h4>',
                         'icon' => 'fa fa-users',
                         'footer' => '<b style="color: white;">ПЕРЕЙТИ В СИСТЕМУ</b>',

@@ -8,6 +8,9 @@ use yii\base\Widget;
 
 class SalesFunnelWidget extends Widget
 {
+
+    public $onlyChart = false;
+
     public function init()
     {
         parent::init();
@@ -16,6 +19,6 @@ class SalesFunnelWidget extends Widget
 
     public function run()
     {
-        return $this->render('sales_funnel');
+        return $this->render('sales_funnel', ['onlyChart' => $this->onlyChart]);
     }
 }
