@@ -36,26 +36,16 @@ use yii\widgets\Pjax;
 
             <?php DetachedBlock::begin(['example' => 'Общее']) ?>
 
-            <?php
-//            $form->field($model, 'type_id')->widget(Select2::className(), [
-//                'data' => Type::getList(),
-//                'options' => ['placeholder' => 'У каждого типа своя форма.'],
-//                'addon' => ['prepend' => [
-//                    'content' => ModalCreate::widget(['route' => Url::to(['/product/type/create'])]),
-//                    'asButton' => true,
-//                ]],
-//            ])
-            ?>
-
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'manufacturer_id')->widget(Select2::className(), [
                 'data' => Manufacturer::getList(),
                 'options' => ['class' => 'form-control', 'placeholder' => 'Выберите производителя ...'],
-                'addon' => ['prepend' => [
-                    'content' => ModalCreate::widget(['route' => Url::to(['/product/manufacturer/create'])]),
-                    'asButton' => true,
-                ]],
+                'addon' => [
+                    'prepend' => [
+                        'content' => ModalCreate::widget(['route' => '/product/manufacturer/create']),
+                        'asButton' => true,
+                    ]],
             ]) ?>
 
             <?= $form->field($model, 'sku', ['enableClientValidation' => false])->textInput(['maxlength' => true, 'readonly' => true]) ?>

@@ -12,15 +12,7 @@ class SkuGenerator
     {
         $sku = '';
 
-        $productTypeId = (int) $post['type_id'];
-
         $sku .= self::formatName($post['name']);
-
-        if ($productTypeId === Product::WINE_TYPE_ID && $post['year_chart']) {
-            $sku .= self::$_separator . self::formatYearChart($post['year_chart']);
-        } elseif ($productTypeId === Product::BOOZE_TYPE_ID && $post['batcher']) {
-            $sku .= self::$_separator . self::formatBatcher($post['batcher']);
-        }
 
         if (self::skuExists($sku)) {
             $i = 0;
