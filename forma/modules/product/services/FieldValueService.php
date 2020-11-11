@@ -53,8 +53,9 @@ class FieldValueService
                     self::save($fieldValueId, $fieldValue, false);
                 }
             } else {
-                FieldValue::deleteAll('id = ' . (int)$fieldValueId);
+                FieldValue::deleteAll(['id' => (int)$fieldValueId]);
             }
+            FieldProductValue::deleteAll(['field_id' => (int)$fieldValueId]);
         }
     }
 
