@@ -73,9 +73,16 @@ use forma\modules\product\records\Product;
                 .menuColor:hover >a >*{
                     color: #0a0a0a;
                 }
+                .menuColor.active > a >* {
+                    color: #0a0a0a;
+                }
                 .treeview-menu {
                     z-index: 9999;
                 }
+                /*.skin-green-light .sidebar-menu tree>ul:hover>a,*/
+                /*.skin-green-light .sidebar-menu tree>ul.active>a{*/
+                /*    color:#000;*/
+                /*    background:red !important;}*/
             </style>
 
             <?= \forma\modules\core\widgets\Menu::widget(
