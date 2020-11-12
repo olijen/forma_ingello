@@ -113,8 +113,9 @@ class SellingSearch extends Selling
         $query = Selling::find()->joinWith(['accessory'])
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
-            ->andWhere(['in', 'accessory.user_id', $ids])
             ->andWhere(['accessory.entity_class' => Selling::className()])
+            ->andWhere(['in', 'accessory.user_id', $ids])
+
             //->orderBy(['date_create' => SORT_DESC])
         ;
 

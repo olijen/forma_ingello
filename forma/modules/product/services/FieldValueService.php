@@ -29,15 +29,15 @@ class FieldValueService
     public static function mayBeSave($post, $fieldModel)
     {
         $fieldId = $post['Field']['id'];
-        if (SystemWidget::manyValuesWidgets($post['Field']['widget'])) {
 
+        if (SystemWidget::manyValuesWidgets($post['Field']['widget'])) {
             if (isset($post['FieldValueNew'])) {
                 self::eachFieldValueForCreate($post['FieldValueNew'], $fieldId, $post);
             }
             if (SystemWidget::manyValuesWidgets($fieldModel->widget)) {
-
                 if (isset($post['FieldValue'])) {
-                    self::eachFieldValueForUpdate($post['FieldValueNew'], $post);
+
+                    self::eachFieldValueForUpdate($post['FieldValue'], $post);
                 }
             }
         }
@@ -46,7 +46,6 @@ class FieldValueService
     public static function eachFieldValueForUpdate($eachFieldValue, $post)
     {
         foreach ($eachFieldValue as $fieldValueId => $fieldValue) {
-
             if (!empty($fieldValue['name'])) {
                 if (isset($post['FieldValueRadioButton']) && $post['FieldValueRadioButton'] == $fieldValueId) {
                     self::save($fieldValueId, $fieldValue, true);
@@ -54,8 +53,9 @@ class FieldValueService
                     self::save($fieldValueId, $fieldValue, false);
                 }
             } else {
-                FieldValue::deleteAll('id = ' . (int)$fieldValueId);
+                FieldValue::deleteAll(['id' => (int)$fieldValueId]);
             }
+            FieldProductValue::deleteAll(['field_id' => (int)$fieldValueId]);
         }
     }
 
@@ -78,6 +78,7 @@ class FieldValueService
         if (!is_null($fieldId)) {   //при создании новой модели нужно присвоить field id , при изменении - не нужно
             $model->field_id = $fieldId;
         }
+
         $model->name = $fieldValue['name'];
 
         if ($isMainRadio) { // Для радио баттона
@@ -89,14 +90,13 @@ class FieldValueService
             $model->is_main = '1';
         }
 
-        if (!$model->validate()) {
-            $model->errors;
-            var_dump($model->errors);
-            die();
+        if (!$model->save()) {
+            de($model);
+
+            de($model->errors);
         }
 
-        $model->save();
-        return $model;
+        return true;
     }
 
     public static function getFieldValue()

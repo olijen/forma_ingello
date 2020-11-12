@@ -317,6 +317,9 @@ p {
             </div>
         </div>
     <?php else: ?>
-        <?= 'Регламентов или юзера не существует' ?>
+        <?php if (!Yii::$app->user->isGuest){
+            echo '<br><br><br>';
+        }
+        echo 'Регламентов или юзера не существует' ?>
     <?php endif; ?>
 </div>

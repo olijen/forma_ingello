@@ -101,7 +101,7 @@ JS;
 
                               $eventDate = "";
                               $icon = "";
-                              foreach ($dataProviderHeader->models as $model) {
+                              foreach ($searchModelHeader->search(Yii::$app->request->queryParams)->models as $model) {
                                   foreach(Yii::$app->params['icons'] as $kIcon => $vIcon){
                                       if($model->class_name == $kIcon){
                                           $icon = $vIcon;
@@ -180,15 +180,16 @@ JS;
                       не было удаления линии которая проходит сквозь весь таймлайн-->
                       <div class="menu">
                           <div class="chart">
-                              <canvas id="planHeader" style=""></canvas>
+
+                              <?=SalesFunnelWidget::widget(['onlyChart' => true])?>
                           </div>
                           <?php
-
+                          //todo: отрабатывает кука на последние пять клиентов
                           $lastClients = Yii::$app->cache->getOrSet('lastClients', function () {
                               return \forma\modules\selling\services\SellingService::getLastClientsToHeader();
                           });
                             //$lastClients = \forma\modules\selling\services\SellingService::getLastClientsToHeader();
-                            foreach($lastClients as $client){
+                            foreach(\forma\modules\selling\services\SellingService::getLastClientsToHeader() as $client){
                                 if (isset($client->customer)) {
                                 ?>
                                 <p><?=$client->customer->name?>
@@ -221,8 +222,9 @@ JS;
                         $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
                             return $searchModelWarehouse->getWarehouseListHeader();
                         });
+                        //todo: плохо работают куки, я их очищаю в браузере он мне все равно гонит склады главного юзера.
 
-                            foreach($warehouses as $warehouse){?>
+                            foreach($searchModelWarehouse->getWarehouseListHeader() as $warehouse){?>
 
 
                          <?php $sum = 0;  foreach($warehouse->warehouseProducts as $products){
@@ -302,19 +304,7 @@ JS;
         }
     };
 
-    myLineChart1 = new Chart(document.getElementById("planHeader").getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: [<?=$salesProgress->getLabelsString()?>],
 
-            datasets: [{
-                label: 'Количество продаж',
-                data: [<?=$salesProgress->getDataString()?>],
-                backgroundColor: [<?=$salesProgress->getColorsString()?>],
-            }]
-        },
-        options: options
-    });
 
 
     function getId(index) {

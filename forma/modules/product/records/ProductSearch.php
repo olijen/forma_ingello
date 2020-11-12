@@ -49,30 +49,33 @@ class ProductSearch extends Product
 
     public function search($params)
     {
-
         $query = Product::find();
         $this->access($query);
-
+        de($params, false);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        if (isset($params['FieldProductValue']) ||
-            isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
-            $query->joinWith(['fieldProductValues']);
-        }
-
-        if (isset($params['FieldProductValue'])) {
-            $query = FieldProductValue::getSqlFieldProductValueFilter($query, $params['FieldProductValue']);
-        }
-
-        if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue') == true) {
-            $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
-        } else {
-            $query->groupBy(['product.id']);
-        }
-
         $this->load($params);
+
+//        if (isset($params['FieldProductValue']) ||
+//            isset($params['sort']) && stristr($params['sort'], 'FieldProductValue')) {
+//            $query->joinWith(['fieldProductValues']);
+//            $query->andWhere(['field_product_value.value' => 0, 'field_id' => 122]);
+//            $query->andWhere(['field_product_value.value' => 0, 'field_id' => 129]);
+//
+//        }
+
+//        if (isset($params['FieldProductValue'])) {
+//            $query = FieldProductValue::getSqlFieldProductValueFilter($query, $params['FieldProductValue']);
+//        }
+
+        if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue')) {
+//            $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
+        } else {
+//            $query->groupBy(['product.id']);
+        }
+
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

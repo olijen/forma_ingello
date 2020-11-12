@@ -94,6 +94,7 @@ class FieldController extends Controller
             if (isset($post['Field'])) {
                 $fieldModel = FieldService::updateField($post);
                 FieldValueService::mayBeSave($post, $fieldModel);
+//                de('dwa');
                 return $this->redirect(['category/update?id=' . $fieldModel->category_id]);
             }
         }

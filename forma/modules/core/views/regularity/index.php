@@ -9,7 +9,7 @@ Url::remember(['/core/regularity/regularity', 'user-name' => Yii::$app->user->id
 $publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
 ?>
 <a class="btn btn-success" href='<?= $publicRegularityUrl?>'
-   style="position: absolute; top: 80px; right: 20px;">
+   style="float: right; text-align: right; padding-left: 5px;">
     <i class="fa fa-code"></i>
 </a>
 
@@ -45,10 +45,13 @@ $menu = Yii::$app->params['menu'];
 foreach ($menu as $itemMain): ?>
     <div style="padding: 5px; border:1px solid #ccc;">
         <h2>
+
             <?= !empty($itemMain['icon']) ? '<i class="fa fa-' . $itemMain['icon'] . '"></i>' : '' ?>
             <?= !empty($itemMain['url']) ? '<a href="' . Url::to($itemMain['url']) . '">' : '' ?>
             <?= $itemMain['label'] ?>
             <?= !empty($itemMain['url']) ? '</a>' : '' ?>
+
+            <?php echo LinkHelper::replaceUrlOnButton(' {{'.$itemMain['url'][0]. '||'. $itemMain['label'].'}}'); ?>
 
           <span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($itemMain['url'])."||" .$itemMain['label']."}}") ?></span>
           <input style="font-size: 17px; width: 30%;" class="" value="{{<?= Url::to($itemMain['url']) ?>||<?= $itemMain['label'] ?>}}"/>
@@ -75,6 +78,7 @@ foreach ($menu as $itemMain): ?>
 
                         <span class=""><?php LinkHelper::replaceUrlOnButton(" {{".Url::to($item['url'])."||". $item['label']."}}") ?></span>
                       <br>                      <br>
+                        <?php echo LinkHelper::replaceUrlOnButton(' {{'.$item['url'][0]. '||'. $item['label'].'}}'); ?>
                         <input style="width:100%" class=""
                                     value="{{<?= Url::to($item['url']) ?>||<?= $item['label'] ?>}}"/>
                     </div>
