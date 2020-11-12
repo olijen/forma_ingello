@@ -111,7 +111,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                 'value' => function ($model) use ($field, $allFieldProductValue) {
                     foreach ($allFieldProductValue as $fieldProductValue) {
                         if ($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id) {
-
                             if (is_array($fieldProductValue->value)) {
                                 $multiSelectFieldProductValues = '';
                                 foreach ($fieldProductValue->value as $multiSelectFieldProductValue) {
@@ -129,26 +128,35 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                     return null;
                 },
                 'filter' => $filter,
-            ];
+                ];
         }
     }
     ?>
 
 
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.select2.field').on('change', function (e) {
+            console.log('эчто');
+            if (e.keyCode === 13){
+                alert('dwafesgr');
+            }
+        })
+    })
 
+</script>
 
     <?php if (!isset($_GET['catalog'])) : ?>
 
         <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => '', 'class' => 'btn btn-success',
+        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success',
             'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <br><br>
 
         <?= DynaGrid::widget([
-
             'allowSortSetting' => false,
             'showPersonalize' => true,
             'allowFilterSetting' => false,

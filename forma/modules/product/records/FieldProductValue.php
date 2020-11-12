@@ -130,7 +130,6 @@ class FieldProductValue extends \yii\db\ActiveRecord
 
     public static function getSqlFieldProductValueFilter($query, $fieldProductValues)
     {
-        $countFirstSql = false;
         foreach ($fieldProductValues as $fieldId => $productId) {
             foreach ($productId as $fieldProductValue) {
 
@@ -150,15 +149,10 @@ class FieldProductValue extends \yii\db\ActiveRecord
                 }
 
                 if (!empty($sqlFieldProductValue)) {
-                    $sql = '`value` = ANY (SELECT value
+                    $sql = 'field_product_value.`id` = ANY (SELECT id
                          FROM `field_product_value`
                          WHERE value LIKE ' . $sqlFieldProductValue . ' and `field_id` = ' . $fieldId . ')';
-                    if ($countFirstSql === false) {
                         $query->andWhere($sql);
-                        $countFirstSql = true;
-                    } else {
-                        $query->orWhere($sql);
-                    }
                 }
             }
         }
