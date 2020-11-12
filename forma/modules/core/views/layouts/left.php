@@ -70,6 +70,9 @@ use forma\modules\product\records\Product;
                 .menuColor > a > *{
                     color: white;
                 }
+                .menuColor:hover >a >*{
+                    color: #0a0a0a;
+                }
                 .treeview-menu {
                     z-index: 9999;
                 }

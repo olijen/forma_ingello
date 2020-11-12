@@ -64,7 +64,7 @@ class Product extends AccessoryActiveRecord
     {
         return [
             [['category_id', 'manufacturer_id', 'sku', 'name',], 'required'],
-            [['type_id', 'category_id', 'manufacturer_id', 'parent_id'], 'integer'],
+            [[ 'category_id', 'manufacturer_id', 'parent_id'], 'integer'],
             [['note'], 'string'],
             [['rating'], 'number'],
             [['sku', 'name'], 'string', 'max' => 255],
@@ -91,7 +91,7 @@ class Product extends AccessoryActiveRecord
             'sku' => 'Артикул',
             'name' => 'Наименование',
             'note' => 'Примечание',
-            'type_id' => 'Группа товаров',
+
             'rating' => 'Рейтинг',
 //            'volume' => 'Объем',
 //            'color' => 'Цвет',
