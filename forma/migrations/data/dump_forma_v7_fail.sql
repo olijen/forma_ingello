@@ -154,8 +154,7 @@ CREATE TABLE `currency` (
   `name` varchar(255) NOT NULL,
   `code` char(3) NOT NULL COMMENT 'ISO 4217 code',
   `rate` decimal(13,4) NOT NULL COMMENT 'US Dollar rate',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -718,7 +717,7 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `manufacturer_id` int(11) NOT NULL,
+  `manufacturer_id` int(11) DEFAULT NULL,
   `sku` varchar(255) NOT NULL,
   `customs_code` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -739,7 +738,7 @@ CREATE TABLE `product` (
   KEY `field_product_type_id_fk` (`type_id`),
   KEY `product-color_id-fk` (`color_id`),
   CONSTRAINT `field_product_category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `field_product_manufacturer_id_fk` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `field_product_manufacturer_id_fk` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `field_product_type_id_fk` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product-color_id-fk` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product-country_id_fk` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

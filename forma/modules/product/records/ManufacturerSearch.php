@@ -61,11 +61,11 @@ class ManufacturerSearch extends Manufacturer
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'manufacturer.id' => $this->id,
             'country_id' => $this->country_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'manufacturer.name', $this->name])
             ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;

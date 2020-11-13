@@ -40,14 +40,13 @@ class TalkController extends Controller
     public function actionSaveDialog()
     {
         $selling = SellingService::get(Yii::$app->request->post('id'));
-        $selling->dialog = date('d.m.Y H:i:s') .
+        $selling->dialog .= date('d.m.Y H:i:s') .
                             '<br/>' .
                             Yii::$app->request->post('dialog') .
                             '<br/>' .
                             Yii::$app->request->post('comment').
                             '<br/>' .
-                            Yii::$app->request->post('nextStep')
-                            . $selling->dialog;
+                            Yii::$app->request->post('nextStep');
 
         $selling->next_step = Yii::$app->request->post('nextStep');
         $selling->save();

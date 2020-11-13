@@ -230,11 +230,14 @@ return [
 
         ['label'=>'Управление',
             'options' => [
-                'class'=>'menuColor',
-                'style'=>'background-color:#00a65a;',
-            ],
+                'style'=>'background-color:#00a65a; color:white;',
+                ],
             'url'=>['/core'],
-            'icon'=>'calendar',
+            'icon'=>'calendar',[
+                'options'=>[
+                    'style'=>'color:red;'
+                ]
+        ],
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
                 ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
@@ -262,7 +265,7 @@ return [
             'label' => 'Продажи (CRM)',
             'options' => [
                 'class'=>'menuColor',
-                'style'=>'background-color:#58628e;',
+                'style'=>'color: white; background-color: #58628e;',
             ],
             'url' => ['/selling/default'],
             'icon' => 'money-bill-wave',
@@ -308,11 +311,11 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#F08080;',
             ],
-            'url' => '/hr?',
+            'url' => '/hr/',
             'icon' => 'user-plus',
             'items' => [
-                ['label' => 'Панель управления', 'url' => ['/hr'], 'icon' => 'laptop'],
-                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1?'], 'icon' => 'newspaper'],
+                ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
+                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
@@ -327,7 +330,7 @@ return [
             'url' => '/product/default/',
             'icon' => 'cube',
             'items' => [
-                ['label' => 'Панель управления', 'url' => ['/product/?'], 'icon' => 'laptop'],
+                ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
                 ['label' => 'Продукты и услуги', 'url' => ['/product/product'], 'icon' => 'cube'],
                 ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
                 ['label' => 'Категории', 'url' => ['/product/category'], 'icon' => 'object-group'],
@@ -346,8 +349,13 @@ return [
             'url' => ['/warehouse/warehouse'],
             'icon' => 'th',
             'items' => [
-                ['label' => 'Смотреть все', 'url' => ['/warehouse/warehouse/'], 'icon' => 'th'],
-                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main/'], 'icon' => 'boxes'],
+                [
+                    'label' => 'Смотреть все',
+                    'url' => ['/warehouse/warehouse'],
+                    'icon' => 'th'
+                ],
+
+                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
                 ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
                 ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
             ],
