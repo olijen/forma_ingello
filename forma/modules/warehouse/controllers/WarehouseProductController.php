@@ -160,7 +160,7 @@ class WarehouseProductController extends Controller
         }
     }
 
-    public function actionSearchForSelling($sellingId, $q, $selling_token = null)
+    public function actionSearchForSelling($sellingId, $q = '', $selling_token = null)
     {
         /** @var Selling $selling */
         $selling = SellingService::get($sellingId);
@@ -173,11 +173,14 @@ class WarehouseProductController extends Controller
 
         /** @var Warehouse $warehouse */
         $warehouse = $selling->warehouse;
+        Yii::debug(1);
 
         //todo: придумать условие на позволение гостю отобразить результаты поиска товара и усл
         if ($warehouse->belongsToUser() || !is_null($selling_token)) {//существует один из токенов по  таблице selling атрибут selling_token
-            if (Yii::$app->request->isAjax && $q) {
+            Yii::debug(2);
+            if (Yii::$app->request->isAjax ) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
+                Yii::debug(3);
 
                 return ['results' => RemainsService::searchByWarehouse($warehouse->id, $q)];
             }

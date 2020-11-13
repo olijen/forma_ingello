@@ -1,7 +1,9 @@
 <?php
 
+use forma\modules\core\components\LinkHelper;
 use forma\modules\selling\records\selling\StateDone;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
+use forma\modules\warehouse\services\RemainsService;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\widgets\Pjax;
@@ -21,6 +23,8 @@ use forma\modules\selling\widgets\TotalSumView;
  * @var float $sumTotal
  */
 
+$warehouseProducts = RemainsService::searchByWarehouse($unit->selling->warehouse,'');
+Yii::debug($warehouseProducts);
 ?>
 
 <?php Pjax::begin([
@@ -32,10 +36,36 @@ use forma\modules\selling\widgets\TotalSumView;
 <?php DetachedBlock::begin([
     'example' => 'Товар',
 ]); ?>
+<a href="/warehouse/warehouse">Список складов</a>
+<a href="/product/product">Список товаров</a>
+<?php
+echo '[<a
+                    class="select-modal-link"
+                    data-select="#selling-warehouse_id"
+                    data-action="view"
+                    href="' . Url::to(['/warehouse/warehouse/index']) . '"
+                >Список складов</a>]';
+
+echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/warehouse/warehouse' . "||" . "Список " . "}}"));
+
+echo '[<a
+                    class="select-modal-link"
+                    data-select="#interview-vacancy_id"
+                    data-action="create"
+                    href="' . Url::to(['/product/product']) . '"
+                >Список товаров</a>]';
+?>
+
+
 
 <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
 
+    <?php if ($warehouseProducts !== []) { ?>
+
 <?php if (!$unit->selling->stateIs(new StateDone())): ?>
+
+
+
 <div class="row">
 
     <?php $form = ActiveForm::begin([
@@ -79,6 +109,7 @@ use forma\modules\selling\widgets\TotalSumView;
     </div>
 <?php ActiveForm::end(); ?>
 </div>
+
 <?php endif; ?>
 <div class="row">
     <div class="col-md-12">
@@ -159,6 +190,13 @@ use forma\modules\selling\widgets\TotalSumView;
     ?>
     </div>
 </div>
+
+    <?php } else { ?>
+        <div class="row">
+            <h3>На вашем складе нет товаров! Перейдите по ссылке и добавьте товаров на склад.</h3>
+            <button onclick="location.href='/warehouse/warehouse/view?id=<?=$unit->selling->warehouse_id?>'">Склад</button>
+        </div>
+    <?php } ?>
 
 <?php DetachedBlock::end(); ?>
 

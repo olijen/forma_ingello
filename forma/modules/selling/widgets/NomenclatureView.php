@@ -22,7 +22,7 @@ class NomenclatureView extends Widget
             return false;
         }
 
-        $unit = $this-> getUnitModel();
+        $unit = $this->getUnitModel();
         $dataProvider = NomenclatureService::getDataProvider($this->sellingId);
         $selling_token = $this->selling_token;
 
