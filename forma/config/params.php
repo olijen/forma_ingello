@@ -235,10 +235,10 @@ return [
             'url'=>['/core'],
             'icon'=>'calendar',['options'=>['style'=>'color:white']],
             'items'=>[
+                ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar'],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
-                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
-                ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
                 [
                 'label' => 'Люди',
                 'url' => ['/core/default/people'],
