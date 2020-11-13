@@ -23,10 +23,6 @@ use forma\modules\core\widgets\DetachedBlock;
 
 Pjax::begin(['id' => 'purchase-form-pjax', 'enablePushState' => false]);
 
-if (!Yii::$app->request->isPjax) {
-   
-}
-
 ?>
 
 <?php DetachedBlock::begin([
@@ -61,7 +57,7 @@ if (!Yii::$app->request->isPjax) {
                     'default' => 'home',
                     'success' => 'check-square-o',
                     'error' => 'minus-square',
-                    'defaultOptions' => ['class'=>'text-muted'],
+                    'defaultOptions' => ['class' => 'text-muted'],
                 ],
             ])->dropDownList(Warehouse::getList(), ['prompt' => '']) ?>
         </div>
@@ -75,7 +71,7 @@ if (!Yii::$app->request->isPjax) {
                     'default' => 'truck',
                     'success' => 'check-square-o',
                     'error' => 'minus-square',
-                    'defaultOptions' => ['class'=>'text-muted'],
+                    'defaultOptions' => ['class' => 'text-muted'],
                 ],
             ];
             if (!$model->stateIs(new StateConfirm())) {
@@ -90,7 +86,7 @@ if (!Yii::$app->request->isPjax) {
             }
 
             ?>
-            <?= $form->field($model, 'supplier_id',$supplierSelectOptions)->dropDownList(Supplier::getList()); ?>
+            <?= $form->field($model, 'supplier_id', $supplierSelectOptions)->dropDownList(Supplier::getList()); ?>
         </div>
     </div>
     <div class="row">
@@ -101,14 +97,14 @@ if (!Yii::$app->request->isPjax) {
                     'default' => 'calendar',
                     'success' => 'check-square-o',
                     'error' => 'minus-square',
-                    'defaultOptions' => ['class'=>'text-muted'],
+                    'defaultOptions' => ['class' => 'text-muted'],
                 ],
                 'inputOptions' => ['disabled' => '1', 'value' =>
                     date('d.m.Y H:i:s', strtotime($model->date_create)),
                 ],
             ]) ?>
         </div>
-        
+
         <div class="col-md-6">
             <?= $form->field($model, 'date_complete', [
                 'feedbackIcon' => [
@@ -116,7 +112,7 @@ if (!Yii::$app->request->isPjax) {
                     'default' => 'calendar-check-o',
                     'success' => 'check-square-o',
                     'error' => 'minus-square',
-                    'defaultOptions' => ['class'=>'text-muted'],
+                    'defaultOptions' => ['class' => 'text-muted'],
                 ],
                 'inputOptions' => ['disabled' => '1', 'value' =>
                     $model->date_complete ?
@@ -133,7 +129,7 @@ if (!Yii::$app->request->isPjax) {
                     'default' => 'pencil',
                     'success' => 'check-square-o',
                     'error' => 'minus-square',
-                    'defaultOptions' => ['class'=>'text-muted'],
+                    'defaultOptions' => ['class' => 'text-muted'],
                 ],
             ]) ?>
         </div>
@@ -142,13 +138,13 @@ if (!Yii::$app->request->isPjax) {
     <?php if (!$model->stateIs(new StateConfirm())): ?>
         <div class="row">
             <div class="col-md-12 form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success' ]) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
     <?php endif; ?>
 
     <?php ActiveForm::end(); ?>
-    
+
 </div>
 
 <?php DetachedBlock::end(); ?>
