@@ -134,16 +134,15 @@ class Warehouse extends \yii\db\ActiveRecord
         return new WarehouseQuery(get_called_class());
     }
 
-    public static function getList($byUser = true)
+    public static function getList()
     {
-        $query = self::find();
-        if ($byUser) {
-            $query->joinWith(['warehouseUsers'], false, 'INNER JOIN')
-                ->where(['user_id' => Yii::$app->user->id]);
-        }
+        $query = self::find()
+            ->joinWith(['warehouseUsers'], false, 'INNER JOIN')
+            ->where(['user_id' => Yii::$app->user->id]);
+
         return ArrayHelper::map($query->all(), 'id', 'name');
     }
-    
+
     public function getProductsList()
     {
         $products = WarehouseProduct::find()
@@ -153,6 +152,7 @@ class Warehouse extends \yii\db\ActiveRecord
 
         return ArrayHelper::map($products, 'product.id', 'product.name');
     }
+
 //todo: побезопаснее отписать, то как юзер должен как то относится к продаже
     public function belongsToUser()
     {

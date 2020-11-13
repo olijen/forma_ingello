@@ -33,7 +33,7 @@ $this->title = 'Перемещение';
             [
                 'attribute' => 'to_warehouse_id',
                 'value' => 'toWarehouseName',
-                'filter' => \forma\modules\warehouse\records\Warehouse::getList(false),
+                'filter' => \forma\modules\warehouse\records\Warehouse::getList(),
                 'label' => 'К складу',
             ],
             'name',

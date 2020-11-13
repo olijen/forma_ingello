@@ -3,9 +3,9 @@
 return [
     'adminEmail' => 'admin@example.com',
     'bsDependencyEnabled' => false,
-   // 'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
+    // 'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
     'client_id' => '573197289123-bf4oqdrq58pihbf0eqjdql1act4q7o6c.apps.googleusercontent.com',
-   // 'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
+    // 'client_secret' => 'fwk_NIyYpeiJ7jwKtQsF8hJb',
     'client_secret' => '6uAuwMd1jVeNsbAHtsimAapB',
     'applications' => [
         'Apps1' => [
@@ -33,74 +33,74 @@ return [
         ],
         'Apps2' => [
             'Mod2' => [
-                    0 => 'InventorizationProduct',
-                    1 => 'Item',
-                    2 => 'Manufacturer',
-                    3 => 'Message',
-                    4 => 'Migration',
-                ],
-                'Mod3' => [
-                    0 => 'OverheadCost',
-                    1 => 'PackUnit',
-                    2 => 'Patient',
-                    3 => 'Product',
-                    4 => 'ProductPackUnit',
-                ],
-                'Mod4' => [
-                    0 => 'Project',
-                    1 => 'ProjectUser',
-                    2 => 'ProjectVacancy',
-                    3 => 'ProjectVacancyOld',
-                    4 => 'Purchase',
-                ],
+                0 => 'InventorizationProduct',
+                1 => 'Item',
+                2 => 'Manufacturer',
+                3 => 'Message',
+                4 => 'Migration',
             ],
+            'Mod3' => [
+                0 => 'OverheadCost',
+                1 => 'PackUnit',
+                2 => 'Patient',
+                3 => 'Product',
+                4 => 'ProductPackUnit',
+            ],
+            'Mod4' => [
+                0 => 'Project',
+                1 => 'ProjectUser',
+                2 => 'ProjectVacancy',
+                3 => 'ProjectVacancyOld',
+                4 => 'Purchase',
+            ],
+        ],
         'Apps3' => [
             'Mod4' => [
-                    0 => 'PurchaseOverheadCost',
-                    1 => 'PurchaseProduct',
-                    2 => 'Regularity',
-                    3 => 'Request',
-                    4 => 'RequestStrategy',
-                ],
-                'Mod5' => [
-                    0 => 'RequestStrategyOld',
-                    1 => 'Selling',
-                    2 => 'SellingProduct',
-                    3 => 'State',
-                    4 => 'StateToState',
-                ],
-                'Mod6' => [
-                    0 => 'Strategy',
-                    1 => 'Supplier',
-                    2 => 'SystemEvent',
-                    3 => 'SystemEventUser',
-                    4 => 'TaxRate',
-                ],
+                0 => 'PurchaseOverheadCost',
+                1 => 'PurchaseProduct',
+                2 => 'Regularity',
+                3 => 'Request',
+                4 => 'RequestStrategy',
             ],
+            'Mod5' => [
+                0 => 'RequestStrategyOld',
+                1 => 'Selling',
+                2 => 'SellingProduct',
+                3 => 'State',
+                4 => 'StateToState',
+            ],
+            'Mod6' => [
+                0 => 'Strategy',
+                1 => 'Supplier',
+                2 => 'SystemEvent',
+                3 => 'SystemEventUser',
+                4 => 'TaxRate',
+            ],
+        ],
         'Apps4' => [
             'Mod6' => [
-                    0 => 'TblDynagrid',
-                    1 => 'TblDynagridDtl',
-                    2 => 'Transit',
-                    3 => 'TransitOverheadCost',
-                    4 => 'TransitProduct',
-                ],
-                'Mod7' => [
-                    0 => 'Type',
-                    1 => 'User',
-                    2 => 'Vacancy',
-                    3 => 'Warehouse',
-                    4 => 'WarehouseProduct',
-                ],
-                'Mod8' => [
-                    0 => 'WarehouseUser',
-                    1 => 'Worker',
-                    2 => 'WorkerVacancy',
-                ]
+                0 => 'TblDynagrid',
+                1 => 'TblDynagridDtl',
+                2 => 'Transit',
+                3 => 'TransitOverheadCost',
+                4 => 'TransitProduct',
+            ],
+            'Mod7' => [
+                0 => 'Type',
+                1 => 'User',
+                2 => 'Vacancy',
+                3 => 'Warehouse',
+                4 => 'WarehouseProduct',
+            ],
+            'Mod8' => [
+                0 => 'WarehouseUser',
+                1 => 'Worker',
+                2 => 'WorkerVacancy',
             ]
+        ]
     ],
     "main" =>
-    "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"State\",\"StateToState\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
+        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"State\",\"StateToState\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
     "colors" => [
         "HRM" => '#f08080',
         "ERP" => '#f49258',
@@ -169,8 +169,6 @@ return [
     ],
 
 
-
-
     'warehouse' => [
         [
             'label' => 'Смотреть все',
@@ -193,74 +191,74 @@ return [
     ],
 
     'icons' => [
-            '' => 'line-chart',
+        '' => 'line-chart',
         'Regularity' => 'tree',
-    'People' => 'laptop',
-    'Customer' => 'user-circle',
-    'Worker' => 'user',
-    'Supplier' => 'truck',
-    'Manufacturer' => 'id-card',
-    'Dent.ingello.com' => 'heartbeat',
-    'Signup' => 'globe',
-    'Referral' => 'book',
-    'Selling' => 'money-bill-wave',
-    'SpeechModule' => 'list',
+        'People' => 'laptop',
+        'Customer' => 'user-circle',
+        'Worker' => 'user',
+        'Supplier' => 'truck',
+        'Manufacturer' => 'id-card',
+        'Dent.ingello.com' => 'heartbeat',
+        'Signup' => 'globe',
+        'Referral' => 'book',
+        'Selling' => 'money-bill-wave',
+        'SpeechModule' => 'list',
         'Freelancehunt' => 'users',
-    'BidForm' => 'dollar',
-    'Hr' => 'volume-up',
-    'Project?ProjectSearch[state]=1' => 'newspaper-o',
-    'Vacancy' => 'id-card',
-    'Product' => 'cube',
-    'Category' => 'object-group',
-    'PackUnit' => 'cubes',
-    'Country' => 'podcast',
-    'Currency' => 'money-bill-alt',
-    'TaxRate' => 'balance-scale',
-    'Warehouse' => 'th',
-    'Inventorization' => 'boxes',
-    'Purchase' => 'download',
-    'Transit' => 'retweet',
-    '#' => 'square',
-    'Applan.ingello.com' => 'sitemap',
-    'Ecocom.ingello.com' => 'money',
+        'BidForm' => 'dollar',
+        'Hr' => 'volume-up',
+        'Project?ProjectSearch[state]=1' => 'newspaper-o',
+        'Vacancy' => 'id-card',
+        'Product' => 'cube',
+        'Category' => 'object-group',
+        'PackUnit' => 'cubes',
+        'Country' => 'podcast',
+        'Currency' => 'money-bill-alt',
+        'TaxRate' => 'balance-scale',
+        'Warehouse' => 'th',
+        'Inventorization' => 'boxes',
+        'Purchase' => 'download',
+        'Transit' => 'retweet',
+        '#' => 'square',
+        'Applan.ingello.com' => 'sitemap',
+        'Ecocom.ingello.com' => 'money',
     ],
 
     'menu' => [
         ['label' => 'Главная', 'url' => ['/'], 'icon' => 'home'],
 
-        ['label'=>'Управление',
+        ['label' => 'Управление',
             'options' => [
-                'style'=>'background-color:#00a65a; color:white;',
-                ],
-            'url'=>['/core'],
-            'icon'=>'calendar',['options'=>['style'=>'color:white']],
-            'items'=>[
-                ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar'],
-                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
-                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+                'style' => 'background-color:#00a65a; color:white;',
+            ],
+            'url' => ['/core'],
+            'icon' => 'calendar', ['options' => ['style' => 'color:white']],
+            'items' => [
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree'],
+                ['label' => 'Календарь', 'url' => ['/event'], 'icon' => 'calendar'],
+                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
-                'label' => 'Люди',
-                'url' => ['/core/default/people'],
-                'icon' => 'users',
-                'items' => [
-                    ['label' => 'Панель управления', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
-                    ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
-                    ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
-                    ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
-                    ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
-                    ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
-                    ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
-                    ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
-                ]
+                    'label' => 'Люди',
+                    'url' => ['/core/default/people'],
+                    'icon' => 'users',
+                    'items' => [
+                        ['label' => 'Панель управления', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
+                        ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
+                        ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
+                        ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
+                        ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
+                        ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
+                        ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
+                        ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
+                    ]
+                ],
             ],
         ],
-],
 
         [
             'label' => 'Продажи (CRM)',
             'options' => [
-                'style'=>'color: white; background-color: #58628e;',
+                'style' => 'color: white; background-color: #58628e;',
             ],
             'url' => ['/selling/default'],
             'icon' => 'money-bill-wave',
@@ -279,7 +277,7 @@ return [
                     'items' => [
 
                     ]
-                ],[
+                ], [
                     'label' => 'Скрипты',
                     'url' => ['/selling/speech-module'],
                     'icon' => 'list',
@@ -297,7 +295,7 @@ return [
 
             'label' => 'Найм и проекты',
             'options' => [
-                'style'=>'background-color:#F08080;',
+                'style' => 'background-color:#F08080;',
             ],
             'url' => '/hr/',
             'icon' => 'user-plus',
@@ -307,12 +305,13 @@ return [
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
+                ['label' => 'Скрипты', 'url' => ['/selling/speech-module'], 'icon' => 'list',],
             ],
         ],
         [
             'label' => 'Продукты и услуги',
             'options' => [
-                'style'=>'background-color:#f49258;',
+                'style' => 'background-color:#f49258;',
             ],
             'url' => '/product/default/',
             'icon' => 'cube',
@@ -330,7 +329,7 @@ return [
         [
             'label' => 'Хранилища',
             'options' => [
-                'style'=>'background-color:#dc7d22;',
+                'style' => 'background-color:#dc7d22;',
             ],
             'url' => ['/warehouse/warehouse'],
             'icon' => 'th',

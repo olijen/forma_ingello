@@ -29,6 +29,7 @@ class TaxRate extends AccessoryActiveRecord
     public function rules()
     {
         return [
+            [['percent'], 'required'],
             [['percent'], 'number'],
             [['name'], 'string', 'max' => 255],
         ];

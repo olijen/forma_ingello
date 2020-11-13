@@ -63,7 +63,7 @@ class Product extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'manufacturer_id', 'sku', 'name',], 'required'],
+            [['sku', 'name',], 'required'],
             [['category_id', 'manufacturer_id', 'parent_id'], 'integer'],
             [['note'], 'string'],
             [['rating'], 'number'],

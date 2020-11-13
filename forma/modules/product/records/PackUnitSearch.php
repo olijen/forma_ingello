@@ -62,7 +62,7 @@ class PackUnitSearch extends PackUnit
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'pack_unit.id' => $this->id,
             'bottles_quantity' => $this->bottles_quantity,
         ]);
 
