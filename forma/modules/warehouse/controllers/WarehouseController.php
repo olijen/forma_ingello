@@ -42,6 +42,11 @@ class WarehouseController extends Controller
         $searchModel = new WarehouseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        if (Yii::$app->request->isAjax) {
+            $this->layout = '@app/modules/core/views/layouts/modal';
+            return $this->render('index', compact('searchModel', 'dataProvider'));
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

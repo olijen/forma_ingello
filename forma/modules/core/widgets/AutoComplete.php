@@ -30,7 +30,7 @@ class AutoComplete extends Select2
 
         $this->pluginOptions = array_merge($this->pluginOptions, [
             'allowClear' => true,
-            'minimumInputLength' => 1,
+            //'minimumInputLength' => 1,
             'ajax' => [
                 'url' => $this->url,
                 'dataType' => 'json',
