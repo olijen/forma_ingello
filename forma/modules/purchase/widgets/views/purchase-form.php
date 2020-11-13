@@ -24,16 +24,7 @@ use forma\modules\core\widgets\DetachedBlock;
 Pjax::begin(['id' => 'purchase-form-pjax', 'enablePushState' => false]);
 
 if (!Yii::$app->request->isPjax) {
-    $js = <<<JS
-        $("document").ready(function() {
-            $("#purchase-form-pjax")
-            .on("pjax:complete", function(xhr, textStatus, error, options) {
-                $.pjax.reload({container: '#purchase-nomenclature-pjax'});
-                krajeeDialog.alert('The changes have been saved');
-            });
-        });
-JS;
-    $this->registerJs($js);
+   
 }
 
 ?>
@@ -99,8 +90,7 @@ JS;
             }
 
             ?>
-            <?= $form->field($model, 'supplier_id', $supplierSelectOptions)
-                ->dropDownList(Supplier::getList(), ['prompt' => '']) ?>
+            <?= $form->field($model, 'supplier_id',$supplierSelectOptions)->dropDownList(Supplier::getList()); ?>
         </div>
     </div>
     <div class="row">
