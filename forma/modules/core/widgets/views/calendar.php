@@ -11,7 +11,7 @@ $DragJS = <<<JS
 $('.chartjs-size-monitor').remove();
 (function($){//fix jquery
     jQuery.fn.zIndex = function(a) {
-        console.log(a);
+        alert(a );
         return $(this).css("zIndex", a);
     }
 })(jQuery);

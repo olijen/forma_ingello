@@ -56,7 +56,7 @@ implements NomenclatureInterface
     public function rules()
     {
         return [
-            [['supplier_id', 'warehouse_id', 'name'], 'required'],
+            [['supplier_id', 'warehouse_id'], 'required'],
             [['supplier_id', 'warehouse_id', 'state'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
             [['name'], 'string', 'max' => 100],
@@ -74,7 +74,7 @@ implements NomenclatureInterface
             'id' => 'ID',
             'supplier_id' => 'Поставщик',
             'warehouse_id' => 'Склад',
-            'name' => 'Название',
+            'name' => 'Коментарий',
             'date_create' => 'Дата создания',
             'date_complete' => 'Дата завершения',
             'state' => 'Состояние',

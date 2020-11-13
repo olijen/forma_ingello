@@ -15,7 +15,8 @@ use forma\modules\warehouse\records\WarehouseProduct;
     <?php $form = ActiveForm::begin(); ?>
 
     <?php $productsList = /* isset($warehouse) ? WarehouseProduct::getAvailableForAddingList($warehouse->id) :
-        */ Product::getList() ?>
+        */
+        Product::getList() ?>
 
     <?= $form->field($model, 'product_id')->widget(kartik\select2\Select2::className(), [
         'data' => $productsList,
@@ -31,11 +32,10 @@ use forma\modules\warehouse\records\WarehouseProduct;
         <?= $form->field($model, 'warehouse_id')->hiddenInput()->label(false) ?>
 
     <?php endif ?>
-    
+
     <?= $form->field($model, 'quantity')->textInput() ?>
 
-    <?php $currList = /* isset($warehouse) ? WarehouseProduct::getAvailableForAddingList($warehouse->id) :
-        */ \forma\modules\product\records\Currency::getList() ?>
+    <?php $currList = \forma\modules\product\records\Currency::getList() ?>
 
     <?= $form->field($model, 'currency_id')->widget(kartik\select2\Select2::className(), [
         'data' => $currList,

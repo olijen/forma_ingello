@@ -48,6 +48,7 @@ class Worker extends AccessoryActiveRecord
     public function rules()
     {
         return [
+            [['status', 'gender', 'name', 'surname', 'patronymic', 'passport', 'apply_position'], 'required'],
             [['status', 'gender', 'experience'], 'integer'],
             [['date_birth'], 'safe'],
             [['collaborated'], 'boolean'],
@@ -122,7 +123,7 @@ class Worker extends AccessoryActiveRecord
      */
     public function getFullName()
     {
-        return $this->name .' '. $this->surname;
+        return $this->name . ' ' . $this->surname;
     }
 
     public function getStatus()
@@ -151,7 +152,7 @@ class Worker extends AccessoryActiveRecord
 
     public function search($params)
     {
-        $search =  new WorkerSearch();
+        $search = new WorkerSearch();
 
         return $search->search($params);
     }
@@ -173,8 +174,8 @@ class Worker extends AccessoryActiveRecord
 
                 try {
                     $workerVacancy->save();
-                } catch(Exception $e) {
-                    
+                } catch (Exception $e) {
+
                 }
             }
         }

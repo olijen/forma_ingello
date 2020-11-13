@@ -230,9 +230,8 @@ return [
 
         ['label'=>'Управление',
             'options' => [
-                'class'=>'menuColor',
-                'style'=>'background-color:#00a65a;',
-            ],
+                'style'=>'background-color:#00a65a; color:white;',
+                ],
             'url'=>['/core'],
             'icon'=>'calendar',[
                 'options'=>[
@@ -240,10 +239,10 @@ return [
                 ]
         ],
             'items'=>[
-                ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',['options'=>['style'=>'color:red']]],
-                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
-                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+                ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
+                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Люди',
                     'url' => ['/core/default/people'],
@@ -253,7 +252,7 @@ return [
                         ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
                         ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                         ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
-                        ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
+                        ['label' => 'Производители', 'url' => ['/product/manufacturer/'], 'icon' => 'id-card'],
                         ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
@@ -285,7 +284,13 @@ return [
                     'items' => [
 
                     ]
-                ],[
+                ],
+                [
+                    'label' => 'Клиенты',
+                    'url' => ['/customer/customer'],
+                    'icon' => 'user-circle'
+                ],
+                [
                     'label' => 'Скрипты',
                     'url' => ['/selling/speech-module'],
                     'icon' => 'list',
