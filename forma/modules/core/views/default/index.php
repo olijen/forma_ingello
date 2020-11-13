@@ -361,6 +361,7 @@ $widgetsForSortable2 = [];
         border: none;
         min-height: 0px;
         padding: 1px;
+        width: 95%;
     }
 </style>
 

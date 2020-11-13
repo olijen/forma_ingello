@@ -7,13 +7,15 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\selling\records\talk\Answer */
 /* @var $form yii\widgets\ActiveForm */
+
+
 ?>
 
 <div class="answer-form">
 
     <?php $form = ActiveForm::begin(); ?>
     К какой стратегии относится вопрос? <br>
-    <?= Html::dropDownList('strategy', 'null', \yii\helpers\ArrayHelper::map(\forma\modules\selling\records\talk\Strategy::find()->all(), 'id', 'name'),
+    <?= Html::dropDownList('strategy', 'null', \yii\helpers\ArrayHelper::map((new \forma\modules\selling\records\strategy\StrategySearch())->createQuery()->all(), 'id', 'name'),
         [
             'required' => 'true',
             'class' => 'form-control'
@@ -21,7 +23,7 @@ use yii\widgets\ActiveForm;
     <br>Выберите запрос\вопрос\кейс <br>
     <?= $form->field($model, 'request_id')
         ->textInput()
-        ->dropDownList(\yii\helpers\ArrayHelper::map(\forma\modules\selling\records\talk\Request::find()->all(), 'id', 'text'))
+        ->dropDownList(\yii\helpers\ArrayHelper::map((new \forma\modules\selling\records\talk\RequestSearch())->createQuery()->all(), 'id', 'text'))
     ?>
     <br> <b>Или</b> создайте новый запрос\вопрос\кейс <br>
     <input type="text" name="request" class="form-control" />

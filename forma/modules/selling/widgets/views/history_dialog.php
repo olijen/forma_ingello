@@ -88,6 +88,7 @@ use yii\helpers\Url;
         var div = $("#chat");
 
         $('#history_form').on('submit', (e) => {
+            document.getElementsByClassName('redactor-editor')[0].textContent = '';
             heightForScroll = div[0].scrollHeight;
             e.preventDefault();
             $.pjax({
@@ -98,8 +99,9 @@ use yii\helpers\Url;
               push: false,
               replace: false,
               timeout: 10000,
-              scrollTo: $('#chat').offset()
-            });
+              scrollTo: $('#chat').offset(),
+
+            }).done(function () {});
         });
 
         function updateList() {

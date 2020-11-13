@@ -11,9 +11,11 @@ $this->title = Yii::t('app', 'Состояния');
 
 
 ?>
-<div class="state-index col col-md-4">
+<div class="state-index col ">
 
-
+    <p>
+        Создайте состояния воронки продаж, в которых может быть продажа, например: Знакомство, Презентация, Подписание, Оплата
+    </p>
 
     <p>
         <?= Html::a(Yii::t('app', 'Создать состояние'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -32,7 +34,6 @@ $this->title = Yii::t('app', 'Состояния');
 
             'name',
             'order',
-            'id',
         ],
     ]); ?>
 
