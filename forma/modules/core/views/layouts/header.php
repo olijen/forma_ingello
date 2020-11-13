@@ -497,6 +497,9 @@ if ('selling' == Yii::$app->controller->module->id) {
     $a = '#f49258';
 }elseif ('customer' == Yii::$app->controller->module->id){
     $color = 'white';
+}elseif ('inventorization' == Yii::$app->controller->module->id){
+    $bgColor = '#f49258';
+    $color = 'white';
 }
 ?>
 

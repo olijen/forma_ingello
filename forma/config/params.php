@@ -234,16 +234,12 @@ return [
                 'style'=>'background-color:#00a65a;',
             ],
             'url'=>['/core'],
-            'icon'=>'calendar',[
-                'options'=>[
-                    'style'=>'color:red;'
-                ]
-        ],
+            'icon'=>'calendar',
             'items'=>[
-                ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',['options'=>['style'=>'color:red']]],
-                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
-                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+                ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
+                ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Люди',
                     'url' => ['/core/default/people'],
@@ -253,7 +249,7 @@ return [
                         ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
                         ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                         ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
-                        ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
+                        ['label' => 'Производители', 'url' => ['/product/manufacturer/'], 'icon' => 'id-card'],
                         ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
@@ -266,7 +262,7 @@ return [
             'label' => 'Продажи (CRM)',
             'options' => [
                 'class'=>'menuColor',
-                'style'=>'color: white; background-color: #58628e;',
+                'style'=>'background-color:#58628e;',
             ],
             'url' => ['/selling/default'],
             'icon' => 'money-bill-wave',
@@ -285,7 +281,13 @@ return [
                     'items' => [
 
                     ]
-                ],[
+                ],
+                [
+                    'label' => 'Клиенты',
+                    'url' => ['/customer/customer'],
+                    'icon' => 'user-circle'
+                ],
+                [
                     'label' => 'Скрипты',
                     'url' => ['/selling/speech-module'],
                     'icon' => 'list',
@@ -306,11 +308,11 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#F08080;',
             ],
-            'url' => '/hr/',
+            'url' => '/hr?',
             'icon' => 'user-plus',
             'items' => [
-                ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
-                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
+                ['label' => 'Панель управления', 'url' => ['/hr'], 'icon' => 'laptop'],
+                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1?'], 'icon' => 'newspaper'],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
@@ -325,7 +327,7 @@ return [
             'url' => '/product/default/',
             'icon' => 'cube',
             'items' => [
-                ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
+                ['label' => 'Панель управления', 'url' => ['/product/?'], 'icon' => 'laptop'],
                 ['label' => 'Продукты и услуги', 'url' => ['/product/product'], 'icon' => 'cube'],
                 ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
                 ['label' => 'Категории', 'url' => ['/product/category'], 'icon' => 'object-group'],
@@ -344,13 +346,8 @@ return [
             'url' => ['/warehouse/warehouse'],
             'icon' => 'th',
             'items' => [
-                [
-                    'label' => 'Смотреть все',
-                    'url' => ['/warehouse/warehouse'],
-                    'icon' => 'th'
-                ],
-
-                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
+                ['label' => 'Смотреть все', 'url' => ['/warehouse/warehouse/'], 'icon' => 'th'],
+                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main/'], 'icon' => 'boxes'],
                 ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
                 ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
             ],
