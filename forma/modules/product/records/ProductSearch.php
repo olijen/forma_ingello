@@ -51,29 +51,26 @@ class ProductSearch extends Product
     {
         $query = Product::find();
         $this->access($query);
-        de($params, false);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
 
-//        if (isset($params['FieldProductValue']) ||
-//            isset($params['sort']) && stristr($params['sort'], 'FieldProductValue')) {
-//            $query->joinWith(['fieldProductValues']);
-//            $query->andWhere(['field_product_value.value' => 0, 'field_id' => 122]);
-//            $query->andWhere(['field_product_value.value' => 0, 'field_id' => 129]);
-//
-//        }
+        if (isset($params['FieldProductValue']) ||
+            isset($params['sort']) && stristr($params['sort'], 'FieldProductValue')) {
+            $query->joinWith(['fieldProductValues']);
+        }
 
-//        if (isset($params['FieldProductValue'])) {
-//            $query = FieldProductValue::getSqlFieldProductValueFilter($query, $params['FieldProductValue']);
-//        }
+        if (isset($params['FieldProductValue'])) {
+            $query = FieldProductValue::getSqlFieldProductValueFilter($query, $params['FieldProductValue']);
+        }
 
         if (isset($params['sort']) && stristr($params['sort'], 'FieldProductValue')) {
-//            $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
+            $dataProvider = FieldProductValue::getSortDataProvider($params['sort'], $dataProvider);
         } else {
-//            $query->groupBy(['product.id']);
+            $query->groupBy(['product.id']);
         }
 
 

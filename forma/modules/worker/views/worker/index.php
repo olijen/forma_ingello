@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\worker\records\WorkerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,37 +18,31 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         <?= Html::a(Yii::t('app', 'Новый кадр'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-           // 'id',
+            // 'id',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
-                'value' => function($data){
+                'value' => function ($data) {
                     return $data->status ? 'Работает' : 'Свободен';
                 }
             ],
             'name',
             'surname',
-            //'patronymic',
             'date_birth',
             [
                 'attribute' => 'gender',
                 'format' => 'raw',
-                'value' => function($data){
-                    return $data->status ? 'Ж' : 'М';
+                'value' => function ($model) {
+                        return $model->gender ? 'Ж' : 'М';
                 }
             ],
             'passport',
-            //'apply_position',
-            //'experience',
-            //'experience_description',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

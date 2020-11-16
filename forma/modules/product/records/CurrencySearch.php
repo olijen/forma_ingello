@@ -63,7 +63,7 @@ class CurrencySearch extends Currency
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'currency.id' => $this->id,
             'rate' => $this->rate,
         ]);
 

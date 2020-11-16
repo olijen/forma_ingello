@@ -63,18 +63,13 @@ class Product extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'manufacturer_id', 'sku', 'name',], 'required'],
-            [['type_id', 'category_id', 'manufacturer_id', 'parent_id'], 'integer'],
+            [['sku', 'name',], 'required'],
+            [['category_id', 'manufacturer_id', 'parent_id'], 'integer'],
             [['note'], 'string'],
             [['rating'], 'number'],
             [['sku', 'name'], 'string', 'max' => 255],
-
-            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => Type::className(), 'targetAttribute' => ['type_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['manufacturer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacturer::className(), 'targetAttribute' => ['manufacturer_id' => 'id']],
-//            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
-//            [['color_id'], 'exist', 'skipOnError' => true, 'targetClass' => Color::className(), 'targetAttribute' => ['color_id' => 'id']],
-//            [['pack_unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => PackUnit::className(), 'targetAttribute' => ['pack_unit_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
@@ -91,19 +86,7 @@ class Product extends AccessoryActiveRecord
             'sku' => 'Артикул',
             'name' => 'Наименование',
             'note' => 'Примечание',
-            'type_id' => 'Группа товаров',
             'rating' => 'Рейтинг',
-//            'volume' => 'Объем',
-//            'color' => 'Цвет',
-//            'year_chart' => 'Год производства',
-//            'proof' => 'Крепость',
-
-//            'customs_code' => 'Таможенный код',
-//            'batcher' => 'Дозатор',
-
-//            'country_id' => 'Страна',
-//            'color_id' => 'Цвет',
-//            'pack_unit_id' => 'Упаковка',
             'parent_id' => 'Родитель',
 
         ];
@@ -199,14 +182,18 @@ class Product extends AccessoryActiveRecord
             if ($MultiSelect->field->widget == 'widgetMultiSelect' && !empty($MultiSelect->value)) {
                 $MultiSelect->value = json_decode($MultiSelect->value);
                 $MultiSelectValues = [];
-                foreach ($MultiSelect->value as $multiSelectId) {
-                    foreach ($MultiSelect->field->fieldValues as $fieldValue) {
-                        if ($multiSelectId == $fieldValue->id) {
-                            $MultiSelectValues [] = $fieldValue->name;
+                if (!empty($MultiSelect->value)) {
+                    Yii::debug('$MultiSelect->value');
+                    Yii::debug($MultiSelect->value);
+                    foreach ($MultiSelect->value as $multiSelectId) {
+                        foreach ($MultiSelect->field->fieldValues as $fieldValue) {
+                            if ($multiSelectId == $fieldValue->id) {
+                                $MultiSelectValues [] = $fieldValue->name;
+                            }
                         }
                     }
+                    $MultiSelect->value = $MultiSelectValues;
                 }
-                $MultiSelect->value = $MultiSelectValues;
             }
         }
 

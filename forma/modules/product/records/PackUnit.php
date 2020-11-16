@@ -34,7 +34,7 @@ class PackUnit extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['name', 'bottles_quantity'], 'required'],
+            [['name', 'bottles_quantity', 'volume'], 'required'],
             [['bottles_quantity', 'volume'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
@@ -48,7 +48,7 @@ class PackUnit extends AccessoryActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'bottles_quantity' => 'Количество бутылок',
+            'bottles_quantity' => 'Количество обьектов',
             'volume' => 'Объем',
         ];
     }
@@ -91,8 +91,7 @@ class PackUnit extends AccessoryActiveRecord
         $query = self::find()
             ->joinWith(['accessory'])
             ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => self::className()])
-        ;
+            ->andWhere(['accessory.entity_class' => self::className()]);
 
         return ArrayHelper::map($query->all(), 'id', 'name');
     }

@@ -65,7 +65,21 @@ use forma\modules\product\records\Product;
                 </div>
             </form>
             <!-- /.search form -->
+<?php
 
+$bgColor = '';
+if ('selling'== Yii::$app->controller->module->id){
+    $bgColor ='#58628e';
+}elseif ('hr' == Yii::$app->controller->module->id){
+    $bgColor = '#F08080';
+}elseif ('product' == Yii::$app->controller->module->id){
+    $bgColor = '#f49258';
+}elseif ('warehouse' == Yii::$app->controller->module->id){
+    $bgColor ='#f49258';
+}elseif ('country' == Yii::$app->controller->module->id){
+    $bgColor ='#f49258';
+}
+?>
             <style>
                 .menuColor > a > *{
                     color: white;
@@ -73,16 +87,22 @@ use forma\modules\product\records\Product;
                 .menuColor:hover >a >*{
                     color: #0a0a0a;
                 }
-                .menuColor.active > a >* {
-                    color: #0a0a0a;
+                .skin-green-light .sidebar-menu>li.active>a{
+                    border-top: dashed 2px black;
+                    border-bottom: dashed 2px black;
+                    color: white;
+                    background-color: <?php echo $bgColor?>;
                 }
+
+                .menuColor.active > a > * {
+                    color: white;
+                }
+
+                /*}*/
                 .treeview-menu {
                     z-index: 9999;
                 }
-                /*.skin-green-light .sidebar-menu tree>ul:hover>a,*/
-                /*.skin-green-light .sidebar-menu tree>ul.active>a{*/
-                /*    color:#000;*/
-                /*    background:red !important;}*/
+
             </style>
 
             <?= \forma\modules\core\widgets\Menu::widget(

@@ -1,7 +1,9 @@
 <?php
 
+use forma\modules\core\components\LinkHelper;
 use forma\modules\selling\records\selling\StateDone;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
+use forma\modules\warehouse\services\RemainsService;
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
 use yii\widgets\Pjax;
@@ -21,6 +23,8 @@ use forma\modules\selling\widgets\TotalSumView;
  * @var float $sumTotal
  */
 
+$warehouseProducts = RemainsService::searchByWarehouse($unit->selling->warehouse,'');
+Yii::debug($warehouseProducts);
 ?>
 
 <?php Pjax::begin([
@@ -29,13 +33,24 @@ use forma\modules\selling\widgets\TotalSumView;
     'enableReplaceState' => false,
 ]) ?>
 
-<?php DetachedBlock::begin([
-    'example' => 'Товар',
-]); ?>
+
+<div class="bs-example">
+    <div class="detached-block-example" style="margin-bottom: 10px">Товар
+        <?php if (!isset($_GET['selling_token'])) { ?>
+        <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/warehouse/warehouse' . "||" . " Список складов" . "}}"), 'th');?>
+        <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/product/product' . "||" . " Список товаров" . "}}"), 'cube');?>
+        <?php } ?>
+    </div>
+
 
 <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
 
+    <?php if ($warehouseProducts !== []) { ?>
+
 <?php if (!$unit->selling->stateIs(new StateDone())): ?>
+
+
+
 <div class="row">
 
     <?php $form = ActiveForm::begin([
@@ -79,6 +94,7 @@ use forma\modules\selling\widgets\TotalSumView;
     </div>
 <?php ActiveForm::end(); ?>
 </div>
+
 <?php endif; ?>
 <div class="row">
     <div class="col-md-12">
@@ -160,7 +176,16 @@ use forma\modules\selling\widgets\TotalSumView;
     </div>
 </div>
 
-<?php DetachedBlock::end(); ?>
+    <?php } else { ?>
+        <div class="row">
+            <div class="col-md-12">
+                <p style="color: red; margin-top: 15px">На вашем складе нет товаров! Перейдите <a href="" onclick="location.href='/purchase/form/index'">по ссылке</a> и добавьте товары в закупку.</p>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+</div>
+
 
 <?php DetachedBlock::begin([
     'example' => 'Итого',

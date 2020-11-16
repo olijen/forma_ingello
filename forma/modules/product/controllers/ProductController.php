@@ -60,6 +60,7 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -77,6 +78,7 @@ class ProductController extends Controller
 
     public function actionCreate()
     {
+
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $model = ProductService::save(null, $post);

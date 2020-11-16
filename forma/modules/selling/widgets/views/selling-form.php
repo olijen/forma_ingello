@@ -112,7 +112,7 @@ if (!Yii::$app->request->isPjax) {
     <?php if (!$model->stateIs(new StateDone())): ?>
         <div class="row">
             <div class="col-md-12 form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'selling-form-submit-button']) ?>
+                <button type="submit" id="selling-form-submit-button" class="btn btn-success"><i class="fa fa-save"></i> Сохранить</button>
             </div>
         </div>
     <?php endif; ?>

@@ -86,7 +86,7 @@ class TransitSearch extends Transit
 
 
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'transit.name', $this->name])
             ->andFilterWhere(['between', 'date_create', $this->date_create_start, $this->date_create_end]);
 
         if ($this->date_complete) {

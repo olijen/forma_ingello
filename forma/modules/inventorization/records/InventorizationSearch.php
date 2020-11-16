@@ -76,11 +76,11 @@ class InventorizationSearch extends Inventorization
             'state' => $this->state,
         ]);
 
-        if (isset($params['date_range'])) {
-            $this->date_start = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range'])[0]));
-            $this->date_end = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range'])[1]) + 60 * 60 * 24);
-        }
-
+//        if (isset($params['date_range'])) {
+//            $this->date_start = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range'])[0]));
+//            $this->date_end = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range'])[1]) + 60 * 60 * 24);
+//        }
+//de($this->name);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['BETWEEN', 'date', $this->date_start, $this->date_end]);
 
