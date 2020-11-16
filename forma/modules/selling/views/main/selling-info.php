@@ -24,7 +24,7 @@ use forma\modules\selling\widgets\HistoryView;
 <h2 class="text-center">Продажа №<?=$selling->id?> <?=$selling->name?></h2>
 <div class="selling_info">
     <?php Pjax::begin() ?>
-    <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=$state->description?>">
+    <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=strip_tags($state->description)?>">
             <?=$state->name?></button></p>
     <div class="bs-example">
         <div class="detached-block-example">Ваши данные</div>

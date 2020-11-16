@@ -13,8 +13,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin();
     ?>
 
-    <?= $form->field($model, 'request_id')->textInput()->dropDownList(\yii\helpers\ArrayHelper::map($request, 'id', 'text')) ?>
-    <?= $form->field($model, 'strategy_id')->textInput()->dropDownList(\yii\helpers\ArrayHelper::map($strategy, 'id', 'name')) ?>
+    <?= $form->field($model, 'request_id')->textInput()->dropDownList(\yii\helpers\ArrayHelper::map((new \forma\modules\selling\records\talk\RequestSearch())->createQuery()->all(), 'id', 'text')) ?>
+    <?= $form->field($model, 'strategy_id')->textInput()->dropDownList(\yii\helpers\ArrayHelper::map((new \forma\modules\selling\records\strategy\StrategySearch())->createQuery()->all(), 'id', 'name')) ?>
 
 
 

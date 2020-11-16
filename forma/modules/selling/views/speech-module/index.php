@@ -1,4 +1,7 @@
 <?php
+$this->title = Yii::t(
+        'app', 'Речевые модули'
+);
 ?>
 
 <div class="row">

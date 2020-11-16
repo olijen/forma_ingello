@@ -245,7 +245,7 @@ return [
                     'url' => ['/core/default/people'],
                     'icon' => 'users',
                     'items' => [
-                        ['label' => 'Панель управления', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
+                        ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
                         ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
                         ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                         ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
@@ -278,6 +278,13 @@ return [
                     'label' => 'Продажи клиентам',
                     'url' => ['/selling/main'],
                     'icon' => 'money-bill-wave',
+                    'items' => [
+
+                    ]
+                ],
+                [
+                    'label' => 'Состояния',
+                    'url' => ['/selling/main-state/index'],
                     'items' => [
 
                     ]

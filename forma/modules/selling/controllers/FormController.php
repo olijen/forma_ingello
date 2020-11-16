@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\controllers;
 
+use forma\modules\selling\records\state\StateSearch;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Url;
@@ -13,6 +14,10 @@ class FormController extends Controller
 {
     public function actionIndex($id = null)
     {
+        $searchModel = new StateSearch();
+        if($searchModel->userSearch(Yii::$app->request->queryParams)->getTotalCount() < 1)
+            return $this->redirect('/selling/main-state/index');
+
         $model = SellingService::get($id);
         $sellingState = State::findOne($model->state_id);
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])
