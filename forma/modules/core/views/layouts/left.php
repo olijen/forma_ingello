@@ -95,18 +95,14 @@ if ('selling'== Yii::$app->controller->module->id){
                 }
 
                 .menuColor.active > a > * {
-                    color: black;
+                    color: white;
                 }
 
                 /*}*/
                 .treeview-menu {
                     z-index: 9999;
                 }
-                .skin-green-light .sidebar-menu >ul:hover>a,
-                .skin-green-light .sidebar-menu >ul.active>a{
-                    color:#000;
-                    background:red;
-                }
+
             </style>
 
             <?= \forma\modules\core\widgets\Menu::widget(

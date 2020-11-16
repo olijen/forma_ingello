@@ -230,14 +230,11 @@ return [
 
         ['label'=>'Управление',
             'options' => [
+                'class'=>'menuColor',
                 'style'=>'background-color:#00a65a; color:white;',
                 ],
             'url'=>['/core'],
-            'icon'=>'calendar',[
-                'options'=>[
-                    'style'=>'color:red;'
-                ]
-        ],
+            'icon'=>'calendar',
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
                 ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
