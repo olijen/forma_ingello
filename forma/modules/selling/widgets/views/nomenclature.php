@@ -33,29 +33,14 @@ Yii::debug($warehouseProducts);
     'enableReplaceState' => false,
 ]) ?>
 
-<?php DetachedBlock::begin([
-    'example' => 'Товар',
-]); ?>
-<a href="/warehouse/warehouse">Список складов</a>
-<a href="/product/product">Список товаров</a>
-<?php
-echo '[<a
-                    class="select-modal-link"
-                    data-select="#selling-warehouse_id"
-                    data-action="view"
-                    href="' . Url::to(['/warehouse/warehouse/index']) . '"
-                >Список складов</a>]';
 
-echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/warehouse/warehouse' . "||" . "Список " . "}}"));
-
-echo '[<a
-                    class="select-modal-link"
-                    data-select="#interview-vacancy_id"
-                    data-action="create"
-                    href="' . Url::to(['/product/product']) . '"
-                >Список товаров</a>]';
-?>
-
+<div class="bs-example">
+    <div class="detached-block-example" style="margin-bottom: 10px">Товар
+        <?php if (!isset($_GET['selling_token'])) { ?>
+        <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/warehouse/warehouse' . "||" . " Список складов" . "}}"), 'th');?>
+        <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/product/product' . "||" . " Список товаров" . "}}"), 'cube');?>
+        <?php } ?>
+    </div>
 
 
 <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
@@ -193,12 +178,14 @@ echo '[<a
 
     <?php } else { ?>
         <div class="row">
-            <h3>На вашем складе нет товаров! Перейдите по ссылке и добавьте товаров на склад.</h3>
-            <button onclick="location.href='/warehouse/warehouse/view?id=<?=$unit->selling->warehouse_id?>'">Склад</button>
+            <div class="col-md-12">
+                <p style="color: red; margin-top: 15px">На вашем складе нет товаров! Перейдите <a href="" onclick="location.href='/purchase/form/index'">по ссылке</a> и добавьте товары в закупку.</p>
+            </div>
         </div>
     <?php } ?>
+</div>
+</div>
 
-<?php DetachedBlock::end(); ?>
 
 <?php DetachedBlock::begin([
     'example' => 'Итого',

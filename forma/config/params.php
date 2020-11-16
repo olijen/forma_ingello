@@ -288,6 +288,7 @@ return [
                 [
                     'label' => 'Состояния',
                     'url' => ['/selling/main-state/index'],
+                    'icon' => 'dot-circle',
                     'items' => [
 
                     ]
