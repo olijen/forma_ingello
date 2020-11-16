@@ -85,7 +85,7 @@ endif;
                     ]])?></div>
         </div>
             <?php endif; ?>
-        <div class="row">
+        <div>
             <?php if (isset($_GET['date_to']) && isset($_GET['end_time'])): ?>
             <div class="col-xs-6">
                 <?php $model->date_to = $_GET['date_to'] ?>
@@ -119,8 +119,8 @@ endif;
 
     <div class="col-xs-12 col-md-12">
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Сохранить',
-                ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-primary',2]) ?>
+            <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Изменить',
+                ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-success',2]) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
