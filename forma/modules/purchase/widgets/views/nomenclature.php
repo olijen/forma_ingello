@@ -53,7 +53,6 @@ Pjax::begin([
 
     <div class="col-md-3">
         <?php
-        
         echo $form->field($unit, 'product_id')->widget(Select2::classname(), [
             'data' => \forma\modules\product\records\Product::getList(),
             'options' => ['placeholder' => 'Поиск в базе'],

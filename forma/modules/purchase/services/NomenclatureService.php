@@ -22,6 +22,7 @@ class NomenclatureService
 {
     public static function addPosition($post)
     {
+
         $post['OverheadCost']['currency_id'] = $post['PurchaseProduct']['currency_id'];
 
         /** @var OverheadCost $overheadCost */
@@ -45,6 +46,8 @@ class NomenclatureService
 
             $model->pack_unit_id = $model->product->pack_unit_id;
             $model->save();
+            Yii::debug('addPosition $model');
+            Yii::debug($model);
         }
 
         return $model;

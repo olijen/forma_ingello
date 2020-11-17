@@ -4,11 +4,8 @@ use forma\modules\core\services\RegularityAndItemPictureService;
 use kartik\file\FileInput;
 use yii\helpers\BaseHtml;
 use yii\helpers\Html;
-use kartik\form\ActiveForm;
-use kartik\color\ColorInput;
-use yii\helpers\Url;
 use vova07\imperavi\Widget;
-use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Regularity */

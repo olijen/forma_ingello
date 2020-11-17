@@ -37,6 +37,8 @@ class Worker extends AccessoryActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $workerVacanciesArray;
+
     public static function tableName()
     {
         return 'worker';
@@ -48,7 +50,7 @@ class Worker extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['status', 'gender', 'name', 'surname', 'patronymic', 'passport', 'apply_position','workerVacancies'], 'required'],
+            [['status', 'gender', 'name', 'surname', 'patronymic', 'passport', 'apply_position'], 'required'],
             [['status', 'gender', 'experience'], 'integer'],
             [['date_birth'], 'safe'],
             [['collaborated'], 'boolean'],
@@ -63,6 +65,7 @@ class Worker extends AccessoryActiveRecord
         if ($this->getIsNewRecord()) {
             return [];
         }
+
         return ArrayHelper::getColumn(
             WorkerVacancy::findAll(['worker_id' => $this->id]),
             'vacancy_id'

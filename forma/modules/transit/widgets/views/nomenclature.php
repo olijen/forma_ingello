@@ -50,11 +50,9 @@ Pjax::begin([
     <?= $form->field($unit, 'transit_id')->hiddenInput()->label(false) ?>
 
     <div class="col-md-3">
-        <?= $form->field($unit, 'product_id')->widget(AutoComplete::className(), [
-            'url' => Url::to([
-                '/warehouse/warehouse-product/search-for-transit',
-                'transitId' => $unit->transit_id,
-            ]),
+        <?= $form->field($unit, 'product_id')->widget(\kartik\select2\Select2::className(), [
+            'data' => \forma\modules\product\records\Product::getList(),
+            'options' => ['placeholder' => 'Выберите товар ...'],
         ]) ?>
     </div>
     <div class="col-md-1">
