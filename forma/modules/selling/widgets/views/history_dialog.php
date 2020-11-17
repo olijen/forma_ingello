@@ -65,16 +65,7 @@ use yii\helpers\Url;
 
     <div class="form-group">
 
-        <?= Html::submitButton('Добавить', ['class' => 'btn btn-success'])?>
-
-        <?= $talk
-            ? Html::a('Разговор по скрипту', Url::to('/selling/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])
-            : ''
-        ?>
-
-        <?php if ($talk) : ?>
-          <a class="btn btn-success" href="/selling/main/show-selling?selling_token=<?=$model->selling_token?>">Ссылка для клиента</a>
-        <?php endif ?>
+        <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane"></i> Отправить</button>
 
     </div>
 
@@ -88,6 +79,7 @@ use yii\helpers\Url;
         var div = $("#chat");
 
         $('#history_form').on('submit', (e) => {
+            document.getElementsByClassName('redactor-editor')[0].textContent = '';
             heightForScroll = div[0].scrollHeight;
             e.preventDefault();
             $.pjax({
@@ -98,8 +90,9 @@ use yii\helpers\Url;
               push: false,
               replace: false,
               timeout: 10000,
-              scrollTo: $('#chat').offset()
-            });
+              scrollTo: $('#chat').offset(),
+
+            }).done(function () {});
         });
 
         function updateList() {

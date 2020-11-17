@@ -17,7 +17,7 @@ use vova07\imperavi\Widget;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'order')->textInput(['maxlength' => true]) ?>
         <div class="form-group">
-            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
         </div>
     </div>
     <div class="col-md-7 block">

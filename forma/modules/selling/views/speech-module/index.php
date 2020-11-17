@@ -1,4 +1,7 @@
 <?php
+$this->title = Yii::t(
+        'app', 'Речевые модули'
+);
 ?>
 
 <div class="row">
@@ -13,7 +16,7 @@
         <?=\yii\helpers\Html::a('Смотреть вопросы', ['/selling/request'], ['class' => 'btn btn-block btn-success' ]) ?>
     </div>
     <div class="form-group">
-        <?=\yii\helpers\Html::a('Смотреть стратегий', ['/selling/strategy'], ['class' => 'btn btn-block btn-success' ]) ?>
+        <?=\yii\helpers\Html::a('Смотреть стратегии', ['/selling/strategy'], ['class' => 'btn btn-block btn-success' ]) ?>
     </div>
     <div class="form-group">
         <?=\yii\helpers\Html::a('Связать вопрос и стратегию', ['/selling/request-strategy'], ['class' => 'btn btn-block btn-success' ]) ?>

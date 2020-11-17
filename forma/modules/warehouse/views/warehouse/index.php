@@ -26,6 +26,7 @@ $this->title = 'Все хранилища';
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_list',
+        'options' => ['class' => 'row'],
 
         'itemOptions' => ['class' => 'col-md-4']
     ]);?>

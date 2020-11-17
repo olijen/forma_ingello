@@ -2,8 +2,9 @@
 use forma\modules\core\widgets\DetachedBlock;
 
 
-
+$this->title = Yii::t('app', 'Разговор по скриптам');
 ?>
+
 
 <div class="row">
     <div class="col-md-6">

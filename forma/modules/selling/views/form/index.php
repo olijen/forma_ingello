@@ -1,5 +1,6 @@
 <?php
 
+use forma\modules\core\components\LinkHelper;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\widgets\SellingFormView;
 use forma\modules\selling\widgets\NomenclatureView;
@@ -27,9 +28,9 @@ $description= null;
 <?php if (!empty($_GET['id'])) : ?>
 
     <div class="bs-example">
-        <div class="detached-block-example">Состояние</div>
+        <div class="detached-block-example" style="margin-bottom: 10px">Состояние <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/selling/main-state' . "||" . " Изменить состояния" . "}}"), 'dot-circle');?></div>
 
-        <div class="operation-states">
+        <div class="operation-states" style="margin-top: 20px;">
             <div class="row">
                 <div class="col-md-12">
                     <form id="w1" class="form-vertical" action="/selling/form?id=47" method="post" role="form">

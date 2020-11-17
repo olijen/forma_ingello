@@ -52,9 +52,13 @@ class RemainsService
 
         $warehouseProducts = WarehouseProduct::find()
             ->joinWith(['product'])
-            ->where(['warehouse_product.warehouse_id' => $warehouseId])
-            ->andWhere(['OR', ['LIKE', 'product.name', $q], ['LIKE', 'product.sku', $q]])
-            ->all();
+            ->where(['warehouse_product.warehouse_id' => $warehouseId]);
+
+        if(strlen($q) > 0)
+            $warehouseProducts->andWhere(['OR', ['LIKE', 'product.name', $q], ['LIKE', 'product.sku', $q]]);
+
+        $warehouseProducts = $warehouseProducts->all();
+        \Yii::debug($warehouseProducts);
 
         foreach($warehouseProducts as $warehouseProduct) {
             $productQty = self::getAvailable($warehouseProduct->product_id, $warehouseId);

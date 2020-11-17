@@ -30,7 +30,7 @@ class StrategyService
      */
     public static function getList()
     {
-        return ArrayHelper::map(Strategy::find()->all(), 'id', 'name');
+        return ArrayHelper::map((new \forma\modules\selling\records\strategy\StrategySearch())->createQuery()->all(), 'id', 'name');
     }
 
 }
