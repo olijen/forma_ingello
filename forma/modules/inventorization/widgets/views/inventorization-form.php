@@ -23,7 +23,6 @@ if (!Yii::$app->request->isPjax) {
         $("document").ready(function() {
             $("#inventorization-form-pjax").on("pjax:complete", function(xhr, textStatus, error, options) {
                 $.pjax.reload({container: '#inventorization-table-pjax'});
-                alert('The changes have been saved');
             });
         });
 JS;

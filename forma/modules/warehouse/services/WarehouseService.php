@@ -3,6 +3,7 @@
 namespace forma\modules\warehouse\services;
 
 use forma\modules\core\components\NomenclatureUnitInterface;
+use forma\modules\inventorization\records\Inventorization;
 use forma\modules\overheadcost\services\OverheadCostService;
 use forma\modules\product\services\TaxRateService;
 use forma\modules\purchase\records\purchaseproduct\PurchaseProduct;
@@ -180,5 +181,13 @@ class WarehouseService
             ->where(['warehouse.id' => $warehouseId])
             ->andWhere(['inventorization.state' => 0])
             ->exists();
+    }
+
+    public static function reviewsByInventorizationReturnModel($warehouseId)
+    {
+        return Inventorization::find()
+            ->where(['warehouse_id' => $warehouseId])
+            ->andWhere(['inventorization.state' => 0])
+            ->one();
     }
 }

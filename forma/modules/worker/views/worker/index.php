@@ -1,5 +1,6 @@
 <?php
 
+use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -34,12 +35,26 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
             ],
             'name',
             'surname',
-            'date_birth',
+            [
+                'attribute' => 'date_birth',
+                'format' => 'raw',
+                'filter' => DatePicker::widget([
+                    'name' => 'WorkerSearch[date_birth]',
+                    'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                    'value' => isset($_GET['WorkerSearch']['date_birth']) ?
+                        $_GET['WorkerSearch']['date_birth'] : '',
+                ]),
+            ],
+
             [
                 'attribute' => 'gender',
                 'format' => 'raw',
                 'value' => function ($model) {
-                        return $model->gender ? 'Ж' : 'М';
+                    return $model->gender ? 'Ж' : 'М';
                 }
             ],
             'passport',
