@@ -311,12 +311,13 @@ JS;
         return [<?=$salesProgress->getComaListOfSales()?>][index];
     }
 
-    planHeader.onclick = function(evt){
-        console.log('нажали на воронку продаж');
-        var activePoints = myLineChart1.getElementsAtEvent(evt);
-        console.log(activePoints);
-        window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
-    };
+    // planHeader.onclick = function(evt){
+    //     alert(evt())
+    //     console.log('нажали на воронку продаж');
+    //     var activePoints = myLineChart1.getElementsAtEvent(evt);
+    //     console.log(activePoints);
+    //     window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
+    // };
 </script>
 
 <?php

@@ -73,7 +73,7 @@ foreach ($menu as $itemMain): ?>
 
             <div class="col-md-3">
                 <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon'] ?>"></i></span>
+                    <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon']; ?>"></i></span>
                     <div class="info-box-content">
 
 

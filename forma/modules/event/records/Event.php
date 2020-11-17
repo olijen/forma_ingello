@@ -49,7 +49,9 @@ class Event extends \yii\db\ActiveRecord
             [['name', 'date_from', 'date_to', 'start_time','end_time'], 'required'],
             [['event_type_id', 'status'], 'integer'],
             [['text'], 'string'],
-            [['date_from', 'date_to', 'start_time','end_time','event_type_id','status','text'], 'safe'],
+            [['date_from', 'date_to', 'event_type_id','status','text'], 'safe'],
+            [['start_time'],'time','format'=>'hh:mm:ss'],
+            [['end_time'],'time','format'=>'hh:mm:ss'],
             [['name'], 'string', 'max' => 255]
         ];
     }
