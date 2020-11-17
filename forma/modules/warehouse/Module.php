@@ -168,6 +168,10 @@ class Module extends \yii\base\Module
     {
         return WarehouseService::reviewsByInventorization($warehouseId);
     }
+    public function reviewsByInventorizationReturnModel($warehouseId)
+    {
+        return WarehouseService::reviewsByInventorizationReturnModel($warehouseId);
+    }
 
     public function getProduct($warehouseProductId)
     {
