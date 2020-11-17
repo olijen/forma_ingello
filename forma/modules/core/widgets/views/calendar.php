@@ -318,7 +318,7 @@ $widgetsForSortable2 = [];
                     'right' => 'month,agendaWeek,listWeek,timelineDay,agendaDay'
                 ],
                 'nowIndicator' => true,
-                'eventLimit' => true,
+                'eventLimit' => false,
                 'selectable' => true,
                 'selectHelper' => true,
                 'droppable' => true,

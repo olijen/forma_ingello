@@ -61,6 +61,7 @@ class EventController extends Controller
      */
     public function actionCreate()
     {
+        var_dump($_GET);
         $model = new Event();
         $model->loadDefaultValues(); //load default data from db
         $searchModel = new EventSearch();
@@ -68,7 +69,7 @@ class EventController extends Controller
 
 
         if (Yii::$app->request->isAjax) {
-           $this->layout = '@app/modules/core/views/layouts/modal';
+            $this->layout = '@app/modules/core/views/layouts/modal';
         }
 
         if ($model->load(Yii::$app->request->post())) {
@@ -83,7 +84,6 @@ class EventController extends Controller
                     echo "<script>$('#modal').modal('hide')</script>";
                     echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                     echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
-
                     exit;
                 }
 
@@ -133,23 +133,33 @@ class EventController extends Controller
         if ($model->validate()){
 
             if ($model->load(Yii::$app->request->post())){
-            if ($model->save()) {
+
+                if ($model->save()) {
+                    if(isset($_POST['close'])){
+                        echo "<script>$('#modal').modal('hide')</script>";
+                        echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
+                        echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
+                        echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";
+                        exit;
+                    }
+                    if (isset($_GET['json'])) {
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return $model;
+                    }
+                    //return $this->redirect(['/event', 'id' => $model->id]);
+                }
+            } else {
                 if (isset($_GET['json'])) {
 
                     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-                    return $model;
+                    return $model->getErrors();
                 }
-//                return $this->redirect(['/event', 'id' => $model->id]);
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
             }
-        } else {
-            if (isset($_GET['json'])) {
-                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                return $model->getErrors();
-            }
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        }else{
+            return $model->errors;
         }
     }
 
@@ -182,7 +192,7 @@ class EventController extends Controller
 //            $Event->backgroundColor = $real->eventType->color;
 //            $Event->borderColor = $real->eventType->color;
             $Event->start = date('Y-m-d\TH:i:s\Z',strtotime($real->date_from.' '.$real->start_time));
-            $Event->end = date('Y-m-d\TH:i:s\Z',strtotime($real->date_to. ' '.$real->end_time));
+            $Event->end = date('Y-m-d\TH:i:s\Z',strtotime($real->date_to.' '.$real->end_time));
             $events[] = $Event;
         }
 
