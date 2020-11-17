@@ -47,14 +47,14 @@ endif;
     </div>
     <div class="col-xs-12">
         <?= $form->field($model, 'text')->widget(Widget::className(), [
-                'settings' => [
+            'settings' => [
                 'lang' => 'ru',
                 'minHeight' => 200,]]); ?>
     </div>
 
 
-        <div class="row">
-            <?php if(isset($_GET['date_from']) && isset($_GET['start_time'])): ?>
+    <div class="row">
+        <?php if(isset($_GET['date_from']) && isset($_GET['start_time'])): ?>
             <?php $model->date_from = $_GET['date_from'] ?>
             <div class="col-xs-6">
                 <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
@@ -65,28 +65,30 @@ endif;
             <div class="col-xs-6">
                 <?php $model->start_time = $_GET['start_time'] ?>
                 <?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(), ['pluginOptions' => [
+                    'format' => 'HH:mm:ss',
                     'showSeconds' => true,
                     'showMeridian' => false,
                     'minuteStep' => 1,
                     'secondStep' => 5,
                 ]]) ?></div>
-            <?php else: ?>
-            <div class="col-xs-6"> <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
-                    'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd',
-                        'todayHighlight' => true
-                    ]]) ?></div>
-            <div class="col-xs-6"><?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
-                    'pluginOptions' => [
-                        'showSeconds' => true,
-                        'showMeridian' => false,
-                        'minuteStep' => 1,
-                        'secondStep' => 5,
-                    ]])?></div>
-        </div>
-            <?php endif; ?>
-        <div>
-            <?php if (isset($_GET['date_to']) && isset($_GET['end_time'])): ?>
+        <?php else: ?>
+        <div class="col-xs-6"> <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
+                'pluginOptions' => [
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true
+                ]]) ?></div>
+        <div class="col-xs-6"><?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
+                'pluginOptions' => [
+                    'format' => 'HH:mm:ss',
+                    'showSeconds' => true,
+                    'showMeridian' => false,
+                    'minuteStep' => 1,
+                    'secondStep' => 5,
+                ]])?></div>
+    </div>
+<?php endif; ?>
+    <div>
+        <?php if (isset($_GET['date_to']) && isset($_GET['end_time'])): ?>
             <div class="col-xs-6">
                 <?php $model->date_to = $_GET['date_to'] ?>
                 <?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
@@ -96,33 +98,35 @@ endif;
             <div class="col-xs-6">
                 <?php $model->end_time = $_GET['end_time'] ?>
                 <?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(), ['pluginOptions' => [
+                    'format' => 'HH:mm:ss',
                     'showSeconds' => true,
                     'showMeridian' => false,
                     'minuteStep' => 1,
                     'secondStep' => 5,
                 ]]) ?></div>
-            <?php else: ?>
-            <div class="col-xs-6"><?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
-                    'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd' ,
-                    ]]) ?></div>
-            <div class="col-xs-6"><?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
-                    'pluginOptions' => [
-                        'showSeconds' => true,
-                        'showMeridian' => false,
-                        'minuteStep' => 1,
-                        'secondStep' => 5,
-                    ]]) ?></div>
-        </div>
-        </div>
-    <?php endif; ?>
-
-    <div class="col-xs-12 col-md-12">
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Изменить',
-                ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-success',2]) ?>
-        </div>
+        <?php else: ?>
+        <div class="col-xs-6"><?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
+                'pluginOptions' => [
+                    'format' => 'yyyy-mm-dd' ,
+                ]]) ?></div>
+        <div class="col-xs-6"><?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
+                'pluginOptions' => [
+                    'format' => 'HH:mm:ss',
+                    'showSeconds' => true,
+                    'showMeridian' => false,
+                    'minuteStep' => 1,
+                    'secondStep' => 5,
+                ]]) ?></div>
     </div>
-    <?php ActiveForm::end(); ?>
-    <?php \yii\widgets\Pjax::end(); ?>
+</div>
+<?php endif; ?>
+
+<div class="col-xs-12 col-md-12">
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Изменить',
+            ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-success',2]) ?>
+    </div>
+</div>
+<?php ActiveForm::end(); ?>
+<?php \yii\widgets\Pjax::end(); ?>
 </div>
