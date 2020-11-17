@@ -141,6 +141,11 @@ class Product extends AccessoryActiveRecord
         return EntityLister::getList(self::className());
     }
 
+    public static function getListQuery()
+    {
+        return EntityLister::getListQuery(self::className());
+    }
+
     public function getFieldProductValue($id, $field)
     {
         $fieldProductValue = FieldProductValue::find()

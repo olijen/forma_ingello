@@ -74,7 +74,7 @@ JS;
                 'error' => 'minus-square',
                 'defaultOptions' => ['class'=>'text-muted'],
             ]
-            ])->dropDownList(InventorizationService::getWarehousesList($model->id), ['prompt' => '']) ?>
+            ])->dropDownList(\forma\modules\warehouse\records\Warehouse::getList())?>
         </div>
         <div class="col-md-6">
             <?= $form->field($model, 'date', [
