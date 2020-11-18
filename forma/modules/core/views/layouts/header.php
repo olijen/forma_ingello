@@ -372,7 +372,7 @@ JS;
 
 
 
-        <?php if (!empty($this->params['doc-page'])) : ?>
+        <?php if (!empty($this->params['doc-page'])  ) : ?>
 
             <?=\forma\components\widgets\ModalSrc::widget([
                 'route' => '/core/site/doc?page='.$this->params['doc-page'],

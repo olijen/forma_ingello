@@ -12,6 +12,7 @@ class NomenclatureView extends Widget
 {
     public $model = null;
     public $transitId;
+    public $warehouseId;
 
     public function init()
     {
@@ -27,6 +28,7 @@ class NomenclatureView extends Widget
         $unit = $this->getUnitModel();
         $dataProvider = NomenclatureService::getDataProvider($this->transitId);
         $overheadCost = OverheadCostService::create();
+        $warehouseId = $this->warehouseId;
 
         // todo: вынести в сервис
         $transitOverheadCosts = new ActiveDataProvider([
@@ -40,7 +42,8 @@ class NomenclatureView extends Widget
             'unit',
             'dataProvider',
             'overheadCost',
-            'transitOverheadCosts'
+            'transitOverheadCosts',
+            'warehouseId'
         ));
     }
 

@@ -84,7 +84,6 @@ Pjax::begin(['id' => 'purchase-form-pjax', 'enablePushState' => false]);
                     ],
                 ]);
             }
-
             ?>
             <?= $form->field($model, 'supplier_id', $supplierSelectOptions)->dropDownList(Supplier::getList()); ?>
         </div>

@@ -72,12 +72,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
             'attribute' => 'sku',
             'label' => 'Артикул',
         ],
-
-        [
-            'attribute' => 'type_id',
-            'value' => 'type.name',
-            'filter' => Type::getList(),
-        ],
         [
             'attribute' => 'manufacturer_id',
             'value' => 'manufacturer.name',
