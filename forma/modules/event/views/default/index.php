@@ -2,7 +2,6 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\web\JsExpression;
-
 ?>
 <?php
 
@@ -11,7 +10,7 @@ $DragJS = <<<JS
 $('.chartjs-size-monitor').remove();
 (function($){//fix jquery
     jQuery.fn.zIndex = function(a) {
-        console.log(a);
+        alert(a );
         return $(this).css("zIndex", a);
     }
 })(jQuery);
@@ -61,8 +60,8 @@ function createEvent(start, end, title)
             'Event[text]': title,
             'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
             'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
-            'Event[start_time]': $.fullCalendar.formatDate(start,"H:m:ss"),
-            'Event[end_time]': $.fullCalendar.formatDate(end,"H:m:ss"),
+            'Event[start_time]': $.fullCalendar.formatDate(start,"H:m:s"),
+            'Event[end_time]': $.fullCalendar.formatDate(end,"H:m:s"),
             'Event[event_type_id]': 4,
             'Event[status]': 1,
         }
@@ -318,7 +317,7 @@ $widgetsForSortable2 = [];
                     'right' => 'month,agendaWeek,listWeek,timelineDay,agendaDay'
                 ],
                 'nowIndicator' => true,
-                'eventLimit' => true,
+                'eventLimit' => false,
                 'selectable' => true,
                 'selectHelper' => true,
                 'droppable' => true,

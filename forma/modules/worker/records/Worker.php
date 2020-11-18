@@ -37,6 +37,8 @@ class Worker extends AccessoryActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $workerVacanciesArray;
+
     public static function tableName()
     {
         return 'worker';
@@ -63,6 +65,7 @@ class Worker extends AccessoryActiveRecord
         if ($this->getIsNewRecord()) {
             return [];
         }
+
         return ArrayHelper::getColumn(
             WorkerVacancy::findAll(['worker_id' => $this->id]),
             'vacancy_id'
@@ -150,6 +153,11 @@ class Worker extends AccessoryActiveRecord
         return EntityLister::getList(self::className());
     }
 
+    public static function getListQuery()
+    {
+        return EntityLister::getListQuery(self::className());
+    }
+
     public function search($params)
     {
         $search = new WorkerSearch();
@@ -161,22 +169,24 @@ class Worker extends AccessoryActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if (isset($_POST['Worker']['workerVacancies']) &&
-            is_array($_POST['Worker']['workerVacancies'])) {
+        if (isset($_POST['Worker']['workerVacancies'])) {
 
             WorkerVacancy::deleteAll(['worker_id' => $this->id]);
+            if (is_array($_POST['Worker']['workerVacancies'])) {
 
-            $workerVacancy = new WorkerVacancy();
-            foreach ($_POST['Worker']['workerVacancies'] as $vacancyId) {
-                $workerVacancy->isNewRecord = true;
-                $workerVacancy->id = null;
-                $workerVacancy->setAttributes(['worker_id' => $this->id, 'vacancy_id' => $vacancyId]);
+                $workerVacancy = new WorkerVacancy();
+                foreach ($_POST['Worker']['workerVacancies'] as $vacancyId) {
+                    $workerVacancy->isNewRecord = true;
+                    $workerVacancy->id = null;
+                    $workerVacancy->setAttributes(['worker_id' => $this->id, 'vacancy_id' => $vacancyId]);
 
-                try {
-                    $workerVacancy->save();
-                } catch (Exception $e) {
+                    try {
+                        $workerVacancy->save();
+                    } catch (Exception $e) {
 
+                    }
                 }
+
             }
         }
     }

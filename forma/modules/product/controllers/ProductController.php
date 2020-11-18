@@ -168,7 +168,7 @@ class ProductController extends Controller
             Product::deleteAll(['IN', 'id', $selection]);
         }
 
-        return $this->actionIndex();
+        return $this->redirect('/product/product/index');
     }
 
     /**

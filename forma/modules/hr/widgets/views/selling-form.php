@@ -2,6 +2,7 @@
 
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interview\StateDone;
+use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use kartik\form\ActiveForm;
 use yii\helpers\Html;
@@ -14,6 +15,7 @@ use forma\modules\core\widgets\DetachedBlock;
 use kartik\select2\Select2;
 use forma\components\ActiveRecordHelper;
 use yii\web\JsExpression;
+
 /**
  * @var Interview $model
  */
@@ -55,7 +57,8 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
     $form = ActiveForm::begin($formOptions);
 
     ?>
-    <div class="alert alert-danger"  id='alert-danger' role="alert" hidden style="position: absolute; width: 300px; float: left; top: -50%"   >
+    <div class="alert alert-danger" id='alert-danger' role="alert" hidden
+         style="position: absolute; width: 300px; float: left; top: -50%; z-index: 9991;">
         На данную вакансию нет ни одного заинтересованного кадра
     </div>
     <div class="row">
@@ -78,8 +81,15 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 >добавить</a>]
             ';
             ?>
+            <?php if (Yii::$app->request->get('vacancyId')) {
+                $data = \forma\modules\worker\records\workervacancy\WorkerVacancy::getListWorker(Yii::$app->request->get('vacancyId'));
+            } else {
+                $data = ArrayHelper::map(Worker::getListQuery()->all(), 'id', 'fullName');
+            }
+            ?>
+
             <?= $form->field($model, 'worker_id')->widget(Select2::classname(), [
-                'data' => Yii::$app->request->get('vacancyId') ? \forma\modules\worker\records\workervacancy\WorkerVacancy::getListWorker(Yii::$app->request->get('vacancyId')) : Worker::getList(),
+                'data' => $data,
                 'options' => ['placeholder' => 'Поиск в базе'],
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
@@ -110,15 +120,15 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
 
             ])->label($label) ?>
         </div>
-        <?php if ($model->isNewRecord):?>
+        <?php if ($model->isNewRecord): ?>
             <script>
                 let counter = 0;
                 $('#interview-worker_id option').each(function () {
                     counter++;
                     console.log(counter);
-                    if (counter === 2 ){
+                    if (counter === 2) {
                         console.log($(this));
-                        $(this).attr('selected', 'true' );
+                        $(this).attr('selected', 'true');
                     }
                 });
             </script>
@@ -151,7 +161,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                             $('#selling-form-submit-button').attr('disabled', 'disabled');
                             $('#alert-danger').show();
 
-                         //   $('#worker-select').hide();
+                            //   $('#worker-select').hide();
                         }
                     }
                 })
@@ -201,21 +211,21 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
 <?php Pjax::end() ?>
 
 <?php if (!$model->isNewRecord): ?>
-    <?php DetachedBlock::begin(['example' => 'История']); ?>
-    <div class="row">
-        <div class="col-md-12 form-group">
-        <?= Html::a('Начать разговор', Url::to('/hr/strategy/talk?id='.$model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk'])?>
-        <?= Html::Button('История', ['class' => 'btn btn-success',  'id' => 'openDialog']) ?>
+<?php DetachedBlock::begin(['example' => 'История']); ?>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <?= Html::a('Начать разговор', Url::to('/hr/strategy/talk?id=' . $model->id), ['class' => 'btn btn-success', 'id' => 'selling-talk']) ?>
+        <?= Html::Button('История', ['class' => 'btn btn-success', 'id' => 'openDialog']) ?>
     </div>
     <div class="hidden" id="dialog">
 
         <?php Pjax::begin(['enablePushState' => false]) ?>
-        <?= !empty($model->dialog) ? $model->dialog : ''?>
+        <?= !empty($model->dialog) ? $model->dialog : '' ?>
         <?= $form = Html::beginForm(['talk/comment-history'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
         <?= Html::textarea('comment', '', ['rows' => 5]) ?>
 
         <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
-        <?= Html::submitButton('Добавить')?>
+        <?= Html::submitButton('Добавить') ?>
         <?= Html::endForm() ?>
         <?php Pjax::end() ?>
     </div>
@@ -233,4 +243,4 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         }
     </script>
     <?php DetachedBlock::end() ?>
-<?php endif; ?>
+    <?php endif; ?>

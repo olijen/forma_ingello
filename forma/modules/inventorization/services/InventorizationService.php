@@ -45,8 +45,8 @@ class InventorizationService
         }
         /** @var $warehouseModule \forma\modules\warehouse\Module */
         $warehouseModule = Yii::$app->getModule('warehouse');
-        if ($warehouseModule->reviewsByInventorization($warehouseId)) {
-            throw new ForbiddenHttpException;
+        if ($inventorization = $warehouseModule->reviewsByInventorizationReturnModel($warehouseId)) {
+            return $inventorization;
         }
 
         $model->name = 'Новая инвентаризация с ' . Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s');

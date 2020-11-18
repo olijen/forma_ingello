@@ -187,12 +187,13 @@ class WarehouseProduct extends ActiveRecord
 
     protected function getExpectedFromPurchase()
     {
+        $paymentState = 1;
         $purchaseProducts = PurchaseProduct::find()
             ->joinWith(['purchase'], true, 'INNER JOIN')
             ->select(['purchase_product.quantity'])
             ->where(['purchase.warehouse_id' => $this->warehouse_id])
             ->andWhere(['purchase_product.product_id' => $this->product_id])
-            ->andWhere(['=', 'purchase.state', 0])
+            ->andWhere(['=', 'purchase.state', $paymentState])
             ->all();
 
         $inPurchase = 0;

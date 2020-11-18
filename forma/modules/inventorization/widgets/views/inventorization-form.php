@@ -23,7 +23,6 @@ if (!Yii::$app->request->isPjax) {
         $("document").ready(function() {
             $("#inventorization-form-pjax").on("pjax:complete", function(xhr, textStatus, error, options) {
                 $.pjax.reload({container: '#inventorization-table-pjax'});
-                alert('The changes have been saved');
             });
         });
 JS;
@@ -74,7 +73,7 @@ JS;
                 'error' => 'minus-square',
                 'defaultOptions' => ['class'=>'text-muted'],
             ]
-            ])->dropDownList(InventorizationService::getWarehousesList($model->id), ['prompt' => '']) ?>
+            ])->dropDownList(\forma\modules\warehouse\records\Warehouse::getList())?>
         </div>
         <div class="col-md-6">
             <?= $form->field($model, 'date', [

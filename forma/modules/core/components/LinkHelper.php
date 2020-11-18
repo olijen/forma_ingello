@@ -8,14 +8,14 @@ class LinkHelper
 {
     //Создание функции котораяя находит в тексте Url подобного типа {{/core/item||Название кнопки}} и превращение его в модальное окно
     // или {{https://google.com||Название кнопки}} и превращение его в кновку
-    public static function replaceUrlOnButton($text, $icon = null)
+    public static function replaceUrlOnButton($text, $icon = null, $width = null)
     {
-
+        $width = !is_null($width) ? 'width:'.$width : '';
         $iconStr = 'fa fa-eye';
         if (!is_null($icon)) $iconStr = 'fa fa-'.$icon;
         if (strripos($text, "{{/")) {//если ссылка внутренняя то она превратится в модальное окно
             $text = str_ireplace("{{",
-                "<a  style=\"color: blue;\"  
+                "<a  style=\"color: blue; ".$width."\"  
                         href=\"javascript:void(0)\"
                         class=\"btn btn-xs btn-outline-secondary\" 
                         type=\"button\" data-toggle=\"modal\" 

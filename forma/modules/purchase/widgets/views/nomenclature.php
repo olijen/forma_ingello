@@ -53,12 +53,8 @@ Pjax::begin([
 
     <div class="col-md-3">
         <?php
-        $data = [];
-        foreach (ProductService::search('') as $row) {
-            $data[$row['id']]= $row['text'];
-        }
         echo $form->field($unit, 'product_id')->widget(Select2::classname(), [
-            'data' => $data,
+            'data' => \forma\modules\product\records\Product::getList(),
             'options' => ['placeholder' => 'Поиск в базе'],
             'pluginOptions' => ['allowClear' => true],
         ])->label('') ?>
