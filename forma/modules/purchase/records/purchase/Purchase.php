@@ -30,8 +30,9 @@ use forma\modules\warehouse\records\WarehouseProduct;
  * @property PurchaseProduct[] $purchaseProducts
  */
 class Purchase extends StateActiveRecord
-implements NomenclatureInterface
+    implements NomenclatureInterface
 {
+
     /**
      * @inheritdoc
      */
@@ -56,13 +57,23 @@ implements NomenclatureInterface
     public function rules()
     {
         return [
-            [['supplier_id', 'warehouse_id'], 'required'],
+            [['warehouse_id', 'supplier_id'], 'required'],
             [['supplier_id', 'warehouse_id', 'state'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
+            ['supplier_id', 'validateSupplierDropdown'],
+            ['supplier_id', function ($attribute, $params, $model) {
+                $this->addError('supplier_id', 'Токен должен содержать буквы или цифры.');
+            }],
             [['name'], 'string', 'max' => 100],
             [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Supplier::className(), 'targetAttribute' => ['supplier_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
+
         ];
+    }
+
+    public function validateSupplierDropdown()
+    {
+        $this->addError('supplier_id', 'Неправильное имя пользователя или пароль' . $this->supplier_id);
     }
 
     /**
@@ -80,7 +91,7 @@ implements NomenclatureInterface
             'state' => 'Состояние',
         ];
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

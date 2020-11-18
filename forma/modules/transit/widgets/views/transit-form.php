@@ -53,19 +53,7 @@ JS;
 
     ?>
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'name', [
-                'feedbackIcon' => [
-                    'prefix' => 'fa fa-',
-                    'default' => 'pencil',
-                    'success' => 'check-square-o',
-                    'error' => 'minus-square',
-                    'defaultOptions' => ['class'=>'text-muted'],
-                ],
-            ]) ?>
-        </div>
-    </div>
+
 
     <div class="row">
         <div class="col-md-6">
@@ -123,6 +111,20 @@ JS;
                 'inputOptions' => ['disabled' => '1', 'value' =>
                     $model->date_complete ?
                         date('d.m.Y H:i:s', strtotime($model->date_complete)) : '',
+                ],
+            ]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <?= $form->field($model, 'name', [
+                'feedbackIcon' => [
+                    'prefix' => 'fa fa-',
+                    'default' => 'pencil',
+                    'success' => 'check-square-o',
+                    'error' => 'minus-square',
+                    'defaultOptions' => ['class'=>'text-muted'],
                 ],
             ]) ?>
         </div>

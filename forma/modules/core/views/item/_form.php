@@ -16,13 +16,15 @@ use yii\widgets\Pjax;
 
 $picture = RegularityAndItemPictureService::getPictureUrl($model);
 ?>
+<div class="row">
 
-<div class="item-form">
+    <div class="col-md-5">
 
-    <?php $form = ActiveForm::begin(); ?>
-    <?php Pjax::begin(); ?>
 
-    <div class="col-md-6 block">
+        <?php $form = ActiveForm::begin(); ?>
+        <?php Pjax::begin(); ?>
+
+
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -53,23 +55,28 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
                     ['green', '<span class="label-green">green</span>'],
                     ['blue', '<span class="label-blue">blue</span>'],
                 ],
-                'imageUpload' =>      '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                'imageUpload' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
                 'imageManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/images-get']),
-                'fileManagerJson' =>  '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
+                'fileManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
                 'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
         ]); ?>
 
         <?= $form->field($model, 'color')->widget(ColorInput::classname()); ?>
 
-        <?= $form->field($model, 'access')->checkbox([], false);?>
+        <?= $form->field($model, 'access')->checkbox([], false); ?>
 
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Добавить'), ['class' => 'btn btn-success']) ?>
         </div>
+
+
+        <?php Pjax::end(); ?>
+        <?php ActiveForm::end(); ?>
+
     </div>
 
-    <?php Pjax::end(); ?>
-    <?php ActiveForm::end(); ?>
-
+    <div class="col-md-7">
+        <?= $this->render('/regularity/function_buttons', ['quantityDiv' => 2, 'colMd' => 6]) ?>
+    </div>
 </div>

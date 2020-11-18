@@ -69,7 +69,7 @@ class Transit extends StateActiveRecord implements NomenclatureInterface
     public function rules()
     {
         return [
-            [['from_warehouse_id', 'to_warehouse_id', 'name'], 'required'],
+            [['from_warehouse_id', 'to_warehouse_id'], 'required'],
             [['from_warehouse_id', 'to_warehouse_id', 'state'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
             [['name'], 'string', 'max' => 100],

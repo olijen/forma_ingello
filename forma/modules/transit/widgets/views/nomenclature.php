@@ -2,6 +2,7 @@
 
 use yii\bootstrap\Html;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
@@ -48,10 +49,15 @@ Pjax::begin([
     ]); ?>
 
     <?= $form->field($unit, 'transit_id')->hiddenInput()->label(false) ?>
-
+<?php $productsList = \forma\modules\product\records\Product::getListQuery()
+    ->leftJoin('warehouse_product', '`warehouse_product`.`product_id` = `product`.`id`')
+    ->andWhere(['warehouse_product.warehouse_id' => $warehouseId])
+    ->all();
+$productsList = ArrayHelper::map($productsList, 'id', 'name');
+?>
     <div class="col-md-3">
         <?= $form->field($unit, 'product_id')->widget(\kartik\select2\Select2::className(), [
-            'data' => \forma\modules\product\records\Product::getList(),
+            'data' => $productsList,
             'options' => ['placeholder' => 'Выберите товар ...'],
         ]) ?>
     </div>
@@ -111,7 +117,7 @@ Pjax::begin([
                 if ($productOnWarehouse) {
                     return $productOnWarehouse->currency->code;
                 }
-                
+
                 $productOnWarehouse = \forma\modules\warehouse\records\WarehouseProduct::find()
                     ->where(['warehouse_id' => $model->transit->to_warehouse_id])
                     ->andWhere(['product_id' => $model->product_id])

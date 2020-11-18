@@ -20,6 +20,4 @@ $this->params['breadcrumbs'][] = ['label' => 'Перемещения', 'url' => 
 
 <?= Yii::$app->getModule('core')->getStateWidget(compact('model')) ?>
 
-<!-- --><?//= AddingFormView::widget(['transitId' => $model->id]) ?>
-
-<?= NomenclatureView::widget(['transitId' => $model->id]) ?>
+<?= NomenclatureView::widget(['transitId' => $model->id, 'warehouseId' => $model->from_warehouse_id]) ?>
