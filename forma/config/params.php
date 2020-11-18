@@ -238,7 +238,7 @@ return [
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
                 ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
-                ['label' => 'Публичный регламент', 'url' => ['/mike'.'/regularity'], 'icon' => 'tree' ],
+                ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
