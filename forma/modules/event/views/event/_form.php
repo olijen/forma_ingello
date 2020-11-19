@@ -118,11 +118,12 @@ endif;
                     'secondStep' => 5,
                 ]]) ?></div>
     </div>
+
 <?php endif; ?>
 
 <div class="col-xs-12 col-md-12">
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : '<i class="fa fa-save"></i>'.' '.'Изменить',
+        <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Изменить',
             ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-success',2]) ?>
     </div>
 </div>
