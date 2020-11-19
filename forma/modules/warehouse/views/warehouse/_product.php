@@ -11,9 +11,9 @@
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Свернуть">
                 <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Удалить">
+            <button type="button" class="btn btn-box-tool" data-widget="" data-toggle="tooltip" title="" data-original-title="">
                 <i class="fa fa-image"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Удалить">
+            <button type="button" class="btn btn-box-tool" data-widget="" data-toggle="tooltip" title="" data-original-title="">
                 <i class="fa fa-user"></i></button>
             <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Удалить">
                 <i class="fa fa-times"></i></button>

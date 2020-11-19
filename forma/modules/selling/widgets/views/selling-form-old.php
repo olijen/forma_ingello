@@ -9,7 +9,7 @@ use forma\modules\warehouse\records\Warehouse;
 use forma\modules\selling\records\selling\StateConfirm;
 use yii\helpers\Url;
 use forma\modules\core\widgets\DetachedBlock;
-
+exit();
 /**
  * @var Selling $model
  */
@@ -66,6 +66,8 @@ $this->registerJs($js);
             ]) ?>
         </div>
     </div>
+
+
 
     <div class="row">
         <div class="col-md-6">

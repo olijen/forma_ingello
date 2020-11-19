@@ -3,6 +3,7 @@
 namespace forma\modules\selling\records\selling;
 
 use forma\components\AccessoryActiveRecord;
+use forma\components\EntityLister;
 use forma\modules\core\components\NomenclatureInterface;
 use forma\modules\core\components\StateActiveRecord;
 use forma\modules\core\components\TotalSumBehavior;
@@ -172,8 +173,9 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
     public static function getList()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+        return EntityLister::getList(self::className());
     }
+
 
     public function getCustomerName()
     {

@@ -223,7 +223,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['in
         <?= ListView::widget([
             'dataProvider' => $warehouseProductsDataProvider,
             'itemView' => '_product',
-
+            'layout' => "{items}",
             'itemOptions' => ['class' => 'col-md-4', 'style' => 'height: 150px; padding-left: 0;']
         ]); ?>
 
@@ -253,13 +253,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['in
             'responsiveWrap' => false,
             'toolbar' => [
                 [
-                    'content' => Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/warehouse/warehouse-product/create', 'warehouse_id' => $model->id], [
+                    'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['/warehouse/warehouse-product/create', 'warehouse_id' => $model->id], [
                         'class' => 'btn btn-success',
                         'title' => 'Добавить товар',
                     ]),
                 ],
                 [
-                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i>', [
+                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
                         'type'=>'button',
                         'class'=>'btn btn-danger',
                         'onclick' => '$("#grid-remains")
@@ -271,21 +271,21 @@ $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['in
                     ]),
                 ],
                 [
-                    'content' => Html::button('<i class="fa fa-credit-card"></i>', [
+                    'content' => Html::button('<i class="fa fa-credit-card"></i> Закупить', [
                         'class' => 'btn btn-primary',
                         'id' => 'create-purchase',
                         'title' => 'Создать(Добавить в) закупку',
                     ]),
                 ],
                 [
-                    'content' => Html::button('<i class="fa fa-arrows-alt"></i>', [
+                    'content' => Html::button('<i class="fa fa-arrows-alt"></i> Продать', [
                         'class' => 'btn btn-primary',
                         'id' => 'add-to-selling',
                         'title' => 'Добавить в продажу',
                     ]),
                 ],
                 [
-                    'content' => Html::button('<i class="fa fa-retweet"></i>', [
+                    'content' => Html::button('<i class="fa fa-retweet"></i> Переместить', [
                         'class' => 'btn btn-primary',
                         'id' => 'add-to-transit',
                         'title' => 'Добавить в перемещение',

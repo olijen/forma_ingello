@@ -172,4 +172,6 @@ class Warehouse extends \yii\db\ActiveRecord
         $warehouseUser->user_id = Yii::$app->user->id;
         $warehouseUser->save();
     }
+
+
 }
