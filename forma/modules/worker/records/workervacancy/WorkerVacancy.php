@@ -2,6 +2,7 @@
 
 namespace forma\modules\worker\records\workervacancy;
 
+use forma\modules\hr\records\interview\Interview;
 use forma\modules\vacancy\records\Vacancy;
 use forma\modules\vacancy\records\VacancySearch;
 use forma\modules\worker\records\Worker;
@@ -61,7 +62,6 @@ class WorkerVacancy extends \yii\db\ActiveRecord
         return $this->hasOne(Vacancy::className(), ['id' => 'vacancy_id']);
     }
 
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -86,16 +86,17 @@ class WorkerVacancy extends \yii\db\ActiveRecord
         $workerVacancies = self::find()->where(['vacancy_id' => $vacancyId])->all();
 
         foreach ($workerVacancies as $workerVacancy) {
-            $ids[] = $workerVacancy->worker_id;
+            if (empty($workerVacancy->worker->interviews)){
+                $ids[] = $workerVacancy->worker_id;
+            }
+
         }
 
         if (empty($ids)){
             return null;
         }
 
-        $workerks = Worker::find()->where(['id' => $ids])->all();
-
-
+        $workerks = Worker::find()->where(['worker.id' => $ids])->all();
 
         return ArrayHelper::map($workerks, 'id', 'fullName');
     }

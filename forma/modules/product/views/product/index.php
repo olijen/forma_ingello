@@ -49,6 +49,8 @@ $this->registerJsFile('@web/js/common.js', ['position' => View::POS_END]);
 $this->title = 'Объекты учета';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 
+$this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\web\View::POS_BEGIN]);
+
 ?>
 
 <div class="product-index">

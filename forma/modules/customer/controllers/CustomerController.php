@@ -135,11 +135,12 @@ class CustomerController extends Controller
 
     public function actionSend()
     {
-
+//        de(Yii::$app->request->post());
         if (Customer::sendMessage(Yii::$app->request->post()))
         {
             Yii::$app->session->setFlash('SentMessage', 'success');
         }
+
         $searchModel = new CustomerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -148,10 +149,6 @@ class CustomerController extends Controller
             'dataProvider' => $dataProvider,
         ]);
 
-
-
-
-
-       //Customer::sendMessage();
     }
+
 }

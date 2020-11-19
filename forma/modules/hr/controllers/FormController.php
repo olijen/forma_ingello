@@ -19,7 +19,6 @@ class FormController extends Controller
             $model->vacancy_id = $vacancyId;
         }
 
-
         return $this->render('index', compact('model'));
     }
 
