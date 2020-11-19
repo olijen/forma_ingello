@@ -109,6 +109,17 @@ if (!Yii::$app->request->isPjax) {
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'date_complete')->widget(kartik\datetime\DateTimePicker::className(),[
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd hh:ii:ss'
+                ]
+            ]) ?>
+        </div>
+    </div>
+
     <?php if (!$model->stateIs(new StateDone())): ?>
         <div class="row">
             <div class="col-md-12 form-group">

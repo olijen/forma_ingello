@@ -191,9 +191,9 @@ class SiteController extends Controller
 
         $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->signup(true)) {
-            return Yii::$app->response->redirect((['/core/user/referral']));
-        }
+//        if ($model->load(Yii::$app->request->post()) && $model->signup(true)) {
+//            return Yii::$app->response->redirect((['/core/user/referral']));
+//        }
 
         Yii::$app->controller->layout = 'main-login';
         return $this->render('signup-ref', compact('model', 'googleLink'));

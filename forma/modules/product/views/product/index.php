@@ -166,10 +166,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                 'options' => ['id' => 'grid-' . $searchModel->tableName()],
                 'toolbar' => [
                     [
-                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['class' => 'btn btn-success']),
+                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['create'], ['class' => 'btn btn-success']),
                     ],
                     [
-                        'content' => Html::button('<i class="glyphicon glyphicon-trash"></i>', [
+                        'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
                             'type' => 'button',
                             'class' => 'btn btn-danger',
                             'onclick' => '$("#grid-' . $searchModel->tableName() . '")
