@@ -20,8 +20,22 @@ use yii\widgets\Breadcrumbs;
         <span class="logo-mini">F.I</span>
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
+        <?php
+        $bgColor = '';
+        if ('selling' == Yii::$app->controller->module->id) {
+            $bgColor = '#58628e';
+        } elseif ('hr' == Yii::$app->controller->module->id) {
+            $bgColor = '#F08080';
+        } elseif ('product' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('warehouse' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('country' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        }
+        ?>
 
-        <meta name="theme-color" content="#00a65a">
+        <meta name="theme-color" content="<?php echo $bgColor ?>">
 
         <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0;" class="navbar navbar-static-top"
              role="navigation">
