@@ -61,7 +61,6 @@ class EventController extends Controller
      */
     public function actionCreate()
     {
-        var_dump($_GET);
         $model = new Event();
         $model->loadDefaultValues(); //load default data from db
         $searchModel = new EventSearch();
@@ -107,7 +106,7 @@ class EventController extends Controller
                 'model' => $model,
             ]);
         }
-            }
+    }
 
 
 
@@ -120,6 +119,8 @@ class EventController extends Controller
      */
     public function actionUpdate($id)
     {
+
+
         $model = Event::find()->where(['id' => $id])->one();
 
 
