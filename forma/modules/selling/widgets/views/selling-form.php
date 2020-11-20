@@ -109,10 +109,24 @@ if (!Yii::$app->request->isPjax) {
         </div>
     </div>
 
+    <?php if (!$model->isNewRecord): ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?= $form->field($model, 'date_complete')->widget(kartik\datetime\DateTimePicker::className(), [
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd hh:ii:ss'
+                    ]
+                ]) ?>
+            </div>
+        </div>
+    <?php endif; ?>
     <?php if (!$model->stateIs(new StateDone())): ?>
         <div class="row">
             <div class="col-md-12 form-group">
-                <button type="submit" id="selling-form-submit-button" class="btn btn-success"><i class="fa fa-save"></i> Сохранить</button>
+                <button type="submit" id="selling-form-submit-button" class="btn btn-success"><i class="fa fa-save"></i>
+                    Сохранить
+                </button>
             </div>
         </div>
     <?php endif; ?>
@@ -126,5 +140,5 @@ if (!Yii::$app->request->isPjax) {
 <?php Pjax::end() ?>
 
 <?php if (!$model->isNewRecord): ?>
-    <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true])?>
+    <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
 <?php endif; ?>

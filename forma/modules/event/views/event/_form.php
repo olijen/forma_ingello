@@ -51,9 +51,7 @@ endif;
                 'lang' => 'ru',
                 'minHeight' => 200,]]); ?>
     </div>
-
-
-    <div class="row">
+    <div>
         <?php if(isset($_GET['date_from']) && isset($_GET['start_time'])): ?>
             <?php $model->date_from = $_GET['date_from'] ?>
             <div class="col-xs-6">
@@ -123,8 +121,8 @@ endif;
 
 <div class="col-xs-12 col-md-12">
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : 'Изменить',
-            ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-success',2]) ?>
+        <?= Html::submitButton($model->isNewRecord ?'<i class="fa fa-save"></i>'.' '. 'Добавить' : '<i class="fa fa-save"></i>'.' '.'Изменить',
+            ['class' => $model->isNewRecord ? 'btn btn-success btn-lg btn-block' : 'btn btn-success btn-lg btn-block',2]) ?>
     </div>
 </div>
 <?php ActiveForm::end(); ?>

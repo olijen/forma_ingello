@@ -247,12 +247,12 @@ return [
                     'icon' => 'users',
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
-                        ['label' => 'Клиенты', 'url' => ['/customer/customer'], 'icon' => 'user-circle'],
+                        ['label' => 'Клиенты', 'url' => ['/customer/customer/'], 'icon' => 'user-circle'],
                         ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                         ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
                         ['label' => 'Производители', 'url' => ['/product/manufacturer/'], 'icon' => 'id-card'],
                         ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
-                        ['label' => 'Регистрация', 'url' => ['/core/site/signup'], 'icon' => 'globe'],
+                        ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
                     ]
                 ],

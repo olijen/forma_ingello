@@ -18,6 +18,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 $this->params['breadcrumbs'][] = ['label' => 'Найм', 'url' => Url::to(['/hr/main'])];
 
 
+
 ?>
 
 <?= SellingFormView::widget(compact('model')) ?>

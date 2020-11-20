@@ -49,6 +49,8 @@ $this->registerJsFile('@web/js/common.js', ['position' => View::POS_END]);
 $this->title = 'Объекты учета';
 $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/product'];
 
+$this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\web\View::POS_BEGIN]);
+
 ?>
 
 <div class="product-index">
@@ -166,10 +168,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
                 'options' => ['id' => 'grid-' . $searchModel->tableName()],
                 'toolbar' => [
                     [
-                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['class' => 'btn btn-success']),
+                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['create'], ['class' => 'btn btn-success']),
                     ],
                     [
-                        'content' => Html::button('<i class="glyphicon glyphicon-trash"></i>', [
+                        'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
                             'type' => 'button',
                             'class' => 'btn btn-danger',
                             'onclick' => '$("#grid-' . $searchModel->tableName() . '")

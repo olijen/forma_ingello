@@ -27,7 +27,7 @@ $this->title = 'Все хранилища';
         'dataProvider' => $dataProvider,
         'itemView' => '_list',
         'options' => ['class' => 'row'],
-
+        'layout' => "{items}",
         'itemOptions' => ['class' => 'col-md-4']
     ]);?>
 

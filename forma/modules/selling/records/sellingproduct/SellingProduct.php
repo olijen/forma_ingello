@@ -187,6 +187,7 @@ class SellingProduct extends ActiveRecord
         ];
     }
 
+
     public function getCostTypeLabel()
     {
         if (is_null($this->cost_type)) {

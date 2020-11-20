@@ -3,6 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\selling\records\state\StateSearch;
+use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Url;
@@ -15,21 +16,33 @@ class FormController extends Controller
     public function actionIndex($id = null)
     {
         $searchModel = new StateSearch();
-        if($searchModel->userSearch(Yii::$app->request->queryParams)->getTotalCount() < 1)
+        if ($searchModel->userSearch(Yii::$app->request->queryParams)->getTotalCount() < 1)
             return $this->redirect('/selling/main-state/index');
 
         $model = SellingService::get($id);
         $sellingState = State::findOne($model->state_id);
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])
             ->all();
-        if ($sellingState){
+        if ($sellingState) {
             $toState = $sellingState->state;
-            return $this->render('index', compact('model', 'userState', 'sellingState','toState'));
-        }else{
+            return $this->render('index', compact('model', 'userState', 'sellingState', 'toState'));
+        } else {
             return $this->render('index', compact('model', 'userState', 'sellingState'));
         }
+    }
 
+    public function actionChangeSellingProductCost()
+    {
 
+        if (!empty($_POST['productId']) && !empty($_POST['quantity'])) {
+
+            $cost = 'consumer_cost';
+            $product = WarehouseProduct::findOne(['product_id' => $_POST['productId']]);
+            $cost = $product->$cost * $_POST['quantity'];
+
+            return $cost;
+        }
+        return '';
     }
 
     public function actionTest()
@@ -40,10 +53,10 @@ class FormController extends Controller
         $model = SellingService::get($id);
         $state_id = $_GET['state_id'];
         $sellingState = State::findOne($state_id);
-        if ($state_id == 6){
+        if ($state_id == 6) {
             $model->date_complete = date('Y-m-d H:i:s');
         }
-        if($sellingState){
+        if ($sellingState) {
             $model->state_id = $sellingState->id;
             $model->save();
 
@@ -52,11 +65,11 @@ class FormController extends Controller
             ->all();
 
 
-        if ($sellingState){
+        if ($sellingState) {
             $toState = $sellingState->state;
 
-            return $this->render('index', compact('model', 'userState', 'sellingState','toState'));
-        }else{
+            return $this->render('index', compact('model', 'userState', 'sellingState', 'toState'));
+        } else {
             return $this->render('index', compact('model', 'userState', 'sellingState'));
         }
 

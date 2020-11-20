@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать реферала', ['/signup'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать реферала', ['/core/site/signup-referer'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,

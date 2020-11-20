@@ -4,6 +4,9 @@ namespace forma\modules\core\controllers;
 
 use Composer\Util\Url;
 use Exception;
+
+use forma\components\AccessoryActiveRecord;
+use forma\modules\core\records\Accessory;
 use forma\modules\core\records\SystemEventSearch;
 use forma\modules\core\widgets\SystemEventWidget;
 use forma\modules\hr\services\InterviewService;
@@ -12,10 +15,13 @@ use forma\modules\purchase\services\PurchaseService;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\transit\services\TransitService;
 use forma\modules\selling\services\SellingService;
+use forma\modules\warehouse\records\Warehouse;
+use forma\modules\warehouse\records\WarehouseProduct;
 use Google_Client;
 use Google_Service_Calendar;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use forma\modules\core\components\UserIdentity;
@@ -32,12 +38,12 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm', ],
+                        'actions' => ['confirm',],
                         'roles' => ['?'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', ],
+                        'actions' => ['index',],
                         'roles' => ['@'],
                     ],
                 ],
@@ -59,7 +65,7 @@ class DefaultController extends Controller
         \Yii::debug($widgetOrder);
         \Yii::debug(count($widgetOrder));
         $widgetNewOrder = false;
-        if(count($widgetOrder['panelSmallWidget']) == 0 && count($widgetOrder['panelBigWidget1']) == 0 &&
+        if (count($widgetOrder['panelSmallWidget']) == 0 && count($widgetOrder['panelBigWidget1']) == 0 &&
             count($widgetOrder['panelBigWidget2']) == 0)
             $widgetNewOrder = true;
 
@@ -67,7 +73,7 @@ class DefaultController extends Controller
         //массив продаж по дням на неделю
         $salesInWeek = SellingService::getSellingInWeek();
         Yii::debug($salesInWeek);
-        
+
         //работающие сотрудники
         $searchModelWorkers = InterviewService::search();
         $dataProviderWorkers = $searchModelWorkers->search(Yii::$app->request->queryParams, 5);
@@ -87,11 +93,11 @@ class DefaultController extends Controller
             ->all();
         Yii::debug($pages);
 
-        if(Yii::$app->request->isPjax && isset($_GET['page-event'])){
+        if (Yii::$app->request->isPjax && isset($_GET['page-event'])) {
             return \forma\modules\core\widgets\SystemEventWidget::widget(['timeline' => true, 'searchModel' => $searchModelSystemEvent, 'pages' => $pages, 'systemEventsRows' => $systemEventsRows]);
         }
 
-        if(Yii::$app->request->isPjax && isset($_GET['page'])){
+        if (Yii::$app->request->isPjax && isset($_GET['page'])) {
             return \forma\modules\core\widgets\WorkersWidget::widget(['tableView' => true, 'searchModelWorkers' => $searchModelWorkers,
                 'dataProviderWorkers' => $dataProviderWorkers]);
         }
@@ -120,7 +126,8 @@ class DefaultController extends Controller
         return $this->render('people');
     }
 
-    public function actionCalendar(){
+    public function actionCalendar()
+    {
         $clID = '909078294901-qjij3u1sbv80cd9m247tnvamn7gcgmm0.apps.googleusercontent.com';
         $clS = 'yf40ojWJgikgDQombGSc150o';
 
@@ -212,14 +219,16 @@ class DefaultController extends Controller
         }
     }
 
-    public function actionCalend(){
+    public function actionCalend()
+    {
         echo "<iframe src=\"https://calendar.google.com/calendar/embed?src=tyzhukotinskiy%40gmail.com&ctz=Europe%2FKiev\" style=\"border: 0\" width=\"800\" height=\"600\" frameborder=\"0\" scrolling=\"no\"></iframe>";
     }
 
-    public function actionConfirm(){
+    public function actionConfirm()
+    {
         $this->layout = 'main-login';
         $confirmed = false;
-        if(isset($_GET['email_string']) && !is_null(UserIdentity::findByEmailString($_GET['email_string']))){
+        if (isset($_GET['email_string']) && !is_null(UserIdentity::findByEmailString($_GET['email_string']))) {
             $user = UserIdentity::findByEmailString($_GET['email_string']);
             $user->confirmed_email = 1;
             $user->email_string = null;
@@ -229,4 +238,137 @@ class DefaultController extends Controller
         return $this->render('confirm', compact('confirmed'));
     }
 
+
+
+
+
+
+
+
+
+    public function data()
+    {
+        ['\forma\modules\product\records\Field',    //  category_id
+            '\forma\modules\product\records\FieldProductValue', // field_id  product_id
+            '\forma\modules\product\records\FieldValue',];  // field_id
+//                '\forma\modules\product\records\Product',
+//                '\forma\modules\product\records\Category',
+
+        ['\forma\modules\selling\records\state\State',      // user_id
+            '\forma\modules\selling\records\state\StateToState',]; //state_id   state_to_state
+        ['\forma\modules\core\records\Regularity',    //user_id
+            '\forma\modules\core\records\Item',];      //regularity_id    parent_id
+
+
+        ['\forma\modules\warehouse\records\WarehouseUser',   // user_id     warehouse_id
+            '\forma\modules\warehouse\records\Warehouse',
+            '\forma\modules\warehouse\records\WarehouseProduct',];   // product_id   warehouse_id
+        //                '\forma\modules\product\records\Product',
+
+        ['\forma\modules\product\records\ProductPackUnit',];  //product_id   pack_unit_id
+//                '\forma\modules\product\records\PackUnit',
+
+
+        ['\forma\modules\worker\records\WorkerVacancy']; // worker_id   vacancy_id
+//                '\forma\modules\vacancy\records\Vacancy',
+//            '\forma\modules\worker\records\Worker',
+
+
+        ['\forma\modules\purchase\records\purchase\Purchase',     // supplier_id    warehouse_id
+            '\forma\modules\purchase\records\purchase\PurchaseOverheadCost',   // purchase_id   overhead_cost_id
+            '\forma\modules\purchase\records\purchaseproduct\PurchaseProduct',]//  purchase_id  product_id  pack_unit_id
+
+
+        ['\forma\modules\hr\records\talk\requeststrategy\RequestStrategy'];     // strategy_id   reguest_id
+
+        //                '\forma\modules\hr\records\strategy\Strategy',
+        //                '\forma\modules\hr\records\talk\Request',
+
+
+        ['\forma\modules\hr\records\interview\Interview',     // worker_id    project_id
+            '\forma\modules\hr\records\interviewvacancy\InterviewVacancy',];  // vacancy_id   interview_id    overhead_cost_id    currency_id   pack_unit_id
+
+
+        \forma\modules\selling\records\talk\Answer::find()->all();
+        return $tables =
+//                '\forma\modules\product\records\Event',
+//                '\forma\modules\product\records\EventType',
+            [
+
+//                '\forma\modules\product\records\Category',
+//                '\forma\modules\product\records\Currency',
+//                '\forma\modules\product\records\TaxRate',
+//                '\forma\modules\product\records\Type',
+//                '\forma\modules\product\records\Manufacturer',
+
+            '\forma\modules\product\records\Migration',
+
+
+//                '\forma\modules\customer\records\Customer',
+
+
+//
+
+
+//                '\forma\modules\inventorization\records\Inventorization',
+            '\forma\modules\inventorization\records\InventorizationProduct',
+
+
+//                '\forma\modules\project\records\Project',
+
+            '\forma\modules\project\records\projectuser\ProjectUser',
+//                '\forma\modules\project\records\ProjectVacancy',
+            '\forma\modules\project\records\projectvacancy\ProjectVacancyOld',
+
+            '\forma\modules\overheadcost\records\OverheadCost',
+
+
+//                'forma\modules\selling\records\talk\Answer',
+            '\forma\modules\selling\records\Patient',
+//                '\forma\modules\selling\records\Selling',
+            '\forma\modules\selling\records\selling\SellingProduct',
+
+//                '\forma\modules\supplier\records\Supplier',
+
+
+//                '\forma\modules\transit\records\transit\Transit',
+            '\forma\modules\transit\records\transit\TransitOverheadCost',
+            '\forma\modules\transit\records\transitproduct\TransitProduct',
+
+
+        ];
+
+//            '\forma\modules\core\records\SystemEvent',
+//            '\forma\modules\core\records\SystemEventUser',
+//            '\forma\modules\core\records\WidgetUser',
+
+
+        //Accessory
+//forma\modules\customer\records\Customer
+//forma\modules\product\records\Manufacturer
+//forma\modules\product\records\Type
+//forma\modules\product\records\PackUnit
+//forma\modules\product\records\Category
+//forma\modules\supplier\records\Supplier
+//forma\modules\product\records\Currency
+//forma\modules\product\records\TaxRate
+
+//forma\modules\vacancy\records\Vacancy
+//forma\modules\worker\records\Worker
+//forma\modules\project\records\project\Project
+//forma\modules\selling\records\talk\Answer
+//forma\modules\selling\records\talk\Request
+//forma\modules\selling\records\strategy\Strategy
+//forma\modules\hr\records\interview\Interview
+//forma\modules\selling\records\requeststrategy\RequestStrategy
+//forma\modules\selling\records\selling\Selling
+//forma\modules\project\records\projectvacancy\ProjectVacancy
+//forma\modules\purchase\records\purchase\Purchase
+//forma\modules\inventorization\records\Inventorization
+//forma\modules\product\records\Product
+//forma\modules\transit\records\transit\Transit
+
+    }
 }
+
+

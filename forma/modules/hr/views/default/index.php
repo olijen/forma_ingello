@@ -21,6 +21,7 @@ $list = [
     ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o'],
 ];
 
+\forma\components\widgets\ModalCreate::widget()
 ?>
 
 <?php
@@ -175,6 +176,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             ]) : '';
 
         foreach ($list as $k => $item) {
+
             $panel .= '
                 <a href="'.$item['url'].'" class="'.(@$item['class']??'btn btn-success').'">
                 <i class="fa fa-'.$item['icon'].'"></i> '.$item['label'].' 
