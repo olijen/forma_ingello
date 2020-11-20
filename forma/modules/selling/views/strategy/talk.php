@@ -1,5 +1,4 @@
 <?php
-
 use forma\modules\core\widgets\DetachedBlock;
 
 
