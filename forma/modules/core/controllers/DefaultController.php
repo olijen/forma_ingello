@@ -6,7 +6,9 @@ use Composer\Util\Url;
 use Exception;
 
 use forma\components\AccessoryActiveRecord;
+use forma\modules\core\components\AutoDumpDataBase;
 use forma\modules\core\records\Accessory;
+use forma\modules\core\records\Regularity;
 use forma\modules\core\records\SystemEventSearch;
 use forma\modules\core\widgets\SystemEventWidget;
 use forma\modules\hr\services\InterviewService;
@@ -239,11 +241,10 @@ class DefaultController extends Controller
     }
 
 
-
-
-
-
-
+    public function actionTestData(){
+        $dump = new AutoDumpDataBase();
+        $dump->start();
+    }
 
 
     public function data()
@@ -254,10 +255,8 @@ class DefaultController extends Controller
 //                '\forma\modules\product\records\Product',
 //                '\forma\modules\product\records\Category',
 
-        ['\forma\modules\selling\records\state\State',      // user_id
-            '\forma\modules\selling\records\state\StateToState',]; //state_id   state_to_state
-        ['\forma\modules\core\records\Regularity',    //user_id
-            '\forma\modules\core\records\Item',];      //regularity_id    parent_id
+
+
 
 
         ['\forma\modules\warehouse\records\WarehouseUser',   // user_id     warehouse_id
@@ -288,8 +287,6 @@ class DefaultController extends Controller
         ['\forma\modules\hr\records\interview\Interview',     // worker_id    project_id
             '\forma\modules\hr\records\interviewvacancy\InterviewVacancy',];  // vacancy_id   interview_id    overhead_cost_id    currency_id   pack_unit_id
 
-
-        \forma\modules\selling\records\talk\Answer::find()->all();
         return $tables =
 //                '\forma\modules\product\records\Event',
 //                '\forma\modules\product\records\EventType',
