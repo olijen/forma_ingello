@@ -109,6 +109,7 @@ class Customer extends AccessoryActiveRecord
 
         foreach (Customer::findAll($data['selection'])  as $user) {
             $list[] = Yii::$app->mailer->compose()
+                ->setFrom('from@domain.com')
                 ->setTo($user->chief_email)
                 ->setSubject('Ув.'.' '.$user->name.' '.$data['messageSubject'])
                 ->setTextBody($data['message']);

@@ -40,7 +40,7 @@ class SiteController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['logout', ],
+                        'actions' => ['logout',],
                         'roles' => ['@'],
                     ],
                 ],
@@ -67,14 +67,15 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionClearDuplicates() {
+    public function actionClearDuplicates()
+    {
         $records = Accessory::find()->all();
         $one = [];
         foreach ($records as $k => $r) {
-            if (empty($one[$r->entity_class.$r->entity_id.$r->user_id])) {
-                $one[$r->entity_class.$r->entity_id.$r->user_id] = true;
+            if (empty($one[$r->entity_class . $r->entity_id . $r->user_id])) {
+                $one[$r->entity_class . $r->entity_id . $r->user_id] = true;
             } else {
-                echo $r->entity_class.$r->entity_id.$r->user_id.'<br>';
+                echo $r->entity_class . $r->entity_id . $r->user_id . '<br>';
                 $r->delete();
             }
         }
@@ -111,15 +112,14 @@ class SiteController extends Controller
         $loginLoad = $model->load(Yii::$app->request->post());
         $user = $model->getUser();
         if ($loginLoad) {
-            if ($model->login()){
+            if ($model->login()) {
                 $this->trigger(self::EVENT_AFTER_LOGIN);
                 if (isset($_COOKIE['after_login_link'])) {
                     return Yii::$app->response->redirect($_COOKIE['after_login_link']);
                 }
                 return Yii::$app->response->redirect('/');
-            }
-            else if(!is_null($user) && $user->confirmed_email == 0){
-                return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
+            } else if (!is_null($user) && $user->confirmed_email == 0) {
+                return Yii::$app->response->redirect('https://' . $_SERVER['HTTP_HOST'] . '/core/default/confirm', 301)->send();
             }
         }
 
@@ -159,14 +159,13 @@ class SiteController extends Controller
         if (isset($_POST['login-button'])) {
             $user = $modelLogin->getUser();
             if ($loginLoad) {
-                if ($modelLogin->login()){
+                if ($modelLogin->login()) {
                     Yii::debug("trigger");
                     $this->trigger(self::EVENT_AFTER_LOGIN);
                     return $this->goBack();
-                }
-                else if(!is_null($user) && $user->confirmed_email == 0){
+                } else if (!is_null($user) && $user->confirmed_email == 0) {
                     return Yii::$app->response
-                        ->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)
+                        ->redirect('https://' . $_SERVER['HTTP_HOST'] . '/core/default/confirm', 301)
                         ->send();
                 }
             }
@@ -185,15 +184,15 @@ class SiteController extends Controller
     public function actionSignupReferer()
     {
         $googleLink = $this->googleAuth();
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new SignupForm();
-
-//        if ($model->load(Yii::$app->request->post()) && $model->signup(true)) {
-//            return Yii::$app->response->redirect((['/core/user/referral']));
-//        }
+        $model->parent_id = Yii::$app->user->identity->id;
+        if ($model->load(Yii::$app->request->post()) && $model->signup(true)) {
+            return Yii::$app->response->redirect((['/core/user/referral']));
+        }
 
         Yii::$app->controller->layout = 'main-login';
         return $this->render('signup-ref', compact('model', 'googleLink'));
@@ -221,33 +220,36 @@ class SiteController extends Controller
         if (!empty($exception->statusCode)) {
             if ($exception->statusCode == 404) {
                 return $this->render('404');
-            } elseif($exception->statusCode == 505) {
+            } elseif ($exception->statusCode == 505) {
                 return $this->render('505');
             } else {
                 return $this->render('error');
             }
-        }  else {
+        } else {
             return $this->render('error');
         }
 
     }
 
-    public function actionDoc($page = false) {
+    public function actionDoc($page = false)
+    {
         if ($page) $this->layout = false;;
         return $this->render('documentation', ['page' => $page]);
     }
 
-    public function actionConfirm(){
+    public function actionConfirm()
+    {
         echo "Hello!";
     }
 
-    public function googleAuth(){
+    public function googleAuth()
+    {
         //todo перенести переменные в конфигурацию
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
         $redirectUri = 'https://forma.ingello.com/login';
         if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false)
-            $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/login';
+            $redirectUri = 'http://' . $_SERVER['HTTP_HOST'] . '/login';
 
 
         $client = new Google_Client();
@@ -283,24 +285,26 @@ class SiteController extends Controller
             // get profile info
             $google_oauth = new Google_Service_Oauth2($client);
             $google_account_info = $google_oauth->userinfo->get();
-            $email =  $google_account_info->email;
-            $name =  $google_account_info->name;
+            $email = $google_account_info->email;
+            $name = $google_account_info->name;
             $loginForm = new LoginForm();
+
             $loginForm->email = $email;
-            if($loginForm->getUser() != false){
-                if($loginForm->googleLogin()) {
+            if ($loginForm->getUser() != false) {
+                if ($loginForm->googleLogin()) {
                     $this->trigger(self::EVENT_AFTER_LOGIN);
                     return $this->goHome();
                 }
-            }
-            else {
+            } else {
                 $signupForm = new SignupForm();
+                if (!Yii::$app->user->isGuest) {
+                    $signupForm->parent_id = Yii::$app->user->identity->id;
+                }
                 $signupForm->username = $name;
                 $signupForm->email = $email;
                 $signupForm->password = $signupForm->getRandomPassword();
                 $signupForm->signup(null, true);
             }
-
             // now you can use this profile info to create account in your website and make user logged in.
         } else {
             //билдим ссылку, которая переводит нас на форму авторизации гугла, после она передает

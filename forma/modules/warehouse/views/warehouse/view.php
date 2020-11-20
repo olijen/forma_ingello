@@ -22,6 +22,7 @@ use yii\widgets\ListView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['index']];
 
+$this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\web\View::POS_BEGIN]);
 ?>
 <div class="warehouse-view">
 
@@ -325,3 +326,4 @@ $this->params['breadcrumbs'][] = ['label' => 'Хранилища', 'url' => ['in
     <?php Pjax::end(); ?>
 
 </div>
+
