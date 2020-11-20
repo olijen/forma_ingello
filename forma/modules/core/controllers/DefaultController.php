@@ -5,6 +5,7 @@ namespace forma\modules\core\controllers;
 use Composer\Util\Url;
 use Exception;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\SystemEventSearch;
 use forma\modules\core\widgets\SystemEventWidget;
@@ -238,158 +239,135 @@ class DefaultController extends Controller
     }
 
 
-    public function actionTestData()
-    {
-        $modelsRoute = [
-            '\forma\modules\core\records\Accessory',
-            '\forma\modules\product\records\Product',
-        ];
-        $modelsRoute = [
-            '\forma\modules\warehouse\records\WarehouseUser',
-                ['\forma\modules\warehouse\records\Warehouse',
-                    '\forma\modules\warehouse\records\WarehouseProduct',],
-        ];
 
 
-        if (true) {
-//            $accessoryKeys = $this->actionAccessory();
-            $accessoryKeys = ['forma\modules\product\records\Product' => ['102' => '186', '103' => '185', '107' => '184',]];
-        }
-        foreach ($modelsRoute as $modelsRoutWhitUser) {
-            $ids = $this->modelWhitUser($modelsRoutWhitUser);
 
-        }
-        de('$modelRoute');
-    }
 
-    public function dsa($ids, $accessoryKeys)
-    {
-        $warehouseModels = Warehouse::findAll($ids);
 
-        for ($i = 0; $i < count($warehouseModels); $i++) {
-            // сохранение варехаус
-//                $this->saveNewRecord($warehouseModels[$i]);
-//                de($warehouseUsers[$i]);
-            // сохранение варехоус user
-//                $this->saveNewRecord($warehouseUsers[$i]);
-        }
 
-        $warehouseProductModels = WarehouseProduct::find()
-            ->where(['warehouse_id' => $ids, 'product_id' => ['102', '103', '107']])->all();
-        foreach ($warehouseProductModels as $warehouseProductModel) {
-            foreach ($accessoryKeys['forma\modules\product\records\Product'] as $key => $newKey) {
-                if ($warehouseProductModel->product_id == $key) {
-                    $warehouseProductModel->product_id = $newKey;
-                }
-            }
-//               $newModels[]= $this->saveNewRecord($warehouseProductModel);// сохранение без юзера
-        }
-    }
-
-    public function modelWhitUser($modelsRoutWhitUser)
-    {
-        $modelWhitUser = $modelsRoutWhitUser::find()->where(['user_id' => 1])->all(); // найдем все варехаус user
-        $ids = [];
-        foreach ($modelWhitUser as $model) {
-            $ids [] = $model->warehouse_id;
-        }
-    }
-
-    public function actionAccessory()
-    {
-        $model = new Accessory();
-
-        $arrayModels = $model::find()->where(['user_id' => 1])
-            ->andWhere(['like', 'entity_class', '%' . 'Product', false])->all();
-        $accessoryKeys = [];
-        foreach ($arrayModels as $model) {
-            $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
-        }
-
-        foreach ($accessoryKeys as $entityClass => $modelId) {
-            $modelRout = '\\' . $entityClass;
-            $models = $modelRout::findAll($modelId);
-
-            foreach ($models as $model) {
-                $key = $model->id;
-                $newModel = $this->saveNewRecord($model);
-
-                $accessoryKeys[$entityClass][$key] = $newModel->id;
-            }
-        }
-
-        return $accessoryKeys;
-    }
-
-    public function saveNewRecord($model)
-    {
-        $model->isNewRecord = true;
-        $model->id = null;
-
-        if (!$model->save()) {
-            de($model->errors);
-        }
-        return $model;
-    }
 
     public function data()
     {
-        return $tables =
+        ['\forma\modules\product\records\Field',    //  category_id
+            '\forma\modules\product\records\FieldProductValue', // field_id  product_id
+            '\forma\modules\product\records\FieldValue',];  // field_id
+//                '\forma\modules\product\records\Product',
+//                '\forma\modules\product\records\Category',
 
-            [
-                '\forma\modules\hr\records\Answer',
-                '\forma\modules\product\records\Category',
-                '\forma\modules\product\records\Currency',
-                '\forma\modules\customer\records\Customer',
+        ['\forma\modules\selling\records\state\State',      // user_id
+            '\forma\modules\selling\records\state\StateToState',]; //state_id   state_to_state
+        ['\forma\modules\core\records\Regularity',    //user_id
+            '\forma\modules\core\records\Item',];      //regularity_id    parent_id
+
+
+        ['\forma\modules\warehouse\records\WarehouseUser',   // user_id     warehouse_id
+            '\forma\modules\warehouse\records\Warehouse',
+            '\forma\modules\warehouse\records\WarehouseProduct',];   // product_id   warehouse_id
+        //                '\forma\modules\product\records\Product',
+
+        ['\forma\modules\product\records\ProductPackUnit',];  //product_id   pack_unit_id
+//                '\forma\modules\product\records\PackUnit',
+
+
+        ['\forma\modules\worker\records\WorkerVacancy']; // worker_id   vacancy_id
+//                '\forma\modules\vacancy\records\Vacancy',
+//            '\forma\modules\worker\records\Worker',
+
+
+        ['\forma\modules\purchase\records\purchase\Purchase',     // supplier_id    warehouse_id
+            '\forma\modules\purchase\records\purchase\PurchaseOverheadCost',   // purchase_id   overhead_cost_id
+            '\forma\modules\purchase\records\purchaseproduct\PurchaseProduct',]//  purchase_id  product_id  pack_unit_id
+
+
+        ['\forma\modules\hr\records\talk\requeststrategy\RequestStrategy'];     // strategy_id   reguest_id
+
+        //                '\forma\modules\hr\records\strategy\Strategy',
+        //                '\forma\modules\hr\records\talk\Request',
+
+
+        ['\forma\modules\hr\records\interview\Interview',     // worker_id    project_id
+            '\forma\modules\hr\records\interviewvacancy\InterviewVacancy',];  // vacancy_id   interview_id    overhead_cost_id    currency_id   pack_unit_id
+
+
+        \forma\modules\selling\records\talk\Answer::find()->all();
+        return $tables =
 //                '\forma\modules\product\records\Event',
 //                '\forma\modules\product\records\EventType',
-            '\forma\modules\product\records\Field',
-            '\forma\modules\product\records\FieldProductValue',
-            '\forma\modules\product\records\FieldValue',
-            '\forma\modules\hr\records\Interview',
-            '\forma\modules\hr\records\InterviewVacancy',
-            '\forma\modules\inventorization\records\Inventorization',
-            '\forma\modules\inventorization\records\InventorizationProduct',
-            '\forma\modules\core\records\Item',
-            '\forma\modules\product\records\Manufacturer',
-            '\forma\modules\message\records\Message',
+            [
+
+//                '\forma\modules\product\records\Category',
+//                '\forma\modules\product\records\Currency',
+//                '\forma\modules\product\records\TaxRate',
+//                '\forma\modules\product\records\Type',
+//                '\forma\modules\product\records\Manufacturer',
+
             '\forma\modules\product\records\Migration',
+
+
+//                '\forma\modules\customer\records\Customer',
+
+
+//
+
+
+//                '\forma\modules\inventorization\records\Inventorization',
+            '\forma\modules\inventorization\records\InventorizationProduct',
+
+
+//                '\forma\modules\project\records\Project',
+
+            '\forma\modules\project\records\projectuser\ProjectUser',
+//                '\forma\modules\project\records\ProjectVacancy',
+            '\forma\modules\project\records\projectvacancy\ProjectVacancyOld',
+
             '\forma\modules\overheadcost\records\OverheadCost',
-            '\forma\modules\product\records\PackUnit',
+
+
+//                'forma\modules\selling\records\talk\Answer',
             '\forma\modules\selling\records\Patient',
-            '\forma\modules\product\records\Product',
-            '\forma\modules\product\records\ProductPackUnit',
-            '\forma\modules\project\records\Project',
-            '\forma\modules\project\records\ProjectUser',
-            '\forma\modules\project\records\ProjectVacancy',
-            '\forma\modules\project\records\ProjectVacancyOld',
-            '\forma\modules\purchase\records\Purchase',
-            '\forma\modules\purchase\records\PurchaseOverheadCost',
-            '\forma\modules\purchase\records\PurchaseProduct',
-            '\forma\modules\core\records\Regularity',
-            '\forma\modules\hr\records\Request',
-            '\forma\modules\hr\records\RequestStrategy',
-            '\forma\modules\hr\records\RequestStrategyOld',
-            '\forma\modules\selling\records\Selling',
-            '\forma\modules\selling\records\SellingProduct',
-            '\forma\modules\selling\records\State',
-            '\forma\modules\selling\records\StateToState',
-            '\forma\modules\hr\records\Strategy',
-            '\forma\modules\supplier\records\Supplier',
-            '\forma\modules\core\records\SystemEvent',
-            '\forma\modules\core\records\SystemEventUser',
-            '\forma\modules\product\records\TaxRate',
-            '\forma\modules\transit\records\Transit',
-            '\forma\modules\transit\records\TransitOverheadCost',
-            '\forma\modules\transit\records\TransitProduct',
-            '\forma\modules\product\records\Type',
-            '\forma\modules\vacancy\records\Vacancy',
-            '\forma\modules\warehouse\records\WarehouseUser',
-            '\forma\modules\warehouse\records\Warehouse',
-            '\forma\modules\warehouse\records\WarehouseProduct',
-            '\forma\modules\core\records\WidgetUser',
-            '\forma\modules\worker\records\Worker',
-            '\forma\modules\worker\records\WorkerVacancy'];
+//                '\forma\modules\selling\records\Selling',
+            '\forma\modules\selling\records\selling\SellingProduct',
+
+//                '\forma\modules\supplier\records\Supplier',
+
+
+//                '\forma\modules\transit\records\transit\Transit',
+            '\forma\modules\transit\records\transit\TransitOverheadCost',
+            '\forma\modules\transit\records\transitproduct\TransitProduct',
+
+
+        ];
+
+//            '\forma\modules\core\records\SystemEvent',
+//            '\forma\modules\core\records\SystemEventUser',
+//            '\forma\modules\core\records\WidgetUser',
+
+
+        //Accessory
+//forma\modules\customer\records\Customer
+//forma\modules\product\records\Manufacturer
+//forma\modules\product\records\Type
+//forma\modules\product\records\PackUnit
+//forma\modules\product\records\Category
+//forma\modules\supplier\records\Supplier
+//forma\modules\product\records\Currency
+//forma\modules\product\records\TaxRate
+
+//forma\modules\vacancy\records\Vacancy
+//forma\modules\worker\records\Worker
+//forma\modules\project\records\project\Project
+//forma\modules\selling\records\talk\Answer
+//forma\modules\selling\records\talk\Request
+//forma\modules\selling\records\strategy\Strategy
+//forma\modules\hr\records\interview\Interview
+//forma\modules\selling\records\requeststrategy\RequestStrategy
+//forma\modules\selling\records\selling\Selling
+//forma\modules\project\records\projectvacancy\ProjectVacancy
+//forma\modules\purchase\records\purchase\Purchase
+//forma\modules\inventorization\records\Inventorization
+//forma\modules\product\records\Product
+//forma\modules\transit\records\transit\Transit
+
     }
 }
 
