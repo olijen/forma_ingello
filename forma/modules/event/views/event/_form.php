@@ -51,9 +51,7 @@ endif;
                 'lang' => 'ru',
                 'minHeight' => 200,]]); ?>
     </div>
-
-
-    <div class="row">
+    <div>
         <?php if(isset($_GET['date_from']) && isset($_GET['start_time'])): ?>
             <?php $model->date_from = $_GET['date_from'] ?>
             <div class="col-xs-6">
