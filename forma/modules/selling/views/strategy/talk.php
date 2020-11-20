@@ -3,6 +3,7 @@ use forma\modules\core\widgets\DetachedBlock;
 
 
 $this->title = Yii::t('app', 'Разговор по скриптам');
+
 ?>
 
 
@@ -33,7 +34,11 @@ $this->title = Yii::t('app', 'Разговор по скриптам');
             </div>
             <div class="form-group">
                 <label for="country">Страна</label>
+                <?php if (!empty($selling->getCustomer()->one()->getCountry()->one()->name)):?>
                 <input class="form-control" id="country" type="text" placeholder="<?=$selling->getCustomer()->one()->getCountry()->one()->name?>" readonly>
+                <?php else:?>
+                <input class="form-control" id="country" type="text" placeholder="Страна не указана" readonly>
+                <?php endif; ?>
             </div>
             <div class="form-group">
                 <label for="address">Адрес</label>
