@@ -21,17 +21,29 @@ use yii\widgets\Breadcrumbs;
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
         <?php
-        $bgColor = '';
-        if ('selling' == Yii::$app->controller->module->id) {
-            $bgColor = '#58628e';
-        } elseif ('hr' == Yii::$app->controller->module->id) {
+        $bgColor = '#00a65a';
+        if ('selling'== Yii::$app->controller->module->id){
+            $bgColor ='#58628e';
+        }elseif ('hr' == Yii::$app->controller->module->id){
             $bgColor = '#F08080';
-        } elseif ('product' == Yii::$app->controller->module->id) {
+        }elseif ('product' == Yii::$app->controller->module->id){
             $bgColor = '#f49258';
-        } elseif ('warehouse' == Yii::$app->controller->module->id) {
-            $bgColor = '#f49258';
-        } elseif ('country' == Yii::$app->controller->module->id) {
-            $bgColor = '#f49258';
+        }elseif ('warehouse' == Yii::$app->controller->module->id){
+            $bgColor ='#f49258';
+        }elseif ('country' == Yii::$app->controller->module->id){
+            $bgColor ='#f49258';
+        }elseif ('customer' == Yii::$app->controller->module->id){
+            $bgColor ='#58628e';
+        }elseif ('worker' == Yii::$app->controller->module->id){
+            $bgColor ='#F08080';
+        }elseif ('vacancy' == Yii::$app->controller->module->id){
+            $bgColor ='#F08080';
+        }elseif ('inventorization' == Yii::$app->controller->module->id){
+            $bgColor ='#f49258';
+        }elseif ('purchase' == Yii::$app->controller->module->id){
+            $bgColor ='#f49258';
+        }elseif ('transit' == Yii::$app->controller->module->id){
+            $bgColor ='#f49258';
         }
         ?>
 
