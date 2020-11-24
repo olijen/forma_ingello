@@ -37,10 +37,10 @@ return [
     'inventorization' => [
         'class' => forma\modules\inventorization\Module::class
     ],
-   'event' => [
+    'event' => [
         'class' => forma\modules\event\Module::class
     ],
-   'message' => [
+    'message' => [
         'class' => forma\modules\message\Module::class
     ],
 
