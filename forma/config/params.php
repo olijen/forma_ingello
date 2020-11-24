@@ -306,7 +306,7 @@ return [
                 ],
                 [
                     'label'=>'Типы Тестов',
-                    'url'=>['/test/default'],
+                    'url'=>['/test/main'],
                     'icon'=>'list',
                     'items'=>[
 
