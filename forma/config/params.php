@@ -304,6 +304,14 @@ return [
 
                     ]
                 ],
+                [
+                    'label'=>'Типы Тестов',
+                    'url'=>['/test/default'],
+                    'icon'=>'list',
+                    'items'=>[
+
+                    ]
+                ],
                 ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users',
                     'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
                 ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign',
