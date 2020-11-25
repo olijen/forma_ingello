@@ -305,7 +305,15 @@ return [
                     ]
                 ],
                 [
-                    'label'=>'Типы Тестов',
+                    'label'=>'Результаты тестов',
+                    'url'=>['/test/result'],
+                    'icon'=>'list',
+                    'items'=>[
+
+                    ]
+                ],
+                [
+                    'label'=>'Тест',
                     'url'=>['/test/main'],
                     'icon'=>'list',
                     'items'=>[

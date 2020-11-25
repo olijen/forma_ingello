@@ -18,7 +18,7 @@ class TestTypeFieldSearch extends TestTypeField
     {
         return [
             [['id', 'required'], 'integer'],
-            [['block_name', 'label_name', 'type', 'value', 'placeholder'], 'safe'],
+            [['block_name', 'label_name', 'type', 'value', 'placeholder','test_id'], 'safe'],
         ];
     }
 
@@ -59,11 +59,14 @@ class TestTypeFieldSearch extends TestTypeField
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'required' => $this->required,
+            'test_id' => $this->test_id,
+
         ]);
 
         $query->andFilterWhere(['like', 'block_name', $this->block_name])
             ->andFilterWhere(['like', 'label_name', $this->label_name])
+            ->andFilterWhere(['like', 'id', $this->id])
+            ->andFilterWhere(['like', 'test_id', $this->test_id])
             ->andFilterWhere(['like', 'type', $this->type])
             ->andFilterWhere(['like', 'value', $this->value])
             ->andFilterWhere(['like', 'placeholder', $this->placeholder]);

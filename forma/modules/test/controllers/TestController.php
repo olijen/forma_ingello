@@ -55,7 +55,11 @@ class TestController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        $searchModel = new TestTypeFieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('/test/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'model' => $this->findModel($id),
         ]);
     }
