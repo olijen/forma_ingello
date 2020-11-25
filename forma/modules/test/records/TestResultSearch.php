@@ -18,7 +18,7 @@ class TestResultSearch extends Test
     {
         return [
             [['id', 'test_type_id', 'customer_id'], 'integer'],
-            [['client_name', 'result'], 'safe'],
+            [['result'], 'safe'],
         ];
     }
 
@@ -63,8 +63,7 @@ class TestResultSearch extends Test
             'customer_id' => $this->customer_id,
         ]);
 
-        $query->andFilterWhere(['like', 'client_name', $this->client_name])
-            ->andFilterWhere(['like', 'result', $this->result]);
+        $query->andFilterWhere(['like', 'result', $this->result]);
 
         return $dataProvider;
     }

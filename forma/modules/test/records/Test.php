@@ -37,7 +37,6 @@ class Test extends \yii\db\ActiveRecord
             [['client_name'], 'required'],
             [['result'], 'string'],
             [['test_type_id', 'customer_id'], 'integer'],
-            [['client_name'], 'string', 'max' => 255],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['test_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TestType::className(), 'targetAttribute' => ['test_type_id' => 'id']],
         ];

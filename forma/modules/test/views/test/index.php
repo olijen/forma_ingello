@@ -27,6 +27,7 @@ if (!empty($_GET['id'])){
     $this->params['breadcrumbs'][] = $this->title;
 }
 ?>
+
 <div class="test-type-field-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -39,6 +40,11 @@ if (!empty($_GET['id'])){
         <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php endif; ?>
+    <div>
+        <div class="btn btn-lg">
+            <a href="/test/main">Вернуться к списку</a>
+        </div>
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([

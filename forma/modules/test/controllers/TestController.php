@@ -83,6 +83,22 @@ class TestController extends Controller
         ]);
     }
 
+
+    public function actionTest($id){
+
+        $model = $this->findModel($id);
+        var_dump($model);
+        exit;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('test', [
+            'model' => $model,
+        ]);
+
+    }
+
     /**
      * Updates an existing TestTypeField model.
      * If update is successful, the browser will be redirected to the 'view' page.
