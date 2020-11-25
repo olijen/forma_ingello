@@ -68,8 +68,7 @@ class TestController extends Controller
     public function actionCreate()
     {
         $model = new TestTypeField();
-        var_dump($model->load);
-        exit;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             return $this->redirect(['view', 'id' => $model->id]);

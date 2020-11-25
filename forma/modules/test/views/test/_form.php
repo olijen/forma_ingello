@@ -23,9 +23,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'placeholder')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'required')->checkbox() ?>
-
+    <?php if (!empty($_GET)): ?>
     <?= $form->field($model, 'test_id')->textInput(['value'=>$_GET['id']]) ?>
-
+    <?php else: ?>
+    <?= $form->field($model, 'test_id')->textInput(['placeholder'=>'Введите id теста']) ?>
+    <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
