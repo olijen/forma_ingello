@@ -2,19 +2,17 @@
 
 namespace app\modules\test\controllers;
 
-use app\modules\test\records\TestTypeFieldSearch;
 use Yii;
-use forma\modules\test\records\TestType;
-use app\modules\test\records\TestTypeField;
-use forma\modules\test\records\TestSearch;
+use app\modules\test\records\Test;
+use app\modules\test\records\TestResultSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MainController implements the CRUD actions for TestType model.
+ * ResultController implements the CRUD actions for Test model.
  */
-class MainController extends Controller
+class ResultController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,13 +30,12 @@ class MainController extends Controller
     }
 
     /**
-     * Lists all TestType models.
+     * Lists all Test models.
      * @return mixed
      */
     public function actionIndex()
     {
-
-        $searchModel = new TestSearch();
+        $searchModel = new TestResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,37 +45,29 @@ class MainController extends Controller
     }
 
     /**
-     * Displays a single TestType model.
+     * Displays a single Test model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $searchModel = new TestTypeFieldSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('/test/index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new TestType model.
+     * Creates a new Test model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-
-        $model = new TestType();
+        $model = new Test();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-
-            return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -87,7 +76,7 @@ class MainController extends Controller
     }
 
     /**
-     * Updates an existing TestType model.
+     * Updates an existing Test model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -95,20 +84,19 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
 
-        $model= new TestTypeField();
-//        $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('/test/update', [
+        return $this->render('update', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Deletes an existing TestType model.
+     * Deletes an existing Test model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -122,15 +110,15 @@ class MainController extends Controller
     }
 
     /**
-     * Finds the TestType model based on its primary key value.
+     * Finds the Test model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TestType the loaded model
+     * @return Test the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = TestType::findOne($id)) !== null) {
+        if (($model = Test::findOne($id)) !== null) {
             return $model;
         }
 

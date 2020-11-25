@@ -8,20 +8,40 @@ use forma\modules\test\records\TestSearch;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-var_dump($_GET);
+if (empty($_GET['name']) && !empty($_GET['id'])){
+    $this->title = 'Создать тест для';
+    $this->params['breadcrumbs'][] = $this->title;
+}else{
+    $this->title = 'Создать тест для';
+    $this->params['breadcrumbs'][] = $this->title;
 
+}
 if (!empty($_GET['id'])){
     $id_test = $_GET['id'];
     $this->title = 'Создать тест для';
     $this->params['breadcrumbs'][] = $this->title;
 }elseif(!empty($_GET['name'])){
     $name_test = $_GET['name'];
-$this->title = 'Создать тест для:'.$name_test;
-$this->params['breadcrumbs'][] = $this->title;
-}else{
-    $this->title = 'Создать тест для';
+    $this->title = 'Создать тест для'.$name_test;
     $this->params['breadcrumbs'][] = $this->title;
 }
+//if (!empty($_GET['id'])){
+//    $id_test = $_GET['id'];
+//    $this->title = 'Создать тест для';
+//    $this->params['breadcrumbs'][] = $this->title;
+//}elseif(!empty($_GET['name'])){
+//    $name_test = $_GET['name'];
+//$this->title = 'Создать тест для:'.$name_test;
+//$this->params['breadcrumbs'][] = $this->title;
+//}elseif(!empty($_GET['id']) || !empty($_GET['name'])){
+//    $id_test = $_GET['id'];
+//    $name_test = $_GET['name'];
+//    $this->title = 'Создать тест для:'.$name_test;
+//    $this->params['breadcrumbs'][] = $this->title;
+//}else{
+//    $this->title = 'Создать тест для';
+//    $this->params['breadcrumbs'][] = $this->title;
+//}
 
 
 ?>
