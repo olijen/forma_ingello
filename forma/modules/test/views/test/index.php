@@ -6,12 +6,12 @@ use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestSearch;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\test\records\TestType */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-var_dump($searchModel->attributes);
-$this->title = 'Создать тест для:';
+var_dump($_GET);
+$name_test = $_GET['name'];
+$id_test = $_GET['id'];
+$this->title = 'Создать тест для:'.$name_test;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-type-field-index">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить вопрос', ['create?id='.$id_test], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

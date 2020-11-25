@@ -71,7 +71,7 @@ class MainController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
         }
 
         return $this->render('create', [
@@ -90,10 +90,8 @@ class MainController extends Controller
     {
 
         $model = $this->findModel($id);
-        var_dump($model->name);
-        exit;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'name' => $model->id]);
         }
 
         return $this->render('update', [

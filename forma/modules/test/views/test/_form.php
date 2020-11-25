@@ -22,9 +22,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'placeholder')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'required')->textInput() ?>
+    <?= $form->field($model, 'required')->checkbox() ?>
 
-    <?= $form->field($model, 'test_id')->textInput() ?>
+    <?= $form->field($model, 'test_id')->textInput(['value'=>$_GET['id']]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
