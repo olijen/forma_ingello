@@ -2,12 +2,15 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use forma\modules\test\records\TestType;
+use forma\modules\test\records\TestSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Test Type Fields';
+$model = new TestType();
+var_dump($_GET);
+$this->title = 'Создать тест для:'.$model->name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-type-field-index">
@@ -15,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Test Type Field', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -33,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'value',
             'placeholder',
             'required',
-
+            'test_id',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

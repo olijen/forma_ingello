@@ -67,10 +67,11 @@ class MainController extends Controller
     {
 
         $model = new TestType();
-        var_dump($model);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view']);
+            var_dump($model->name);
+            exit;
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -87,8 +88,7 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
-        var_dump($_POST);
-        exit;
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
