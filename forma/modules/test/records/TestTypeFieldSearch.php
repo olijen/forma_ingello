@@ -59,7 +59,7 @@ class TestTypeFieldSearch extends TestTypeField
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'test_id' => $this->test_id,
+            'test_id' => $this->id,
 
         ]);
 

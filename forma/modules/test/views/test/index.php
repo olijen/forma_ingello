@@ -7,51 +7,32 @@ use forma\modules\test\records\TestSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
+/* @var $model app\modules\test\records\TestType */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-if (empty($_GET['name']) && !empty($_GET['id'])){
-    $this->title = 'Создать тест для';
+
+
+if (!empty($_GET['id'])){
+    $id_test = $_GET['id'];
+
+    $this->title = 'Создать тест для : id '.$id_test;
+    $this->params['breadcrumbs'][] = $this->title;
+
+}elseif (!empty($_GET['name'])){
+    $name_test = $_GET['name'];
+    $this->title = 'Создать тест для : '.$name_test;
+
     $this->params['breadcrumbs'][] = $this->title;
 }else{
     $this->title = 'Создать тест для';
     $this->params['breadcrumbs'][] = $this->title;
-
 }
-if (!empty($_GET['id'])){
-    $id_test = $_GET['id'];
-    $this->title = 'Создать тест для';
-    $this->params['breadcrumbs'][] = $this->title;
-}elseif(!empty($_GET['name'])){
-    $name_test = $_GET['name'];
-    $this->title = 'Создать тест для'.$name_test;
-    $this->params['breadcrumbs'][] = $this->title;
-}
-//if (!empty($_GET['id'])){
-//    $id_test = $_GET['id'];
-//    $this->title = 'Создать тест для';
-//    $this->params['breadcrumbs'][] = $this->title;
-//}elseif(!empty($_GET['name'])){
-//    $name_test = $_GET['name'];
-//$this->title = 'Создать тест для:'.$name_test;
-//$this->params['breadcrumbs'][] = $this->title;
-//}elseif(!empty($_GET['id']) || !empty($_GET['name'])){
-//    $id_test = $_GET['id'];
-//    $name_test = $_GET['name'];
-//    $this->title = 'Создать тест для:'.$name_test;
-//    $this->params['breadcrumbs'][] = $this->title;
-//}else{
-//    $this->title = 'Создать тест для';
-//    $this->params['breadcrumbs'][] = $this->title;
-//}
-
-
 ?>
 <div class="test-type-field-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <?php if (!empty($_GET['id']) or !empty($_GET['name'])): ?>
+    <?php if (!empty($_GET['id'])): ?>
     <p>
-        <?= Html::a('Добавить вопрос', ['create?id='.$id_test], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить вопрос', ['create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
     </p>
     <?php else: ?>
     <p>
@@ -72,7 +53,7 @@ if (!empty($_GET['id'])){
             'value',
             'placeholder',
             'required',
-            'test_id',
+           'test_id',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

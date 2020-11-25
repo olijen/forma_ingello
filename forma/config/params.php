@@ -305,16 +305,16 @@ return [
                     ]
                 ],
                 [
-                    'label'=>'Результаты тестов',
-                    'url'=>['/test/result'],
+                    'label'=>'Тест',
+                    'url'=>['/test/main'],
                     'icon'=>'list',
                     'items'=>[
 
                     ]
                 ],
                 [
-                    'label'=>'Тест',
-                    'url'=>['/test/main'],
+                    'label'=>'Результаты тестов',
+                    'url'=>['/test/result'],
                     'icon'=>'list',
                     'items'=>[
 
