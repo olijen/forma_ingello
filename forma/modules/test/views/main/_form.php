@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 <div class="test-type-form">
-    <?php $form = ActiveForm::begin(['action'=>'/test/test?id='.$model->name]); ?>
+    <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-xs-6"><?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
     </div>

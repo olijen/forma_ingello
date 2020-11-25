@@ -4,6 +4,7 @@ namespace app\modules\test\controllers;
 
 use Yii;
 use app\modules\test\records\TestTypeField;
+use forma\modules\test\records\TestType;
 use app\modules\test\records\TestTypeFieldSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,10 +36,12 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
+        $model = new TestType();
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'model'=>$model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
