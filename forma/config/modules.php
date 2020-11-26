@@ -22,6 +22,9 @@ return [
     'customer' => [
         'class' => forma\modules\customer\Module::class
     ],
+    'dark' => [
+        'class' => forma\modules\dark\Module::class
+    ],
     'overheadcost' => [
         'class' => forma\modules\overheadcost\Module::class
     ],

@@ -1037,7 +1037,7 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 
     var dom1 = document.getElementsByClassName('panel_big_widget')[1];
 
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 168) {
         new Sortable(dom, {
             handle: '.box-header'
         });
