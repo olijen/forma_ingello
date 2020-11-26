@@ -77,6 +77,8 @@ class MainController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
+            $command = Yii::$app->db->
+            createCommand("UPDATE forma.test_type t SET t.link = 'test/test/test?id=$model->id' WHERE t.id =".$model->id)->execute();
 
             return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
         }
@@ -95,14 +97,18 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
+        $model = new TestTypeField();
+        $model_test = $this->findModel($id);
 
-        $model= new TestTypeField();
-        $model = $this->findModel($id);
+        $searchModel = new TestTypeFieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('/test/update', [
+        return $this->render('/test/index', [
+            'searchModel'=>$searchModel,
+            'dataProvider'=>$dataProvider,
             'model' => $model,
         ]);
     }

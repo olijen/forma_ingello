@@ -7,23 +7,16 @@ use forma\modules\test\records\TestSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
-/* @var $model app\modules\test\records\TestType */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-
-if (!empty($_GET['id'])){
-    $id_test = $_GET['id'];
-
-    $this->title = 'Создать тест для : id '.$id_test;
-    $this->params['breadcrumbs'][] = $this->title;
-
-}elseif (!empty($_GET['name'])){
+var_dump($model->attributes);
+exit;
+if (!empty($_GET['name'])){
     $name_test = $_GET['name'];
-    $this->title = 'Создать тест для : '.$name_test;
+    $this->title = 'Создать вопрос для : '.$name_test;
 
     $this->params['breadcrumbs'][] = $this->title;
 }else{
-    $this->title = 'Создать тест для';
+    $this->title = 'Создать вопрос';
     $this->params['breadcrumbs'][] = $this->title;
 }
 ?>
@@ -52,14 +45,28 @@ if (!empty($_GET['id'])){
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
-            'block_name',
-            'label_name',
-            'type',
-            'value',
-            'placeholder',
-            'required',
-           'test_id',
+            ['attribute'=>'id',
+            'label'=>'Имя Теста'],
+
+            ['attribute'=>'block_name',
+            'label'=>'Имя Теста'],
+
+            ['attribute'=>'label_name',
+            'label'=>'Название'],
+
+            ['attribute'=>'type',
+            'label'=>'Тип поля'],
+
+            ['attribute'=>'value',
+                'label'=>'Значение'],
+            ['attribute'=>'placeholder',
+                'label'=>'Подсказка по полю'],
+
+            ['attribute'=>'required',
+                'label'=>'Обязательный'],
+
+            ['attribute'=>'test_id',
+                'label'=>'Уникальный инфедикатор теста'],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

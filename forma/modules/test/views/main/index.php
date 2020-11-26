@@ -2,7 +2,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 
 $this->title = 'Список типов тестов';
 ?>
@@ -19,12 +19,25 @@ $this->title = 'Список типов тестов';
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' =>$searchModel,
+    
     'columns'=>[
         ['class' => 'yii\grid\SerialColumn'],
-        'id',
-        'name',
-        'link',
-        'user_id',
-        ['class'=>'yii\grid\ActionColumn'],
+
+        [
+                'attribute'=>'name',
+                'label'=>'Имя Теста',
+
+        ],
+        [
+            'attribute'=>'link',
+            'label'=>'Ссылка на тест',
+        ],
+
+        [
+                'class'=>'yii\grid\ActionColumn',
+                'template'=>'{view} {update}',
+
+
+        ],
     ],
 ]);?>

@@ -5,7 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\test\records\TestTypeField */
 
-$this->title = 'Update Test Type Field: ' . $model->id;
+
+
+$this->title = 'Изсенить вопросы: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Test Type Fields', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';

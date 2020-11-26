@@ -15,10 +15,15 @@ use yii\widgets\ActiveForm;
 <div class="test-type-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-
-
-        <div class="col-xs-6"><?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-xs-6"><?= $form->field($model, 'link')->textInput(['placeholder'=>'test/test/test?id=','maxlength' => true]) ?></div>
+        <div class="col-xs-6"><?= $form->field($model, 'name')
+                ->textInput(['maxlength' => true])->label($label = 'Название теста' )
+            ?>
+        </div>
+        <div class="col-xs-6"><?= $form->field($model, 'link')
+                ->hiddenInput(['value'=>'test/test/test?id=','maxlength' => true])
+                ->label($label = 'Ссылка')
+            ?>
+        </div>
     </div>
     <div class="col-xs-4">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
