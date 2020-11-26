@@ -16,12 +16,12 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-xs-6"><?= $form->field($model, 'name')
-                ->textInput(['maxlength' => true])->label($label = 'Имя' )
+                ->textInput(['maxlength' => true])->label($label = 'Название теста' )
             ?>
         </div>
         <div class="col-xs-6"><?= $form->field($model, 'link')
                 ->hiddenInput(['value'=>'test/test/test?id=','maxlength' => true])
-                ->label($label = 'Сыылка' )
+                ->label($label = 'Ссылка')
             ?>
         </div>
     </div>

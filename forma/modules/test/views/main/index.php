@@ -15,10 +15,11 @@ $this->title = 'Список типов тестов';
 
     <?php ActiveForm::end(); ?>
 </div>
-<a href="<?php echo $url = Url::toRoute(['test/test', 'id' => 39]);?>"> Ссылка на тест</a>
+
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' =>$searchModel,
+    
     'columns'=>[
         ['class' => 'yii\grid\SerialColumn'],
 

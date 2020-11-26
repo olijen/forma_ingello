@@ -8,15 +8,9 @@ use forma\modules\test\records\TestSearch;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-
-if (!empty($_GET['id'])){
-    $id_test = $_GET['id'];
-
-    $this->title = 'Создать вопрос для : id '.$id_test;
-    $this->params['breadcrumbs'][] = $this->title;
-
-}elseif (!empty($_GET['name'])){
+var_dump($model->attributes);
+exit;
+if (!empty($_GET['name'])){
     $name_test = $_GET['name'];
     $this->title = 'Создать вопрос для : '.$name_test;
 
@@ -45,8 +39,7 @@ if (!empty($_GET['id'])){
         </div>
     </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-<?php var_dump($dataProvider);
-?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

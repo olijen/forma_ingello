@@ -36,17 +36,20 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
+        $id = $_GET['id'];
+        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
+        $model = new TestTypeField();
+        $searchModel = new TestTypeFieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            $model = new TestType();
-            $searchModel = new TestTypeFieldSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            return $this->render('index', [
-                'model' => $model,
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
+        return $this->render('index', [
+            'test_id'=>$test_id,
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
 
     /**
@@ -88,8 +91,6 @@ class TestController extends Controller
 
 
     public function actionTest($id){
-        $searchModel = new TestTypeFieldSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $test = TestTypeField::find()->where(['test_id'=>$id])->one();
         $model = new TestTypeField();
 
