@@ -188,6 +188,8 @@ Yii::debug($warehouseProducts);
                         'responsiveWrap' => false,
                     ]);
 
+                    Yii::debug(Currency::getList());
+
                     ?>
                 </div>
             </div>

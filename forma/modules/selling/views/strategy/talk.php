@@ -41,7 +41,6 @@ $this->title = Yii::t('app', 'Разговор по скриптам');
         </div>
         <div class="form-group">
             <label for="address">Адрес</label>
-            <?php var_dump($selling); ?>
             <input class="form-control" id="address" type="text"
                    placeholder="<?= $selling->getCustomer()->one()->address ?>" readonly>
         </div>
