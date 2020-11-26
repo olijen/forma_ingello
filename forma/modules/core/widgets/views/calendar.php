@@ -321,6 +321,7 @@ $widgetsForSortable2 = [];
                 'eventLimit' => false,
                 'selectable' => true,
                 'selectHelper' => true,
+                'selectLongPressDelay' => 1000,
                 'droppable' => true,
                 'editable' => true,
                 'select' => new JsExpression($JSCode),

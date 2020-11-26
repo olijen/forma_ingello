@@ -58,7 +58,7 @@ endif;
                 <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
                     'pluginOptions' => [
                         'format' => 'yyyy-mm-dd' ,
-                    ]])?>
+                    ], 'options' => ['style' => 'left: 0']])?>
             </div>
             <div class="col-xs-6">
                 <?php $model->start_time = $_GET['start_time'] ?>

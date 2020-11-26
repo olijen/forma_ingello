@@ -35,7 +35,7 @@ class NomenclatureService
 
         $model->pack_unit_id = $model->product->pack_unit_id ?? null;
 
-        $model->currency_id = 1;
+        //$model->currency_id = 1;
 
         $model->save();
 

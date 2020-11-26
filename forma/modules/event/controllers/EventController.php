@@ -119,8 +119,6 @@ class EventController extends Controller
      */
     public function actionUpdate($id)
     {
-
-
         $model = Event::find()->where(['id' => $id])->one();
 
 
