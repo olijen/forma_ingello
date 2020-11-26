@@ -36,20 +36,7 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-        if (isset($_GET['id'])){
-            $id = $_GET['id'];
-            $test_id = TestTypeField::find()->where(['test_id'=>$id])->all();
-            $model = new TestType();
-            $searchModel = new TestTypeFieldSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-            return $this->render('index', [
-                'test_id'=>$test_id,
-                'model'=>$model,
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }else {
             $model = new TestType();
             $searchModel = new TestTypeFieldSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -60,7 +47,7 @@ class TestController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }
-    }
+
 
     /**
      * Displays a single TestTypeField model.
@@ -127,6 +114,8 @@ class TestController extends Controller
      */
     public function actionUpdate($id)
     {
+var_dump('vinuernvi');
+exit;
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

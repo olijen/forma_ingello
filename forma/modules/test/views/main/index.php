@@ -21,10 +21,7 @@ $this->title = 'Список типов тестов';
     'filterModel' =>$searchModel,
     'columns'=>[
         ['class' => 'yii\grid\SerialColumn'],
-        [
-            'attribute'=>'id',
-            'label'=>'Индефикатор',
-        ],
+
         [
                 'attribute'=>'name',
                 'label'=>'Имя Теста',
@@ -34,10 +31,12 @@ $this->title = 'Список типов тестов';
             'attribute'=>'link',
             'label'=>'Ссылка на тест',
         ],
+
         [
-            'attribute'=>'user_id',
-            'label'=>'Индефикатор пользователя',
+                'class'=>'yii\grid\ActionColumn',
+                'template'=>'{view} {update}',
+
+
         ],
-        ['class'=>'yii\grid\ActionColumn'],
     ],
 ]);?>
