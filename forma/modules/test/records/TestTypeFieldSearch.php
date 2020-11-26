@@ -40,6 +40,7 @@ class TestTypeFieldSearch extends TestTypeField
      */
     public function search($params)
     {
+        var_dump($params);
         $query = TestTypeField::find();
 
         // add conditions that should always apply here

@@ -36,15 +36,30 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-        $model = new TestType();
-        $searchModel = new TestTypeFieldSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (isset($_GET['id'])){
+            $id = $_GET['id'];
+            $test_id = TestTypeField::find()->where(['test_id'=>$id])->all();
+            $model = new TestType();
+            $searchModel = new TestTypeFieldSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'model'=>$model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'test_id'=>$test_id,
+                'model'=>$model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }else {
+            $model = new TestType();
+            $searchModel = new TestTypeFieldSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**
@@ -55,6 +70,7 @@ class TestController extends Controller
      */
     public function actionView($id)
     {
+
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('/test/index', [
@@ -85,15 +101,18 @@ class TestController extends Controller
 
 
     public function actionTest($id){
+        $searchModel = new TestTypeFieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $test = TestTypeField::find()->where(['test_id'=>$id])->one();
+        $model = new TestTypeField();
 
-        $model = $this->findModel($id);
-        var_dump($model);
-        exit;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('test', [
+
+            'test'=>$test,
             'model' => $model,
         ]);
 

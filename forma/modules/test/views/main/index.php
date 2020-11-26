@@ -2,7 +2,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 
 $this->title = 'Список типов тестов';
 ?>
@@ -15,16 +15,29 @@ $this->title = 'Список типов тестов';
 
     <?php ActiveForm::end(); ?>
 </div>
-
+<a href="<?php echo $url = Url::toRoute(['test/test', 'id' => 39]);?>"> Ссылка на тест</a>
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' =>$searchModel,
     'columns'=>[
         ['class' => 'yii\grid\SerialColumn'],
-        'id',
-        'name',
-        'link',
-        'user_id',
+        [
+            'attribute'=>'id',
+            'label'=>'Индефикатор',
+        ],
+        [
+                'attribute'=>'name',
+                'label'=>'Имя Теста',
+
+        ],
+        [
+            'attribute'=>'link',
+            'label'=>'Ссылка на тест',
+        ],
+        [
+            'attribute'=>'user_id',
+            'label'=>'Индефикатор пользователя',
+        ],
         ['class'=>'yii\grid\ActionColumn'],
     ],
 ]);?>

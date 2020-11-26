@@ -7,27 +7,22 @@ use yii\widgets\ActiveForm;
 /* @var $model app\modules\test\records\TestTypeField */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<?php var_dump($model); exit; ?>
+<?php var_dump($test['block_name'])  ?>
 <div class="test-type-field-form">
 
     <?php $form = ActiveForm::begin(); ?>
+<div class="row" style="margin-top: 30px">
+    <div class="col-xs-6">
+    <?php echo $test['block_name']?>
+    <br>
+   <?= $form->field($test,'value')
+       ->textInput(['placeholder'=>$test['placeholder']])
+       ->label($label = $test['label_name']);?>
+   </div>
 
-    <?= $form->field($model, 'block_name')->textInput(['maxlength' => true]) ?>
+</div>
+<!--    --><?//= $form->field($model, 'block_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'label_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'placeholder')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'required')->checkbox() ?>
-    <?php if (!empty($_GET)): ?>
-        <?= $form->field($model, 'test_id')->textInput(['value'=>$_GET['id']]) ?>
-    <?php else: ?>
-        <?= $form->field($model, 'test_id')->textInput(['placeholder'=>'Введите id теста']) ?>
-    <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
