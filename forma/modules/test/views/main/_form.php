@@ -13,10 +13,12 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 <div class="test-type-form">
-
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
+
+
         <div class="col-xs-6"><?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?></div>
+        <div class="col-xs-6"><?= $form->field($model, 'link')->textInput(['placeholder'=>'test/test/test?id=','maxlength' => true]) ?></div>
     </div>
     <div class="col-xs-4">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

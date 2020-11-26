@@ -34,6 +34,7 @@ class TestTypeField extends \yii\db\ActiveRecord
             [['block_name', 'label_name'], 'required'],
             [['required'], 'integer'],
             [['block_name', 'label_name', 'type', 'value', 'placeholder'], 'string', 'max' => 255],
+            [['test_id'], 'safe']
         ];
     }
 

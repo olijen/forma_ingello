@@ -327,8 +327,16 @@ return [
                     ]
                 ],
                 [
-                    'label'=>'Типы Тестов',
+                    'label'=>'Тест',
                     'url'=>['/test/main'],
+                    'icon'=>'list',
+                    'items'=>[
+
+                    ]
+                ],
+                [
+                    'label'=>'Результаты тестов',
+                    'url'=>['/test/result'],
                     'icon'=>'list',
                     'items'=>[
 

@@ -2,8 +2,10 @@
 
 namespace app\modules\test\controllers;
 
+use app\modules\test\records\TestTypeFieldSearch;
 use Yii;
 use forma\modules\test\records\TestType;
+use app\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -53,7 +55,12 @@ class MainController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        $searchModel = new TestTypeFieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('/test/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'model' => $this->findModel($id),
         ]);
     }
@@ -67,10 +74,11 @@ class MainController extends Controller
     {
 
         $model = new TestType();
-        var_dump($model);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view']);
+
+
+            return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
         }
 
         return $this->render('create', [
@@ -87,15 +95,14 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
-        var_dump($_POST);
-        exit;
-        $model = $this->findModel($id);
 
+        $model= new TestTypeField();
+        $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
+        return $this->render('/test/update', [
             'model' => $model,
         ]);
     }
