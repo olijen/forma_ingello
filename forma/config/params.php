@@ -362,8 +362,14 @@ return [
                 ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
                 ['label' => 'Создать проект', 'url' => ['/project/project/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
+                ['label' => 'Добавить найм', 'url' => ['/hr/form/index'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
+                ['label' => 'Добавить кадр', 'url' => ['/worker/worker/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
+                ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Скрипты','url' => ['/selling/speech-module'],'icon' => 'list',]],
         ],
         [
@@ -379,6 +385,8 @@ return [
                 ['label' => 'Продукты и услуги', 'url' => ['/product/product'], 'icon' => 'cube'],
                 ['label' => 'Добавить прод. и усл.', 'url' => ['/product/product/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
+                ['label' => 'Добавить производ.', 'url' => ['/product/manufacturer/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Категории', 'url' => ['/product/category'], 'icon' => 'object-group'],
                 ['label' => 'Добавить категории', 'url' => ['/product/category/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Упаковки', 'url' => ['/product/pack-unit'], 'icon' => 'cubes'],
@@ -408,13 +416,23 @@ return [
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
 
-                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
                 ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
+                ['label' => 'Создать поставку', 'url' => ['/purchase/form/index'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
+                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
+                //['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
                 ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
             ],
         ],
-        ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap'],
-        ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'shopping-cart'],
-        ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
+        ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap', 'options' => [
+                'class'=>'menuColor text_black']],
+        ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'shopping-cart', 'options' => [
+                'class'=>'menuColor text_black']],
+        ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat', 'options' => [
+                'class'=>'menuColor text_black']],
     ],
 ];
+
+
+
+
