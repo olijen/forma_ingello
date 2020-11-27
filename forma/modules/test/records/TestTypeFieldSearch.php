@@ -41,16 +41,18 @@ class TestTypeFieldSearch extends TestTypeField
      */
     public function search($params)
     {
+        if (isset($params['id'])){
 
+            $query = TestTypeField::find()->andWhere(['id' => '']);
+            var_dump($query);
+            exit;
+        }
+//            var_dump('nifve');
+//            exit;
+//            $query = TestTypeField::find();
+//        }
 
-
-//        TestTypeFieldSearch%5Btest_id%5D=141
             $query = TestTypeField::find();
-
-
-        var_dump($query);
-
-
 
         // add conditions that should always apply here
 

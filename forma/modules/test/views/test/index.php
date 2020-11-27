@@ -8,8 +8,7 @@ use forma\modules\test\records\TestSearch;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-var_dump($model->attributes);
-exit;
+
 if (!empty($_GET['name'])){
     $name_test = $_GET['name'];
     $this->title = 'Создать вопрос для : '.$name_test;
@@ -43,6 +42,7 @@ if (!empty($_GET['name'])){
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             ['attribute'=>'id',
