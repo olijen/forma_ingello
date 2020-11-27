@@ -36,15 +36,16 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-        $id = $_GET['id'];
-        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
+
+//        $id = $_GET['id'];
+//        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
         $model = new TestTypeField();
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
         return $this->render('index', [
-            'test_id'=>$test_id,
+//            'test_id'=>$test_id,
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -115,8 +116,7 @@ class TestController extends Controller
      */
     public function actionUpdate($id)
     {
-var_dump('vinuernvi');
-exit;
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

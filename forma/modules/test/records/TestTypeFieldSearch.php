@@ -2,9 +2,10 @@
 
 namespace app\modules\test\records;
 
+use app\modules\test\records\TestTypeField;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\test\records\TestTypeField;
+
 
 /**
  * TestTypeFieldSearch represents the model behind the search form of `app\modules\test\records\TestTypeField`.
@@ -40,8 +41,16 @@ class TestTypeFieldSearch extends TestTypeField
      */
     public function search($params)
     {
-        var_dump($params);
-        $query = TestTypeField::find();
+
+
+
+//        TestTypeFieldSearch%5Btest_id%5D=141
+            $query = TestTypeField::find();
+
+
+        var_dump($query);
+
+
 
         // add conditions that should always apply here
 
