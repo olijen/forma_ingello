@@ -25,7 +25,7 @@ if (!empty($_GET['name'])){
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (!empty($_GET['id'])): ?>
     <p>
-        <?= Html::a('Добавить вопрос', ['create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить вопрос', ['test/create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
     </p>
     <?php else: ?>
     <p>

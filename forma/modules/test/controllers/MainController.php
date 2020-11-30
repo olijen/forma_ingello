@@ -107,6 +107,7 @@ class MainController extends Controller
         }
 
         return $this->render('/test/index', [
+            'model_test'=>$model_test,
             'searchModel'=>$searchModel,
             'dataProvider'=>$dataProvider,
             'model' => $model,

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\test\records\TestTypeField */
 
-$this->title = 'Create Test Type Field';
+$this->title = 'Создать вопрос';
 $this->params['breadcrumbs'][] = ['label' => 'Test Type Fields', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

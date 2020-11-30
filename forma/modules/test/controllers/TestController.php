@@ -82,7 +82,7 @@ class TestController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
         return $this->render('create', [
@@ -100,7 +100,6 @@ class TestController extends Controller
         }
 
         return $this->render('test', [
-
             'test'=>$test,
             'model' => $model,
         ]);
