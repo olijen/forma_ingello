@@ -11,7 +11,7 @@ $this->title = 'Список типов тестов';
     <?php $form = ActiveForm::begin(['action'=>'/test/main/create','method'=>'post']); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('+ Создать тип', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('<i class="fa fa-plus"></i>'.' '.' Создать тип', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

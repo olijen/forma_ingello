@@ -19,12 +19,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     $('ul.treeview-menu').css('width', '220px');
 
-    var sortables = sortable('.sortable');
-
-    for (var i = 0; i < sortables.length; i++) {
-
-
-    }
+    // var sortables = sortable('.sortable');
+    //
+    // for (var i = 0; i < sortables.length; i++) {
+    //
+    //
+    // }
 });
 
 

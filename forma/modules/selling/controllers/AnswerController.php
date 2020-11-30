@@ -97,6 +97,7 @@ class AnswerController extends Controller
         if (!empty($_REQUEST['request'])) {
             $request = new Request;
             $request->text = $_REQUEST['request'];
+            $request->is_manager = $_REQUEST['Request']['is_manager'];
             $request->save();
             $model->request_id = $request->id;
         }

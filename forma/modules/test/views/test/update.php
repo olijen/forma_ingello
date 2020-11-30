@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 
 
-$this->title = 'Изсенить вопросы: ' . $model->id;
+$this->title = 'Изменить вопрос: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Test Type Fields', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';

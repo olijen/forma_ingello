@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TestType */
 
-$this->title = 'Create Test Type';
+$this->title = 'Создать Тип(Название) теста';
 $this->params['breadcrumbs'][] = ['label' => 'Test Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
