@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'test' => [
+        'class' => 'app\modules\test\Module',
+    ],
     'core' => [
         'class' => forma\modules\core\Module::class
     ],
@@ -19,6 +22,9 @@ return [
     'customer' => [
         'class' => forma\modules\customer\Module::class
     ],
+    'dark' => [
+        'class' => forma\modules\dark\Module::class
+    ],
     'overheadcost' => [
         'class' => forma\modules\overheadcost\Module::class
     ],
@@ -34,10 +40,10 @@ return [
     'inventorization' => [
         'class' => forma\modules\inventorization\Module::class
     ],
-   'event' => [
+    'event' => [
         'class' => forma\modules\event\Module::class
     ],
-   'message' => [
+    'message' => [
         'class' => forma\modules\message\Module::class
     ],
 

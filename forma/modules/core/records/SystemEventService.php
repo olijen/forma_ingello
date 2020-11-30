@@ -4,7 +4,11 @@
 namespace forma\modules\core\records;
 
 
+use app\modules\test\records\TestTypeField;
+use app\modules\test\records\TestTypeFieldSearch;
 use forma\modules\core\records\SystemEventUserService;
+use forma\modules\test\records\TestSearch;
+use forma\modules\test\records\TestType;
 use Yii;
 use forma\modules\selling\records\selling\Selling;
 class SystemEventService
@@ -18,6 +22,10 @@ class SystemEventService
         'StateSearchState',
         'SystemEventUser',
         'WidgetUser',
+        'TestSearch',
+        'TestType',
+        'TestTypeField',
+        'TestTypeFieldSearch',
         'UserIdentity'//при регистрации не учитывать ничего в системных событиях
     ];
 
@@ -40,10 +48,13 @@ class SystemEventService
     }
 
     public static function loadSystemEvent($data){
+
         $systemEvent = new SystemEvent();
         $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
         $systemEvent->date_time = date('Y-m-d H:i:s');
+
         $systemEvent->module = $data[1]; //$modules[$className];
+
         $systemEvent->application = $data[0];//$districts[$this->module];
 
         return $systemEvent;

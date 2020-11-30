@@ -179,7 +179,7 @@ function createEvent(start, end, title)
         $.post( "/event/event/create?json", serverMapper, function( data ) {
           $('#w0').fullCalendar('renderEvent', eventData, true);
         }).fail(function() {
-          alert("Внутренняя ошибка");
+          alert("Внутренняя ошибка2");
         });
     }
     $('#w0').fullCalendar('unselect');

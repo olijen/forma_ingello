@@ -248,9 +248,17 @@ return [
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
                         ['label' => 'Клиенты', 'url' => ['/customer/customer/'], 'icon' => 'user-circle'],
+                        ['label' => 'Добавить клиента', 'url' => ['/customer/customer/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                            'style' => 'margin-left: 20px'] ],
                         ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
+                        ['label' => 'Добавить кадра', 'url' => ['/worker/worker/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                            'style' => 'margin-left: 20px'] ],
                         ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
+                        ['label' => 'Добавить поставщика', 'url' => ['/supplier/supplier/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                            'style' => 'margin-left: 20px'] ],
                         ['label' => 'Производители', 'url' => ['/product/manufacturer/'], 'icon' => 'id-card'],
+                        ['label' => 'Добавить производитела', 'url' => ['/product/manufacturer/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                            'style' => 'margin-left: 20px'] ],
                         ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
@@ -275,13 +283,17 @@ return [
                     'items' => [
 
                     ]
-                ], [
+                ],
+                [
                     'label' => 'Продажи клиентам',
                     'url' => ['/selling/main'],
                     'icon' => 'money-bill-wave',
-                    'items' => [
+                ],
 
-                    ]
+                ['label' => 'Создать продажу',
+                    'url' => ['/selling/form'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
                 [
                     'label' => 'Состояния',
@@ -291,16 +303,42 @@ return [
 
                     ]
                 ],
+                ['label' => 'Добавить состояние',
+                    'url' => ['/selling/main-state/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
                 [
                     'label' => 'Клиенты',
                     'url' => ['/customer/customer'],
                     'icon' => 'user-circle'
+                ],
+                ['label' => 'Добавить клиента',
+                    'url' => ['/customer/customer/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
                 [
                     'label' => 'Скрипты',
                     'url' => ['/selling/speech-module'],
                     'icon' => 'list',
                     'items' => [
+
+                    ]
+                ],
+                [
+                    'label'=>'Тест',
+                    'url'=>['/test/main'],
+                    'icon'=>'list',
+                    'items'=>[
+
+                    ]
+                ],
+                [
+                    'label'=>'Результаты тестов',
+                    'url'=>['/test/result'],
+                    'icon'=>'list',
+                    'items'=>[
 
                     ]
                 ],
@@ -322,9 +360,16 @@ return [
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
                 ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
+                ['label' => 'Создать проект', 'url' => ['/project/project/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
+                ['label' => 'Добавить найм', 'url' => ['/hr/form/index'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
+                ['label' => 'Добавить кадр', 'url' => ['/worker/worker/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
+                ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Скрипты','url' => ['/selling/speech-module'],'icon' => 'list',]],
         ],
         [
@@ -338,8 +383,12 @@ return [
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
                 ['label' => 'Продукты и услуги', 'url' => ['/product/product'], 'icon' => 'cube'],
+                ['label' => 'Добавить прод. и усл.', 'url' => ['/product/product/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Производители', 'url' => ['/product/manufacturer'], 'icon' => 'id-card'],
+                ['label' => 'Добавить производ.', 'url' => ['/product/manufacturer/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
                 ['label' => 'Категории', 'url' => ['/product/category'], 'icon' => 'object-group'],
+                ['label' => 'Добавить категории', 'url' => ['/product/category/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Упаковки', 'url' => ['/product/pack-unit'], 'icon' => 'cubes'],
                 ['label' => 'Страны', 'url' => ['/country/country'], 'icon' => 'podcast'],
                 ['label' => 'Валюты', 'url' => ['/product/currency'], 'icon' => 'money-bill-alt'],
@@ -350,7 +399,7 @@ return [
             'label' => 'Хранилища',
             'options' => [
                 'class'=>'menuColor',
-                'style'=>'background-color:#dc7d22;',
+                'style'=>'background-color:#dc7d22; ',
             ],
             'url' => ['/warehouse/warehouse'],
             'icon' => 'th',
@@ -360,14 +409,30 @@ return [
                     'url' => ['/warehouse/warehouse'],
                     'icon' => 'th'
                 ],
+                [
+                    'label' => 'Добавить хранилище',
+                    'url' => ['/warehouse/warehouse/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
 
-                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
                 ['label' => 'Поставки', 'url' => ['/purchase/main'], 'icon' => 'download'],
+                ['label' => 'Создать поставку', 'url' => ['/purchase/form/index'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px']],
+                ['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
+                //['label' => 'Инвентаризация', 'url' => ['/inventorization/main'], 'icon' => 'boxes'],
                 ['label' => 'Перемещения', 'url' => ['/transit/main'], 'icon' => 'retweet'],
             ],
         ],
-        ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap'],
-        ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'shopping-cart'],
-        ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
+        ['label' => 'Командная работа', 'url' => 'https://applan.ingello.com', 'icon' => 'sitemap', 'options' => [
+                'class'=>'menuColor text_black']],
+        ['label' => 'Интернет магазин', 'url' => 'https://ecocom.ingello.com', 'icon' => 'shopping-cart', 'options' => [
+                'class'=>'menuColor text_black']],
+        ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat', 'options' => [
+                'class'=>'menuColor text_black']],
     ],
 ];
+
+
+
+

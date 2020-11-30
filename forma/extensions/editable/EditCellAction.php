@@ -17,9 +17,9 @@ class EditCellAction extends Action
 
     public function init()
     {
-        Yii::debug('sdf');
-        return 1;
-        //Yii::$app->response->format = Response::FORMAT_JSON;
+        //Yii::debug('sdf');
+        //return 1;
+        Yii::$app->response->format = Response::FORMAT_JSON;
       //  die("skljdaksjfsdkfjsldkflsdkfj");
     }
 
@@ -37,10 +37,14 @@ class EditCellAction extends Action
         $this->_response['modelProduct'] = $model;
 
         if (!$model->load(Yii::$app->request->post()) || !$model->save()) {
+            Yii::debug('Ne sohran');
             $this->_response['success'] = false;
             $this->_response['message'] = $this->getError($model);
         }
 
+        Yii::debug($model);
+
+       // return 1;
         return $this->_response;
     }
 

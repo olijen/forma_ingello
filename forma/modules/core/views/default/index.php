@@ -272,6 +272,12 @@ function(calEvent, jsEvent, view) {
 }
 JS;
 
+$JSDragenter = <<<JS
+function(calEvent, jsEvent, view) {
+    console.log('34'+'8dsjoi');
+}
+JS;
+
 
 $widgetsForSortable0 = [];
 $widgetsForSortable1 = [];
@@ -622,6 +628,7 @@ foreach($widgetOrder as $panel => $widgetArray) {
         'type' => 'grid',
         'pluginEvents' => [
             'sortupdate' => $JSUpdateSmallWidgets,
+            'sortenter' => $JSDragenter
         ],
         'options' => ['id' => 'panel_small_widget'],
         'items'=> $widgetsForSortable0
@@ -767,6 +774,7 @@ $collapsed = 0;
             'type' => 'grid',
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
+                'sortenter' => $JSDragenter,
             ],
             'itemOptions'=>['class'=>'disabled'],
             'options' => ['class' => 'panel_big_widget first'],
@@ -875,6 +883,7 @@ $collapsed = 0;
             'type' => 'grid',
             'pluginEvents' => [
                 'sortupdate' => $JSUpdateBigWidgets,
+                'sortenter' => $JSDragenter,
             ],
             'itemOptions'=>['class'=>'disabled'],
             'options' => ['class' => 'panel_big_widget second'],
@@ -1037,7 +1046,7 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 
     var dom1 = document.getElementsByClassName('panel_big_widget')[1];
 
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 168) {
         new Sortable(dom, {
             handle: '.box-header'
         });

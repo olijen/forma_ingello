@@ -96,6 +96,9 @@ if ('selling'== Yii::$app->controller->module->id){
                 .menuColor > a > *{
                     color: white;
                 }
+                li.menuColor.text_black > a >  * {
+                    color: #0a0a0a;
+                }
                 .menuColor:hover >a >*{
                     color: #0a0a0a;
                 }
