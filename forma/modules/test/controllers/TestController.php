@@ -36,15 +36,18 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-        $id = $_GET['id'];
-        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
+//        $model_id = new TestType();
+
+//        $id = $_GET['id'];
+//        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
         $model = new TestTypeField();
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
         return $this->render('index', [
-            'test_id'=>$test_id,
+
+//            'test_id'=>$test_id,
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -77,11 +80,18 @@ class TestController extends Controller
      */
     public function actionCreate()
     {
+//        $model_test = $this->findModel($id);
         $model = new TestTypeField();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $id = $model->test_id;
+            $name = TestType::find()->where(['id'=>$id])->one();
+            var_dump($name);
+            exit;
+
+
+            return $this->redirect(['index','id' => $model->test_id]);
         }
 
         return $this->render('create', [
@@ -99,7 +109,6 @@ class TestController extends Controller
         }
 
         return $this->render('test', [
-
             'test'=>$test,
             'model' => $model,
         ]);
@@ -115,12 +124,13 @@ class TestController extends Controller
      */
     public function actionUpdate($id)
     {
-var_dump('vinuernvi');
-exit;
+
         $model = $this->findModel($id);
 
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
         return $this->render('update', [

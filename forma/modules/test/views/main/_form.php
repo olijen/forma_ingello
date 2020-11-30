@@ -21,12 +21,12 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-xs-6"><?= $form->field($model, 'link')
                 ->hiddenInput(['value'=>'test/test/test?id=','maxlength' => true])
-                ->label($label = 'Ссылка')
+                ->label($label = '')
             ?>
         </div>
     </div>
     <div class="col-xs-4">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('<i class="fa fa-save"></i>'. ' '.'Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

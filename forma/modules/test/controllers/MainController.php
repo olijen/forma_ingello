@@ -37,7 +37,6 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
-
         $searchModel = new TestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -97,6 +96,7 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $model = new TestTypeField();
         $model_test = $this->findModel($id);
 
@@ -107,6 +107,7 @@ class MainController extends Controller
         }
 
         return $this->render('/test/index', [
+            'model_test'=>$model_test,
             'searchModel'=>$searchModel,
             'dataProvider'=>$dataProvider,
             'model' => $model,

@@ -2,9 +2,10 @@
 
 namespace app\modules\test\records;
 
+use app\modules\test\records\TestTypeField;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\test\records\TestTypeField;
+
 
 /**
  * TestTypeFieldSearch represents the model behind the search form of `app\modules\test\records\TestTypeField`.
@@ -40,38 +41,43 @@ class TestTypeFieldSearch extends TestTypeField
      */
     public function search($params)
     {
-        var_dump($params);
-        $query = TestTypeField::find();
 
-        // add conditions that should always apply here
+            $id = $params['id'];
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+            $query = TestTypeField::find();
 
-        $this->load($params);
+            // add conditions that should always apply here
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+
+            $this->load($params);
+
+            if (!$this->validate()) {
+                // uncomment the following line if you do not want to return any records when validation fails
+                // $query->where('0=1');
+                return $dataProvider;
+            }
+
+            // grid filtering conditions
+            $query->andFilterWhere([
+                'id' => $this->id,
+                'test_id' => $this->id,
+
+            ]);
+
+            $query
+                ->andWhere(['test_id' => (int)$id])
+                ->andFilterWhere(['like', 'block_name', $this->block_name])
+                ->andFilterWhere(['like', 'label_name', $this->label_name])
+                ->andFilterWhere(['like', 'id', $this->id])
+                ->andFilterWhere(['like', 'test_id', $this->test_id])
+                ->andFilterWhere(['like', 'type', $this->type])
+                ->andFilterWhere(['like', 'value', $this->value])
+                ->andFilterWhere(['like', 'placeholder', $this->placeholder]);
+
             return $dataProvider;
         }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'test_id' => $this->id,
-
-        ]);
-
-        $query->andFilterWhere(['like', 'block_name', $this->block_name])
-            ->andFilterWhere(['like', 'label_name', $this->label_name])
-            ->andFilterWhere(['like', 'id', $this->id])
-            ->andFilterWhere(['like', 'test_id', $this->test_id])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'value', $this->value])
-            ->andFilterWhere(['like', 'placeholder', $this->placeholder]);
-
-        return $dataProvider;
     }
-}
+
