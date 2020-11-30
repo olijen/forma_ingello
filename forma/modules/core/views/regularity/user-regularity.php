@@ -7,6 +7,9 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 
+$this->params['doc-page'] = 'regularity';
+$this->title = 'Публичный регламент';
+
 $borderMarginRight = isset($_GET['without-header']) ? '100' : '50';
 
 $this->registerCss('
@@ -98,7 +101,7 @@ input[type=checkbox], input[type=radio] {
     color: #ffffff;
 }
 
-h4, h2, h3 {
+.h-text {
     text-shadow: 4px 3px 9px black;
     position: absolute;
     left: 0;
@@ -108,17 +111,17 @@ h4, h2, h3 {
     color: #ffffff;
 }
 
-h2 {
+h2.h-text  {
     font-size: 30px;
     top: 0px;
 }
 
-h3 {
+h3.h-text {
     font-size: 23px;
     top: 33px;
 }
 
-h4 {
+h4.h-text {
     font-size: 20px;
     top: 69px;
 }
@@ -220,6 +223,8 @@ p {
 #picture {
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    position: relative;
+
 }
 
 #nav-tabs{

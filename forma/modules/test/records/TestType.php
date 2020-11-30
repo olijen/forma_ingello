@@ -35,6 +35,7 @@ class TestType extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['link'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -70,4 +71,5 @@ class TestType extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
 }

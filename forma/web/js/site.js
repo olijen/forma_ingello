@@ -13,3 +13,18 @@ $(function() {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    $('li.menuColor span:not([class])').css('width', '227px');
+
+    $('ul.treeview-menu').css('width', '220px');
+
+    // var sortables = sortable('.sortable');
+    //
+    // for (var i = 0; i < sortables.length; i++) {
+    //
+    //
+    // }
+});
+
+

@@ -8,12 +8,12 @@ if (is_null($item->picture)) {
 
 $parentItemStr = isset($parentItem) ? $parentItem->title . '<br>' : '' . '<br>';
 
-$dataName = '<h2>' . $regularity->name . '</h2>';
+$dataName = '<h2 class="h-text">' . $regularity->name . '</h2>';
 
 if (isset($parentItem)) {
-    $dataName = $dataName . '<h3>' . $parentItem->title . '</h3>' . '<h4>' . $item->title . '</h4>';
+    $dataName = $dataName . '<h3 class="h-text">' . $parentItem->title . '</h3>' . '<h4 class="h-text">' . $item->title . '</h4>';
 } else {
-    $dataName = $dataName . '<h3>' . $item->title . '</h3>';
+    $dataName = $dataName . '<h3 class="h-text">' . $item->title . '</h3>';
 }
 ?>
 <div class="carousel-child">

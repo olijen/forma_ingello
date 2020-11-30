@@ -84,6 +84,8 @@ class ResultController extends Controller
      */
     public function actionUpdate($id)
     {
+//        var_dump('fvfevn');
+//        exit;
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

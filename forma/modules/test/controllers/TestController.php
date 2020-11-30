@@ -36,16 +36,24 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-        $model = new TestType();
+//        $model_id = new TestType();
+
+//        $id = $_GET['id'];
+//        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
+        $model = new TestTypeField();
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
         return $this->render('index', [
-            'model'=>$model,
+
+//            'test_id'=>$test_id,
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+
 
     /**
      * Displays a single TestTypeField model.
@@ -55,6 +63,7 @@ class TestController extends Controller
      */
     public function actionView($id)
     {
+
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('/test/index', [
@@ -71,11 +80,18 @@ class TestController extends Controller
      */
     public function actionCreate()
     {
+//        $model_test = $this->findModel($id);
         $model = new TestTypeField();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $id = $model->test_id;
+            $name = TestType::find()->where(['id'=>$id])->one();
+            var_dump($name);
+            exit;
+
+
+            return $this->redirect(['index','id' => $model->test_id]);
         }
 
         return $this->render('create', [
@@ -85,15 +101,15 @@ class TestController extends Controller
 
 
     public function actionTest($id){
+        $test = TestTypeField::find()->where(['test_id'=>$id])->one();
+        $model = new TestTypeField();
 
-        $model = $this->findModel($id);
-        var_dump($model);
-        exit;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('test', [
+            'test'=>$test,
             'model' => $model,
         ]);
 
@@ -108,10 +124,13 @@ class TestController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $model = $this->findModel($id);
 
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
         return $this->render('update', [

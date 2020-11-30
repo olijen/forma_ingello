@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\TestType */
+/* @var $model app\modeles\test\records\TestType */
 
 $this->title = 'Update Test Type: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Test Types', 'url' => ['index']];
