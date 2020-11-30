@@ -60,21 +60,24 @@ use forma\extensions\fullcalendar;
              ],
             'id' => 'form-customer',
         ]) ?>
+        <div class="row">
 
-        <?= $form->field($customer, 'id')->textInput()->hiddenInput()->label(false); ?>
-        <?= $form->field($customer, 'name')->textInput()->label('Имя'); ?>
-        <?= $form->field($customer, 'firm')->textInput()->label('Фирма'); ?>
-        <?= $form->field($customer, 'address')->textInput()->label('Адрес'); ?>
-        <?= $form->field($customer, 'chief_email')->textInput()->label('Email ЛПР'); ?>
-        <?= $form->field($customer, 'company_email')->textInput()->label('Email компании'); ?>
-        <?= $form->field($customer, 'chief_phone')->textInput()->label('Номер телефона ЛПР'); ?>
-        <?= $form->field($customer, 'company_phone')->textInput()->label('Номер телефона компании'); ?>
-        <?= $form->field($customer, 'site_company')->textInput()->label('Сайт компании'); ?>
 
-        <div class="form-group">
-            <label for="comment">Комментарий к диалогу</label>
-            <textarea class="form-control" rows="5" name="comment" id="<?=$sellingId?>_comment"></textarea>
+            <?= $form->field($customer, 'id')->textInput()->hiddenInput()->label(false); ?>
+            <?= $form->field($customer, 'name', ['options' => ['class' => 'col-md-6']])->textInput()->label('Имя'); ?>
+            <?= $form->field($customer, 'firm', ['options' => ['class' => 'col-md-6']])->textInput()->label('Фирма'); ?>
+            <?= $form->field($customer, 'address', ['options' => ['class' => 'col-md-6']])->textInput()->label('Адрес'); ?>
+            <?= $form->field($customer, 'chief_email', ['options' => ['class' => 'col-md-6']])->textInput()->label('Email ЛПР'); ?>
+            <?= $form->field($customer, 'company_email', ['options' => ['class' => 'col-md-6']])->textInput()->label('Email компании'); ?>
+            <?= $form->field($customer, 'chief_phone', ['options' => ['class' => 'col-md-6']])->textInput()->label('Номер телефона ЛПР'); ?>
+            <?= $form->field($customer, 'company_phone', ['options' => ['class' => 'col-md-6']])->textInput()->label('Номер телефона компании'); ?>
+            <?= $form->field($customer, 'site_company', ['options' => ['class' => 'col-md-6']])->textInput()->label('Сайт компании'); ?>
+            <div class="form-group col-md-12">
+                <label for="comment">Комментарий к диалогу</label>
+                <textarea class="form-control" rows="5" name="comment" id="<?=$sellingId?>_comment"></textarea>
+            </div>
         </div>
+
         <form id="custom-answer" action="/selling/talk/end-talk" name="end-talk" method="post">
             <input id="sellingId" type="hidden" value="<?=$sellingId?>" name="endTalk">
             <ul class="list-group" id="no-usage-list">
