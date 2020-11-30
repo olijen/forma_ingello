@@ -9,3 +9,10 @@
 
 ​<p>​Но самое главное - Вы можете настроить регламенты без программиста и менять их в любое время. А для бизнеса
     критически важно уметь внедрять изменения и соответствовать быстрому темпу изменений внешнего мира!</p>​
+
+<?php use yii\helpers\Url;
+//echo 'https://forma.ingello.com'.Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
+echo Url::to(['@web/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username], true);
+?>
+
+<a class="btn btn-success" href="https://forma.ingello.com/<?= Yii::$app->user->identity->username?>/regularity"> Публичный регламент</a>

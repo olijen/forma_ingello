@@ -3,10 +3,9 @@
 use yii\helpers\Url;
 
 $this->params['doc-page'] = 'regularity';
-
-
 $this->title = 'Регламент';
-Url::remember(['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]);
+
+
 $publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
 ?>
 <a class="btn btn-success" href='<?= $publicRegularityUrl ?>'

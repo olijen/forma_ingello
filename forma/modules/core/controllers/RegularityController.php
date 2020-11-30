@@ -63,6 +63,7 @@ class RegularityController extends Controller
         $order = array_column($regularitys, 'order');
         array_multisort($order, SORT_ASC, $regularitys);
 
+        Url::remember(['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

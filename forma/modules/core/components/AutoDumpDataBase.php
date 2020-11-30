@@ -24,8 +24,10 @@ class AutoDumpDataBase
         $model = new Accessory();
 
         $arrayModels = $model::find()->where(['user_id' => 1])
+//            ->andWhere("entity_class like '%\Answer'")
+            ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy', '\RequestStrategy', '\Interview']])
             ->all();
-//        de('$arrayModels');
+
         $accessoryKeys = [];
         foreach ($arrayModels as $model) {
             $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
@@ -57,14 +59,25 @@ class AutoDumpDataBase
     public function start()
     {
         $this->getAccessoryKeys();
-//        $warehouse = $this->regularity();
-//        $warehouse = $this->field();
-//        $warehouse = $this->productPackUnit();
-//        $warehouse = $this->warehouse();
-//        $warehouse = $this->overheadCost();
-////        $warehouse = $this->workerVacancy();
-//        $warehouse = $this->purchase();
-        de($warehouse);
+        $this->state();
+        $this->warehouse();
+        $this->regularity();
+        $this->field();
+        $this->productPackUnit();
+        $this->workerVacancy();
+        $this->overheadCost();
+        $this->purchase();
+        $this->requestStrategy();
+        $this->answer();
+        //+
+        $this->interview();
+        $this->inventorization();
+        //+
+        $this->project();
+        $this->selling();
+        $this->transit();
+
+        de(true);
 
         de('$modelRoute');
     }
@@ -76,6 +89,12 @@ class AutoDumpDataBase
 
     public function forSaveAndGetKey($modelsForSave, $name)
     {
+        if (!is_array($modelsForSave)) {
+            $oldKey = $modelsForSave->id;
+            $newModel = $this->saveNewRecord($modelsForSave);
+            $this->saveKey($name, $oldKey, $newModel->id);
+            return true;
+        }
         for ($i = 0; $i < count($modelsForSave); $i++) {
             $oldKey = $modelsForSave[$i]->id;
             $newModel = $this->saveNewRecord($modelsForSave[$i]);
@@ -118,6 +137,38 @@ class AutoDumpDataBase
             $ids [] = $model->$attributes;
         }
         return $ids;
+    }
+
+    public function state()
+    {
+        $states = $this->findModels('forma\modules\selling\records\state\State', ['user_id' => 1]);
+
+        foreach ($states as $state) {
+            $state = $this->changeAttributes(
+                ['1' => \Yii::$app->user->identity->id],
+                $state,
+                'user_id');
+
+            $this->forSaveAndGetKey($state, 'state_id');
+        }
+
+        $stateToStates = $this->findModels('forma\modules\selling\records\state\StateToState',
+            ['state_id' => $this->oldKeys['state_id']]);
+
+        foreach ($stateToStates as $stateToState) {
+            $stateToState = $this->changeAttributes(
+                $this->newKeys['state_id'],
+                $stateToState,
+                'state_id');
+
+            $stateToState = $this->changeAttributes(
+                $this->newKeys['state_id'],
+                $stateToState,
+                'to_state_id');
+
+            $this->saveNewRecord($stateToState);
+        }
+        return true;
     }
 
     public function warehouse()
@@ -227,7 +278,6 @@ class AutoDumpDataBase
             ['pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
                 'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product']]);
 
-
         foreach ($productPackUnits as $productPackUnit) {
             $productPackUnit = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\product\records\PackUnit'],
@@ -248,14 +298,13 @@ class AutoDumpDataBase
     {
         ['\forma\modules\worker\records\WorkerVacancy']; // worker_id   vacancy_id
 
-        $workerVacancies = $this->findModels('\forma\modules\worker\records\WorkerVacancy',
+        $workerVacancies = $this->findModels('forma\modules\worker\records\workervacancy\WorkerVacancy',
             ['worker_id' => $this->accessoryOldKeys['forma\modules\worker\records\Worker'],
                 'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
 
         $attributes = [[$this->accessoryNewKeys['forma\modules\worker\records\Worker'], 'worker_id'],
             ['key' => $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'], 'attribute' => 'vacancy_id']];
 
-        $this->thisForeach($workerVacancies, $attributes, );
         foreach ($workerVacancies as $workerVacancy) {
             $workerVacancy = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\worker\records\Worker'],
@@ -269,15 +318,15 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($workerVacancy);
         }
+
         return true;
     }
 
-    public function overheadCost(){
+    public function overheadCost()
+    {
 
         $overheadCosts = $this->findModels('\forma\modules\overheadcost\records\OverheadCost',
-        ['currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency']]);
-
-de($overheadCosts);
+            ['currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency']]);
 
         foreach ($overheadCosts as $overheadCost) {
             $overheadCost = $this->changeAttributes(
@@ -287,7 +336,7 @@ de($overheadCosts);
 
             $this->forSaveAndGetKey($overheadCost, 'overhead_cost_id');
         }
-         return true;
+        return true;
     }
 
     public function purchase()
@@ -332,7 +381,7 @@ de($overheadCosts);
             $this->saveNewRecord($purchaseOverheadCost);
         }
 
-        $purchaseProducts = $this->findModels('\forma\modules\purchase\records\purchase\PurchaseProduct',
+        $purchaseProducts = $this->findModels('forma\modules\purchase\records\purchaseproduct\PurchaseProduct',
             ['pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
                 'purchase_id' => $this->oldKeys['purchase_id'],
                 'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product'],
@@ -377,27 +426,28 @@ de($overheadCosts);
                     $attribute['attribute']);
             }
 
-                $this->saveNewRecord($model);
+            $this->saveNewRecord($model);
         }
     }
 
-    public function requestStrategy(){
+    public function requestStrategy()
+    {
 
-        $requestStrategeis = $this->findModels('\forma\modules\hr\records\talk\requeststrategy\RequestStrategy',
-            ['strategy_id' => $this->accessoryOldKeys['\forma\modules\hr\records\strategy\Strategy'],
-                'reguest_id' => $this->accessoryOldKeys[ '\forma\modules\hr\records\talk\Request']]);
+        $requestStrategeis = $this->findModels('forma\modules\selling\records\requeststrategy\RequestStrategy',
+            ['strategy_id' => $this->accessoryOldKeys['forma\modules\selling\records\strategy\Strategy'],
+                'request_id' => $this->accessoryOldKeys['forma\modules\selling\records\talk\Request']]);
 
 
         foreach ($requestStrategeis as $requestStrategy) {
             $requestStrategy = $this->changeAttributes(
-                $this->accessoryNewKeys['\forma\modules\hr\records\strategy\Strategy'],
+                $this->accessoryNewKeys['forma\modules\selling\records\strategy\Strategy'],
                 $requestStrategy,
                 'strategy_id');
 
             $requestStrategy = $this->changeAttributes(
-                $this->accessoryNewKeys['\forma\modules\hr\records\talk\Request'],
+                $this->accessoryNewKeys['forma\modules\selling\records\talk\Request'],
                 $requestStrategy,
-                'reguest_id');
+                'request_id');
 
             $this->saveNewRecord($requestStrategy);
         }
@@ -405,27 +455,342 @@ de($overheadCosts);
         return true;
     }
 
-    public function interview(){
+    public function answer()////////////////++++++++++++++++++
+    {
 
-        $requestStrategeis = $this->findModels('\forma\modules\hr\records\talk\requeststrategy\RequestStrategy',
-            ['strategy_id' => $this->accessoryOldKeys['\forma\modules\hr\records\strategy\Strategy'],
-                'reguest_id' => $this->accessoryOldKeys[ '\forma\modules\hr\records\talk\Request']]);
+        $answers = $this->findModels('forma\modules\selling\records\talk\Answer',
+            ['request_id' => $this->accessoryOldKeys['forma\modules\selling\records\talk\Request']]);
 
 
-        foreach ($requestStrategeis as $requestStrategy) {
-            $requestStrategy = $this->changeAttributes(
-                $this->accessoryNewKeys['\forma\modules\hr\records\strategy\Strategy'],
-                $requestStrategy,
-                'strategy_id');
+        foreach ($answers as $answer) {
 
-            $requestStrategy = $this->changeAttributes(
-                $this->accessoryNewKeys['\forma\modules\hr\records\talk\Request'],
-                $requestStrategy,
-                'reguest_id');
+            $answer = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\selling\records\talk\Request'],
+                $answer,
+                'request_id');
 
-            $this->saveNewRecord($requestStrategy);
+            $this->saveNewRecord($answer);
         }
 
+        return true;
+    }
+
+    public function interview()
+    {
+
+        $interviews = $this->findModels('\forma\modules\hr\records\interview\Interview',
+            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
+                'worker_id' => $this->accessoryOldKeys['forma\modules\worker\records\Worker'],
+                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']
+            ]);
+
+
+        foreach ($interviews as $interview) {
+            $interview = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+                $interview,
+                'project_id');
+
+            $interview = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\worker\records\Worker'],
+                $interview,
+                'worker_id');
+
+            $interview = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
+                $interview,
+                'vacancy_id');
+
+            $this->forSaveAndGetKey($interview, 'interview_id');
+
+        }
+
+        if (isset($this->oldKeys['interview_id'])) {
+
+            $interviewVacancies = $this->findModels('forma\modules\hr\records\interviewvacancy\InterviewVacancy',
+                ['vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy'],
+                    'interview_id' => $this->oldKeys['interview_id'],
+                    'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
+                    'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
+                    'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit']
+                ]);
+
+
+            foreach ($interviewVacancies as $interviewVacancy) {
+                $interviewVacancy = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
+                    $interviewVacancy,
+                    'vacancy_id');
+                $interviewVacancy = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\Currency'],
+                    $interviewVacancy,
+                    'currency_id');
+
+                $interviewVacancy = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\PackUnit'],
+                    $interviewVacancy,
+                    'pack_unit_id');
+
+                $interviewVacancy = $this->changeAttributes(
+                    $this->newKeys['overhead_cost_id'],
+                    $interviewVacancy,
+                    'overhead_cost_id');
+
+                $interviewVacancy = $this->changeAttributes(
+                    $this->newKeys['interview_id'],
+                    $interviewVacancy,
+                    'interview_id');
+
+
+                $this->saveNewRecord($interviewVacancy);
+            }
+        }
+        return true;
+    }
+
+    public function inventorization()
+    {
+        $inventorizations = $this->findModels('\forma\modules\inventorization\records\Inventorization',
+            ['warehouse_id' => $this->oldKeys['warehouse_id']]);
+
+        foreach ($inventorizations as $inventorization) {
+            $inventorization = $this->changeAttributes(
+                $this->newKeys['warehouse_id'],
+                $inventorization,
+                'warehouse_id');
+
+            $this->forSaveAndGetKey($inventorization, 'inventorization_id');
+        }
+
+        if (isset($this->oldKeys['inventorization_id'])) {
+
+
+            $inventorizationProducts = $this->findModels('\forma\modules\inventorization\records\InventorizationProduct',
+                ['inventorization_id' => $this->oldKeys['inventorization_id'],
+                    'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product'],
+                ]);
+
+            foreach ($inventorizationProducts as $inventorizationProduct) {
+                $inventorizationProduct = $this->changeAttributes(
+                    $this->newKeys['inventorization_id'],
+                    $inventorizationProduct,
+                    'inventorization_id');
+
+                $inventorizationProduct = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\Product'],
+                    $inventorizationProduct,
+                    'product_id');
+
+
+                $this->saveNewRecord($inventorizationProduct);
+            }
+        }
+        return true;
+    }
+
+    public function project()
+    {
+        $projectUsers = $this->findModels('forma\modules\project\records\projectuser\ProjectUser',
+            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
+                'user_id' => 1]);
+
+        foreach ($projectUsers as $projectUser) {
+            $projectUser = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+                $projectUser,
+                'project_id');
+
+            $projectUser = $this->changeAttributes(
+                ['1' => \Yii::$app->user->identity->id],
+                $projectUser,
+                'user_id');
+
+            $this->saveNewRecord($projectUser);
+        }
+
+        $projectVacancies = $this->findModels('forma\modules\vacancy\records\ProjectVacancy',
+            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
+                'user_id' => 1]);
+
+        foreach ($projectVacancies as $projectVacancy) {
+            $projectVacancy = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+                $projectVacancy,
+                'project_id');
+
+            $projectVacancy = $this->changeAttributes(
+                ['1' => \Yii::$app->user->identity->id],
+                $projectVacancy,
+                'user_id');
+
+            $this->saveNewRecord($projectVacancy);
+        }
+        return true;
+    }
+
+//    public function patient()
+//    {
+//        $patient = $this->findModels('\forma\modules\selling\records\Patient',
+//            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
+//                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
+//
+//        foreach ($projectUsers as $projectUser) {
+//            $projectUser = $this->changeAttributes(
+//                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+//                $projectUser,
+//                'project_id');
+//
+//            $projectVacancy = $this->changeAttributes(
+//                $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
+//                $projectVacancy,
+//                'vacancy_id');
+//
+//            $this->saveNewRecord($projectVacancy);
+//        }
+//
+//    }
+
+    public function selling()
+    {
+        $sales = $this->findModels('\forma\modules\selling\records\Selling',
+            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
+                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy'],
+                'state_id' => $this->oldKeys['state_id']
+            ]);
+
+        foreach ($sales as $sale) {
+            $sale = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+                $sale,
+                'project_id');
+
+            $sale = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
+                $sale,
+                'vacancy_id');
+            $sale = $this->changeAttributes(
+                $this->newKeys['state_id'],
+                $sale,
+                'state_id');
+
+            $this->forSaveAndGetKey($sale, 'selling_id');
+        }
+
+        if (isset($this->oldKeys['selling_id'])) {
+
+
+            $sellingProducts = $this->findModels('\forma\modules\selling\records\selling\SellingProduct',
+                [
+                    'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product'],
+                    'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
+                    'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
+                    'selling_id' => $this->oldKeys['selling_id'],
+                    'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
+                ]);
+
+            foreach ($sellingProducts as $sellingProduct) {
+                $sellingProduct = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\Product'],
+                    $sellingProduct,
+                    'product_id');
+
+                $sellingProduct = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\Currency'],
+                    $sellingProduct,
+                    'currency_id');
+
+                $sellingProduct = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\PackUnit'],
+                    $sellingProduct,
+                    'pack_unit_id');
+
+                $sellingProduct = $this->changeAttributes(
+                    $this->newKeys['selling_id'],
+                    $sellingProduct,
+                    'selling_id');
+
+                $sellingProduct = $this->changeAttributes(
+                    $this->newKeys['overhead_cost_id'],
+                    $sellingProduct,
+                    'overhead_cost_id');
+
+                $this->saveNewRecord($sellingProduct);
+            }
+        }
+        return true;
+    }
+
+    public function transit()
+    {
+        $transits = $this->findModels('\forma\modules\transit\records\transit\Transit', [
+            'from_warehouse_id' => $this->oldKeys['warehouse_id']
+        ]);
+        foreach ($transits as $transit) {
+            $transit = $this->changeAttributes(
+                $this->newKeys['warehouse_id'],
+                $transit,
+                'from_warehouse_id');
+
+            $transit = $this->changeAttributes(
+                $this->newKeys['warehouse_id'],
+                $transit,
+                'to_warehouse_id');
+
+            $this->forSaveAndGetKey($transit, 'transit_id');
+        }
+        if (isset($this->oldKeys['transit_id'])) {
+
+
+            $transitOverheadCosts = $this->findModels('\forma\modules\transit\records\transit\TransitOverheadCost', [
+                'transit_id' => $this->oldKeys['transit_id'],
+                'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
+            ]);
+            foreach ($transitOverheadCosts as $transitOverheadCost) {
+                $transitOverheadCost = $this->changeAttributes(
+                    $this->newKeys['transit_id'],
+                    $transitOverheadCost,
+                    'transit_id');
+
+                $transitOverheadCost = $this->changeAttributes(
+                    $this->newKeys['overhead_cost_id'],
+                    $transitOverheadCost,
+                    'overhead_cost_id');
+
+                $this->saveNewRecord($transitOverheadCost);
+            }
+
+            $transitProducts = $this->findModels('\forma\modules\transit\records\transitproduct\TransitProduct', [
+                'transit_id' => $this->oldKeys['transit_id'],
+                'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
+                'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
+                'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product']
+            ]);
+
+            foreach ($transitProducts as $transitProduct) {
+                $transitProduct = $this->changeAttributes(
+                    $this->newKeys['transit_id'],
+                    $transitProduct,
+                    'transit_id');
+
+                $transitProduct = $this->changeAttributes(
+                    $this->newKeys['overhead_cost_id'],
+                    $transitProduct,
+                    'overhead_cost_id');
+
+                $transitProduct = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\PackUnit'],
+                    $transitProduct,
+                    'pack_unit_id');
+
+                $transitProduct = $this->changeAttributes(
+                    $this->accessoryNewKeys['forma\modules\product\records\Product'],
+                    $transitProduct,
+                    'product_id');
+
+                $this->saveNewRecord($transitProduct);
+            }
+
+        }
         return true;
     }
 
