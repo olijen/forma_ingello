@@ -61,12 +61,11 @@ $(document).ready(function() {
         let dialog = '';
         $.each(getStorageDialog(), function (index, value) {
             if (value[1] !== 0 ) {
-                dialog += '<p>Клиент: ' + getRequest(value[0])
-                    + '</p>' +
-                    '<p>Менеджер: ' + getAnswer(value[1]) + '</p>';
+                dialog += '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Клиент: <p>' + getRequest(value[0])
+                    + '</p></div>' +
+                    '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: <p>' + getAnswer(value[1]) + '</p></div>';
 
             } else {
-
                 return alert('Дайте ответ на вопрос' + getRequest(value[0]))
             }
 
@@ -157,8 +156,9 @@ $(document).ready(function() {
 
 
     $('#end-talk').on('click', function () {
-        if ($('#'+ $('#sellingId').val() + '_comment' ).val() === '' && getNextStep() === false ) {
-            alert('Оставте коментарий к диалогу и добавьте следуйщий шаг');
+        if ($('#'+ $('#sellingId').val() + '_comment' ).val() === '' || getNextStep() === false ) {
+            alert('Оставьте коментарий к диалогу и добавьте следуйщий шаг');
+            return false;
             formActives('off');
         } else {
             $.ajax({
@@ -175,6 +175,7 @@ $(document).ready(function() {
                 }
             });
             formActives();
+            $('#end-talk')[0].style.pointerEvents = 'none'
             $('#form-customer').submit();
         }
     });

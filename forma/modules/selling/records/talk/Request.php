@@ -11,6 +11,7 @@ use Yii;
  *
  * @property int $id
  * @property string $text
+ * @property int $is_manager
  *
  * @property \forma\modules\selling\records\talk\Answer[] $answers
  * @property RequestStrategy[] $requestStrategies
@@ -33,6 +34,7 @@ class Request extends AccessoryActiveRecord
     {
         return [
             [['text'], 'string'],
+            [['is_manager'], 'integer'],
         ];
     }
 
@@ -44,6 +46,7 @@ class Request extends AccessoryActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'text' => Yii::t('app', 'Текст вопроса'),
+            'is_manager' => Yii::t('app', 'Вопрос от менеджера'),
         ];
     }
 
