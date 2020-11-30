@@ -8,6 +8,7 @@ use forma\modules\test\records\TestSearch;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$model_name = new TestType();
 
 if (!empty($_GET['name'])){
     $name_test = $_GET['name'];
@@ -15,7 +16,7 @@ if (!empty($_GET['name'])){
 
     $this->params['breadcrumbs'][] = $this->title;
 }else{
-    $this->title = 'Создать вопрос';
+    $this->title = 'Создать вопрос:';
     $this->params['breadcrumbs'][] = $this->title;
 }
 ?>
@@ -24,16 +25,21 @@ if (!empty($_GET['name'])){
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (!empty($_GET['id'])): ?>
+    <div style="float:left; width: 10%;height: 10px">
     <p>
-        <?= Html::a('Добавить вопрос', ['test/create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i>'. ' '.'Добавить вопрос', ['test/create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
+
     </p>
+    </div>
     <?php else: ?>
+<div class="">
     <p>
         <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+</div>
 <?php endif; ?>
     <div>
-        <div class="btn btn-lg">
+        <div class="btn" style="margin-bottom: 20px">
             <a href="/test/main">Вернуться к списку</a>
         </div>
     </div>
@@ -46,7 +52,7 @@ if (!empty($_GET['name'])){
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             ['attribute'=>'id',
-            'label'=>'Имя Теста'],
+            'label'=>'ID Теста'],
 
             ['attribute'=>'block_name',
             'label'=>'Имя Теста'],
@@ -65,9 +71,8 @@ if (!empty($_GET['name'])){
             ['attribute'=>'required',
                 'label'=>'Обязательный'],
 
-            ['attribute'=>'test_id',
-                'label'=>'Уникальный инфедикатор теста'],
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn'
+            ],
         ],
     ]); ?>
 

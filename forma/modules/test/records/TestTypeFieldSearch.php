@@ -44,7 +44,7 @@ class TestTypeFieldSearch extends TestTypeField
 
             $id = $params['id'];
 
-            $query = TestTypeField::find()->andWhere(['test_id' => $id]);
+            $query = TestTypeField::find();
 
             // add conditions that should always apply here
 
@@ -67,7 +67,9 @@ class TestTypeFieldSearch extends TestTypeField
 
             ]);
 
-            $query->andFilterWhere(['like', 'block_name', $this->block_name])
+            $query
+                ->andWhere(['test_id' => (int)$id])
+                ->andFilterWhere(['like', 'block_name', $this->block_name])
                 ->andFilterWhere(['like', 'label_name', $this->label_name])
                 ->andFilterWhere(['like', 'id', $this->id])
                 ->andFilterWhere(['like', 'test_id', $this->test_id])

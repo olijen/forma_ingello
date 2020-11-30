@@ -36,6 +36,7 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
+//        $model_id = new TestType();
 
 //        $id = $_GET['id'];
 //        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
@@ -45,6 +46,7 @@ class TestController extends Controller
 
 
         return $this->render('index', [
+
 //            'test_id'=>$test_id,
             'model' => $model,
             'searchModel' => $searchModel,
@@ -78,11 +80,18 @@ class TestController extends Controller
      */
     public function actionCreate()
     {
+//        $model_test = $this->findModel($id);
         $model = new TestTypeField();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['index', 'id' => $model->test_id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $id = $model->test_id;
+            $name = TestType::find()->where(['id'=>$id])->one();
+            var_dump($name);
+            exit;
+
+
+            return $this->redirect(['index','id' => $model->test_id]);
         }
 
         return $this->render('create', [
@@ -118,8 +127,10 @@ class TestController extends Controller
 
         $model = $this->findModel($id);
 
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
         return $this->render('update', [
