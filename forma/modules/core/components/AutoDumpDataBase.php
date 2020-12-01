@@ -24,7 +24,9 @@ class AutoDumpDataBase
         $model = new Accessory();
 
         $arrayModels = $model::find()->where(['user_id' => 1])
-//            ->andWhere("entity_class like '%\Answer'")
+//            ->andWhere("(entity_class like '%\Customer'
+//            or entity_class like '%\Currency' or entity_class like '%\Product' or entity_class like '%\PackUnit')
+//            and entity_class not like '%\ProjectVacancy'")
             ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy', '\RequestStrategy', '\Interview']])
             ->all();
 
@@ -69,10 +71,8 @@ class AutoDumpDataBase
         $this->purchase();
         $this->requestStrategy();
         $this->answer();
-        //+
         $this->interview();
         $this->inventorization();
-        //+
         $this->project();
         $this->selling();
         $this->transit();
@@ -120,7 +120,8 @@ class AutoDumpDataBase
     public function saveNewRecord($model)
     {
         $model->isNewRecord = true;
-        $model->id = null;
+
+        if (array_key_exists('id', $model->attributes))  $model->id = null;
         if (array_key_exists('user_id', $model->attributes)) $model->user_id = \Yii::$app->user->identity->id;
 
         if (!$model->save()) {
@@ -590,27 +591,29 @@ class AutoDumpDataBase
 
     public function project()
     {
-        $projectUsers = $this->findModels('forma\modules\project\records\projectuser\ProjectUser',
+//        $projectUsers = $this->findModels('forma\modules\project\records\projectuser\ProjectUser',
+//            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
+//                'user_id' => 1]);
+//
+//        foreach ($projectUsers as $projectUser) {
+//
+//
+//            $projectUser = $this->changeAttributes(
+//                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+//                $projectUser,
+//                'project_id');
+//
+//            $projectUser = $this->changeAttributes(
+//                ['1' => \Yii::$app->user->identity->id],
+//                $projectUser,
+//                'user_id');
+//
+//            $this->saveNewRecord($projectUser);
+//        }
+
+        $projectVacancies = $this->findModels('forma\modules\project\records\projectvacancy\ProjectVacancy',
             ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-                'user_id' => 1]);
-
-        foreach ($projectUsers as $projectUser) {
-            $projectUser = $this->changeAttributes(
-                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
-                $projectUser,
-                'project_id');
-
-            $projectUser = $this->changeAttributes(
-                ['1' => \Yii::$app->user->identity->id],
-                $projectUser,
-                'user_id');
-
-            $this->saveNewRecord($projectUser);
-        }
-
-        $projectVacancies = $this->findModels('forma\modules\vacancy\records\ProjectVacancy',
-            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-                'user_id' => 1]);
+                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
 
         foreach ($projectVacancies as $projectVacancy) {
             $projectVacancy = $this->changeAttributes(
@@ -619,9 +622,9 @@ class AutoDumpDataBase
                 'project_id');
 
             $projectVacancy = $this->changeAttributes(
-                ['1' => \Yii::$app->user->identity->id],
+                $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
                 $projectVacancy,
-                'user_id');
+                'vacancy_id');
 
             $this->saveNewRecord($projectVacancy);
         }
@@ -652,22 +655,23 @@ class AutoDumpDataBase
 
     public function selling()
     {
-        $sales = $this->findModels('\forma\modules\selling\records\Selling',
-            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy'],
+        $sales = $this->findModels('forma\modules\selling\records\selling\Selling',
+            ['customer_id' => $this->accessoryOldKeys['forma\modules\customer\records\Customer'],
+                'warehouse_id' => $this->oldKeys['warehouse_id'],
                 'state_id' => $this->oldKeys['state_id']
             ]);
 
         foreach ($sales as $sale) {
             $sale = $this->changeAttributes(
-                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+                $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
                 $sale,
-                'project_id');
+                'customer_id');
 
             $sale = $this->changeAttributes(
-                $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
+                $this->newKeys['warehouse_id'],
                 $sale,
-                'vacancy_id');
+                'warehouse_id');
+
             $sale = $this->changeAttributes(
                 $this->newKeys['state_id'],
                 $sale,
@@ -679,7 +683,7 @@ class AutoDumpDataBase
         if (isset($this->oldKeys['selling_id'])) {
 
 
-            $sellingProducts = $this->findModels('\forma\modules\selling\records\selling\SellingProduct',
+            $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
                 [
                     'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product'],
                     'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
