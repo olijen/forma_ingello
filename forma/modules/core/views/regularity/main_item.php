@@ -23,12 +23,12 @@
                                         <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>&parent_id=<?= $item['id'] ?>">
                                             <i class="fa fa-plus"></i>
                                         </a>
-                                        <a href="/core/item/delet?id=<?= $item['id'] ?>">
+                                        <a href="/core/item/delet?id=<?= $item['id'] ?>" onclick="return confirm('Вы уверены, что хотите удалить этот пункт?')">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                         <a data-toggle="collapse" data-parent="#accordion"
                                            href="#collapse_<?= $item['id'] ?>" class="collapsed"
-                                           aria-expanded="false">
+                                           aria-expanded="false" style="display: inline-table;">
                                             <?= $item['title']; ?>
                                         </a>
                                     </h4>
