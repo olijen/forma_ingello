@@ -59,15 +59,13 @@ class Purchase extends StateActiveRecord
         return [
             [['warehouse_id', 'supplier_id'], 'required'],
             [['supplier_id', 'warehouse_id', 'state'], 'integer'],
-            [['date_create', 'date_complete'], 'safe'],
-
+            [['date_create', 'date_complete', 'supplier_id'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Supplier::className(), 'targetAttribute' => ['supplier_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
 
         ];
     }
-
 
 
     /**
