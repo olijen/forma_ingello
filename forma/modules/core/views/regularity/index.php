@@ -5,8 +5,6 @@ use yii\helpers\Url;
 $this->params['doc-page'] = 'regularity';
 $this->title = 'Регламент';
 
-
-$publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
 ?>
 
 <style>
@@ -41,7 +39,7 @@ $publicRegularityUrl = Url::to((['/core/regularity/regularity', 'user-name' => Y
     }
 
 </style>
-<a class="btn btn-success" href='<?= $publicRegularityUrl ?>'
+<a class="btn btn-success" href='<?= Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username])) ?>'
    style="float: right; text-align: right; padding-left: 5px;">
     <i class="fa fa-code"> Презентация</i>
 </a>

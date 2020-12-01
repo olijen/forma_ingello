@@ -15,19 +15,6 @@ use forma\modules\core\widgets\DetachedBlock;
 
 Pjax::begin(['id' => 'transit-form-pjax', 'enablePushState' => false, 'enableReplaceState' => false]);
 
-if (!Yii::$app->request->isPjax) {
-    $js = <<<JS
-        $('document').ready(function() {
-            $('#transit-form-pjax').on('pjax:success', function(xhr, textStatus, error, options) {
-                $.pjax.reload({container: '#transit-nomenclature-pjax'});
-                krajeeDialog.alert('The changes have been saved');
-            });
-        });
-JS;
-
-    $this->registerJs($js);
-}
-
 ?>
 
 <?php DetachedBlock::begin([
