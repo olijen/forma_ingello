@@ -743,5 +743,5 @@ if ('selling' == Yii::$app->controller->module->id) {
     function hideLoader() {
         document.getElementById("loader").style.display = "none";
         $('body').css('pointer-events', 'all');
-    }Добавил анимацию лоадера на все страницы при переходе по ссылкам и при отправке
+    }
 </script>
