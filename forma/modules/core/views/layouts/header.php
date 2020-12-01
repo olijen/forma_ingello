@@ -704,7 +704,7 @@ if ('selling' == Yii::$app->controller->module->id) {
         animation: spin 2s linear infinite;
         border-top: 16px solid #209a25;
         border-right: 16px solid #b45372;
-        border-bottom: 16px solid #5055c6;
+        border-bottom: 16px solid #6d7bb6;
         border-left: 16px solid #c2875b;
         opacity:0.5;
         filter:alpha(opacity=70);
@@ -728,9 +728,10 @@ if ('selling' == Yii::$app->controller->module->id) {
         hideLoader();
 
         console.log('ready');
-        $("a:not(.no-loader), input[type=submit]").click(function(event){
-            if ($(this).attr('href') == '#') return;
-            if ($(this).attr('href')[0] == '#') return;
+        $("a:not(.no-loader), input[type=submit], button[type=submit]").click(function(event){
+            let href = $(this).attr('href');
+            if (href == '#') return;
+            if (href && href[0] == '#') return;
             showLoader();
         });
     });
@@ -738,6 +739,9 @@ if ('selling' == Yii::$app->controller->module->id) {
     function showLoader() {
         document.getElementById("loader").style.display = "block";
         $('body').css('pointer-events', 'none');
+        setTimeout(() => {
+            hideLoader();
+        }, 5000);
     }
 
     function hideLoader() {
