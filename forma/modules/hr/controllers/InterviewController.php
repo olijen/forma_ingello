@@ -39,7 +39,7 @@ class InterviewController extends Controller
 
         $searchModel = new InterviewSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        de($dataProvider->getModels());
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
