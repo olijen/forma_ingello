@@ -13,6 +13,12 @@ use yii\widgets\Breadcrumbs;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
+
+<div class="loader-wrapper"  style="">
+    <div id="loader">
+    </div>
+</div>
+
 <?php if (!Yii::$app->user->isGuest) { ?>
     <header class="main-header">
 
@@ -22,28 +28,28 @@ use yii\widgets\Breadcrumbs;
 
         <?php
         $bgColor = '#00a65a';
-        if ('selling'== Yii::$app->controller->module->id){
-            $bgColor ='#58628e';
-        }elseif ('hr' == Yii::$app->controller->module->id){
+        if ('selling' == Yii::$app->controller->module->id) {
+            $bgColor = '#58628e';
+        } elseif ('hr' == Yii::$app->controller->module->id) {
             $bgColor = '#F08080';
-        }elseif ('product' == Yii::$app->controller->module->id){
+        } elseif ('product' == Yii::$app->controller->module->id) {
             $bgColor = '#f49258';
-        }elseif ('warehouse' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('country' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('customer' == Yii::$app->controller->module->id){
-            $bgColor ='#58628e';
-        }elseif ('worker' == Yii::$app->controller->module->id){
-            $bgColor ='#F08080';
-        }elseif ('vacancy' == Yii::$app->controller->module->id){
-            $bgColor ='#F08080';
-        }elseif ('inventorization' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('purchase' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('transit' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
+        } elseif ('warehouse' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('country' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('customer' == Yii::$app->controller->module->id) {
+            $bgColor = '#58628e';
+        } elseif ('worker' == Yii::$app->controller->module->id) {
+            $bgColor = '#F08080';
+        } elseif ('vacancy' == Yii::$app->controller->module->id) {
+            $bgColor = '#F08080';
+        } elseif ('inventorization' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('purchase' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('transit' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
         }
         ?>
 
@@ -110,24 +116,27 @@ JS;
                         ?>
                     </li>
                     <!--  СОБЫТИЯ -->
+                    <?php
+                    $searchModelHeader = new SystemEventSearch();
+                    $dataProviderHeader = Yii::$app->cache->getOrSet('dataProviderHeader', function () use ($searchModelHeader) {
+                        return $searchModelHeader->search(Yii::$app->request->queryParams);
+                    });
+
+                    ?>
                     <li class="dropdown events-menu tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-history"></i>
-                            <span class="label label-danger">20</span>
+                            <span class="label label-danger"><?= count($searchModelHeader->search(Yii::$app->request->queryParams)->models); ?></span>
                         </a>
                         <ul class="dropdown-menu" style="width: 400px; left: 0; padding: 5px;">
-                            <li class="header">20 последних событий</li>
+                            <li class="header"><?= count($searchModelHeader->search(Yii::$app->request->queryParams)->models); ?>
+                                последних событий
+                            </li>
                             <li>
                                 <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
                                 не было удаления линии которая проходит сквозь весь таймлайн-->
                                 <div class="menu">
-                                    <?php
-                                    $searchModelHeader = new SystemEventSearch();
-                                    $dataProviderHeader = Yii::$app->cache->getOrSet('dataProviderHeader', function () use ($searchModelHeader) {
-                                        return $searchModelHeader->search(Yii::$app->request->queryParams);
-                                    });
 
-                                    ?>
                                     <ul class="timeline">
                                         <?php
 
@@ -135,6 +144,7 @@ JS;
                                         $icon = "";
                                         Yii::debug($searchModelHeader->search(Yii::$app->request->queryParams)->models);
                                         foreach ($searchModelHeader->search(Yii::$app->request->queryParams)->models as $model) {
+
                                             foreach (Yii::$app->params['icons'] as $kIcon => $vIcon) {
                                                 if ($model->class_name == $kIcon) {
                                                     $icon = $vIcon;
@@ -682,4 +692,60 @@ if ('selling' == Yii::$app->controller->module->id) {
         display: none !important;
     }
 
+    #loader {
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 9999;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        border-top: 16px solid #209a25;
+        border-right: 16px solid #b45372;
+        border-bottom: 16px solid #5055c6;
+        border-left: 16px solid #c2875b;
+        opacity:0.5;
+        filter:alpha(opacity=70);
+        -moz-opacity:0.7;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
+
+<script>
+    $(document).ready(function() {
+
+        hideLoader();
+
+        console.log('ready');
+        $("a:not(.no-loader), input[type=submit]").click(function(event){
+            if ($(this).attr('href') == '#') return;
+            if ($(this).attr('href')[0] == '#') return;
+            showLoader();
+        });
+    });
+
+    function showLoader() {
+        document.getElementById("loader").style.display = "block";
+        $('body').css('pointer-events', 'none');
+    }
+
+    function hideLoader() {
+        document.getElementById("loader").style.display = "none";
+        $('body').css('pointer-events', 'all');
+    }Добавил анимацию лоадера на все страницы при переходе по ссылкам и при отправке
+</script>

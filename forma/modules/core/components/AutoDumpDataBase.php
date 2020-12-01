@@ -27,7 +27,7 @@ class AutoDumpDataBase
 //            ->andWhere("(entity_class like '%\Customer'
 //            or entity_class like '%\Currency' or entity_class like '%\Product' or entity_class like '%\PackUnit')
 //            and entity_class not like '%\ProjectVacancy'")
-            ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy', '\RequestStrategy', '\Interview']])
+            ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy', '\RequestStrategy', '\Interview', '\Selling']])
             ->all();
 
         $accessoryKeys = [];

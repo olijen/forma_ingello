@@ -100,6 +100,7 @@ class ProductSearch extends Product
             ->andFilterWhere(['like', 'product.customs_code', $this->customs_code])
             ->andFilterWhere(['like', 'product.name', $this->name])
             ->andFilterWhere(['like', 'product.note', $this->note]);
+        $query->groupBy('product.id');
 
         return $dataProvider;
     }
