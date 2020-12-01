@@ -88,7 +88,7 @@ class LoginForm extends Model
         $user = $this->getUser();
         if($user->confirmed_email == 0){
             $user->confirmed_email = 1;
-            $user->email_string = null;
+            //$user->email_string = null;
             $user->save();
         }
         return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);

@@ -55,6 +55,12 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+        if (!empty(Yii::$app->user->identity->email_string)) {
+            $this->layout = 'public';
+            return $this->render('blank');
+        }
+
+
         $productsCount = ProductService::getCount();
         $completePurchasesCount = PurchaseService::getCompleteCount();
         $completeTransitsCount = TransitService::getCompleteCount();
@@ -233,7 +239,7 @@ class DefaultController extends Controller
         if (isset($_GET['email_string']) && !is_null(UserIdentity::findByEmailString($_GET['email_string']))) {
             $user = UserIdentity::findByEmailString($_GET['email_string']);
             $user->confirmed_email = 1;
-            $user->email_string = null;
+            //$user->email_string = null;
             $user->save();
             $confirmed = true;
         }
@@ -243,7 +249,11 @@ class DefaultController extends Controller
 
     public function actionTestData(){
         $dump = new AutoDumpDataBase();
-        $dump->start();
+        if ($dump->start()) {
+            Yii::$app->user->identity->email_string = null;
+            Yii::$app->user->identity->save();
+            return $this->redirect('/');
+        }
     }
 
 

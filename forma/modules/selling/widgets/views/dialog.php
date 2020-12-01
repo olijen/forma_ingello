@@ -57,10 +57,10 @@ use forma\extensions\fullcalendar;
                                         <ul class="list-group" >
                                             <?php foreach ($request->getAnswers()->all() as $answer): ?>
                                                 <li  class="list-group-item " >
-                                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-request="<?=$request->id?>"><?= $answer->text ?></p>
+                                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-client="1" data-request="<?=$request->id?>"><?= $answer->text ?></p>
                                                 </li>
                                             <?php endforeach; ?>
-                                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
+                                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-client="1" data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
@@ -89,10 +89,10 @@ use forma\extensions\fullcalendar;
                                         <ul class="list-group" >
                                             <?php foreach ($request->getAnswers()->all() as $answer): ?>
                                                 <li  class="list-group-item " >
-                                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-request="<?=$request->id?>"><?= $answer->text ?></p>
+                                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-client="0" data-request="<?=$request->id?>"><?= $answer->text ?></p>
                                                 </li>
                                             <?php endforeach; ?>
-                                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
+                                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-client="0" data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
