@@ -7,43 +7,6 @@ $this->title = 'Регламент';
 
 ?>
 
-<style>
-    #modal .modal-dialog {
-        height: 90vh;
-        margin: 30px auto;
-        width: 90vw;
-    }
-
-    #modal .modal-dialog .modal-content {
-        height: 100%;
-    }
-
-    #modal .modal-dialog .modal-body {
-        height: 91%;
-    }
-
-    @media screen and (max-width: 1360px) {
-        #modal .modal-dialog .modal-body {
-            height: 91%;
-        }
-    }
-
-    @media screen and (max-width: 479px) {
-        #modal .modal-dialog .modal-body {
-            height: 88%;
-        }
-    }
-
-    #modal .modal-dialog .modal-body iframe {
-        height: 100%;
-    }
-
-</style>
-<a class="btn btn-success" href='<?= Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username])) ?>'
-   style="float: right; text-align: right; padding-left: 5px;">
-    <i class="fa fa-code"> Презентация</i>
-</a>
-
 <!-- Вывод регламентов и их пунктов-->
 <section class="content">
     <?php if ($regularitys): ?>

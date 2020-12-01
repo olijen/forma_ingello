@@ -13,6 +13,12 @@ use yii\widgets\Breadcrumbs;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
+
+<div class="loader-wrapper"  style="">
+    <div id="loader">
+    </div>
+</div>
+
 <?php if (!Yii::$app->user->isGuest) { ?>
     <header class="main-header">
 
@@ -686,4 +692,60 @@ if ('selling' == Yii::$app->controller->module->id) {
         display: none !important;
     }
 
+    #loader {
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 9999;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        border-top: 16px solid #209a25;
+        border-right: 16px solid #b45372;
+        border-bottom: 16px solid #5055c6;
+        border-left: 16px solid #c2875b;
+        opacity:0.5;
+        filter:alpha(opacity=70);
+        -moz-opacity:0.7;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
+
+<script>
+    $(document).ready(function() {
+
+        hideLoader();
+
+        console.log('ready');
+        $("a:not(.no-loader), input[type=submit]").click(function(event){
+            if ($(this).attr('href') == '#') return;
+            if ($(this).attr('href')[0] == '#') return;
+            showLoader();
+        });
+    });
+
+    function showLoader() {
+        document.getElementById("loader").style.display = "block";
+        $('body').css('pointer-events', 'none');
+    }
+
+    function hideLoader() {
+        document.getElementById("loader").style.display = "none";
+        $('body').css('pointer-events', 'all');
+    }Добавил анимацию лоадера на все страницы при переходе по ссылкам и при отправке
+</script>

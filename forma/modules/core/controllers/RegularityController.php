@@ -27,13 +27,6 @@ class RegularityController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['regularity'],
@@ -156,7 +149,7 @@ class RegularityController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['settings']);
+        return $this->redirect(['/core/regularity/']);
     }
 
     /**
