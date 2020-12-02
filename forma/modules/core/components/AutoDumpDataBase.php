@@ -77,6 +77,7 @@ class AutoDumpDataBase
         $this->selling();
         $this->transit();
 
+        return true;
     }
 
     public function modelWhitUser($modelsRoutWhitUser)

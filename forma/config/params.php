@@ -233,7 +233,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#00a65a; color:white;',
                 ],
-            'url'=>['/core'],
+            'url'=>['#'],
             'icon'=>'calendar',
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
@@ -273,7 +273,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'color: white; background-color: #58628e;',
             ],
-            'url' => ['/selling/default'],
+            'url' => ['#'],
             'icon' => 'money-bill-wave',
             'items' => [
                 [
@@ -355,7 +355,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#F08080;',
             ],
-            'url' => '/hr/',
+            'url' => '#',
             'icon' => 'user-plus',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
@@ -378,7 +378,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#f49258;',
             ],
-            'url' => '/product/default/',
+            'url' => '#',
             'icon' => 'cube',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
@@ -401,7 +401,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#dc7d22; ',
             ],
-            'url' => ['/warehouse/warehouse'],
+            'url' => ['#'],
             'icon' => 'th',
             'items' => [
                 [
