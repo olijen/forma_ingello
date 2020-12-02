@@ -730,8 +730,10 @@ if ('selling' == Yii::$app->controller->module->id) {
         console.log('ready');
         $("a:not(.no-loader), input[type=submit], button[type=submit]").click(function(event){
             let href = $(this).attr('href');
-            if (href == '#') return;
+            if (href && href == '#') return;
             if (href && href[0] == '#') return;
+            if (href && href == 'javascript:void(0)') return;
+            if (href && href == 'javascript:void(0);') return;
             showLoader();
         });
     });
