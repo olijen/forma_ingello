@@ -43,52 +43,10 @@ $this->title = 'Регламент';
         color: green;
     }
 
-    @media screen and (max-width: 479px) {
-        .nav-tabs-custom>.nav-tabs>li {
-            width: 100%;
+    @media screen and (max-width: 768px) {
+        .nav-tabs > a > i {
+            width: 100px;
         }
-        .nav-tabs-custom>.nav-tabs>li>div>a {
-            display: inline-table;
-        }
-        .regularity-action {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-        }
-    }
-
-    #modal .modal-dialog {
-        height: 90vh;
-        margin: 30px auto;
-        width: 90vw;
-    }
-
-    #modal .modal-dialog .modal-content {
-        height: 100%;
-    }
-
-    #modal .modal-dialog .modal-body {
-        height: 91%;
-    }
-
-    @media screen and (max-width: 1360px) {
-        #modal .modal-dialog .modal-body {
-            height: 91%;
-        }
-    }
-
-    @media screen and (max-width: 479px) {
-        #modal .modal-dialog .modal-body {
-            height: 88%;
-        }
-    }
-
-    #modal .modal-dialog .modal-body iframe {
-        height: 100%;
-    }
-
-    li.regularity.active {
-        border-left: 1px solid green;
     }
 </style>
 

@@ -58,7 +58,7 @@ if (!Yii::$app->request->isPjax) {
     ?>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-<?=($model->isNewRecord)?'6':'4'?>">
             <?php
             $label = $model->getAttributeLabel('warehouse_id');
             $label .= '
@@ -83,7 +83,7 @@ if (!Yii::$app->request->isPjax) {
             ])->label($label) ?>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-<?=($model->isNewRecord)?'6':'4'?>">
             <?php
             $label = $model->getAttributeLabel('customer_id');
             $label .= '
@@ -107,11 +107,11 @@ if (!Yii::$app->request->isPjax) {
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
         </div>
-    </div>
+
 
     <?php if (!$model->isNewRecord): ?>
-        <div class="row">
-            <div class="col-md-6">
+
+            <div class="col-md-4">
                 <?= $form->field($model, 'date_complete')->widget(kartik\datetime\DateTimePicker::className(), [
                     'pluginOptions' => [
                         'autoclose' => true,
@@ -119,8 +119,9 @@ if (!Yii::$app->request->isPjax) {
                     ]
                 ]) ?>
             </div>
-        </div>
+
     <?php endif; ?>
+    </div>
     <?php if (!$model->stateIs(new StateDone())): ?>
         <div class="row">
             <div class="col-md-12 form-group">

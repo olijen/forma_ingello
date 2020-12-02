@@ -120,6 +120,9 @@ if ('selling'== Yii::$app->controller->module->id){
 
             </style>
 
+            <?php if ((Yii::$app->params['menu'][1]['items'][2]['url'][0] === '/core/regularity/regularity')){
+                Yii::$app->params['menu'][1]['items'][2]['url'][0] = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
+            }?>
             <?= \forma\modules\core\widgets\Menu::widget(
                 [
                     'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],

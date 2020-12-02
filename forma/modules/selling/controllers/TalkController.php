@@ -85,7 +85,7 @@ class TalkController extends Controller
                 $selling->dialog .=
                     date('d.m.Y H:i:s') .
                     '<br/>' .
-                    '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">Менеджер: ' . Yii::$app->request->post('comment') . '</div>';
+                    '<div style="background: #d2d6de;" class="alert alert-primary" role="alert">Менеджер: ' . Yii::$app->request->post('comment') . '</div>';
             else
                 $selling->dialog .=
                     date('d.m.Y H:i:s') .

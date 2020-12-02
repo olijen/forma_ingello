@@ -28,34 +28,34 @@ use yii\widgets\Breadcrumbs;
 
         <?php
         $bgColor = '#00a65a';
-        if ('selling'== Yii::$app->controller->module->id){
-            $bgColor ='#58628e';
-        }elseif ('hr' == Yii::$app->controller->module->id){
+        if ('selling' == Yii::$app->controller->module->id) {
+            $bgColor = '#58628e';
+        } elseif ('hr' == Yii::$app->controller->module->id) {
             $bgColor = '#F08080';
-        }elseif ('product' == Yii::$app->controller->module->id){
+        } elseif ('product' == Yii::$app->controller->module->id) {
             $bgColor = '#f49258';
-        }elseif ('warehouse' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('country' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('customer' == Yii::$app->controller->module->id){
-            $bgColor ='#58628e';
-        }elseif ('worker' == Yii::$app->controller->module->id){
-            $bgColor ='#F08080';
-        }elseif ('vacancy' == Yii::$app->controller->module->id){
-            $bgColor ='#F08080';
-        }elseif ('inventorization' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('purchase' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
-        }elseif ('transit' == Yii::$app->controller->module->id){
-            $bgColor ='#f49258';
+        } elseif ('warehouse' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('country' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('customer' == Yii::$app->controller->module->id) {
+            $bgColor = '#58628e';
+        } elseif ('worker' == Yii::$app->controller->module->id) {
+            $bgColor = '#F08080';
+        } elseif ('vacancy' == Yii::$app->controller->module->id) {
+            $bgColor = '#F08080';
+        } elseif ('inventorization' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('purchase' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
+        } elseif ('transit' == Yii::$app->controller->module->id) {
+            $bgColor = '#f49258';
         }
         ?>
 
         <meta name="theme-color" content="<?php echo $bgColor ?>">
 
-        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0;" class="navbar navbar-static-top"
+        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-static-top"
              role="navigation">
 
             <a href="#" data-toggle="push-menu"
@@ -116,24 +116,27 @@ JS;
                         ?>
                     </li>
                     <!--  СОБЫТИЯ -->
+                    <?php
+                    $searchModelHeader = new SystemEventSearch();
+                    $dataProviderHeader = Yii::$app->cache->getOrSet('dataProviderHeader', function () use ($searchModelHeader) {
+                        return $searchModelHeader->search(Yii::$app->request->queryParams);
+                    });
+
+                    ?>
                     <li class="dropdown events-menu tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-history"></i>
-                            <span class="label label-danger">20</span>
+                            <span class="label label-danger"><?= count($searchModelHeader->search(Yii::$app->request->queryParams)->models); ?></span>
                         </a>
                         <ul class="dropdown-menu" style="width: 400px; left: 0; padding: 5px;">
-                            <li class="header">20 последних событий</li>
+                            <li class="header"><?= count($searchModelHeader->search(Yii::$app->request->queryParams)->models); ?>
+                                последних событий
+                            </li>
                             <li>
                                 <!-- КЛасс меню нужен для того чтобы ограничить окно просмотра виджета, а также чтобы
                                 не было удаления линии которая проходит сквозь весь таймлайн-->
                                 <div class="menu">
-                                    <?php
-                                    $searchModelHeader = new SystemEventSearch();
-                                    $dataProviderHeader = Yii::$app->cache->getOrSet('dataProviderHeader', function () use ($searchModelHeader) {
-                                        return $searchModelHeader->search(Yii::$app->request->queryParams);
-                                    });
 
-                                    ?>
                                     <ul class="timeline">
                                         <?php
 
@@ -141,6 +144,7 @@ JS;
                                         $icon = "";
                                         Yii::debug($searchModelHeader->search(Yii::$app->request->queryParams)->models);
                                         foreach ($searchModelHeader->search(Yii::$app->request->queryParams)->models as $model) {
+
                                             foreach (Yii::$app->params['icons'] as $kIcon => $vIcon) {
                                                 if ($model->class_name == $kIcon) {
                                                     $icon = $vIcon;

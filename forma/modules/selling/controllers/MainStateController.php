@@ -70,7 +70,17 @@ class MainStateController extends Controller
         $id = Yii::$app->user->identity->id;
         $model = new State();
         $model->user_id = $id;
+        $allStates = State::find()->where(['user_id' => Yii::$app->user->id])->all();
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if(count($allStates) > 0)
+                foreach($allStates as $state) {
+                    $toState = new StateSearchState();
+                    $toState->state_id = $model->id;
+                    $toState->to_state_id = $state->id;
+                    $toState->save();
+                }
             return $this->redirect('index');
         }
 
@@ -93,6 +103,15 @@ class MainStateController extends Controller
         $dataProvider = $toState->search(Yii::$app->request->queryParams, $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            StateToState::deleteAll(['state_id' => $id]);
+            if (isset($_POST['StateToState']) && !empty($_POST['StateToState'])) {
+                foreach ($_POST['StateToState'] as $state) {
+                    $stateToState = new StateToState();
+                    $stateToState->state_id = $id;
+                    $stateToState->to_state_id = $state;
+                    $stateToState->save();
+                }
+            }
             return $this->redirect('update?id=' . $id);
         }
 
