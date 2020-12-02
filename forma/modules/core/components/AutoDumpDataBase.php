@@ -18,15 +18,13 @@ class AutoDumpDataBase
     public $newKeys = [];
     public $newParent = [];
     public $oldParent = [];
+    protected $deleteAutoDamp = false;
 
     public function getAccessoryKeys()
     {
         $model = new Accessory();
 
         $arrayModels = $model::find()->where(['user_id' => 1])
-//            ->andWhere("(entity_class like '%\Customer'
-//            or entity_class like '%\Currency' or entity_class like '%\Product' or entity_class like '%\PackUnit')
-//            and entity_class not like '%\ProjectVacancy'")
             ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy',
                 '\Interview', '\selling\Selling', '\requeststrategy\RequestStrategy', '\Country']])
             ->all();
@@ -38,38 +36,36 @@ class AutoDumpDataBase
 
         foreach ($accessoryKeys as $entityClass => $modelId) {
             $modelRout = '\\' . $entityClass;
-            $models = $modelRout::findAll($modelId);
+            $models = $modelRout::find()->where(['id' => $modelId])->orderBy(['id' => SORT_ASC])->all();;
 
             foreach ($models as $model) {
+
                 $key = $model->id;
+                if ($this->deleteAutoDamp == false) {
+                    if (array_key_exists('parent_id', $model->attributes)) {
+                        $model = $this->changeAttributes(
+                            $this->newParent,
+                            $model,
+                            'parent_id');
+                        $newModel = $this->saveWhitParent($model);
+                    } else {
+                        $newModel = $this->saveNewRecord($model);
+                    }
+                    $this->accessoryOldKeys[$entityClass][$key] = $key;
+                    $this->accessoryNewKeys[$entityClass][$key] = $newModel->id;
 
-//                if (array_key_exists('parent_id', $model->attributes)) {
-//                    $model = $this->changeAttributes(
-//                        $this->newParent,
-//                        $model,
-//                        'parent_id');
-//                    $newModel = $this->saveWhitParent($model);
-//                } else {
-//                    $newModel = $this->saveNewRecord($model);
-//                }
+                } else {
+                    $this->accessoryOldKeys[$entityClass][$key] = $key;
+                    $this->accessoryNewKeys[$entityClass][$key] = $key;
 
-//                $this->accessoryNewKeys[$entityClass][$key] = $newModel->id;
-
-                $this->accessoryOldKeys[$entityClass][$key] = $key;
-                $this->accessoryNewKeys[$entityClass][$key] = $key;
+                }
             }
-
         }
-//        de( $this->accessoryOldKeys);
     }
 
     public function start()
     {
         $this->getAccessoryKeys();
-        $this->deleteAccessory();
-        de(true);
-//        de($this->regularity());
-//        de($this->accessoryOldKeys);
         $this->state();
         $this->warehouse();
         $this->regularity();
@@ -86,7 +82,8 @@ class AutoDumpDataBase
         $this->selling();
         $this->transit();
 
-
+        if ($this->deleteAutoDamp) $this->deleteAccessory();
+        
         return true;
     }
 
@@ -108,9 +105,6 @@ class AutoDumpDataBase
         foreach ($models as $model) {
             $modelArray[] = $model->id;
         }
-//        de(['not in', 'id', [$modelArray]], false);
-//        de($modelArray, false);
-//        de($models);
         if (isset($models[0]) && !empty($models[0]) && !empty($modelArray)) {
             return $models[0]->deleteAll(['not in', 'id', $modelArray]);
         }
@@ -154,15 +148,18 @@ class AutoDumpDataBase
 
     public function saveNewRecord($model)
     {
-//        $model->isNewRecord = true;
-//
-//        if (array_key_exists('id', $model->attributes)) $model->id = null;
-//        if (array_key_exists('user_id', $model->attributes)) $model->user_id = \Yii::$app->user->identity->id;
-//
-//        if (!$model->save()) {
-//            de($model->errors, false);
+        if ($this->deleteAutoDamp == false) {
+            $model->isNewRecord = true;
+
+            if (array_key_exists('id', $model->attributes)) $model->id = null;
+            if (array_key_exists('user_id', $model->attributes)) $model->user_id = \Yii::$app->user->identity->id;
+            \Yii::debug($model);
 //            de($model);
-//        }
+            if (!$model->save()) {
+                de($model->errors, false);
+                de($model);
+            }
+        }
         return $model;
 
     }
@@ -189,7 +186,8 @@ class AutoDumpDataBase
             $this->forSaveAndGetKey($state, 'state_id');
         }
 
-        return $this->delete($states);
+        if ($this->deleteAutoDamp) return $this->delete($states);
+
 
         $stateToStates = $this->findModels('forma\modules\selling\records\state\StateToState',
             ['state_id' => $this->oldKeys['state_id']]);
@@ -223,7 +221,7 @@ class AutoDumpDataBase
 
 
         $this->forSaveAndGetKey($warehouseModels, 'warehouse_id');
-        return $this->delete($warehouseModels);
+        if ($this->deleteAutoDamp) return $this->delete($warehouseModels);
         $warehouseProductModels = $this->findModels(new WarehouseProduct,
             ['warehouse_id' => $ids, 'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product']]);
         foreach ($warehouseProductModels as $warehouseProductModel) {
@@ -255,7 +253,7 @@ class AutoDumpDataBase
 
     public function findModels($model, $conditions)
     {
-        return $model::find()->where($conditions)->all();
+        return $model::find()->where($conditions)->orderBy(['id' => SORT_ASC])->all();
     }
 
     public function regularity()
@@ -267,7 +265,7 @@ class AutoDumpDataBase
 
 
         $this->forSaveAndGetKey($regularity, 'regularity_id');
-        return $this->delete($regularity);
+        if ($this->deleteAutoDamp) return $this->delete($regularity);
 
         $itemsModels = $this->findModels('\forma\modules\core\records\Item', ['regularity_id' => $this->oldKeys['regularity_id']]);
 
@@ -306,7 +304,7 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($fieldModel);
         }
-        return $this->delete($fieldModels);
+        if ($this->deleteAutoDamp) return $this->delete($fieldModels);
         return true;
     }
 
@@ -332,7 +330,7 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($productPackUnit);
         }
-        return $this->delete($productPackUnits);
+        if ($this->deleteAutoDamp) return $this->delete($productPackUnits);
         return true;
     }
 
@@ -358,7 +356,7 @@ class AutoDumpDataBase
             $this->saveNewRecord($workerVacancy);
         }
 
-        return $this->delete($workerVacancies);
+        if ($this->deleteAutoDamp) return $this->delete($workerVacancies);
         return true;
     }
 
@@ -376,7 +374,7 @@ class AutoDumpDataBase
 
             $this->forSaveAndGetKey($overheadCost, 'overhead_cost_id');
         }
-        return $this->delete($overheadCosts);
+        if ($this->deleteAutoDamp) return $this->delete($overheadCosts);
         return true;
     }
 
@@ -403,7 +401,7 @@ class AutoDumpDataBase
 
             $this->forSaveAndGetKey($purchase, 'purchase_id');
         }
-        return $this->delete($purchases);
+        if ($this->deleteAutoDamp) return $this->delete($purchases);
 
         $purchaseOverheadCosts = $this->findModels('\forma\modules\purchase\records\purchase\PurchaseOverheadCost',
             ['overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
@@ -492,7 +490,7 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($requestStrategy);
         }
-        return $this->delete($requestStrategeis);
+        if ($this->deleteAutoDamp) return $this->delete($requestStrategeis);
 
         return true;
     }
@@ -513,7 +511,7 @@ class AutoDumpDataBase
             $this->saveNewRecord($answer);
         }
 
-        return $this->delete($answers);
+        if ($this->deleteAutoDamp) return $this->delete($answers);
         return true;
     }
 
@@ -546,7 +544,7 @@ class AutoDumpDataBase
 
         }
 
-        return $this->delete($interviews);
+        if ($this->deleteAutoDamp) return $this->delete($interviews);
         if (isset($this->oldKeys['interview_id'])) {
 
             $interviewVacancies = $this->findModels('forma\modules\hr\records\interviewvacancy\InterviewVacancy',
@@ -605,7 +603,7 @@ class AutoDumpDataBase
             $this->forSaveAndGetKey($inventorization, 'inventorization_id');
         }
 
-        return $this->delete($inventorizations);
+        if ($this->deleteAutoDamp) return $this->delete($inventorizations);
         if (isset($this->oldKeys['inventorization_id'])) {
 
 
@@ -671,7 +669,7 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($projectVacancy);
         }
-        return $this->delete($projectVacancies);
+        if ($this->deleteAutoDamp) return $this->delete($projectVacancies);
         return true;
     }
 
@@ -704,7 +702,7 @@ class AutoDumpDataBase
                 'warehouse_id' => $this->oldKeys['warehouse_id'],
                 'state_id' => $this->oldKeys['state_id']
             ]);
-
+//de($sales);
         foreach ($sales as $sale) {
             $sale = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
@@ -724,10 +722,9 @@ class AutoDumpDataBase
             $this->forSaveAndGetKey($sale, 'selling_id');
         }
 
-        return $this->delete($sales);
+        if ($this->deleteAutoDamp) return $this->delete($sales);
+
         if (isset($this->oldKeys['selling_id'])) {
-
-
             $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
                 [
                     'product_id' => $this->accessoryOldKeys['forma\modules\product\records\Product'],
@@ -736,7 +733,7 @@ class AutoDumpDataBase
                     'selling_id' => $this->oldKeys['selling_id'],
                     'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
-
+//de($sellingProducts);
             foreach ($sellingProducts as $sellingProduct) {
                 $sellingProduct = $this->changeAttributes(
                     $this->accessoryNewKeys['forma\modules\product\records\Product'],
@@ -788,10 +785,9 @@ class AutoDumpDataBase
 
             $this->forSaveAndGetKey($transit, 'transit_id');
         }
-        return $this->delete($transits);
+        if ($this->deleteAutoDamp) return $this->delete($transits);
+
         if (isset($this->oldKeys['transit_id'])) {
-
-
             $transitOverheadCosts = $this->findModels('\forma\modules\transit\records\transit\TransitOverheadCost', [
                 'transit_id' => $this->oldKeys['transit_id'],
                 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
