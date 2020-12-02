@@ -197,7 +197,7 @@ Yii::debug($warehouseProducts);
         <?php } else { ?>
             <div class="row">
                 <div class="col-md-12">
-                    <p style="color: red; margin-top: 15px">На вашем складе нет товаров! Перейдите <a href=""
+                    <p style="color: red; margin-top: 15px">На вашем складе нет товаров! Перейдите <a href="/purchase/form/index"
                                                                                                       onclick="location.href='/purchase/form/index'">по
                             ссылке</a> и добавьте товары в закупку.</p>
                 </div>

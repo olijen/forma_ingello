@@ -14,15 +14,39 @@ $this->title = Yii::t('app', 'Состояние "{name}"', [
     'name' => $model->name,
 ]);
 
+$userStates = \forma\modules\selling\records\state\State::find()
+    ->where(['user_id' => Yii::$app->user->id])
+    ->andWhere('id != :id', ['id' => $_GET['id']])
+    ->all();
+
+$userStatesArr = \yii\helpers\ArrayHelper::map($userStates, 'id', 'name');
+
+$confirmedStateToState = \forma\modules\selling\records\state\StateToState::find()
+    ->where(['state_id' => $_GET['id']])->all();
+
+$confirmedStateToStateIds = [];
+
+foreach ($confirmedStateToState as $state)
+    $confirmedStateToStateIds[] = $state->to_state_id;
+
+Yii::debug($confirmedStateToStateIds);
+
+
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния'), 'url' => ['index']];
 ?>
-
+    <style>
+        .state_to_state {
+            border: 1px solid #4526e8;
+            margin-bottom: 5px;
+            padding: 5px;
+        }
+    </style>
 
 <?php $form = ActiveForm::begin(); ?>
 <?php Pjax::begin(); ?>
 
-    <div class="col-md-6 block">
-
+    <div class="col-md-12 block">
+        <div class="col-md-6">
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'order')->textInput(['maxlength' => true]) ?>
         
@@ -48,10 +72,28 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния')
                 'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
         ]); ?>
-      <div class="form-group">
-          <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
-          <?= Html::a(Yii::t('app', 'Назад'), ['index'], ['class' => 'btn btn-success']) ?>
-      </div>
+        </div>
+        <div class="col-md-6">
+            <p style="font-size: 14px; font-weight:bold; margin: 0;">Вы можете настроить переход в следующие состояния</p>
+        <?php
+        $stateIndex = 0;
+        foreach ($userStates as $state) :
+            $stateIndex++;?>
+            <div class="state_to_state">
+                <input <?=(in_array($state->id, $confirmedStateToStateIds)?'checked':'')?> type="checkbox" name="StateToState[<?=$stateIndex?>]" value="<?=$state->id?>">
+                <label for="StateToState[<?=$stateIndex?>]"><?=$state->name?></label>
+            </div>
+
+        <?php endforeach; ?>
+        </div>
+        <div class="row"></div>
+        <div class="col-md-6">
+              <div class="form-group">
+                  <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
+                  <?= Html::a(Yii::t('app', 'Назад'), ['index'], ['class' => 'btn btn-success']) ?>
+              </div>
+        </div>
+    </div>
 
     </div>
 
@@ -62,7 +104,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния')
 <?php $form = ActiveForm::begin(); ?>
 <?php Pjax::begin(); ?>
 
-    <div class="col-md-6 block">
+    <div class="col-md-6 block" style="display: none">
         <input type="hidden" id="statesearchstate-state_id" class="form-control" name="StateSearchState[state_id]"
                value="<?= $model->id ?>">
 
@@ -81,12 +123,18 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Состояния')
         ]);
         ?>
 
+        <?php
+        $stateIndex = 0;
+        foreach ($userStates as $state) :
+            $stateIndex++;?>
+            <input <?=(in_array($state->id, $confirmedStateToStateIds)?'checked':'')?> type="checkbox" name="StateToState[<?=$stateIndex?>]" value="<?=$state->id?>">
+            <label for="StateToState[<?=$stateIndex?>]"><?=$state->name?></label>
+            <br>
+        <?php endforeach; ?>
+
 
         <?= $form->field($toState, 'to_state_id')
-            ->dropDownList(\yii\helpers\ArrayHelper::map(\forma\modules\selling\records\state\State::find()
-                ->where(['user_id' => Yii::$app->user->id])
-                ->andWhere('id != :id', ['id' => $_GET['id']])
-                ->all(), 'id', 'name'))
+            ->dropDownList($userStatesArr)
         ?>
 
       <div class="form-group" style="padding-down: 115px">

@@ -237,9 +237,13 @@ return [
             'icon'=>'calendar',
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
-                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
-                ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
+                ['label' => 'Добавить событие', 'url' => ['/event/event/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+                ['label' => 'Добавить регламент', 'url' => ['/core/regularity/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Люди',
@@ -325,6 +329,21 @@ return [
                     'items' => [
 
                     ]
+                ],
+                ['label' => 'Добавить стратегию',
+                    'url' => ['/selling/strategy/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
+                ['label' => 'Добавить вопрос',
+                    'url' => ['/selling/request/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
+                ['label' => 'Добавить ответ',
+                    'url' => ['/selling/answer/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
                 [
                     'label'=>'Тест',
