@@ -103,6 +103,15 @@ class MainStateController extends Controller
         $dataProvider = $toState->search(Yii::$app->request->queryParams, $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            StateToState::deleteAll(['state_id' => $id]);
+            if (isset($_POST['StateToState']) && !empty($_POST['StateToState'])) {
+                foreach ($_POST['StateToState'] as $state) {
+                    $stateToState = new StateToState();
+                    $stateToState->state_id = $id;
+                    $stateToState->to_state_id = $state;
+                    $stateToState->save();
+                }
+            }
             return $this->redirect('update?id=' . $id);
         }
 
