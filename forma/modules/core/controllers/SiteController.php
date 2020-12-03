@@ -31,11 +31,11 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'logout', 'confirm', 'signup'],
+                'only' => ['login', 'logout', 'confirm', 'signup', 'landing'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['login', 'signup', 'confirm'],
+                        'actions' => ['login', 'signup', 'confirm', 'landing'],
                         'roles' => ['?'],
                     ],
                     [
@@ -89,6 +89,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionLanding()
+    {
+        return $this->render('landing');
     }
 
     /**

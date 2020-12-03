@@ -84,14 +84,17 @@ use yii\widgets\Breadcrumbs;
                                 'name' => '',
                                 'icon' => 'info',
                                 'color' => 'white',
+                                'class' => 'no-loader',
                                 'options' => [
                                     'id' => 'info',
+                                    'class' => 'no-loader'
                                 ]
                             ]);
 
                             $js = <<<JS
                         $(document).ready(function() {
                             var i = setInterval(function () {
+                                $('#info').addClass("no-loader");
                                 setTimeout(function() {
                                     $('#info').css('color', '#00f');
                                 }, 250);
@@ -430,6 +433,7 @@ JS;
                 'name' => 'О разделе',
                 'icon' => 'info-circle',
                 'btn' => 'primary',
+                'options' => ['id' => 'about_regularity']
             ]) ?>
 
         <?php endif ?>
@@ -452,6 +456,7 @@ JS;
 
 $js = <<<JS
 var i = 1;
+//$("#about_regularity")[0].href = '#';
 $("#fs").click(function () {
    i++;
   if($.support.fullscreen){
