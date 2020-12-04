@@ -93,7 +93,9 @@ class SiteController extends Controller
 
     public function actionLanding()
     {
-        return $this->render('landing');
+        $this->layout = false;
+        $googleLink = $this->googleAuth();
+        return $this->render('landing', ['googleLink' => $googleLink]);
     }
 
     /**

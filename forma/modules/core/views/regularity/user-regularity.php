@@ -98,7 +98,7 @@ input[type=checkbox], input[type=radio] {
 
 #name_on_picture {
     position: absolute;
-    top: 30px;
+    top: 10px;
     left: 0;
     width: 100%;
     display: flex;
@@ -107,7 +107,7 @@ input[type=checkbox], input[type=radio] {
 }
 
 .h-text {
-    text-shadow: 4px 3px 9px black;
+    text-shadow: 3px 4px 8px black;
     position: absolute;
     left: 0;
     width: 100%;
@@ -117,13 +117,13 @@ input[type=checkbox], input[type=radio] {
 }
 
 h2.h-text  {
-    font-size: 30px;
+    font-size: 70px;
     top: 0px;
 }
 
 h3.h-text {
-    font-size: 23px;
-    top: 33px;
+    font-size: 35px;
+    top: 80px;
 }
 
 h4.h-text {
