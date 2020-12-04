@@ -44,7 +44,7 @@ label {
 
 .carousel {
     border-radius: 7px;
-    width: 80%;
+    width: 100%;
     height: 50px;
     overflow: hidden;
     overflow-x: scroll;
@@ -144,8 +144,8 @@ h4.h-text {
 }
 
 #border {
-    margin-left: 50px;
-    margin-right: ' . $borderMarginRight . 'px;
+    margin: 0 auto;
+    max-width: 2500px;
 }
 
 .content-header {
@@ -235,12 +235,17 @@ p {
     margin-bottom: 0px;
 }
 
-
-.navigator{
+.navigator-pane button {
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
     margin: 10px;
+}
+
+
+.container.fluid {
+width: 100%;
+
 }
 
 @media screen and (max-width: 768px) {
@@ -265,19 +270,39 @@ p {
         <div id="picture" style="padding-top: 400px ">
             <div id="name_on_picture" style="">
             </div>
-            <div class="navigator-pane" style="display: flex; justify-content: center; ">
+
+
+
+            <div class="navigator-pane" id="public_for_newUser" style=" justify-content: center; ">
+                <button class='btn btn-light' style="background-color: #F08080; color: white" onclick="window.location.href='/'"
+                        style="margin-bottom: 20px;">
+                    <i class="fas fa-ban" style="color: white"></i>
+                     Пропустить обучение
+                </button>
+                <button class='btn btn-light' style="background-color: #00a65a; color: white" onclick="public_for_newUser.style.display = 'none'; usualReglament.style.display = 'flex'"
+                        style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
+                    <i class="fas fa-arrow-right" style="color: white"></i> Продолжить обучение
+                </button>
+            </div>
+            <div class="navigator-pane" id="usualReglament" style=" justify-content: center; ">
                 <button class='btn btn-light navigator prev' onclick="event.stopPropagation()"
                         style="margin-bottom: 20px;">
                     Назад
+                </button>
+                <button class='btn btn-warning' onclick="window.location.href='/'"
+                        style="margin-bottom: 20px;">
+                    <i class="fas fa-chart-line"></i> К главной панели
                 </button>
                 <button class='btn btn-light navigator next' onclick="event.stopPropagation()"
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
                     Вперед
                 </button>
             </div>
-            <div id="text-div">
 
-            </div>
+
+
+
+
         </div>
 
         <div id="nav-tabs" class="nav-tabs-custom">
@@ -300,6 +325,11 @@ p {
                     </li>
                 <?php endforeach; ?>
             </ul>
+
+
+            <div id="text-div">
+
+            </div>
 
             <div class="tab-content" style="padding: 0px">
                 <?php foreach ($regularities as $regularity): ?>
@@ -339,6 +369,8 @@ p {
 <?php
 
 
+
+
 $js = <<<JS
 var i = 1;
 //$("#about_regularity")[0].href = '#';
@@ -358,3 +390,15 @@ $("#fs").click(function () {
 JS;
 $this->registerJs($js);
 ?>
+
+<script>
+    let newUserReglament = <?=$newUserReglament?>;
+    console.log(newUserReglament);
+    if (newUserReglament) {
+        public_for_newUser.style.display = 'flex';
+        usualReglament.style.display = 'none';
+    } else {
+        usualReglament.style.display = 'flex';
+        public_for_newUser.style.display = 'none';
+    }
+</script>

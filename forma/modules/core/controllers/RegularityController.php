@@ -75,11 +75,18 @@ class RegularityController extends Controller
         $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
         $subItems = Item::getSubItems($allItems);
         $items = Item::getMainItems($allItems);
+        $newUserReglament = 0;
+
+        if (strpos( Url::previous(), 'test') !== false) {
+            $newUserReglament = 1;
+            Url::remember();
+        }
 
         return $this->render('user-regularity', [
             'regularities' => $regularities,
             'items' => $items,
             'subItems' => $subItems,
+            'newUserReglament' => $newUserReglament
         ]);
     }
 
