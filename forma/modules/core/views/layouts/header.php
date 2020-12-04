@@ -75,19 +75,18 @@ use yii\widgets\Breadcrumbs;
 
                 <ul class="nav navbar-nav">
                     <li class="dropdown messages-menu">
+
+                        <a      id="info"
+                                style="color: #fff;"
+                                href="/core/regularity/regularity"
+                                class="btn btn-outline-secondary"
+                                type="button"
+                        >
+
+                            <i class="fa fa-tree" style="font-size: 18px;"></i>
+
+                        </a>
                         <?php
-
-                        if (Yii::$app->user->identity->username == 'admin') {
-
-                            echo \forma\components\widgets\ModalSrc::widget([
-                                'route' => '/core/site/doc?page=layout',
-                                'name' => '',
-                                'icon' => 'info',
-                                'color' => 'white',
-                                'options' => [
-                                    'id' => 'info',
-                                ]
-                            ]);
 
                             $js = <<<JS
                         $(document).ready(function() {
@@ -111,7 +110,6 @@ use yii\widgets\Breadcrumbs;
                         })
 JS;
                             $this->registerJs($js);
-                        }
 
                         ?>
                     </li>
@@ -384,7 +382,8 @@ JS;
 
         <?php
 
-        if (empty($this->params['doc-page'])) {
+        //todo: тут повсеместная кнопка документации
+        if (false && empty($this->params['doc-page'])) {
 
             echo \forma\components\widgets\ModalSrc::widget([
                 'route' => '/core/site/doc?page=layout',
@@ -423,7 +422,7 @@ JS;
         ?>
 
 
-        <?php if (!empty($this->params['doc-page'])) : ?>
+        <?php if (false && !empty($this->params['doc-page'])) : ?>
 
             <?= \forma\components\widgets\ModalSrc::widget([
                 'route' => '/core/site/doc?page=' . $this->params['doc-page'],

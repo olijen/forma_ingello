@@ -49,7 +49,7 @@ class LinkHelper
             $text = str_ireplace("{{",
                 "<a  style=\"color: blue;\"  
                         href=\"javascript:void(0)\"
-                        class=\"btn btn-outline-secondary\" 
+                        class=\"btn btn-xs\" 
                         type=\"button\" data-toggle=\"modal\" 
                         data-target=\"#modal\" 
                         onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 

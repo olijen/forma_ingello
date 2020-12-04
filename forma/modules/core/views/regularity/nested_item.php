@@ -19,7 +19,7 @@ foreach ($items as $value): ?>
                        href="#collapse_<?= $value['id'] ?>"
                        class="collapsed"
                        aria-expanded="false">
-                        <?= $value['title']; ?>
+                        > <?= $value['title']; ?>
                     </a>
                 </h4>
             </div>

@@ -159,7 +159,6 @@
 
     "build:app": [
       "@composer install --no-interaction",
-      "forma/yii app/setup --interactive=0",
       "forma/yii migrate --interactive=0"
     ],
 
@@ -180,7 +179,6 @@
     "docker:localbuild": [
       "docker-compose -f docker-compose-local.yml up --force-recreate -d",
       "docker-compose -f docker-compose-local.yml exec -T app composer run-script build:app",
-      "docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)",
       "echo \"All ok!\""
     ],
 

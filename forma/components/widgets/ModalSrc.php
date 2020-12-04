@@ -36,7 +36,7 @@ class ModalSrc extends Widget
             <?php endif ?>
         >
 
-            <i class="fa fa-<?=$this->icon?>"></i>
+            <i class="fa fa-<?=$this->icon?>" style="font-size: 20px;"></i>
             <?=$this->name?>
         </a>
         <?php
