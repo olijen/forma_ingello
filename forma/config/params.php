@@ -184,7 +184,7 @@ return [
 
         [
             'label' => 'Список хранилищ',
-            'url' => ['#'],
+            'url' => '#',
             'icon' => 'square',
             'items' => [
             ]
@@ -233,7 +233,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#00a65a; color:white;',
                 ],
-            'url'=>['#'],
+            'url'=>'#',
             'icon'=>'calendar',
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
@@ -247,7 +247,7 @@ return [
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Люди',
-                    'url' => ['/core/default/people'],
+                    'url' => '#',
                     'icon' => 'users',
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
@@ -277,7 +277,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'color: white; background-color: #58628e;',
             ],
-            'url' => ['#'],
+            'url' => '#',
             'icon' => 'money-bill-wave',
             'items' => [
                 [
@@ -420,7 +420,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#dc7d22; ',
             ],
-            'url' => ['#'],
+            'url' => '#',
             'icon' => 'th',
             'items' => [
                 [

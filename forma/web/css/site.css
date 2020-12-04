@@ -1,3 +1,20 @@
+td .glyphicon {
+    font-size: 20px;
+    border: 1px solid #3c8dbc;
+    border-radius: 25%;
+    padding: 10px;
+    margin: 3px;
+}
+
+td .glyphicon:hover {
+    border-radius: 50%;
+    border-color: white;
+}
+
+.action-column {
+    width: 120px;
+}
+
 /* bootstrap */
 
 .content-wrapper  {

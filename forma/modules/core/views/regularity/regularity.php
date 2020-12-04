@@ -1,5 +1,5 @@
 <div class="nav-tabs-custom">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" style="border: 1px solid silver;">
         <?php use yii\helpers\Url;
         foreach ($regularitys as $regularity): ?>
             <li class="regularity <?= $regularity['id'] == $order_id ? 'active' : '' ?>" style="padding-bottom: 5px; padding-top:5px;
@@ -16,14 +16,14 @@
             </li>
         <?php endforeach; ?>
         <a href="/core/regularity/create">
-            <i title="Добавить регламент" class="regularity-action fa fa-plus" style="font-size: 35px; border: 1px solid green; border-radius: 50%; padding: 10px;"></i>
+            <i title="Добавить регламент" class="regularity-action fa fa-plus" style="margin: 10px; font-size: 35px; border: 1px solid green; border-radius: 50%; padding: 10px;"></i>
         </a>
         <a class="regularity-action" href='<?= Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));?>'>
-            <i title="Смотреть презентацию" class="regularity-action fa fa-image" style="font-size: 35px; border: 1px solid green; border-radius: 50%; padding: 10px;"></i>
+            <i title="Смотреть презентацию" class="regularity-action fa fa-image" style="margin: 10px; font-size: 35px; border: 1px solid green; border-radius: 50%; padding: 10px;"></i>
         </a>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content" style="padding: 0;">
         <?php foreach ($regularitys as $regularity): ?>
             <div class="tab-pane <?= $regularity['id'] == $order_id ? 'active' : '' ?>"
                  id="tab_<?= $regularity['id'] ?>">
@@ -41,8 +41,8 @@
                 ]) ?>
 
                 <a href="/core/item/create?regularity_id=<?= $regularity['id'] ?>">
-                    <i class="fa fa-plus"></i>
-                    Добавить пункт
+                    <i class="fa fa-plus" style="border: 1px solid green; border-radius: 50%;"></i>
+                    (+) Добавить пункт
                 </a>
                 <!-- /.tab-pane -->
             </div>

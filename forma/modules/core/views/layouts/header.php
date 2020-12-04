@@ -75,6 +75,17 @@ use yii\widgets\Breadcrumbs;
 
                 <ul class="nav navbar-nav">
                     <li class="dropdown messages-menu">
+
+                        <a      id="info"
+                                style="color: #fff;"
+                                href="/core/regularity/regularity"
+                                class="btn btn-outline-secondary"
+                                type="button"
+                        >
+
+                            <i class="fa fa-tree" style="font-size: 18px;"></i>
+
+                        </a>
                         <?php
 
                         if (Yii::$app->user->identity->username == 'admin') {
@@ -93,8 +104,9 @@ use yii\widgets\Breadcrumbs;
 
                             $js = <<<JS
                         $(document).ready(function() {
+                            $('#info').addClass("no-loader");
                             var i = setInterval(function () {
-                                $('#info').addClass("no-loader");
+                                
                                 setTimeout(function() {
                                     $('#info').css('color', '#00f');
                                 }, 250);
@@ -433,7 +445,6 @@ JS;
                 'name' => 'О разделе',
                 'icon' => 'info-circle',
                 'btn' => 'primary',
-                'options' => ['id' => 'about_regularity']
             ]) ?>
 
         <?php endif ?>
@@ -456,7 +467,6 @@ JS;
 
 $js = <<<JS
 var i = 1;
-//$("#about_regularity")[0].href = '#';
 $("#fs").click(function () {
    i++;
   if($.support.fullscreen){
