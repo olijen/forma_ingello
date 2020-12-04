@@ -93,7 +93,7 @@ input[type=checkbox], input[type=radio] {
     background: #ffffff; /* Цвет фона */
     color: #000000; /* Цвет текста */
     overflow-y: scroll;
-    height: 125px;
+    height: 210px;
 }
 
 #name_on_picture {
@@ -230,11 +230,12 @@ p {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
-
+    height: 70vh;
 }
 
 #nav-tabs{
     margin-bottom: 0px;
+    
 }
 
 .navigator-pane button {
@@ -282,7 +283,7 @@ width: 100%;
 
 <div id="border">
     <?php if (isset($regularities) && !empty($regularities)): ?>
-        <div id="picture" style="padding-top: 400px ">
+        <div id="picture" style="padding-top: 615px; background: url('/images/office.jpg'); background-size: cover">
             <div id="name_on_picture" style="">
             </div>
 
@@ -344,7 +345,7 @@ width: 100%;
 
 
 
-            <div class="tab-content" style="padding: 0px">
+            <div class="tab-content" style="padding: 10px 0px 0">
                 <?php foreach ($regularities as $regularity): ?>
 
                     <div class="tab-pane <?= $regularity->id == $regularities[0]->id ? 'active' : '' ?>"
@@ -355,7 +356,7 @@ width: 100%;
 
                                 changeArea('<?= $regularity->title ?>',
                                     '<?=  '<h2>' . $regularity->name . '</h2>' ?>',
-                                    '<?= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>');
+                                    '<?= is_null($regularity->picture) ? '/images/office.jpg' : $regularity->picture ?>');
                             </script>
                         <?php endif; ?>
 
@@ -369,7 +370,7 @@ width: 100%;
                 <?php endforeach; ?>
             </div>
 
-            <div id="text-div">
+            <div id="text-div" style="padding: 0 10px;">
 
             </div>
         </div>

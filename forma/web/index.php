@@ -7,6 +7,8 @@ ini_set('display_startup_errors', 1);
 
 require(__DIR__ . '/../helpers/functions.php');
 
+
+
 // comment out the following two lines when deployed to production
 
 if (isset($_GET['debug'])) {

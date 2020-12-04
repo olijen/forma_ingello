@@ -41,7 +41,7 @@ class Item extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['description'], 'string'],
             [['color'], 'string', 'max' => 55],
-            [['picture'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['picture'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', ],
             [['access'], 'integer', 'max' => 1],
             [['regularity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Regularity::className(), 'targetAttribute' => ['regularity_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['parent_id' => 'id']],
