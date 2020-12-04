@@ -1,6 +1,10 @@
+<script>
+    <?=$this->renderFile('@app/web/js/time-line.js');?>
+</script>
+
+
 <?php
 //$this->registerCssFile('@web/css/time-line-style.css', ['position' => \yii\web\View::POS_BEGIN]);
-$this->registerJsFile('@web/js/time-line.js', ['position' => \yii\web\View::POS_BEGIN]);
 
 use forma\modules\core\components\LinkHelper;
 use yii\bootstrap\Modal;
@@ -305,6 +309,7 @@ p {
 
                         <?php if ($regularity === $regularities[0]): ?>
                             <script>
+
                                 changeArea('<?= $regularity->title ?>',
                                     '<?=  '<h2>' . $regularity->name . '</h2>' ?>',
                                     '<?= is_null($regularity->picture) ? '/images/bot.jpg' : $regularity->picture ?>');
@@ -328,3 +333,28 @@ p {
         echo 'Регламентов или юзера не существует' ?>
     <?php endif; ?>
 </div>
+
+
+
+<?php
+
+
+$js = <<<JS
+var i = 1;
+//$("#about_regularity")[0].href = '#';
+$("#fs").click(function () {
+   i++;
+  if($.support.fullscreen){
+	$("body").fullScreen();
+	if (i % 2 == 0) {
+	  $("#fs").html($('<i class="fa fa-compress"></i>'));
+	} else {
+	  $("#fs").html($('<i class="fa fa-expand"></i>'));
+	}
+  } else {
+    alert('Фул скрин не подключен');
+  }
+});
+JS;
+$this->registerJs($js);
+?>

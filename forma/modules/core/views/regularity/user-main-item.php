@@ -1,5 +1,5 @@
 <div class="container" style="<?= !isset($checkSubItem) ? 'padding: 4px;' : '' ?>">
-    <div class="carousel">
+    <div class="carousel" style="overflow-x: hidden">
 
         <?php foreach ($items as $item) {
             $radioName = isset($checkSubItem) ? 'sub-item' : 'item';

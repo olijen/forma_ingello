@@ -71,7 +71,7 @@ class AutoDumpDataBase
         $this->regularity();
         $this->field();
         $this->productPackUnit();
-        $this->workerVacancy();
+        //$this->workerVacancy();
         $this->overheadCost();
         $this->purchase();
         $this->requestStrategy();

@@ -67,6 +67,8 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
+        $this->layout = 'public';
+
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);

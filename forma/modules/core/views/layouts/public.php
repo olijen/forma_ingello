@@ -1,5 +1,7 @@
 <?php
+
 use backend\assets\AppAsset;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
@@ -16,12 +18,22 @@ dmstr\web\AdminLteAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
 </head>
 <body class="login-page">
 
 <?php $this->beginBody() ?>
 
     <?= $content ?>
+    <?= Modal::widget([
+        'id' => 'select-modal',
+        'header' => 'FORMA . INGELLO 2020 - закажи индивидуальную систему',
+    ]) ?>
+
+    <?= Modal::widget([
+        'id' => 'select-modal-2',
+        'header' => 'FORMA . INGELLO 2020',
+    ]) ?>
 
 <?php $this->endBody() ?>
 </body>

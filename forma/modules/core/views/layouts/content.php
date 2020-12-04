@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use forma\components\widgets\ModalCreate;
 use yii\bootstrap\Modal;
