@@ -85,7 +85,7 @@ input[type=checkbox], input[type=radio] {
     vertical-align: top;
     margin: 5px;
     /*width: 25%;*/
-    height: 60px;
+    height: 100%;
 
 }
 
@@ -268,6 +268,14 @@ width: 100%;
 .tab-pane .container, .carousel {
     padding: 0 !important;
     width: 100%;
+    padding-left: 3px !important;
+}
+
+.tab-content {
+    height: 100% !important;
+}
+.carousel {
+    height: 100% !important;
 }
 ');
 ?>
