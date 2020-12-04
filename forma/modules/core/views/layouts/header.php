@@ -88,7 +88,8 @@ use yii\widgets\Breadcrumbs;
                         </a>
                         <?php
 
-                        if (Yii::$app->user->identity->username == 'admin') {
+                        //todo: тут повсеместная кнопка документации
+                        if (false && empty($this->params['doc-page'])) {
 
                             echo \forma\components\widgets\ModalSrc::widget([
                                 'route' => '/core/site/doc?page=layout',
@@ -399,7 +400,7 @@ JS;
 
         <?php
 
-        if (empty($this->params['doc-page'])) {
+        if (false && !empty($this->params['doc-page'])) {
 
             echo \forma\components\widgets\ModalSrc::widget([
                 'route' => '/core/site/doc?page=layout',
@@ -438,7 +439,8 @@ JS;
         ?>
 
 
-        <?php if (!empty($this->params['doc-page'])) : ?>
+        <?php //todo: тут повсеместная кнопка документации
+        if (false && !empty($this->params['doc-page'])) : ?>
 
             <?= \forma\components\widgets\ModalSrc::widget([
                 'route' => '/core/site/doc?page=' . $this->params['doc-page'],

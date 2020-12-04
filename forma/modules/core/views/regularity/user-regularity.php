@@ -83,7 +83,8 @@ input[type=checkbox], input[type=radio] {
 .carousel-child {
     display: inline-block;
     vertical-align: top;
-    width: 25%;
+    margin: 5px;
+    /*width: 25%;*/
     height: 60px;
 
 }
@@ -161,7 +162,7 @@ p {
 .container-label {
     display: block;
     position: relative;
-    padding-left: 35px;
+    padding-left: 25px;
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 22px;
@@ -181,10 +182,11 @@ p {
 .checkmark {
     position: absolute;
     top: 0;
-    left: 0;
-    height: 16px;
-    width: 16px;
+    left: -8px;
+    height: 21px;
+    width: 21px;
     background-color: #eee;
+    border: 1px solid #3c8dbc;
     border-radius: 50%;
 }   
 
@@ -262,6 +264,11 @@ width: 100%;
             margin-right: 5px;
         } 
     }
+    
+.tab-pane .container, .carousel {
+    padding: 0 !important;
+    width: 100%;
+}
 ');
 ?>
 
