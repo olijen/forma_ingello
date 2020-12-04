@@ -334,9 +334,7 @@ width: 100%;
             </ul>
 
 
-            <div id="text-div">
 
-            </div>
 
             <div class="tab-content" style="padding: 0px">
                 <?php foreach ($regularities as $regularity): ?>
@@ -361,6 +359,10 @@ width: 100%;
 
                     </div>
                 <?php endforeach; ?>
+            </div>
+
+            <div id="text-div">
+
             </div>
         </div>
     <?php else: ?>
