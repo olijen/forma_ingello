@@ -203,6 +203,7 @@
             console.log(hrefId);
 
             let tabPaneHref = $('a[href$="' + hrefId + '"]');
+            let tabContent = $(hrefId);
             let childCount = tabPaneHref.tab()[0].offsetParent.childElementCount;
             if (childCount > 3) { // ширина блока 800px т е вмещает 4 еллемента по 200
                 scrollItemsDivs(tabPaneHref, childCount);
@@ -210,16 +211,17 @@
 
             console.log('tabPaneHref');
 
-
-
             tabPaneHref.tab('show');
             if (tabPaneHref[0].children[0]) {
-
                 console.log(tabPaneHref);
                 console.log(tabPaneHref[0]);
                 console.log(tabPaneHref[0].children[0]);
                 console.log(tabPaneHref.find('.check-radio'));
-                tabPaneHref.find('.check-radio')[0].checked = true;
+                if (!tabPaneHref.find('.check-radio')[0]) {
+                    tabContent.find('.check-radio')[0].checked = true;
+                } else {
+                    tabPaneHref.find('.check-radio')[0].checked = true;
+                }
             }
 
             console.log(getDescription(tabPaneHref));
