@@ -25,7 +25,7 @@ if (isset($parentItem)) {
        style="display: flex;
               flex-direction: column-reverse;"
     >
-        <label class="container-label" style="border: 1px solid #3c8dbc; border-radius: 15px; margin: 4px auto; display: inline-block;">
+        <label class="container-label" style="border: 1px solid #3c8dbc; border-radius: 15px; margin-right: 5px; margin-left: 2px; display: inline-block;">
             <input type="radio" class="check-radio" name=<?= $radioName ?> id="<?= $item->id ?>">
             <span class="checkmark"></span>
 

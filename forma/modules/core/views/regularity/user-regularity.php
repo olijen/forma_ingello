@@ -182,10 +182,11 @@ p {
 .checkmark {
     position: absolute;
     top: 0;
-    left: 0;
+    left: -8px;
     height: 21px;
     width: 21px;
     background-color: #eee;
+    border: 1px solid #3c8dbc;
     border-radius: 50%;
 }   
 
@@ -258,6 +259,11 @@ p {
             margin-right: 5px;
         } 
     }
+    
+.tab-pane .container, .carousel {
+    padding: 0 !important;
+    width: 100%;
+}
 ');
 ?>
 
