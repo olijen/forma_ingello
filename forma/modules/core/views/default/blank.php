@@ -262,10 +262,10 @@
             url: 'core/default/test-data',
             data: '',
             success: function (data) {
-               alert(data);
+
             },
             error: function (request, status, error) {
-                alert(request.status); // прилетает 400 код ошибки
+
             }
         })
     });
