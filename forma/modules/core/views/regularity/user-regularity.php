@@ -90,11 +90,11 @@ input[type=checkbox], input[type=radio] {
 }
 
 #nav-tabs {
-    height: 20%;
+    height: 18%;
 }
 
 .tab-content {
-    height: 20%;
+    height: 18%;
 }
 
 #text-div {
