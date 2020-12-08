@@ -30,6 +30,9 @@
     <div class="container d-flex align-items-center flex-column">
         <!-- Masthead Avatar Image-->
 
+        <!-- Masthead Subheading-->
+        <p class="masthead-subheading font-weight-light mb-0" style="">Бесплатная система для развития малого бизнеса</p>
+<br><br>
         <!-- Masthead Heading-->
         <h1 class="masthead-heading text-uppercase mb-0" style="position: relative; right: 6px">> FORMA . INGELLO</h1>
         <!-- Icon Divider-->
@@ -38,8 +41,7 @@
             <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
             <div class="divider-custom-line"></div>
         </div>
-        <!-- Masthead Subheading-->
-        <p class="masthead-subheading font-weight-light mb-0" style="border-radius: 2px; background: #2c3e50; ">Бесплатная система для развития малого бизнеса</p>
+
     </div>
 </header>
 <!-- Portfolio Section-->
