@@ -89,11 +89,19 @@ input[type=checkbox], input[type=radio] {
 
 }
 
+#nav-tabs {
+    height: 20%;
+}
+
+.tab-content {
+    height: 20%;
+}
+
 #text-div {
     background: #ffffff; /* Цвет фона */
     color: #000000; /* Цвет текста */
-    overflow-y: scroll;
-    height: 210px;
+    overflow: scroll;
+    height: 60%;
 }
 
 #name_on_picture {
@@ -126,6 +134,30 @@ h3.h-text {
     top: 80px;
 }
 
+#name_on_picture  h3 {
+    font-size: 35px;
+    top: 80px;
+    text-shadow: 3px 4px 8px black;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+}
+
+#name_on_picture h2 {
+    font-size: 70px;
+    top: 0px;
+    text-shadow: 3px 4px 8px black;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
+}
+
 h4.h-text {
     font-size: 20px;
     top: 69px;
@@ -147,6 +179,8 @@ h4.h-text {
 #border {
     margin: 0 auto;
     max-width: 2500px;
+    height: 100vh;
+    
 }
 
 .content-header {
@@ -230,11 +264,12 @@ p {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
-    height: 70vh;
+    height: 70%;
 }
 
 #nav-tabs{
     margin-bottom: 0px;
+    height: 30%;
     
 }
 
@@ -243,6 +278,21 @@ p {
     padding-left: 20px;
     padding-right: 20px;
     margin: 10px;
+    margin-bottom: 20px;
+}
+
+#usualReglament {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+#public_for_newUser {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
 
@@ -272,19 +322,50 @@ width: 100%;
     padding-left: 3px !important;
 }
 
-.tab-content {
-    height: 100% !important;
-}
+
 .carousel {
     height: 100% !important;
 }
+
+
+#modal .modal-dialog {
+        height: 90vh;
+        margin: 30px auto;
+        width: 90vw;
+    }
+
+    #modal .modal-dialog .modal-content {
+        height: 100%;
+    }
+
+    #modal .modal-dialog .modal-body {
+        height: 91%;
+    }
+
+    @media screen and (max-width: 1360px) {
+        #modal .modal-dialog .modal-body {
+            height: 91%;
+        }
+    }
+
+    @media screen and (max-width: 479px) {
+        #modal .modal-dialog .modal-body {
+            height: 88%;
+        }
+    }
+
+    #modal .modal-dialog .modal-body iframe {
+        height: 100%;
+    }
+
 ');
 ?>
 
 <div id="border">
     <?php if (isset($regularities) && !empty($regularities)): ?>
-        <div id="picture" style="padding-top: 615px; background: url('/images/office.jpg'); background-size: cover">
+        <div id="picture" style="background: url('/images/office.jpg'); background-size: cover">
             <div id="name_on_picture" style="">
+                <h2 class="h-text">Публичный регламент</h2>
             </div>
 
 
@@ -292,18 +373,18 @@ width: 100%;
             <div class="navigator-pane" id="public_for_newUser" style=" justify-content: center; ">
                 <button class='btn btn-light' style="background-color: #F08080; color: white" onclick="window.location.href='/'"
                         style="margin-bottom: 20px;">
-                    <i class="fas fa-ban" style="color: white"></i>
+                    <i class="fas fa-ban" style="color: white; margin-right: 5px;"></i>
                      Пропустить обучение
                 </button>
                 <button class='btn btn-light' style="background-color: #00a65a; color: white" onclick="public_for_newUser.style.display = 'none'; usualReglament.style.display = 'flex'"
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
-                    <i class="fas fa-arrow-right" style="color: white"></i> Продолжить обучение
+                    Продолжить обучение <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>
             </div>
             <div class="navigator-pane" id="usualReglament" style=" justify-content: center; ">
                 <button class='btn btn-light navigator prev' onclick="event.stopPropagation()"
                         style="margin-bottom: 20px;">
-                    Назад
+                    <i class="fas fa-arrow-left" style="color: black; margin-right: 5px"></i> Назад
                 </button>
                 <button class='btn btn-warning' onclick="window.location.href='/'"
                         style="margin-bottom: 20px;">
@@ -311,7 +392,7 @@ width: 100%;
                 </button>
                 <button class='btn btn-light navigator next' onclick="event.stopPropagation()"
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
-                    Вперед
+                    Вперед <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>
             </div>
 
@@ -418,5 +499,16 @@ $this->registerJs($js);
     } else {
         usualReglament.style.display = 'flex';
         public_for_newUser.style.display = 'none';
+    }
+
+    let modalBtnArr = document.querySelector('a');
+    console.log(modalBtnArr);
+    for (let i = 0; i < modalBtnArr.length; i++) {
+        modalBtnArr[i].addEventListener('click', {
+            handleEvent(event) {
+                document.getElementById('myFrame').style.height = '100%';
+                //alert(event.type + " на " + event.currentTarget);
+            }
+        });
     }
 </script>

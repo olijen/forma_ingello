@@ -5,6 +5,18 @@
         document.getElementById("name_on_picture").innerHTML = nameOnPicture;
         let pictureUrl = "url(https://cdn.pixabay.com/photo/2017/07/16/09/11/road-2508733_960_720.jpg )";
 
+        let modalBtnArr = document.querySelectorAll('#text-div a');
+        console.log(modalBtnArr);
+        console.log("Кнопка");
+        for (let i = 0; i < modalBtnArr.length; i++) {
+            modalBtnArr[i].addEventListener('click', {
+                handleEvent(event) {
+                    document.getElementById('myFrame').style.height = '100%';
+                    //alert(event.type + " на " + event.currentTarget);
+                }
+            });
+        }
+
         if (picture == 'false') {
             document.getElementById('picture').style.backgroundImage =  pictureUrl;
         } else {
