@@ -38,7 +38,7 @@
         <!-- Icon Divider-->
         <div class="divider-custom divider-light">
             <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-icon"><i class="fas fa-chart-line"></i></div>
             <div class="divider-custom-line"></div>
         </div>
 
@@ -48,11 +48,11 @@
 <section class="page-section portfolio" id="portfolio">
     <div class="container">
         <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Наведет порядок</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Наведёт порядок</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-icon"><i class="fas fa-check"></i></div>
             <div class="divider-custom-line"></div>
         </div>
         <!-- Portfolio Grid Items-->
@@ -67,6 +67,7 @@
                 </p>
                 <p>
                     Мы хотели бы начать наши взаимоотношения, вручив Вам два подарка. Первый - это <strong>бесплатный аккаунт</strong> для Вашего бизнеса. Второй - это <strong>инструктаж по использованию</strong>, который поможет освоить преимущества нашей системы ФОРМА, Но для начала Вам следует кое-что знать...
+
                 </p>
             </div>
 
@@ -77,11 +78,11 @@
 <section class="page-section bg-primary text-white mb-0" id="about">
     <div class="container">
         <!-- About Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-white">ФОРМА</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-white"><img src="/images/dark_logo.png" style="width: 150px;"/></h2>
         <!-- Icon Divider-->
         <div class="divider-custom divider-light">
             <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-icon"><i class="fas fa-dollar-sign"></i></div>
             <div class="divider-custom-line"></div>
         </div>
         <!-- About Section Content-->
@@ -101,6 +102,8 @@
                     <br>
                     потому просим соблюдения информационной безопасности: <br>
                     не вводите в систему конфиденциальные данные
+                    <br>
+
                 </p></div>
         </div>
 
@@ -110,11 +113,11 @@
 <section class="page-section" id="contact">
     <div class="container">
         <!-- Contact Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">У ВАС УЖЕ ЕСТЬ FORMA?</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">У ВАС УЖЕ ЕСТЬ ФОРМА ?</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-icon"><i class="fas fa-chart"></i></div>
             <div class="divider-custom-line"></div>
         </div>
         <!-- Contact Section Form-->
@@ -142,6 +145,20 @@
                     <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Без пароля и почты</div>
                 </a>
             </div>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon" style="font-size: 13px;">Нажимая на кнопку, Вы соглашаетесь на обработку своих пользовательских данных</div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon" style="font-size: 13px;">ingello 82 - все права защищены <i class="fa fa-copyright"></i> <?= date('Y') ?></div>
+            <div class="divider-custom-line"></div>
         </div>
     </div>
 </section>
