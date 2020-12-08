@@ -1,13 +1,14 @@
 
-    <title>Freelancer - Start Bootstrap Theme</title>
+<title>FORMA INGELLO</title>
 
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/css/styles.css" rel="stylesheet" />
+<!-- Font Awesome icons (free version)-->
+<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+<!-- Google fonts-->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="/css/styles.css" rel="stylesheet" />
+
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
@@ -25,10 +26,10 @@
     </div>
 </nav>
 <!-- Masthead-->
-<header class="masthead bg-primary text-white text-center">
+<header class="masthead bg-primary text-white text-center" style="background: url(/images/background.jpg); background-size: cover; height: 80%;">
     <div class="container d-flex align-items-center flex-column">
         <!-- Masthead Avatar Image-->
-        <img class="masthead-avatar mb-5" src="/images/avataaars.svg" alt="" />
+
         <!-- Masthead Heading-->
         <h1 class="masthead-heading text-uppercase mb-0" style="position: relative; right: 6px">> FORMA . INGELLO</h1>
         <!-- Icon Divider-->
@@ -38,7 +39,7 @@
             <div class="divider-custom-line"></div>
         </div>
         <!-- Masthead Subheading-->
-        <p class="masthead-subheading font-weight-light mb-0">Бесплатная система для развития малого бизнеса</p>
+        <p class="masthead-subheading font-weight-light mb-0" style="border-radius: 2px; background: #2c3e50; ">Бесплатная система для развития малого бизнеса</p>
     </div>
 </header>
 <!-- Portfolio Section-->
@@ -60,10 +61,10 @@
             </div>
             <div class="col-md-6">
                 <p>
-                    Всё великое начинается с простого. ФОРМА - это упрощенная компьютерная веб программа для систематизации бизнеса. Она для ценителей простого решения сложных задач. Её начали разрабатывать в компании  ingello много лет назад. Программа эффективно наводит порядок в делах. И сейчас мы хотим безвозмездно поделиться этой разработкой с предпринимателями с целью совместно улучшать программу, чтобы он развивал бизнес всех, кто ей пользуется.
+                    Всё великое начинается с простого. ФОРМА - это упрощенная <strong>компьютерная веб программа</strong> для систематизации бизнеса. Создана для ценителей простого решения сложных задач. Её начали разрабатывать в компании ingello много лет назад. Программа эффективно наводит порядок в делах. И сейчас мы хотим безвозмездно поделиться этой разработкой с предпринимателями с целью совместно улучшать программу, чтобы он развивал бизнес всех, кто ей пользуется.
                 </p>
                 <p>
-                    Мы хотели бы начать наши взаимоотношения, вручив Вам два подарка.Первый - это бесплатный аккаунт для Вашего бизнеса. Второй - это инструктаж по использованию, который поможет освоить преимущества нашей системы ФОРМА, Но для начала Вам следует кое-что знать...
+                    Мы хотели бы начать наши взаимоотношения, вручив Вам два подарка. Первый - это <strong>бесплатный аккаунт</strong> для Вашего бизнеса. Второй - это <strong>инструктаж по использованию</strong>, который поможет освоить преимущества нашей системы ФОРМА, Но для начала Вам следует кое-что знать...
                 </p>
             </div>
 
@@ -83,10 +84,22 @@
         </div>
         <!-- About Section Content-->
         <div class="row">
-            <div class="col-lg-4 ml-auto"><p class="lead text-right">Инструмент для развития малого <br> бизнеса. Система бесплатна
-                    <br> потому что у нас есть цель:</p></div>
+            <div class="col-lg-4 ml-auto"><p class="lead text-right">Инструмент для развития <br> бизнеса. Система бесплатна
+                    <br> потому что у нас <strong style="border-bottom: 3px solid white">есть цель</strong>:</p></div>
             <div class="col-lg-4 mr-auto"><p class="lead text-left">Стать Вашим надежным ИТ <br> партнёром И предоставлять
-                    <br> дорогие ИТ услуги в будущем</p></div>
+                    <br> <strong style="border-bottom: 3px solid white">дорогие</strong> ИТ услуги в будущем</p></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12"><p class="lead text-center">
+                    <br>
+                    <strong style="color: #215c5f">Внимание!</strong>
+                    <br>
+                    Система на данный момент на стадии разработки,
+                    <br>
+                    потому просим соблюдения информационной безопасности: <br>
+                    не вводите в систему конфиденциальные данные
+                </p></div>
         </div>
 
     </div>
@@ -95,7 +108,7 @@
 <section class="page-section" id="contact">
     <div class="container">
         <!-- Contact Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">БЕСПЛАТНЫЙ АККАУНТ</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">У ВАС УЖЕ ЕСТЬ FORMA?</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -106,10 +119,26 @@
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
-                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="window.location.href='/signup'"> <i class="fa fa-gift"></i> Получить подарок</button>
+
+                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="window.location.href='/signup'">
+                    <i style="font-size: 89px; color: #38775e; float: left; " class="fa fa-check"></i>
+                    <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">У меня есть аккаунт</div>
+                    <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Войти в свой аккаунт</div>
+                </button>
                 <br>
                 <br>
-                <a style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" href='<?=$googleLink?>'> <i class='fab fa-google'></i> Получить подарок через Google</a>
+                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="window.location.href='/signup'">
+                    <i style="font-size: 89px; color: #b46666; float: left; " class="fa fa-gift"></i>
+                    <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">У меня нет аккаунта</div>
+                    <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Зарегистрироваться</div>
+                </button>
+                <br>
+                <br>
+                <a style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" href='<?=$googleLink?>'>
+                    <i style="font-size: 89px; color: white; float: left; " class='fab fa-google'></i>
+                    <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">Войти через Google</div>
+                    <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Без пароля и почты</div>
+                </a>
             </div>
         </div>
     </div>
