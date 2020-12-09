@@ -50,7 +50,7 @@ class Module extends \yii\base\Module
                     . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
             );
 
-            Yii::$app->getResponse()->redirect(Url::to(['/core/site/landing']));
+            Yii::$app->getResponse()->redirect(Url::to(['/signup']));
             return false;
         }
     }

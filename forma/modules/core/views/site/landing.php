@@ -1,4 +1,38 @@
 
+<?php
+
+$fieldOptions1 = [
+    'options' => ['class' => 'form-group has-feedback form-group floating-label-form-group controls mb-0 pb-2'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
+];
+
+$fieldOptions2 = [
+    'options' => ['class' => 'form-group has-feedback form-group floating-label-form-group controls mb-0 pb-2'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
+];
+
+$fieldOptions3 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
+];
+
+$fieldOptions4 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-earphone form-control-feedback'></span>"
+];
+
+$fieldOptions5 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-user form-control-feedback'></span>"
+];
+?>
+
+<style>
+    form {
+        margin-top: 25px;
+    }
+</style>
+
 <title>FORMA INGELLO</title>
 
 <!-- Font Awesome icons (free version)-->
@@ -125,20 +159,115 @@
             <div class="col-lg-8 mx-auto text-center">
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
 
-                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="window.location.href='/signup'">
+                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="hideShowForm('login-form')">
                     <i style="font-size: 89px; color: #38775e; float: left; " class="fa fa-check"></i>
                     <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">У меня есть аккаунт</div>
                     <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Войти в свой аккаунт</div>
                 </button>
+
+                <!--<form id="contactForm" name="sentMessage" novalidate="novalidate">
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            <label class="text-left">Email Address</label>
+                            <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            <label class="text-left">Password</label>
+                            <input class="form-control" id="email" type="password" placeholder="Password" required="required" data-validation-required-message="Please enter your password.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="success"></div>
+                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Send</button></div>
+                </form>-->
+
+                <?php
+                use yii\bootstrap\ActiveForm;
+                use yii\bootstrap\Html;
+
+                $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]);
+
+                 ?>
+
+                <div style="">
+
+                    <div class="control-group">
+                        <?= $form
+                            ->field($modelLogin, 'email', $fieldOptions1)
+                            ->label('E-mail', ['class' => 'text-left'])
+                            ->textInput(['placeholder' => $modelLogin->getAttributeLabel('email')]) ?>
+                    </div>
+
+                    <div class="control-group">
+                        <?= $form
+                            ->field($modelLogin, 'password', $fieldOptions2)
+                            ->label('Пароль', ['class' => 'text-left'])
+                            ->passwordInput(['placeholder' => $modelLogin->getAttributeLabel('password')]) ?>
+                    </div>
+                    <br>
+                    <div class="success"></div>
+
+                    <?= Html::submitButton('<i class="fa fa-eye"></i> Войти по паролю', ['class' => 'btn btn-primary btn-xl', 'id'=>'info', 'name' => 'login-button']) ?>
+                </div>
+
+                <?php ActiveForm::end(); ?>
+
+
                 <br>
                 <br>
-                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="window.location.href='/signup'">
+                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="hideShowForm('signup-form')">
                     <i style="font-size: 89px; color: #b46666; float: left; " class="fa fa-gift"></i>
                     <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">У меня нет аккаунта</div>
                     <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Зарегистрироваться</div>
                 </button>
+                <br><br>
+
+                <?php if (!Yii::$app->user->isGuest): ?>
+                    <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true, 'action' =>'/core/site/signup-referer' ]); ?>
+                <?php else:?>
+                    <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true]); ?>
+                <?php endif; ?>
+                <div class="control-group">
+                <?= $form
+                    ->field($model, 'username', $fieldOptions2)
+                    ->label(false)
+                    ->textInput(['placeholder' => 'Как Вас зовут?']) ?>
+                </div>
+                <div class="control-group">
+                <?= $form
+                    ->field($model, 'phone', $fieldOptions2)
+                    ->label(false)
+                    ->textInput(['placeholder' => $model->getAttributeLabel('phone')]) ?>
+                </div>
+                <div class="control-group">
+                <?= $form
+                    ->field($model, 'email', $fieldOptions2)
+                    ->label(false)
+                    ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
+                </div>
+                <div class="control-group">
+                <?= $form
+                    ->field($model, 'password', $fieldOptions2)
+                    ->label(false)
+                    ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+                </div>
                 <br>
-                <br>
+                <div class="success"></div>
+                <?php if (!Yii::$app->user->isGuest): ?>
+
+                    <?=$form->field($model, 'parent_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
+
+                <?php endif; ?>
+
+                <?= Html::submitButton('Создать аккаунт', ['class' => 'btn btn-primary btn-xl', 'name' => 'login-button']) ?>
+
+                <?php ActiveForm::end(); ?>
+
+
                 <a style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" href='<?=$googleLink?>'>
                     <i style="font-size: 89px; color: white; float: left; " class='fab fa-google'></i>
                     <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">Войти через Google</div>
@@ -177,4 +306,14 @@
 <script src="assets/mail/contact_me.js"></script>
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
+<script>
+    $('#login-form').hide();
+    $('#signup-form').hide();
 
+    function hideShowForm(formName) {
+        if (document.getElementById(formName).style.display != 'none')
+            $("#"+formName).hide();
+        else
+            $("#"+formName).show();
+    }
+</script>

@@ -47,7 +47,9 @@ class SignupForm extends Model
         ];
     }
 
-    //todo: можно как то улучшить или хотя бы поменять местами гугл с рефером?
+    //todo: ОСТОРОЖНО КОСТЫЛЬ
+    //ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ КОММЕНТАРИИ В ЭТОМ МЕТОДЕ, ПРЕЖДЕ ЧЕМ РЕДАКТИРОВАТЬ ЕГО
+    //НЕ МЕНЯТЬ РЕАЛИЗАЦИЮ USER.CONFIRMED_EMAIL И USER.EMAIL_STRING БЕЗ ПРЕДВАРИТЕЛЬНОГО ОЗНАКОМЛЕНИЯ КОДА И КОММЕНТАРИЕВ К НЕМУ
     public function signup($referer = null, $google = false)
     {
         if (!$this->validate()) {
@@ -68,12 +70,17 @@ class SignupForm extends Model
         ]);
 
         if($google){
+            //для загрузки тестовых данных
+            $email_string = Yii::$app->getSecurity()->generateRandomString();
+            $user->setAttribute('email_string', $email_string);
+
+
             $user->setAttribute('confirmed_email', '1');
         }
         else {
             $email_string = Yii::$app->getSecurity()->generateRandomString();
             $user->setAttribute('email_string', $email_string);
-            $this->sendStringForEmailConfirm($email_string);
+            //$this->sendStringForEmailConfirm($email_string);
         }
 
         if ($referer) {
@@ -81,13 +88,16 @@ class SignupForm extends Model
             return $user->id;
         }
 
+        //закоментирован код, при котором мы отправляли почту, если регистрация была не через гугл
+        //при этом у пользователя атрибут confirmed_email выставлялся на 0. Сейчас на уровне БД прописано по default = 1
+        //email_string все ещё нужен, для того, чтобы тестовые данные подгружались при первом входе нового пользователя.
         if ($user->save()) {
-            if($google) {
+            //if($google) {
                 $this->trigger(SiteController::EVENT_AFTER_LOGIN);
                 return Yii::$app->user->login($user);
-            }
-            else
-                return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
+            //}
+//            else
+//                return Yii::$app->response->redirect('https://'.$_SERVER['HTTP_HOST'].'/core/default/confirm', 301)->send();
         }
 
         return false;
