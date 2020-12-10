@@ -20,6 +20,7 @@ if (DB_MODE == 'docker') {
         'username' => 'root',
         'password' => 'rootingello138096152382',
         'charset' => 'utf8',
+        'commandClass' => 'forma\modules\core\records\Command',
     ];
 } elseif (DB_MODE == 'custom') {
     //php -S + Docker DB

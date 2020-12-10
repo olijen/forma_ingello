@@ -74,6 +74,9 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'command' => [
+            'class' => 'forma\modules\core\records\Commands',
+        ],
         'user' => [
             'identityClass' => 'forma\modules\core\components\UserIdentity',
             'enableAutoLogin' => true,

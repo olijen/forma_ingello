@@ -98,6 +98,8 @@ if (Yii::$app->controller->action->id === 'login') {
     <?php $this->endBody() ?>
 
     </body>
+    <?php Yii::debug(Yii::$app->params['globalQueries']); ?>
+    <?php Yii::debug('globalQueries'); ?>
     </html>
     <?php $this->endPage() ?>
 <?php } ?>

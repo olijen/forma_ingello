@@ -284,9 +284,9 @@ JS;
                                     <?php
                                     $searchModelWarehouse = new WarehouseSearch();
                                     //$warehouses = $searchModelWarehouse->getWarehouseListHeader();
-                                    $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
-                                        return $searchModelWarehouse->getWarehouseListHeader();
-                                    });
+//                                    $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
+//                                        return $searchModelWarehouse->getWarehouseListHeader();
+//                                    });
                                     //todo: плохо работают куки, я их очищаю в браузере он мне все равно гонит склады главного юзера.
 
                                     foreach ($searchModelWarehouse->getWarehouseListHeader() as $warehouse) {
