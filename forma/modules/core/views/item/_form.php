@@ -36,7 +36,10 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
             ],
             'pluginOptions' => [
                 'initialPreview' => $picture,
-                'maxFileSize' => 5000000000
+                'showUpload' => false,
+                'browseLabel' => '',
+                'removeLabel' => '',
+                'mainClass' => 'input-group-lg'
             ],
         ]); ?>
 

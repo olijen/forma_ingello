@@ -274,11 +274,13 @@ p {
 }
 
 .navigator-pane button {
+    font-size: 30px;
+    margin: 10px;
+    margin-bottom: 20px;
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    margin: 10px;
-    margin-bottom: 20px;
+    color: white;
 }
 
 #usualReglament {
@@ -301,20 +303,84 @@ width: 100%;
 
 }
 
+.btn:hover, .btn:focus, .btn:focus {
+    color: #fff;
+}
+
+ .modal-body .sidebar-mini.sidebar-collapse .content-wrapper,
+ .sidebar-mini.sidebar-collapse .right-side,
+  .sidebar-mini.sidebar-collapse .main-footer {
+    margin-left: 0 !important;
+  
+  }
+@media screen and (min-width: 768px) {
+.modal-body .sidebar-mini.sidebar-collapse .content-wrapper,
+ .sidebar-mini.sidebar-collapse .right-side,
+  .sidebar-mini.sidebar-collapse .main-footer {
+    margin-left: 0 !important;
+  
+  }
+}
 @media screen and (max-width: 768px) {
         .desc {
             display: none;
         }
         
-        #nav-tabs{
-            visibility: hidden;
+        #name_on_picture  h3 {
+            font-size: 30px;
         }
         
-        #border {
-            margin-left: 5px;
-            margin-right: 5px;
-        } 
-    }
+        #name_on_picture h2 {
+            font-size: 50px;
+        }
+        
+        #picture {
+            height: 60%
+        }
+        
+        #nav-tabs {
+            height: 38%
+        }
+}
+
+
+@media screen and (max-width: 576px) {
+
+        #name_on_picture  h3 {
+            font-size: 25px;
+            margin-top: 0;
+        }
+        
+        #name_on_picture h2 {
+            font-size: 40px;
+            
+        }
+}
+
+@media screen and (max-width: 479px) {
+
+        #picture {
+            height: 60%
+        }
+        
+        #nav-tabs {
+            height: 38%
+        }
+
+        #name_on_picture  h3 {
+            font-size: 20px;
+            margin-top: 0px;
+        }
+        
+        #name_on_picture h2 {
+            font-size: 30px;
+            
+        }
+        
+        .navigator-pane {
+            flex-direction: column;
+        }
+}
     
 .tab-pane .container, .carousel {
     padding: 0 !important;
@@ -383,8 +449,8 @@ width: 100%;
             </div>
             <div class="navigator-pane" id="usualReglament" style=" justify-content: center; ">
                 <button class='btn btn-light navigator prev' onclick="event.stopPropagation()"
-                        style="margin-bottom: 20px;">
-                    <i class="fas fa-arrow-left" style="color: black; margin-right: 5px"></i> Назад
+                        style="margin-bottom: 20px; margin-bottom: 20px; background: #555;">
+                    <i class="fas fa-arrow-left" style="color: white; margin-right: 5px"></i> Назад
                 </button>
                 <button class='btn btn-warning' onclick="window.location.href='/'"
                         style="margin-bottom: 20px;">
@@ -502,8 +568,13 @@ $this->registerJs($js);
     }
 
     let modalBtnArr = document.querySelector('a');
-    console.log(modalBtnArr);
+
     for (let i = 0; i < modalBtnArr.length; i++) {
+        console.log('9');
+        modalBtnArr[i].style.border = '1px solid blue';
+        modalBtnArr[i].className += " btn-xs";
+        console.log(7);
+
         modalBtnArr[i].addEventListener('click', {
             handleEvent(event) {
                 document.getElementById('myFrame').style.height = '100%';

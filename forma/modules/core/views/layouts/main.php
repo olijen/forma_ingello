@@ -44,7 +44,10 @@ if (Yii::$app->controller->action->id === 'login') {
       <!-- todo: Перенести в зависимости -->
       <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
 
-    <?php if (!isset($_GET['without-header'])) : ?>
+    <?php if (!isset($_GET['without-header'])) :
+        Yii::debug('JIVO SITE');
+
+        ?>
       <!-- BEGIN JIVOSITE CODE {literal} -->
         <script type='text/javascript'>
             (function(){ var widget_id = 'OG66j2R9YL';var d=document;var w=window;function l(){

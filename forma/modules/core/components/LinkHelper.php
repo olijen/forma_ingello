@@ -8,7 +8,7 @@ class LinkHelper
 {
     //Создание функции котораяя находит в тексте Url подобного типа {{/core/item||Название кнопки}} и превращение его в модальное окно
     // или {{https://google.com||Название кнопки}} и превращение его в кновку
-    public static function replaceUrlOnButton($text, $icon = null, $width = null)
+    public static function replaceUrlOnButton($text, $icon = null, $width = null, $xsSize = '')
     {
         $width = !is_null($width) ? 'width:'.$width : '';
         $iconStr = 'fa fa-eye';

@@ -9,9 +9,13 @@
         console.log(modalBtnArr);
         console.log("Кнопка");
         for (let i = 0; i < modalBtnArr.length; i++) {
+            modalBtnArr[i].style.border = '1px solid blue';
+            modalBtnArr[i].className += " btn-xs";
             modalBtnArr[i].addEventListener('click', {
                 handleEvent(event) {
                     document.getElementById('myFrame').style.height = '100%';
+                    console.log($('.sidebar-mini.sidebar-collapse .content-wrapper'));
+                    console.log("Nажали");
                     //alert(event.type + " на " + event.currentTarget);
                 }
             });
@@ -43,7 +47,7 @@
                 "                        + ' style=width:100%;height:500px ' \n" +
                 "                        + 'frameborder=0 id=myFrame></iframe>')\n" +
                 "                        .appendTo('#modal .modal-dialog .modal-content .modal-body');\">\n" +
-                "                        <i class=\"fa fa-eye\"></i>");
+                "                        <i class=\"fa fa-eye\"></i> ");
 
             mainStr = mainStr.replace("}}", "</a>");
         }
