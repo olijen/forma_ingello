@@ -1,11 +1,12 @@
 <?php
 
-namespace app\modules\test\controllers;
+namespace forma\modules\test\controllers;
 
-use Yii;
-use app\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestType;
-use app\modules\test\records\TestTypeFieldSearch;
+use Yii;
+use forma\modules\test\records\TestTypeField;
+use forma\modules\test\records\TestTypeFieldSearch;
+use forma\modules\test\records\Test;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -87,8 +88,6 @@ class TestController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $id = $model->test_id;
             $name = TestType::find()->where(['id'=>$id])->one();
-            var_dump($name);
-            exit;
 
 
             return $this->redirect(['index','id' => $model->test_id]);
@@ -101,16 +100,40 @@ class TestController extends Controller
 
 
     public function actionTest($id){
-        $test = TestTypeField::find()->where(['test_id'=>$id])->one();
-        $model = new TestTypeField();
+        $model = new Test();
+        $testType = TestType::find()->where(['id'=>$id])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        if(!empty($_POST) ){
+//          return $this->render('test_result',[
+//                'testType'=>$testType,
+//            ]);
+            $slice = array_slice($_POST,'2');
+
+
+            $result = implode(',    ',$slice);
+            $model->result = $result;
+            $model->test_type_id = $_POST['id'];
+//            echo '<pre>';
+//            var_dump($model->result=$_POST);
+//            echo '</pre>';
+            $model->save();
+            if ($model->save()){
+                return $this->redirect(['/test/result/index']);
+            }
         }
 
+//                echo '<script>
+//alert("Выши ответы сохранены!");
+//</script>';
+
+
+//        if ($test->load(Yii::$app->request->post()) && $model->save()) {
+//
+//        }
+
         return $this->render('test', [
-            'test'=>$test,
-            'model' => $model,
+            'testType'=>$testType,
         ]);
 
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\test\controllers;
+namespace forma\modules\test\controllers;
 
 use Yii;
-use app\modules\test\records\Test;
-use app\modules\test\records\TestResultSearch;
+use forma\modules\test\records\Test;
+use forma\modules\test\records\TestResultSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

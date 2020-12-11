@@ -4,19 +4,16 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\test\records\TestResultSearch */
+/* @var $searchModel forma\modules\test\records\TestResultSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tests';
+$this->title = 'Результаты тестов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Test', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -26,10 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'result:ntext',
-            'test_type_id',
-            'customer_id',
+
+            ['attribute'=>'result',
+                'label'=>'Ответы к тесту'],
+
+            ['attribute'=>'test_type_id',
+                'label'=>'Номер теста'],
+
+            ['attribute'=>'customer_id',
+                'label'=>'ID Пользователя'],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

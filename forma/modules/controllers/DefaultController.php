@@ -1,11 +1,11 @@
 <?php
 
-namespace forma\modules\test\controllers;
+namespace forma\modules\controllers;
 
 use yii\web\Controller;
 
 /**
- * Default controller for the `test` module
+ * Default controller for the `Modules` module
  */
 class DefaultController extends Controller
 {

@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use forma\modules\selling\records\patient\Patient;
 
 /**
- * PatientSearch represents the model behind the search form about `app\modules\selling\records\patient\Patient`.
+ * PatientSearch represents the model behind the search form about `forma\modules\selling\records\patient\Patient`.
  */
 class PatientSearch extends Patient
 {

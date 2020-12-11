@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\test;
+namespace forma\modules\test;
 
 /**
  * test module definition class
@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'app\modules\test\controllers';
+    public $controllerNamespace = 'forma\modules\test\controllers';
 
     /**
      * {@inheritdoc}
