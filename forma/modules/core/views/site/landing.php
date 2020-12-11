@@ -1,3 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FORMA INGELLO</title>
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<body>
 
 <?php
 
@@ -31,19 +49,105 @@ $fieldOptions5 = [
     form {
         margin-top: 25px;
     }
+
+    .button_form_login {
+        font-size: 28px;
+        width: 75%;
+    }
+
+    .button_form_login .button_form_login_icon {
+        float: left;
+        font-size: 89px;
+    }
+
+    .button_form_login .button_form_login_header {
+        text-align: left; margin-left: 111px; padding-top: 6px;
+    }
+
+    .button_form_login .button_form_login_text {
+        color: #617385;
+        font-size: 20px;
+        margin-left: 111px;
+        text-align: left;
+    }
+
+    @media (min-width: 992px) {
+        header.masthead {
+            padding-top: calc(6rem + 104px);
+            padding-bottom: 22rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .row .lead.text-right,
+        .row .lead.text-left  {
+            text-align: center!important;
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        .masthead {
+            padding-top: calc(2rem + 74px);
+            padding-bottom: 3.5rem;
+        }
+
+        h1.masthead-heading {
+            margin-top: 100px;
+        }
+
+        .divider-custom {
+            margin-bottom: 0;
+        }
+
+        .button_form_login {
+            font-size: 24px;
+        }
+
+        .button_form_login .button_form_login_icon {
+            font-size: 55px;
+        }
+
+        .button_form_login .button_form_login_header {
+            margin-left: 75px;
+        }
+
+        .button_form_login .button_form_login_text {
+            font-size: 17px;
+            margin-left: 75px;
+        }
+
+        .footer-divider {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 410px) {
+
+        .button_form_login {
+            font-size: 22px;
+            padding: 14px 10px;
+            width: 90%;
+        }
+
+        .button_form_login .button_form_login_icon {
+            font-size: 40px;
+        }
+
+        .button_form_login .button_form_login_header {
+            margin-left: 55px;
+        }
+
+        .button_form_login .button_form_login_text {
+            margin-left: 55px;
+        }
+    }
+
 </style>
 
-<title>FORMA INGELLO</title>
 
-<!-- Font Awesome icons (free version)-->
-<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-<!-- Google fonts-->
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/css/styles.css" rel="stylesheet" />
 
 <!-- Navigation-->
+<div id="page-top"></div>
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,9 +225,9 @@ $fieldOptions5 = [
         </div>
         <!-- About Section Content-->
         <div class="row">
-            <div class="col-lg-4 ml-auto"><p class="lead text-right">Инструмент для развития <br> бизнеса. Система бесплатна
+            <div class="col-lg-4 col-md-6 ml-auto"><p class="lead text-right">Инструмент для развития <br> бизнеса. Система бесплатна
                     <br> потому что у нас <strong style="border-bottom: 3px solid white">есть цель</strong>:</p></div>
-            <div class="col-lg-4 mr-auto"><p class="lead text-left">Стать Вашим надежным ИТ <br> партнёром И предоставлять
+            <div class="col-lg-4 col-md-6 mr-auto"><p class="lead text-left">Стать Вашим надежным ИТ <br> партнёром И предоставлять
                     <br> <strong style="border-bottom: 3px solid white">дорогие</strong> ИТ услуги в будущем</p></div>
         </div>
 
@@ -159,37 +263,18 @@ $fieldOptions5 = [
             <div class="col-lg-8 mx-auto text-center">
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
 
-                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="hideShowForm('login-form')">
-                    <i style="font-size: 89px; color: #38775e; float: left; " class="fa fa-check"></i>
-                    <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">У меня есть аккаунт</div>
-                    <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Войти в свой аккаунт</div>
+                <button  class="btn btn-primary btn-xl button_form_login" id="sendMessageButton" onclick="hideShowForm('login-form')">
+                    <i class="fa fa-check button_form_login_icon" style="color: #38775e;"></i>
+                    <div class="button_form_login_header">У меня есть аккаунт</div>
+                    <div class="button_form_login_text">Войти в свой аккаунт</div>
                 </button>
 
-                <!--<form id="contactForm" name="sentMessage" novalidate="novalidate">
-                    <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                            <label class="text-left">Email Address</label>
-                            <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                            <label class="text-left">Password</label>
-                            <input class="form-control" id="email" type="password" placeholder="Password" required="required" data-validation-required-message="Please enter your password.">
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                    <br>
-                    <div id="success"></div>
-                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Send</button></div>
-                </form>-->
 
                 <?php
                 use yii\bootstrap\ActiveForm;
                 use yii\bootstrap\Html;
 
-                $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]);
+                $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true, 'options' => ['style' => 'width: 75%; margin: 0 auto']]);
 
                  ?>
 
@@ -211,7 +296,7 @@ $fieldOptions5 = [
                     <br>
                     <div class="success"></div>
 
-                    <?= Html::submitButton('<i class="fa fa-eye"></i> Войти по паролю', ['class' => 'btn btn-primary btn-xl', 'id'=>'info', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton('Войти по паролю <i class="fas fa-arrow-right" style="margin-left: 10px"></i>', ['class' => 'btn btn-primary btn-xl', 'style' => 'width: 100%', 'id'=>'info', 'name' => 'login-button']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>
@@ -219,17 +304,17 @@ $fieldOptions5 = [
 
                 <br>
                 <br>
-                <button style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="hideShowForm('signup-form')">
-                    <i style="font-size: 89px; color: #b46666; float: left; " class="fa fa-gift"></i>
-                    <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">У меня нет аккаунта</div>
-                    <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Зарегистрироваться</div>
+                <button  class="btn btn-primary btn-xl button_form_login" id="sendMessageButton" onclick="hideShowForm('signup-form')">
+                    <i style=" color: #b46666; " class="fa fa-gift button_form_login_icon"></i>
+                    <div class="button_form_login_header">У меня нет аккаунта</div>
+                    <div class="button_form_login_text">Зарегистрироваться</div>
                 </button>
                 <br><br>
 
                 <?php if (!Yii::$app->user->isGuest): ?>
-                    <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true, 'action' =>'/core/site/signup-referer' ]); ?>
+                    <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true, 'action' =>'/core/site/signup-referer', 'options' => ['style' => 'width: 75%; margin: 0 auto 40px']]); ?>
                 <?php else:?>
-                    <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true]); ?>
+                    <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true, 'options' => ['style' => 'width: 75%; margin: 0 auto 40px']]); ?>
                 <?php endif; ?>
                 <div class="control-group">
                 <?= $form
@@ -263,15 +348,15 @@ $fieldOptions5 = [
 
                 <?php endif; ?>
 
-                <?= Html::submitButton('Создать аккаунт', ['class' => 'btn btn-primary btn-xl', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('Создать аккаунт <i class="fas fa-arrow-right" style="margin-left: 10px"></i>', ['class' => 'btn btn-primary btn-xl',  'style' => 'width: 100%', 'name' => 'login-button']) ?>
 
                 <?php ActiveForm::end(); ?>
 
 
-                <a style="width: 75%; font-size: 28px;" class="btn btn-primary btn-xl" id="sendMessageButton" href='<?=$googleLink?>'>
-                    <i style="font-size: 89px; color: white; float: left; " class='fab fa-google'></i>
-                    <div style=" text-align: left; margin-left: 111px; padding-top: 6px;">Войти через Google</div>
-                    <div style="color: #617385; font-size: 20px; text-align: left; margin-left: 111px; ">Без пароля и почты</div>
+                <a class="btn btn-primary btn-xl button_form_login" id="sendMessageButton" href='<?=$googleLink?>'>
+                    <i  class='fab fa-google button_form_login_icon' style="color: #fff;"></i>
+                    <div class="button_form_login_header">Войти через Google</div>
+                    <div class="button_form_login_text">Без пароля и почты</div>
                 </a>
             </div>
         </div>
@@ -280,14 +365,14 @@ $fieldOptions5 = [
         <br>
 
         <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon" style="font-size: 13px;">Нажимая на кнопку, Вы соглашаетесь на обработку своих пользовательских данных</div>
-            <div class="divider-custom-line"></div>
+            <div class="divider-custom-line footer-divider "></div>
+            <div class="divider-custom-icon text-center" style="font-size: 13px;">Нажимая на кнопку, Вы соглашаетесь на обработку своих пользовательских данных</div>
+            <div class="divider-custom-line footer-divider"></div>
         </div>
         <div class="divider-custom">
-            <div class="divider-custom-line"></div>
+            <div class="divider-custom-line footer-divider"></div>
             <div class="divider-custom-icon" style="font-size: 13px;">ingello 82 - все права защищены <i class="fa fa-copyright"></i> <?= date('Y') ?></div>
-            <div class="divider-custom-line"></div>
+            <div class="divider-custom-line footer-divider"></div>
         </div>
     </div>
 </section>
@@ -302,8 +387,7 @@ $fieldOptions5 = [
 <!-- Third party plugin JS-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 <!-- Contact form JS-->
-<script src="assets/mail/jqBootstrapValidation.js"></script>
-<script src="assets/mail/contact_me.js"></script>
+
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
 <script>
@@ -311,9 +395,14 @@ $fieldOptions5 = [
     $('#signup-form').hide();
 
     function hideShowForm(formName) {
-        if (document.getElementById(formName).style.display != 'none')
-            $("#"+formName).hide();
-        else
-            $("#"+formName).show();
+        $('#login-form').hide();
+        $('#signup-form').hide();
+
+        $("#"+formName).show();
     }
+
+
 </script>
+
+</body>
+</html>
