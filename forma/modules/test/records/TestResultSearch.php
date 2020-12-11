@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\test\records;
+namespace forma\modules\test\records;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\test\records\Test;
+use forma\modules\test\records\Test;
 
 /**
- * TestResultSearch represents the model behind the search form of `app\modules\test\records\Test`.
+ * TestResultSearch represents the model behind the search form of `forma\modules\test\records\Test`.
  */
 class TestResultSearch extends Test
 {

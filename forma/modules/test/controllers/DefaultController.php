@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\test\controllers;
+namespace forma\modules\test\controllers;
 
 use yii\web\Controller;
 

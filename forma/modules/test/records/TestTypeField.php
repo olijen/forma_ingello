@@ -1,7 +1,8 @@
 <?php
 
-namespace app\modules\test\records;
+namespace forma\modules\test\records;
 
+use forma\modules\test\records\TestType;
 use Yii;
 
 /**
@@ -14,6 +15,9 @@ use Yii;
  * @property string|null $value
  * @property string|null $placeholder
  * @property int|null $required
+ * @property int|null $test_id
+ *
+ * @property TestType $test
  */
 class TestTypeField extends \yii\db\ActiveRecord
 {
@@ -32,9 +36,9 @@ class TestTypeField extends \yii\db\ActiveRecord
     {
         return [
             [['block_name', 'label_name'], 'required'],
-            [['required'], 'integer'],
+            [['required', 'test_id'], 'integer'],
             [['block_name', 'label_name', 'type', 'value', 'placeholder'], 'string', 'max' => 255],
-            [['test_id'], 'safe']
+            [['test_id'], 'exist', 'skipOnError' => true, 'targetClass' => TestType::className(), 'targetAttribute' => ['test_id' => 'id']],
         ];
     }
 
@@ -44,13 +48,33 @@ class TestTypeField extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'block_name' => 'Block Name',
-            'label_name' => 'Label Name',
-            'type' => 'Type',
-            'value' => 'Value',
-            'placeholder' => 'Placeholder',
-            'required' => 'Required',
+            'id' => Yii::t('app', 'ID'),
+            'block_name' => Yii::t('app', 'Block Name'),
+            'label_name' => Yii::t('app', 'Label Name'),
+            'type' => Yii::t('app', 'Type'),
+            'value' => Yii::t('app', 'Value'),
+            'placeholder' => Yii::t('app', 'Placeholder'),
+            'required' => Yii::t('app', 'Required'),
+            'test_id' => Yii::t('app', 'Test ID'),
         ];
+    }
+
+    /**
+     * Gets query for [[Test]].
+     *
+     * @return \yii\db\ActiveQuery|TestTypeQuery
+     */
+    public function getTest()
+    {
+        return $this->hasOne(TestType::className(), ['id' => 'test_id'])->inverseOf('testTypeFields');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return TestTypeFieldQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new TestTypeFieldQuery(get_called_class());
     }
 }

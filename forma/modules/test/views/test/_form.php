@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\test\records\TestTypeField */
+/* @var $model forma\modules\test\records\TestTypeField */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
         <div class="col-xs-4">
     <?= $form->field($model, 'type')->dropDownList([
         'radio' => 'radio',
-        'input' => 'input',
+        'text' => 'text',
         'checkbox' => 'checkbox'])
         ->label($label = 'Тип поля') ?>
 

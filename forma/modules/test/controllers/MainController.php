@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\test\controllers;
+namespace forma\modules\test\controllers;
 
-use app\modules\test\records\TestTypeFieldSearch;
+use forma\modules\test\records\TestTypeFieldSearch;
 use Yii;
 use forma\modules\test\records\TestType;
-use app\modules\test\records\TestTypeField;
+use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

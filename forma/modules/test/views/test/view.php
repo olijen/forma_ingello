@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\test\records\TestTypeField */
+/* @var $model forma\modules\test\records\TestTypeField */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Test Type Fields', 'url' => ['index']];

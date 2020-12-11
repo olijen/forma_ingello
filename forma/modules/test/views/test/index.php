@@ -6,7 +6,7 @@ use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestSearch;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\test\records\TestTypeFieldSearch */
+/* @var $searchModel forma\modules\test\records\TestTypeFieldSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $model_name = new TestType();
 

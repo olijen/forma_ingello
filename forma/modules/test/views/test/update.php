@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\test\records\TestTypeField */
+/* @var $model forma\modules\test\records\TestTypeField */
 
 
 

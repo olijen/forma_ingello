@@ -1,14 +1,14 @@
 <?php
 
-namespace app\modules\test\records;
+namespace forma\modules\test\records;
 
-use app\modules\test\records\TestTypeField;
+use forma\modules\test\records\TestTypeField;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 
 /**
- * TestTypeFieldSearch represents the model behind the search form of `app\modules\test\records\TestTypeField`.
+ * TestTypeFieldSearch represents the model behind the search form of `forma\modules\test\records\TestTypeField`.
  */
 class TestTypeFieldSearch extends TestTypeField
 {

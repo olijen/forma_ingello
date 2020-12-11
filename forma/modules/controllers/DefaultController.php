@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\controllers;
+namespace forma\modules\controllers;
 
 use yii\web\Controller;
 

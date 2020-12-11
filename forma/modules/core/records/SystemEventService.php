@@ -4,8 +4,8 @@
 namespace forma\modules\core\records;
 
 
-use app\modules\test\records\TestTypeField;
-use app\modules\test\records\TestTypeFieldSearch;
+use forma\modules\test\records\TestTypeField;
+use forma\modules\test\records\TestTypeFieldSearch;
 use forma\modules\core\records\SystemEventUserService;
 use forma\modules\test\records\TestSearch;
 use forma\modules\test\records\TestType;
@@ -25,6 +25,7 @@ class SystemEventService
         'TestSearch',
         'TestType',
         'TestTypeField',
+        'Test',
         'TestTypeFieldSearch',
         'UserIdentity'//при регистрации не учитывать ничего в системных событиях
     ];

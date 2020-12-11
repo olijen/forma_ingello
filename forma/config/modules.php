@@ -2,7 +2,7 @@
 
 return [
     'test' => [
-        'class' => 'app\modules\test\Module',
+        'class' => 'forma\modules\test\Module',
     ],
     'core' => [
         'class' => forma\modules\core\Module::class

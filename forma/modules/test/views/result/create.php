@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\test\records\Test */
+/* @var $model forma\modules\test\records\Test */
 
 $this->title = 'Create Test';
 $this->params['breadcrumbs'][] = ['label' => 'Tests', 'url' => ['index']];
