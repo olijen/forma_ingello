@@ -25,6 +25,13 @@ $this->title = Yii::t('app', 'Вопрос');
 
             'id',
             'text:ntext',
+            [
+            'attribute' => 'is_manager',
+            'value' =>
+                function ($model) {
+                    return ($model->is_manager == 1)?"Да":"Нет";
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

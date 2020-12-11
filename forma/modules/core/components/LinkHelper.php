@@ -8,7 +8,7 @@ class LinkHelper
 {
     //Создание функции котораяя находит в тексте Url подобного типа {{/core/item||Название кнопки}} и превращение его в модальное окно
     // или {{https://google.com||Название кнопки}} и превращение его в кновку
-    public static function replaceUrlOnButton($text, $icon = null, $width = null)
+    public static function replaceUrlOnButton($text, $icon = null, $width = null, $xsSize = '')
     {
         $width = !is_null($width) ? 'width:'.$width : '';
         $iconStr = 'fa fa-eye';
@@ -17,7 +17,7 @@ class LinkHelper
             $text = str_ireplace("{{",
                 "<a  style=\"color: blue; ".$width."\"  
                         href=\"javascript:void(0)\"
-                        class=\"btn btn-xs btn-outline-secondary\" 
+                        class=\"btn btn-xs btn-outline-secondary modalBtn\" 
                         type=\"button\" data-toggle=\"modal\" 
                         data-target=\"#modal\" 
                         onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 
@@ -49,7 +49,7 @@ class LinkHelper
             $text = str_ireplace("{{",
                 "<a  style=\"color: blue;\"  
                         href=\"javascript:void(0)\"
-                        class=\"btn btn-outline-secondary\" 
+                        class=\"btn btn-xs\" 
                         type=\"button\" data-toggle=\"modal\" 
                         data-target=\"#modal\" 
                         onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 

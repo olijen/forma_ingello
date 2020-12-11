@@ -72,10 +72,11 @@ class WarehouseSearch extends Warehouse
     }
 
     public function getWarehouseListHeader(){
-        $query = Warehouse::find()
-            ->joinWith(['warehouseUsers'])
-            ->where(['warehouse_user.user_id' => Yii::$app->user->id])->all();
-
-        return $query;
+        return  Yii::$app->cache->getOrSet('warehouses'.Yii::$app->user->id, function () {
+            return  Warehouse::find()
+                ->joinWith(['warehouseUsers'])
+                ->joinWith(['warehouseProducts'])
+                ->where(['warehouse_user.user_id' => Yii::$app->user->id])->all();
+        });
     }
 }

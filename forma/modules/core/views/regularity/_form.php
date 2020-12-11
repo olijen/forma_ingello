@@ -70,6 +70,10 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
             ],
             'pluginOptions' => [
                 'initialPreview' => $picture,
+                'showUpload' => false,
+                'browseLabel' => '',
+                'removeLabel' => 'Удалить',
+                'mainClass' => 'input-group-lg'
             ],
         ]); ?>
     </div>

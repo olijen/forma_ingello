@@ -36,6 +36,7 @@ class InterviewController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new InterviewSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

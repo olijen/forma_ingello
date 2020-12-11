@@ -2,6 +2,7 @@
 
 return [
     'adminEmail' => 'admin@example.com',
+    'globalQueries' => [],
     'bsDependencyEnabled' => false,
     // 'client_id' => '756749534749-8cqs0dc8jbvshsnpbsk6o8mhg5vtmamd.apps.googleusercontent.com',
     'client_id' => '573197289123-bf4oqdrq58pihbf0eqjdql1act4q7o6c.apps.googleusercontent.com',
@@ -184,7 +185,7 @@ return [
 
         [
             'label' => 'Список хранилищ',
-            'url' => ['#'],
+            'url' => '#',
             'icon' => 'square',
             'items' => [
             ]
@@ -233,17 +234,21 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#00a65a; color:white;',
                 ],
-            'url'=>['/core'],
+            'url'=>'#',
             'icon'=>'calendar',
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
-                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
-                ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
+                ['label' => 'Добавить событие', 'url' => ['/event/event/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
+                ['label' => 'Добавить регламент', 'url' => ['/core/regularity/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Люди',
-                    'url' => ['/core/default/people'],
+                    'url' => '#',
                     'icon' => 'users',
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
@@ -273,7 +278,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'color: white; background-color: #58628e;',
             ],
-            'url' => ['/selling/default'],
+            'url' => '#',
             'icon' => 'money-bill-wave',
             'items' => [
                 [
@@ -326,6 +331,21 @@ return [
 
                     ]
                 ],
+                ['label' => 'Добавить стратегию',
+                    'url' => ['/selling/strategy/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
+                ['label' => 'Добавить вопрос',
+                    'url' => ['/selling/request/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
+                ['label' => 'Добавить ответ',
+                    'url' => ['/selling/answer/create'],
+                    'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
                 [
                     'label'=>'Тест',
                     'url'=>['/test/main'],
@@ -355,7 +375,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#F08080;',
             ],
-            'url' => '/hr/',
+            'url' => '#',
             'icon' => 'user-plus',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
@@ -378,7 +398,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#f49258;',
             ],
-            'url' => '/product/default/',
+            'url' => '#',
             'icon' => 'cube',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/product/'], 'icon' => 'laptop'],
@@ -401,7 +421,7 @@ return [
                 'class'=>'menuColor',
                 'style'=>'background-color:#dc7d22; ',
             ],
-            'url' => ['/warehouse/warehouse'],
+            'url' => '#',
             'icon' => 'th',
             'items' => [
                 [

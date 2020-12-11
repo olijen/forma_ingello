@@ -65,7 +65,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer text-center">
-            <a href="javascript:void(0)" class="uppercase">Смотреть всю команду</a>
+            <a href="javascript:void(0)" class="uppercase no-loader">Смотреть всю команду</a>
         </div>
         <!-- /.box-footer -->
         <div class="box-header with-border small_widget_header" style="display: none">

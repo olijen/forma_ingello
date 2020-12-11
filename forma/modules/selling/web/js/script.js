@@ -59,14 +59,13 @@ $(document).ready(function() {
 
     function getDialog() {
         let dialog = '';
-        $.each(getStorageDialog(), function (index, value) {
+        $.each(getStorageDialog(), function (index, value, is_client) {
             if (value[1] !== 0 ) {
-                dialog += '<p>Клиент: ' + getRequest(value[0])
-                    + '</p>' +
-                    '<p>Менеджер: ' + getAnswer(value[1]) + '</p>';
+                dialog += '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Клиент':'Менеджер')+': <p>' + getRequest(value[0])
+                    + '</p></div>' +
+                    '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Менеджер':'Клиент')+': <p>' + getAnswer(value[1]) + '</p></div>';
 
             } else {
-
                 return alert('Дайте ответ на вопрос' + getRequest(value[0]))
             }
 
@@ -75,12 +74,13 @@ $(document).ready(function() {
         return dialog;
     }
 
-    function setDialogToArray(requestId, answerId) {
+    function setDialogToArray(requestId, answerId, is_client ) {
+        if (is_client === undefined) is_client = 1;
         if (answerId === undefined){
-            window.dialog.push([requestId, 0]);
+            window.dialog.push([requestId, 0, is_client]);
             setStorageDialog(window.dialog);
         } else {
-            window.dialog.push([requestId, answerId]);
+            window.dialog.push([requestId, answerId, is_client]);
             setStorageDialog(window.dialog);
         }
 
@@ -112,8 +112,9 @@ $(document).ready(function() {
 
         let requestId = $(this).attr('data-request');
         let answerId = $(this).attr('id');
+        let is_client = $(this).attr('data-client');
 
-        setDialogToArray(requestId, answerId);
+        setDialogToArray(requestId, answerId, is_client);
         getDialog();
     });
 
@@ -125,7 +126,7 @@ $(document).ready(function() {
             +
             "<input type='text'  class='no-usage-input'  data-id-request= "+ requestId +" ></li>" );
         $('.no-usage-input').on('change', saveCustom);
-        setDialogToArray(requestId);
+        setDialogToArray(requestId, undefined, $(this).attr('data-client'));
 
 
     });
@@ -157,8 +158,9 @@ $(document).ready(function() {
 
 
     $('#end-talk').on('click', function () {
-        if ($('#'+ $('#sellingId').val() + '_comment' ).val() === '' && getNextStep() === false ) {
-            alert('Оставте коментарий к диалогу и добавьте следуйщий шаг');
+        if ($('#'+ $('#sellingId').val() + '_comment' ).val() === '' || getNextStep() === false ) {
+            alert('Оставьте коментарий к диалогу и добавьте следуйщий шаг');
+            return false;
             formActives('off');
         } else {
             $.ajax({
@@ -175,6 +177,7 @@ $(document).ready(function() {
                 }
             });
             formActives();
+            $('#end-talk')[0].style.pointerEvents = 'none'
             $('#form-customer').submit();
         }
     });

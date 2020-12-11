@@ -92,23 +92,18 @@ $fieldOptions2 = [
 
 
 
-                <div class="col col-md-12">
-                    <?= Html::submitButton('<i class="fa fa-eye"></i> ВОЙТИ В СИСТЕМУ', [
-                        'class' => 'btn btn-success btn-block btn-flat btn_login',
-                        'style' => 'font-size: 20px;',
-                        'id'=>'info',
-                        'name' => 'login-button']) ?>
-                </div>
-                <div class="col col-md-12">
-                <?= Html::a('ЛИЧНЫЙ АККАУНТ',
-                    '/signup', [
-                        'class' => 'btn btn-success btn-block btn-flat btn_login',
-                        'name' => 'login-button', 'style' => 'font-size: 20px;',]) ?>
+            <div class="col col-md-12" style="margin-bottom: 20px;">
+                <?= Html::a('<i class="fa fa-lock"></i> ЛИЧНЫЙ АККАУНТ', '/signup', [
+                    'class' => 'btn btn-success btn-block btn-flat btn_login',
+                    'style' => 'font-size: 20px;',
+                    'id'=>'info',
+                    'name' => 'login-button']) ?>
             </div>
+
             <div class="col col-md-12">
                 <?php echo "
                 <a style='font-size: 20px;' class='btn btn-success btn-block btn-flat btn_login socialAuthorization' href='$googleLink'>
-                  <img style='background: white; height: 18px; padding-bottom: 2px; margin-right: 6px' src='images/google.png' alt=''>
+                  <i class='fab fa-google'></i>
                   Зайти через <strong>Google</strong>
                 </a>"; ?>
             </div>

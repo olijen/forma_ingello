@@ -33,6 +33,7 @@
 <script src="/js/particles.js"></script>
 <script src="/js/app.js"></script>
 <script src="js/stats.js"></script>
+
 <script>
     function randomInteger(min, max) {
         // случайное число от min до (max+1)

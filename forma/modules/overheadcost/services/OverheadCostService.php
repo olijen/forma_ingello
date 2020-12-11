@@ -48,11 +48,17 @@ class OverheadCostService
 
     public static function getByNomenclatureUnit(NomenclatureUnitInterface $unit)
     {
-        return $unit instanceof  PurchaseProduct ? self::getByPurchaseUnit($unit) :
+        return $unit instanceof  PurchaseProduct ? self::getByPurchaseUnitResult($unit) :
             self::getByTransitUnit($unit);
     }
 
     protected static function getByPurchaseUnit(PurchaseProduct $unit)
+    {
+
+        return number_format(self::getByPurchaseUnitResult($unit), 2, '.', ' ');
+    }
+
+    protected static function getByPurchaseUnitResult(PurchaseProduct $unit)
     {
         $unitOverheadCost = 0;
 
@@ -67,8 +73,7 @@ class OverheadCostService
         $usdMainOverheadCost = static::getMainPurchaseOverheadCostsSum($unit->purchase) / $purchaseProductsCount;
         $mainOverheadCost = $usdMainOverheadCost / $unit->currency->rate;
 
-        $result = $unitOverheadCost + $mainOverheadCost;
-        return number_format($result, 2, '.', ',');
+       return $result = $unitOverheadCost + $mainOverheadCost;
     }
 
     protected static function getByTransitUnit(TransitProduct $unit)

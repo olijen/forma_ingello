@@ -15,38 +15,92 @@ use forma\extensions\fullcalendar;
 
 ?>
 
-<?php \forma\components\widgets\ModalCreate::begin() ?>
+<?php // \forma\components\widgets\ModalCreate::begin() ?>
 <style>
     .bs-example {
         margin-top: 0;
+    }
+    .list-group {
+        height: auto;
+        padding: 3px 0;
+    }
+    h3.text-white {
+        color: white;
+        margin: 0;
+        padding-top: 20px;
     }
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <div class="row">
     <div class="col-md-6">
         <div class="list-request-answer" >
-            <div class="header-list text-center">
-                <span class="header-name">Скрипты</span>
-            </div>
-            <ul class="list-group parent-list">
-                <?php foreach ($model as $request ): ?>
-                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
-                        <?= $request->text ?>
-                        <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
-                    </li>
-                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
-                        <ul class="list-group" >
-                            <?php foreach ($request->getAnswers()->all() as $answer): ?>
-                                <li  class="list-group-item " >
-                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-request="<?=$request->id?>"><?= $answer->text ?></p>
-                                </li>
-                            <?php endforeach; ?>
-                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
-                        </ul>
+
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Вопросы от клиента
+                            </a>
+                        </h4>
                     </div>
-                <?php endforeach; ?>
-            </ul>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <ul class="list-group parent-list">
+                                <?php foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
+                                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
+                                        <?= $request->text ?>
+                                        <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
+                                    </li>
+                                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
+                                        <ul class="list-group" >
+                                            <?php foreach ($request->getAnswers()->all() as $answer): ?>
+                                                <li  class="list-group-item " >
+                                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-client="1" data-request="<?=$request->id?>"><?= $answer->text ?></p>
+                                                </li>
+                                            <?php endforeach; ?>
+                                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-client="1" data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
+                                        </ul>
+                                    </div>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Вопросы от менеджера
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <ul class="list-group parent-list">
+                                <?php foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
+                                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
+                                        <?= $request->text ?>
+                                        <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
+                                    </li>
+                                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
+                                        <ul class="list-group" >
+                                            <?php foreach ($request->getAnswers()->all() as $answer): ?>
+                                                <li  class="list-group-item " >
+                                                    <p id="children_item_<?= $answer->id ?>" class="text-answer" data-client="0" data-request="<?=$request->id?>"><?= $answer->text ?></p>
+                                                </li>
+                                            <?php endforeach; ?>
+                                            <li class="list-group-item" ><button id="no_usage_answer_<?= $request->id ?> " data-client="0" data-requset-no-useg="<?= $request->id ?>"  class="btn-danger  no-usage-btn">Не использовал</button></li>
+                                        </ul>
+                                    </div>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -60,21 +114,43 @@ use forma\extensions\fullcalendar;
              ],
             'id' => 'form-customer',
         ]) ?>
+        <div class="row">
 
-        <?= $form->field($customer, 'id')->textInput()->hiddenInput()->label(false); ?>
-        <?= $form->field($customer, 'name')->textInput()->label('Имя'); ?>
-        <?= $form->field($customer, 'firm')->textInput()->label('Фирма'); ?>
-        <?= $form->field($customer, 'address')->textInput()->label('Адрес'); ?>
-        <?= $form->field($customer, 'chief_email')->textInput()->label('Email ЛПР'); ?>
-        <?= $form->field($customer, 'company_email')->textInput()->label('Email компании'); ?>
-        <?= $form->field($customer, 'chief_phone')->textInput()->label('Номер телефона ЛПР'); ?>
-        <?= $form->field($customer, 'company_phone')->textInput()->label('Номер телефона компании'); ?>
-        <?= $form->field($customer, 'site_company')->textInput()->label('Сайт компании'); ?>
 
-        <div class="form-group">
-            <label for="comment">Комментарий к диалогу</label>
-            <textarea class="form-control" rows="5" name="comment" id="<?=$sellingId?>_comment"></textarea>
+            <?= $form->field($customer, 'id')->textInput()->hiddenInput()->label(false); ?>
+            <?= $form->field($customer, 'name', ['options' => ['class' => 'col-md-6']])->textInput()->label('Имя'); ?>
+            <?= $form->field($customer, 'firm', ['options' => ['class' => 'col-md-6']])->textInput()->label('Фирма'); ?>
+            <?= $form->field($customer, 'address', ['options' => ['class' => 'col-md-6']])->textInput()->label('Адрес'); ?>
+            <?= $form->field($customer, 'chief_email', ['options' => ['class' => 'col-md-6']])->textInput()->label('Email ЛПР'); ?>
+            <?= $form->field($customer, 'company_email', ['options' => ['class' => 'col-md-6']])->textInput()->label('Email компании'); ?>
+            <?= $form->field($customer, 'chief_phone', ['options' => ['class' => 'col-md-6']])->textInput()->label('Номер телефона ЛПР'); ?>
+            <?= $form->field($customer, 'company_phone', ['options' => ['class' => 'col-md-6']])->textInput()->label('Номер телефона компании'); ?>
+            <?= $form->field($customer, 'site_company', ['options' => ['class' => 'col-md-6']])->textInput()->label('Сайт компании'); ?>
+            <div class="form-group col-md-12">
+                <label for="comment">Комментарий к диалогу</label>
+                <?php echo \vova07\imperavi\Widget::widget([
+                    'name' => 'comment',
+                    'id' => $sellingId."_comment",
+                    'settings' => [
+                        'lang' => 'ru',
+                        'minHeight' => 200,
+                        'plugins' => [
+                            'clips',
+                            'fullscreen',
+                        ],
+                        'clips' => [
+                            ['Lorem ipsum...', 'Lorem...'],
+                            ['red', '<span class="label-red">red</span>'],
+                            ['green', '<span class="label-green">green</span>'],
+                            ['blue', '<span class="label-blue">blue</span>'],
+                        ],
+                    ],
+                ]); ?>
+
+            </div>
+
         </div>
+
         <form id="custom-answer" action="/selling/talk/end-talk" name="end-talk" method="post">
             <input id="sellingId" type="hidden" value="<?=$sellingId?>" name="endTalk">
             <ul class="list-group" id="no-usage-list">
@@ -90,14 +166,15 @@ use forma\extensions\fullcalendar;
             </div>
 
            <div class="col-xs-6">
-               <p style="margin: 0 0 5px">Выбирете дату</p>
+               <p style="margin: 0 0 5px; font-weight: bold">Выберите дату</p>
                <?php
                 Modal::begin([
                     'header' => '<h2>Планирование</h2><h3 id="step"></h3>',
                     'toggleButton' => [
                         'label' => 'Календарь',
                         'tag' => 'button',
-                        'class' => 'btn btn-success col-xs-6',
+                        'class' => 'btn btn-success col-xs-12',
+                        'id' => 'mBut',
                         'onclick' => 'next()',
                     ],
                 ]); ?>
@@ -107,6 +184,8 @@ use forma\extensions\fullcalendar;
 
         <script>
             function next() {
+                return false;
+                alert(1);
               let next = document.getElementById("next_step").value;
                 step.textContent= next;
                 inputValue = next;
@@ -470,4 +549,13 @@ JS;
         <?php DetachedBlock::end(); ?>
     </div>
 </div>
-<?php \forma\components\widgets\ModalCreate::end() ?>
+<script>
+    mBut.onclick = function (e) {
+        if (next_step.value === '') {
+            alert('Заполните "Следующий шаг" перед тем как перейти к работе с календарем');
+            e.stopPropagation();
+            return false;
+        }
+    }
+</script>
+<?php  // \forma\components\widgets\ModalCreate::end() ?>

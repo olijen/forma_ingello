@@ -7,6 +7,8 @@ ini_set('display_startup_errors', 1);
 
 require(__DIR__ . '/../helpers/functions.php');
 
+
+
 // comment out the following two lines when deployed to production
 
 if (isset($_GET['debug'])) {
@@ -18,18 +20,13 @@ if (isset($_GET['debugoff'])) {
     unset($_COOKIE['debug']);
 }
 
-define('YII_ENV', 'dev');
-define('YII_DEBUG', true);
-
-//if (!empty($_COOKIE['debug'])) {
-//
-//    define('YII_ENV', 'dev');
-//    define('YII_DEBUG', true);
-//} else {
-//    define('YII_ENV', 'prod');
-//    define('YII_DEBUG', true);
-//}
-
+if (!empty($_COOKIE['debug'])) {
+    define('YII_ENV', 'dev');
+    define('YII_DEBUG', true);
+} else {
+    define('YII_ENV', 'prod');
+    define('YII_DEBUG', true);
+}
 
 function de($data, $exit = true)
 {

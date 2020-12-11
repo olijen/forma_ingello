@@ -155,6 +155,9 @@ class SystemWidget
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
+            'maskedInputOptions' => [
+                'rightAlign' => false
+            ]
         ]);
     }
 
@@ -251,6 +254,7 @@ class SystemWidget
     public function widgetDropDownList()
     {
         if (!isset($_GET['id']) && !empty($this->field->fieldValues) && !isset($_GET['ProductSearch'])) {
+            $defaultValue = '';
             foreach ($this->field->fieldValues as $k => $value) {
                 if ($value->is_main == 1) {
                     $defaultValue = $value;

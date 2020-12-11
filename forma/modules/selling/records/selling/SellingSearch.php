@@ -106,7 +106,10 @@ class SellingSearch extends Selling
             $condition = "parent_id = {$user->id} OR id = {$user->id}";
         }
 
-        foreach (User::find()->where($condition)->all() as $user) {
+        $users = Yii::$app->cache->getOrSet($condition, function () use ($condition) {
+            return User::find()->where($condition)->all();
+        });
+        foreach ($users as $user) {
             array_push($ids, $user->id);
         }
 

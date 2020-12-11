@@ -29,6 +29,13 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вопросы'), 'u
         'attributes' => [
             'id',
             'text:ntext',
+            [
+                'attribute' => 'is_manager',
+                'value' =>
+                    function ($model) {
+                        return ($model->is_manager == 1)?"Да":"Нет";
+                    }
+            ],
         ],
     ]) ?>
 

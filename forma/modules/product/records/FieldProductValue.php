@@ -149,7 +149,7 @@ class FieldProductValue extends \yii\db\ActiveRecord
                 }
 
                 if (!empty($sqlFieldProductValue)) {
-                    $sql = 'field_product_value.`id` = ANY (SELECT id
+                    $sql = 'product.`id` = ANY (SELECT product_id
                          FROM `field_product_value`
                          WHERE value LIKE ' . $sqlFieldProductValue . ' and `field_id` = ' . $fieldId . ')';
                         $query->andWhere($sql);

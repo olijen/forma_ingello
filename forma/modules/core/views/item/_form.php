@@ -31,9 +31,15 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
         <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
             'options' => [
                 'accept' => 'image/*',
+                'maxFileSize' => 5000000000
+
             ],
             'pluginOptions' => [
                 'initialPreview' => $picture,
+                'showUpload' => false,
+                'browseLabel' => '',
+                'removeLabel' => '',
+                'mainClass' => 'input-group-lg'
             ],
         ]); ?>
 

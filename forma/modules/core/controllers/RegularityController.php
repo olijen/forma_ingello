@@ -27,13 +27,6 @@ class RegularityController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['regularity'],
@@ -74,17 +67,26 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
+        $this->layout = 'public';
+
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
         $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
         $subItems = Item::getSubItems($allItems);
         $items = Item::getMainItems($allItems);
+        $newUserReglament = 0;
+
+        if (strpos( Url::previous(), 'test') !== false) {
+            $newUserReglament = 1;
+            Url::remember();
+        }
 
         return $this->render('user-regularity', [
             'regularities' => $regularities,
             'items' => $items,
             'subItems' => $subItems,
+            'newUserReglament' => $newUserReglament
         ]);
     }
 
@@ -156,7 +158,7 @@ class RegularityController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['settings']);
+        return $this->redirect(['/core/regularity/']);
     }
 
     /**

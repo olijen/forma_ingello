@@ -59,11 +59,7 @@ class Purchase extends StateActiveRecord
         return [
             [['warehouse_id', 'supplier_id'], 'required'],
             [['supplier_id', 'warehouse_id', 'state'], 'integer'],
-            [['date_create', 'date_complete'], 'safe'],
-            ['supplier_id', 'validateSupplierDropdown'],
-            ['supplier_id', function ($attribute, $params, $model) {
-                $this->addError('supplier_id', 'Токен должен содержать буквы или цифры.');
-            }],
+            [['date_create', 'date_complete', 'supplier_id'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Supplier::className(), 'targetAttribute' => ['supplier_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
@@ -71,10 +67,6 @@ class Purchase extends StateActiveRecord
         ];
     }
 
-    public function validateSupplierDropdown()
-    {
-        $this->addError('supplier_id', 'Неправильное имя пользователя или пароль' . $this->supplier_id);
-    }
 
     /**
      * @inheritdoc

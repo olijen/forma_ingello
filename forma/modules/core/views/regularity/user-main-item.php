@@ -1,5 +1,10 @@
-<div class="container" style="<?= !isset($checkSubItem) ? 'padding: 4px;' : '' ?>">
-    <div class="carousel">
+<?php
+//За контейнер, который нельзя назвать как container-fluid скажите спасибо алгоритму, который перекидывает
+//пункты регламента, поэтому <div class="container fluid" > ОСТАНЕТСЯ ТАКИМ!!!
+//НЕ ДЕЛАТЬ ЕГО container-fluid !!!!!
+?>
+<div class="container fluid" style="<?= !isset($checkSubItem) ? 'padding: 4px;' : '' ?>">
+    <div class="carousel" style="overflow-x: hidden">
 
         <?php foreach ($items as $item) {
             $radioName = isset($checkSubItem) ? 'sub-item' : 'item';

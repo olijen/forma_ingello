@@ -31,11 +31,11 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'logout', 'confirm', 'signup'],
+                'only' => ['login', 'logout', 'confirm', 'signup', 'landing'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['login', 'signup', 'confirm'],
+                        'actions' => ['login', 'signup', 'confirm', 'landing'],
                         'roles' => ['?'],
                     ],
                     [
@@ -89,6 +89,14 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionLanding()
+    {
+        $this->layout = false;
+        $modelLogin = new LoginForm();
+        $googleLink = $this->googleAuth();
+        return $this->render('landing', ['googleLink' => $googleLink, 'modelLogin' => $modelLogin]);
     }
 
     /**
@@ -177,8 +185,8 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        Yii::$app->controller->layout = 'main-login';
-        return $this->render('signup', compact('model', 'modelLogin', 'googleLink'));
+        Yii::$app->controller->layout = false;
+        return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
     }
 
     public function actionSignupReferer()
