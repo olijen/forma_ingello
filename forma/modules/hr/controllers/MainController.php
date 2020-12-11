@@ -12,6 +12,8 @@ use forma\modules\hr\services\InterviewService;
  */
 class MainController extends Controller
 {
+
+    //for table `interview`
     public function actionIndex()
     {
         $searchModel = InterviewService::search();
