@@ -26,10 +26,11 @@ if (DB_MODE == 'docker') {
     //php -S + Docker DB
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=127.0.0.1;dbname=warehouse;port=3300',
+        'dsn' => 'mysql:host=127.0.0.1;dbname=forma;port=3306',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'charset' => 'utf8',
+        'commandClass' => 'forma\modules\core\records\Command',
     ];
 } else {
     throw new Exception('Add DB_MODE variable in index.php');

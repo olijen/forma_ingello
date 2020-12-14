@@ -2,6 +2,7 @@
 
 namespace forma\modules\dark\controllers;
 
+use forma\modules\core\components\AutoDumpDataBase;
 use yii\web\Controller;
 
 /**
@@ -22,5 +23,10 @@ class DefaultController extends Controller
 
 
         return $this->render('sql.php');
+    }
+
+    public function actionTryAutoDump() {
+        $autoDump = new AutoDumpDataBase();
+        $autoDump->start();
     }
 }

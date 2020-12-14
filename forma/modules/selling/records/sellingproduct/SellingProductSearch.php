@@ -39,6 +39,7 @@ class SellingProductSearch extends SellingProduct
 
     /**
      * Creates data provider instance with search query applied
+     * Когда используется в продаже, используется фильтр selling_id который устанавливается в NomenclatureView->run()
      *
      * @param array $params
      *

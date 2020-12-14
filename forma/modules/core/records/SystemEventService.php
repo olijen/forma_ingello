@@ -32,7 +32,7 @@ class SystemEventService
 
     public static function init(){
         self::$models = SystemEventUserService::getModels();
-        Yii::debug(self::$models);
+        //Yii::debug(self::$models);
     }
 
     public static function getClassName($event){
@@ -80,7 +80,7 @@ class SystemEventService
 
     public static function eventAfterInsert($event){
 
-        Yii::debug($event);
+        //Yii::debug($event);
 
         $model = $event->sender;
         $className = self::getClassName($event);
@@ -101,7 +101,7 @@ class SystemEventService
         $objectName = "";
         $subject = '';
         $text = '';
-        Yii::debug($className);
+        //Yii::debug($className);
 
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
@@ -116,10 +116,10 @@ class SystemEventService
                 throw new \Exception(json_encode($systemEvent->errors));
             }
             $arr = explode("/", $systemEvent->request_uri);
-            Yii::debug("ebanina");
-            Yii::debug($arr);
+            //Yii::debug("ebanina");
+           // Yii::debug($arr);
             if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1]=='inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
-            Yii::debug($arr);
+          //  Yii::debug($arr);
             $subject = 'Forma: в отделе '.$systemEvent->application.' был добавлен объект: ('. $systemEvent->class_name .') '
                 . $objectName;
             $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' добавлен объект: ('. $systemEvent->class_name .') '

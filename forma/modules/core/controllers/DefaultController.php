@@ -253,6 +253,7 @@ class DefaultController extends Controller
             Yii::$app->user->identity->email_string = null;
             Yii::$app->user->identity->save();
             \yii\helpers\Url::remember();
+            //return 13234324;
             return $this->redirect('/core/regularity/regularity');
         }
     }

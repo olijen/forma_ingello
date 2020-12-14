@@ -29,9 +29,9 @@ $config = [
 
         //СОБЫТИЯ РЕАГИРУЮЩИЕ НА ACTIVE RECORD ОПЕРАЦИИ CUD + CUSTOM + LOGIN
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_INSERT, function ($event) {
-            Yii::debug($event);
-            Yii::debug($_SERVER);
-            Yii::debug($_REQUEST);
+           // Yii::debug($event);
+            //Yii::debug($_SERVER);
+            //Yii::debug($_REQUEST);
             SystemEventService::init();
             SystemEventService::eventAfterInsert($event);
 
@@ -51,7 +51,7 @@ $config = [
         });
 
         yii\base\Event::on(SiteController::class, SiteController::EVENT_AFTER_LOGIN, function ($event) {
-            Yii::debug($event);
+            //Yii::debug($event);
             SystemEventService::eventAfterLogin($event);
 
         });

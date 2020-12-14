@@ -22,7 +22,7 @@ class Command extends \yii\db\Command
                 $cacheKey = $this->getCacheKey($method, $fetchMode, '');
                 $result = $cache->get($cacheKey);
                 if (is_array($result) && isset($result[0])) {
-                    Yii::debug('Query result served from cache', 'yii\db\Command::query');
+                    //Yii::debug('Query result served from cache', 'yii\db\Command::query');
                     return $result[0];
                 }
             }
@@ -93,9 +93,9 @@ class Command extends \yii\db\Command
             Yii::debug('Saved query result in cache', 'yii\db\Command::query');
         }
 
-        Yii::debug('Bumbo');
-        Yii::debug($rawSql);
-        Yii::debug($result);
+       // Yii::debug('Bumbo');
+       // Yii::debug($rawSql);
+        //Yii::debug($result);
 
         return Yii::$app->params['globalQueries'][$rawSql] = $result;
     }

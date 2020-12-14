@@ -10,9 +10,9 @@
     section {
         flex: 1 1 25%;
     }
-    section {
+    section#preloader {
         display: flex;
-        height: 100vh;
+        height: 70vh;
     }
     .sk-cube-grid {
         width: 10em;
@@ -219,19 +219,27 @@
 </style>
 
 <!-- / 9 -->
-<section>
-    <div class="sk-cube-grid">
-        <div class="sk-cube sk-cube-1"></div>
-        <div class="sk-cube sk-cube-2"></div>
-        <div class="sk-cube sk-cube-3"></div>
-        <div class="sk-cube sk-cube-4"></div>
-        <div class="sk-cube sk-cube-5"></div>
-        <div class="sk-cube sk-cube-6"></div>
-        <div class="sk-cube sk-cube-7"></div>
-        <div class="sk-cube sk-cube-8"></div>
-        <div class="sk-cube sk-cube-9"></div>
-    </div>
-</section>
+<div class="d-flex flex-column">
+    <section id="preloader">
+        <div class="sk-cube-grid" style="position: relative; top:20%">
+            <div class="sk-cube sk-cube-1"></div>
+            <div class="sk-cube sk-cube-2"></div>
+            <div class="sk-cube sk-cube-3"></div>
+            <div class="sk-cube sk-cube-4"></div>
+            <div class="sk-cube sk-cube-5"></div>
+            <div class="sk-cube sk-cube-6"></div>
+            <div class="sk-cube sk-cube-7"></div>
+            <div class="sk-cube sk-cube-8"></div>
+            <div class="sk-cube sk-cube-9"></div>
+        </div>
+    </section>
+    <section class="d-flex justify-content-center">
+        <p id="preloader_text" style="color: #00a65a; font-size: 4rem;" class="text-center">
+            Загружаем тестовые данные...
+        </p>
+    </section>
+
+</div>
 
 <script src="https://cpwebassets.sfo2.cdn.digitaloceanspaces.com/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
 
@@ -255,17 +263,38 @@
 
 
 <script>
+
+    wordsArray = [
+        'Загружаем тестовые данные...',
+        'Создаем клиентов...',
+        'Создаем продажи...',
+        'Создаем продукты и склады...',
+        'Заполняем склады товарами...',
+        'Создаем проекты...',
+        'Размещаем вакансии...',
+        'Назначаем кадры на должости...',
+        'Проводим первую закупку...',
+    ];
+    let i = 0;
+
+    let t = setInterval(function (){
+        preloader_text.textContent = wordsArray[i];
+        i++;
+        if (i == wordsArray.length) i = 0;
+    }, 3000);
+
+
+
     //alert(1);
     document.addEventListener("DOMContentLoaded", function(event) {
         $.ajax({
             type: 'get',
             url: 'core/default/test-data',
             data: '',
-            success: function (data) {
+            success: function (mmessage) {
 
             },
             error: function (request, status, error) {
-
             }
         })
     });
