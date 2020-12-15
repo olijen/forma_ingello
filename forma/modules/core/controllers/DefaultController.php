@@ -7,6 +7,8 @@ use Exception;
 
 use forma\components\AccessoryActiveRecord;
 use forma\modules\core\components\AutoDumpDataBase;
+use forma\modules\core\forms\LoginForm;
+use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\SystemEventSearch;
@@ -21,6 +23,7 @@ use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Oauth2;
 use Yii;
 use yii\data\Pagination;
 use yii\helpers\Inflector;
@@ -31,6 +34,8 @@ use forma\modules\core\records\WidgetUser;
 
 class DefaultController extends Controller
 {
+
+    const EVENT_AFTER_LOGIN = "eventAfterLogin";
     public function behaviors()
     {
         return [
@@ -40,12 +45,12 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm',],
+                        'actions' => ['confirm', 'index'],
                         'roles' => ['?'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index',],
+                        'actions' => [ 'index'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -55,6 +60,45 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+        if(Yii::$app->user->isGuest) {
+            $googleLink = $this->googleAuth();
+            Yii::debug('зашли на туда регистрация');
+            if (!Yii::$app->user->isGuest) {
+                return $this->goHome();
+            }
+
+
+            Yii::debug('зашли на туда регистрация');
+
+
+            $modelLogin = new LoginForm();
+            $loginLoad = $modelLogin->load(Yii::$app->request->post());
+            if (isset($_POST['login-button'])) {
+                $user = $modelLogin->getUser();
+                if ($loginLoad) {
+                    if ($modelLogin->login()) {
+                        Yii::debug("trigger");
+                        $this->trigger(self::EVENT_AFTER_LOGIN);
+                        return $this->goBack();
+                    } else if (!is_null($user) && $user->confirmed_email == 0) {
+                        return Yii::$app->response
+                            ->redirect('https://' . $_SERVER['HTTP_HOST'] . '/core/default/confirm', 301)
+                            ->send();
+                    }
+                }
+            }
+
+            $model = new SignupForm();
+            Yii::debug('зашли на туда регистрация');
+            if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+                return $this->goHome();
+            }
+
+            Yii::$app->controller->layout = false;
+            return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
+        }
+
+
         if (!empty(Yii::$app->user->identity->email_string)) {
             $this->layout = 'public';
             return $this->render('blank');
@@ -255,6 +299,77 @@ class DefaultController extends Controller
             \yii\helpers\Url::remember();
             //return 13234324;
             return $this->redirect('/core/regularity/regularity');
+        }
+    }
+
+    public function googleAuth()
+    {
+        //todo перенести переменные в конфигурацию
+        $clientID = Yii::$app->params['client_id'];
+        $clientSecret = Yii::$app->params['client_secret'];
+        $redirectUri = 'https://forma.ingello.com/login';
+        if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false)
+            $redirectUri = 'http://' . $_SERVER['HTTP_HOST'] . '/login';
+
+
+        $client = new Google_Client();
+        /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config
+        /// который мы настраиваем при инициализации объекта.
+        /// меняем клиентский id, клиентский секрет, ссылка, на которую следует перейти после авторизации
+        ///
+        $client->setClientId($clientID);
+        $client->setClientSecret($clientSecret);
+        $client->setPrompt("consent");
+        $client->setRedirectUri($redirectUri);
+        $client->setPrompt('consent');
+
+        /// существует array Google_Client:requestedScopes, который помещает в себе области, которые
+        /// запрашивает приложение для авторизации, то есть можем просмотреть некоторые данные пользователя
+        /// их следует добавить, чтобы была возможность вызвать страницу гугл авторизации через
+        /// почту и осуществить авторизацию / регистрацию пользователя.
+        $client->addScope("email");
+        $client->addScope("profile");
+
+
+        // $_GET['code'] присылает гугл после авторизации в его форме и перебросе пользователя на указанный
+        // $redirectUri.
+        if (isset($_GET['code'])) {
+            //меняем присланный $_GET['code'] на валидный токен доступа
+            //получаем класс OAuth2, куда передаем $_GET['code']
+            //с помощью обработчика запросов httpHandler получаем токен доступа
+            //$token is array содержащие некоторые данные о токене доступа, собственно который
+            //содержится как элемент массива $token['access_token']
+            $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+            $client->setAccessToken($token['access_token']);
+
+            // get profile info
+            $google_oauth = new Google_Service_Oauth2($client);
+            $google_account_info = $google_oauth->userinfo->get();
+            $email = $google_account_info->email;
+            $name = $google_account_info->name;
+            $loginForm = new LoginForm();
+
+            $loginForm->email = $email;
+            if ($loginForm->getUser() != false) {
+                if ($loginForm->googleLogin()) {
+                    $this->trigger(self::EVENT_AFTER_LOGIN);
+                    return $this->goHome();
+                }
+            } else {
+                $signupForm = new SignupForm();
+                if (!Yii::$app->user->isGuest) {
+                    $signupForm->parent_id = Yii::$app->user->identity->id;
+                }
+                $signupForm->username = $name;
+                $signupForm->email = $email;
+                $signupForm->password = $signupForm->getRandomPassword();
+                $signupForm->signup(null, true);
+            }
+            // now you can use this profile info to create account in your website and make user logged in.
+        } else {
+            //билдим ссылку, которая переводит нас на форму авторизации гугла, после она передает
+            //$_GET['code'] и мы можем авторизоваться
+            return $client->createAuthUrl();
         }
     }
 

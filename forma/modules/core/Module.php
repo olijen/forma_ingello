@@ -34,7 +34,7 @@ class Module extends \yii\base\Module
 
         Yii::debug($_SERVER['REQUEST_URI']);
         Yii::debug(strpos($_SERVER['REQUEST_URI'], '/core/default/confirm'));
-        if ($_SERVER['REQUEST_URI'] == '/login' || $_SERVER['REQUEST_URI'] == '/core/site/landing' || $_SERVER['REQUEST_URI'] == '/signup' || strpos($_SERVER['REQUEST_URI'], '/core/default/confirm') !== false) {
+        if ($_SERVER['REQUEST_URI'] == '/login' || $_SERVER['REQUEST_URI'] == '/core/site/landing' || $_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/signup' || strpos($_SERVER['REQUEST_URI'], '/core/default/confirm') !== false) {
             return true;
         }
 
@@ -50,7 +50,7 @@ class Module extends \yii\base\Module
                     . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
             );
 
-            Yii::$app->getResponse()->redirect(Url::to(['/signup']));
+            Yii::$app->getResponse()->redirect(Url::to(['/']));
             return false;
         }
     }

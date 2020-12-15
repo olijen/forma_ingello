@@ -114,12 +114,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'core/default/index' ,
                 'login' => 'core/site/login',
                 'logout' => 'core/site/logout',
                 'signup' => 'core/site/signup',
                 'core/regularity'=>'core/regularity/index',
                 '<user-name:>/regularity' => 'core/regularity/regularity',
-                '/' => isset($_COOKIE['identity']) ? 'core/site/signup' : '/',
+
             ],
         ],
         'assetManager' => [
