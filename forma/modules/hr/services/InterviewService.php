@@ -66,6 +66,7 @@ class InterviewService
     {
         $model = self::get($id);
         $stateClass = 'forma\modules\hr\records\interview\State'.ucfirst($state);
+        Yii::debug('-------------------------DEBUG--------------------');
         $model->applyState(new $stateClass);
         $model->save();
         return $model;

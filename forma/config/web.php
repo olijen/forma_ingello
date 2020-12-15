@@ -80,7 +80,7 @@ $config = [
         'user' => [
             'identityClass' => 'forma\modules\core\components\UserIdentity',
             'enableAutoLogin' => true,
-            'loginUrl' => ['/login'],
+            'loginUrl' => ['/signup'],
         ],
         'errorHandler' => [
             'errorAction' => 'core/site/error',
@@ -114,11 +114,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'core/default/index' ,
                 'login' => 'core/site/login',
                 'logout' => 'core/site/logout',
                 'signup' => 'core/site/signup',
                 'core/regularity'=>'core/regularity/index',
                 '<user-name:>/regularity' => 'core/regularity/regularity',
+
             ],
         ],
         'assetManager' => [

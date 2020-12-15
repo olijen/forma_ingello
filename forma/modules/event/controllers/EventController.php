@@ -179,7 +179,10 @@ class EventController extends Controller
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $eventsDatabase = Event::find()->all();
+        $searchModel = new EventSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 0;
+        $eventsDatabase = $dataProvider->getModels();
 
         $events = array();
 

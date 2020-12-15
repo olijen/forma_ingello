@@ -217,6 +217,7 @@ JS;
             $hoverS = '#9F4D1D';
             $a = '#f49258';
         } elseif ('customer' == Yii::$app->controller->module->id) {
+            $bgColor = '#00a65a';
             $color = 'white';
         } elseif ('inventorization' == Yii::$app->controller->module->id) {
             $bgColor = '#f49258';

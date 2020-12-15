@@ -106,7 +106,8 @@ abstract class StateActiveRecord extends AccessoryActiveRecord
             throw new Exception('State is unregistered');
         }
 
-        $this->state = $stateConst;
+        if (!(is_integer($this->state) && $this->state > 0 && $this->isNewRecord))
+            $this->state = $stateConst;
         return parent::beforeSave($insert);
     }
 
