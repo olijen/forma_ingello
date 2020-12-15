@@ -222,7 +222,7 @@ class SiteController extends Controller
                     . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
             );
 
-            return $this->redirect(Url::to(['/login']));
+            return $this->redirect(Url::to(['/signup']));
         }
 
         if (!empty($exception->statusCode)) {

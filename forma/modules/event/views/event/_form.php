@@ -35,14 +35,14 @@ endif;
         ]
     ]); ?>
 
-    <div class="row">
+    <div class="row no-padding no-margin">
         <input type="hidden" name="close" value="close">
         <?php if (isset($_GET['name'])): ?>
-            <div class="col-xs-12"><?= $form->field($model, 'name')->textInput(['value'=>$_GET['name']]) ?></div>
+            <div class="col-xs-6"><?= $form->field($model, 'name')->textInput(['value'=>$_GET['name']]) ?></div>
         <?php else: ?>
-            <div class="col-xs-12"><?= $form->field($model, 'name')->textInput() ?></div>
+            <div class="col-xs-6"><?= $form->field($model, 'name')->textInput() ?></div>
         <?php endif; ?>
-        <div class="col-xs-6"><?= $form->field($model, 'event_type_id')->textInput() ?></div>
+
         <div class="col-xs-6"><?= $form->field($model, 'status')->textInput() ?></div>
     </div>
     <div class="col-xs-12">

@@ -32,6 +32,7 @@ use forma\modules\hr\records\interview\StateDone;
  * @property integer $id
  * @property integer $worker_id
  * @property integer $project_id
+ * @property integer $state
  * @property string $name
  * @property string $date_create
  * @property string $date_complete

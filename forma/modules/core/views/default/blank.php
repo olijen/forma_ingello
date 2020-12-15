@@ -219,7 +219,7 @@
 </style>
 
 <!-- / 9 -->
-<div class="d-flex flex-column">
+<div class="d-flex flex-column" style="width: 100%;">
     <section id="preloader">
         <div class="sk-cube-grid" style="position: relative; top:20%">
             <div class="sk-cube sk-cube-1"></div>

@@ -6,6 +6,7 @@ namespace forma\modules\core\components;
 
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\Regularity;
+use forma\modules\hr\records\interview\Interview;
 use forma\modules\product\records\ProductPackUnit;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
@@ -52,7 +53,7 @@ class AutoDumpDataBase
             $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
         }
 
-        \Yii::debug($accessoryKeys);
+       // \Yii::debug($accessoryKeys);
 
         foreach ($accessoryKeys as $entityClass => $modelId) {
             //создаем модели для всех выбранных из accessory, подставляем класс и из него кидаем запрос на save
@@ -110,6 +111,7 @@ class AutoDumpDataBase
         $this->project();
         $this->selling();
         $this->transit();
+        $this->userWidget();
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
         
@@ -202,6 +204,24 @@ class AutoDumpDataBase
         return $ids;
     }
 
+    public function userWidget()
+    {
+        $widgetUsers = $this->findModels('forma\modules\core\records\WidgetUser', ['user_id' => 1]);
+
+        foreach ($widgetUsers as $widget) {
+            $widget = $this->changeAttributes(
+                ['1' => \Yii::$app->user->identity->id],
+                $widget,
+                'user_id');
+
+            $this->forSaveAndGetKey($widget, 'widgetUser_id');
+        }
+
+        if ($this->deleteAutoDamp) return $this->delete($widgetUsers);
+
+        return true;
+    }
+
     public function state()
     {
         $states = $this->findModels('forma\modules\selling\records\state\State', ['user_id' => 1]);
@@ -284,6 +304,7 @@ class AutoDumpDataBase
 
     public function findModels($model, $conditions)
     {
+
         return $model::find()->where($conditions)->orderBy(['id' => SORT_ASC])->all();
     }
 
@@ -350,7 +371,7 @@ class AutoDumpDataBase
                     // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
 //de($sellingProducts);
-            Yii::debug($fieldProductValues);
+           // Yii::debug($fieldProductValues);
             foreach ($fieldProductValues as $fieldProductValue) {
                 $fieldProductValue = $this->changeAttributes(
                     $this->newKeys['product_id'],
@@ -587,6 +608,8 @@ class AutoDumpDataBase
         Yii::debug($interviews);
 
         foreach ($interviews as $interview) {
+            Yii::debug($interview);
+            Yii::debug('-----------');
             $interview = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
                 $interview,
@@ -761,7 +784,7 @@ class AutoDumpDataBase
 
     public function product() {
         $productIds = $this->getOldAccessoryProducts();
-        Yii::debug($this->accessoryNewKeys);
+      //  Yii::debug($this->accessoryNewKeys);
 
 
 
@@ -797,8 +820,8 @@ class AutoDumpDataBase
 
     public function selling()
     {
-        Yii::debug($this->accessoryOldKeys);
-        Yii::debug($this->oldKeys);
+     //   Yii::debug($this->accessoryOldKeys);
+      //  Yii::debug($this->oldKeys);
         //Yii::debug();
 
         $sales = $this->findModels('forma\modules\selling\records\selling\Selling',
@@ -827,7 +850,7 @@ class AutoDumpDataBase
         }
 
         if ($this->deleteAutoDamp) return $this->delete($sales);
-        Yii::debug($this->oldKeys);
+      //  Yii::debug($this->oldKeys);
         if (isset($this->oldKeys['selling_id'])) {
             $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
                 [
@@ -838,7 +861,7 @@ class AutoDumpDataBase
                    // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
 //de($sellingProducts);
-            Yii::debug($sellingProducts);
+          //  Yii::debug($sellingProducts);
             foreach ($sellingProducts as $sellingProduct) {
                 $sellingProduct = $this->changeAttributes(
                     $this->newKeys['product_id'],

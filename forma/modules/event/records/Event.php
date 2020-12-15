@@ -2,6 +2,7 @@
 
 namespace forma\modules\event\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -19,7 +20,7 @@ use Yii;
  *
  * @property EventType $eventType
  */
-class Event extends \yii\db\ActiveRecord
+class Event extends AccessoryActiveRecord
 {
 
 

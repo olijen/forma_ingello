@@ -42,6 +42,7 @@ class EventSearch extends Event
     public function search($params)
     {
         $query = Event::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

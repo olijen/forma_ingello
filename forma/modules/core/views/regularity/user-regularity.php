@@ -321,7 +321,7 @@ width: 100%;
   
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
         .desc {
             display: none;
         }
@@ -341,6 +341,16 @@ width: 100%;
         #nav-tabs {
             height: 38%
         }
+        
+        .navigator-pane button {
+            font-size: 24px;
+        }
+}
+
+@media screen and (max-width: 639px) {
+        .navigator-pane button {
+            font-size: 21px;
+        }
 }
 
 
@@ -354,6 +364,29 @@ width: 100%;
         #name_on_picture h2 {
             font-size: 40px;
             
+        }
+        
+        .navigator-pane button {
+            font-size: 24px;
+        }
+        
+        .navigator-pane {
+            flex-wrap: wrap;
+        }
+        
+        #prev_step {
+            order: 2;
+            width: 43%;
+        }
+        
+        #main_panel {
+            order: 1;
+            width: 90%;
+        }
+        
+        #next_step {
+            order: 3;
+            width: 43%;
         }
 }
 
@@ -377,8 +410,12 @@ width: 100%;
             
         }
         
-        .navigator-pane {
-            flex-direction: column;
+      
+}
+
+@media screen and (max-width: 359px) { 
+  .navigator-pane button {
+            font-size: 22px;
         }
 }
     
@@ -448,15 +485,15 @@ width: 100%;
                 </button>
             </div>
             <div class="navigator-pane" id="usualReglament" style=" justify-content: center; ">
-                <button class='btn btn-light navigator prev' onclick="event.stopPropagation()"
+                <button class='btn btn-light navigator prev' id="prev_step" onclick="event.stopPropagation()"
                         style="margin-bottom: 20px; margin-bottom: 20px; background: #555;">
                     <i class="fas fa-arrow-left" style="color: white; margin-right: 5px"></i> Назад
                 </button>
-                <button class='btn btn-warning' onclick="window.location.href='/'"
+                <button class='btn btn-warning' id="main_panel" onclick="window.location.href='/'"
                         style="margin-bottom: 20px;">
                     <i class="fas fa-chart-line"></i> К главной панели
                 </button>
-                <button class='btn btn-light navigator next' onclick="event.stopPropagation()"
+                <button class='btn btn-light navigator next' id="next_step" onclick="event.stopPropagation()"
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
                     Вперед <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>

@@ -80,7 +80,7 @@ $config = [
         'user' => [
             'identityClass' => 'forma\modules\core\components\UserIdentity',
             'enableAutoLogin' => true,
-            'loginUrl' => ['/login'],
+            'loginUrl' => ['/signup'],
         ],
         'errorHandler' => [
             'errorAction' => 'core/site/error',
@@ -119,6 +119,7 @@ $config = [
                 'signup' => 'core/site/signup',
                 'core/regularity'=>'core/regularity/index',
                 '<user-name:>/regularity' => 'core/regularity/regularity',
+                '/' => isset($_COOKIE['identity']) ? 'core/site/signup' : '/',
             ],
         ],
         'assetManager' => [

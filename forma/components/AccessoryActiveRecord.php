@@ -96,6 +96,9 @@ class AccessoryActiveRecord extends ActiveRecord
                 : [$name => $default]
         );
 
+        Yii::debug('отдаем дата провайдер');
+        Yii::debug($dataProvider);
+
         return $dataProvider;
     }
 
@@ -115,6 +118,10 @@ class AccessoryActiveRecord extends ActiveRecord
 
     public static function getAccessToOne($default = [])
     {
+        Yii::debug('забираем дата провайдер');
+
+        Yii::debug(self::accessSearchDataProvider($default));
+        Yii::debug(self::accessSearchDataProvider($default)->getModels());
         return self::accessSearchDataProvider($default)->getModels()[0];
     }
 
