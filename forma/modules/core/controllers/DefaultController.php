@@ -2,35 +2,26 @@
 
 namespace forma\modules\core\controllers;
 
-use Composer\Util\Url;
 use Exception;
-
-use forma\components\AccessoryActiveRecord;
 use forma\modules\core\components\AutoDumpDataBase;
+use forma\modules\core\components\UserIdentity;
 use forma\modules\core\forms\LoginForm;
 use forma\modules\core\forms\SignupForm;
-use forma\modules\core\records\Accessory;
-use forma\modules\core\records\Regularity;
 use forma\modules\core\records\SystemEventSearch;
-use forma\modules\core\widgets\SystemEventWidget;
+use forma\modules\core\records\WidgetUser;
 use forma\modules\hr\services\InterviewService;
 use forma\modules\product\services\ProductService;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\selling\forms\SalesProgress;
-use forma\modules\transit\services\TransitService;
 use forma\modules\selling\services\SellingService;
-use forma\modules\warehouse\records\Warehouse;
-use forma\modules\warehouse\records\WarehouseProduct;
+use forma\modules\transit\services\TransitService;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Oauth2;
 use Yii;
 use yii\data\Pagination;
-use yii\helpers\Inflector;
-use yii\web\Controller;
 use yii\filters\AccessControl;
-use forma\modules\core\components\UserIdentity;
-use forma\modules\core\records\WidgetUser;
+use yii\web\Controller;
 
 class DefaultController extends Controller
 {
@@ -291,7 +282,9 @@ class DefaultController extends Controller
     }
 
 
-    public function actionTestData(){
+    public function actionTestData()
+    {
+        ini_set('max_execution_time', 30);
         $dump = new AutoDumpDataBase();
         if ($dump->start()) {
             Yii::$app->user->identity->email_string = null;
