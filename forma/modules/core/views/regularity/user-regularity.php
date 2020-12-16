@@ -576,6 +576,7 @@ width: 100%;
 $js = <<<JS
 var i = 1;
 //$("#about_regularity")[0].href = '#';
+document.getElementsByClassName('change-regularity')[0].dispatchEvent((new Event("click")));
 $("#fs").click(function () {
    i++;
   if($.support.fullscreen){
@@ -619,4 +620,6 @@ $this->registerJs($js);
             }
         });
     }
+    console.log('sss');
+    document.getElementsByClassName('change-regularity')[0].dispatchEvent((new Event("click")));
 </script>

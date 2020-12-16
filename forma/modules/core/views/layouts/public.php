@@ -60,7 +60,9 @@ dmstr\web\AdminLteAsset::register($this);
     <?= $content ?>
     <?= Modal::widget([
         'id' => 'modal',
-        'header' => 'FORMA . INGELLO 2020 - закажи индивидуальную систему',
+        'header' => '<p>FORMA . INGELLO 2021</p>',
+
+        'toggleButton' => ['label' => 'Закрыть4'],
     ]) ?>
 
     <?= Modal::widget([

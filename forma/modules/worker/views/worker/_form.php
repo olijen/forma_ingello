@@ -67,25 +67,10 @@ use kartik\select2\Select2;
             <div class="col-md-6 block">
                 <?= $form->field($model, 'experience')->textInput(['type' => 'number']) ?>
             </div>
-            <div class="col-xs-12 text-center">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Интересующие вакансии</div>
-                    <div class="panel-body">
-
-                        <?= $form->field($model, 'workerVacancies')->widget(Select2::className(), [
-                            'data' =>  \forma\modules\worker\records\workervacancy\WorkerVacancy::getListVacancies(),
-                            'options' => [
-                                'placeholder' => 'Выберете вакансии...',
-                                'multiple' => true,
-                            ],
-                            'pluginOptions' => [
-                                'tags' => true,
-                            ],
-                        ])->label(false) ?>
-
-                    </div>
-                </div>
+            <div class="col-md-6 block">
+                <?= $form->field($model, 'collaborated')->textInput()->checkbox() ?>
             </div>
+
         </div>
         <div class="col-md-7 block">
         <?= $form->field($model, 'experience_description')->widget(Widget::className(), [
@@ -110,8 +95,25 @@ use kartik\select2\Select2;
             'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
         ],
         ]); ?>
-            <div class="col-md-6 block">
-                <?= $form->field($model, 'collaborated')->textInput()->checkbox() ?>
+
+            <div class="col-xs-12 no-margin no-padding text-center">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Кандидат подходит для вакансий"</div>
+                    <div class="panel-body">
+
+                        <?= $form->field($model, 'workerVacancies')->widget(Select2::className(), [
+                            'data' =>  \forma\modules\worker\records\workervacancy\WorkerVacancy::getListVacancies(),
+                            'options' => [
+                                'placeholder' => 'Выберете вакансии...',
+                                'multiple' => true,
+                            ],
+                            'pluginOptions' => [
+                                'tags' => true,
+                            ],
+                        ])->label(false) ?>
+
+                    </div>
+                </div>
             </div>
     </div>
         <div class="form-group text-center">

@@ -87,7 +87,7 @@ use yii\helpers\Html;
             ]); ?>
             <div class="col-xs-12 text-center">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Интересующие вакансии</div>
+                    <div class="panel-heading">Кандидат подходит для вакансий</div>
                     <div class="panel-body">
 
                         <?= $form->field($worker, 'workerVacancies')->widget(Select2::className(), [

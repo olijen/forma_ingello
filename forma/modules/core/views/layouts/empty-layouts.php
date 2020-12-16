@@ -70,7 +70,9 @@ if (Yii::$app->controller->action->id === 'login') {
 
     <?= Modal::widget([
         'id' => 'select-modal',
-        'header' => 'FORMA . INGELLO 2020 - закажи индивидуальную систему',
+        'header' => '<p>FORMA . INGELLO 2021</p>',
+
+        'toggleButton' => ['label' => 'Закрыть2'],
     ]) ?>
 
     <?= Modal::widget([

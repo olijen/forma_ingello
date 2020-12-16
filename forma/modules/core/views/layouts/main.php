@@ -339,6 +339,27 @@ JS;
                 padding: 3px;
             }
 
+            .modal-header .close {
+                background: red;
+                border-radius: 50%;
+                color: white;
+                font-size: 28px;
+                height: 32px;
+                opacity: 0.7;
+                width: 32px;
+            }
+
+            .modal-header p {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .modal-header .close:hover {
+                background: transparent;
+                color: red;
+                opacity: 1;
+            }
+
             h1 {
                 padding-left: 3px;
             }
@@ -431,7 +452,12 @@ JS;
                 document.getElementById("loader").style.display = "none";
                 $('body').css('pointer-events', 'all');
             }
+
+
         </script>
+
+        <?php Yii::debug('существует визаут хедер?'); ?>
+        <?php Yii::debug(isset($_GET['without-header'])); ?>
 
         <?php if (!isset($_GET['without-header'])) : ?>
             <?= $this->render(
@@ -456,14 +482,40 @@ JS;
 
     <?= Modal::widget([
         'id' => 'select-modal',
-        'header' => 'FORMA . INGELLO 2020 - закажи индивидуальную систему',
+        'header' => '<p>FORMA . INGELLO 2021</p>',
+        'toggleButton' => ['label' => 'Закрыть3'],
     ]) ?>
 
     <?= Modal::widget([
         'id' => 'select-modal-2',
         'header' => 'FORMA . INGELLO 2020',
     ]) ?>
+    <script>
+        if (window.location.href.indexOf('without-header') > 0) {
+            console.log(1);
 
+            let aLinks = document.getElementsByTagName('a');
+
+            for (let i = 0; i < aLinks.length; i++) {
+                // console.log(aLinks[i]);
+                // console.log(aLinks[i].href);
+                let beginParameters = aLinks[i].href.indexOf('?')+1;
+                if(beginParameters > 0) {
+                    let beginStr = aLinks[i].href.substring(0, beginParameters);
+                    let endStr = aLinks[i].href.substring(beginParameters, aLinks[i].href.length);
+                    // console.log(aLinks[i].href.indexOf('?'));
+                    // console.log(aLinks[i].href.substring(0, beginParameters));
+                    // console.log(aLinks[i].href.substring(beginParameters, aLinks[i].href.length));
+                    aLinks[i].href = beginStr + 'without-header=&' + endStr;
+                    console.log(aLinks[i]);
+                    console.log(aLinks[i].href);
+                }
+                else aLinks[i].href += '?without-header';
+
+
+            }
+        }
+    </script>
     <?php $this->endBody() ?>
 
     </body>

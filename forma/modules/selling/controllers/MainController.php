@@ -50,7 +50,11 @@ class MainController extends Controller
 
     public function actionUpdate($id)
     {
-        $this->redirect(Url::to(['/selling/form', 'id' => $id]));
+        $redirectLink = '/selling/form?id='.$id;
+        //$parameters = ['id' => $id];
+        if (isset($_GET['without-header'])) $redirectLink .='&without-header';
+        //$this->redirect(Url::to(['/selling/form', $parameters]));
+        $this->redirect($redirectLink);
     }
 
     public function actionCreateByRemains()

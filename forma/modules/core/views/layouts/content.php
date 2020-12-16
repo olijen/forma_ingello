@@ -25,8 +25,10 @@ use yii\widgets\Breadcrumbs;
 
 <?= Modal::widget([
     'id' => 'modal',
-    'toggleButton' => false,
-    'header' => 'FORMA . INGELLO 2020 - закажи индивидуальную систему',
+
+    'header' => '<p>FORMA . INGELLO 2021</p>',
+
+    'toggleButton' => ['label' => 'Закрыть1'],
 ]) ?>
 
 <style>
