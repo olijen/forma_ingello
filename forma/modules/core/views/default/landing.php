@@ -263,7 +263,7 @@ $fieldOptions5 = [
             <div class="col-lg-8 mx-auto text-center">
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
 
-                <button  class="btn btn-primary btn-xl button_form_login" id="sendMessageButton" onclick="hideShowForm('login-form')">
+                <button  class="btn btn-primary btn-xl button_form_login" id="loginButton" onclick="hideShowForm('login-form')">
                     <i class="fa fa-check button_form_login_icon" style="color: #38775e;"></i>
                     <div class="button_form_login_header">У меня есть аккаунт</div>
                     <div class="button_form_login_text">Войти в свой аккаунт</div>
@@ -304,7 +304,7 @@ $fieldOptions5 = [
 
                 <br>
                 <br>
-                <button  class="btn btn-primary btn-xl button_form_login" id="sendMessageButton" onclick="hideShowForm('signup-form')">
+                <button  class="btn btn-primary btn-xl button_form_login" id="signupButton" onclick="hideShowForm('signup-form')">
                     <i style=" color: #b46666; " class="fa fa-gift button_form_login_icon"></i>
                     <div class="button_form_login_header">У меня нет аккаунта</div>
                     <div class="button_form_login_text">Зарегистрироваться</div>

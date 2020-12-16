@@ -13,7 +13,7 @@ class RegularityAndItemPictureService
     {
         $post = $_POST['Item'];
         $model->picture = UploadedFile::getInstance($model, 'picture');
-        $model->picture->size = 50000000;
+        //$model->picture->size = 50000000;
         if ($model->picture !== null) {
             if ($model->validate()) {
                 $baseName = str_replace(" ", "_", $model->picture->baseName);
