@@ -40,7 +40,7 @@ class Regularity extends \yii\db\ActiveRecord
             [['name', 'user_id', 'order'], 'required'],
             [['user_id', 'order'], 'integer'],
             [['name', 'icon'], 'string', 'max' => 55],
-            [['title'], 'string', 'max' => 255],
+            [['title'], 'string'],
             [['access'], 'integer', 'max' => 1],
             [['picture'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

@@ -32,7 +32,7 @@ if (isset($parentItem)) {
             <label style="font-size: 15px; margin-right: 10px;"> <?= $item->title ?> </label>
         </label>
 
-        <div class="hidden-description" style="visibility: hidden; display: none;">
+        <div class="hidden-description" data-id="<?= $item->id ?>" style="visibility: hidden; display: none;">
             <?= $item->description ?>
         </div>
     </a>
