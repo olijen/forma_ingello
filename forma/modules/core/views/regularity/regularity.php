@@ -51,3 +51,9 @@
     </div>
 
 </div>
+
+<style>
+    #text-div {
+        font-size: 25px;
+    }
+</style>

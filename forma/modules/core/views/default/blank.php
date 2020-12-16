@@ -234,8 +234,8 @@
         </div>
     </section>
     <section class="d-flex justify-content-center">
-        <p id="preloader_text" style="color: #00a65a; font-size: 4rem;" class="text-center">
-            Загружаем тестовые данные...
+        <p id="preloader_text" class="text-center">
+            <i class="big-round-icon fa fa-table"></i> Загружаем тестовые данные...
         </p>
     </section>
 
@@ -265,22 +265,25 @@
 <script>
 
     wordsArray = [
-        'Загружаем тестовые данные...',
-        'Создаем клиентов...',
-        'Создаем продажи...',
-        'Создаем продукты и склады...',
-        'Заполняем склады товарами...',
-        'Создаем проекты...',
-        'Размещаем вакансии...',
-        'Назначаем кадры на должости...',
-        'Проводим первую закупку...',
+        '<i class="big-round-icon fa fa-users"></i> Создаем имитацию клиентов...',
+        '<i class="big-round-icon fa fa-money-check-alt"></i> Создаем демонстрационные продажи...',
+        '<i class="big-round-icon fa fa-boxes"></i> Создаем фейковые продукты и склады...',
+        '<i class="big-round-icon fa fa-box-open"></i> Заполняем склады псевдо-товарами...',
+        '<i class="big-round-icon fa fa-project-diagram"></i> Придумываем какие-то проекты...',
+        '<i class="big-round-icon fa fa-file"></i> Размещаем ненастоящие вакансии...',
+        '<i class="big-round-icon fa fa-user-tag"></i> Назначаем людей на выдуманные должности...',
+        '<i class="big-round-icon fa fa-truck"></i> Проводим первую пробную закупку...',
     ];
     let i = 0;
 
-    let t = setInterval(function (){
-        preloader_text.textContent = wordsArray[i];
-        i++;
-        if (i == wordsArray.length) i = 0;
+    let t = setInterval(function () {
+        $('#preloader_text').animate({left: '-3000px'}, 500, () => {
+            preloader_text.innerHTML = wordsArray[i];
+            i++;
+            if (i == wordsArray.length) i = 0;
+            $('#preloader_text').css({left: '3000px'});
+            $('#preloader_text').animate({left: '0%'}, 500);
+        });
     }, 3000);
 
 
@@ -299,3 +302,28 @@
         })
     });
 </script>
+
+<style>
+    .big-round-icon{
+        padding: 25px;
+        font-size: 200%;
+    }
+    #preloader_text {
+        position: relative;
+        color: #00a65a;
+        font-size: 4rem;
+        text-shadow: 10px 10px 10px rgba(0,0,0,0.5);
+    }
+    @media screen and (max-width: 479px) {
+        #preloader_text {
+            position: relative;
+            color: #00a65a;
+            font-size: 2rem;
+        }
+    }
+
+    body {
+        background: url(https://pixabay.com/get/55e2d2404e53a514f6d1867dda293e7d1c3edde1524c704f75277bd79f49cc5e_1920.jpg) !important;
+        background-size: cover;
+    }
+</style>
