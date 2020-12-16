@@ -262,7 +262,7 @@ p {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
-    height: 70%;
+    height: 68%;
 }
 
 #nav-tabs{
@@ -525,9 +525,10 @@ width: 100%;
                            data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
                            aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
                             <?= $regularity['name'] ?>
-                            <input type="hidden" class="hidden-description" value="<?= $regularity->title ?>">
+                            <input type="hidden" class="hidden-description" value="<?=htmlspecialchars($regularity->title)?>">
                             <div class="hidden-description" style="visibility: hidden; display: none;">
                                 <?= $regularity->title ?></div>
+                            <section></section>
                         </a>
                     </li>
                 <?php endforeach; ?>
@@ -584,6 +585,7 @@ $js = <<<JS
 var i = 1;
 //$("#about_regularity")[0].href = '#';
 document.getElementsByClassName('change-regularity')[0].dispatchEvent((new Event("click")));
+//document.getElementsByClassName('change-regularity')[0].innerText = document.getElementsByClassName('change-regularity')[0].inn.replace('">', '');
 $("#fs").click(function () {
    i++;
   if($.support.fullscreen){
