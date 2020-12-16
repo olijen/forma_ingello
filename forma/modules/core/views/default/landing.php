@@ -197,7 +197,7 @@ $fieldOptions5 = [
         <div class="row justify-content-center">
             <!-- Portfolio Item 1-->
             <div class="col-md-6">
-                <img class="masthead-avatar mb-5" src="/images/forma_interface.jpg" style="width: 100%" alt="" />
+                <img class="masthead-avatar mb-5" src="/images/forma_main_page.jpeg" style="width: 100%" alt="" />
             </div>
             <div class="col-md-6">
                 <p>
@@ -263,7 +263,7 @@ $fieldOptions5 = [
             <div class="col-lg-8 mx-auto text-center">
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
 
-                <button  class="btn btn-primary btn-xl button_form_login" id="loginButton" onclick="hideShowForm('login-form')">
+                <button  class="btn btn-primary btn-xl button_form_login" id="loginButton" onclick="hideShowForm('login-form', 'loginButton')">
                     <i class="fa fa-check button_form_login_icon" style="color: #38775e;"></i>
                     <div class="button_form_login_header">У меня есть аккаунт</div>
                     <div class="button_form_login_text">Войти в свой аккаунт</div>
@@ -304,7 +304,7 @@ $fieldOptions5 = [
 
                 <br>
                 <br>
-                <button  class="btn btn-primary btn-xl button_form_login" id="signupButton" onclick="hideShowForm('signup-form')">
+                <button  class="btn btn-primary btn-xl button_form_login" id="signupButton" onclick="hideShowForm('signup-form', 'signupButton')">
                     <i style=" color: #b46666; " class="fa fa-gift button_form_login_icon"></i>
                     <div class="button_form_login_header">У меня нет аккаунта</div>
                     <div class="button_form_login_text">Зарегистрироваться</div>
@@ -394,9 +394,19 @@ $fieldOptions5 = [
     $('#login-form').hide();
     $('#signup-form').hide();
 
-    function hideShowForm(formName) {
+    function hideShowForm(formName, id) {
         $('#login-form').hide();
         $('#signup-form').hide();
+
+        let formButton = document.getElementById(id);
+
+        let clientOffset = formButton.getBoundingClientRect().y + pageYOffset + 100;
+        window.scrollTo({
+            top: clientOffset,
+            behavior: 'smooth'
+        });
+        scrollTo(0, clientOffset);
+
 
         $("#"+formName).show();
     }

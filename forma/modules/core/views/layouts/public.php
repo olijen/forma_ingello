@@ -51,6 +51,28 @@ dmstr\web\AdminLteAsset::register($this);
         </script>
         <!-- {/literal} END JIVOSITE CODE -->
     <?php endif ?>
+    <style>
+        .modal-header .close {
+            background: red;
+            border-radius: 50%;
+            color: white;
+            font-size: 28px;
+            height: 32px;
+            opacity: 0.7;
+            width: 32px;
+        }
+
+        .modal-header p {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .modal-header .close:hover {
+            background: transparent;
+            color: red;
+            opacity: 1;
+        }
+    </style>
 
 </head>
 <body class="login-page">
