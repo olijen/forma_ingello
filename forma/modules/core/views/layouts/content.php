@@ -27,8 +27,6 @@ use yii\widgets\Breadcrumbs;
     'id' => 'modal',
 
     'header' => '<p>FORMA . INGELLO 2021</p>',
-
-    'toggleButton' => ['label' => 'Закрыть1'],
 ]) ?>
 
 <style>

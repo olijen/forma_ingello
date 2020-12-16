@@ -72,7 +72,6 @@ if (Yii::$app->controller->action->id === 'login') {
         'id' => 'select-modal',
         'header' => '<p>FORMA . INGELLO 2021</p>',
 
-        'toggleButton' => ['label' => 'Закрыть2'],
     ]) ?>
 
     <?= Modal::widget([

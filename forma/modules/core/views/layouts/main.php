@@ -483,7 +483,6 @@ JS;
     <?= Modal::widget([
         'id' => 'select-modal',
         'header' => '<p>FORMA . INGELLO 2021</p>',
-        'toggleButton' => ['label' => 'Закрыть3'],
     ]) ?>
 
     <?= Modal::widget([

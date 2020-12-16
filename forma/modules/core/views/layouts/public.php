@@ -62,7 +62,6 @@ dmstr\web\AdminLteAsset::register($this);
         'id' => 'modal',
         'header' => '<p>FORMA . INGELLO 2021</p>',
 
-        'toggleButton' => ['label' => 'Закрыть4'],
     ]) ?>
 
     <?= Modal::widget([
