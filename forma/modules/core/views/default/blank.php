@@ -323,7 +323,7 @@
     }
 
     body {
-        background: url(https://pixabay.com/get/55e2d2404e53a514f6d1867dda293e7d1c3edde1524c704f75277bd79f49cc5e_1920.jpg) !important;
+        background: url('/images/loaddata.jpg') !important;
         background-size: cover;
     }
 </style>

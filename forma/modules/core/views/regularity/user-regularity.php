@@ -6,11 +6,6 @@
 <?php
 //$this->registerCssFile('@web/css/time-line-style.css', ['position' => \yii\web\View::POS_BEGIN]);
 
-use forma\modules\core\components\LinkHelper;
-use yii\bootstrap\Modal;
-use yii\helpers\Html;
-use yii\web\JsExpression;
-
 $this->params['doc-page'] = 'regularity';
 $this->title = 'Публичный регламент';
 
@@ -104,6 +99,9 @@ input[type=checkbox], input[type=radio] {
     height: 60%;
 }
 
+#name_on_picture h2 {
+    background: #cccccc78;
+}
 #name_on_picture {
     position: absolute;
     top: 10px;
