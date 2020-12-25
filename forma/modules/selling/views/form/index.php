@@ -70,7 +70,7 @@ $description= null;
                 <div class="col-md-12">
                     <?php if ($sellingState): ?>
                         <?php foreach ($toState as $value): ?>
-                            <a class="btn btn-success btn-xs"
+                            <a class="btn btn-success no-loader btn-xs"
                                href="/selling/form/test?id=<?= $model->id ?>&state_id=<?= $value->toState->id ?>">
                                 <?= $value->toState->name ?>
                             </a>

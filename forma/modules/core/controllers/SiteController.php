@@ -185,8 +185,8 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        Yii::$app->controller->layout = false;
-        return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
+
+        return $this->render('signup', compact('model', 'modelLogin', 'googleLink'));
     }
 
     public function actionSignupReferer()

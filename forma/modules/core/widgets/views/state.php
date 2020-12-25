@@ -88,7 +88,7 @@ JS;
 <div class="row operation-actions">
     <div class="col-md-12">
         <?php foreach ($model->getState()->getActions() as $name => $url) : ?>
-            <a class="btn btn-success btn-xs" href="<?= strtolower($url) . '?id=' . $model->id ?>">
+            <a class="btn no-loader btn-success btn-xs" href="<?= strtolower($url) . '?id=' . $model->id ?>">
                 <?= $name ?>
             </a>
         <?php endforeach; ?>

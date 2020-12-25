@@ -34,6 +34,12 @@
 
         var resObr = mainStr.split("{{").length - 1;
 
+        var withoutHeader = 'without-header';
+
+        if (mainStr.indexOf('http') != -1) {
+            withoutHeader = '';
+        }
+
         for (i = 0; i < resObr; i++) {
             mainStr = mainStr.replace("{{", "<a  style=\"color: blue;\"  \n" +
                 "href=\"javascript:void(0)\"\n" +
@@ -43,7 +49,7 @@
                 "onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); \n" +
                 "$('<iframe src= ");
 
-            mainStr = mainStr.replace("||", "?without-header'\n" +
+            mainStr = mainStr.replace("||", "?" + withoutHeader + "'\n" +
                 "                        + ' style=width:100%;height:500px ' \n" +
                 "                        + 'frameborder=0 id=myFrame></iframe>')\n" +
                 "                        .appendTo('#modal .modal-dialog .modal-content .modal-body');\">\n" +

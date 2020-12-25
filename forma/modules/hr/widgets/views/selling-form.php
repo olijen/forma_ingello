@@ -67,14 +67,14 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             $label = $model->getAttributeLabel('worker_id');
             $label .= '
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     id="worker-view"
                     data-select="#interview-worker_id"
                     data-action="view"
                     href="' . Url::to(['/worker/worker/view']) . '"
                 >детали</a>]
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#interview-worker_id"
                     data-action="create"
                     href="' . Url::to(['/worker/worker/create']) . '"
@@ -100,13 +100,13 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             $label = $model->getAttributeLabel('vacancy_id');
             $label .= '
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#interview-vacancy_id"
                     data-action="view"
                     href="' . Url::to(['/vacancy/vacancy/view']) . '"
                 >детали</a>]
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#interview-vacancy_id"
                     data-action="create"
                     href="' . Url::to(['/vacancy/vacancy/create']) . '"
@@ -172,13 +172,13 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             $label = $model->getAttributeLabel('project_id');
             $label .= '
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#interview-project_id"
                     data-action="view"
                     href="' . Url::to(['/project/project/view']) . '"
                 >детали</a>]
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#interview-project_id"
                     data-action="create"
                     href="' . Url::to(['/project/project/create']) . '"

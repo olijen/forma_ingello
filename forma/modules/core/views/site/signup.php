@@ -74,7 +74,7 @@ $fieldOptions5 = [
 
       <?php
 
-      $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true]); ?>
+      $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true, 'enableAjaxValidation' => true]); ?>
 
     <div style="">
 

@@ -63,14 +63,14 @@ if (!Yii::$app->request->isPjax) {
             $label = $model->getAttributeLabel('warehouse_id');
             $label .= '
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#selling-warehouse_id"
                     data-action="view"
                     href="' . Url::to(['/warehouse/warehouse/view']) . '"
                 >детали</a>]
                 [<a
-                    class="select-modal-link"
-                    data-select="#selling-warehouse_id"
+                    class="select-modal-link no-loader"
+                    data-select="#selling-warehouse_id no-loader"
                     data-action="create"
                     href="' . Url::to(['/warehouse/warehouse/create']) . '"
                 >добавить</a>]
@@ -88,13 +88,13 @@ if (!Yii::$app->request->isPjax) {
             $label = $model->getAttributeLabel('customer_id');
             $label .= '
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#selling-customer_id"
                     data-action="view"
                     href="' . Url::to(['/customer/customer/view']) . '"
                 >детали</a>]
                 [<a
-                    class="select-modal-link"
+                    class="select-modal-link no-loader"
                     data-select="#selling-customer_id"
                     data-action="create"
                     href="' . Url::to(['/customer/customer/create']) . '"

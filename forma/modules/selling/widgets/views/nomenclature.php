@@ -89,7 +89,7 @@ Yii::debug($warehouseProducts);
                 </div>
                 <div class="col-md-1">
                     <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
-                        'class' => 'btn btn-success form-control',
+                        'class' => 'btn btn-success no-loader form-control',
                         'style' => 'margin-top: 25px;',
                     ]) ?>
                 </div>

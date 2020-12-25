@@ -17,7 +17,7 @@ class LinkHelper
             $text = str_ireplace("{{",
                 "<a  style=\"color: blue; ".$width."\"  
                         href=\"javascript:void(0)\"
-                        class=\"btn btn-xs btn-outline-secondary modalBtn\" 
+                        class=\"btn btn-xs btn-outline-secondary no-loader modalBtn\" 
                         type=\"button\" data-toggle=\"modal\" 
                         data-target=\"#modal\" 
                         onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 
@@ -49,7 +49,7 @@ class LinkHelper
             $text = str_ireplace("{{",
                 "<a  style=\"color: blue;\"  
                         href=\"javascript:void(0)\"
-                        class=\"btn btn-xs\" 
+                        class=\"btn no-loader btn-xs\" 
                         type=\"button\" data-toggle=\"modal\" 
                         data-target=\"#modal\" 
                         onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 

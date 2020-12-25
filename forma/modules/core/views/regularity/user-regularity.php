@@ -177,7 +177,7 @@ h4.h-text {
 #border {
     margin: 0 auto;
     max-width: 2500px;
-    height: 100vh;
+    
     
 }
 
@@ -262,12 +262,12 @@ p {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
-    height: 68%;
+    height: 70vh;
 }
 
 #nav-tabs{
     margin-bottom: 0px;
-    height: 30%;
+    min-height: 30vh;
     
 }
 
@@ -521,10 +521,10 @@ width: 100%;
                            class="change-regularity"
                            data-toggle="tab"
                            data-href="tab_regularity_<?= $regularity['id'] ?>"
-                           data-name="<?= '<h2>' . $regularity->name . '</h2>' ?>"
+                           data-name="<?= '<h2>' .'<i style=\' margin-right: 30px; \' class=\'fa fa-' . $regularity->icon . ' \'></i> ' . $regularity->name . '</h2>' ?>"
                            data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
                            aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
-                            <?= $regularity['name'] ?>
+                            <i class="fa fa-<?=$regularity->icon?>"></i> <?= $regularity['name'] ?>
                             <input type="hidden" class="hidden-description" value="<?=htmlspecialchars($regularity->title)?>">
                             <div class="hidden-description" style="visibility: hidden; display: none;">
                                 <?= $regularity->title ?></div>
@@ -547,7 +547,8 @@ width: 100%;
                             <script>
 
                                 changeArea('<?= $regularity->title ?>',
-                                    '<?=  '<h2>' . $regularity->name . '</h2>' ?>',
+                                    "<?= '<h2>' .'<i style=\' margin-right: 30px; \' class=\'fa fa-' . $regularity->icon . ' \'></i>  ' . $regularity->name . '</h2>' ?>",
+
                                     '<?= is_null($regularity->picture) ? '/images/office.jpg' : $regularity->picture ?>');
                             </script>
                         <?php endif; ?>
