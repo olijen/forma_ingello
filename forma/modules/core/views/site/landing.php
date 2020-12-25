@@ -19,6 +19,7 @@
 
 <?php
 
+
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback form-group floating-label-form-group controls mb-0 pb-2'],
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
@@ -274,7 +275,7 @@ $fieldOptions5 = [
                 use yii\bootstrap\ActiveForm;
                 use yii\bootstrap\Html;
 
-                $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true, 'options' => ['style' => 'width: 75%; margin: 0 auto']]);
+                $form = ActiveForm::begin(['id' => 'login-form', 'options' => ['style' => 'width: 75%; margin: 0 auto']]);
 
                  ?>
 
@@ -390,6 +391,11 @@ $fieldOptions5 = [
 
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
+<script src="/js/yii.activeForm.js"></script>
+<script src="/js/yii.captcha.js"></script>
+<script src="/js/yii.gridView.js"></script>
+<script src="/js/yii.js"></script>
+<script src="/js/yii.validation.js"></script>
 <script>
     $('#login-form').hide();
     $('#signup-form').hide();

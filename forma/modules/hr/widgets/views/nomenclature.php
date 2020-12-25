@@ -56,7 +56,7 @@ use forma\modules\hr\widgets\TotalSumView;
     </div>
     <div class="col-md-1">
         <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
-            'class' => 'btn btn-success form-control',
+            'class' => 'btn btn-success form-control no-loader',
             'style' => 'margin-top: 25px;',
         ]) ?>
     </div>

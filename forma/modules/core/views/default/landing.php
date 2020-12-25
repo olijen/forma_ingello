@@ -390,6 +390,10 @@ $fieldOptions5 = [
 
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
+<script src="/js/yii.activeForm.js"></script>
+<script src="/js/yii.captcha.js"></script>
+<script src="/js/yii.gridView.js"></script>
+<script src="/js/yii.js"></script>
 <script>
     $('#login-form').hide();
     $('#signup-form').hide();

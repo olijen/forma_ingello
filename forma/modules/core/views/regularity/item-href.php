@@ -8,7 +8,7 @@ if (is_null($item->picture)) {
 
 $parentItemStr = isset($parentItem) ? $parentItem->title . '<br>' : '' . '<br>';
 
-$dataName = '<h2 class=\'h-text\'>' . $regularity->name . '</h2>';
+$dataName = '<h2>' .'<i style=\' margin-right: 30px; \' class=\'fa fa-' . $regularity->icon . ' \'></i> ' . $regularity->name . '</h2>';
 
 if (isset($parentItem)) {
     $dataName = $dataName . '<h3 class=\'h-text\'>' . $parentItem->title . '</h3>' . '<h4 class=\'h-text\'>' . $item->title . '</h4>';

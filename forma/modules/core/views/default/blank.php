@@ -324,6 +324,6 @@
 
     body {
         background: url('/images/loaddata.jpg') !important;
-        background-size: cover;
+        background-size: cover!important;
     }
 </style>
