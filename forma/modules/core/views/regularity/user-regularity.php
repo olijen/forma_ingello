@@ -333,7 +333,7 @@ width: 100%;
         }
         
         #picture {
-            height: 60%
+            height: 60vh
         }
         
         #nav-tabs {
@@ -402,7 +402,7 @@ width: 100%;
 @media screen and (max-width: 479px) {
 
         #picture {
-            height: 60%
+            height: 60vh
         }
         
         #nav-tabs {
