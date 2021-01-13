@@ -63,7 +63,7 @@ endif;
             <div class="col-xs-6">
                 <?php $model->start_time = $_GET['start_time'] ?>
                 <?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(), ['pluginOptions' => [
-                    'format' => 'HH:mm:ss',
+                    'format' => 'H:i:s',
                     'showSeconds' => true,
                     'showMeridian' => false,
                     'minuteStep' => 1,
@@ -77,7 +77,7 @@ endif;
                 ]]) ?></div>
         <div class="col-xs-6"><?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
                 'pluginOptions' => [
-                    'format' => 'HH:mm:ss',
+                    'format' => 'H:i:s',
                     'showSeconds' => true,
                     'showMeridian' => false,
                     'minuteStep' => 1,
@@ -96,7 +96,7 @@ endif;
             <div class="col-xs-6">
                 <?php $model->end_time = $_GET['end_time'] ?>
                 <?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(), ['pluginOptions' => [
-                    'format' => 'HH:mm:ss',
+                    'format' => 'H:i:s',
                     'showSeconds' => true,
                     'showMeridian' => false,
                     'minuteStep' => 1,
@@ -109,7 +109,7 @@ endif;
                 ]]) ?></div>
         <div class="col-xs-6"><?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
                 'pluginOptions' => [
-                    'format' => 'HH:mm:ss',
+                    'format' => 'H:i:s',
                     'showSeconds' => true,
                     'showMeridian' => false,
                     'minuteStep' => 1,

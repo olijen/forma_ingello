@@ -23,6 +23,8 @@ use forma\modules\country\records\Country;
  * @property string $company_phone
  * @property string $chief_phone
  * @property string $site_company
+ * @property string $description
+ *
  * @property Country $country
  */
 class Customer extends AccessoryActiveRecord
@@ -50,6 +52,7 @@ class Customer extends AccessoryActiveRecord
             [['name', 'firm'], 'string', 'max' => 100],
             [['address', 'company_email', 'chief_email', 'site_company'], 'string', 'max' => 255],
             [['company_phone', 'chief_phone'], 'string', 'max' => 32],
+            [['description'], 'string'],
             [['country_id', ], 'integer'],
             [['chief_email'], 'email'],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
@@ -73,6 +76,7 @@ class Customer extends AccessoryActiveRecord
             'chief_email' =>  'Почта ЛПР',
             'site_company' => 'Сайт компании',
             'tax_rate' => 'Процентая ставка',
+            'description' => 'Описание ЛПР',
         ];
     }
 

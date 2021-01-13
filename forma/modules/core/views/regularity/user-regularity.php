@@ -566,6 +566,7 @@ width: 100%;
             <div id="text-div" style="padding: 0 10px;">
 
             </div>
+            <br><br><br>
         </div>
     <?php else: ?>
         <?php if (!Yii::$app->user->isGuest){

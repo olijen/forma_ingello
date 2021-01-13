@@ -1,8 +1,10 @@
 <?php
 
+use forma\modules\core\components\LinkHelper;
 use kartik\form\ActiveForm;
 //use yii\widgets\ActiveForm;  TODO в чем разница???
 use kartik\switchinput\SwitchInput;
+use vova07\imperavi\Widget;
 use yii\helpers\Html;
 
 use forma\components\widgets\ModalCreate;
@@ -59,7 +61,28 @@ use yii\widgets\Pjax;
                 ],
             ]) ?>
 
-            <?= $form->field($model, 'note')->textarea(['style' => 'resize:none;']) ?>
+            <?= $form->field($model, 'note')->widget(Widget::className(), [
+                'settings' => [
+                    'lang' => 'ru',
+                    'minHeight' => 200,
+                    'plugins' => [
+                        'clips',
+                        'fullscreen',
+                        'imagemanager',
+                        'filemanager',
+                    ],
+                    'clips' => [
+                        ['Lorem ipsum...', 'Lorem...'],
+                        ['red', '<span class="label-red">red</span>'],
+                        ['green', '<span class="label-green">green</span>'],
+                        ['blue', '<span class="label-blue">blue</span>'],
+                    ],
+                    'imageUpload' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
+                    'imageManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/images-get']),
+                    'fileManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
+                    'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
+                ],
+            ]); ?>
 
             <?php DetachedBlock::end() ?>
 
@@ -68,19 +91,23 @@ use yii\widgets\Pjax;
             <?php DetachedBlock::begin() ?>
 
             <?php
-            if (isset($_GET['id'])): ?>
-                <?= $form->field($model, 'category_id', [
+
+                echo $form->field($model, 'category_id')->widget(Select2::className(), [
+                    'data' => Category::getList(),
+                    'options' => ['placeholder' => 'Выберите категорию...', 'class' => 'form-control'],
                     'addon' => [
                         'prepend' => [
                             'asButton' => true,
-                            'content' => ModalCreate::widget(['route' => Url::to(['/product/category/create'])]),
+                            'content' => "
+                                <a style=\"color: gray; display: flex; align-items: center; padding: 0 11px;\" href=\"javascript:void(0)\" class=\"btn btn-outline-secondary btn-xs\" type=\"button\" data-toggle=\"modal\" data-target=\"#modal\" onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 
+$('<iframe src= /product/category/create?without-header'
+                        + ' style=width:100%;height:500px ' 
+                        + 'frameborder=0 id=myFrame></iframe>')
+                        .appendTo('#modal .modal-dialog .modal-content .modal-body');\">
+                        <i class=\"fa fa-plus\" style='font-size: 15px;'></i></a>
+                            ",
                         ],
                     ],
-                ])->textInput(['disabled' => true, 'value' => $model->category->name]) ?>
-            <?php else: ?>
-                <?= $form->field($model, 'category_id')->widget(Select2::className(), [
-                    'data' => Category::getList(),
-                    'options' => ['placeholder' => '', 'class' => 'form-control'],
                     'pluginEvents' => [
                         "select2:select" => "function() {
                             $.pjax({         
@@ -96,7 +123,7 @@ use yii\widgets\Pjax;
                      }",
                     ],
                 ]) ?>
-            <?php endif; ?>
+
 
             <?php
             Pjax::begin(['id' => 'ajax-attributes',]);

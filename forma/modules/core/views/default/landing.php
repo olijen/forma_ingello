@@ -158,7 +158,7 @@ $fieldOptions5 = [
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Как это выглядит</a></li>
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Почему бесплатно?</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Как автоматизировать бизнес?</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="login_block" href="#contact">Как автоматизировать бизнес?</a></li>
             </ul>
         </div>
     </div>
@@ -348,7 +348,7 @@ $fieldOptions5 = [
 
                 <?php endif; ?>
 
-                <?= Html::submitButton('Создать аккаунт <i class="fas fa-arrow-right" style="margin-left: 10px"></i>', ['class' => 'btn btn-primary btn-xl',  'style' => 'width: 100%', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('Создать аккаунт <i class="fas fa-arrow-right" style="margin-left: 10px"></i>', ['class' => 'btn btn-primary btn-xl',  'style' => 'width: 100%', 'name' => 'signup-button']) ?>
 
                 <?php ActiveForm::end(); ?>
 
@@ -417,6 +417,21 @@ $fieldOptions5 = [
 
 
 </script>
-
+<?php if (isset($_GET['failedLogin'])) {
+    ?>
+    <script>
+        $('#login-form').show();
+        window.location.href += '#contact'
+    </script>
+<?php
+} ?>
+<?php if (isset($_GET['failedSignup'])) {
+    ?>
+    <script>
+        $('#signup-form').show();
+        window.location.href += '#contact'
+    </script>
+    <?php
+} ?>
 </body>
 </html>

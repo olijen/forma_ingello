@@ -1,5 +1,6 @@
 <?php
 
+use vova07\imperavi\Widget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use forma\components\ActiveRecordHelper;
@@ -45,6 +46,29 @@ use yii\widgets\Pjax;
     <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chief_email')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'site_company')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'description')->widget(Widget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'plugins' => [
+                'clips',
+                'fullscreen',
+                'imagemanager',
+                'filemanager',
+            ],
+            'clips' => [
+                ['Lorem ipsum...', 'Lorem...'],
+                ['red', '<span class="label-red">red</span>'],
+                ['green', '<span class="label-green">green</span>'],
+                ['blue', '<span class="label-blue">blue</span>'],
+            ],
+            'imageUpload' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
+            'imageManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/images-get']),
+            'fileManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
+            'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
+        ],
+    ]); ?>
 
     <div class="form-group" style="width: 150px">
         <div class="form-group">

@@ -96,6 +96,8 @@ class RegularityController extends Controller
         $currentUrl = Url::current();
         $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
 
+        if (Yii::$app->user->isGuest)
+            return $_GET['userId'];// по логину находим юзера
         return User::findOne(['username' => $currentUserName,])->id;// по логину находим юзера
     }
 

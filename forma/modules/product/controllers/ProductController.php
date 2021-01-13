@@ -132,8 +132,10 @@ class ProductController extends Controller
         $fieldAttributes = $field->widgetGetList($categoriesId);
 
         if (Yii::$app->request->isPost) {
-            $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
-            FieldProductValue::eachFieldProductValueSave($fieldProductValues, $model->id);
+            if (isset(Yii::$app->request->post()['FieldProductValue'])) {
+                $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
+                FieldProductValue::eachFieldProductValueSave($fieldProductValues, $model->id);
+            }
 
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);
