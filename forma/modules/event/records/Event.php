@@ -50,9 +50,7 @@ class Event extends AccessoryActiveRecord
             [['name', 'date_from', 'date_to', 'start_time','end_time'], 'required'],
             [['event_type_id', 'status'], 'integer'],
             [['text'], 'string'],
-            [['date_from', 'date_to', 'event_type_id','status','text'], 'safe'],
-            [['start_time'],'time','format'=>'hh:mm:ss'],
-            [['end_time'],'time','format'=>'hh:mm:ss'],
+            [['start_time', 'end_time'],'safe'],
             [['name'], 'string', 'max' => 255]
         ];
     }
