@@ -32,7 +32,7 @@ class Module extends \yii\base\Module
         if (!Yii::$app->user->isGuest) {
             return true;
         } else {
-            Yii::$app->getResponse()->redirect(Url::to(['/signup']));
+            Yii::$app->getResponse()->redirect(Url::to(['/']));
             return false;
         }
     }

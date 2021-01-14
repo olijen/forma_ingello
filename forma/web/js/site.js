@@ -15,6 +15,20 @@ $(function() {
 });
 
 document.addEventListener("DOMContentLoaded", function(event) {
+
+    $('.grid-view tbody a[href*="delete"]').each(function() {
+        this.className += ' no-loader';
+    })
+
+    $('.kv-grid-table tbody a[href*="delete"]').each(function() {
+        this.className += ' no-loader';
+    })
+
+
+    $('.kv-panel-before a').each(function () {
+        this.className += ' no-loader';
+    });
+
     $('li.menuColor span:not([class])').css('width', '227px');
 
     $('ul.treeview-menu').css('width', '220px');

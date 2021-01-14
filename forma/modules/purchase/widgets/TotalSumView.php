@@ -77,7 +77,7 @@ class TotalSumView extends Widget
     protected function getTotalOverheadCosts(Purchase $purchase)
     {
         $costs = OverheadCost::find()
-            ->joinWith(['purchaseOverheadCost', 'purchaseProducts', 'currency'])
+            ->joinWith(['purchaseOverheadCost', 'purchaseProducts'])
             ->where(['purchase_overhead_cost.purchase_id' => $purchase->id])
             ->orWhere(['purchase_product.purchase_id' => $purchase->id])
             ->all();

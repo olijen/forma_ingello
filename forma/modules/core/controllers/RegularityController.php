@@ -92,13 +92,13 @@ class RegularityController extends Controller
 
     public function getPublicCurrentUserId() // http://localhost:8891/admin/regularity передается ссылка подобного формата
     {
-        $_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
-        $currentUrl = Url::current();
-        $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
+        //$_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
+        //$currentUrl = Url::current();
+        //$currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
 
         if (Yii::$app->user->isGuest)
             return $_GET['userId'];// по логину находим юзера
-        return User::findOne(['username' => $currentUserName,])->id;// по логину находим юзера
+        return Yii::$app->user->id;// по логину находим юзера
     }
 
     public function actionSettings()

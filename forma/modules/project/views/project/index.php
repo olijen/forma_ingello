@@ -42,6 +42,7 @@ Pjax::begin();
                     </div>
 
                     <a
+                            class="no-loader"
                         href="/project/project/delete?id=<?=$project->id?>"
                         style=" float: right; padding-left: 5px; color: red;"
                         title="Удалить проект"
@@ -62,12 +63,13 @@ Pjax::begin();
                        style="float: right; padding-left: 5px">
                         <span class="glyphicon glyphicon-eye-open"></span></a>
                     <?php if ($project->state == 2) : ?>
-                        <a href="/project/project/change-state?id=<?=$project->id?>&state=1&ProjectSearch[state]=<?=$_REQUEST['ProjectSearch']['state']??''?>" title="Открыть проект" aria-label="Открыть проект" style="float: right; padding-left: 5px; color: orange;"><span class="glyphicon glyphicon-ok-circle"></span></a>
+                        <a class="no-loader" href="/project/project/change-state?id=<?=$project->id?>&state=1&ProjectSearch[state]=<?=$_REQUEST['ProjectSearch']['state']??''?>" title="Открыть проект" aria-label="Открыть проект" style="float: right; padding-left: 5px; color: orange;"><span class="glyphicon glyphicon-ok-circle"></span></a>
                     <?php else : ?>
                         <a data-pjax="0"
                            href="/project/project-vacancy/create?id=<?=$project->id?>"
                            title="Добавить вакансию на проект" aria-label="Добавить вакансию на проект" style="float: right; padding-left: 5px"><span class="glyphicon glyphicon-plus"></span></a>
                         <a
+                                class="no-loader"
                            href="/project/project/change-state?id=<?=$project->id?>&state=2&ProjectSearch[state]=<?=$_REQUEST['ProjectSearch']['state']??''?>"
                            title="Закрыть проект" aria-label="Закрыть проект" style="float: right; padding-left: 5px; color: green;"><span class="glyphicon glyphicon-check"></span></a>
                     <?php endif ?>

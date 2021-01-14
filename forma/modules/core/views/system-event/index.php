@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                     // исключения на ссылки по объектам
-                    if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1] == 'inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $linkView = '/'.$arr[1].'/main';
+                    if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1] == 'inventorization' || $arr[1] == 'purchase') && ($arr[2] == 'form' || $arr[2] == 'talk' || $arr[2] == 'state')) $linkView = '/'.$arr[1].'/main';
 
 
 
