@@ -6,6 +6,7 @@ use forma\extensions\editable\EditCellAction;
 use forma\modules\overheadcost\records\OverheadCost;
 use forma\modules\overheadcost\services\OverheadCostService;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
+use forma\modules\transit\records\transit\Transit;
 use forma\modules\transit\records\transitproduct\TransitProduct;
 use Yii;
 use forma\modules\transit\services\NomenclatureService;
@@ -19,12 +20,16 @@ class NomenclatureController extends Controller
 {
     public function actionAddPosition()
     {
+
+
         /** @var SellingProduct $model */
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
+        $transit = Transit::findOne(['id' => $model->transit_id]);
 
         return NomenclatureView::widget([
             'model' => $model,
             'transitId' => $model->transit_id,
+            'warehouseId' => $transit->from_warehouse_id,
         ]);
     }
 

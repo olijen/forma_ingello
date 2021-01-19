@@ -61,9 +61,9 @@ $(document).ready(function() {
         let dialog = '';
         $.each(getStorageDialog(), function (index, value) {
             if (value[1] !== 0 ) {
-                dialog += '<p>Клиент: ' + getRequest(value[0])
+                dialog += '<p>Менеджер: ' + getRequest(value[0])
                     + '</p>' +
-                    '<p>Менеджер: ' + getAnswer(value[1]) + '</p>';
+                    '<p>Клиент: ' + getAnswer(value[1]) + '</p>';
 
             } else {
 

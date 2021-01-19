@@ -5,6 +5,7 @@ namespace forma\modules\selling\records\strategy;
 use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "strategy".
@@ -51,6 +52,13 @@ class Strategy extends AccessoryActiveRecord
     public static function getList($byUser = null)
     {
         return EntityLister::getList(self::className(), $byUser);
+    }
+
+    public static function getListWithoutEmptyStrategy($byUser = null)
+    {
+        $query = EntityLister::getListQuery(self::className(), $byUser);
+        $query->innerJoin('request_strategy', 'strategy.id = request_strategy.strategy_id');
+        return ArrayHelper::map($query->all(), 'id', 'name');
     }
 
     /**

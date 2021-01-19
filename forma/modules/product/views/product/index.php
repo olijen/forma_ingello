@@ -215,7 +215,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
         <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
         <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => '', 'class' => 'btn btn-success',
+        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success',
             'onchange' => 'window.location.href = "/product/product/index?catalog=&ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <button class="btn btn-success" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск

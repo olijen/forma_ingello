@@ -1,3 +1,16 @@
+body  .forma_green:hover {
+    background-color: #ff4100!important;
+}
+
+body  .forma_blue:hover {
+    background-color: #d0b676!important;
+}
+
+
+body  .btn-success.forma_green:hover {
+    background-color: #ff4100!important;
+}
+
 tbody td .glyphicon {
     font-size: 20px;
     border: 1px solid #3c8dbc;

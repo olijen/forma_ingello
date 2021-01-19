@@ -61,9 +61,9 @@ $(document).ready(function() {
         let dialog = '';
         $.each(getStorageDialog(), function (index, value, is_client) {
             if (value[1] !== 0 ) {
-                dialog += '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Клиент':'Менеджер')+': <p>' + getRequest(value[0])
+                dialog += '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Клиентино':'Менеджерorb')+': <p>' + getRequest(value[0])
                     + '</p></div>' +
-                    '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Менеджер':'Клиент')+': <p>' + getAnswer(value[1]) + '</p></div>';
+                    '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Менеджерико':'Клиент')+': <p>' + getAnswer(value[1]) + '</p></div>';
 
             } else {
                 return alert('Дайте ответ на вопрос' + getRequest(value[0]))

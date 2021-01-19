@@ -255,9 +255,9 @@ class WarehouseProduct extends ActiveRecord
 
     public function beforeValidate()
     {
-        if (!$this->currency_id) {
-            $this->currency_id = 1;
-        }
+//        if (!$this->currency_id) {
+//            $this->currency_id = 1;
+//        }
 
         return parent::beforeValidate();
     }

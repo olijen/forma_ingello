@@ -42,6 +42,27 @@ class EventController extends Controller
         ]);
     }
 
+    public function actionUpdateEventMonth()
+    {
+        $searchModel = new EventSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 0;
+        $events = $dataProvider->getModels();
+
+        foreach ($events as $event) {
+            $dateFrom = new \DateTime($event->date_from);
+            $dateTo = new \DateTime($event->date_to);
+
+            $dateFrom->add((new \DateInterval('P1M')));
+            $dateTo->add((new \DateInterval('P1M')));
+
+            $event->date_from = $dateFrom->format('Y-m-d');
+            $event->date_to = $dateTo->format('Y-m-d');
+
+            $event->save();
+        }
+    }
+
     /**
      * Displays a single Event model.
      * @param integer $id

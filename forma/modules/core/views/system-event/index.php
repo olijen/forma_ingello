@@ -63,16 +63,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div>
         <div class="button_system">
-            <?= Html::a('Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-event']) ?>
+            <?= Html::a('<i class="far fa-check-square"></i> Подписаться на события', ['/core/system-event-user/subscribe'], ['class' => 'btn btn-event forma_green']) ?>
         </div>
         <div class="button_system">
-            <button id="event_user_view" class="btn btn-event" onclick="changeSystemEventView()">
-                Показать таблицей
+            <button id="event_user_view" class="btn btn-event forma_green" onclick="changeSystemEventView()">
+                <i class="fas fa-table"></i> Показать таблицей
             </button>
         </div>
         <div class="button_system">
-            <button class="btn btn-event buttonSearch" onclick="showSearch(this)">
-                Поиск по событиям
+            <button class="btn btn-event buttonSearch forma_green" onclick="showSearch(this)">
+                <i class="fas fa-search"></i> Поиск по событиям
             </button>
         </div>
     </div>
@@ -163,7 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <h3 class="timeline-header" style="font-size: 18px">В отделе <a href="#"><?=$model->application?></a> произошло событие</h3>
                             <div class="timeline-body row" style="padding: 20px">
-                                <div class="col-md-2" style="font-size: 18px">
+                                <div class="col-xl-2 col-md-4" style="font-size: 18px">
                                     <?php if($model->class_name != 'Login' && $model->class_name != 'WarehouseUser' && $model->class_name != 'RequestStrategy'
                                     && $model->class_name != 'WorkerVacancy') { ?>
                                     <?php echo LinkHelper::replaceUrlOnButton(" {{".Url::to($linkView."||"  . "Список " ."}}")) ?>
@@ -180,7 +180,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         <?php if($event != "delete"){?> <?php LinkHelper::replaceUrlOnButtonAmp(" {{".Url::to($linkView."/update?id=".$model->sender_id."||" . "Объект"."}}")) ?><?php }?>
                                     <?php }?></div>
-                                <div class="col-md-10" style="padding: 5px; display: inline-block; font-size: 18px">
+                                <div class="col-xl-10 col-md-8" style="padding: 5px; display: inline-block; font-size: 18px">
                                     <?=$model->data?>
                                 </div>
                             </div>

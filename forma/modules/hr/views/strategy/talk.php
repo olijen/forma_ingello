@@ -9,7 +9,7 @@ $this->title = 'Разговор';
 <div class="row">
     <div class="col-md-6">
 
-        <?php $strategyList = \forma\modules\selling\records\strategy\Strategy::getList() ?>
+        <?php $strategyList = \forma\modules\selling\records\strategy\Strategy::getListWithoutEmptyStrategy() ?>
         <?= \yii\helpers\Html::beginForm(['talk/'], 'post', ['name' => 'strategyForm']); ?>
         <div class="form-group">
             <?= \yii\helpers\Html::label('Выбирете стратегию') ?>
