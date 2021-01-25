@@ -120,6 +120,9 @@ class Module extends \yii\base\Module
             $nomenclature->toWarehouse : $nomenclature->getRelatedWarehouse();
 
         foreach ($nomenclature->getUnits() as $unit) {
+            Yii::debug('units');
+            Yii::debug($unit);
+
             $result = WarehouseService::addExpectedProduct($unit, $relatedWarehouse);
             if (!$result) {
                 return false;

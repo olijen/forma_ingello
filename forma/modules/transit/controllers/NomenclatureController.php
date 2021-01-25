@@ -20,8 +20,10 @@ class NomenclatureController extends Controller
 {
     public function actionAddPosition()
     {
-
-
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug(Yii::$app->request->referrer);
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         /** @var SellingProduct $model */
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
         $transit = Transit::findOne(['id' => $model->transit_id]);
@@ -38,6 +40,7 @@ class NomenclatureController extends Controller
         $model = NomenclatureService::deletePosition($id);
         return NomenclatureView::widget([
             'transitId' => $model->transit_id,
+            'warehouseId' => $model->transit->from_warehouse_id,
         ]);
     }
 

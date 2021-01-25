@@ -63,11 +63,19 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update}{delete}',
         ],
-        'name',
+        [
+            'contentOptions' => ['class' => 'tbdkjd'],
+            'attribute' => 'name',
+            'format' => 'html',
+            'value' => function ($searchModel) {
+                return "<p style='width: 300px'>".$searchModel->name."</p>";
+            }
+        ],
 
         [
             'attribute' => 'category_id',
             'value' => 'category.name',
+
             'filter' => Category::getList(),
         ],
         [
@@ -124,33 +132,51 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                     return null;
                 },
                 'filter' => $filter,
-                ];
+            ];
         }
     }
     ?>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-        $('.select2.field').on('change', function (e) {
-            console.log('эчто');
-            if (e.keyCode === 13){
-                alert('dwafesgr');
-            }
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $('.select2.field').on('change', function (e) {
+                console.log('эчто');
+                if (e.keyCode === 13) {
+                    alert('dwafesgr');
+                }
+            })
         })
-    })
 
-</script>
+    </script>
 
     <?php if (!isset($_GET['catalog'])) : ?>
 
-        <a class="btn btn-default" href='?catalog' data-pjax="0"><i class="fa fa-list"></i> Каталог</a>
+        <a class="btn btn-default forma_light_orange" href='?catalog' data-pjax="0"><i class="fa fa-list"></i>
+            Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success',
+        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success forma_light_orange',
             'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
-        <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
+        <a class="btn btn-success forma_light_orange" href='/product/product/create' data-pjax="0"><i
+                    class="fa fa-plus"></i> Новый объект</a>
         <br><br>
+
+        <?php
+        $resetTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
+
+                [
+                    'content' => '<a href="/product/product/index?ProductSearch[category_id]=' . $_GET['ProductSearch']['category_id'] . '" class="btn btn-success forma_light_orange"> <i class="fa fa-times"></i> Сбросить таблицу </a>',
+                ]
+            :
+            ['content' => ''];
+        $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
+                [
+                    'content' => '<button onclick="$(\'#grid-product\').yiiGridView(\'applyFilter\');" class="btn btn-success forma_light_orange"> <i class="glyphicon glyphicon-search"></i> Поиск по таблице </button>',
+                ]
+             :
+            ['content' => ''];
+        ?>
 
         <?= DynaGrid::widget([
             'allowSortSetting' => false,
@@ -167,13 +193,15 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                 'responsiveWrap' => false,
                 'options' => ['id' => 'grid-' . $searchModel->tableName()],
                 'toolbar' => [
+                    $resetTableCategory,
+                    $applyFilterTableCategory,
                     [
-                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['create'], ['class' => 'btn btn-success']),
+                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['create'], ['class' => 'btn btn-success forma_light_orange']),
                     ],
                     [
                         'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
                             'type' => 'button',
-                            'class' => 'btn btn-danger',
+                            'class' => 'btn btn-danger forma_light_orange',
                             'onclick' => '$("#grid-' . $searchModel->tableName() . '")
                         .groupOperation("' . Url::to(['/product/product/delete-selection']) . '", {
                             message: "Are you sure you want to delete selected items?"
@@ -200,7 +228,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                                     ],
                                 ],
                             ],
-                            'options' => ['class' => 'btn btn-default'],
+                            'options' => ['class' => 'btn btn-default forma_light_orange'],
                         ]),
                     ],
                     '{export}',
@@ -239,3 +267,51 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
     <?php endif ?>
 
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        //РАБОТА НА СТРАНИЦЕ ПРОДУКТОВ С ВИДЖЕТОМ SWITCHINPUT
+        let t = setTimeout (function () {
+
+            if ($('.switchInputContainer').length) {
+                console.log('Клик на клик');
+
+                $('.switchInputContainer input[type="hidden"]').each(function () {
+                    this.value = '';
+                });
+
+                // console.log($('.bootstrap-switch-label, .bootstrap-switch-handle-off, .bootstrap-switch-handle-on'));
+                // $('.bootstrap-switch-label, .bootstrap-switch-handle-off, .bootstrap-switch-handle-on').each(function () {
+                //     this.onclick = function () {
+                //         console.log("КЛик на лабле");
+                //         //let switchInputContainer = this.closest('.switchInputContainer');
+                //         $(this).parents('.switchInputContainer').find('input[type="hidden"]')[0].value = 0;
+                //         console.log($(this).parents('.switchInputContainer').find('input[type="hidden"]'));
+                //     };
+                // });
+
+                let elems = $('.bootstrap-switch-label, .bootstrap-switch-handle-off, .bootstrap-switch-handle-on');
+
+                for (let i = 0; i < elems.length; i++) {
+                    elems[i].onclick = function () {
+                        console.log("КЛик на лабле");
+                        //let switchInputContainer = this.closest('.switchInputContainer');
+                        $(this).parents('.switchInputContainer').find('input[type="hidden"]')[0].value = 0;
+                        console.log($(this).parents('.switchInputContainer').find('input[type="hidden"]'));
+                    }
+                }
+
+
+                $('span.close.kv-ind-toggle').each(function () {
+                    this.onclick = function () {
+                        //let switchInputContainer = this.closest('.switchInputContainer');
+                        $(this).parents('.switchInputContainer').find('input[type="hidden"]')[0].value = '';
+                        console.log($(this).parents('.switchInputContainer').find('input[type="hidden"]'));
+                    };
+                });
+            }
+        }, 5000)
+
+    });
+</script>

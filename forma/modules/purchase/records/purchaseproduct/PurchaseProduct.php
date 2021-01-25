@@ -21,6 +21,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property integer $quantity
  * @property float $prepayment
  * @property float $cost
+ * @property integer $tax_rate_id
  *
  * @property integer $pack_unit_id
  * @property integer $currency_id

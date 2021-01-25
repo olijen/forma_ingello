@@ -246,7 +246,9 @@ class SystemWidget
             'model' => $this->productValue,
             'attribute' => $this->getAttribute(),
             'value' => $this->productValue->value,
+            'containerOptions' => ['class' => 'form-group switchInputContainer'],
             'tristate' => true,
+            //'indeterminateValue' => -1,
         ]);
     }
 

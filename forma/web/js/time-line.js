@@ -34,14 +34,23 @@
 
         var resObr = mainStr.split("{{").length - 1;
 
+        if (resObr < 1) return mainStr;
+
         var withoutHeader = 'without-header';
 
-        if (mainStr.indexOf('http') != -1) {
+        let link = mainStr.split("{{")[1];
+        console.log(link);
+        link = link.split("}}")[0];
+
+        if (link.indexOf('http') != -1) {
             withoutHeader = '';
         }
 
         let separator = '?';
-        if (mainStr.indexOf('?') != -1) {
+        console.log('BUM BUM');
+        console.log(link);
+        console.log((link.indexOf('?') != -1));
+        if (link.indexOf('?') != -1) {
             separator = '&';
         }
 

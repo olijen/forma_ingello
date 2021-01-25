@@ -32,20 +32,27 @@ use yii\widgets\Pjax;
 
     ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Имя ЛПР') ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'firm')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'is_company')->checkbox() ?>
+
+    <div id="company-fields" >
+        <?= $form->field($model, 'firm')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'company_phone')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'site_company')->textInput(['maxlength' => true]) ?>
+    </div>
 
     <?= $form->field($model, 'country_id')->dropDownList(ActiveRecordHelper::getList(Country::className()), [
         'prompt' => '',
     ]) ?>
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chief_phone')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'company_phone')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
+
+
     <?= $form->field($model, 'chief_email')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'site_company')->textInput(['maxlength' => true]) ?>
+
 
     <?= $form->field($model, 'description')->widget(Widget::className(), [
         'settings' => [
@@ -85,3 +92,25 @@ use yii\widgets\Pjax;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+    if ($model->isNewRecord || $model->is_company != 1) { ?>
+        <script>
+            $('#company-fields').hide();
+        </script>
+  <?php  }
+?>
+
+<script>
+    $('#customer-is_company')[0].onclick = function (){
+        showHideCompanyFields(this.checked);
+    }
+
+    function showHideCompanyFields (isChecked) {
+        if(isChecked) {
+            $('#company-fields').show();
+        } else {
+            $('#company-fields').hide();
+        }
+    }
+</script>

@@ -14,7 +14,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 <div class="vacancy-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Создать вакансию'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать вакансию'), ['create'], ['class' => 'btn btn-success forma_pink']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

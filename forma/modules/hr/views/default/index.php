@@ -14,11 +14,11 @@ $this->params['doc-page'] = 'hr';
 $panel = '';
 $startUrl = '';
 $list = [
-    ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix'],
-    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up'],
-    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user'],
-    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card'],
-    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o'],
+    ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix forma_pink'],
+    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' => 'forma_pink btn btn-success'],
+    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user', 'class' => 'forma_pink btn btn-success'],
+    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' => 'forma_pink btn btn-success'],
+    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' => 'forma_pink btn btn-success'],
 ];
 
 \forma\components\widgets\ModalCreate::widget()
@@ -145,7 +145,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                                style="">
                                 <i class="fa fa-plus"></i> Добавить вакансию на проект</a>
                         <?php else : ?>
-                            <button  type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button  type="button" class="btn btn-block btn-success dropdown-toggle forma_pink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-list"></i> Выбрать вакансии для найма
                             </button>
 

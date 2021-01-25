@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     'id' => 'search',
     'toggleButton' => [
         'label' => '<i class="fa fa-search"></i> Поиск',
-        'class' => 'btn btn-success'
+        'class' => 'btn btn-success forma_pink'
     ],
 ]);
 ?>
@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description') ?>
 
     <?= Html::submitButton(Yii::t('app', 'Искать'), [
-        'class' => 'btn btn-primary',
+        'class' => 'btn btn-primary ',
         //'data-dismiss' => 'modal',
         //'aria-hidden' => 'true',
         'onclick' => "$('#search').modal('hide');",
