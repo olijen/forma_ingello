@@ -5,7 +5,7 @@ namespace forma\modules\transit\controllers;
 use Yii;
 use forma\modules\transit\records\TransitProduct;
 use forma\modules\transit\records\TransitProductSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

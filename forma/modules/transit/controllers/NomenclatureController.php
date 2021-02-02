@@ -11,7 +11,7 @@ use forma\modules\transit\records\transitproduct\TransitProduct;
 use Yii;
 use forma\modules\transit\services\NomenclatureService;
 use forma\modules\transit\widgets\NomenclatureView;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\transit\services\TransitService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;

@@ -5,7 +5,7 @@ namespace forma\modules\selling\controllers;
 use forma\modules\selling\records\state\StateSearch;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\helpers\Url;
 use forma\modules\selling\services\SellingService;
 use forma\modules\selling\widgets\SellingFormView;

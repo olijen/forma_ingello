@@ -3,7 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\selling\forms\SalesProgress;
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `selling` module

@@ -3,7 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\selling\services\SellingService;
 use forma\modules\core\widgets\StateView;
 

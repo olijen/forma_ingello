@@ -1,8 +1,10 @@
 <style>
     .flex_wrap {
-        background-color: black;
+        background: url('/images/learn_back.jpg');
+        background-size: cover;
         display: flex;
         justify-content: center;
+        flex-direction: column;
         position: relative;
     }
 
@@ -20,13 +22,43 @@
         width: 50%;
         z-index: 1;
     }
+
+    .btn {
+        background-color: #3c8dbc;
+        color: #fff;
+        margin-bottom: 20px;
+        display: inline-block;
+        font-size: 32px;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        padding: 10px 15px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+
+    }
 </style>
 <link rel="stylesheet" media="screen" href="css/style.css">
 <div  class="flex_wrap">
     <div id="particles-js" class="particles_block">
 
     </div>
-    <img id="dark_logo" src="/images/dark_logo.png" alt="">
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary">Продолжить обучение</button>
+        <button class="btn btn-primary">Перейти на главную панель</button>
+    </div>
 </div>
 
 <script src="/js/particles.js"></script>

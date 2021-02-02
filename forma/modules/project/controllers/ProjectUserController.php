@@ -5,7 +5,7 @@ namespace forma\modules\project\controllers;
 use Yii;
 use forma\modules\project\records\projectuser\ProjectUser;
 use forma\modules\project\records\projectuser\ProjectUserSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

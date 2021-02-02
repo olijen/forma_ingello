@@ -6,7 +6,7 @@ use Yii;
 use forma\modules\core\records\SystemEvent;
 use forma\modules\core\records\SystemEventSearch;
 use yii\data\Pagination;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

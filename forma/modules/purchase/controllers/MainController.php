@@ -8,7 +8,7 @@ use forma\modules\purchase\services\PurchaseService;
 use forma\modules\purchase\widgets\NomenclatureView;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `purchase` module

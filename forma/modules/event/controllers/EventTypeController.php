@@ -5,7 +5,7 @@ namespace forma\modules\event\controllers;
 use Yii;
 use forma\modules\event\records\EventType;
 use forma\modules\event\records\EventTypeSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

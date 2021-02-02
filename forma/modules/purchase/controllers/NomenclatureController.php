@@ -10,7 +10,7 @@ use Yii;
 use forma\modules\purchase\services\NomenclatureService;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\purchase\widgets\NomenclatureView;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\Response;
 
 class NomenclatureController extends Controller

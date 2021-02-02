@@ -7,7 +7,7 @@ use phpDocumentor\Reflection\Types\Object_;
 use Yii;
 use forma\modules\selling\records\state\StateToState;
 use forma\modules\selling\records\state\StateSearchState;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

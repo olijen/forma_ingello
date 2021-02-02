@@ -7,7 +7,7 @@ use forma\modules\selling\services\SellingService;
 use Yii;
 use forma\modules\customer\records\Customer;
 use forma\modules\customer\records\CustomerSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;

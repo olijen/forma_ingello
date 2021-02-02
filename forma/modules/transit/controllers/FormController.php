@@ -3,7 +3,7 @@
 namespace forma\modules\transit\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\helpers\Url;
 use forma\modules\transit\records\transit\Transit;
 use forma\modules\transit\services\TransitService;

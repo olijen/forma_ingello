@@ -6,7 +6,7 @@ use forma\modules\selling\records\state\StateSearchState;
 use Yii;
 use forma\modules\selling\records\state\State;
 use forma\modules\selling\records\state\StateSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use forma\modules\selling\records\state\StateToState;

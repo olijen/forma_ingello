@@ -122,6 +122,11 @@ class AccessoryActiveRecord extends ActiveRecord
 
         Yii::debug(self::accessSearchDataProvider($default));
         Yii::debug(self::accessSearchDataProvider($default)->getModels());
+
+        if (count(self::accessSearchDataProvider($default)->getModels()) < 1) {
+            return Yii::$app->controller->redirect('/hr/form?id='.$_GET['id']);
+        }
+
         return self::accessSearchDataProvider($default)->getModels()[0];
     }
 

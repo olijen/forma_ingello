@@ -497,6 +497,7 @@ JS;
             console.log(1);
 
             let aLinks = document.getElementsByTagName('a');
+            let forms = document.getElementsByTagName('form');
 
             for (let i = 0; i < aLinks.length; i++) {
                 // console.log(aLinks[i]);
@@ -513,8 +514,21 @@ JS;
                     console.log(aLinks[i].href);
                 }
                 else aLinks[i].href += '?without-header';
+            }
 
-
+            for (let i = 0; i < forms.length; i++) {
+                // console.log(aLinks[i]);
+                // console.log(aLinks[i].href);
+                let beginParameters = forms[i].action.indexOf('?')+1;
+                if(beginParameters > 0) {
+                    let beginStr = forms[i].action.substring(0, beginParameters);
+                    let endStr = forms[i].action.substring(beginParameters, forms[i].action.length);
+                    // console.log(aLinks[i].href.indexOf('?'));
+                    // console.log(aLinks[i].href.substring(0, beginParameters));
+                    // console.log(aLinks[i].href.substring(beginParameters, aLinks[i].href.length));
+                    forms[i].action = beginStr + 'form-without-header=&' + endStr;
+                }
+                else forms[i].action += '?without-header';
             }
         }
     </script>

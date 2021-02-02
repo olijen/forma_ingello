@@ -8,7 +8,7 @@ use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\state\State;
 use forma\modules\warehouse\records\Warehouse;
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 
 class FreelancehuntController extends Controller
 {

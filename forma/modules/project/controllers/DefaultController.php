@@ -2,7 +2,7 @@
 
 namespace forma\modules\project\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `project` module

@@ -11,7 +11,7 @@ namespace forma\extensions\dynagrid\controllers;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\Response;
 // use kartik\dynagrid\models\DynaGridSettings;
 use forma\extensions\dynagrid\models\DynaGridSettings;

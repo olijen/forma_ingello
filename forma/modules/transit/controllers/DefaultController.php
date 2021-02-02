@@ -2,7 +2,7 @@
 
 namespace forma\modules\transit\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `transit` module

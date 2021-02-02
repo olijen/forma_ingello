@@ -4,7 +4,7 @@ namespace forma\modules\hr\controllers;
 
 use Yii;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\hr\services\InterviewService;
 
 /**

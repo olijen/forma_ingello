@@ -3,7 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\selling\services\NomenclatureService;
 use forma\modules\selling\widgets\AddingFormView;
 use forma\modules\selling\records\sellingproduct\SellingProduct;

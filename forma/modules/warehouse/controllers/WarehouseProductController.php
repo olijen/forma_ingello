@@ -16,7 +16,7 @@ use forma\modules\warehouse\records\WarehouseProductSearch;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

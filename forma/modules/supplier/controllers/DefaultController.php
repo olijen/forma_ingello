@@ -2,7 +2,7 @@
 
 namespace forma\modules\supplier\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `supplier` module
