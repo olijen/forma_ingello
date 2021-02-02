@@ -6,7 +6,7 @@ use forma\modules\core\records\SystemEventUserService;
 use Yii;
 use forma\modules\core\records\SystemEventUser;
 use forma\modules\core\records\SystemEventUserSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

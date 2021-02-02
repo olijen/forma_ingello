@@ -3,7 +3,7 @@
 namespace forma\modules\purchase\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\purchase\records\purchaseproduct\PurchaseProduct;
 use forma\modules\purchase\services\NomenclatureService;
 use forma\modules\purchase\widgets\AddingFormView;

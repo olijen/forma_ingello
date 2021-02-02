@@ -7,7 +7,7 @@ use Yii;
 use forma\modules\core\records\Item;
 use forma\modules\core\records\ItemSearch;
 use yii\helpers\Html;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

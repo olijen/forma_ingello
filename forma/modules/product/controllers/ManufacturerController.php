@@ -5,7 +5,7 @@ namespace forma\modules\product\controllers;
 use Yii;
 use forma\modules\product\records\Manufacturer;
 use forma\modules\product\records\ManufacturerSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

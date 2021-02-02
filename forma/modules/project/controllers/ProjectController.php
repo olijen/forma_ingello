@@ -6,7 +6,7 @@ use forma\modules\project\records\projectuser\ProjectUser;
 use Yii;
 use forma\modules\project\records\project\Project;
 use forma\modules\project\records\project\ProjectSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;

@@ -9,7 +9,7 @@ use forma\modules\selling\services\RequestService;
 use forma\modules\selling\services\RequestStrategyService;
 use forma\modules\selling\services\SellingService;
 use http\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
 use forma\modules\selling\widgets\HistoryView;

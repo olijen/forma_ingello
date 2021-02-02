@@ -13,7 +13,7 @@ use forma\modules\product\records\Category;
 use forma\modules\product\records\CategorySearch;
 use yii\helpers\Html;
 use yii\validators\Validator;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

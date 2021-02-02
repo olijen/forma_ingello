@@ -10,7 +10,7 @@ use forma\modules\product\services\FieldValueService;
 use Yii;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\FieldSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

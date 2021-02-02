@@ -11,7 +11,7 @@ use forma\modules\selling\records\sellingproduct\SellingProduct;
 use forma\modules\selling\services\NomenclatureService;
 use forma\modules\selling\widgets\NomenclatureView;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\Response;
 use yii\web\HttpException;
 use yii\widgets\ActiveForm;

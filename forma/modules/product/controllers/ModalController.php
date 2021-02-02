@@ -2,7 +2,7 @@
 
 namespace forma\modules\product\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 class ModalController extends Controller
 {

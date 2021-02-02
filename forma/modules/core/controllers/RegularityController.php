@@ -14,7 +14,7 @@ use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -80,6 +80,13 @@ class RegularityController extends Controller
         if (strpos( Url::previous(), 'test') !== false) {
             $newUserReglament = 1;
             Url::remember();
+            $this->layout = false;
+            return $this->render('@app/modules/dark/views/default/forma_learning', [
+                'regularities' => $regularities,
+                'items' => $items,
+                'subItems' => $subItems,
+                'newUserReglament' => $newUserReglament
+            ]);
         }
 
         return $this->render('user-regularity', [

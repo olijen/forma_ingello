@@ -7,6 +7,8 @@
 /* v2.0.0
 /* ----------------------------------------------- */
 
+window.letVaRname = 0;
+
 var pJS = function(tag_id, params){
 
   var canvas_el = document.querySelector('#'+tag_id+' > .particles-js-canvas-el');
@@ -153,7 +155,7 @@ var pJS = function(tag_id, params){
     mode_repulse_distance: pJS.interactivity.modes.repulse.distance
   };
 
-
+// здесь преобразуются элементы particles с собственными значениями умноженными на коэфициент от  отношение размера одного физического пикселя к размеру одного логического
   pJS.fn.retinaInit = function(){
 
     if(pJS.retina_detect && window.devicePixelRatio > 1){
@@ -179,7 +181,6 @@ var pJS = function(tag_id, params){
     pJS.interactivity.modes.repulse.distance = pJS.tmp.obj.mode_repulse_distance * pJS.canvas.pxratio;
 
   };
-
 
 
   /* ---------- pJS functions - canvas ------------ */
@@ -235,8 +236,14 @@ var pJS = function(tag_id, params){
     pJS.canvas.ctx.clearRect(0, 0, pJS.canvas.w, pJS.canvas.h);
   };
 
+  console.log(pJS);
 
   /* --------- pJS functions - particles ----------- */
+
+  //
+  // В ЭТОЙ ФУНКЦИИ ФОРМИРУЕТСЯ ЧАСТИЦА КОТОРАЯ ПОПАДАЕТ В МАССИВ PARTICLES И ДАЛЕЕ С НИМИ РАБОТАЕТ КОД НАД ИХ
+  // ОТОБРАЖЕНИЕМ И ВЗАИМОДЕЙСТВИЕМ НА КАНВАСЕ
+  //
 
   pJS.fn.particle = function(color, opacity, position){
 
@@ -395,6 +402,8 @@ var pJS = function(tag_id, params){
     
 
   };
+
+  console.log(pJS);
 
 
   pJS.fn.particle.prototype.draw = function() {
@@ -1311,36 +1320,40 @@ var pJS = function(tag_id, params){
 
   pJS.fn.vendors.draw = function(){
 
-    if(pJS.particles.shape.type == 'image'){
+    setTimeout(() => {
+      if(pJS.particles.shape.type == 'image'){
 
-      if(pJS.tmp.img_type == 'svg'){
+        if(pJS.tmp.img_type == 'svg'){
 
-        if(pJS.tmp.count_svg >= pJS.particles.number.value){
-          pJS.fn.particlesDraw();
-          if(!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
-          else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+          if(pJS.tmp.count_svg >= pJS.particles.number.value){
+            pJS.fn.particlesDraw();
+            if(!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
+            else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+          }else{
+            //console.log('still loading...');
+            if(!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+          }
+
         }else{
-          //console.log('still loading...');
-          if(!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+
+          if(pJS.tmp.img_obj != undefined){
+            pJS.fn.particlesDraw();
+            if(!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
+            else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+          }else{
+            if(!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
+          }
+
         }
 
       }else{
-
-        if(pJS.tmp.img_obj != undefined){
-          pJS.fn.particlesDraw();
-          if(!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
-          else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-        }else{
-          if(!pJS.tmp.img_error) pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-        }
-
+        pJS.fn.particlesDraw();
+        if(!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
+        else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
       }
+    }, 35);
 
-    }else{
-      pJS.fn.particlesDraw();
-      if(!pJS.particles.move.enable) cancelRequestAnimFrame(pJS.fn.drawAnimFrame);
-      else pJS.fn.drawAnimFrame = requestAnimFrame(pJS.fn.vendors.draw);
-    }
+
 
   };
 
@@ -1476,7 +1489,8 @@ window.pJSDom = [];
 
 window.particlesJS = function(tag_id, params){
 
-  //console.log(params);
+  console.log(tag_id);
+  console.log(params);
 
   /* no string id? so it's object params, and set the id with default id */
   if(typeof(tag_id) != 'string'){
@@ -1520,7 +1534,7 @@ window.particlesJS = function(tag_id, params){
 };
 
 window.particlesJS.load = function(tag_id, path_config_json, callback){
-
+  console.log(1);
   /* load json config */
   var xhr = new XMLHttpRequest();
   xhr.open('GET', path_config_json);

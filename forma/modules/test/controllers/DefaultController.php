@@ -2,7 +2,7 @@
 
 namespace forma\modules\test\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `test` module

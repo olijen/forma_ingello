@@ -7,7 +7,7 @@ use forma\modules\selling\services\StrategyService;
 use Yii;
 use forma\modules\selling\records\strategy\Strategy;
 use forma\modules\selling\records\strategy\StrategySearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

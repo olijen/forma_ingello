@@ -12,7 +12,7 @@ use yii\filters\AccessControl;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use forma\modules\core\forms\LoginForm;

@@ -432,6 +432,27 @@ class AutoDumpDataBase
 
 
         if (isset($this->oldKeys['field_id'])) {
+            $fieldValues = $this->findModels('forma\modules\product\records\FieldValue',
+                [
+                    //'field_id' => $this->getOldAccessoryProducts(),
+                    //'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
+                    // 'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
+                    'field_id' => $this->oldKeys['field_id'],
+                    // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
+                ]);
+
+
+            foreach ($fieldValues as $fieldValue) {
+                $fieldValue = $this->changeAttributes(
+                    $this->newKeys['field_id'],
+                    $fieldValue,
+                    'field_id');
+
+                $this->saveNewRecord($fieldValue);
+            }
+
+
+
             $fieldProductValues = $this->findModels('forma\modules\product\records\FieldProductValue',
                 [
                     //'field_id' => $this->getOldAccessoryProducts(),

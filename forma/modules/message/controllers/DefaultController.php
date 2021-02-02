@@ -2,7 +2,7 @@
 
 namespace forma\modules\messages\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `messages` module

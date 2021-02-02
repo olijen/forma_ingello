@@ -3,7 +3,7 @@
 namespace forma\modules\transit\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\transit\services\TransitService;
 use yii\helpers\Url;
 use forma\modules\core\widgets\StateView;
@@ -12,13 +12,12 @@ class StateController extends Controller
 {
     public function actionConfirm($id)
     {
-
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug('sfjid');
+            return Yii::$app->controller->redirect('/transit/form?id='.$id);
+        }
         $model = TransitService::confirm($id);
-        if (!Yii::$app->request->isAjax)
-            return $this->redirect('/transit/form?id='.$id);
-        //return $this->redirect('/transit/form?id='.$id);
-        if (Yii::$app->request->isAjax)
-            return StateView::widget(['model' => $model]);
+        return StateView::widget(['model' => $model]);
     }
 
     public function actionDeny($id)

@@ -7,7 +7,7 @@ use forma\modules\hr\records\talk\Request;
 use Yii;
 use forma\modules\hr\records\requeststrategy\RequestStrategy;
 use forma\modules\hr\records\requeststrategy\RequestStrategySearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

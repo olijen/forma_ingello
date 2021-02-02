@@ -15,7 +15,7 @@ use forma\modules\product\components\SystemWidget;
         ">
         <h4 class="box-title">
             <a data-toggle="collapse" data-parent="#accordion"
-               href="#collapse_1" class="collapsed"
+               href="#collapse_1" class="no-loader collapsed"
                aria-expanded="false">
                 <i class="fa fa-plus"></i>
                 Добавить

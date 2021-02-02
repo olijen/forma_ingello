@@ -5,7 +5,7 @@ namespace forma\modules\purchase\controllers;
 use Yii;
 use forma\modules\core\widgets\StateView;
 use forma\modules\purchase\services\PurchaseService;
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `purchase` module
@@ -14,12 +14,17 @@ class StateController extends Controller
 {
     public function actionInitial($id)
     {
+
         $model = PurchaseService::initial($id);
         return StateView::widget(['model' => $model]);
     }
 
     public function actionConfirm($id)
     {
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug('sfjid');
+            return Yii::$app->controller->redirect('/purchase/form/index?id='.$id);
+        }
         $model = PurchaseService::confirm($id);
         return StateView::widget(['model' => $model]);
     }

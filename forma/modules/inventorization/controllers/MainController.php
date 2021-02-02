@@ -3,7 +3,7 @@
 namespace forma\modules\inventorization\controllers;
 
 use forma\modules\inventorization\services\InventorizationService;
-use yii\web\Controller;
+use forma\components\Controller;
 use Yii;
 
 /**

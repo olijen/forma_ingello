@@ -5,7 +5,7 @@ namespace forma\modules\purchase\controllers;
 use Yii;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\purchase\widgets\PurchaseFormView;
-use yii\web\Controller;
+use forma\components\Controller;
 
 class FormController extends Controller
 {

@@ -3,7 +3,7 @@
 namespace forma\modules\hr\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\hr\services\NomenclatureService;
 use forma\modules\hr\widgets\AddingFormView;
 use forma\modules\hr\records\interviewvacancy\InterviewVacancy;

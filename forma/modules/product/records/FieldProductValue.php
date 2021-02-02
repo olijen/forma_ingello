@@ -140,7 +140,7 @@ class FieldProductValue extends \yii\db\ActiveRecord
                         if (empty($sqlFieldProductValue)) {
                             $sqlFieldProductValue .= '\'%"' . $fieldValueMultiSelectId . '"%\'';
                         } else {
-                            $sqlFieldProductValue .= ' and value like \'%"' . $fieldValueMultiSelectId . '"%\'';
+                            $sqlFieldProductValue .= ' or value like \'%"' . $fieldValueMultiSelectId . '"%\'';
                         }
                     }
                 } elseif (isset($fieldProductValue['value']) && !empty($fieldProductValue['value'])

@@ -3,7 +3,7 @@
 namespace forma\modules\hr\controllers;
 
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\helpers\Url;
 use forma\modules\hr\services\InterviewService;
 use forma\modules\hr\widgets\SellingFormView;

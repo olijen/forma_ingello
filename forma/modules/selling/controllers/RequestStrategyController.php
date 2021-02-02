@@ -8,7 +8,7 @@ use forma\modules\selling\records\talk\Request;
 use Yii;
 use forma\modules\selling\records\requeststrategy\RequestStrategy;
 use forma\modules\selling\records\requeststrategy\RequestStrategySearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

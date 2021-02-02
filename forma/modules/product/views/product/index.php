@@ -113,6 +113,12 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                 'label' => $field->name,
                 'attribute' => 'FieldProductValue' . $fieldId,
                 'value' => function ($model) use ($field, $allFieldProductValue) {
+                    Yii::debug('field');
+                    Yii::debug($field);
+                    Yii::debug('model');
+                    Yii::debug($model);
+                    Yii::debug('allFieldProductValue');
+                    Yii::debug($allFieldProductValue);
                     foreach ($allFieldProductValue as $fieldProductValue) {
                         if ($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id) {
                             if (is_array($fieldProductValue->value)) {
