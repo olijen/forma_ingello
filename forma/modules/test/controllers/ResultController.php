@@ -52,7 +52,7 @@ class ResultController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('test_result', [
             'model' => $this->findModel($id),
         ]);
     }
