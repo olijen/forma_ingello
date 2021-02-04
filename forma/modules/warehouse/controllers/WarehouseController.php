@@ -6,7 +6,7 @@ use forma\modules\warehouse\records\WarehouseUser;
 use Yii;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

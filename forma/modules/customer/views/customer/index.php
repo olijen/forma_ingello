@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать клиента', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::button('Подготовить рассылку', ['id' => 'preSend', 'class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fas fa-user-plus"></i> Создать клиента', ['create'], ['class' => 'btn btn-success forma_green']) ?>
+        <?= Html::button('<i class="fas fa-envelope-open-text"></i> Подготовить рассылку', ['id' => 'preSend', 'class' => 'btn btn-success forma_green']) ?>
     </p>
 <?php Pjax::begin(['enablePushState' => false]); ?>
     <?= Html::beginForm(['customer/send'], 'post', ['data-pjax' => ''])?>

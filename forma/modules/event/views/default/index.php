@@ -24,6 +24,9 @@ $("document").ready(function(){
 
 function editEvent(event)
 {
+    console.log(event.start.format("HH:mm:ss"));
+    console.log(event.end.format("HH:mm:ss"));
+    
     var ServerMapper;
     if (event.title) {
         serverMapper = {
@@ -31,8 +34,8 @@ function editEvent(event)
             'Event[text]': event.title,
             'Event[date_from]': event.start.format("YYYY-MM-DD"),
             'Event[date_to]': event.end.format("YYYY-MM-DD"),
-            'Event[start_time]': event.start.format("hh:mm:ss"),
-            'Event[end_time]': event.end.format("hh:mm:ss"),
+            'Event[start_time]': event.start.format("HH:mm:ss"),
+            'Event[end_time]': event.end.format("HH:mm:ss"),
             'Event[event_type_id]': 1,
             'Event[status]': 1,
         }
@@ -125,7 +128,9 @@ JS;
 <script>
     var small_widgets_in_block = [];
 </script>
-
+<?php
+    Yii::debug("ЛДПОатдво тдшмгуив адб");
+?>
 <script>
     function smallWidget() {
         small_widgets_in_block = [];

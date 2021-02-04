@@ -5,7 +5,7 @@ namespace forma\modules\hr\controllers;
 use Yii;
 use forma\modules\hr\records\talk\Answer;
 use forma\modules\hr\records\talk\AnswerSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

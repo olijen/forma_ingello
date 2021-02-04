@@ -5,7 +5,7 @@ namespace forma\modules\overheadcost\controllers;
 use Yii;
 use forma\modules\overheadcost\records\OverheadCost;
 use forma\modules\overheadcost\records\OverheadCostSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

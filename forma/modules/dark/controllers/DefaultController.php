@@ -3,7 +3,7 @@
 namespace forma\modules\dark\controllers;
 
 use forma\modules\core\components\AutoDumpDataBase;
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `customer` module
@@ -16,6 +16,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = false;
         return $this->render('index');
     }
 

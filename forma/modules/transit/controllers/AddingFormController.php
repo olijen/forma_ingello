@@ -8,7 +8,7 @@ use forma\modules\transit\services\NomenclatureService;
 use forma\modules\transit\widgets\AddingFormView;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-use yii\web\Controller;
+use forma\components\Controller;
 
 class AddingFormController extends Controller
 {

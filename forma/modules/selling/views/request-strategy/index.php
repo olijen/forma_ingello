@@ -16,7 +16,7 @@ $this->title = Yii::t('app', 'Вопрос к стратегии');
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Создать вопрос к стратегии'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать вопрос к стратегии'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
     </p>
 
     <?= GridView::widget([

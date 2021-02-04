@@ -22,7 +22,6 @@
     }
 </style>
 <link rel="stylesheet" media="screen" href="css/style.css">
-<h1>Добро пожаловать на темную сторону Forma Ingello!</h1>
 <div  class="flex_wrap">
     <div id="particles-js" class="particles_block">
 
@@ -41,9 +40,9 @@
         return Math.floor(rand);
     }
 
-    setInterval(function () {
-        dark_logo.style.opacity = randomInteger(20, 30)/100
-    }, 550)
+    // setInterval(function () {
+    //     dark_logo.style.opacity = randomInteger(20, 30)/100
+    // }, 550)
 
     var count_particles, stats, update;
     stats = new Stats;

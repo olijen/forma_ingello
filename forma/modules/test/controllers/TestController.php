@@ -7,9 +7,10 @@ use Yii;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestTypeFieldSearch;
 use forma\modules\test\records\Test;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use forma\modules\customer\records\Customer;
 
 /**
  * TestController implements the CRUD actions for TestTypeField model.
@@ -100,20 +101,28 @@ class TestController extends Controller
 
 
     public function actionTest($id){
+        $customer = new Customer();
         $model = new Test();
         $testType = TestType::find()->where(['id'=>$id])->one();
 
 
         if(!empty($_POST) ){
+            if ($_POST['Customer']){
+                $customer->name = $_POST['Customer']['name'];
+                $customer->chief_email = $_POST['Customer']['chief_email'];
+                $customer->description = $_POST['Customer']['description'];
+                $customer->save();
+            }
 //          return $this->render('test_result',[
 //                'testType'=>$testType,
 //            ]);
-            $slice = array_slice($_POST,'2');
-
+            $slice = array_slice($_POST,1,-2);
 
             $result = implode(',    ',$slice);
             $model->result = $result;
             $model->test_type_id = $_POST['id'];
+
+            $model->customer_id = $customer->id;
 //            echo '<pre>';
 //            var_dump($model->result=$_POST);
 //            echo '</pre>';
@@ -133,6 +142,7 @@ class TestController extends Controller
 //        }
 
         return $this->render('test', [
+            'customer' => $customer,
             'testType'=>$testType,
         ]);
 

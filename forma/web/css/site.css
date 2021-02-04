@@ -1,4 +1,45 @@
-td .glyphicon {
+body  .forma_green:hover {
+    background-color: #ff4100!important;
+}
+
+body  .forma_blue:hover {
+    background-color: #d0b676!important;
+}
+
+body  .forma_pink:hover {
+    background-color: #66c066!important;
+    color: white;
+}
+
+body  .forma_light_orange:hover {
+    background-color: #399f85!important;
+    color: white;
+}
+
+
+body  .btn-success.forma_green:hover {
+    background-color: #ff4100!important;
+}
+
+body  .btn-success.forma_pink:hover {
+    background-color: #66c066!important;
+    color: white;
+}
+
+body  .btn-success.forma_light_orange:hover,
+body  .btn-danger.forma_light_orange:hover,
+body  .btn-default.forma_light_orange:hover
+{
+    background-color: #399f85!important;
+    color: white;
+}
+
+.switchInputContainer {
+    display: flex;
+    width: 150px;
+}
+
+tbody td .glyphicon {
     font-size: 20px;
     border: 1px solid #3c8dbc;
     border-radius: 25%;

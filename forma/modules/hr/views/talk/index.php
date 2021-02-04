@@ -45,6 +45,7 @@ use yii\helpers\Html;
                         'action' => '/hr/talk/end-talk',
                         'id' => 'form-customer',
                         ]) ?>
+            <input name="interviewId" type="hidden" value="<?=$_POST['id']?>">
 
             <?= $form->field($worker, 'status')->textInput()->dropDownList(['0' => 'Свободен', '1' =>'В работе'])->label('Статус занятости') ?>
             <?= $form->field($worker, 'name')->textInput(['maxlength' => true]) ?>

@@ -27,11 +27,11 @@ $this->title = 'Инвентаризация';
         }
 
         echo ButtonDropdown::widget([
-            'label' => 'Создать инвентаризацию',
+            'label' => 'Cоздать инвентаризацию',
             'dropdown' => [
                 'items' => $items,
             ],
-            'options' => ['class' => 'btn btn-success'],
+            'options' => ['class' => 'btn btn-success forma_light_orange'],
         ]);
 
         ?>

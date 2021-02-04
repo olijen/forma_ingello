@@ -29,12 +29,17 @@ class NomenclatureView extends Widget
         $overheadCost = OverheadCostService::create();
 
         // todo: вынести в сервис
+
+
+
         $purchaseOverheadCosts = new ActiveDataProvider([
             'sort' => false,
             'query' => OverheadCost::find()
                 ->joinWith(['purchaseOverheadCost', 'purchaseOverheadCost.purchase'])
                 ->where(['purchase_overhead_cost.purchase_id' => $this->purchaseId])
         ]);
+
+        $purchaseOverheadCosts->getModels();
 
         return $this->render('nomenclature', compact(
             'unit',

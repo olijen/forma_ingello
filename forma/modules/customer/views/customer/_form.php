@@ -1,5 +1,6 @@
 <?php
 
+use vova07\imperavi\Widget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use forma\components\ActiveRecordHelper;
@@ -31,20 +32,50 @@ use yii\widgets\Pjax;
 
     ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Имя ЛПР') ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'firm')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'is_company')->checkbox() ?>
+
+    <div id="company-fields" >
+        <?= $form->field($model, 'firm')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'company_phone')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'site_company')->textInput(['maxlength' => true]) ?>
+    </div>
 
     <?= $form->field($model, 'country_id')->dropDownList(ActiveRecordHelper::getList(Country::className()), [
         'prompt' => '',
     ]) ?>
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chief_phone')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'company_phone')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
+
+
     <?= $form->field($model, 'chief_email')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'site_company')->textInput(['maxlength' => true]) ?>
+
+
+    <?= $form->field($model, 'description')->widget(Widget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'plugins' => [
+                'clips',
+                'fullscreen',
+                'imagemanager',
+                'filemanager',
+            ],
+            'clips' => [
+                ['Lorem ipsum...', 'Lorem...'],
+                ['red', '<span class="label-red">red</span>'],
+                ['green', '<span class="label-green">green</span>'],
+                ['blue', '<span class="label-blue">blue</span>'],
+            ],
+            'imageUpload' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/image-upload']),
+            'imageManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/images-get']),
+            'fileManagerJson' => '/worker/worker/file-upload', // \yii\helpers\Url::to(['/worker/worker/files-get']),
+            'fileUpload' => '/worker/worker/file-upload' //\yii\helpers\Url::to(['/worker/worker/file-upload'])
+        ],
+    ]); ?>
 
     <div class="form-group" style="width: 150px">
         <div class="form-group">
@@ -61,3 +92,25 @@ use yii\widgets\Pjax;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+    if ($model->isNewRecord || $model->is_company != 1) { ?>
+        <script>
+            $('#company-fields').hide();
+        </script>
+  <?php  }
+?>
+
+<script>
+    $('#customer-is_company')[0].onclick = function (){
+        showHideCompanyFields(this.checked);
+    }
+
+    function showHideCompanyFields (isChecked) {
+        if(isChecked) {
+            $('#company-fields').show();
+        } else {
+            $('#company-fields').hide();
+        }
+    }
+</script>

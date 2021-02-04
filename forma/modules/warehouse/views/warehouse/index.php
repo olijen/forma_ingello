@@ -19,8 +19,8 @@ $this->title = 'Все хранилища';
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать хранилище', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Все объекты', ['all-remains'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> Создать хранилище', ['create'], ['class' => 'btn btn-success forma_light_orange']) ?>
+        <?= Html::a('<i class="fa fa-th"></i> Все объекты', ['all-remains'], ['class' => 'btn btn-success forma_light_orange']) ?>
     </p>
 
     <?= ListView::widget([

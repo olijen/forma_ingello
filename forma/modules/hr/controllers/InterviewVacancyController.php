@@ -6,7 +6,7 @@ use Yii;
 use forma\modules\hr\records\InterviewVacancy;
 use forma\modules\hr\records\InterviewVacancySearch;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

@@ -21,7 +21,17 @@
         <a class="regularity-action" href='<?= Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));?>'>
             <i title="Смотреть презентацию" class="regularity-action fa fa-image" style="margin: 10px; font-size: 35px; border: 1px solid green; border-radius: 50%; padding: 10px;"></i>
         </a>
-    </ul>
+        <li>
+            <div style="width: 265px; display: inline-block">
+                <button class="btn show-input btn-block" style="background: white;" data-input='#input_guestLink'>
+                    <span style=" ">Ссылка на публичный регламент</i></span>
+                </button>
+                <input style="width:100%" id='input_guestLink' type="hidden"
+                       value="https://forma.ingello.com/core/regularity/regularity?userId=<?=Yii::$app->user->id?>"/>
+            </div>
+        </li>
+
+     </ul>
 
     <div class="tab-content" style="padding: 0;">
         <?php foreach ($regularitys as $regularity): ?>
@@ -57,3 +67,30 @@
         font-size: 25px;
     }
 </style>
+
+<script>
+    function CopyToClipboard(containerid) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select().createTextRange();
+            document.execCommand("Copy");
+
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(containerid));
+            window.getSelection().addRange(range);
+            document.execCommand("Copy");
+            alert("text copied")
+        }}
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('button.show-input').click(function () {
+            $(this).hide();
+            $($(this).attr('data-input')).attr('type', ' ');
+
+        })
+    })
+</script>

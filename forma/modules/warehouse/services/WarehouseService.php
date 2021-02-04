@@ -128,11 +128,13 @@ class WarehouseService
         $unitOnWarehouse->warehouse_id = $relatedWarehouse->id;
         $unitOnWarehouse->product_id = $unit->getProductId();
         $unitOnWarehouse->quantity = 0;
+        //$unitOnWarehouse->currency_id
 
         if ($unit instanceof PurchaseProduct) {
             $unitOnWarehouse->currency_id = $unit->currency_id;
         }
-
+        Yii::debug('unitOnWarehouse');
+        Yii::debug($unitOnWarehouse);
         if (!$unitOnWarehouse->save()) {
             var_dump($unitOnWarehouse->getErrors());
             die;

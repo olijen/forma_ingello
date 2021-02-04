@@ -70,7 +70,7 @@ Pjax::begin([
         <?= $form->field($unit, 'cost')->textInput() ?>
     </div>
     <div class="col-md-1">
-        <?= $form->field($unit, 'tax_rate_id')->dropDownList(TaxRate::getList(), ['prompt'=> ''])
+        <?= $form->field($unit, 'tax_rate_id')->dropDownList(['1' => 'Без НДС(0%)', '2' => 'С учетом НДС(20%)'], ['prompt'=> ''])
             ->label('Налог (%)') ?>
     </div>
     <div class="col-md-1">
@@ -144,7 +144,7 @@ Pjax::begin([
             'attribute' => 'tax_rate_id',
             'label' => 'Налог (%)',
             'inputType' => DataColumn::INPUT_SELECT,
-            'optionsList' => TaxRate::getList(),
+            'optionsList' => ['1' => 'Без НДС(0%)', '2' => 'С учетом НДС(20%)'],
             'reloadPjax' => true,
         ],
         [
@@ -255,7 +255,7 @@ Pjax::begin([
     </div>
     <div class="col-md-1">
         <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
-            'class' => 'btn btn-success form-control',
+            'class' => 'btn btn-success form-control no-loader',
             'style' => 'margin-top: 25px;'
         ]) ?>
     </div>

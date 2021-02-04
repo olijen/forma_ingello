@@ -23,6 +23,9 @@ use forma\modules\country\records\Country;
  * @property string $company_phone
  * @property string $chief_phone
  * @property string $site_company
+ * @property string $description
+ * @property integer $is_company
+ *
  * @property Country $country
  */
 class Customer extends AccessoryActiveRecord
@@ -48,9 +51,11 @@ class Customer extends AccessoryActiveRecord
             [['name'], 'required'],
             [['tax_rate'], 'number'],
             [['name', 'firm'], 'string', 'max' => 100],
-            [['address', 'company_email', 'chief_email', 'site_company'], 'string', 'max' => 255],
+            [['address'], 'string', 'max' => 150],
+            [[ 'company_email', 'chief_email', 'site_company'], 'string', 'max' => 255],
             [['company_phone', 'chief_phone'], 'string', 'max' => 32],
-            [['country_id', ], 'integer'],
+            [['description'], 'string'],
+            [['country_id', 'is_company'], 'integer'],
             [['chief_email'], 'email'],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
@@ -63,16 +68,18 @@ class Customer extends AccessoryActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Имя ЛПР',
+            'name' => 'Имя клиента',
             'firm' => 'Компания',
             'country_id' => 'Страна',
             'address' => 'Адрес',
             'company_email' => 'Почта компании',
-            'chief_phone' => 'Телефонный номер ЛПР',
+            'chief_phone' => 'Телефонный номер клиента',
             'company_phone' => 'Телефонный номер компании',
-            'chief_email' =>  'Почта ЛПР',
+            'chief_email' =>  'Почта клиента',
             'site_company' => 'Сайт компании',
             'tax_rate' => 'Процентая ставка',
+            'description' => 'Описание клиента',
+            'is_company' => 'Представитель компании',
         ];
     }
 

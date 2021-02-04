@@ -53,6 +53,7 @@ Pjax::begin([
     ->leftJoin('warehouse_product', '`warehouse_product`.`product_id` = `product`.`id`')
     ->andWhere(['warehouse_product.warehouse_id' => $warehouseId])
     ->all();
+    Yii::debug($productsList);
 $productsList = ArrayHelper::map($productsList, 'id', 'name');
 ?>
     <div class="col-md-3">

@@ -36,4 +36,8 @@ JS;
     {
         return $this->_module->getViewPath();
     }
+
+    public function getRequest() {
+        return $this->_requestSubmit;
+    }
 }

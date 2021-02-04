@@ -5,7 +5,7 @@ namespace forma\modules\inventorization\controllers;
 use Yii;
 use forma\modules\inventorization\records\InventorizationProduct;
 use forma\modules\inventorization\records\InventorizationProductSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

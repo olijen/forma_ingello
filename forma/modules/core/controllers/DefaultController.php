@@ -3,6 +3,7 @@
 namespace forma\modules\core\controllers;
 
 use Exception;
+use forma\components\Controller;
 use forma\modules\core\components\AutoDumpDataBase;
 use forma\modules\core\components\UserIdentity;
 use forma\modules\core\forms\LoginForm;
@@ -21,7 +22,7 @@ use Google_Service_Oauth2;
 use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+
 
 class DefaultController extends Controller
 {
@@ -75,14 +76,20 @@ class DefaultController extends Controller
                         return Yii::$app->response
                             ->redirect('https://' . $_SERVER['HTTP_HOST'] . '/core/default/confirm', 301)
                             ->send();
+                    } else {
+                        $_GET['failedLogin'] = true;
                     }
                 }
             }
 
             $model = new SignupForm();
-            Yii::debug('зашли на туда регистрация');
-            if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-                return $this->goHome();
+            if (isset($_POST['signup-button'])) {
+                Yii::debug('зашли на туда регистрация');
+                if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+                    return $this->goHome();
+                } else {
+                    $_GET['failedSignup'] = true;
+                }
             }
 
             Yii::$app->controller->layout = 'clear.php';

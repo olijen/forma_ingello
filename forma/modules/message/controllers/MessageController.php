@@ -5,7 +5,7 @@ namespace forma\modules\message\controllers;
 use Yii;
 use forma\modules\message\records\Message;
 use forma\modules\message\records\MessageSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

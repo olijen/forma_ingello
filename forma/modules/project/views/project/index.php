@@ -15,12 +15,12 @@ $this->title = Yii::t('app', 'Проекты');
 
 $this->params['homeLink'] = ['label' => 'Панель упраления', 'url' => '/hr', 'title' => 'Панель управления модулем найма'];
 
-$this->params['panel'] = Html::a(Yii::t('app', '<i class="fa fa-plus"></i> Создать проект'), ['create'], ['class' => 'btn btn-success']);
+$this->params['panel'] = Html::a(Yii::t('app', '<i class="fa fa-plus"></i> Создать проект'), ['create'], ['class' => 'btn btn-success forma_pink']);
 $this->params['panel'] .= $this->render('_search', ['model' => $searchModel]);
 
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => 'btn btn-'.(empty($_REQUEST['ProjectSearch']['state'])?'primary':'default')]);
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => 'btn btn-'.(@$_REQUEST['ProjectSearch']['state']==1?'primary':'default')]);
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => 'btn btn-'.(@$_REQUEST['ProjectSearch']['state']==2?'primary':'default')]);
+$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => ' forma_pink btn btn-'.(empty($_REQUEST['ProjectSearch']['state'])?'primary':'default')]);
+$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => ' forma_pink btn btn-'.(@$_REQUEST['ProjectSearch']['state']==1?'primary':'default')]);
+$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => ' forma_pink btn btn-'.(@$_REQUEST['ProjectSearch']['state']==2?'primary':'default')]);
 
 Pjax::begin();
 ?>
@@ -42,6 +42,7 @@ Pjax::begin();
                     </div>
 
                     <a
+                            class="no-loader"
                         href="/project/project/delete?id=<?=$project->id?>"
                         style=" float: right; padding-left: 5px; color: red;"
                         title="Удалить проект"
@@ -62,12 +63,13 @@ Pjax::begin();
                        style="float: right; padding-left: 5px">
                         <span class="glyphicon glyphicon-eye-open"></span></a>
                     <?php if ($project->state == 2) : ?>
-                        <a href="/project/project/change-state?id=<?=$project->id?>&state=1&ProjectSearch[state]=<?=$_REQUEST['ProjectSearch']['state']??''?>" title="Открыть проект" aria-label="Открыть проект" style="float: right; padding-left: 5px; color: orange;"><span class="glyphicon glyphicon-ok-circle"></span></a>
+                        <a class="no-loader" href="/project/project/change-state?id=<?=$project->id?>&state=1&ProjectSearch[state]=<?=$_REQUEST['ProjectSearch']['state']??''?>" title="Открыть проект" aria-label="Открыть проект" style="float: right; padding-left: 5px; color: orange;"><span class="glyphicon glyphicon-ok-circle"></span></a>
                     <?php else : ?>
                         <a data-pjax="0"
                            href="/project/project-vacancy/create?id=<?=$project->id?>"
                            title="Добавить вакансию на проект" aria-label="Добавить вакансию на проект" style="float: right; padding-left: 5px"><span class="glyphicon glyphicon-plus"></span></a>
                         <a
+                                class="no-loader"
                            href="/project/project/change-state?id=<?=$project->id?>&state=2&ProjectSearch[state]=<?=$_REQUEST['ProjectSearch']['state']??''?>"
                            title="Закрыть проект" aria-label="Закрыть проект" style="float: right; padding-left: 5px; color: green;"><span class="glyphicon glyphicon-check"></span></a>
                     <?php endif ?>
@@ -109,7 +111,7 @@ Pjax::begin();
                                 <i class="fa fa-plus"></i> Добавить вакансию на проект</a>
                         <?php else : ?>
 
-                        <button type="button" class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-block btn-success dropdown-toggle forma_pink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-list"></i> Выбрать вакансии для найма
                         </button>
 

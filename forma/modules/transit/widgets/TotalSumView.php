@@ -34,7 +34,7 @@ class TotalSumView extends Widget
     protected function getTotalOverheadCosts(Transit $transit)
     {
         $costs = OverheadCost::find()
-            ->joinWith(['transitOverheadCost', 'transitProducts', 'currency'])
+            ->joinWith(['transitOverheadCost', 'transitProducts'])
             ->where(['transit_overhead_cost.transit_id' => $transit->id])
             ->orWhere(['transit_product.transit_id' => $transit->id])
             ->all();

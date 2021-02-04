@@ -6,11 +6,12 @@ use forma\extensions\editable\EditCellAction;
 use forma\modules\overheadcost\records\OverheadCost;
 use forma\modules\overheadcost\services\OverheadCostService;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
+use forma\modules\transit\records\transit\Transit;
 use forma\modules\transit\records\transitproduct\TransitProduct;
 use Yii;
 use forma\modules\transit\services\NomenclatureService;
 use forma\modules\transit\widgets\NomenclatureView;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\transit\services\TransitService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -19,12 +20,18 @@ class NomenclatureController extends Controller
 {
     public function actionAddPosition()
     {
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug(Yii::$app->request->referrer);
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         /** @var SellingProduct $model */
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
+        $transit = Transit::findOne(['id' => $model->transit_id]);
 
         return NomenclatureView::widget([
             'model' => $model,
             'transitId' => $model->transit_id,
+            'warehouseId' => $transit->from_warehouse_id,
         ]);
     }
 
@@ -33,6 +40,7 @@ class NomenclatureController extends Controller
         $model = NomenclatureService::deletePosition($id);
         return NomenclatureView::widget([
             'transitId' => $model->transit_id,
+            'warehouseId' => $model->transit->from_warehouse_id,
         ]);
     }
 

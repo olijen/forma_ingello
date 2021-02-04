@@ -14,7 +14,7 @@ use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -80,6 +80,13 @@ class RegularityController extends Controller
         if (strpos( Url::previous(), 'test') !== false) {
             $newUserReglament = 1;
             Url::remember();
+            $this->layout = false;
+            return $this->render('@app/modules/dark/views/default/forma_learning', [
+                'regularities' => $regularities,
+                'items' => $items,
+                'subItems' => $subItems,
+                'newUserReglament' => $newUserReglament
+            ]);
         }
 
         return $this->render('user-regularity', [
@@ -92,11 +99,13 @@ class RegularityController extends Controller
 
     public function getPublicCurrentUserId() // http://localhost:8891/admin/regularity передается ссылка подобного формата
     {
-        $_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
-        $currentUrl = Url::current();
-        $currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
+        //$_GET['without-header'] = true;// указывает на загрузку лейаута без хедера и левой панельки (смотреть /layouts/main.php)
+        //$currentUrl = Url::current();
+        //$currentUserName = substr($currentUrl, 1, strrpos($currentUrl, '/') - 1);// берем логин юзера admin
 
-        return User::findOne(['username' => $currentUserName,])->id;// по логину находим юзера
+        if (Yii::$app->user->isGuest)
+            return $_GET['userId'];// по логину находим юзера
+        return Yii::$app->user->id;// по логину находим юзера
     }
 
     public function actionSettings()

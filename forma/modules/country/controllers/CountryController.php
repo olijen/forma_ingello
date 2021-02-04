@@ -5,7 +5,7 @@ namespace forma\modules\country\controllers;
 use Yii;
 use forma\modules\country\records\Country;
 use forma\modules\country\records\CountrySearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

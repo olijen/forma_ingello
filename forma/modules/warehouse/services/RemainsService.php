@@ -40,7 +40,7 @@ class RemainsService
         $unit = new WarehouseProduct();
         $unit->product_id = $productId;
         $unit->warehouse_id = $warehouseId;
-        $unit->currency_id = 1;
+        $unit->currency_id = $_POST['OverheadCost']['currency_id']??1;
         return $unit;
     }
     

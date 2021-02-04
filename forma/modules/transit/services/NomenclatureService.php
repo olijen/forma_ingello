@@ -21,6 +21,7 @@ class NomenclatureService
 {
     public static function addPosition($post)
     {
+
         $model = self::getUnitByProduct($post);
 
         $warehouseModule = Yii::$app->getModule('warehouse');
@@ -28,7 +29,7 @@ class NomenclatureService
             $model->transit->fromWarehouse,
             $model->product
         );
-        $post['OverheadCost']['currency_id'] = $productCurrency->id;
+        //$post['OverheadCost']['currency_id'] = $productCurrency->id;
 
         /** @var OverheadCost $overheadCost */
         $overheadCost = OverheadCostService::save(null, $post);

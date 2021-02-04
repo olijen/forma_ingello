@@ -5,7 +5,7 @@ namespace forma\modules\transit\controllers;
 use Yii;
 use forma\modules\transit\records\transit\Transit;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\transit\services\TransitService;
 
 /**

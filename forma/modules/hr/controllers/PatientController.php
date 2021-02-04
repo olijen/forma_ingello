@@ -5,7 +5,7 @@ namespace forma\modules\hr\controllers;
 use Yii;
 use forma\modules\hr\records\patient\Patient;
 use forma\modules\hr\records\patient\PatientSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

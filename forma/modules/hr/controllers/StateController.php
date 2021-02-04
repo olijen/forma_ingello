@@ -6,7 +6,7 @@ use forma\modules\hr\records\interview\Interview;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\project\records\projectvacancy\ProjectVacancySearch;
 use Yii;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\hr\services\InterviewService;
 use forma\modules\core\widgets\StateView;
 
@@ -38,6 +38,11 @@ class StateController extends Controller
     }
 
     public function actionOffer($id) {
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug('sfjid');
+            return Yii::$app->controller->redirect('/hr/form?id='.$id);
+        }
+        else Yii::debug('dflkdgnjf');
         $model = InterviewService::changeState($id, 'Offer');
         return StateView::widget(['model' => $model]);
     }
@@ -48,8 +53,12 @@ class StateController extends Controller
     }
 
     public function actionWork($id) {
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug('sfjid');
+            return Yii::$app->controller->redirect('/hr/form?id='.$id);
+        }
         $model = InterviewService::changeState($id, 'Work');
-        $interview = Interview::getAccessToOne(['id' => $id]);
+        $interview  =  Interview::find()->where(['id' => $id])->one();
 
         $projectVacancy = ProjectVacancy::getAccessToOne([
             'project_id' => $interview->project_id,

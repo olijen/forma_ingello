@@ -10,7 +10,7 @@ use Yii;
 use forma\modules\hr\records\interviewvacancy\InterviewVacancy;
 use forma\modules\hr\services\NomenclatureService;
 use forma\modules\hr\widgets\NomenclatureView;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\Response;
 use yii\web\HttpException;
 use yii\widgets\ActiveForm;

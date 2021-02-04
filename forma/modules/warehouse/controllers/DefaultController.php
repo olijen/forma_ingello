@@ -2,7 +2,7 @@
 
 namespace forma\modules\warehouse\controllers;
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 /**
  * Default controller for the `warehouse` module

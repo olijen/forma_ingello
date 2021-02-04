@@ -32,27 +32,32 @@ $config = [
            // Yii::debug($event);
             //Yii::debug($_SERVER);
             //Yii::debug($_REQUEST);
-            SystemEventService::init();
-            SystemEventService::eventAfterInsert($event);
-
+            if (Yii::$app->controller->action->id != 'test-data') {
+                SystemEventService::init();
+                SystemEventService::eventAfterInsert($event);
+            }
         });
 
 
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_UPDATE, function ($event) {
-
-            SystemEventService::eventAfterUpdate($event);
+            if (Yii::$app->controller->action->id != 'test-data') {
+                SystemEventService::eventAfterUpdate($event);
+            }
 
         });
 
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_DELETE, function ($event) {
-
-            SystemEventService::eventAfterDelete($event);
+            if (Yii::$app->controller->action->id != 'test-data') {
+                SystemEventService::eventAfterDelete($event);
+            }
 
         });
 
         yii\base\Event::on(SiteController::class, SiteController::EVENT_AFTER_LOGIN, function ($event) {
             //Yii::debug($event);
-            SystemEventService::eventAfterLogin($event);
+            if (Yii::$app->controller->action->id != 'test-data') {
+                SystemEventService::eventAfterLogin($event);
+            }
 
         });
 
@@ -160,6 +165,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
+        'historySize' => 1000,
         'allowedIPs' => ['*'],
     ];
 

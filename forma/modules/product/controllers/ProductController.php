@@ -19,7 +19,7 @@ use forma\modules\product\services\ProductService;
 use forma\modules\product\records\Product;
 use forma\modules\product\records\ProductSearch;
 use yii\base\Model;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -132,8 +132,10 @@ class ProductController extends Controller
         $fieldAttributes = $field->widgetGetList($categoriesId);
 
         if (Yii::$app->request->isPost) {
-            $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
-            FieldProductValue::eachFieldProductValueSave($fieldProductValues, $model->id);
+            if (isset(Yii::$app->request->post()['FieldProductValue'])) {
+                $fieldProductValues = Yii::$app->request->post()['FieldProductValue'];
+                FieldProductValue::eachFieldProductValueSave($fieldProductValues, $model->id);
+            }
 
             ProductService::save($id, Yii::$app->request->post());
             return $this->redirect(['index']);

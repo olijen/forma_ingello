@@ -7,7 +7,7 @@ use Yii;
 use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

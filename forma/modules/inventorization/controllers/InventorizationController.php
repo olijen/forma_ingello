@@ -6,7 +6,7 @@ use Yii;
 use forma\modules\inventorization\records\Inventorization;
 use forma\modules\inventorization\records\InventorizationSearch;
 use forma\modules\inventorization\records\InventorizationProductSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

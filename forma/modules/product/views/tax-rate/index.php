@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 <div class="tax-rate-index">
 
     <p>
-        <?= Html::a('Создать налоговую ставку', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> Создать налоговую ставку', ['create'], ['class' => 'btn btn-success forma_light_orange']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,

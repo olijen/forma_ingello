@@ -3,7 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 
-use yii\web\Controller;
+use forma\components\Controller;
 
 class SpeechModuleController extends Controller
 {

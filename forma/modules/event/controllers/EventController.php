@@ -5,7 +5,7 @@ namespace forma\modules\event\controllers;
 use Yii;
 use forma\modules\event\records\Event;
 use forma\modules\event\records\EventSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,6 +42,27 @@ class EventController extends Controller
         ]);
     }
 
+    public function actionUpdateEventMonth()
+    {
+        $searchModel = new EventSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 0;
+        $events = $dataProvider->getModels();
+
+        foreach ($events as $event) {
+            $dateFrom = new \DateTime($event->date_from);
+            $dateTo = new \DateTime($event->date_to);
+
+            $dateFrom->add((new \DateInterval('P1M')));
+            $dateTo->add((new \DateInterval('P1M')));
+
+            $event->date_from = $dateFrom->format('Y-m-d');
+            $event->date_to = $dateTo->format('Y-m-d');
+
+            $event->save();
+        }
+    }
+
     /**
      * Displays a single Event model.
      * @param integer $id
@@ -72,7 +93,8 @@ class EventController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
-
+            Yii::debug('Вывожу данные календаря');
+            Yii::debug($model);
             if ($model->save()) {
                 if (isset($_GET['json'])) {
                     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

@@ -6,7 +6,7 @@ use Yii;
 use forma\modules\selling\records\Selling;
 use forma\modules\selling\records\selling\SellingSearch;
 use forma\modules\selling\records\selling\SellingProductSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

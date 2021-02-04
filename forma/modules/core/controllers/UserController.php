@@ -7,7 +7,7 @@ use forma\modules\core\records\User;
 use forma\modules\core\records\UserSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

@@ -5,7 +5,7 @@ namespace forma\modules\test\controllers;
 use Yii;
 use forma\modules\test\records\Test;
 use forma\modules\test\records\TestResultSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -52,7 +52,7 @@ class ResultController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('test_result', [
             'model' => $this->findModel($id),
         ]);
     }

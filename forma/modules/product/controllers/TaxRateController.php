@@ -5,7 +5,7 @@ namespace forma\modules\product\controllers;
 use Yii;
 use forma\modules\product\records\TaxRate;
 use forma\modules\product\records\TaxRateSearch;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

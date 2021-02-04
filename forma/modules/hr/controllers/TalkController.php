@@ -9,7 +9,7 @@ use forma\modules\selling\services\RequestService;
 use forma\modules\selling\services\RequestStrategyService;
 use forma\modules\hr\services\InterviewService;
 use http\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -80,7 +80,7 @@ class TalkController extends Controller
             $customer->save();
         }
 
-        return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/hr/form?id=' . $selling->id]));
+        return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/hr/form?id=' . $_POST['interviewId']]));
     }
 
     public function actionCommentHistory()

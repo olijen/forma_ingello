@@ -60,7 +60,7 @@ class Module extends \yii\base\Module
                     . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
             );
 
-            Yii::$app->getResponse()->redirect(Url::to(['/signup']));
+            Yii::$app->getResponse()->redirect(Url::to(['/']));
             return false;
         }
     }
@@ -120,6 +120,9 @@ class Module extends \yii\base\Module
             $nomenclature->toWarehouse : $nomenclature->getRelatedWarehouse();
 
         foreach ($nomenclature->getUnits() as $unit) {
+            Yii::debug('units');
+            Yii::debug($unit);
+
             $result = WarehouseService::addExpectedProduct($unit, $relatedWarehouse);
             if (!$result) {
                 return false;

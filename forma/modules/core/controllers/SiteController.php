@@ -12,7 +12,7 @@ use yii\filters\AccessControl;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
-use yii\web\Controller;
+use forma\components\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use forma\modules\core\forms\LoginForm;
@@ -222,7 +222,7 @@ class SiteController extends Controller
                     . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
             );
 
-            return $this->redirect(Url::to(['/signup']));
+            return $this->redirect(Url::to(['/']));
         }
 
         if (!empty($exception->statusCode)) {

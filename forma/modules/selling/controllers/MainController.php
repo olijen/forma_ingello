@@ -10,7 +10,7 @@ use Google_Service_Oauth2;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
-use yii\web\Controller;
+use forma\components\Controller;
 use forma\modules\selling\services\SellingService;
 use forma\modules\selling\records\state\State;
 use forma\modules\customer\records\Customer;

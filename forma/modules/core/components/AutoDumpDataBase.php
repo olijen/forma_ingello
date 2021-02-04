@@ -6,6 +6,7 @@ namespace forma\modules\core\components;
 
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\Regularity;
+use forma\modules\core\records\SystemEvent;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\product\records\ProductPackUnit;
 use forma\modules\warehouse\records\Warehouse;
@@ -89,6 +90,74 @@ class AutoDumpDataBase
 
     }
 
+    public function systemEvents()
+    {
+        $dateTime = [
+            '2020-12-16 14:16:04',
+            '2021-01-18 15:25:06',
+            '2021-01-18 15:25:36',
+            '2021-01-18 15:28:21',
+            '2021-01-18 15:29:10',
+
+        ];
+        $application = [
+            'HRM',
+            'CRM',
+            'ERP',
+            'HRM',
+            'ERP',
+        ];
+        $module = [
+            'Найм',
+            'Продажа',
+            'Склад',
+            'Проект',
+            'Продукт',
+        ];
+        $data = [
+            'Работник Удален: "Алина" пользователем admin',
+            'Продажа Удален: "Продажа Lenovo Tab 2" пользователем admin',
+            'Склад Удален: "Склад в Днепре" пользователем admin',
+            'Вакансия Удален: "Менеджер по продажам" пользователем admin',
+            'Категория Удален: "Игровые ПК" пользователем admin',
+        ];
+        $className = [
+            'Worker',
+            'Selling',
+            'Warehouse',
+            'Vacancy',
+            'Category',
+        ];
+        $requestUri = [
+            '/worker/worker/delete?id=51',
+            '/selling/main/delete?id=2',
+            '/warehouse/warehouse/delete?id=102',
+            '/vacancy/vacancy/delete?id=90',
+            '/product/category/delete?id=194',
+        ];
+        $senderId = [
+            51,
+            2,
+            102,
+            90,
+            194,
+        ];
+
+        for ($i = 0; $i < count($application); $i++) {
+            $systemEvent = new SystemEvent();
+            $systemEvent->date_time = $dateTime[$i];
+            $systemEvent->application = $application[$i];
+            $systemEvent->module = $module[$i];
+            $systemEvent->data = $data[$i];
+            $systemEvent->user_id = Yii::$app->user->identity->id;
+            $systemEvent->class_name = $className[$i];
+            $systemEvent->request_uri = $requestUri[$i];
+            $systemEvent->sender_id = $senderId[$i];
+
+            $systemEvent->save();
+        }
+    }
+
     public function start()
     {
         $this->getAccessoryKeys();
@@ -112,6 +181,7 @@ class AutoDumpDataBase
         $this->selling();
         $this->transit();
         $this->userWidget();
+        $this->systemEvents();
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
         
@@ -362,6 +432,27 @@ class AutoDumpDataBase
 
 
         if (isset($this->oldKeys['field_id'])) {
+            $fieldValues = $this->findModels('forma\modules\product\records\FieldValue',
+                [
+                    //'field_id' => $this->getOldAccessoryProducts(),
+                    //'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
+                    // 'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
+                    'field_id' => $this->oldKeys['field_id'],
+                    // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
+                ]);
+
+
+            foreach ($fieldValues as $fieldValue) {
+                $fieldValue = $this->changeAttributes(
+                    $this->newKeys['field_id'],
+                    $fieldValue,
+                    'field_id');
+
+                $this->saveNewRecord($fieldValue);
+            }
+
+
+
             $fieldProductValues = $this->findModels('forma\modules\product\records\FieldProductValue',
                 [
                     //'field_id' => $this->getOldAccessoryProducts(),
