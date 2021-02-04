@@ -144,7 +144,44 @@ $fieldOptions5 = [
         }
     }
 
+    .slider-for,
+    .slider-nav {
+        margin: 0 auto;
+        width: 80%;
+    }
 
+    .slider-for img {
+        width: 100%;
+    }
+
+    .slider-for {
+        margin-bottom: 30px;
+        height: 65vh;
+    }
+
+    .slider-nav {
+        height: 13vh;
+    }
+
+    .slider-for div,
+    .slider-for img,
+    .slider-nav div,
+    .slider-nav img{
+        height: 100%!important;;
+    }
+
+    .slider-nav .item {
+        margin: 0 20px;
+    }
+
+    .slider-nav .item img {
+        border-bottom: 7px solid #00a65a;
+        width: 100%;
+    }
+
+    .slider-nav .item.slick-xxx img {
+        border-bottom: 7px solid #58628e;
+    }
 
 </style>
 
@@ -186,6 +223,33 @@ $fieldOptions5 = [
 
     </div>
 </header>
+<!-- Slider Section-->
+<section class="page-section portfolio bg-primary text-white" id="slider">
+    <div class="container-fluid">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase mb-0" style="color: white">Слайдер</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i style="color: white" class="fas fa-check"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="slider-for">
+            <?php for($i = 0; $i < 19; $i++) { ?>
+                <div class="item">
+                    <img src="/images/FORMA/Screenshot<?=($i+1)?>.png" alt="image"  draggable="false"/>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="slider-nav">
+            <?php for($i = 0; $i < 19; $i++) { ?>
+                <div class="item">
+                    <img src="/images/Screenshot<?=($i+1)?>-min.png" alt="image"  draggable="false"/>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
 <!-- Portfolio Section-->
 <section class="page-section portfolio" id="portfolio">
     <div class="container">
@@ -216,62 +280,8 @@ $fieldOptions5 = [
         </div>
     </div>
 </section>
-<!-- Slider Section-->
-<section class="page-section portfolio" id="slider">
-    <div class="container">
-        <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Слайдер</h2>
-        <!-- Icon Divider-->
-        <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-check"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        <!-- Portfolio Grid Items-->
-        <div class="row justify-content-center">
-            <!-- Portfolio Item 1-->
 
 
-        </div>
-    </div>
-</section>
-
-
-
-<div class="slider-for">
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-</div>
-<div class="slider-nav">
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-    <div class="item">
-        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
-    </div>
-</div>
 
 
 
@@ -288,14 +298,53 @@ $fieldOptions5 = [
             fade: true,
             asNavFor: '.slider-nav'
         });
-        $('.slider-nav').slick({
-            slidesToShow: 3,
+        // $('.slider-nav').slick({
+        //     slidesToShow: 3,
+        //     slidesToScroll: 1,
+        //     asNavFor: '.slider-for',
+        //     dots: true,
+        //     centerMode: true,
+        //     focusOnSelect: true
+        // });
+
+        $('.slider-nav').on('init beforeChange', function(e, slick, curr, next) {
+            const
+                count = slick.slideCount,
+                show = slick.options.slidesToShow,
+                center = slick.options.centerMode,
+                index = (next | 0) - center * (count > show ? show / 2 | 0 : 0),
+                selector = shift => `[data-slick-index="${index + shift * count}"]`;
+            console.log(count);
+            console.log(show);
+
+            $('.slick-xxx', this).removeClass('slick-xxx');
+
+            let prev = (next > curr)?curr-1:curr+1;
+
+
+
+            let curIndex = next;
+            let nextIndex = (next > curr) ? curIndex + 1 : curIndex - 1;
+            let prevIndex = (next < curr) ? curIndex + 1 : curIndex - 1;
+
+            $('.slider-nav .item[data-slick-index="'+curIndex+'"]').addClass('slick-xxx');
+            console.log(prevIndex, curIndex, nextIndex);
+            console.log('prev, curr, next');
+
+            if (curIndex === undefined) {
+                $('.slider-nav .item[data-slick-index="'+0+'"]').addClass('slick-xxx');
+            }
+            //$([ 0, 1, -1 ].map(selector).join(', '), this).addClass('slick-xxx');
+        }).slick({
+            slidesToShow: 5,
+            infinite: true,
+            centerMode: true,
             slidesToScroll: 1,
             asNavFor: '.slider-for',
             dots: true,
-            centerMode: true,
             focusOnSelect: true
         });
+
     });
 </script>
 
@@ -506,21 +555,37 @@ $fieldOptions5 = [
 
 
 
-        $('.slider-for').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false,
-            fade: true,
-            asNavFor: '.slider-nav'
-        });
-        $('.slider-nav').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            asNavFor: '.slider-for',
-            dots: true,
-            centerMode: true,
-            focusOnSelect: true
-        });
+        // $('.slider-for').slick({
+        //     slidesToShow: 1,
+        //     slidesToScroll: 1,
+        //     arrows: false,
+        //     fade: true,
+        //     asNavFor: '.slider-nav'
+        // });
+        // $('.slider-nav').slick({
+        //     slidesToShow: 3,
+        //     slidesToScroll: 1,
+        //     asNavFor: '.slider-for',
+        //     dots: true,
+        //     centerMode: true,
+        //     focusOnSelect: true
+        // });
+
+        // for (let i = 0; i < items.length; i++) {
+        //     items[i].onclick = function (e) {
+        //         let curItem = this;
+        //         let curIndex = this.dataset.slickIndex;
+        //         if (curIndex < 0) {
+        //             curIndex
+        //         }
+        //     }
+        // }
+
+
+
+
+
+
     });
 
 
