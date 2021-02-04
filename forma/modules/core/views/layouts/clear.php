@@ -37,13 +37,15 @@ if (Yii::$app->controller->action->id === 'login') {
         <?php $this->head() ?>
 
         <!-- todo: Перенести в зависимости -->
-        <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
+
     </head>
     <body id="body1" class="hold-transition sidebar-mini sidebar-collapse <?= AdminLteHelper::skinClass() ?>">
     <?php $this->beginBody() ?>
         <?=$content?>
     <?php $this->endBody() ?>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     </body>
 
     </html>

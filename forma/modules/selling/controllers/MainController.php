@@ -41,6 +41,7 @@ class MainController extends Controller
 
     public function actionIndex()
     {
+        if (Yii::$app->request->isAjax) Yii::debug('ВОТ');
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         //Yii::debug("PROVIDER ON PAGE");

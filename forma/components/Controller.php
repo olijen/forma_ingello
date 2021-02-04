@@ -24,7 +24,7 @@ class Controller extends C
 
     public function redirect($url, $statusCode = 302)
     {
-        if (isset($_GET['form-without-header'])) {
+        if (isset($_GET['form-without-header']) || isset($_GET['without-header'])) {
             $newUrl = '';
             if (is_string($url)){
                 if(strpos($url, '?') !== false) {

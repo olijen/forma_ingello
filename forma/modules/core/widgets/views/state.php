@@ -87,7 +87,16 @@ JS;
 <?php if ($model->getState()->getActions()): ?>
 <div class="row operation-actions">
     <div class="col-md-12">
+        <?php Yii::debug($model->getState()); ?>
         <?php foreach ($model->getState()->getActions() as $name => $url) : ?>
+            <?php if ($model->getState() instanceof \forma\modules\inventorization\records\StateInitial &&
+            isset($_GET['without-header']) && $name == "Провести") : ?>
+                <a class="btn no-loader btn-success btn-xs" href="<?= strtolower($url) . '?id=' . $model->id ?>" data-for-grid="/inventorization/form?id=<?=$model->id?>#remainsTable">
+                    <?= $name ?>
+                </a>
+            <?php
+                continue;
+            endif; ?>
             <a class="btn no-loader btn-success btn-xs" href="<?= strtolower($url) . '?id=' . $model->id ?>">
                 <?= $name ?>
             </a>

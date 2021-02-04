@@ -156,13 +156,16 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     </script>
 
-    <?php if (!isset($_GET['catalog'])) : ?>
+    <?php if (!isset($_GET['catalog'])) :
+        $withoutHeader = (isset($_GET['without-header'])) ?
+            'without-header&' : '';
+        ?>
 
         <a class="btn btn-default forma_light_orange" href='?catalog' data-pjax="0"><i class="fa fa-list"></i>
             Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
         Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success forma_light_orange',
-            'onchange' => 'window.location.href = "/product/product/index?ProductSearch[category_id]="+ $(this).val()'
+            'onchange' => 'window.location.href = "/product/product/index?'.$withoutHeader.'ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success forma_light_orange" href='/product/product/create' data-pjax="0"><i
                     class="fa fa-plus"></i> Новый объект</a>

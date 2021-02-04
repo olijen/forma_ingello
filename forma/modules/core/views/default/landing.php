@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
 </head>
 <body>
 
@@ -142,6 +144,8 @@ $fieldOptions5 = [
         }
     }
 
+
+
 </style>
 
 
@@ -212,6 +216,91 @@ $fieldOptions5 = [
         </div>
     </div>
 </section>
+<!-- Slider Section-->
+<section class="page-section portfolio" id="slider">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Слайдер</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-check"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row justify-content-center">
+            <!-- Portfolio Item 1-->
+
+
+        </div>
+    </div>
+</section>
+
+
+
+<div class="slider-for">
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+</div>
+<div class="slider-nav">
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+    <div class="item">
+        <img src="https://www.sydney.com/sites/sydney/files/styles/landscape_992x558/public/2019-10/165838.jpg?itok=L1Xp4apm" alt="image"  draggable="false"/>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+<script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).on('ready', function() {
+
+
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+        $('.slider-nav').slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+    });
+</script>
+
+
+
 <!-- About Section-->
 <section class="page-section bg-primary text-white mb-0" id="about">
     <div class="container">
@@ -382,7 +471,6 @@ $fieldOptions5 = [
     <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
 </div>
 <!-- Bootstrap core JS-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Third party plugin JS-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
@@ -390,14 +478,11 @@ $fieldOptions5 = [
 
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
-<script src="/js/yii.activeForm.js"></script>
-<script src="/js/yii.captcha.js"></script>
-<script src="/js/yii.gridView.js"></script>
-<script src="/js/yii.js"></script>
-<script>
-    $('#login-form').hide();
-    $('#signup-form').hide();
 
+
+<!-- Slider JS-->
+
+<script>
     function hideShowForm(formName, id) {
         $('#login-form').hide();
         $('#signup-form').hide();
@@ -412,8 +497,31 @@ $fieldOptions5 = [
         scrollTo(0, clientOffset);
 
 
-        $("#"+formName).show();
+        $("#" + formName).show();
     }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        $('#login-form').hide();
+        $('#signup-form').hide();
+
+
+
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+        $('.slider-nav').slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+    });
 
 
 </script>
