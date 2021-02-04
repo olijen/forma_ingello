@@ -65,6 +65,7 @@ var EditableDataColumn = (function() {
         var url = $(this).attr('href');
         var tableKey = $(this).attr('data-for-grid');
         var tableData = getTableFromLocalStorage(tableKey);
+        console.log(tableData);
 
         if (tableData.length == 0) {
             // todo: Вынести
@@ -155,9 +156,12 @@ var EditableDataColumn = (function() {
     var setInLocalStorage = function($input) {
         var key = getTableKey($input);
         var recordId = getRecordId($input);
+        console.log($input);
+        console.log(recordId);
         var tableData = getTableFromLocalStorage(key, $input);
 
         tableData[recordId][$input.attr('name')] = $input.val();
+        console.log(tableData);
 
         localStorage.setItem(key, JSON.stringify(tableData));
     };
