@@ -23,10 +23,13 @@ class StateController extends Controller
     {
         if (!Yii::$app->request->isAjax) {
             Yii::debug('sfjid');
-            return Yii::$app->controller->redirect('/purchase/form/index?id='.$id);
+            return $this->redirect('/purchase/form/index?id='.$id);
+            return;
+        } else {
+            Yii::debug('else no if');
+            $model = PurchaseService::confirm($id);
+            return StateView::widget(['model' => $model]);
         }
-        $model = PurchaseService::confirm($id);
-        return StateView::widget(['model' => $model]);
     }
 
     public function actionRollback($id)

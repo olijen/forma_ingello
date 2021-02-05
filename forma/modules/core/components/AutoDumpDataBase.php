@@ -8,6 +8,7 @@ use forma\modules\core\records\Accessory;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\SystemEvent;
 use forma\modules\hr\records\interview\Interview;
+use forma\modules\product\records\Field;
 use forma\modules\product\records\ProductPackUnit;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
@@ -409,29 +410,35 @@ class AutoDumpDataBase
         return true;
     }
 
+
+    //работа с группой Field, FieldValue, FieldProductValue
     public function field()
     {
         ['\forma\modules\product\records\Field',    //  category_id
             '\forma\modules\product\records\FieldProductValue', // field_id  product_id
             '\forma\modules\product\records\FieldValue',];  // field_id
 
+        //находим все field по старым категориям от админа
         $fieldModels = $this->findModels('\forma\modules\product\records\Field',
             ['category_id' => $this->accessoryOldKeys['forma\modules\product\records\Category']]);
 
+        //перебираем их в цикле и меняем значения у атрибута категории на новое
         foreach ($fieldModels as $fieldModel) {
             $fieldModel = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\product\records\Category'],
                 $fieldModel,
                 'category_id');
 
-
+            //сохраняем id новой модели под ключ старой модели
             $this->forSaveAndGetKey($fieldModel, 'field_id');
         }
         if ($this->deleteAutoDamp) return $this->delete($fieldModels);
 
 
-
+        //проверяем, что от админа пришли какие то field которые перешли новому пользователю, и перебирая их
+        //создаем модели FieldValue, которые ссылаются на Field
         if (isset($this->oldKeys['field_id'])) {
+            //выбираем все модели от админа со старым ключом Field, получаем FieldValue
             $fieldValues = $this->findModels('forma\modules\product\records\FieldValue',
                 [
                     //'field_id' => $this->getOldAccessoryProducts(),
@@ -441,18 +448,19 @@ class AutoDumpDataBase
                     // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
 
-
+            //перебираем полученные FieldValue меняем их страрые field_id на новые и сохраняем.
             foreach ($fieldValues as $fieldValue) {
                 $fieldValue = $this->changeAttributes(
                     $this->newKeys['field_id'],
                     $fieldValue,
                     'field_id');
 
-                $this->saveNewRecord($fieldValue);
+                $this->forSaveAndGetKey($fieldValue, 'field_value');
             }
 
 
-
+            Yii::debug($this->oldKeys['field_value']);
+            Yii::debug($this->newKeys['field_value']);
             $fieldProductValues = $this->findModels('forma\modules\product\records\FieldProductValue',
                 [
                     //'field_id' => $this->getOldAccessoryProducts(),
@@ -463,18 +471,60 @@ class AutoDumpDataBase
                 ]);
 //de($sellingProducts);
            // Yii::debug($fieldProductValues);
+
+            Yii::debug($this->newKeys['field_id']);
+
+            foreach ( $this->findModels('\forma\modules\product\records\Field',
+                ['id' => $this->newKeys['field_id']]) as $field) {
+                Yii::debug($field);
+            }
             foreach ($fieldProductValues as $fieldProductValue) {
                 $fieldProductValue = $this->changeAttributes(
                     $this->newKeys['product_id'],
                     $fieldProductValue,
                     'product_id');
 
-                $sellingProduct = $this->changeAttributes(
+                $fieldProductValue = $this->changeAttributes(
                     $this->newKeys['field_id'],
                     $fieldProductValue,
                     'field_id');
 
-                $this->saveNewRecord($sellingProduct);
+                $oneValueId = ['widgetDropDownList'];
+                $multiValueId = ['widgetMultiSelect'];
+
+                if (in_array(Field::findOne($fieldProductValue->field_id)->widget, $oneValueId)) {
+                    $fieldProductValue = $this->changeAttributes(
+                        $this->newKeys['field_value'],
+                        $fieldProductValue,
+                        'value');
+                }
+
+                if (in_array(Field::findOne($fieldProductValue->field_id)->widget, $multiValueId)) {
+
+                    $valueStr = $fieldProductValue->value;
+                    Yii::debug($valueStr);
+                    Yii::debug(json_decode($valueStr));
+                    $valueArr = json_decode($valueStr);
+                    $finalValue = '[';
+                    for ($i = 0; $i < count($valueArr); $i++) {
+                        if ($i == count($valueArr)-1) {
+                            $finalValue .= '"'.$this->newKeys['field_value'][$valueArr[$i]].'"';
+                        } else {
+                            $finalValue .= '"'.$this->newKeys['field_value'][$valueArr[$i]].'",';
+                        }
+                    }
+                    $finalValue .= ']';
+                    $fieldProductValue->value = $finalValue;
+
+//                    $fieldProductValue = $this->changeAttributes(
+//                        $this->newKeys['field_value'],
+//                        $fieldProductValue,
+//                        'value');
+                }
+
+
+
+                $this->saveNewRecord($fieldProductValue);
             }
         }
         return true;
@@ -699,8 +749,6 @@ class AutoDumpDataBase
         Yii::debug($interviews);
 
         foreach ($interviews as $interview) {
-            Yii::debug($interview);
-            Yii::debug('-----------');
             $interview = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
                 $interview,
@@ -716,7 +764,6 @@ class AutoDumpDataBase
                 $interview,
                 'vacancy_id');
 
-            Yii::debug($interview);
 
             $this->forSaveAndGetKey($interview, 'interview_id');
 
