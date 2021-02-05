@@ -235,7 +235,9 @@ $fieldOptions5 = [
             <div class="divider-custom-line"></div>
         </div>
         <div class="slider-for">
-            <?php for($i = 0; $i < 19; $i++) { ?>
+            <?php for($i = 0; $i < 19; $i++) {
+                if ($i == 11) continue;
+                ?>
                 <div class="item">
                     <img src="/images/FORMA/Screenshot<?=($i+1)?>.png" alt="image"  draggable="false"/>
                 </div>
