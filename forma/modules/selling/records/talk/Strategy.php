@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\talk;
 
+use forma\components\EntityLister;
 use Yii;
 
 /**
@@ -69,5 +70,9 @@ class Strategy extends \yii\db\ActiveRecord
     public static function find()
     {
         return new StrategyQuery(get_called_class());
+    }
+
+    public static function getList() {
+        return EntityLister::getList(self::className());
     }
 }

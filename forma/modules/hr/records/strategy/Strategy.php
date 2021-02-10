@@ -3,6 +3,7 @@
 namespace forma\modules\hr\records\strategy;
 
 use forma\components\AccessoryActiveRecord;
+use forma\components\EntityLister;
 use Yii;
 
 /**
@@ -71,4 +72,10 @@ class Strategy extends AccessoryActiveRecord
     {
         return new StrategyQuery(get_called_class());
     }
+
+
+    public static function getList() {
+        return EntityLister::getList(self::className());
+    }
+
 }

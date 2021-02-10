@@ -52,7 +52,14 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 </div>
 
 <div class="row">
-    <?php foreach ($list as $k => $item): ?>
+    <?php foreach ($list as $k => $item):
+        $itemValue = rand(100, 10000);
+        if ($item['label'] == 'Продажи') $itemValue = count(\forma\modules\selling\records\selling\Selling::getList());
+        if ($item['label'] == 'Речевые модули') {
+            $itemValue = count(\forma\modules\selling\records\strategy\Strategy::getList());
+        }
+        if ($item['label'] == 'Состояния') $itemValue = count(\forma\modules\selling\records\state\State::find()->where(['user_id' => Yii::$app->user->id])->all());
+        ?>
         <a href="<?= $item['url'] ?>">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
@@ -63,7 +70,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
                         <span class="info-box-text"><?= $item['label'] ?></span>
 
-                        <span class="info-box-number"><?= rand(100, 10000) ?></span>
+                        <span class="info-box-number"><?= $itemValue ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
