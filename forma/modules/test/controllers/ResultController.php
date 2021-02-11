@@ -4,6 +4,7 @@ namespace forma\modules\test\controllers;
 
 use Yii;
 use forma\modules\test\records\Test;
+use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestResultSearch;
 use forma\components\Controller;
 use yii\web\NotFoundHttpException;
@@ -52,8 +53,16 @@ class ResultController extends Controller
      */
     public function actionView($id)
     {
+        $test = Test::find()->where(['id'=>$id])->one();
+
+
+        $testType = TestType::find()->one();
+
         return $this->render('test_result', [
             'model' => $this->findModel($id),
+            'testType'=>$testType,
+            'test' =>$test,
+
         ]);
     }
 

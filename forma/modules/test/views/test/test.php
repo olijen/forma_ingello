@@ -35,7 +35,7 @@ foreach ($testType->testTypeFields as $field) {
                 <input type="hidden" value="<?= $field->test_id ?>" name="id">
                 <label for="name"><?= $field->label_name ?></label>
                 <?php if ($field->type == 'text'): ?>
-                    <input class="form-control form-control-lg" type="<?= $field->type ?>>" checked value="<?= $field->value ?>" name="name<?= $field->id ?>" placeholder="<?= $field->placeholder ?>">
+                    <input class="form-control form-control-lg" type="text" checked value="<?= $field->value ?>" name="name<?= $field->id ?>" placeholder="<?= $field->placeholder ?>">
                 <?php elseif (isset($field->value)): ?>
                     <?php $value = $field->value;
                     $value = explode('||', $value);
