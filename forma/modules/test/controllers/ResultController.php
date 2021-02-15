@@ -53,15 +53,11 @@ class ResultController extends Controller
      */
     public function actionView($id)
     {
+        $testType = TestType::find()->all();
         $test = Test::find()->where(['id'=>$id])->one();
-
-
-        $testType = TestType::find()->one();
-
-        return $this->render('test_result', [
-            'model' => $this->findModel($id),
-            'testType'=>$testType,
+        return $this->render('_result', [
             'test' =>$test,
+            'testType'=>$testType,
 
         ]);
     }

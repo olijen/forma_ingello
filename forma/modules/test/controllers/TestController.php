@@ -123,6 +123,10 @@ class TestController extends Controller
                 'result'=>$result,
             ]);
             $model->result = $save;
+            $model->customer_id = $customer->id;
+            $model->test_type_id = $testType->id;
+            $model->save();
+
             if ($model->save()) {
                 return $this->redirect(['/test/result/index']);
             }
