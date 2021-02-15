@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\state;
 
+use forma\components\EntityLister;
 use forma\modules\core\records\User;
 use Yii;
 
@@ -79,5 +80,10 @@ class State extends \yii\db\ActiveRecord
     public static function find()
     {
         return new StateQuery(get_called_class());
+    }
+
+    public static function getList($byUser = null)
+    {
+        return EntityLister::getList(self::className(), $byUser);
     }
 }

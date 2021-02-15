@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
 </head>
 <body>
 
@@ -142,6 +144,46 @@ $fieldOptions5 = [
         }
     }
 
+    .slider-for,
+    .slider-nav {
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    .slider-for img {
+        border-bottom: 7px solid #58628e;
+        width: 100%;
+    }
+
+    .slider-for {
+        margin-bottom: 30px;
+        height: 65vh;
+    }
+
+    .slider-nav {
+        height: 13vh;
+    }
+
+    .slider-for div,
+    .slider-for img,
+    .slider-nav div,
+    .slider-nav img{
+        height: 100%!important;;
+    }
+
+    .slider-nav .item {
+        margin: 0 20px;
+    }
+
+    .slider-nav .item img {
+        border-bottom: 7px solid #00a65a;
+        width: 100%;
+    }
+
+    .slider-nav .item.slick-xxx img {
+        border-bottom: 7px solid #58628e;
+    }
+
 </style>
 
 
@@ -156,9 +198,10 @@ $fieldOptions5 = [
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Как это выглядит</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Почему бесплатно?</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="login_block" href="#contact">Как автоматизировать бизнес?</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#slider">ВНЕШНИЙ ВИД</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">НАЗНАЧЕНИЕ</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">ЭТО БЕСПЛАТНО</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="login_block" href="#contact">НАЧАТЬ РАБОТУ</a></li>
             </ul>
         </div>
     </div>
@@ -182,6 +225,36 @@ $fieldOptions5 = [
 
     </div>
 </header>
+<!-- Slider Section-->
+<section class="page-section portfolio bg-primary text-white" id="slider">
+    <div class="container-fluid">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase mb-0" style="color: white">КАК ЭТО ВЫГЛЯДИТ?</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i style="color: white" class="fas fa-check"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="slider-for">
+            <?php for($i = 0; $i < 19; $i++) {
+                if ($i == 11) continue;
+                ?>
+                <div class="item">
+                    <img src="/images/FORMA/Screenshot<?=($i+1)?>.png" alt="image"  draggable="false"/>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="slider-nav">
+            <?php for($i = 0; $i < 19; $i++) {
+                if ($i == 11) continue;?>
+                <div class="item">
+                    <img src="/images/Screenshot<?=($i+1)?>-min.png" alt="image"  draggable="false"/>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
 <!-- Portfolio Section-->
 <section class="page-section portfolio" id="portfolio">
     <div class="container">
@@ -212,6 +285,76 @@ $fieldOptions5 = [
         </div>
     </div>
 </section>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+<script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).on('ready', function() {
+
+
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+        // $('.slider-nav').slick({
+        //     slidesToShow: 3,
+        //     slidesToScroll: 1,
+        //     asNavFor: '.slider-for',
+        //     dots: true,
+        //     centerMode: true,
+        //     focusOnSelect: true
+        // });
+
+        $('.slider-nav').on('init beforeChange', function(e, slick, curr, next) {
+            const
+                count = slick.slideCount,
+                show = slick.options.slidesToShow,
+                center = slick.options.centerMode,
+                index = (next | 0) - center * (count > show ? show / 2 | 0 : 0),
+                selector = shift => `[data-slick-index="${index + shift * count}"]`;
+            console.log(count);
+            console.log(show);
+
+            $('.slick-xxx', this).removeClass('slick-xxx');
+
+            let prev = (next > curr)?curr-1:curr+1;
+
+
+
+            let curIndex = next;
+            let nextIndex = (next > curr) ? curIndex + 1 : curIndex - 1;
+            let prevIndex = (next < curr) ? curIndex + 1 : curIndex - 1;
+
+            $('.slider-nav .item[data-slick-index="'+curIndex+'"]').addClass('slick-xxx');
+            console.log(prevIndex, curIndex, nextIndex);
+            console.log('prev, curr, next');
+
+            if (curIndex === undefined) {
+                $('.slider-nav .item[data-slick-index="'+0+'"]').addClass('slick-xxx');
+            }
+            //$([ 0, 1, -1 ].map(selector).join(', '), this).addClass('slick-xxx');
+        }).slick({
+            slidesToShow: 5,
+            infinite: true,
+            centerMode: true,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            focusOnSelect: true
+        });
+
+    });
+</script>
+
+
+
 <!-- About Section-->
 <section class="page-section bg-primary text-white mb-0" id="about">
     <div class="container">
@@ -382,7 +525,6 @@ $fieldOptions5 = [
     <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
 </div>
 <!-- Bootstrap core JS-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Third party plugin JS-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
@@ -390,14 +532,11 @@ $fieldOptions5 = [
 
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
-<script src="/js/yii.activeForm.js"></script>
-<script src="/js/yii.captcha.js"></script>
-<script src="/js/yii.gridView.js"></script>
-<script src="/js/yii.js"></script>
-<script>
-    $('#login-form').hide();
-    $('#signup-form').hide();
 
+
+<!-- Slider JS-->
+
+<script>
     function hideShowForm(formName, id) {
         $('#login-form').hide();
         $('#signup-form').hide();
@@ -412,8 +551,47 @@ $fieldOptions5 = [
         scrollTo(0, clientOffset);
 
 
-        $("#"+formName).show();
+        $("#" + formName).show();
     }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        $('#login-form').hide();
+        $('#signup-form').hide();
+
+
+
+        // $('.slider-for').slick({
+        //     slidesToShow: 1,
+        //     slidesToScroll: 1,
+        //     arrows: false,
+        //     fade: true,
+        //     asNavFor: '.slider-nav'
+        // });
+        // $('.slider-nav').slick({
+        //     slidesToShow: 3,
+        //     slidesToScroll: 1,
+        //     asNavFor: '.slider-for',
+        //     dots: true,
+        //     centerMode: true,
+        //     focusOnSelect: true
+        // });
+
+        // for (let i = 0; i < items.length; i++) {
+        //     items[i].onclick = function (e) {
+        //         let curItem = this;
+        //         let curIndex = this.dataset.slickIndex;
+        //         if (curIndex < 0) {
+        //             curIndex
+        //         }
+        //     }
+        // }
+
+
+
+
+
+
+    });
 
 
 </script>
