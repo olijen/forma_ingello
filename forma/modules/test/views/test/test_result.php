@@ -12,8 +12,6 @@ use forma\modules\core\widgets\DetachedBlock;
 /* @var $form yii\widgets\ActiveForm */
 
 $this->title = $testType['name'];
-//var_dump($test->id); //39
-//var_dump($test->test_type_id);// 149
 
 ?>
 <?php $questions = []; ?>
@@ -26,20 +24,14 @@ foreach ($testType->testTypeFields as $field) {
     $questions[$field->block_name][] = $field;
 }
 ?>
-<!--test/view/test-->
 <?php foreach ($questions as $blockName => $fields): ?>
-
-    <div class="save" id="save">
-        <div class="row">
-            <div class="col-md-6">
+    <h3> <?php echo $blockName ;?></h3>
                 <?php foreach ($fields as $field): ?>
-                    <?php echo '<b>' . $field->label_name . '</b>' ?>
-                    <br>
-                    <?php echo '<br>' . $result['name' . $field->id] . '<br>' ?>
+
+        <strong><?php echo  $field->label_name ?></strong>
+
+                   <br> <?php echo $result['name' . $field->id] ?><br>
                 <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
 
 <?php endforeach; ?>
 

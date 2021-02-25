@@ -26,19 +26,18 @@ foreach ($value->testTypeFields as $field) {
     $questions[$field->block_name][] = $field;
 
 }
-    var_dump($field);
-exit;
+
 ?>
 <?php endforeach; ?>
 <h2>
 <?php echo $this->title = $value['name']; ?>
 </h2>
-<!--test/view/test-->
 <?php foreach ($questions as $blockName => $fields): ?>
+<?php foreach ($fields as $ques): ?>
     <?php DetachedBlock::begin(['example' => $blockName]); ?>
-                <?php echo $test->result?>
+                <?php echo '<b>'.$ques['label_name'].'</b>'; ?>
     <?php DetachedBlock::end(); ?>
-
+<?php endforeach; ?>
 <?php endforeach; ?>
 
 

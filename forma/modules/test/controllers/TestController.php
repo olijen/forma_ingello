@@ -117,11 +117,12 @@ class TestController extends Controller
                 $customer->save();
             }
             $result = $_POST;
-            $save = $this->renderFile('@forma/modules/test/views/test/test_result.php',[
+            return $this->render('@forma/modules/test/views/test/test_result.php',[
                 'model'=> $model,
                 'testType'=> $testType,
                 'result'=>$result,
             ]);
+
             $model->result = $save;
             $model->customer_id = $customer->id;
             $model->test_type_id = $testType->id;
