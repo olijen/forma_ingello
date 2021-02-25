@@ -153,6 +153,13 @@ $config = [
             'timeZone' => 'Europe/Kiev',
         ],
     ],
+    'container'  => [
+        'definitions' => [
+            'yii\grid\GridView' => [
+                'layout'=>"{items}\n{summary}\n{pager}",
+            ],
+        ],
+    ],
     'params' => $params,
 
     'language'=>'ru',
