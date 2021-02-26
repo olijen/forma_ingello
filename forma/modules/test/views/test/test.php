@@ -26,9 +26,8 @@ foreach ($testType->testTypeFields as $field) {
 }
 
 ?>
+<div class="col-md-6">
 <?php foreach ($questions as $blockName => $fields): ?>
-<div class="row">
-    <div class="col-md-6">
         <?php DetachedBlock::begin(['example' => $blockName]); ?>
         <?php foreach ($fields as $field): ?>
             <div class="form-group">
@@ -47,10 +46,8 @@ foreach ($testType->testTypeFields as $field) {
             </div>
         <?php endforeach; ?>
         <?php DetachedBlock::end(); ?>
-    </div>
-</div>
 <?php endforeach; ?>
-<div class="row">
+</div>
 <div class="col-md-6">
 <?php DetachedBlock::begin(['example' => 'Контактые данные']); ?>
 <?= $form->field($customer,'name')->textInput()->label('Ваше имя') ?>
@@ -58,7 +55,7 @@ foreach ($testType->testTypeFields as $field) {
 <?= $form->field($customer, 'description')->label('Описание')->widget(Widget::className(), [
     'settings' => [
         'lang' => 'ru',
-        'minHeight' => 200,
+        'minHeight' => 400,
         'plugins' => [
             'clips',
             'fullscreen',
@@ -81,6 +78,6 @@ foreach ($testType->testTypeFields as $field) {
 <?= Html::submitButton('<i class="fa fa-save"></i>' . ' ' . 'Завершить',
     ['class' => 'btn btn-success btn-lg btn-block']) ?>
 </div>
-</div>
+
 <?php ActiveForm::end(); ?>
 

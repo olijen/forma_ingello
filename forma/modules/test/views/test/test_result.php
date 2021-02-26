@@ -12,9 +12,6 @@ use forma\modules\core\widgets\DetachedBlock;
 /* @var $form yii\widgets\ActiveForm */
 
 $this->title = $testType['name'];
-//var_dump($test->id); //39
-//var_dump($test->test_type_id);// 149
-
 ?>
 <?php $questions = []; ?>
 
@@ -26,22 +23,27 @@ foreach ($testType->testTypeFields as $field) {
     $questions[$field->block_name][] = $field;
 }
 ?>
-<!--test/view/test-->
-<?php foreach ($questions as $blockName => $fields): ?>
 
-    <div class="save" id="save">
-        <div class="row">
-            <div class="col-md-6">
-                <?php foreach ($fields as $field): ?>
-                    <?php echo '<b>' . $field->label_name . '</b>' ?>
-                    <br>
-                    <?php echo '<br>' . $result['name' . $field->id] . '<br>' ?>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
+<div class="col-md-6">
+    <?php foreach ($questions as $blockName => $fields): ?>
+        <?php DetachedBlock::begin(['example' => $blockName]); ?>
+        <?php foreach ($fields as $field): ?>
 
-<?php endforeach; ?>
+            <strong><?php echo $field->label_name ?></strong>
+
+            <br> <?php echo $result['name' . $field->id] ?><br><br>
+        <?php endforeach; ?>
+        <?php DetachedBlock::end() ?>
+    <?php endforeach; ?>
+</div>
+<div class="col-md-6">
+    <?php DetachedBlock::begin(['example' => 'Контактная информация']) ?>
+    <h2><?php echo $result['Customer']['name'] ?></h2><br>
+    <?php echo $result['Customer']['chief_email'] ?><br>
+    <?php echo $result['Customer']['description'] ?>
+    <?php DetachedBlock::end() ?>
+</div>
+
 
 
 

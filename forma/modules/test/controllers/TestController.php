@@ -117,6 +117,7 @@ class TestController extends Controller
                 'testType'=> $testType,
                 'result'=>$result,
             ]);
+
             $model->result = $save;
             $model->customer_id = $testData['customer']->id;
             $model->test_type_id = $testType->id;

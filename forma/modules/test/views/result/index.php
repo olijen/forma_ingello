@@ -25,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             ['attribute'=>'result',
-                'label'=>'Ответы к тесту'],
+                'label'=>'Ответы к тесту',
+                'value' => function($model){return strip_tags($model->result);}
+            ],
 
             ['attribute'=>'test_type_id',
                 'label'=>'Номер теста'],
