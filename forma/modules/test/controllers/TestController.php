@@ -2,6 +2,7 @@
 
 namespace forma\modules\test\controllers;
 
+use forma\modules\selling\services\TestService;
 use forma\modules\test\records\TestType;
 use forma\modules\test\records\Test;
 use Yii;
@@ -102,19 +103,13 @@ class TestController extends Controller
 
     public function actionTest($id)
     {
-
-        $customer = new Customer();
         $model = new Test();
+        $customer = new Customer();
         $testType = TestType::find()->where(['id' => $id])->one();
 
-
         if (!empty($_POST)) {
-
-            if ($_POST['Customer']) {
-                $customer->name = $_POST['Customer']['name'];
-                $customer->chief_email = $_POST['Customer']['chief_email'];
-                $customer->description = $_POST['Customer']['description'];
-                $customer->save();
+            if (isset($_POST['Customer'])) {
+                $testData = TestService::completeTest($_POST['Customer']);
             }
             $result = $_POST;
             $save = $this->renderFile('@forma/modules/test/views/test/test_result.php',[
@@ -123,12 +118,12 @@ class TestController extends Controller
                 'result'=>$result,
             ]);
             $model->result = $save;
-            $model->customer_id = $customer->id;
+            $model->customer_id = $testData['customer']->id;
             $model->test_type_id = $testType->id;
             $model->save();
 
             if ($model->save()) {
-                return $this->redirect(['/test/result/index']);
+                return $this->redirect(['/selling/main/show-selling?selling_token='.$testData['sellingToken']]);
             }
         }
 

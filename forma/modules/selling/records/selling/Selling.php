@@ -205,6 +205,14 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return "$min - $max";
     }
 
+    public static function getSellingBySellingToken($sellingToken)
+    {
+        return self::find()
+            ->where(['selling_token' => $sellingToken])
+            ->limit(1)
+            ->one();
+    }
+
     public static function getDateCompleteRange()
     {
         $range = (new Query())

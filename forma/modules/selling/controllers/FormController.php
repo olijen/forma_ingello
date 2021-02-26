@@ -31,9 +31,15 @@ class FormController extends Controller
         }
     }
 
+    //
     public function actionChangeSellingProductCost()
     {
 
+        /*
+         * todo:Tymur:добавить условие, при котором сюда попадет гость
+         *      использовать получение складов по getMyWarehouseUser, для гостя.
+         *      поменять цену
+        */
         if (!empty($_POST['productId']) && !empty($_POST['quantity'])) {
 
             $cost = 'consumer_cost';

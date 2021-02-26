@@ -2,6 +2,8 @@
 
 namespace forma\modules\selling\services;
 
+use forma\modules\core\records\Accessory;
+use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\selling\records\selling\Selling;
@@ -201,5 +203,22 @@ class SellingService
         $searchModel = self::search();
         $sellingInWarehouse = $searchModel->salesInWarehouse();
         return $sellingInWarehouse;
+    }
+
+    /**
+     * Получить владельца продажи.
+     * Get user, that create selling
+     */
+    public static function getSellingOwner()
+    {
+        $selling = Selling::getSellingBySellingToken($_GET['selling_token']);
+        Yii::debug($selling);
+        $userId = Accessory::find()
+            ->where("entity_class = 'forma\\\\modules\\\\selling\\\\records\\\\selling\\\\Selling'")
+            ->andWhere(['entity_id' => $selling->id])
+            ->limit(1)
+            ->one()->user_id;
+
+        return User::findOne($userId);
     }
 }
