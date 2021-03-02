@@ -51,6 +51,8 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
     public $sale_warehouse;
 
+    public $tmpUserId = null;
+
     //Это временная заглушка, для того что бы работали элементы с StateActiveRecord
     public function stateIs($state)
     {
