@@ -68,6 +68,9 @@ class NomenclatureController extends Controller
         }
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
         if ($model->hasErrors()) Yii::debug(json_encode($model->errors));
+        if (!$model->isNewRecord && Yii::$app->user->isGuest) {
+            return $this->redirect('/selling/main/show-selling?selling_token='.$selling_token);
+        }
 
         return NomenclatureView::widget([
             'sellingId' => $model->selling_id,

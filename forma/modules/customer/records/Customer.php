@@ -33,6 +33,8 @@ class Customer extends AccessoryActiveRecord
     //для того чтобы не accessory active record не создавал соотнешение к юзеру
     public $selling_token;
 
+    public $tmpUserId;
+
 
     /**
      * @inheritdoc

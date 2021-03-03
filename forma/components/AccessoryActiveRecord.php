@@ -3,6 +3,8 @@
 namespace forma\components;
 
 use forma\modules\core\records\User;
+use forma\modules\customer\records\Customer;
+use forma\modules\selling\records\selling\Selling;
 use ReflectionClass;
 use yii\db\ActiveRecord;
 use forma\modules\core\records\Accessory;
@@ -55,7 +57,11 @@ class AccessoryActiveRecord extends ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
-        if (empty(Accessory::find()->where([
+        if (Yii::$app->controller->action->id == 'test' && Yii::$app->user->isGuest) {
+            if ($this instanceof Customer || $this instanceof Selling ){
+                $this->createAccessoryToTmpUser($this->tmpUserId);
+            }
+        } else if (empty(Accessory::find()->where([
             'entity_class' => get_class($this),
             'entity_id' => $this->id,
             'user_id' => Yii::$app->getUser()->id,
@@ -80,6 +86,18 @@ class AccessoryActiveRecord extends ActiveRecord
         $accessory->user_id = Yii::$app->getUser()
             ->getIdentity()
             ->getId();
+
+        $accessory->save();
+    }
+
+    //используется, для сохранения продажи и клиента (Selling, Customer) когда гость проходит тест
+    protected function createAccessoryToTmpUser($tmpUserId)
+    {
+        $accessory = new Accessory();
+
+        $accessory->entity_class = get_class($this);
+        $accessory->entity_id = $this->id;
+        $accessory->user_id = $tmpUserId;
 
         $accessory->save();
     }

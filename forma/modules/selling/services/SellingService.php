@@ -40,9 +40,14 @@ class SellingService
     {
         $model = self::get($id);
         $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
+        if (Yii::$app->user->isGuest && Yii::$app->controller->action->id == 'test') {
+            $model->tmpUserId = $post['Selling']['tmpUserId'];
+        }
+
+        $userId = $model->tmpUserId??Yii::$app->user->id;
 
         $state_id = State::find()
-            ->where(['user_id'=> Yii::$app->user->id])
+            ->where(['user_id'=> $userId])
             ->orderBy('order')
             ->one()
             ->id;
