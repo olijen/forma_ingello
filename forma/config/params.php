@@ -355,12 +355,16 @@ return [
                     ]
                 ],
                 [
-                    'label'=>'Результаты тестов',
-                    'url'=>['/test/result'],
-                    'icon'=>'list',
-                    'items'=>[
-
-                    ]
+                    'label'=>'Добавить тест',
+                    'url'=>['/test/main/create'],
+                    'icon'=>'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
+                [
+                    'label'=>'Назначить тест',
+                    'url'=>[''],
+                    'icon'=>'user-check',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
                 ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users',
                     'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
