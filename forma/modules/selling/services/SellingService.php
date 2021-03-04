@@ -5,6 +5,7 @@ namespace forma\modules\selling\services;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;
+use forma\modules\product\records\Currency;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\selling\SellingSearch;
@@ -120,7 +121,7 @@ class SellingService
         }
 
         $selling = self::create();
-        $customer = Customer::findOne(1);
+        $customer = $post['customer'];
 
         $selling->setAttributes([
             'name' => 'Новая продажа с ' . Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
@@ -150,6 +151,9 @@ class SellingService
                 'quantity' => $productQty,
                 'cost' => $warehouseProduct->recommended_cost,
                 'cost_type' => 0,
+                'currency_id' =>
+                    Currency::getModelByUser('forma\modules\product\records\Currency',
+                        User::findOne(Yii::$app->user->id), true)->id
             ]]);
         }
 

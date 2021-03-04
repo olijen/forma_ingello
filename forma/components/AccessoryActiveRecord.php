@@ -152,4 +152,34 @@ class AccessoryActiveRecord extends ActiveRecord
     {
         return self::accessSearchDataProvider($default, true)->getModels()[0];
     }
+
+    /**
+     * @param $entityClass
+     * @param $user
+     * @param bool $one
+     * @return array|ActiveRecord|ActiveRecord[]|null
+     */
+    public static function getModelByUser($entityClass, $user, $one = false)
+    {
+        $modelAccessory = Accessory::find()
+            ->where(['entity_class' => $entityClass])
+            ->andWhere(['user_id' => $user->id])
+            ->all();
+
+        $modelIds = [];
+
+        foreach ($modelAccessory as $item) {
+            $modelIds[] = $item->entity_id;
+        }
+
+        if ($one)
+            return self::find()
+                ->where(['id' => $modelIds])
+                ->limit(1)
+                ->one();
+
+        return self::find()
+            ->where(['id' => $modelIds])
+            ->all();
+    }
 }

@@ -2,10 +2,12 @@
 
 namespace forma\modules\purchase\controllers;
 
+use forma\modules\core\records\Accessory;
 use forma\modules\purchase\records\purchaseproduct\PurchaseProduct;
 use forma\modules\purchase\services\NomenclatureService;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\purchase\widgets\NomenclatureView;
+use forma\modules\supplier\records\Supplier;
 use Yii;
 use yii\filters\VerbFilter;
 use forma\components\Controller;
@@ -48,7 +50,13 @@ class MainController extends Controller
 
     public function actionCreateByRemains()
     {
-        $purchase = PurchaseService::createByRemains(Yii::$app->request->post());
+        $supplier = Supplier::findOne(Accessory::findOne([
+            'user_id' => Yii::$app->user->id,
+            'entity_class' => 'forma\modules\supplier\records\Supplier'
+        ]));
+
+        $purchaseData = array_merge(Yii::$app->request->post(), ['supplier_id' => $supplier->id]);
+        $purchase = PurchaseService::createByRemains($purchaseData);
         return $this->redirect(['/purchase/form/index', 'id' => $purchase->id]);
     }
 }

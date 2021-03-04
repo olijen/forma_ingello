@@ -2,6 +2,8 @@
 
 namespace forma\modules\purchase\services;
 
+use forma\modules\core\records\User;
+use forma\modules\product\records\Currency;
 use forma\modules\product\services\TaxRateService;
 use forma\modules\purchase\records\purchaseproduct\PurchaseProduct;
 use Yii;
@@ -209,7 +211,7 @@ class PurchaseService
         $purchase->setAttributes([
             'name' => 'Новая поставка с  ' . Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
             'warehouse_id' => $post['warehouse_id'],
-            'supplier_id' => 1,
+            'supplier_id' => $post['supplier_id'],
         ]);
 
         if (!$purchase->save()) {
@@ -233,7 +235,7 @@ class PurchaseService
                 'product_id' => $warehouseProduct->product_id,
                 'quantity' => $warehouseProduct->quantity,
                 'cost' => $warehouseProduct->purchase_cost,
-                'currency_id' => 1,
+                'currency_id' => Currency::getCurrenciesByUser(Yii::$app->user->identity, true)->id,
             ]]);
         }
 

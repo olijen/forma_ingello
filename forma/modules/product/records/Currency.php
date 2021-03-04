@@ -65,9 +65,10 @@ class Currency extends AccessoryActiveRecord
 
     /**
      * @param User $user
-     * @return array|Currency[]
+     * @param bool $one
+     * @return array|Currency[]|Currency
      */
-    public static function getCurrenciesByUser(User $user) : array
+    public static function getCurrenciesByUser(User $user, $one = false)
     {
         $currencyAccessory = Accessory::find()
             ->where("entity_class like '%Currency%'")
@@ -79,6 +80,12 @@ class Currency extends AccessoryActiveRecord
         foreach ($currencyAccessory as $item) {
             $currencyIds[] = $item->entity_id;
         }
+
+        if ($one)
+            return Currency::find()
+            ->where(['id' => $currencyIds])
+            ->limit(1)
+            ->one();
 
         return Currency::find()
             ->where(['id' => $currencyIds])
