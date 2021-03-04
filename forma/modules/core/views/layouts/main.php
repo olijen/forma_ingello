@@ -152,6 +152,12 @@ JS;
             $hoverP = '#9C8D69';
             $hoverS = '#1D285C';
 
+        }elseif ('test' ==  Yii::$app->controller->module->id){
+            $bgColor = '#58628e';
+            $bgColorPrimary = '#D0B676';
+            $color = 'white';
+            $hoverP = '#9C8D69';
+            $hoverS = '#1D285C';
         } elseif ('product' == Yii::$app->controller->module->id) {
             $bgColor = '#f49258';
             $bgColorPrimary = '#399F85';
