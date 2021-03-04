@@ -4,6 +4,7 @@ namespace forma\modules\selling\controllers;
 
 use forma\modules\core\forms\LoginForm;
 use forma\modules\core\forms\SignupForm;
+use forma\modules\core\records\User;
 use forma\modules\selling\records\selling\Selling;
 use Google_Client;
 use Google_Service_Oauth2;
@@ -60,7 +61,10 @@ class MainController extends Controller
 
     public function actionCreateByRemains()
     {
-        $selling = SellingService::createByRemains(Yii::$app->request->post());
+        $customer = Customer::getModelByUser('forma\modules\customer\records\Customer', User::findOne(Yii::$app->user->id), true);
+
+        $sellingData = array_merge(Yii::$app->request->post(), ['customer' => $customer]);
+        $selling = SellingService::createByRemains($sellingData);
         return $this->redirect(['/selling/form/index', 'id' => $selling->id]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace forma\extensions\editable;
 
+use forma\modules\selling\records\selling\Selling;
 use yii\base\Action;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -20,6 +21,14 @@ class EditCellAction extends Action
         //Yii::debug('sdf');
         //return 1;
         Yii::$app->response->format = Response::FORMAT_JSON;
+
+
+        if (Yii::$app->user->isGuest) {
+            $selling = Selling::findOne($_GET['id']);
+            $selling_token = $_COOKIE['selling_token'];
+            $this->run($_GET['id']);
+            return Yii::$app->controller->redirect(['/selling/main/show-selling?selling_token='.$selling_token]);
+        }
       //  die("skljdaksjfsdkfjsldkflsdkfj");
     }
 

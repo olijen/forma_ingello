@@ -2,7 +2,10 @@
 
 namespace forma\modules\selling\services;
 
+use forma\modules\core\records\Accessory;
+use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;
+use forma\modules\product\records\Currency;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\selling\SellingSearch;
@@ -38,9 +41,14 @@ class SellingService
     {
         $model = self::get($id);
         $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
+        if (Yii::$app->user->isGuest && Yii::$app->controller->action->id == 'test') {
+            $model->tmpUserId = $post['Selling']['tmpUserId'];
+        }
+
+        $userId = $model->tmpUserId??Yii::$app->user->id;
 
         $state_id = State::find()
-            ->where(['user_id'=> Yii::$app->user->id])
+            ->where(['user_id'=> $userId])
             ->orderBy('order')
             ->one()
             ->id;
@@ -113,7 +121,7 @@ class SellingService
         }
 
         $selling = self::create();
-        $customer = Customer::findOne(1);
+        $customer = $post['customer'];
 
         $selling->setAttributes([
             'name' => 'Новая продажа с ' . Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
@@ -143,6 +151,9 @@ class SellingService
                 'quantity' => $productQty,
                 'cost' => $warehouseProduct->recommended_cost,
                 'cost_type' => 0,
+                'currency_id' =>
+                    Currency::getModelByUser('forma\modules\product\records\Currency',
+                        User::findOne(Yii::$app->user->id), true)->id
             ]]);
         }
 
@@ -201,5 +212,22 @@ class SellingService
         $searchModel = self::search();
         $sellingInWarehouse = $searchModel->salesInWarehouse();
         return $sellingInWarehouse;
+    }
+
+    /**
+     * Получить владельца продажи.
+     * Get user, that create selling
+     */
+    public static function getSellingOwner()
+    {
+        $selling = Selling::getSellingBySellingToken($_GET['selling_token']);
+        Yii::debug($selling);
+        $userId = Accessory::find()
+            ->where("entity_class = 'forma\\\\modules\\\\selling\\\\records\\\\selling\\\\Selling'")
+            ->andWhere(['entity_id' => $selling->id])
+            ->limit(1)
+            ->one()->user_id;
+
+        return User::findOne($userId);
     }
 }

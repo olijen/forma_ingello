@@ -38,7 +38,8 @@ class Module extends \yii\base\Module
             return true;
         } else if($action->actionMethod == 'actionShowSelling' || $action->actionMethod == 'actionCommentHistory'
         || $action->actionMethod == 'actionEditCell' || $action->actionMethod == 'actionDeletePosition'
-            || $action->actionMethod == 'actionAddPosition' || $action->actionMethod == 'actionValidate'){
+            || $action->actionMethod == 'actionAddPosition' || $action->actionMethod == 'actionValidate'
+            || $action->actionMethod == 'actionChangeSellingProductCost'){
             Yii::debug($action->actionMethod);
             return true;
         } else {

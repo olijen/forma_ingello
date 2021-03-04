@@ -4,6 +4,8 @@ namespace forma\modules\customer\records;
 
 use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
+use forma\modules\core\records\Accessory;
+use forma\modules\core\records\User;
 use forma\modules\selling\records\selling\Selling;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -32,6 +34,8 @@ class Customer extends AccessoryActiveRecord
 {
     //для того чтобы не accessory active record не создавал соотнешение к юзеру
     public $selling_token;
+
+    public $tmpUserId;
 
 
     /**
@@ -125,6 +129,30 @@ class Customer extends AccessoryActiveRecord
         Yii::$app->mailer->sendMultiple($list);
 
         return true;
+    }
+
+    public static function getCustomersByUser(User $user, $one = false)
+    {
+        $customerAccessory = Accessory::find()
+            ->where(['entity_class' => 'forma\modules\customer\records\Customer'])
+            ->andWhere(['user_id' => $user->id])
+            ->all();
+
+        $customerIds = [];
+
+        foreach ($customerAccessory as $item) {
+            $customerIds[] = $item->entity_id;
+        }
+
+        if ($one)
+            return self::find()
+                ->where(['id' => $customerIds])
+                ->limit(1)
+                ->one();
+
+        return self::find()
+            ->where(['id' => $customerIds])
+            ->all();
     }
     
 }

@@ -152,6 +152,12 @@ JS;
             $hoverP = '#9C8D69';
             $hoverS = '#1D285C';
 
+        }elseif ('test' ==  Yii::$app->controller->module->id){
+            $bgColor = '#58628e';
+            $bgColorPrimary = '#D0B676';
+            $color = 'white';
+            $hoverP = '#9C8D69';
+            $hoverS = '#1D285C';
         } elseif ('product' == Yii::$app->controller->module->id) {
             $bgColor = '#f49258';
             $bgColorPrimary = '#399F85';
@@ -510,8 +516,6 @@ JS;
                     // console.log(aLinks[i].href.substring(0, beginParameters));
                     // console.log(aLinks[i].href.substring(beginParameters, aLinks[i].href.length));
                     aLinks[i].href = beginStr + 'without-header=&' + endStr;
-                    console.log(aLinks[i]);
-                    console.log(aLinks[i].href);
                 }
                 else aLinks[i].href += '?without-header';
             }
@@ -530,6 +534,28 @@ JS;
                 }
                 else forms[i].action += '?without-header';
             }
+
+
+            $(document).on('pjax:success', function() {
+                if (window.location.href.indexOf('page')) {
+                    let gridViewLinks = document.querySelectorAll('.grid-view a');
+                    for (let i = 0; i < gridViewLinks.length; i++) {
+                        // console.log(aLinks[i]);
+                        // console.log(aLinks[i].href);
+                        let beginParameters = gridViewLinks[i].href.indexOf('?')+1;
+                        if(beginParameters > 0) {
+                            let beginStr = gridViewLinks[i].href.substring(0, beginParameters);
+                            let endStr = gridViewLinks[i].href.substring(beginParameters, gridViewLinks[i].href.length);
+                            // console.log(aLinks[i].href.indexOf('?'));
+                            // console.log(aLinks[i].href.substring(0, beginParameters));
+                            // console.log(aLinks[i].href.substring(beginParameters, aLinks[i].href.length));
+                            gridViewLinks[i].href = beginStr + 'without-header=&' + endStr;
+                        }
+                        else gridViewLinks[i].href += '?without-header';
+                    }
+                }
+            });
+
         }
     </script>
     <?php $this->endBody() ?>

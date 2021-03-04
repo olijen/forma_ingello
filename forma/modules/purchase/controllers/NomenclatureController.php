@@ -36,6 +36,10 @@ class NomenclatureController extends Controller
 
     public function actionAddOverheadCost($id)
     {
+        if (!Yii::$app->request->isAjax) {
+            Yii::debug('sfjid');
+            return $this->redirect('/purchase/form/index?id='.$id);
+        }
         PurchaseService::addOverheadCost($id);
 
         return NomenclatureView::widget([

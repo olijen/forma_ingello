@@ -36,6 +36,7 @@ Pjax::begin(['id' => 'purchase-form-pjax', 'enablePushState' => false]);
     $formOptions = [
         'action' => Url::to(['/purchase/form/save', 'id' => $model->id]),
         'options' => ['data-pjax' => '1'],
+        'enableClientValidation' => true,
         'fieldConfig' => [
             'inputOptions' => [
                 'class' => 'form-control',
@@ -86,6 +87,11 @@ Pjax::begin(['id' => 'purchase-form-pjax', 'enablePushState' => false]);
             }
             ?>
             <?= $form->field($model, 'supplier_id', $supplierSelectOptions)->dropDownList(Supplier::getList()); ?>
+            <?php if(isset($_GET['needSupplier'])) : ?>
+            <div>
+                <p style="color: red; margin: 0">Необходимо заполнить "Поставщик"</p>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="row">

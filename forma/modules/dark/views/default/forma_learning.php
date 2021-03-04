@@ -1,13 +1,15 @@
 <style>
+    body {
+        margin: 0;
+    }
+
     .flex_wrap {
         background: url('/images/learn_back.jpg');
         background-size: cover;
         display: flex;
         justify-content: center;
         flex-direction: column;
-        position: relative;
-    }
-
+        posit
     .particles_block {
         transition: opacity 0.1s;
         width: 100%;

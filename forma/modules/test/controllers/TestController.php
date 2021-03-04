@@ -2,11 +2,12 @@
 
 namespace forma\modules\test\controllers;
 
+use forma\modules\selling\services\TestService;
 use forma\modules\test\records\TestType;
+use forma\modules\test\records\Test;
 use Yii;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestTypeFieldSearch;
-use forma\modules\test\records\Test;
 use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -88,10 +89,10 @@ class TestController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $id = $model->test_id;
-            $name = TestType::find()->where(['id'=>$id])->one();
+            $name = TestType::find()->where(['id' => $id])->one();
 
 
-            return $this->redirect(['index','id' => $model->test_id]);
+            return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
         return $this->render('create', [
@@ -100,50 +101,36 @@ class TestController extends Controller
     }
 
 
-    public function actionTest($id){
-        $customer = new Customer();
+    public function actionTest($id)
+    {
         $model = new Test();
-        $testType = TestType::find()->where(['id'=>$id])->one();
+        $customer = new Customer();
+        $testType = TestType::find()->where(['id' => $id])->one();
 
-
-        if(!empty($_POST) ){
-            if ($_POST['Customer']){
-                $customer->name = $_POST['Customer']['name'];
-                $customer->chief_email = $_POST['Customer']['chief_email'];
-                $customer->description = $_POST['Customer']['description'];
-                $customer->save();
+        if (!empty($_POST)) {
+            if (isset($_POST['Customer'])) {
+                $testData = TestService::completeTest($_POST['Customer']);
             }
-//          return $this->render('test_result',[
-//                'testType'=>$testType,
-//            ]);
-            $slice = array_slice($_POST,1,-2);
+            $result = $_POST;
+            $save = $this->renderFile('@forma/modules/test/views/test/test_result.php',[
+                'model'=> $model,
+                'testType'=> $testType,
+                'result'=>$result,
+            ]);
 
-            $result = implode(',    ',$slice);
-            $model->result = $result;
-            $model->test_type_id = $_POST['id'];
-
-            $model->customer_id = $customer->id;
-//            echo '<pre>';
-//            var_dump($model->result=$_POST);
-//            echo '</pre>';
+            $model->result = $save;
+            $model->customer_id = $testData['customer']->id;
+            $model->test_type_id = $testType->id;
             $model->save();
-            if ($model->save()){
-                return $this->redirect(['/test/result/index']);
+
+            if ($model->save()) {
+                return $this->redirect(['/selling/main/show-selling?selling_token='.$testData['sellingToken']]);
             }
         }
 
-//                echo '<script>
-//alert("Выши ответы сохранены!");
-//</script>';
-
-
-//        if ($test->load(Yii::$app->request->post()) && $model->save()) {
-//
-//        }
-
         return $this->render('test', [
             'customer' => $customer,
-            'testType'=>$testType,
+            'testType' => $testType,
         ]);
 
     }

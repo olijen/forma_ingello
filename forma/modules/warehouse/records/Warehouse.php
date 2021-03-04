@@ -173,5 +173,24 @@ class Warehouse extends \yii\db\ActiveRecord
         $warehouseUser->save();
     }
 
+    /**
+     * @param null $one
+     * @param null $userId
+     * @return array|Warehouse|Warehouse[]|null
+     */
+    public static function getMyWarehouses($one = null, $userId = null)
+    {
+        $warehouseQuery = self::find()
+            ->joinWith(['warehouseUsers'])
+            ->where(['warehouse_user.user_id' => $userId??Yii::$app->user->id]);
+
+        if ($one) {
+            return $warehouseQuery->limit(1)
+                ->one();
+        } else {
+            return $warehouseQuery->all();
+        }
+    }
+
 
 }

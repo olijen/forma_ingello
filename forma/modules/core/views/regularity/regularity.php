@@ -9,7 +9,7 @@
                         <i class="fa fa-trash" style="; font-size: 20px; padding: 3px; padding-left: 5px;"></i>
                     </a>
                     <a title="Изменить регламент" href="/core/regularity/update?id=<?= $regularity['id'] ?>"><i class="fa fa-edit" style="; font-size: 20px; padding: 3px;"></i></a>
-                    <a title="Смотреть пункты регламента"  href="#tab_<?= $regularity['id'] ?>" data-toggle="tab" style="width: 80%; padding-top:  10px; padding-right: 10px;" aria-expanded="false">
+                    <a title="Смотреть пункты регламента" class="no-loader"  href="#tab_<?= $regularity['id'] ?>" data-toggle="tab" style="width: 80%; padding-top:  10px; padding-right: 10px;" aria-expanded="false">
                         <?= $regularity['name'] ?>
                     </a>
                 </div>

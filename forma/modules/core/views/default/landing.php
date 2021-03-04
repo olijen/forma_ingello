@@ -16,6 +16,8 @@
     <link href="/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.css">
+
 </head>
 <body>
 
@@ -151,6 +153,7 @@ $fieldOptions5 = [
     }
 
     .slider-for img {
+        border-bottom: 7px solid #58628e;
         width: 100%;
     }
 
@@ -197,9 +200,10 @@ $fieldOptions5 = [
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Как это выглядит</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Почему бесплатно?</a></li>
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="login_block" href="#contact">Как автоматизировать бизнес?</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#slider">ВНЕШНИЙ ВИД</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">НАЗНАЧЕНИЕ</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">ЭТО БЕСПЛАТНО</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="login_block" href="#contact">НАЧАТЬ РАБОТУ</a></li>
             </ul>
         </div>
     </div>
@@ -227,7 +231,7 @@ $fieldOptions5 = [
 <section class="page-section portfolio bg-primary text-white" id="slider">
     <div class="container-fluid">
         <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase mb-0" style="color: white">Слайдер</h2>
+        <h2 class="page-section-heading text-center text-uppercase mb-0" style="color: white">КАК ЭТО ВЫГЛЯДИТ?</h2>
         <!-- Icon Divider-->
         <div class="divider-custom divider-light">
             <div class="divider-custom-line"></div>
@@ -244,7 +248,8 @@ $fieldOptions5 = [
             <?php } ?>
         </div>
         <div class="slider-nav">
-            <?php for($i = 0; $i < 19; $i++) { ?>
+            <?php for($i = 0; $i < 19; $i++) {
+                if ($i == 11) continue;?>
                 <div class="item">
                     <img src="/images/Screenshot<?=($i+1)?>-min.png" alt="image"  draggable="false"/>
                 </div>
@@ -288,6 +293,7 @@ $fieldOptions5 = [
 
 
 <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/progressive-image.js/dist/progressive-image.js"></script>
 <script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $(document).on('ready', function() {

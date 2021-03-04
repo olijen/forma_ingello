@@ -77,16 +77,23 @@ class RegularityController extends Controller
         $items = Item::getMainItems($allItems);
         $newUserReglament = 0;
 
-        if (strpos( Url::previous(), 'test') !== false) {
+        if (strpos( Url::previous(), 'test') !== false || true) {
             $newUserReglament = 1;
             Url::remember();
-//            $this->layout = false;
-//            return $this->render('@app/modules/dark/views/default/forma_learning', [
-//                'regularities' => $regularities,
-//                'items' => $items,
-//                'subItems' => $subItems,
-//                'newUserReglament' => $newUserReglament
-//            ]);
+
+            return $this->render('user-regularity', [
+                'regularities' => $regularities,
+                'items' => $items,
+                'subItems' => $subItems,
+                'newUserReglament' => $newUserReglament
+            ]);
+            $this->layout = false;
+            return $this->render('@app/modules/dark/views/default/forma_learning', [
+                'regularities' => $regularities,
+                'items' => $items,
+                'subItems' => $subItems,
+                'newUserReglament' => $newUserReglament
+            ]);
         }
 
         return $this->render('user-regularity', [

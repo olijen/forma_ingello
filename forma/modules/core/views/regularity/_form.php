@@ -29,7 +29,7 @@ endif;
 $picture = RegularityAndItemPictureService::getPictureUrl($model);
 ?>
 
-<div class="col-md-6 block">
+<div class="col-md-5 block">
 
     <?php $form = ActiveForm::begin([]); ?>
 
@@ -87,4 +87,7 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
         </div>
     </div>
     <?php ActiveForm::end(); ?>
+</div>
+<div class="col-md-7">
+    <?= $this->render('/regularity/function_buttons', ['quantityDiv' => 2, 'colMd' => 6]) ?>
 </div>

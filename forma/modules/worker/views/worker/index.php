@@ -22,6 +22,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'showFooter' => true,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

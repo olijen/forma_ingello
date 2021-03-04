@@ -2,7 +2,9 @@
 
 namespace forma\modules\transit\services;
 
+use forma\modules\core\records\User;
 use forma\modules\overheadcost\records\OverheadCost;
+use forma\modules\product\records\Currency;
 use forma\modules\product\records\PackUnit;
 use forma\modules\transit\records\transit\Transit;
 use forma\modules\warehouse\records\WarehouseProduct;
@@ -30,6 +32,18 @@ class NomenclatureService
             $model->product
         );
         //$post['OverheadCost']['currency_id'] = $productCurrency->id;
+
+        if (!isset($post['OverheadCost'])) {
+            $post['OverheadCost'] = [
+                'sum' => '',
+                'currency_id' => Currency::getModelByUser(
+                    'forma\modules\product\records\Currency',
+                    User::findOne(Yii::$app->user->id),
+                    true)->id,
+                'type' => '',
+                'comment' => '',
+            ];
+        }
 
         /** @var OverheadCost $overheadCost */
         $overheadCost = OverheadCostService::save(null, $post);
