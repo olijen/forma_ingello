@@ -70,6 +70,7 @@ $this->title = 'Продажи';
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
         ],
+        //
     ];
     foreach (['date_create', 'date_complete'] as $attribute) {
         $columns[] = [
