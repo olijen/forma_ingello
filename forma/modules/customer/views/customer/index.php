@@ -68,6 +68,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
             'firm',
             'name',
             'chief_phone',
+            'telegram',
+            'skype',
+            'whatsapp',
+            'viber',
             'address',
             [
                 'label'=>'Приоритет',
