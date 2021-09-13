@@ -16,6 +16,11 @@ class SellingSearch extends Selling
 {
     public $date_createRange;
     public $date_completeRange;
+    public $customer_viber;
+    public $customer_telegram;
+    public $customer_whatsapp;
+    public $customer_skype;
+    public $customer_chief_phone;
 
     /**
      * @inheritdoc
@@ -24,7 +29,19 @@ class SellingSearch extends Selling
     {
         return [
             [['id', 'customer_id', 'warehouse_id', 'state_id'], 'integer'],
-            [['name', 'date_createRange', 'date_completeRange'], 'safe'],
+            [
+                [
+                    'name',
+                    'date_createRange',
+                    'date_completeRange',
+                    'customer_viber',
+                    'customer_telegram',
+                    'customer_whatsapp',
+                    'customer_skype',
+                    'customer_chief_phone'
+                ],
+                'safe'
+            ],
         ];
     }
 
@@ -51,6 +68,22 @@ class SellingSearch extends Selling
 
 //        $query->join('join', 'state', 'state.id = selling.state_id ')
 //            ->andWhere(['state.user_id' => Yii::$app->user->id]);
+        $query->joinWith(['customer' => function($q) {
+            $q->where('customer.viber LIKE "%' . $this->customer_viber . '%"');
+        }]);
+        $query->joinWith(['customer' => function($q) {
+            $q->where('customer.chief_phone LIKE "%' . $this->customer_chief_phone . '%"');
+        }]);
+        $query->joinWith(['customer' => function($q) {
+            $q->where('customer.telegram LIKE "%' . $this->customer_telegram . '%"');
+        }]);
+        $query->joinWith(['customer' => function($q) {
+            $q->where('customer.skype LIKE "%' . $this->customer_skype . '%"');
+        }]);
+        $query->joinWith(['customer' => function($q) {
+            $q->where('customer.whatsapp LIKE "%' . $this->customer_whatsapp . '%"');
+        }]);
+
 
 
         // add conditions that should always apply here
@@ -78,8 +111,12 @@ class SellingSearch extends Selling
             'state_id' => $this->state_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
-
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'customer.viber', $this->customer_viber])
+            ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
+            ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
+            ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
+            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
         foreach (['date_create', 'date_complete'] as $attribute) {
             $rangeAttribute = $attribute . 'Range';
             if (empty($this->$rangeAttribute)) {
