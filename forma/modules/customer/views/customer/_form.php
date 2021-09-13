@@ -48,6 +48,10 @@ use yii\widgets\Pjax;
     ]) ?>
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chief_phone')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'telegram')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'skype')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'whatsapp')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'viber')->textInput(['maxlength' => true]) ?>
 
 
 
