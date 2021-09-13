@@ -61,6 +61,10 @@ class Customer extends AccessoryActiveRecord
             [['description'], 'string'],
             [['country_id', 'is_company'], 'integer'],
             [['chief_email'], 'email'],
+            [['viber'], 'string', 'max' => 20],
+            [['skype'], 'string', 'max' => 150],
+            [['whatsapp'], 'string', 'max' => 40],
+            [['telegram'], 'string', 'max' => 255],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
@@ -84,6 +88,10 @@ class Customer extends AccessoryActiveRecord
             'tax_rate' => 'Процентая ставка',
             'description' => 'Описание клиента',
             'is_company' => 'Представитель компании',
+            'telegram' => 'телеграм',
+            'skype' => 'скайп',
+            'whatsapp' => 'вотсап',
+            'viber' => 'вайбер',
         ];
     }
 
@@ -93,6 +101,7 @@ class Customer extends AccessoryActiveRecord
      */
     public static function find()
     {
+
         return new CustomerQuery(get_called_class());
     }
 
