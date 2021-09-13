@@ -24,7 +24,7 @@ class SellingSearch extends Selling
     {
         return [
             [['id', 'customer_id', 'warehouse_id', 'state_id'], 'integer'],
-            [['name', 'date_createRange', 'date_completeRange'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange','date_next_step'], 'safe'],
         ];
     }
 

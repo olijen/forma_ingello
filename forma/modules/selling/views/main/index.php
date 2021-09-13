@@ -9,6 +9,7 @@ use forma\modules\customer\records\Customer;
 use forma\modules\warehouse\records\Warehouse;
 use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
@@ -25,7 +26,7 @@ $this->title = 'Продажи';
 
     <hr>
 
-<?php Pjax::begin(); ?>
+    <?php Pjax::begin(); ?>
 
     <?php
 
@@ -59,10 +60,10 @@ $this->title = 'Продажи';
             'attribute' => 'warehouse_id',
             'value' => 'warehouse.name',
             'filter' => ActiveRecordHelper::getListByQuery(
-                    (new \forma\modules\warehouse\records\WarehouseSearch())
-                        ->search(Yii::$app->request->queryParams)
-                        ->query,
-                    'name'
+                (new \forma\modules\warehouse\records\WarehouseSearch())
+                    ->search(Yii::$app->request->queryParams)
+                    ->query,
+                'name'
             ),
         ],
         [
@@ -70,14 +71,40 @@ $this->title = 'Продажи';
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
         ],
+        [
+            'attribute' => 'next_step',
+            'label' => 'Следующий шаг',
+
+        ],
+        [
+//                'attribute' => 'data_next_step',
+//                'label' => 'Дата следующего шага',
+//                'value' => ''
+        ]
+
     ];
-    foreach (['date_create', 'date_complete'] as $attribute) {
+    foreach (['date_next_step'] as $attribute) {
         $columns[] = [
             'attribute' => $attribute,
-            'filter' => DateRangeFilter::widget(compact('attribute', 'searchModel')),
+            'filter' => DatePicker::widget([
+                'name' => 'SellingSearch[date_next_step]',
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ],
+                'value' => isset($_GET['SellingSearch']['date_next_step']) ?
+                    $_GET['SellingSearch']['date_next_step'] : '',
+            ]),
+            'label' => 'Дата следующего шага'
         ];
+        foreach (['date_create', 'date_complete'] as $attribute) {
+            $columns[] = [
+                'attribute' => $attribute,
+                'filter' => DateRangeFilter::widget(compact('attribute', 'searchModel')),
+            ];
+        }
     }
-
     echo DynaGrid::widget([
         'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],
         'theme' => 'panel-default',
@@ -91,12 +118,12 @@ $this->title = 'Продажи';
 
     ?>
 
-<?php Pjax::end(); ?>
+    <?php Pjax::end(); ?>
 
 </div>
 
 <style>
     tr:hover {
-       background-color: #58628e ;
+        background-color: #58628e ;
     }
 </style>
