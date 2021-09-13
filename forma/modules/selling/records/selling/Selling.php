@@ -108,7 +108,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     public function rules()
     {
         return [
-            [['customer_id', 'warehouse_id'], 'required'],
+            [['customer_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
             [['name'], 'string', 'max' => 100],
@@ -132,6 +132,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',
             'selling_token' => 'Токен',
+
         ];
     }
 
