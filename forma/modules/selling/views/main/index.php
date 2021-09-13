@@ -9,6 +9,7 @@ use forma\modules\customer\records\Customer;
 use forma\modules\warehouse\records\Warehouse;
 use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
@@ -35,26 +36,11 @@ $this->title = 'Продажи';
             'template' => '{update} {delete}',
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customerName',
+            'label' => 'Клиент',
             'value' => 'customer.name',
-            'filter' => ActiveRecordHelper::getListByQuery(
-                (new \forma\modules\customer\records\CustomerSearch())
-                    ->search(Yii::$app->request->queryParams)
-                    ->query,
-                'name'
-            ),
         ],
-        [
-            'attribute' => 'customer_id',
-            'label' => 'Компания',
-            'value' => 'customer.firm',
-            'filter' => ActiveRecordHelper::getListByQuery(
-                (new \forma\modules\customer\records\CustomerSearch())
-                    ->search(Yii::$app->request->queryParams)
-                    ->query,
-                'firm'
-            ),
-        ],
+
         [
             'attribute' => 'warehouse_id',
             'value' => 'warehouse.name',
@@ -70,13 +56,29 @@ $this->title = 'Продажи';
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
         ],
+
     ];
-    foreach (['date_create', 'date_complete'] as $attribute) {
+    foreach (['date_create'] as $attribute) {
         $columns[] = [
             'attribute' => $attribute,
-            'filter' => DateRangeFilter::widget(compact('attribute', 'searchModel')),
+            'filter' => DatePicker::widget([
+                'name' => 'SellingSearch[date_create]',
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ],
+                'value' => isset($_GET['SellingSearch']['date_create']) ?
+                    $_GET['SellingSearch']['date_create'] : '',
+            ]),
         ];
     }
+
+    $columns[] =[
+        'attribute' => 'companyName',
+        'label' => 'Компания',
+        'value' => 'customer.firm',
+    ];
 
     echo DynaGrid::widget([
         'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],
@@ -91,7 +93,7 @@ $this->title = 'Продажи';
 
     ?>
 
-<?php Pjax::end(); ?>
+<?php  Pjax::end(); ?>
 
 </div>
 

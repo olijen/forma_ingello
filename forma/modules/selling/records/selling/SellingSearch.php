@@ -3,6 +3,7 @@
 namespace forma\modules\selling\records\selling;
 
 use forma\modules\core\records\User;
+use forma\modules\customer\records\Customer;
 use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
@@ -16,7 +17,8 @@ class SellingSearch extends Selling
 {
     public $date_createRange;
     public $date_completeRange;
-
+    public  $customerName;
+    public  $companyName;
     /**
      * @inheritdoc
      */
@@ -24,7 +26,7 @@ class SellingSearch extends Selling
     {
         return [
             [['id', 'customer_id', 'warehouse_id', 'state_id'], 'integer'],
-            [['name', 'date_createRange', 'date_completeRange'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange','customerName','companyName'], 'safe'],
         ];
     }
 
@@ -64,9 +66,12 @@ class SellingSearch extends Selling
 
         $this->load($params);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
+            /**
+             * Жадная загрузка данных модели Страны
+             * для работы сортировки.
+             */
+            $query->joinWith(['customer']);
             return $dataProvider;
         }
 
@@ -88,7 +93,10 @@ class SellingSearch extends Selling
             $query->andFilterWhere(DateRangeHelper::getDateRangeCondition($attribute, $this->$rangeAttribute));
         }
 
-
+        $query->joinWith(['customer' => function ($q) {
+            $q->where('customer.name LIKE "%' . $this->customerName . '%"');
+        }]);
+        $query->andWhere('customer.firm LIKE "%' . $this->companyName . '%"');
         return $dataProvider;
     }
 
