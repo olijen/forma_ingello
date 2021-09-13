@@ -2,12 +2,14 @@
 
 namespace forma\modules\customer\controllers;
 
+use forma\modules\customer\records\Messenger;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\services\SellingService;
 use Yii;
 use forma\modules\customer\records\Customer;
 use forma\modules\customer\records\CustomerSearch;
 use forma\components\Controller;
+use yii\base\Model;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -82,17 +84,18 @@ class CustomerController extends Controller
     {
         $model = $this->findModel($id);
         $selling = Selling::find()->where(['customer_id' => $id])->one() ;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if (
+            $model->load(Yii::$app->request->post()) &&
+            $model->save()
+        ) {
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'dialog' => $selling
+                'dialog' => $selling,
             ]);
         }
     }
-
     /**
      * Deletes an existing Customer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

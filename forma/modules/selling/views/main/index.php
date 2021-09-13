@@ -56,6 +56,31 @@ $this->title = 'Продажи';
             ),
         ],
         [
+            'attribute' => 'customer_chief_phone',
+            'label' => 'Телефонный номер клиента',
+            'value' => 'customer.chief_phone'
+        ],
+        [
+            'attribute' => 'customer_telegram',
+            'label' => 'телеграм',
+            'value' => 'customer.telegram'
+        ],
+        [
+            'attribute' => 'customer_skype',
+            'label' => 'скайп',
+            'value' => 'customer.skype'
+        ],
+        [
+            'attribute' => 'customer_whatsapp',
+            'label' => 'вотсап',
+            'value' => 'customer.whatsapp'
+        ],
+        [
+            'attribute' => 'customer_viber',
+            'label' => 'вайбер',
+            'value' => 'customer.viber'
+        ],
+        [
             'attribute' => 'warehouse_id',
             'value' => 'warehouse.name',
             'filter' => ActiveRecordHelper::getListByQuery(

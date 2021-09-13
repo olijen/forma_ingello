@@ -1,12 +1,12 @@
 <?php
 
-define('DB_MODE', 'remote');
+define('DB_MODE', 'docker');
 
 if (DB_MODE == 'docker') {
     //DOCKER
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=dbforma;dbname=warehouse',
+        'dsn' => 'mysql:host=dball;dbname=forma',
         'username' => 'root',
         'password' => 'root',
         'charset' => 'utf8',

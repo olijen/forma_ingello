@@ -20,7 +20,21 @@ class CustomerSearch extends Customer
     {
         return [
             [['id', 'country_id'], 'integer'],
-            [['name', 'firm', 'address', 'company_email', 'chief_phone', 'state'], 'safe'],
+            [
+                [
+                    'name',
+                    'firm',
+                    'address',
+                    'company_email',
+                    'chief_phone',
+                    'state',
+                    'telegram',
+                    'skype',
+                    'whatsapp',
+                    'viber',
+                ],
+                'safe'
+            ],
             [['tax_rate'], 'number'],
         ];
     }
@@ -82,13 +96,19 @@ class CustomerSearch extends Customer
             'id' => $this->id,
             'tax_rate' => $this->tax_rate,
             'country_id' => $this->country_id,
+            'chief_phone' => $this->chief_phone,
         ]);
 
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'firm', $this->firm])
             ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'company_email', $this->company_email]);
+            ->andFilterWhere(['like', 'company_email', $this->company_email])
+            ->andFilterWhere(['like', 'telegram', $this->telegram])
+            ->andFilterWhere(['like', 'skype', $this->skype])
+            ->andFilterWhere(['like', 'whatsapp', $this->whatsapp])
+            ->andFilterWhere(['like', 'viber', $this->viber])
+        ;
 
         return $dataProvider;
     }
