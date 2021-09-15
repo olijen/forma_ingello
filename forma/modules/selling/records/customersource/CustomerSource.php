@@ -2,7 +2,12 @@
 
 namespace forma\modules\selling\records\customersource;
 use forma\components\AccessoryActiveRecord;
+use forma\modules\customer\records\Customer;
+
+use forma\components\EntityLister;
 use Yii;
+use yii\helpers\ArrayHelper;
+
 
 /**
 * This is the model class for table "customer_source".
@@ -12,7 +17,7 @@ use Yii;
   * @property integer $order
   * @property string $description
   *
-      * @property Customer $customer
+ * @property Customer $customer;
   */
 class CustomerSource extends AccessoryActiveRecord
 {
@@ -59,7 +64,14 @@ class CustomerSource extends AccessoryActiveRecord
         'description' => 'Описание',
     ];
   }
-
+    public function getCustomers()
+    {
+        return $this->hasMany(Customer::className(), ['customer_source_id' => 'id']);
+    }
+    public static function getList()
+    {
+        return EntityLister::getList(self::className());
+    }
 
   /**
   * @inheritdoc

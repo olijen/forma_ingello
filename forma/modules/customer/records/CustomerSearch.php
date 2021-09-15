@@ -13,13 +13,14 @@ use forma\modules\customer\records\Customer;
  */
 class CustomerSearch extends Customer
 {
+    public $customer_source;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'country_id'], 'integer'],
+            [['id', 'country_id','customer_source_id'], 'integer'],
             [
                 [
                     'name',
@@ -32,6 +33,8 @@ class CustomerSearch extends Customer
                     'skype',
                     'whatsapp',
                     'viber',
+                    'customer_source',
+                    'customer_source_id',
                 ],
                 'safe'
             ],
@@ -108,6 +111,7 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['like', 'skype', $this->skype])
             ->andFilterWhere(['like', 'whatsapp', $this->whatsapp])
             ->andFilterWhere(['like', 'viber', $this->viber])
+            ->andFilterWhere(['like', 'customer_source_id', $this->customer_source_id])
         ;
 
         return $dataProvider;
