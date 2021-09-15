@@ -32,7 +32,7 @@ class StateToStateController extends Controller
     }
 
     /**
-     * Lists all StateToState models.
+     * Lists all StateToState records.
      * @return mixed
      */
     public function actionIndex()

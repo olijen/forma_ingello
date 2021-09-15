@@ -31,7 +31,7 @@ class InventorizationController extends Controller
     }
 
     /**
-     * Lists all Inventorization models.
+     * Lists all Inventorization records.
      * @return mixed
      */
     public function actionIndex()

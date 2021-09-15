@@ -30,7 +30,7 @@ class TaxRateController extends Controller
     }
 
     /**
-     * Lists all TaxRate models.
+     * Lists all TaxRate records.
      * @return mixed
      */
     public function actionIndex()

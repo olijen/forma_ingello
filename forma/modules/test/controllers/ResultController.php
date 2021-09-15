@@ -31,7 +31,7 @@ class ResultController extends Controller
     }
 
     /**
-     * Lists all Test models.
+     * Lists all Test records.
      * @return mixed
      */
     public function actionIndex()

@@ -33,7 +33,7 @@ class MainStateController extends Controller
     }
 
     /**
-     * Lists all State models.
+     * Lists all State records.
      * @return mixed
      */
     public function actionIndex()

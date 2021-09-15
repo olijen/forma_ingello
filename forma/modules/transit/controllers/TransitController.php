@@ -31,7 +31,7 @@ class TransitController extends Controller
     }
 
     /**
-     * Lists all Transit models.
+     * Lists all Transit records.
      * @return mixed
      */
     public function actionIndex()

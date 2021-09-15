@@ -31,7 +31,7 @@ class SystemEventController extends Controller
     }
 
     /**
-     * Lists all SystemEvent models.
+     * Lists all SystemEvent records.
      * @return mixed
      */
     public function actionIndex()
