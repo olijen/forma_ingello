@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel forma\modules\template\records\TemplateSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Шаблоны';
+$this->title = 'Шаблон';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="template-index">
@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title:ntext',
             'Content:ntext',
             'Theme:ntext',
+            'user:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -34,6 +34,8 @@ endif;
 
             <?= $form->field($model, 'Theme',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
+            <?= $form->field($model, 'user',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+
 
         <div class="col-xs-12 col-md-12">
             <div class="form-group">

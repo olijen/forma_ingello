@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					'title:ntext',
 					'Content:ntext',
 					'Theme:ntext',
+					'user:ntext',
+
         ],
     ]) ?>
     <?php BoxWidget::end();?></div>

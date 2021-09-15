@@ -11,6 +11,7 @@ use Yii;
  * @property string|null $title
  * @property string|null $Content
  * @property string|null $Theme
+ * @property string|null $user
  */
 class Template extends \yii\db\ActiveRecord
 {
@@ -28,7 +29,7 @@ class Template extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'Content', 'Theme'], 'string'],
+            [['title', 'Content', 'Theme','User'], 'string'],
         ];
     }
 
@@ -39,9 +40,10 @@ class Template extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'Content' => 'Content',
-            'Theme' => 'Theme',
+            'title' => 'Название',
+            'Content' => 'Содержание',
+            'Theme' => 'Тема',
+            'user' => 'От кого',
         ];
     }
 }

@@ -19,7 +19,7 @@ class TemplateSearch extends Template
     {
         return [
             [['id'], 'integer'],
-            [['title', 'Content', 'Theme'], 'safe'],
+            [['title', 'Content', 'Theme','user'], 'safe'],
         ];
     }
 
@@ -61,7 +61,8 @@ class TemplateSearch extends Template
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'Content', $this->Content])
-            ->andFilterWhere(['like', 'Theme', $this->Theme]);
+            ->andFilterWhere(['like', 'Theme', $this->Theme])
+            ->andFilterWhere(['like', 'user', $this->user]);
 
         return $dataProvider;
     }

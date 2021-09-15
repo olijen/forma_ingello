@@ -7,7 +7,7 @@ use \wokster\ltewidgets\BoxWidget;
 /* @var $model forma\modules\template\records\Template */
 
 $this->title = 'Создать Шаблон';
-$this->params['breadcrumbs'][] = ['label' => 'Шаблоны', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Шаблон', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="template-create">
