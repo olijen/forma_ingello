@@ -60,11 +60,7 @@ class CustomerSource extends AccessoryActiveRecord
     ];
   }
 
-  /**
-  * @return \yii\db\ActiveQuery
-  */
 
-  
   /**
   * @inheritdoc
   * @return CustomerSourceQuery the active query used by this AR class.
