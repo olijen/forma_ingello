@@ -3,7 +3,10 @@
 namespace forma\modules\hr\forms;
 
 use forma\modules\hr\records\interview\Interview;
+use forma\modules\hr\records\interviewstate\InterviewState;
+use forma\modules\hr\records\interviewstate\InterviewStateQuery;
 use forma\modules\hr\services\InterviewService;
+use Yii;
 use yii\base\Model;
 
 class InterviewProgress extends Model
@@ -21,14 +24,16 @@ class InterviewProgress extends Model
         parent::__construct();
         $this->salesDP = InterviewService::search()->search([]);
         $this->models = Interview::accessSearch()->models;
-        $this->states = (new Interview())->states();
+        $interviewState = new InterviewState();
+        $this->states = ($interviewState::find()->where(['user_id' => Yii::$app->user->getId()])
+                ->orderBy('order')->all());
         foreach ($this->states as $state) {
-            $state = new $state();
-            $this->sales[$state->getName()] = ['sum' => 0, 'color' => ''];
+            $this->sales[$state->name] = ['sum' => 0, 'color' => ''];
         }
         foreach ($this->models as $model) {
-            $this->sales[$model->getState()->getName()]['sum'] ++;
-            $this->sales[$model->getState()->getName()]['color'] = '';
+            $state = $model->getInterviewState()->one();
+            $this->sales[$state->name]['sum']++;
+            $this->sales[$state->name]['color'] = '';
         }
     }
 
@@ -69,7 +74,6 @@ class InterviewProgress extends Model
         foreach ($this->sales as &$sale) {
             $result .= $sale['sum'].',';
         }
-
         return $result;
     }
 
@@ -82,5 +86,15 @@ class InterviewProgress extends Model
         }
 
         return $result;
+    }
+    public function getStateId()
+    {
+        $i = 0;
+        $string = '';
+        foreach ($this->states as $name => $state) {
+            $string .= $state['id'] . ',';
+            $i++;
+        }
+        return $string;
     }
 }
