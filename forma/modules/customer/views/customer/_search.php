@@ -25,11 +25,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'country_id') ?>
 
+    <?= $form->field($model, 'customer_source_id') ?>
+
     <?php // echo $form->field($model, 'address') ?>
 
     <?php // echo $form->field($model, 'email') ?>
 
     <?php // echo $form->field($model, 'tax_rate') ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
