@@ -67,7 +67,7 @@ class Event extends AccessoryActiveRecord
             'text' => 'Текст',
             'status' => 'Статус',
             'date_from' => 'Дата начала',
-            'date_to' => 'Дата завешения',
+            'date_to' => 'Дата завершения',
             'start_time' => 'Время',
             'end_time' => 'Время',
         ];

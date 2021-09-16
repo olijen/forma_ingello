@@ -328,9 +328,11 @@ $widgetsForSortable2 = [];
                 'eventClick' => new JsExpression($JSEventClick),
                 'eventResize' => new JsExpression($JSEventResize),
                 'eventDrop' => new JsExpression($JSEventDrop),
-                'defaultDate' => date('Y-m-d'),
+                'defaultDate' => date('Y-m-d\TH:i:s\Z'),
                 'defaultView' => $_GET['defaultView'] ?? 'month',
+                'timeFormat'=> 'h:mm',
             ],
+
             'events' => Url::to(['/event/event/jsoncalendar'])
         ]);
         ?>
