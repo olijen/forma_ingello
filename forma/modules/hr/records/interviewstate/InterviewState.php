@@ -3,6 +3,7 @@
 namespace forma\modules\hr\records\interviewstate;
 
 use forma\components\AccessoryActiveRecord;
+use forma\components\EntityLister;
 use Yii;
 
 /**
@@ -41,9 +42,11 @@ class InterviewState extends AccessoryActiveRecord
     public function rules()
     {
         return [
+                [['name', 'order'], 'required'],
                 [['user_id', 'order'], 'integer'],
                 [['description'], 'string'],
-                [['name'], 'string', 'max' => 255]
+                [['name'], 'string', 'max' => 255],
+
         ];
     }
 
@@ -66,5 +69,9 @@ class InterviewState extends AccessoryActiveRecord
     public static function find()
     {
         return new InterviewStateQuery(get_called_class());
+    }
+    public static function getList($byUser = null)
+    {
+        return EntityLister::getList(self::className(), $byUser);
     }
 }

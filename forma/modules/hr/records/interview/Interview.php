@@ -2,9 +2,11 @@
 
 namespace forma\modules\hr\records\interview;
 
+use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
 use forma\modules\core\components\StateActiveRecord;
 use forma\modules\core\components\TotalSumBehavior;
+use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\project\records\project\Project;
 use forma\modules\vacancy\records\Vacancy;
 use forma\modules\worker\records\Worker;
@@ -43,7 +45,7 @@ use forma\modules\hr\records\interview\StateDone;
  * @property string dialog
  * @property string next_step
  */
-class Interview extends StateActiveRecord
+class Interview extends AccessoryActiveRecord
 {
     /**
      * @inheritdoc
@@ -68,7 +70,6 @@ class Interview extends StateActiveRecord
             StateArchive::class,
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -92,12 +93,13 @@ class Interview extends StateActiveRecord
     {
         return [
             [['worker_id', 'project_id', 'vacancy_id'], 'required'],
-            [['worker_id', 'project_id', 'vacancy_id', 'state'], 'integer'],
+            [['worker_id', 'project_id', 'vacancy_id', 'state_id'], 'integer'],
             [['name', 'date_create', 'date_complete'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Worker::className(), 'targetAttribute' => ['worker_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
             [['vacancy_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vacancy::className(), 'targetAttribute' => ['vacancy_id' => 'id']],
+            [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => InterviewState::className(), 'targetAttribute' => ['state_id' => 'id']],
         ];
     }
 
@@ -114,7 +116,7 @@ class Interview extends StateActiveRecord
             'name' => 'Название',
             'date_create' => 'Дата создания',
             'date_complete' => 'Дата завершения',
-            'state' => 'Состояние',
+            'state_id' => 'Состояние',
         ];
     }
 
@@ -148,6 +150,10 @@ class Interview extends StateActiveRecord
     public function getInterviewVacancys()
     {
         return $this->hasMany(InterviewVacancy::className(), ['interview_id' => 'id']);
+    }
+    public function getInterviewState()
+    {
+        return $this->hasOne(InterviewState::className(), ['id' => 'state_id']);
     }
 
     /**

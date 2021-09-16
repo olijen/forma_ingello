@@ -60,7 +60,6 @@ class InterviewStateSearch extends InterviewState
             'user_id' => $this->user_id,
             'order' => $this->order,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
 
