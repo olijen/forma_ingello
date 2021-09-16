@@ -1,9 +1,12 @@
 <?php
 
 use forma\extensions\kartik\DynaGrid;
+use yii\data\ActiveDataProvider;
+use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\project\records\project\Project;
 use forma\modules\vacancy\records\Vacancy;
 use yii\bootstrap\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use forma\modules\hr\records\interview\Interview;
 use forma\components\ActiveRecordHelper;
@@ -49,13 +52,11 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
             'filter' => ActiveRecordHelper::getList(Vacancy::class),
         ],
         [
-            'attribute' => 'state',
-            'value' => function (Interview $interview) { return $interview->getState()->getName(); },
-            'filter' => Interview::getStatesList(),
+            'attribute' => 'state_id',
+            'value' => 'interviewState.name',
+            'filter' => ArrayHelper::map(InterviewState::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
         ],
     ];
-
-
     echo DynaGrid::widget([
         'options' => ['id'  => 'dyna-grid-' . $searchModel->tableName()],
         'theme' => 'panel-default',
