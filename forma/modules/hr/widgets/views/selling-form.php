@@ -49,7 +49,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         'fieldConfig' => [
             'inputOptions' => [
                 'class' => 'form-control',
-                'disabled' => $model->stateIs(new StateDone()),
+//                'disabled' => $model->stateIs(new StateDone()),
             ],
         ],
     ];
@@ -194,13 +194,13 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
 
     </div>
 
-    <?php if (!$model->stateIs(new StateDone())): ?>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'selling-form-submit-button']) ?>
-            </div>
-        </div>
-    <?php endif; ?>
+<!--    --><?php //if (!$model->stateIs(new StateDone())): ?>
+<!--        <div class="row">-->
+<!--            <div class="col-md-12 form-group">-->
+<!--                --><?//= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'selling-form-submit-button']) ?>
+<!--            </div>-->
+<!--        </div>-->
+<!--    --><?php //endif; ?>
 
     <?php ActiveForm::end(); ?>
 

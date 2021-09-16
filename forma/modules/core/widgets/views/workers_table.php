@@ -27,7 +27,7 @@ use yii\widgets\Pjax;
 
         [
             'attribute' => 'state',
-            'value' => function (Interview $interview) { return $interview->getState()->getName(); }
+            'value' => function (Interview $interview) { return $interview->getInterviewState()->one()->name;}
         ],
 
     ],

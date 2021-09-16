@@ -113,11 +113,11 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->stateIs(StateWork::class)) $count++;
+                         $count++;
                     }
                     $countInt = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->state < 4) $countInt++;
+                         $countInt++;
                     }
                     $vacacount = 0;
                     foreach ($vacaVaca as $projectVacancy) {
@@ -191,6 +191,9 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 </div>
 
 <script>
+    function getId(index) {
+        return [<?=$interviewProgress->getStateId()?>][index];
+    }
     $("select").val("count");
     var options = {
         scales: {
@@ -214,11 +217,9 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
         },
         options: options
     });
-
     plan.onclick = function(evt){
         var activePoints = myLineChart.getElementsAtEvent(evt);
-        console.log(activePoints);
-        window.location.href = '/hr/main?InterviewSearch[state]=' + activePoints[0]._index;
+        window.location.href = '/hr/main?InterviewSearch[state_id]=' + (getId(activePoints[0]._index));
         // => activePoints is an array of points on the canvas that are at the same position as the click event.
     };
 
