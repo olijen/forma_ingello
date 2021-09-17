@@ -333,6 +333,7 @@ $widgetsForSortable2 = [];
                 'eventDrop' => new JsExpression($JSEventDrop),
                 'defaultDate' => date('Y-m-d'),
                 'defaultView' => $_GET['defaultView'] ?? 'month',
+                'timeFormat'=> 'h:mm',
             ],
             'events' => Url::to(['/event/event/jsoncalendar'])
         ]);
