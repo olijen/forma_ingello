@@ -18,7 +18,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
     <p>
         <?= Html::a('Создать поставщика', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+    <?php if (isset($_GET['SupplierSearch'])): ?>
+    <p>
+        <?= Html::a('Сбросить фильтры', ['supplier/index'], ['class' => 'btn btn-success']);?>
+    </p>
+    <?php endif;?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
