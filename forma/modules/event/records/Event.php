@@ -3,6 +3,7 @@
 namespace forma\modules\event\records;
 
 use forma\components\AccessoryActiveRecord;
+use forma\modules\selling\records\selling\Selling;
 use Yii;
 
 /**
@@ -17,8 +18,10 @@ use Yii;
  * @property string $date_to
  * @property string $start_time
  * @property string $end_time
+ * @property int $selling_id
  *
  * @property EventType $eventType
+ * @property  Selling $selling
  */
 class Event extends AccessoryActiveRecord
 {
@@ -48,7 +51,7 @@ class Event extends AccessoryActiveRecord
     {
         return [
             [['name', 'date_from', 'date_to', 'start_time','end_time'], 'required'],
-            [['event_type_id', 'status'], 'integer'],
+            [['event_type_id', 'status','selling_id'], 'integer'],
             [['text'], 'string'],
             [['start_time', 'end_time'],'safe'],
             [['name'], 'string', 'max' => 255]
@@ -70,6 +73,7 @@ class Event extends AccessoryActiveRecord
             'date_to' => 'Дата завершения',
             'start_time' => 'Время',
             'end_time' => 'Время',
+            'selling_id' =>'Код продажи',
         ];
     }
 
@@ -79,6 +83,10 @@ class Event extends AccessoryActiveRecord
     public function getEventType()
     {
         return $this->hasOne(EventType::className(), ['id' => 'event_type_id']);
+    }
+    public function getSelling()
+    {
+        return $this->hasOne(Selling::className(), ['id' => 'selling_id']);
     }
 
     /**

@@ -188,7 +188,7 @@ use forma\extensions\fullcalendar;
                 alert(1);
               let next = document.getElementById("next_step").value;
                 step.textContent= next;
-                inputValue = next;
+                //inputValue = next;
             }
             next();
         </script>
@@ -270,11 +270,13 @@ JS;
         $JSCode = <<<JS
 
 function(start, end) {
+    let inputNext = document.getElementById("next_step").value;
     $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('YYYY-MM-DD')+
     '&date_to='+end.format('YYYY-MM-DD')+
     '&start_time='+start.format('H:m:ss')+
     '&end_time='+end.format('H:m:ss')+
-    '&name='+[inputValue]);
+    '&name='+inputNext+
+    '&selling_id='+$sellingId);
     $('#modal').modal();
     
 
@@ -490,7 +492,7 @@ JS;
                             <li><a href="#">Добавить новое событие</a></li>
                             <li><a href="#">Очистить события</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Смотреть календарь</a></li>
+                            <li><a href="#">Смотреть календарь <?php echo $sellingId?></a></li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
@@ -509,7 +511,7 @@ JS;
                             'right' => 'month,agendaWeek,listWeek,timelineDay,agendaDay'
                         ],
                         'nowIndicator' => true,
-                        'eventLimit' => true,
+                        'eventLimit' => false,
                         'selectable' => true,
                         'selectHelper' => true,
                         'droppable' => true,
@@ -520,6 +522,7 @@ JS;
                         'eventDrop' => new JsExpression($JSEventDrop),
                         'defaultDate' => date('Y-m-d'),
                         'defaultView' => $_GET['defaultView'] ?? 'month',
+                        'timeFormat'=> 'h:mm',
                     ],
                     'events' => Url::to(['/event/event/jsoncalendar'])
                 ]);
@@ -540,7 +543,7 @@ JS;
 
         <div class="row" style="margin-top: 10px">
             <div class="col-xs-12">
-            <a href="/selling/form" class="btn btn-success btn-lg btn-block" type="submit" id="end-talk">
+            <a href="/selling/form/?id =<?php echo $sellingId ?>" class="btn btn-success btn-lg btn-block" type="submit" id="end-talk">
                 Завершить разговор
             </a>
             </div>
