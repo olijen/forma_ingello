@@ -32,6 +32,7 @@ $this->title = 'Продажи';
     <?php
 
     $columns = [
+        ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
