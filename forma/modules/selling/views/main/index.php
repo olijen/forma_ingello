@@ -95,12 +95,13 @@ $this->title = 'Продажи';
                         'type' => 'button',
                         'class' => 'btn btn-danger forma_light_orange',
                         'onclick' => '$("#grid-' . $searchModel->tableName() . '")
-                        .groupOperation("' . Url::to(['/product/product/delete-selection']) . '", {
+                        .groupOperation("' . Url::to(['/selling/main/delete-selection']) . '", {
                             message: "Are you sure you want to delete selected items?"
                         });
                     ',
                     ]),
                 ],
+
                 '{export}',
                 '{toggleData}',
                 '{dynagrid}',

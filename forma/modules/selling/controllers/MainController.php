@@ -73,6 +73,16 @@ class MainController extends Controller
         SellingService::delete($id);
         $this->redirect('index');
     }
+    public function actionDeleteSelection()
+    {
+        $selection = Yii::$app->request->post('selection');
+
+        if ($selection) {
+            Product::deleteAll(['IN', 'id', $selection]);
+        }
+
+        return $this->redirect('/selling/main/index');
+    }
 
     public function actionShowSelling(){
 
