@@ -594,9 +594,10 @@ DROP TABLE IF EXISTS `migration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `migration` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` varchar(180) NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
