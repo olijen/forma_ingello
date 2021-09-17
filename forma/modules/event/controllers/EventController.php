@@ -95,6 +95,8 @@ class EventController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             Yii::debug('Вывожу данные календаря');
             Yii::debug($model);
+            if(isset($_GET['selling_id']))
+            $model->selling_id = $_GET['selling_id'];
             if ($model->save()) {
                 if (isset($_GET['json'])) {
                     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
