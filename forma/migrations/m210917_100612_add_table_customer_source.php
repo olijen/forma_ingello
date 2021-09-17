@@ -14,9 +14,9 @@ class m210917_100612_add_table_customer_source extends Migration
     {
         $this->createTable('customer_source', [
             'id' => $this->primaryKey(),
-            'name' => $this->string(),
+            'name' => $this->string(255),
             'order' => $this->integer(),
-            'description' => $this->string(),
+            'description' => $this->string(255),
         ]);
     }
 

@@ -12,12 +12,12 @@ class m210917_092423_create_interview_state_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%interview_state}}', [
+        $this->createTable('interview_state', [
             'id' => $this->primaryKey(),
-            'name' => $this->string(),
+            'name' => $this->string(255),
             'order' => $this->integer(),
             'user_id' => $this->integer(),
-            'description' => $this->char(),
+            'description' => $this->char(255),
         ]);
         $this->addForeignKey(
             'fk_interview_state-user_id',
@@ -33,6 +33,6 @@ class m210917_092423_create_interview_state_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%interview_state}}');
+        $this->dropTable('interview_state}');
     }
 }
