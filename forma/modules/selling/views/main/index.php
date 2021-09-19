@@ -47,23 +47,23 @@ $this->title = 'Продажи';
             'value' => 'customer.chief_phone'
         ],
         [
-            'attribute' => 'customer_telegram',
-            'label' => 'телеграм',
+            'attribute' => 'customer_id',
+            'label' => 'Телеграм',
             'value' => 'customer.telegram'
         ],
         [
-            'attribute' => 'customer_skype',
-            'label' => 'скайп',
+            'attribute' => 'customer_id',
+            'label' => 'Скайп',
             'value' => 'customer.skype'
         ],
         [
-            'attribute' => 'customer_whatsapp',
-            'label' => 'вотсап',
+            'attribute' => 'customer_id',
+            'label' => 'Вотсап',
             'value' => 'customer.whatsapp'
         ],
         [
-            'attribute' => 'customer_viber',
-            'label' => 'вайбер',
+            'attribute' => 'customer_id',
+            'label' => 'Вайбер',
             'value' => 'customer.viber'
         ],
         [
