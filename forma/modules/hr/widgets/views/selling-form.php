@@ -34,7 +34,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
 }
 
 ?>
-
 <?php DetachedBlock::begin([
     'example' => 'Данные',
 ]); ?>
@@ -193,9 +192,14 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         </div>
 
     </div>
-
+    <?php if ($model->date_create || $model->id): ?>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'selling-form-submit-button']) ?>
+            </div>
+        </div>
+    <?php endif; ?>
     <?php ActiveForm::end(); ?>
-
 </div>
 
 <?php DetachedBlock::end(); ?>

@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Найм', 'url' => Url::to(['/hr/
 
 <?= SellingFormView::widget(compact('model')) ?>
 <div class="bs-example">
+    <?php if($model->id): ?>
     <div class="detached-block-example" style="margin-bottom: 10px">Состояние <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/hr/interview-state' . "||" . " Изменить состояния" . "}}"), 'dot-circle');?></div>
 
     <div class="operation-states" style="margin-top: 20px;">
@@ -49,7 +50,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Найм', 'url' => Url::to(['/hr/
 
         <div class="row">
             <div class="col-md-12">
-                <?php if ($description['description']):?>
+                <?php if (!empty($description['description'])):?>
                     <p><?= $description['description'];?></p>
                 <?php else: ?>
                     <p>Вы не указывали описание</p>
@@ -81,4 +82,4 @@ $this->params['breadcrumbs'][] = ['label' => 'Найм', 'url' => Url::to(['/hr/
         </div>
     </div>
 </div>
-
+<?php endif; ?>

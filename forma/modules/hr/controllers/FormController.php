@@ -25,17 +25,33 @@ class FormController extends Controller
         }
         return $this->render('index', compact('model', 'userState', 'interviewState'));
     }
-
     public function actionSave($id = null)
     {
-        $id = Yii::$app->request->get('id');
-        $stateId = Yii::$app->request->get('state_id');
-        $model = InterviewService::get($id);
-        $model->state_id = (int)$stateId;
-        $model->save();
+        $interview = InterviewService::get($id);
+        if ($interview) {
+            $model = InterviewService::save($id, Yii::$app->request->post());
+        }
+        if ($interview) {
+            $id = Yii::$app->request->get('id');
+            $stateId = Yii::$app->request->get('state_id');
+            $model = InterviewService::get($id);
+            $model->state_id = (int)$stateId;
+            $model->save();
+            return $this->redirect(Url::to(["/hr/form", 'id' => $model->id]));
+        }
         if (!$id) {
             return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
         }
-        return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
+        return $this->redirect(Url::to(['/hr/form']));
     }
+//    public function actionSave($id = null)
+//    {
+//        $model = InterviewService::save($id, Yii::$app->request->post());
+////        if (!empty(Yii::$app->request->post()) && $model->load(Yii::$app->request->post())) {
+////        }
+//        if (!$id) {
+//            return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
+//        }
+//        return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
+//    }
 }
