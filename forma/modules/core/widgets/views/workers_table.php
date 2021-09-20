@@ -26,8 +26,16 @@ use yii\widgets\Pjax;
         ['attribute' => 'Кадр','value' => 'worker.fullName'],
 
         [
-            'attribute' => 'state',
-            'value' => function (Interview $interview) { return $interview->getInterviewState()->one()->name;}
+            'attribute' => 'Состояние',
+            'value' => function (Interview $interview) {
+                 $interviewState = $interview->getInterviewState()->one();
+                 if ($interviewState !== null) {
+                      return $interviewState->name;
+                 }
+                 if ($interviewState == null) {
+                      return null;
+                 }
+             }
         ],
 
     ],
