@@ -143,6 +143,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'filterModel' => $searchModel,
             'responsiveWrap' => false,
         ],
+=======
 
             'options' => ['id' => 'grid-' . $searchModel->tableName()],
 
