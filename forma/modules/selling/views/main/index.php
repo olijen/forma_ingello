@@ -46,6 +46,7 @@ $this->title = 'Продажи';
                     ->query,
                 'name'
             ),
+
         ],
         [
             'attribute' => 'customer_id',
@@ -83,6 +84,18 @@ $this->title = 'Продажи';
             'attribute' => 'customer_id',
             'label' => 'Вайбер',
             'value' => 'customer.viber'
+
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Компания',
+            'value' => 'customer.firm',
+            'filter' => ActiveRecordHelper::getListByQuery(
+                (new \forma\modules\customer\records\CustomerSearch())
+                    ->search(Yii::$app->request->queryParams)
+                    ->query,
+                'firm'
+            ),
         ],
         [
             'attribute' => 'warehouse_id',
@@ -127,6 +140,7 @@ $this->title = 'Продажи';
                     ',
                     ]),
                 ],
+
                 '{export}',
                 '{toggleData}',
                 '{dynagrid}',

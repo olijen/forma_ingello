@@ -31,7 +31,7 @@ class SystemEventUserController extends Controller
     }
 
     /**
-     * Lists all SystemEventUser models.
+     * Lists all SystemEventUser records.
      * @return mixed
      */
     public function actionIndex()
@@ -57,7 +57,7 @@ class SystemEventUserController extends Controller
 
 
         $models = SystemEventUserService::$models;
-        return $this->render('subscribe', ['models' => $models, 'subscribes' => $subscribes]);
+        return $this->render('subscribe', ['records' => $models, 'subscribes' => $subscribes]);
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace forma\modules\controllers;
 
-use forma\components\Controller;
+use yii\web\Controller;
 
 /**
- * Default controller for the `Modules` module
+ * Default controller for the `Marketing` module
  */
 class DefaultController extends Controller
 {

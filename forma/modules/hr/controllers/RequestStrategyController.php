@@ -32,7 +32,7 @@ class RequestStrategyController extends Controller
     }
 
     /**
-     * Lists all RequestStrategy models.
+     * Lists all RequestStrategy records.
      * @return mixed
      */
     public function actionIndex()

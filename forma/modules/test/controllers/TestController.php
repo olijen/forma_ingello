@@ -34,7 +34,7 @@ class TestController extends Controller
     }
 
     /**
-     * Lists all TestTypeField models.
+     * Lists all TestTypeField records.
      * @return mixed
      */
     public function actionIndex()

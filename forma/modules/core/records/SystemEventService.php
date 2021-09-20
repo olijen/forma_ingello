@@ -34,7 +34,7 @@ class SystemEventService
 
     public static function init(){
         self::$models = SystemEventUserService::getModels();
-        //Yii::debug(self::$models);
+        //Yii::debug(self::$records);
     }
 
     public static function getClassName($event){

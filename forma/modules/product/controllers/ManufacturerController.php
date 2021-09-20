@@ -30,7 +30,7 @@ class ManufacturerController extends Controller
     }
 
     /**
-     * Lists all Manufacturer models.
+     * Lists all Manufacturer records.
      * @return mixed
      */
     public function actionIndex()

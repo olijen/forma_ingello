@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var Array $models models from tables equal modelsClassName */
+/* @var Array $models records from tables equal modelsClassName */
 /* @var $form yii\widgets\ActiveForm */
-/* @var Array $subscribes current subscribes models */
+/* @var Array $subscribes current subscribes records */
 ?>
 <?php
     ActiveForm::begin([

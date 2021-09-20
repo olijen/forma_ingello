@@ -30,7 +30,7 @@ class InventorizationProductController extends Controller
     }
 
     /**
-     * Lists all InventorizationProduct models.
+     * Lists all InventorizationProduct records.
      * @return mixed
      */
     public function actionIndex()

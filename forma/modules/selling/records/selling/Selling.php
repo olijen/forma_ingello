@@ -102,7 +102,6 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return $this->warehouse;
     }
-
     /**
      * @inheritdoc
      */

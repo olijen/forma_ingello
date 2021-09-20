@@ -30,7 +30,7 @@ class ProjectUserController extends Controller
     }
 
     /**
-     * Lists all ProjectUser models.
+     * Lists all ProjectUser records.
      * @return mixed
      */
     public function actionIndex()
