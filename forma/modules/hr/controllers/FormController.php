@@ -44,14 +44,4 @@ class FormController extends Controller
         }
         return $this->redirect(Url::to(['/hr/form']));
     }
-//    public function actionSave($id = null)
-//    {
-//        $model = InterviewService::save($id, Yii::$app->request->post());
-////        if (!empty(Yii::$app->request->post()) && $model->load(Yii::$app->request->post())) {
-////        }
-//        if (!$id) {
-//            return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
-//        }
-//        return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
-//    }
 }
