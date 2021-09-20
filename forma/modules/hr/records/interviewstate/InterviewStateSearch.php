@@ -1,16 +1,16 @@
 <?php
 
-namespace forma\modules\event\records;
+namespace forma\modules\hr\records\interviewstate;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\event\records\Event;
+use forma\modules\hr\records\interviewstate\InterviewState;
 
 /**
- * EventSearch represents the model behind the search form about `forma\modules\event\records\Event`.
+ * InterviewStateSearch represents the model behind the search form about `forma\modules\hr\records\interviewstate\InterviewState`.
  */
-class EventSearch extends Event
+class InterviewStateSearch extends InterviewState
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class EventSearch extends Event
     public function rules()
     {
         return [
-            [['id', 'event_type_id', 'status'], 'integer'],
-            [['name', 'text', 'date_from', 'date_to', 'start_time','end_time','selling_id'], 'safe'],
+            [['id', 'user_id', 'order'], 'integer'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -41,15 +41,13 @@ class EventSearch extends Event
      */
     public function search($params)
     {
-        $query = Event::find();
-        $this->access($query);
+        $query = InterviewState::find()->where(['user_id' => Yii::$app->user->identity->id])->orderBy('order');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
-
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -59,17 +57,11 @@ class EventSearch extends Event
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'event_type_id' => $this->event_type_id,
-            'status' => $this->status,
-            'date_from' => $this->date_from,
-            'date_to' => $this->date_to,
-            'start_time' => $this->start_time,
-            'end_time'=>$this->end_time,
-            'selling_id'=>$this->selling_id,
+            'user_id' => $this->user_id,
+            'order' => $this->order,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'text', $this->text]);
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

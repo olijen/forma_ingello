@@ -2,6 +2,7 @@
 
 use forma\modules\core\components\LinkHelper;
 use kartik\form\ActiveForm;
+
 //use yii\widgets\ActiveForm;  TODO в чем разница???
 use kartik\switchinput\SwitchInput;
 use vova07\imperavi\Widget;
@@ -21,10 +22,12 @@ use forma\modules\product\records\Category;
 use kartik\color\ColorInput;
 use forma\modules\product\records\Color;
 use yii\widgets\Pjax;
+use kartik\widgets\StarRating;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\product\records\Product */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <?php $this->registerJsFile('/js/common.js', ['position' => View::POS_END]); ?>
@@ -54,10 +57,45 @@ use yii\widgets\Pjax;
 
             <?= $form->field($model, 'rating')->widget(\kartik\rating\StarRating::className(), [
                 'pluginOptions' => [
+                    'name' => 'rating_21',
                     'stars' => 10,
                     'max' => 10,
                     'step' => 1,
                     'theme' => 'krajee-uni',
+                    'starCaptions' => [
+
+                        1 => 'Одна звезда',
+
+                        2 => 'Две звезды',
+
+                        3 => 'Три звезды',
+
+                        4 => 'Четыре звезды',
+
+                        5 => 'Пять звёзд',
+                        6 => 'Шесть звёзд',
+
+                        7 => 'Семь звёзд',
+
+                        8 => 'Восемь звёзд',
+
+                        9 => 'Девять звёзд',
+
+                        10 => 'Десять звёзд'
+                    ],
+                    'starCaptionClasses' => [
+                        1 => 'label label-danger badge-danger',
+                        2 => 'label label-danger badge-danger',
+                        3 => 'label label-warning badge-warning',
+                        4 => 'label label-warning badge-warning',
+                        5 => 'label label-info badge-info',
+                        6 => 'label label-info badge-info',
+                        7 => 'label label-primary badge-primary',
+                        8 => 'label label-primary badge-primary',
+                        9 => 'label label-success badge-success',
+                        10 => 'label label-success badge-success',
+                    ],
+
                 ],
             ]) ?>
 
@@ -92,13 +130,13 @@ use yii\widgets\Pjax;
 
             <?php
 
-                echo $form->field($model, 'category_id')->widget(Select2::className(), [
-                    'data' => Category::getList(),
-                    'options' => ['placeholder' => 'Выберите категорию...', 'class' => 'form-control'],
-                    'addon' => [
-                        'prepend' => [
-                            'asButton' => true,
-                            'content' => "
+            echo $form->field($model, 'category_id')->widget(Select2::className(), [
+                'data' => Category::getList(),
+                'options' => ['placeholder' => 'Выберите категорию...', 'class' => 'form-control'],
+                'addon' => [
+                    'prepend' => [
+                        'asButton' => true,
+                        'content' => "
                                 <a style=\"color: gray; display: flex; align-items: center; padding: 0 11px;\" href=\"javascript:void(0)\" class=\"btn btn-outline-secondary btn-xs\" type=\"button\" data-toggle=\"modal\" data-target=\"#modal\" onclick=\"$('#modal .modal-dialog .modal-content .modal-body').html(''); 
 $('<iframe src= /product/category/create?without-header'
                         + ' style=width:100%;height:500px ' 
@@ -106,10 +144,10 @@ $('<iframe src= /product/category/create?without-header'
                         .appendTo('#modal .modal-dialog .modal-content .modal-body');\">
                         <i class=\"fa fa-plus\" style='font-size: 15px;'></i></a>
                             ",
-                        ],
                     ],
-                    'pluginEvents' => [
-                        "select2:select" => "function() {
+                ],
+                'pluginEvents' => [
+                    "select2:select" => "function() {
                             $.pjax({         
                                    type : 'POST',         
                                    url : '/product/product/pjax-attribute',
@@ -121,8 +159,8 @@ $('<iframe src= /product/category/create?without-header'
                                    \"scrollTo\" : false     
                             })
                      }",
-                    ],
-                ]) ?>
+                ],
+            ]) ?>
 
 
             <?php

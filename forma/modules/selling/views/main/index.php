@@ -1,4 +1,3 @@
-Лёша, [17.09.21 20:05]
 <?php
 
 use kartik\dynagrid\DynaGrid;
@@ -58,6 +57,32 @@ $this->title = 'Продажи';
                     ->query,
                 'firm'
             ),
+        ],
+
+        [
+            'attribute' => 'customer_chief_phone',
+            'label' => 'Телефонный номер клиента',
+            'value' => 'customer.chief_phone'
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Телеграм',
+            'value' => 'customer.telegram'
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Скайп',
+            'value' => 'customer.skype'
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Вотсап',
+            'value' => 'customer.whatsapp'
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Вайбер',
+            'value' => 'customer.viber'
         ],
         [
             'attribute' => 'warehouse_id',

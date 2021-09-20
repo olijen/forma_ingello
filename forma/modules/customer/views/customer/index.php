@@ -3,13 +3,16 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
+use forma\components\ActiveRecordHelper;
+use forma\modules\selling\records\customersource\CustomerSource;
+
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\customer\records\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Клиенты';
 $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default/people'];
-
 ?>
 <div class="customer-index">
     
@@ -80,6 +83,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
                       $count = $data->getSellings()->count();
                       return $count;
                 },
+            ],
+            [
+                'attribute' => 'customer_source_id',
+                'value' => 'customerSource.name',
+                //'filter' => ActiveRecordHelper::getList(CustomerSource::class),
+
             ],
 
             // 'email:email',

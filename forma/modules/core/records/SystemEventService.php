@@ -11,6 +11,8 @@ use forma\modules\test\records\TestSearch;
 use forma\modules\test\records\TestType;
 use Yii;
 use forma\modules\selling\records\selling\Selling;
+use function Couchbase\defaultDecoder;
+
 class SystemEventService
 {
 
@@ -49,7 +51,6 @@ class SystemEventService
     }
 
     public static function loadSystemEvent($data){
-
         $systemEvent = new SystemEvent();
         $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
         $systemEvent->date_time = date('Y-m-d H:i:s');
@@ -242,6 +243,7 @@ class SystemEventService
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
 
             $systemEvent = self::loadSystemEvent($appMod);
+
             $systemEvent->data = $message;
             $systemEvent->class_name = $className;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];

@@ -14,7 +14,6 @@ class m171008_182007_base extends Migration
     public function safeDown()
     {
         echo "m171008_182007_base cannot be reverted.\n";
-
         return false;
     }
 }
