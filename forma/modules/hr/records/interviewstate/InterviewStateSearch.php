@@ -41,7 +41,7 @@ class InterviewStateSearch extends InterviewState
      */
     public function search($params)
     {
-        $query = InterviewState::find()->where(['user_id' => Yii::$app->user->identity->id]);
+        $query = InterviewState::find()->where(['user_id' => Yii::$app->user->identity->id])->orderBy('order');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

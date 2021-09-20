@@ -54,7 +54,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         [
             'attribute' => 'state_id',
             'value' => 'interviewState.name',
-            'filter' => ArrayHelper::map(InterviewState::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
+            'filter' => ArrayHelper::map(InterviewState::find()->where(['user_id'=> Yii::$app->user->id])->orderBy('order')->all(),'id', 'name'),
         ],
     ];
     echo DynaGrid::widget([
