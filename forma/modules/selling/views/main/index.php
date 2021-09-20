@@ -2,6 +2,8 @@
 
 use kartik\dynagrid\DynaGrid;
 use yii\helpers\ArrayHelper;
+//use yii\helpers\Url;
+use yii\web\View;
 use yii\widgets\Pjax;
 use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
@@ -18,7 +20,7 @@ use yii\helpers\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Продажи';
-
+$this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' => View::POS_BEGIN]);
 ?>
 <div class="selling-index">
 
@@ -139,6 +141,7 @@ $this->title = 'Продажи';
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'responsiveWrap' => false,
+            'options' => ['id' => 'grid-' . $searchModel->tableName()],
             'toolbar' => [
                 [
                     'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
@@ -150,6 +153,9 @@ $this->title = 'Продажи';
                         });
                     ',
                     ]),
+//                'content' => Html::a('Delete',['main/delete-selection'])
+
+
                 ],
                 '{export}',
                 '{toggleData}',
