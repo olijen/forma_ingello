@@ -27,7 +27,7 @@ class MessageController extends Controller
     }
 
     /**
-     * Lists all Message models.
+     * Lists all Message records.
      * @return mixed
      */
     public function actionIndex()

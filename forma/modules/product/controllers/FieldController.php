@@ -35,7 +35,7 @@ class FieldController extends Controller
     }
 
     /**
-     * Lists all Field models.
+     * Lists all Field records.
      * @return mixed
      */
     public function actionIndex()

@@ -30,7 +30,7 @@ class CurrencyController extends Controller
     }
 
     /**
-     * Lists all Currency models.
+     * Lists all Currency records.
      * @return mixed
      */
     public function actionIndex()

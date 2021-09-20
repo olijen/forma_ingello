@@ -30,7 +30,7 @@ class PackUnitController extends Controller
     }
 
     /**
-     * Lists all PackUnit models.
+     * Lists all PackUnit records.
      * @return mixed
      */
     public function actionIndex()

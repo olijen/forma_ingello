@@ -32,7 +32,7 @@ class ItemController extends Controller
     }
 
     /**
-     * Lists all Item models.
+     * Lists all Item records.
      * @return mixed
      */
     public function actionIndex()

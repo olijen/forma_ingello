@@ -35,7 +35,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Lists all Customer models.
+     * Lists all Customer records.
      * @return mixed
      */
     public function actionIndex()

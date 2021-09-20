@@ -30,7 +30,7 @@ class CountryController extends Controller
     }
 
     /**
-     * Lists all Country models.
+     * Lists all Country records.
      * @return mixed
      */
     public function actionIndex()

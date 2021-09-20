@@ -38,7 +38,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Lists all Category models.
+     * Lists all Category records.
      * @return mixed
      */
     public function actionIndex()

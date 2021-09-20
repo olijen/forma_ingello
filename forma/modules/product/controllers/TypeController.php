@@ -30,7 +30,7 @@ class TypeController extends Controller
     }
 
     /**
-     * Lists all Type models.
+     * Lists all Type records.
      * @return mixed
      */
     public function actionIndex()

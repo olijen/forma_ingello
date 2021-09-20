@@ -19,6 +19,7 @@ class Menu extends \dmstr\widgets\Menu
         '/product/manufacturer' => ['product', ['manufacturer']],
         '/customer/customer' => ['customer'],
         '/core/user' => ['core', ['user']],
+
     ];
 
     /**

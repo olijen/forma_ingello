@@ -65,4 +65,7 @@ return [
     'hr' => [
         'class' => 'forma\modules\hr\Module',
     ],
+    'template' => [
+        'class' => 'forma\modules\template\Module',
+    ],
 ];

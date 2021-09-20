@@ -2,6 +2,8 @@
 
 use kartik\dynagrid\DynaGrid;
 use yii\helpers\ArrayHelper;
+//use yii\helpers\Url;
+use yii\web\View;
 use yii\widgets\Pjax;
 use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
@@ -9,17 +11,20 @@ use forma\modules\customer\records\Customer;
 use forma\modules\warehouse\records\Warehouse;
 use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
+
 use kartik\date\DatePicker;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Продажи';
-
+$this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' => View::POS_BEGIN]);
 ?>
 <div class="selling-index">
-
+//
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа</a>
     <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary forma_blue"><i class="fas fa-phone-volume"></i> План на обзвон</a>
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить состояния</a>
@@ -31,14 +36,32 @@ $this->title = 'Продажи';
     <?php
 
     $columns = [
+        ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
         ],
         [
-            'attribute' => 'customerName',
-            'label' => 'Клиент',
+            'attribute' => 'customer_id',
             'value' => 'customer.name',
+            'filter' => ActiveRecordHelper::getListByQuery(
+                (new \forma\modules\customer\records\CustomerSearch())
+                    ->search(Yii::$app->request->queryParams)
+                    ->query,
+                'name'
+            ),
+
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Компания',
+            'value' => 'customer.firm',
+            'filter' => ActiveRecordHelper::getListByQuery(
+                (new \forma\modules\customer\records\CustomerSearch())
+                    ->search(Yii::$app->request->queryParams)
+                    ->query,
+                'firm'
+            ),
         ],
 
         [
@@ -65,6 +88,18 @@ $this->title = 'Продажи';
             'attribute' => 'customer_id',
             'label' => 'Вайбер',
             'value' => 'customer.viber'
+
+        ],
+        [
+            'attribute' => 'customer_id',
+            'label' => 'Компания',
+            'value' => 'customer.firm',
+            'filter' => ActiveRecordHelper::getListByQuery(
+                (new \forma\modules\customer\records\CustomerSearch())
+                    ->search(Yii::$app->request->queryParams)
+                    ->query,
+                'firm'
+            ),
         ],
         [
             'attribute' => 'warehouse_id',
@@ -81,52 +116,13 @@ $this->title = 'Продажи';
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
         ],
-        [
-            'attribute' => 'next_step',
-            'label' => 'Следующий шаг',
-
-        ],
-
     ];
-    foreach (['date_next_step'] as $attribute) {
+    foreach (['date_create', 'date_complete'] as $attribute) {
         $columns[] = [
             'attribute' => $attribute,
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_next_step]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_next_step']) ?
-                    $_GET['SellingSearch']['date_next_step'] : '',
-            ]),
-            'label' => 'Дата следующего шага'
-
+            'filter' => DateRangeFilter::widget(compact('attribute', 'searchModel')),
         ];
     }
-    foreach (['date_create'] as $attribute) {
-        $columns[] = [
-            'attribute' => $attribute,
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_create]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_create']) ?
-                    $_GET['SellingSearch']['date_create'] : '',
-            ]),
-        ];
-    }
-
-
-    $columns[] =[
-        'attribute' => 'companyName',
-        'label' => 'Компания',
-        'value' => 'customer.firm',
-    ];
 
     echo DynaGrid::widget([
         'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],
@@ -136,12 +132,35 @@ $this->title = 'Продажи';
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'responsiveWrap' => false,
-        ],
+
+            'options' => ['id' => 'grid-' . $searchModel->tableName()],
+
+            'toolbar' => [
+                [
+                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
+                        'type' => 'button',
+                        'class' => 'btn btn-danger forma_light_orange',
+                        'onclick' => '$("#grid-' . $searchModel->tableName() . '")
+                        .groupOperation("' . Url::to(['/selling/main/delete-selection']) . '", {
+                            message: "Are you sure you want to delete selected items?"
+                        });
+                    ',
+                    ]),
+                ],
+
+
+
+
+                ],
+                '{export}',
+                '{toggleData}',
+                '{dynagrid}',
+            ]
     ]);
 
     ?>
 
-    <?php  Pjax::end(); ?>
+    <?php Pjax::end(); ?>
 
 </div>
 

@@ -30,7 +30,7 @@ class WorkerVacancyController extends Controller
     }
 
     /**
-     * Lists all WorkerVacancy models.
+     * Lists all WorkerVacancy records.
      * @return mixed
      */
     public function actionIndex()
