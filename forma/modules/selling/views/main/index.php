@@ -10,6 +10,8 @@ use forma\modules\warehouse\records\Warehouse;
 use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
 use kartik\date\DatePicker;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
@@ -31,6 +33,7 @@ $this->title = 'Продажи';
     <?php
 
     $columns = [
+        ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
@@ -136,6 +139,22 @@ $this->title = 'Продажи';
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'responsiveWrap' => false,
+            'toolbar' => [
+                [
+                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
+                        'type' => 'button',
+                        'class' => 'btn btn-danger forma_light_orange',
+                        'onclick' => '$("#grid-' . $searchModel->tableName() . '")
+                        .groupOperation("' . Url::to(['/selling/main/delete-selection']) . '", {
+                            message: "Are you sure you want to delete selected items?"
+                        });
+                    ',
+                    ]),
+                ],
+                '{export}',
+                '{toggleData}',
+                '{dynagrid}',
+            ]
         ],
     ]);
 
