@@ -68,7 +68,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             'attribute' => 'name',
             'format' => 'html',
             'value' => function ($searchModel) {
-                return "<p style='width: 300px'>".$searchModel->name."</p>";
+                return "<p style='width: 300px'>" . $searchModel->name . "</p>";
             }
         ],
 
@@ -165,87 +165,84 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
         Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success forma_light_orange',
-            'onchange' => 'window.location.href = "/product/product/index?'.$withoutHeader.'ProductSearch[category_id]="+ $(this).val()'
+            'onchange' => 'window.location.href = "/product/product/index?' . $withoutHeader . 'ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
         <a class="btn btn-success forma_light_orange" href='/product/product/create' data-pjax="0"><i
                     class="fa fa-plus"></i> Новый объект</a>
         <br><br>
 
         <?php
-        $resetTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
 
-                [
-                    'content' => '<a href="/product/product/index?ProductSearch[category_id]=' . $_GET['ProductSearch']['category_id'] . '" class="btn btn-success forma_light_orange"> <i class="fa fa-times"></i> Сбросить таблицу </a>',
-                ]
+        $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
+            [
+                'content' => '<button onclick="$(\'#grid-product\').yiiGridView(\'applyFilter\');" class="btn btn-success forma_light_orange"> <i class="glyphicon glyphicon-search"></i> Поиск по таблице </button>',
+            ]
             :
             ['content' => ''];
-        $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
-                [
-                    'content' => '<button onclick="$(\'#grid-product\').yiiGridView(\'applyFilter\');" class="btn btn-success forma_light_orange"> <i class="glyphicon glyphicon-search"></i> Поиск по таблице </button>',
-                ]
-             :
-            ['content' => ''];
         ?>
-
+        <?php if (isset($_GET['ProductSearch'])): ?>
+        <p>
+            <?= Html::a('Сбросить фильтры', ['product/index'], ['class' => 'btn btn-success']); ?>
+        </p>
+        <?php endif; ?>
         <?= DynaGrid::widget([
-            'allowSortSetting' => false,
-            'showPersonalize' => true,
-            'allowFilterSetting' => false,
-            'theme' => 'panel-default',
-            'columns' => $columns,
-            'options' => ['id' => 'dynagrid-' . $searchModel->tableName()],
-            'gridOptions' => [
-                'editableMode' => false,
-                'displayEmptyValue' => true,
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'responsiveWrap' => false,
-                'options' => ['id' => 'grid-' . $searchModel->tableName()],
-                'toolbar' => [
-                    $resetTableCategory,
-                    $applyFilterTableCategory,
-                    [
-                        'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['create'], ['class' => 'btn btn-success forma_light_orange']),
-                    ],
-                    [
-                        'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
-                            'type' => 'button',
-                            'class' => 'btn btn-danger forma_light_orange',
-                            'onclick' => '$("#grid-' . $searchModel->tableName() . '")
+        'allowSortSetting' => false,
+        'showPersonalize' => true,
+        'allowFilterSetting' => false,
+        'theme' => 'panel-default',
+        'columns' => $columns,
+        'options' => ['id' => 'dynagrid-' . $searchModel->tableName()],
+        'gridOptions' => [
+            'editableMode' => false,
+            'displayEmptyValue' => true,
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'responsiveWrap' => false,
+            'options' => ['id' => 'grid-' . $searchModel->tableName()],
+            'toolbar' => [
+                $applyFilterTableCategory,
+                [
+                    'content' => Html::a('<i class="glyphicon glyphicon-plus"></i> Добавить', ['create'], ['class' => 'btn btn-success forma_light_orange']),
+                ],
+                [
+                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
+                        'type' => 'button',
+                        'class' => 'btn btn-danger forma_light_orange',
+                        'onclick' => '$("#grid-' . $searchModel->tableName() . '")
                         .groupOperation("' . Url::to(['/product/product/delete-selection']) . '", {
                             message: "Are you sure you want to delete selected items?"
                         });
                     ',
-                        ]),
-                    ],
-                    [
-                        'content' => ButtonDropdown::widget([
-                            'label' => '<i class="glyphicon glyphicon-import"></i>',
-                            'encodeLabel' => false,
-                            'dropdown' => [
-                                'items' => [
-                                    ['label' => 'Import file', 'options' => [
-                                        'onclick' => '$("#import-file-input").trigger("click");',
+                    ]),
+                ],
+                [
+                    'content' => ButtonDropdown::widget([
+                        'label' => '<i class="glyphicon glyphicon-import"></i>',
+                        'encodeLabel' => false,
+                        'dropdown' => [
+                            'items' => [
+                                ['label' => 'Import file', 'options' => [
+                                    'onclick' => '$("#import-file-input").trigger("click");',
+                                    'style' => 'cursor: pointer;',
+                                ]],
+                                [
+                                    'label' => 'Example of file',
+                                    'options' => [
+                                        'onclick' => 'location.href = "/product/product/download-example-file"',
                                         'style' => 'cursor: pointer;',
-                                    ]],
-                                    [
-                                        'label' => 'Example of file',
-                                        'options' => [
-                                            'onclick' => 'location.href = "/product/product/download-example-file"',
-                                            'style' => 'cursor: pointer;',
-                                        ],
                                     ],
                                 ],
                             ],
-                            'options' => ['class' => 'btn btn-default forma_light_orange'],
-                        ]),
-                    ],
-                    '{export}',
-                    '{toggleData}',
-                    '{dynagrid}',
+                        ],
+                        'options' => ['class' => 'btn btn-default forma_light_orange'],
+                    ]),
                 ],
+                '{export}',
+                '{toggleData}',
+                '{dynagrid}',
             ],
-        ]); ?>
+        ],
+    ]); ?>
     <?php else : ?>
 
         <br><br>
@@ -279,9 +276,9 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function (event) {
         //РАБОТА НА СТРАНИЦЕ ПРОДУКТОВ С ВИДЖЕТОМ SWITCHINPUT
-        let t = setTimeout (function () {
+        let t = setTimeout(function () {
 
             if ($('.switchInputContainer').length) {
                 console.log('Клик на клик');
