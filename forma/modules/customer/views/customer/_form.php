@@ -58,7 +58,7 @@ use kartik\select2\Select2;
         'data' => \forma\modules\selling\records\customersource\CustomerSource::className()::getList(),
         'options' => ['placeholder' => ''],
         'pluginOptions' => ['allowClear' => true],
-    ])->label('Представитель компании') ?>
+    ])->label('Откуда пришел клиент') ?>
 
 
 
