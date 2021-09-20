@@ -42,8 +42,6 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'template' => '{update} {delete}',
         ],
         [
-            'attribute' => 'customerName',
-            'label' => 'Клиент',
             'value' => 'customer.name',
         ],
 
@@ -87,52 +85,11 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
         ],
-        [
-            'attribute' => 'next_step',
-            'label' => 'Следующий шаг',
-
-        ],
-
     ];
-    foreach (['date_next_step'] as $attribute) {
         $columns[] = [
             'attribute' => $attribute,
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_next_step]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_next_step']) ?
-                    $_GET['SellingSearch']['date_next_step'] : '',
-            ]),
-            'label' => 'Дата следующего шага'
-
         ];
     }
-    foreach (['date_create'] as $attribute) {
-        $columns[] = [
-            'attribute' => $attribute,
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_create]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_create']) ?
-                    $_GET['SellingSearch']['date_create'] : '',
-            ]),
-        ];
-    }
-
-
-    $columns[] =[
-        'attribute' => 'companyName',
-        'label' => 'Компания',
-        'value' => 'customer.firm',
-    ];
 
     echo DynaGrid::widget([
         'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],

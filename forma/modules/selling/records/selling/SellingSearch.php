@@ -3,7 +3,6 @@
 namespace forma\modules\selling\records\selling;
 
 use forma\modules\core\records\User;
-use forma\modules\customer\records\Customer;
 use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
@@ -18,13 +17,6 @@ class SellingSearch extends Selling
     public $date_createRange;
     public $date_completeRange;
 
-    public $customer_viber;
-    public $customer_telegram;
-    public $customer_whatsapp;
-    public $customer_skype;
-    public $customer_chief_phone;
-    public  $customerName;
-    public  $companyName;
     /**
      * @inheritdoc
      */
@@ -32,22 +24,6 @@ class SellingSearch extends Selling
     {
         return [
             [['id', 'customer_id', 'warehouse_id', 'state_id'], 'integer'],
-
-            [
-                [
-                    'name',
-                    'date_createRange',
-                    'date_completeRange',
-                    'customer_viber',
-                    'customer_telegram',
-                    'customer_whatsapp',
-                    'customer_skype',
-                    'customer_chief_phone'
-                ],
-                'safe'
-            ],
-            [['name', 'date_createRange', 'date_completeRange','customerName','companyName','date_next_step'], 'safe'],
-
         ];
     }
 
@@ -74,22 +50,6 @@ class SellingSearch extends Selling
 
 //        $query->join('join', 'state', 'state.id = selling.state_id ')
 //            ->andWhere(['state.user_id' => Yii::$app->user->id]);
-        $query->joinWith(['customer' => function($q) {
-            $q->where('customer.viber LIKE "%' . $this->customer_viber . '%"');
-        }]);
-        $query->joinWith(['customer' => function($q) {
-            $q->where('customer.chief_phone LIKE "%' . $this->customer_chief_phone . '%"');
-        }]);
-        $query->joinWith(['customer' => function($q) {
-            $q->where('customer.telegram LIKE "%' . $this->customer_telegram . '%"');
-        }]);
-        $query->joinWith(['customer' => function($q) {
-            $q->where('customer.skype LIKE "%' . $this->customer_skype . '%"');
-        }]);
-        $query->joinWith(['customer' => function($q) {
-            $q->where('customer.whatsapp LIKE "%' . $this->customer_whatsapp . '%"');
-        }]);
-
 
 
         // add conditions that should always apply here
@@ -103,12 +63,6 @@ class SellingSearch extends Selling
 
         $this->load($params);
 
-        if (!($this->load($params) && $this->validate())) {
-            /**
-             * Жадная загрузка данных модели Страны
-             * для работы сортировки.
-             */
-            $query->joinWith(['customer']);
             return $dataProvider;
         }
 
@@ -120,12 +74,6 @@ class SellingSearch extends Selling
             'state_id' => $this->state_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'customer.viber', $this->customer_viber])
-            ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
-            ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
-            ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
-            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
         foreach (['date_create', 'date_complete'] as $attribute) {
             $rangeAttribute = $attribute . 'Range';
             if (empty($this->$rangeAttribute)) {
@@ -134,10 +82,6 @@ class SellingSearch extends Selling
             $query->andFilterWhere(DateRangeHelper::getDateRangeCondition($attribute, $this->$rangeAttribute));
         }
 
-        $query->joinWith(['customer' => function ($q) {
-            $q->where('customer.name LIKE "%' . $this->customerName . '%"');
-        }]);
-        $query->andWhere('customer.firm LIKE "%' . $this->companyName . '%"');
         return $dataProvider;
     }
 
