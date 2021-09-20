@@ -30,7 +30,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Lists all Supplier models.
+     * Lists all Supplier records.
      * @return mixed
      */
     public function actionIndex()

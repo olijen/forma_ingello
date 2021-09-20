@@ -27,7 +27,7 @@ class EventTypeController extends Controller
     }
 
     /**
-     * Lists all EventType models.
+     * Lists all EventType records.
      * @return mixed
      */
     public function actionIndex()

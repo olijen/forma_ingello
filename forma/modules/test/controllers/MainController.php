@@ -32,7 +32,7 @@ class MainController extends Controller
     }
 
     /**
-     * Lists all TestType models.
+     * Lists all TestType records.
      * @return mixed
      */
     public function actionIndex()

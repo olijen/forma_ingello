@@ -30,7 +30,7 @@ class ProjectVacancyController extends Controller
     }
 
     /**
-     * Lists all ProjectVacancy models.
+     * Lists all ProjectVacancy records.
      * @return mixed
      */
     public function actionIndex()

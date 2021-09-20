@@ -31,7 +31,7 @@ class SellingController extends Controller
     }
 
     /**
-     * Lists all Selling models.
+     * Lists all Selling records.
      * @return mixed
      */
     public function actionIndex()

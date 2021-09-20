@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use forma\modules\test\records\TestType;
 
 /**
- * TestSearch represents the model behind the search form of `app\models\TestType`.
+ * TestSearch represents the model behind the search form of `app\records\TestType`.
  */
 class TestSearch extends TestType
 {

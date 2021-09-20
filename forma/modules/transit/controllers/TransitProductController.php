@@ -30,7 +30,7 @@ class TransitProductController extends Controller
     }
 
     /**
-     * Lists all TransitProduct models.
+     * Lists all TransitProduct records.
      * @return mixed
      */
     public function actionIndex()

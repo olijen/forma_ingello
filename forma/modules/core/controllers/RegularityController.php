@@ -43,7 +43,7 @@ class RegularityController extends Controller
     }
 
     /**
-     * Lists all Regularity models.
+     * Lists all Regularity records.
      * @return mixed
      */
     public function actionIndex()

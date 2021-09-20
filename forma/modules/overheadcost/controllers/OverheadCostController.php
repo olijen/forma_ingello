@@ -30,7 +30,7 @@ class OverheadCostController extends Controller
     }
 
     /**
-     * Lists all OverheadCost models.
+     * Lists all OverheadCost records.
      * @return mixed
      */
     public function actionIndex()

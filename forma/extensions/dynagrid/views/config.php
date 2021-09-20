@@ -6,7 +6,7 @@
  */
 
 use kartik\base\Config;
-// use kartik\dynagrid\models\DynaGridConfig;
+// use kartik\dynagrid\records\DynaGridConfig;
 // use kartik\dynagrid\Module;
 use forma\extensions\dynagrid\models\DynaGridConfig;
 use forma\extensions\dynagrid\Module;
