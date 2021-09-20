@@ -67,7 +67,7 @@ class InterviewSearch extends Interview
             return $dataProvider;
         }
         $query->joinWith(['worker']);
-        $query->join('join', 'interview_state', 'interview.state_id = interview_state.id ');
+        $query->joinWith(['interviewState']);
         $query->orderBy('interview_state.order ASC');
         // grid filtering conditions
         $query->andFilterWhere([
@@ -79,7 +79,6 @@ class InterviewSearch extends Interview
         ]);
 
         $query->andFilterWhere(['like', 'worker.name', $this->worker_name]);
-
 
 
         $query->andFilterWhere(['like', 'name', $this->name]);

@@ -93,10 +93,10 @@ class Customer extends AccessoryActiveRecord
             'tax_rate' => 'Процентая ставка',
             'description' => 'Описание клиента',
             'is_company' => 'Представитель компании',
-            'telegram' => 'телеграм',
-            'skype' => 'скайп',
-            'whatsapp' => 'вотсап',
-            'viber' => 'вайбер',
+            'telegram' => 'Телеграм',
+            'skype' => 'Скайп',
+            'whatsapp' => 'Вотсап',
+            'viber' => 'Вайбер',
             'customer_source_id' =>'Откуда пришел',
         ];
     }
