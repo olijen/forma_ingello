@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel forma\modules\selling\records\customersource\CustomerSourceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Источники клиента';
+$this->title = 'Источники клиентов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-source-index">
@@ -17,10 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
     <?php BoxWidget::begin([
-        'title'=>'Источник клиента <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
+        'title'=>'Источники клиентов <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
         'buttons' => [
             ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Источник клиента']]
         ]
+        
     ]);
     ?>
 

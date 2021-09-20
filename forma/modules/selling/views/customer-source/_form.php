@@ -34,7 +34,7 @@ endif;
 
 
             <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
-
+            <?php $model->description = strip_tags($model->description); ?>
             <?= $form->field($model, 'description',['options'=>['class'=>'col-xs-12']])->widget(Widget::className(), [
                 'settings' => [
                     'lang' => 'ru',
