@@ -5,6 +5,7 @@ namespace forma\modules\selling\controllers;
 use forma\modules\core\forms\LoginForm;
 use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\User;
+use forma\modules\product\records\Product;
 use forma\modules\selling\records\selling\Selling;
 use Google_Client;
 use Google_Service_Oauth2;
@@ -70,6 +71,7 @@ class MainController extends Controller
 
     public function actionDelete($id)
     {
+//        de('111');
         SellingService::delete($id);
         $this->redirect('index');
     }
@@ -79,6 +81,7 @@ class MainController extends Controller
 
         if ($selection) {
             Product::deleteAll(['IN', 'id', $selection]);
+            Selling::deleteAll(['IN', 'id', $selection]);
         }
 
         return $this->redirect('/selling/main/index');
