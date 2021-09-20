@@ -1,18 +1,18 @@
 <?php
 
 use yii\db\Migration;
-//
+
 /**
- * Class m210920_113646_cteate_column_date_next_step
+ * Class m210920_093425_create_column_data_next_step
  */
-class m210920_113646_cteate_column_date_next_step extends Migration
+class m210920_093425_create_column_data_next_step extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->addColumn('selling','date_next_step','text');
+        $this->addColumn('selling','date_next_step','datetime');
     }
 
     /**
@@ -21,6 +21,7 @@ class m210920_113646_cteate_column_date_next_step extends Migration
     public function safeDown()
     {
         $this->dropColumn('selling','date_next_step');
+
     }
 
     /*
@@ -32,7 +33,7 @@ class m210920_113646_cteate_column_date_next_step extends Migration
 
     public function down()
     {
-        echo "m210920_113646_cteate_column_date_next_step cannot be reverted.\n";
+        echo "m210920_093425_create_column_data_next_step cannot be reverted.\n";
 
         return false;
     }

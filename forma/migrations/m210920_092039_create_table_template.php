@@ -1,11 +1,11 @@
 <?php
 
 use yii\db\Migration;
-//
+
 /**
- * Class m210920_113312_cteate_table_template
+ * Class m210920_092039_create_table_template
  */
-class m210920_113312_cteate_table_template extends Migration
+class m210920_092039_create_table_template extends Migration
 {
     /**
      * {@inheritdoc}
@@ -14,20 +14,23 @@ class m210920_113312_cteate_table_template extends Migration
     {
         $this->createTable('template', [
             'id' => $this->primaryKey(),
-            'title' => $this->text(255),
-            'content' => $this->text(),
-            'theme' => $this->text(),
+            'name' => $this->text(255),
+            'content' => $this->text(255),
+            'theme' => $this->text(255),
             'user' => $this->text(255),
         ]);
-
     }
+
+        /**
+         * {@inheritdoc}
+         */
 
     /**
      * {@inheritdoc}
      */
     public function safeDown()
     {
-         $this->dropTable('template');
+        $this->dropTable('template');
     }
 
     /*
@@ -39,7 +42,7 @@ class m210920_113312_cteate_table_template extends Migration
 
     public function down()
     {
-        echo "m210920_113312_cteate_table_template cannot be reverted.\n";
+        echo "m210920_092039_create_table_template cannot be reverted.\n";
 
         return false;
     }
