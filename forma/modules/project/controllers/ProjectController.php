@@ -73,7 +73,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Lists all Project models.
+     * Lists all Project records.
      * @return mixed
      */
     public function actionChangeState($id, $state)
@@ -88,7 +88,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Lists all Project models.
+     * Lists all Project records.
      * @return mixed
      */
     public function actionIndex()

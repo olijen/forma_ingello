@@ -31,7 +31,7 @@ class VacancyController extends Controller
     }
 
     /**
-     * Lists all Vacancy models.
+     * Lists all Vacancy records.
      * @return mixed
      */
     public function actionIndex()

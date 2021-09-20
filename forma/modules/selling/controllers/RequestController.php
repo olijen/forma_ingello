@@ -30,7 +30,7 @@ class RequestController extends Controller
     }
 
     /**
-     * Lists all Request models.
+     * Lists all Request records.
      * @return mixed
      */
     public function actionIndex()

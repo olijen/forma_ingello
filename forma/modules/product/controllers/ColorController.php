@@ -30,7 +30,7 @@ class ColorController extends Controller
     }
 
     /**
-     * Lists all Color models.
+     * Lists all Color records.
      * @return mixed
      */
     public function actionIndex()

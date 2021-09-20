@@ -13,7 +13,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use forma\components\Controller;
 use yii\web\Response;
-// use kartik\dynagrid\models\DynaGridSettings;
+// use kartik\dynagrid\records\DynaGridSettings;
 use forma\extensions\dynagrid\models\DynaGridSettings;
 
 /**

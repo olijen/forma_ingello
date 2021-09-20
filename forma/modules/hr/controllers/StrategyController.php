@@ -32,7 +32,7 @@ class StrategyController extends Controller
     }
 
     /**
-     * Lists all Strategy models.
+     * Lists all Strategy records.
      * @return mixed
      */
     public function actionIndex()

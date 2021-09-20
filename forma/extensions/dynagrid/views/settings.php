@@ -10,7 +10,7 @@ use kartik\base\Config;
 use kartik\form\ActiveForm;
 // use kartik\dynagrid\Dynagrid;
 // use kartik\dynagrid\Module;
-// use kartik\dynagrid\models\DynaGridSettings;
+// use kartik\dynagrid\records\DynaGridSettings;
 use forma\extensions\dynagrid\Dynagrid;
 use forma\extensions\dynagrid\Module;
 use forma\extensions\dynagrid\models\DynaGridSettings;

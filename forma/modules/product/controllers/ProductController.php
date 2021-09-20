@@ -56,7 +56,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Lists all Product models.
+     * Lists all Product records.
      * @return mixed
      */
     public function actionIndex()

@@ -30,7 +30,7 @@ class AnswerController extends Controller
     }
 
     /**
-     * Lists all Answer models.
+     * Lists all Answer records.
      * @return mixed
      */
     public function actionIndex()
