@@ -2,6 +2,7 @@
 
 namespace forma\modules\project\controllers;
 
+use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\project\records\projectuser\ProjectUser;
 use Yii;
 use forma\modules\project\records\project\Project;
@@ -92,6 +93,7 @@ class ProjectController extends Controller
      */
     public function actionIndex()
     {
+        $order = InterviewState::find()->max('`order`');
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         //Yii::debug($dataProvider->getModels());
@@ -99,6 +101,7 @@ class ProjectController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'orderState' => $order
         ]);
     }
 
