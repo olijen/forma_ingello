@@ -56,9 +56,9 @@ class InterviewState extends AccessoryActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Состояния',
-            'order' => 'Порядок',
-            'description' => 'Описание',
+            'name' => Yii::t('app', 'Состояние'),
+            'order' => Yii::t('app','Порядок'),
+            'description' => Yii::t('app','Описание'),
         ];
     }
   

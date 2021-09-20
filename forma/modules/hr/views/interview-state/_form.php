@@ -30,12 +30,12 @@ endif;
     <?php $form = ActiveForm::begin([
     ]); ?>
 
-            <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'name', ['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
 
-            <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'order', ['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'description',['options'=>['class'=>'col-xs-12']])->widget(Widget::className(), [
+            <?= $form->field($model, 'description', ['options'=>['class'=>'col-xs-12']])->widget(Widget::className(), [
                 'settings' => [
                     'lang' => 'ru',
                     'minHeight' => 200,]])?>

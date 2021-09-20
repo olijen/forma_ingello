@@ -15,13 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="interview-state-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
+    <p>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
+    </p>
     <?php BoxWidget::begin([
-        'title'=>'Состояние <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Состояние']]
-        ]
-    ]);
+        'title'=>'Состояния <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
+        ]);
     ?>
 
     <?php Pjax::begin(['id' => 'grid'])?>
@@ -30,12 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'name',
-            'order',
-
             ['class' => 'yii\grid\ActionColumn'],
+            ['attribute' => 'name', 'label' => 'Состояния'],
+            'order',
         ],
     ]); ?>
 

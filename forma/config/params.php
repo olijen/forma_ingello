@@ -409,7 +409,7 @@ return [
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Добавить кадр', 'url' => ['/worker/worker/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
-                ['label' => 'Состояние' , 'url' => ['/hr/interview-state/'], 'icon' => 'dot-circle',],
+                ['label' => 'Состояния' , 'url' => ['/hr/interview-state/'], 'icon' => 'dot-circle',],
                 ['label' => 'Добавить состояние', 'url' => ['/hr/interview-state/create'],'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px'] ],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
