@@ -27,13 +27,23 @@ use yii\widgets\ActiveForm;
 </div>
 
 
-
 <div class="col-xs-3">
    <?= $form->field($model, 'order') ?>
 </div>
 
 <div class="col-xs-3">
    <?= $form->field($model, 'description') ?>
+=======
+<div class="col-xs-3">
+   <?= $form->field($model, 'content') ?>
+</div>
+
+<div class="col-xs-3">
+   <?= $form->field($model, 'theme') ?>
+</div>
+
+<div class="col-xs-3">
+   <?= $form->field($model, 'user') ?>
 </div>
 
 <div class="form-group col-xs-12">

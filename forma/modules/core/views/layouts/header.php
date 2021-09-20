@@ -326,10 +326,10 @@ JS;
     </header>
 
     <?php
-//$salesProgress = new SalesProgress();
-    $salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
+    $salesProgress = new SalesProgress();
+    /*$salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
         return new SalesProgress();
-    });
+    });*/
     ?>
     <script>
         var options = {

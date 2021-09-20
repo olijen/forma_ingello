@@ -10,6 +10,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Источники клиентов';
+$this->title = 'Шаблоны';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-source-index">
@@ -37,6 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'order',
             'description',
+            'title:ntext',
+            'content:ntext',
+            'theme:ntext',
+            'user:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
