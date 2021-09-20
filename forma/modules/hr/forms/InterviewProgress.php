@@ -48,21 +48,23 @@ class InterviewProgress extends Model
         $red =  '"rgba(221, 75, 57, 1)",';
 
         $first = true;
-        foreach ($this->sales as &$sale) {
-            if ($first) {
-                $first = false;
+        if ($this->sales !== null) {
+            foreach ($this->sales as &$sale) {
+                if ($first) {
+                    $first = false;
+                    $lastSale = $sale;
+                    continue;
+                }
+                if ($sale['sum'] > $lastSale['sum']) {
+                    $lastSale['color'] = $red;
+                } elseif (($lastSale['sum'] - $sale['sum']) < 1) {
+                    $lastSale['color'] = $yellow;
+                } else {
+                    $lastSale['color'] = $green;
+                }
+                $colorsString .= $lastSale['color'];
                 $lastSale = $sale;
-                continue;
             }
-            if ($sale['sum'] > $lastSale['sum']) {
-                $lastSale['color'] = $red;
-            } elseif (($lastSale['sum'] - $sale['sum']) < 1) {
-                $lastSale['color'] = $yellow;
-            } else {
-                $lastSale['color'] = $green;
-            }
-            $colorsString .= $lastSale['color'];
-            $lastSale = $sale;
         }
         $colorsString .= $green;
 
@@ -72,9 +74,10 @@ class InterviewProgress extends Model
     public function getDataString()
     {
         $result = '';
-
-        foreach ($this->sales as &$sale) {
-            $result .= $sale['sum'].',';
+        if ($this->sales !== null) {
+            foreach ($this->sales as &$sale) {
+                $result .= $sale['sum'] . ',';
+            }
         }
         return $result;
     }
@@ -82,11 +85,11 @@ class InterviewProgress extends Model
     public function getLabelsString()
     {
         $result = '';
-
-        foreach ($this->sales as $name => $sale) {
-            $result .= '"'.$name.'",';
+        if ($this->sales !== null) {
+            foreach ($this->sales as $name => $sale) {
+                $result .= '"' . $name . '",';
+            }
         }
-
         return $result;
     }
     public function getStateId()
