@@ -3,7 +3,6 @@
 use vova07\imperavi\Widget;
 use yii\helpers\Html;
 use kartik\form\ActiveForm;
-use vova07\imperavi\Widget;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\hr\records\interviewstate\InterviewState */
