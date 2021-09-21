@@ -47,7 +47,7 @@ class EventSearch extends Event
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+        return $dataProvider;
         $this->load($params);
 
 

@@ -17,16 +17,16 @@ $this->title = 'События';
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php BoxWidget::begin([
-        'title'=>'Событие <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
+        'title' => 'Событие <small class="m-l-sm">записей ' . $dataProvider->getCount() . ' из ' . $dataProvider->getTotalCount() . '</small>',
         'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Событие']]
+            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>', ['create'], ['title' => 'создать Событие']]
         ]
     ]);
     ?>
 
-    <?php Pjax::begin(['id' => 'grid'])?>
+    <?php Pjax::begin(['id' => 'grid']) ?>
 
-    <?=  GridView::widget([
+    <?= GridView::widget([
 
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -38,19 +38,24 @@ $this->title = 'События';
             'text:text',
             [
                 'attribute' => 'status',
-                'filter'=> $searchModel->getStatusList(),
+                'filter' => $searchModel->getStatusList(),
             ],
-            'date_from',
-            'date_to',
-             'start_time',
+            [
+                'attribute' => 'date_from',
+                'value' => date('dd.mm.yyyy',$searchModel->date_from),
+            ],
+            [
+                'attribute' => 'date_to',
+                'value' => date('dd.mm.yyyy',$searchModel->date_to),
+            ],
+            'start_time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
-    <?php Pjax::end();?>
-
-    <?php BoxWidget::end();?>
+    <?php BoxWidget::end(); ?>
 
 
 </div>
