@@ -31,12 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
 					'name',
 					'order',
-					'description:ntext',
-					'id',
-					'title:ntext',
-					'content:ntext',
-					'theme:ntext',
-					'user:ntext',
+					'description',
         ],
     ]) ?>
     <?php BoxWidget::end();?></div>

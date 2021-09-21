@@ -61,10 +61,9 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-
+        $product = new Product();
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         $renderVar = ['searchModel' => $searchModel,
                       'dataProvider' => $dataProvider,];
 
