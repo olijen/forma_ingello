@@ -48,7 +48,7 @@ class Product extends AccessoryActiveRecord
 
     const REF_ID = 0;
     const NRF_ID = 1;
-
+    public $categoriesId = [];
     /**
      * @inheritdoc
      */
@@ -91,7 +91,34 @@ class Product extends AccessoryActiveRecord
 
         ];
     }
+    private function getParentCategoryId(int $category_id)
+    {
+        if (is_int($category_id)) {
+            if (in_array($category_id, $this->categoriesId) !== true) {
+                $this->categoriesId[] = $category_id;
+            }
+                $categories = Category::find()->where(['parent_id' => $category_id])->all();
+                foreach ($categories as $category) {
+                    $this->categoriesId[] = $category->id;
+                }
+            }
+    }
 
+    public function getCategoriesId(int $category_id)
+    {
+        $this->getParentCategoryId($category_id);
+        foreach ($this->categoriesId as $key => $item) {
+            if ($item[$key] !== null) {
+                $category = Category::find()->where(['parent_id' => $item[$key]])->all();
+                foreach ($category as $value) {
+                    if ($value->parent_id == $item[$key]) {
+                        $this->categoriesId[] = $value->id;
+                    }
+                }
+                $this->getCategoriesId($item[$key++]);
+            }
+        }
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
