@@ -1,6 +1,9 @@
 <?php
-
+use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
+use forma\modules\customer\records\Customer;
+use forma\modules\warehouse\records\Warehouse;
+use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
 use kartik\date\DatePicker;
 use kartik\dynagrid\DynaGrid;
@@ -40,6 +43,8 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'template' => '{update} {delete}',
         ],
         [
+            'attribute' => 'customerName',
+            'label' => 'Клиент',
             'value' => 'customer.name',
         ],
         [
