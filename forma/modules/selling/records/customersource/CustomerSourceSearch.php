@@ -20,6 +20,8 @@ class CustomerSourceSearch extends CustomerSource
         return [
             [['id', 'order'], 'integer'],
             [['name', 'description'], 'safe'],
+            [['id'], 'integer'],
+            [['title',  'theme', 'user', 'content'], 'safe', ],
         ];
     }
 
@@ -62,6 +64,10 @@ class CustomerSourceSearch extends CustomerSource
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'theme', $this->theme])
+            ->andFilterWhere(['like', 'user', $this->user])
+        ->andFilterWhere(['like', 'content', $this->content]);
 
         return $dataProvider;
     }

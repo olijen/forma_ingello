@@ -72,13 +72,6 @@ class CustomerSource extends AccessoryActiveRecord
     {
         return EntityLister::getList(self::className());
     }
-    public function beforeSave($insert)
-    {
-        if ($this->description) {
-            $this->description = strip_tags($this->description);
-        }
-        return parent::beforeSave($insert);
-    }
 
   /**
   * @inheritdoc

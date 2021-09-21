@@ -71,7 +71,7 @@ class WorkerController extends Controller
     }
 
     /**
-     * Lists all Worker models.
+     * Lists all Worker records.
      * @return mixed
      */
     public function actionIndex()

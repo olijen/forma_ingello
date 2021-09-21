@@ -34,7 +34,7 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Lists all Warehouse models.
+     * Lists all Warehouse records.
      * @return mixed
      */
     public function actionIndex()

@@ -31,7 +31,7 @@ class InterviewController extends Controller
     }
 
     /**
-     * Lists all Interview models.
+     * Lists all Interview records.
      * @return mixed
      */
     public function actionIndex()

@@ -30,7 +30,7 @@ class ProductPackUnitController extends Controller
     }
 
     /**
-     * Lists all ProductPackUnit models.
+     * Lists all ProductPackUnit records.
      * @return mixed
      */
     public function actionIndex()

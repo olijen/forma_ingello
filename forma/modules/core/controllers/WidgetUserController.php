@@ -30,7 +30,7 @@ class WidgetUserController extends Controller
     }
 
     /**
-     * Lists all WidgetUser models.
+     * Lists all WidgetUser records.
      * @return mixed
      */
     public function actionIndex()

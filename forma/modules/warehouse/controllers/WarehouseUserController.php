@@ -30,7 +30,7 @@ class WarehouseUserController extends Controller
     }
 
     /**
-     * Lists all WarehouseUser models.
+     * Lists all WarehouseUser records.
      * @return mixed
      */
     public function actionIndex()

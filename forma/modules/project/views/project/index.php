@@ -77,11 +77,14 @@ Pjax::begin();
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->stateIs(StateWork::class)) $count++;
+                        if ($interview->getInterviewState()->one()) $count++;
                     }
                     $countInt = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->state < 4) $countInt++;
+                        $interview = $interview->getInterviewState()->one();
+                        if ($interview !== null) {
+                            if ($interview->order < $orderState) $countInt++;
+                        }
                     }
                     $vacacount = 0;
                     foreach ($vacaVaca as $projectVacancy) {

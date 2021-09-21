@@ -4,7 +4,7 @@ namespace forma\extensions\fullcalendar\models;
 
 /**
  * Class CalendarModel
- * @package edofre\fullcalendarscheduler\models
+ * @package edofre\fullcalendarscheduler\records
  */
 class CalendarModel extends \yii\base\Model
 {
