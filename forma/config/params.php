@@ -114,7 +114,7 @@ return [
     "translate" => [
         'DashbordWidget' => 'Виджет на главной странице',
         'Item' => "Шаблон",
-        'CustomerSource'=>"Источник клиентов",
+        'CustomerSource'=>"Источники клиентов",
         'Regularity' => "Регламент",
         'Accessory' => "Доступ",
         'Color' => "Цвет",
@@ -351,7 +351,7 @@ return [
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
                 [
-                    'label' => 'Источники клиента',
+                    'label' => 'Источники клиентов',
                     'url' => ['/selling/customer-source'],
                     'icon' => 'list',
                 ],
