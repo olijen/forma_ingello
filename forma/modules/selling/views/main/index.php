@@ -53,22 +53,22 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'value' => 'customer.chief_phone'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_telegram',
             'label' => 'Телеграм',
             'value' => 'customer.telegram'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_skype',
             'label' => 'Скайп',
             'value' => 'customer.skype'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_whatsapp',
             'label' => 'Вотсап',
             'value' => 'customer.whatsapp'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_viber',
             'label' => 'Вайбер',
             'value' => 'customer.viber'
         ],
