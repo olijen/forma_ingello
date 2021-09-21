@@ -1,11 +1,11 @@
 <?php
 
-use vova07\imperavi\Widget;
 use yii\helpers\Html;
 use kartik\form\ActiveForm;
+use vova07\imperavi\Widget;
 
 /* @var $this yii\web\View */
-/* @var $model forma\modules\hr\records\interviewstate\InterviewState */
+/* @var $model forma\modules\template\records\Template */
 /* @var $form yii\widgets\ActiveForm */
 
 if($model->hasErrors()):
@@ -25,22 +25,15 @@ endif;
 
 ?>
 
-<div class="interview-state-form">
+<div class="template-form">
 
     <?php $form = ActiveForm::begin([
     ]); ?>
-
-            <?= $form->field($model, 'name', ['options'=>['class'=>'col-xs-12']])->textInput() ?>
-
+            <?= $form->field($model, 'title',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
             <?= $form->field($model, 'theme',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'order', ['options'=>['class'=>'col-xs-12']])->textInput() ?>
-
-            <?= $form->field($model, 'description', ['options'=>['class'=>'col-xs-12']])->widget(Widget::className(), [
-                'settings' => [
-                    'lang' => 'ru',
-                    'minHeight' => 200,]])?>
+            <?= $form->field($model, 'user',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
 
     <?= $form->field($model, 'content')->widget(Widget::className(), [

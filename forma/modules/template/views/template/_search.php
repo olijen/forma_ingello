@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model forma\modules\selling\records\customersource\CustomerSourceSearch */
+/* @var $model forma\modules\template\records\TemplateSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -23,16 +23,19 @@ use yii\widgets\ActiveForm;
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'name') ?>
-</div>
-
-
-<div class="col-xs-3">
-   <?= $form->field($model, 'order') ?>
+   <?= $form->field($model, 'title') ?>
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'description') ?>
+   <?= $form->field($model, 'content') ?>
+</div>
+
+<div class="col-xs-3">
+   <?= $form->field($model, 'theme') ?>
+</div>
+
+<div class="col-xs-3">
+   <?= $form->field($model, 'user') ?>
 </div>
 
 <div class="form-group col-xs-12">

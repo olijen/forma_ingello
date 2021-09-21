@@ -17,6 +17,8 @@ sudo composer run-script docker:start
 
 ###############################################
 
+Включить дебаг режим: http://forma.localhost:82/?debug
+
 
 ЕСТЬ 2 СПОСОБА УСТАНОВИТЬ ПРОЕКТ:
 

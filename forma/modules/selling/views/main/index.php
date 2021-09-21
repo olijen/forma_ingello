@@ -1,29 +1,34 @@
 <?php
-
-use kartik\dynagrid\DynaGrid;
-use yii\helpers\ArrayHelper;
-use yii\widgets\Pjax;
 use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
 use forma\modules\customer\records\Customer;
 use forma\modules\warehouse\records\Warehouse;
 use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
+use kartik\date\DatePicker;
+use kartik\dynagrid\DynaGrid;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\View;
+use yii\widgets\Pjax;
+
+//use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Продажи';
-
+$this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' => View::POS_BEGIN]);
 ?>
 <div class="selling-index">
-//
+
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа</a>
-    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary forma_blue"><i class="fas fa-phone-volume"></i> План на обзвон</a>
-    <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить состояния</a>
+    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary forma_blue"><i
+                class="fas fa-phone-volume"></i> План на обзвон</a>
+    <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
+        состояния</a>
 
     <hr>
 
@@ -38,64 +43,34 @@ $this->title = 'Продажи';
             'template' => '{update} {delete}',
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customerName',
+            'label' => 'Клиент',
             'value' => 'customer.name',
-            'filter' => ActiveRecordHelper::getListByQuery(
-                (new \forma\modules\customer\records\CustomerSearch())
-                    ->search(Yii::$app->request->queryParams)
-                    ->query,
-                'name'
-            ),
-
         ],
-        [
-            'attribute' => 'customer_id',
-            'label' => 'Компания',
-            'value' => 'customer.firm',
-            'filter' => ActiveRecordHelper::getListByQuery(
-                (new \forma\modules\customer\records\CustomerSearch())
-                    ->search(Yii::$app->request->queryParams)
-                    ->query,
-                'firm'
-            ),
-        ],
-
         [
             'attribute' => 'customer_chief_phone',
             'label' => 'Телефонный номер клиента',
             'value' => 'customer.chief_phone'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_telegram',
             'label' => 'Телеграм',
             'value' => 'customer.telegram'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_skype',
             'label' => 'Скайп',
             'value' => 'customer.skype'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_whatsapp',
             'label' => 'Вотсап',
             'value' => 'customer.whatsapp'
         ],
         [
-            'attribute' => 'customer_id',
+            'attribute' => 'customer_viber',
             'label' => 'Вайбер',
             'value' => 'customer.viber'
-
-        ],
-        [
-            'attribute' => 'customer_id',
-            'label' => 'Компания',
-            'value' => 'customer.firm',
-            'filter' => ActiveRecordHelper::getListByQuery(
-                (new \forma\modules\customer\records\CustomerSearch())
-                    ->search(Yii::$app->request->queryParams)
-                    ->query,
-                'firm'
-            ),
         ],
         [
             'attribute' => 'warehouse_id',
@@ -110,15 +85,53 @@ $this->title = 'Продажи';
         [
             'attribute' => 'state_id',
             'value' => 'toState.name',
-            'filter' => ArrayHelper::map(State::find()->where(['user_id'=> Yii::$app->user->id])->all(),'id', 'name'),
+            'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
+        ],
+        [
+            'attribute' => 'next_step',
+            'label' => 'Следующий шаг',
         ],
     ];
-    foreach (['date_create', 'date_complete'] as $attribute) {
+
+    foreach (['date_next_step'] as $attribute) {
         $columns[] = [
             'attribute' => $attribute,
-            'filter' => DateRangeFilter::widget(compact('attribute', 'searchModel')),
+            'filter' => DatePicker::widget([
+                'name' => 'SellingSearch[date_next_step]',
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ],
+                'value' => isset($_GET['SellingSearch']['date_next_step']) ?
+                    $_GET['SellingSearch']['date_next_step'] : '',
+            ]),
+            'label' => 'Дата следующего шага'
+
         ];
     }
+
+    foreach (['date_create'] as $attribute) {
+        $columns[] = [
+            'attribute' => $attribute,
+            'filter' => DatePicker::widget([
+                'name' => 'SellingSearch[date_create]',
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ],
+                'value' => isset($_GET['SellingSearch']['date_create']) ?
+                    $_GET['SellingSearch']['date_create'] : '',
+            ]),
+        ];
+    }
+
+    $columns[] = [
+        'attribute' => 'companyName',
+        'label' => 'Компания',
+        'value' => 'customer.firm',
+    ];
 
     echo DynaGrid::widget([
         'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],
@@ -128,6 +141,9 @@ $this->title = 'Продажи';
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'responsiveWrap' => false,
+
+            'options' => ['id' => 'grid-' . $searchModel->tableName()],
+
             'toolbar' => [
                 [
                     'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
@@ -140,12 +156,11 @@ $this->title = 'Продажи';
                     ',
                     ]),
                 ],
-
                 '{export}',
                 '{toggleData}',
                 '{dynagrid}',
-            ]
-        ],
+            ],
+        ]
     ]);
 
     ?>
@@ -156,6 +171,6 @@ $this->title = 'Продажи';
 
 <style>
     tr:hover {
-        background-color: #58628e ;
+        background-color: #58628e;
     }
 </style>

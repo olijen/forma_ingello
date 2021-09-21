@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m210920_092039_create_table_template
+ * Class m210921_112120_table_template
  */
-class m210920_092039_create_table_template extends Migration
+class m210921_112120_table_template extends Migration
 {
     /**
      * {@inheritdoc}
@@ -14,23 +14,19 @@ class m210920_092039_create_table_template extends Migration
     {
         $this->createTable('template', [
             'id' => $this->primaryKey(),
-            'name' => $this->text(255),
-            'content' => $this->text(255),
-            'theme' => $this->text(255),
+            'title' => $this->string(255),
+            'content' => $this->text(),
+            'theme' => $this->text(),
             'user' => $this->text(255),
         ]);
-    }
 
-        /**
-         * {@inheritdoc}
-         */
+    }
 
     /**
      * {@inheritdoc}
      */
     public function safeDown()
     {
-        $this->dropTable('template');
     }
 
     /*
@@ -42,7 +38,7 @@ class m210920_092039_create_table_template extends Migration
 
     public function down()
     {
-        echo "m210920_092039_create_table_template cannot be reverted.\n";
+        echo "m210921_112120_table_template cannot be reverted.\n";
 
         return false;
     }
