@@ -82,8 +82,8 @@ $this->registerJs($DragJS);
 
 $JSCode = <<<JS
 function(start, end) {
-    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('YYYY-MM-DD')+
-    '&date_to='+end.format('YYYY-MM-DD')+
+    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('DD.MM.YYYY')+
+    '&date_to='+end.format('DD.MM.YYYY')+
     '&start_time='+start.format('H:m:ss')+
     '&end_time='+end.format('H:m:ss'));
     $('#modal').modal();

@@ -55,10 +55,12 @@ endif;
         <?php if(isset($_GET['date_from']) && isset($_GET['start_time'])): ?>
             <?php $model->date_from = $_GET['date_from'] ?>
             <div class="col-xs-6">
-                <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
-                    'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd' ,
-                    ], 'options' => ['style' => 'left: 0']])?>
+                <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(), [
+                   'pluginOptions' => [
+                       'format' => 'dd.mm.yyyy',
+                       'autoclose' => true,
+
+                   ], 'options' => ['style' => 'left: 0']]) ?>
             </div>
             <div class="col-xs-6">
                 <?php $model->start_time = $_GET['start_time'] ?>
@@ -72,8 +74,9 @@ endif;
         <?php else: ?>
         <div class="col-xs-6"> <?= $form->field($model, 'date_from')->textInput()->widget(DatePicker::className(),[
                 'pluginOptions' => [
-                    'format' => 'yyyy-mm-dd',
-                    'todayHighlight' => true
+                    'format' => 'dd.mm.yyyy',
+                    'autoclose' => true,
+
                 ]]) ?></div>
         <div class="col-xs-6"><?= $form->field($model, 'start_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
                 'pluginOptions' => [
@@ -91,7 +94,9 @@ endif;
                 <?php $model->date_to = $_GET['date_to'] ?>
                 <?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
                     'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd' ,
+                        'format' => 'dd.mm.yyyy',
+                        'autoclose' => true,
+
                     ]]) ?></div>
             <div class="col-xs-6">
                 <?php $model->end_time = $_GET['end_time'] ?>
@@ -105,7 +110,8 @@ endif;
         <?php else: ?>
         <div class="col-xs-6"><?= $form->field($model, 'date_to')->textInput()->widget(DatePicker::className(),[
                 'pluginOptions' => [
-                    'format' => 'yyyy-mm-dd' ,
+                    'format' => 'dd.mm.yyyy',
+                    'autoclose' => true,
                 ]]) ?></div>
         <div class="col-xs-6"><?= $form->field($model, 'end_time')->textInput()->widget(TimePicker::className(),['name' => 't1',
                 'pluginOptions' => [
