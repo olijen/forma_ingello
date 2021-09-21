@@ -23,8 +23,10 @@ class SellingSearch extends Selling
     public $customer_whatsapp;
     public $customer_skype;
     public $customer_chief_phone;
-    public  $customerName;
-    public  $companyName;
+    public $customerName;
+    public $companyName;
+    public $date_next_step;
+
     /**
      * @inheritdoc
      */
@@ -42,11 +44,12 @@ class SellingSearch extends Selling
                     'customer_telegram',
                     'customer_whatsapp',
                     'customer_skype',
-                    'customer_chief_phone'
+                    'customer_chief_phone',
+                    'date_next_step'
                 ],
                 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange','customerName','companyName','date_next_step'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step'], 'safe'],
 
         ];
     }
@@ -75,9 +78,6 @@ class SellingSearch extends Selling
 //        $query->join('join', 'state', 'state.id = selling.state_id ')
 //            ->andWhere(['state.user_id' => Yii::$app->user->id]);
 
-
-
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -100,13 +100,14 @@ class SellingSearch extends Selling
 
         // grid filtering conditions
         $query->andFilterWhere([
+
             'id' => $this->id,
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,
-        ]);
 
-            $query->joinWith(['customer' => function ($q) {
+        ]);
+        $query->joinWith(['customer' => function ($q) {
             $q->where('customer.name LIKE "%' . $this->customerName . '%"');
         }]);
         $query->andWhere('customer.firm LIKE "%' . $this->companyName . '%"');
@@ -115,7 +116,8 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
-            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
+            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
+            ->andFilterWhere(['like', 'selling.date_next_step', $this->date_next_step]);
         return $dataProvider;
     }
 
@@ -144,29 +146,30 @@ class SellingSearch extends Selling
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Selling::className()])
-            ->andWhere(['in', 'accessory.user_id', $ids])
-
-            //->orderBy(['date_create' => SORT_DESC])
+            ->andWhere(['in', 'accessory.user_id', $ids])//->orderBy(['date_create' => SORT_DESC])
         ;
 
 
         return $query;
     }
 
-    public function searchLastClients(){
+    public function searchLastClients()
+    {
         $query = $this->getStartQuery();
         return $query->orderBy(['id' => SORT_DESC])->limit(5)->all();
     }
 
 
     //todo: добавить селект на поля как минимум date_complete, id
-    public function weeklySales(){
+    public function weeklySales()
+    {
         $query = $this->getStartQuery();
         $order_id = State::find()->select(['id'])->where(['user_id' => Yii::$app->user->id])->orderBy(['order' => SORT_DESC])->limit(1)->all();
         if (!empty($order_id)) return $query = $query->andWhere(['state_id' => $order_id[0]->id])->all();
     }
 
-    public function salesInWarehouse(){
+    public function salesInWarehouse()
+    {
         $query = $this->getStartQuery();
         $query->select(['selling.warehouse_id', 'COUNT(*) as sale_warehouse'])->groupBy('selling.warehouse_id');
         return $query->all();

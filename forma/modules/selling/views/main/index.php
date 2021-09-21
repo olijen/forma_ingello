@@ -95,7 +95,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
     foreach (['date_next_step'] as $attribute) {
         $columns[] = [
-            'attribute' => $attribute,
+            'attribute' => 'date_next_step',
             'filter' => DatePicker::widget([
                 'name' => 'SellingSearch[date_next_step]',
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
