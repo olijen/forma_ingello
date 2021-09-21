@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <?php
 
 namespace forma\modules\template\records;
@@ -54,4 +52,3 @@ class Template extends \yii\db\ActiveRecord
         ];
     }
 }
-
