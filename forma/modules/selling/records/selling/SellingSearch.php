@@ -2,12 +2,12 @@
 
 namespace forma\modules\selling\records\selling;
 
+use forma\components\DateRangeHelper;
 use forma\modules\core\records\User;
 use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\components\DateRangeHelper;
 
 /**
  * SellingSearch represents the model behind the search form about `\forma\modules\selling\records\selling\Selling`.
@@ -63,6 +63,9 @@ class SellingSearch extends Selling
 
         $this->load($params);
 
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
             return $dataProvider;
         }
 
