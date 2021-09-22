@@ -39,11 +39,10 @@
 </script>
 <?php
 for($i = 0; $i < count($sellingInWarehouse); $i++){
-    Yii::debug($sellingInWarehouse[$i]->warehouse->name);
     ?>
     <script>
-        warehouseName.push('<?=$sellingInWarehouse[$i]->warehouse->name?>');
-        warehouseSales.push(<?=$sellingInWarehouse[$i]->sale_warehouse?>);
+        warehouseName.push('<?=@$sellingInWarehouse[$i]->warehouse->name??'-без склада-'?>');
+        warehouseSales.push(<?=@$sellingInWarehouse[$i]->sale_warehouse??0?>);
         warehouseColors.push('rgba('+Math.floor(Math.random() * Math.floor(256))+', '+Math.floor(Math.random() * Math.floor(256))+', '+Math.floor(Math.random() * Math.floor(256))+', 1)');
     </script>
 <?php }

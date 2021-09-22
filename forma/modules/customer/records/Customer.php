@@ -6,11 +6,10 @@ use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\User;
-use forma\modules\selling\records\selling\Selling;
-use Yii;
-use yii\helpers\ArrayHelper;
 use forma\modules\country\records\Country;
 use forma\modules\selling\records\customersource\CustomerSource;
+use forma\modules\selling\records\selling\Selling;
+use Yii;
 
 /**
  * This is the model class for table "customer".
@@ -136,18 +135,20 @@ class Customer extends AccessoryActiveRecord
     public static function sendMessage( array $data)
     {
         $list = [];
-
+        $users = [];
         foreach (Customer::findAll($data['selection'])  as $user) {
+            $users[] = $user->name;
             $list[] = Yii::$app->mailer->compose()
                 ->setFrom('from@domain.com')
                 ->setTo($user->chief_email)
                 ->setSubject('Ув.'.' '.$user->name.' '.$data['messageSubject'])
                 ->setTextBody($data['message']);
         }
+        //exit;
 
         Yii::$app->mailer->sendMultiple($list);
 
-        return true;
+        return $users;
     }
 
     public static function getCustomersByUser(User $user, $one = false)
