@@ -50,8 +50,8 @@ class EventController extends Controller
         $events = $dataProvider->getModels();
 
         foreach ($events as $event) {
-            $dateFrom = new \DateTime($event->date_from);
-            $dateTo = new \DateTime($event->date_to);
+            $dateFrom = new \DateTime($event->date_from->format('DD.MM.YYYY'));
+            $dateTo = new \DateTime($event->date_to->format('DD.MM.YYYY'));
 
             $dateFrom->add((new \DateInterval('P1M')));
             $dateTo->add((new \DateInterval('P1M')));
@@ -144,6 +144,10 @@ class EventController extends Controller
     public function actionUpdate($id)
     {
         $model = Event::find()->where(['id' => $id])->one();
+        $dates = explode("-",$model->date_from);
+        $model->date_from =$dates[2].'.'.$dates[1].'.'.$dates[0];
+        $dates = explode("-",$model->date_to);
+        $model->date_to =$dates[2].'.'.$dates[1].'.'.$dates[0];
 
 
         if (!$model) {
