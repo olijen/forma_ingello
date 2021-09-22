@@ -132,6 +132,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',
             'selling_token' => 'Токен',
+            'date_next_step' => 'Дата следующего шага',
 
         ];
     }
@@ -239,6 +240,9 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
     public function beforeSave($insert)
     {
+        if ($this->next_step) {
+            $this->next_step = strip_tags($this->next_step);
+        }
         if ($this->date_create) {
             $this->date_create = date('Y-m-d H:i:s', strtotime($this->date_create));
         }
