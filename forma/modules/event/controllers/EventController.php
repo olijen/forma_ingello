@@ -56,8 +56,8 @@ class EventController extends Controller
             $dateFrom->add((new \DateInterval('P1M')));
             $dateTo->add((new \DateInterval('P1M')));
 
-            $event->date_from = $dateFrom->format('Y-m-d');
-            $event->date_to = $dateTo->format('Y-m-d');
+            $event->date_from = $dateFrom->format('DD.MM.YYYY');
+            $event->date_to = $dateTo->format('DD.MM.YYYY');
 
             $event->save();
         }
@@ -166,6 +166,7 @@ class EventController extends Controller
                         exit;
                     }
                     if (isset($_GET['json'])) {
+
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         return $model;
                     }

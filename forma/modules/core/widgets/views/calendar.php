@@ -30,8 +30,8 @@ function editEvent(event)
         serverMapper = {
             'Event[name]': event.title,
             'Event[text]': event.title,
-            'Event[date_from]': event.start,
-            'Event[date_to]': event.end,
+            'Event[date_from]': event.start.format('DD.MM.YYYY'),
+            'Event[date_to]': event.end.format('DD.MM.YYYY'),
             'Event[start_time]': event.start.format("hh:mm:ss"),
             'Event[end_time]': event.end.format("hh:mm:ss"),
             'Event[event_type_id]': 1,
@@ -45,35 +45,7 @@ function editEvent(event)
     }
 }
 
-function createEvent(start, end, title)
-{
-    var eventData;
-    var ServerMapper;
-    if (title) {
-        eventData = {
-            color: 'red',
-            title: title,
-            start: start,
-            end: end
-        };
-        serverMapper = {
-            'Event[name]': title,
-            'Event[text]': title,
-            'Event[date_from]': $.fullCalendar.formatDate(start,"DD.MM.YYYY"),
-            'Event[date_to]': $.fullCalendar.formatDate(end,"DD.MM.YYYY"),
-            'Event[start_time]': $.fullCalendar.formatDate(start,"H:m:ss"),
-            'Event[end_time]': $.fullCalendar.formatDate(end,"H:m:ss"),
-            'Event[event_type_id]': 4,
-            'Event[status]': 1,
-        }
-        $.post( "/event/event/create?json", serverMapper, function( data ) {
-          $('#w0').fullCalendar('renderEvent', eventData, true);
-        }).fail(function() {
-          alert("Внутренняя ошибка");
-        });
-    }
-    $('#w0').fullCalendar('unselect');
-}
+
 JS;
 
 $this->registerJs($DragJS);

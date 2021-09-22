@@ -32,8 +32,8 @@ function editEvent(event)
         serverMapper = {
             'Event[name]': event.title,
             'Event[text]': event.title,
-            'Event[date_from]': event.start.format("YYYY-MM-DD"),
-            'Event[date_to]': event.end.format("YYYY-MM-DD"),
+            'Event[date_from]': event.start.format('DD.MM.YYYY'),
+            'Event[date_to]': event.end.format('DD.MM.YYYY'),
             'Event[start_time]': event.start.format("HH:mm:ss"),
             'Event[end_time]': event.end.format("HH:mm:ss"),
             'Event[event_type_id]': 1,
@@ -61,8 +61,8 @@ function createEvent(start, end, title)
         serverMapper = {
             'Event[name]': title,
             'Event[text]': title,
-            'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
-            'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
+            'Event[date_from]': start.format('DD.MM.YYYY'),
+            'Event[date_to]': end.format('DD.MM.YYYY'),
             'Event[start_time]': $.fullCalendar.formatDate(start,"H:m:s"),
             'Event[end_time]': $.fullCalendar.formatDate(end,"H:m:s"),
             'Event[event_type_id]': 4,
