@@ -3,6 +3,8 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\customer\records\Customer;
+use forma\modules\event\records\Event;
+use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\talk\Answer;
 use forma\modules\selling\services\AnswerService;
 use forma\modules\selling\services\RequestService;
@@ -60,6 +62,12 @@ class TalkController extends Controller
         $answer->save();
 
         return $answer->id;
+    }
+    public function actionHashForEvent()
+    {
+        $events = Event::find()->all();
+
+        return $this->asJson($events);
     }
 
 
