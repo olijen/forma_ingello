@@ -12,6 +12,6 @@ class m210922_000000_drop_table_interview_state extends Migration
      */
     public function safeUp()
     {
-        $this->dropTable('interview_state');
+        $this->dropTable('interview_vacancy');
     }
 }
