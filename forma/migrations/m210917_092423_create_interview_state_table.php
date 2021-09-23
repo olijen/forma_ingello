@@ -33,6 +33,6 @@ class m210917_092423_create_interview_state_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('interview_state}');
+        $this->dropTable('interview_state');
     }
 }

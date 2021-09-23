@@ -5,7 +5,6 @@ use forma\modules\core\records\SystemEventSearch;
 use forma\modules\core\widgets\SalesFunnelWidget;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\warehouse\records\WarehouseSearch;
-use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
@@ -326,10 +325,9 @@ JS;
     </header>
 
     <?php
-    $salesProgress = new SalesProgress();
-    /*$salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
+    $salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
         return new SalesProgress();
-    });*/
+    });
     ?>
     <script>
         var options = {

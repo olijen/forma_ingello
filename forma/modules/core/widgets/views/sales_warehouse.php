@@ -39,11 +39,14 @@
 </script>
 <?php
 for($i = 0; $i < count($sellingInWarehouse); $i++){
+
     Yii::debug($sellingInWarehouse[$i]->warehouse->name??'Склад не задан');
     ?>
+
+    ?>
     <script>
-        warehouseName.push('<?=$sellingInWarehouse[$i]->warehouse->name??'Склад не задан'?>');
-        warehouseSales.push(<?=$sellingInWarehouse[$i]->sale_warehouse??'Склад не задан'?>);
+        warehouseName.push('<?=@$sellingInWarehouse[$i]->warehouse->name??'-без склада-'?>');
+        warehouseSales.push(<?=@$sellingInWarehouse[$i]->sale_warehouse??0?>);
         warehouseColors.push('rgba('+Math.floor(Math.random() * Math.floor(256))+', '+Math.floor(Math.random() * Math.floor(256))+', '+Math.floor(Math.random() * Math.floor(256))+', 1)');
     </script>
 <?php }
