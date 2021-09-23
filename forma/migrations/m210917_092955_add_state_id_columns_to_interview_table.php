@@ -20,7 +20,7 @@ class m210917_092955_add_state_id_columns_to_interview_table extends Migration
           'state_id',
           'interview_state',
           'id',
-          'CASCADE'
+          'SET NULL'
         );
     }
 
