@@ -13,8 +13,6 @@ use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\Pjax;
 
-//use yii\helpers\Url;
-
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -26,7 +24,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа</a>
     <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary forma_blue"><i
-                class="fas fa-phone-volume"></i> План на обзвон</a>
+                class="fas fa-phone-volume"></i> План на день</a>
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
         состояния</a>
 
@@ -88,12 +86,13 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
         ],
         [
-            'attribute' => 'next_step',
+//            'attribute' => 'event_name',
             'label' => 'Следующий шаг',
+            'value' => 'event.name'
+
         ],
     ];
 
-    foreach (['date_next_step'] as $attribute) {
         $columns[] = [
             'attribute' => 'date_next_step',
             'filter' => DatePicker::widget([
@@ -101,15 +100,14 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
                 'pluginOptions' => [
                     'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
+                    'format' => 'dd-mm-yyyy'
                 ],
-                'value' => isset($_GET['SellingSearch']['date_next_step']) ?
-                    $_GET['SellingSearch']['date_next_step'] : '',
+                'value' => 'date_next_step',
             ]),
             'label' => 'Дата следующего шага'
 
         ];
-    }
+
 
     foreach (['date_create'] as $attribute) {
         $columns[] = [
@@ -141,9 +139,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'responsiveWrap' => false,
-
             'options' => ['id' => 'grid-' . $searchModel->tableName()],
-
             'toolbar' => [
                 [
                     'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [

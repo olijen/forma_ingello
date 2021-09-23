@@ -46,13 +46,16 @@ class MainController extends Controller
         if (Yii::$app->request->isAjax) Yii::debug('ВОТ');
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//        de($dataProvider);
         //Yii::debug("PROVIDER ON PAGE");
         //Yii::debug($dataProvider);
+
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
     public function actionUpdate($id)
     {
+
         $redirectLink = '/selling/form?id='.$id;
         //$parameters = ['id' => $id];
         if (isset($_GET['without-header'])) $redirectLink .='&without-header';
@@ -71,7 +74,6 @@ class MainController extends Controller
 
     public function actionDelete($id)
     {
-//        de('111');
         SellingService::delete($id);
         $this->redirect('index');
     }

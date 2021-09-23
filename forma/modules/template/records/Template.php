@@ -18,6 +18,13 @@ class Template extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function beforeSave($insert)
+    {
+        if ($this->content) {
+            $this->content = strip_tags($this->content);
+        }
+        return parent::beforeSave($insert);
+    }
     public static function tableName()
     {
         return 'template';

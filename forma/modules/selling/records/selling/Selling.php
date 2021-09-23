@@ -111,10 +111,11 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             [['customer_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
             [['date_create', 'date_complete','date_next_step'], 'safe'],
-            [['name'], 'string', 'max' => 100],
+            [['name',], 'string', 'max' => 100],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
+            [['event_name'], 'exist', 'skipOnError' => true, 'targetClass' => Event::className(), 'targetAttribute' => ['event_id' => 'id']],
         ];
     }
 
@@ -132,6 +133,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',
             'selling_token' => 'Токен',
+            'event_name' => 'Следующий шаг',
             'date_next_step' => 'Дата следующего шага',
 
         ];
@@ -157,6 +159,24 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return $this->hasOne(Warehouse::className(), ['id' => 'warehouse_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEvent()
+    {
+        return $this->hasOne(Event::className(), ['selling_id' => 'id']);
+    }
+    public function getEventDate()
+    {
+        return $this->hasOne(Event::className(),['date_from'=>'id']);
+    }
+//   public function getEvent()
+//    {
+//        return $this->hasOne(Event::className(), ['id' => 'selling_id']);
+//    }
+
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -240,7 +260,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
     public function beforeSave($insert)
     {
-        if ($this->next_step) {
+        if ($this->event) {
             $this->next_step = strip_tags($this->next_step);
         }
         if ($this->date_create) {

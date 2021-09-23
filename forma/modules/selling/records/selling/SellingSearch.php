@@ -5,10 +5,13 @@ namespace forma\modules\selling\records\selling;
 use forma\components\DateRangeHelper;
 use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;
+use forma\modules\event\records\Event;
 use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use function GuzzleHttp\Promise\all;
 
 /**
  * SellingSearch represents the model behind the search form about `\forma\modules\selling\records\selling\Selling`.
@@ -26,6 +29,7 @@ class SellingSearch extends Selling
     public $customerName;
     public $companyName;
     public $date_next_step;
+    public $event_id;
 
     /**
      * @inheritdoc
@@ -45,11 +49,13 @@ class SellingSearch extends Selling
                     'customer_whatsapp',
                     'customer_skype',
                     'customer_chief_phone',
-                    'date_next_step'
+                    'date_next_step',
+                    'event.date_form',
+                    'event_name'
                 ],
                 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step','event.date_form'], 'safe'],
 
         ];
     }
@@ -84,7 +90,12 @@ class SellingSearch extends Selling
             'query' => $query,
             'pagination' => [
                 'pageSize' => 0
-            ]
+            ],
+//            'sort'=>[
+//                'defaultOrder'=>[
+//                    'date_next_step'=>SORT_DESC
+//                ]
+//            ]
         ]);
 
         $this->load($params);
@@ -97,6 +108,15 @@ class SellingSearch extends Selling
             $query->joinWith(['customer']);
             return $dataProvider;
         }
+//        $query = Event::find()->where(['id'=>6])->orderBy(['id'=>'DESC'])->limit(1);
+//        if (!($this->load($params) && $this->validate())) {
+//            /**
+//             * Жадная загрузка данных модели Страны
+//             * для работы сортировки.
+//             */
+//            $query->joinWith(['event']);
+//            return $dataProvider;
+//        }
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -105,6 +125,7 @@ class SellingSearch extends Selling
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,
+//            'event_id' => $this->event_id,
 
         ]);
         $query->joinWith(['customer' => function ($q) {
@@ -123,6 +144,7 @@ class SellingSearch extends Selling
 
     public function getStartQuery()
     {
+
         $user = \Yii::$app->getUser()->getIdentity();
         $ids = []; //$ids - это массив типа [1,2,3,4,5...]
         $condition = '';
@@ -142,13 +164,26 @@ class SellingSearch extends Selling
             array_push($ids, $user->id);
         }
 
+
+
+//        $query = Selling::find()->join('LEFT JOIN', 'event', 'id = event.selling_id')
+//            ->where(['event.id'=> (new Query())->select(max(['event.id']))
+//                ->from('event')
+//                ->groupBy('event.selling_id')]);
+
         $query = Selling::find()->joinWith(['accessory'])
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Selling::className()])
-            ->andWhere(['in', 'accessory.user_id', $ids])//->orderBy(['date_create' => SORT_DESC])
-        ;
+            ->andWhere(['in', 'accessory.user_id', $ids])
 
+            ->join('LEFT JOIN', 'event', 'selling.id = event.selling_id')
+            ->where(['event.id'=> (new Query())->select(max(['event.id']))])
+//                ->from('event')
+                ->groupBy(['event.selling_id']);
+            //->orderBy(['date_create' => SORT_DESC])
+        ;
+//        de($query);
 
         return $query;
     }
@@ -175,3 +210,6 @@ class SellingSearch extends Selling
         return $query->all();
     }
 }
+;
+//select e.id, e.name, s.id from event e join selling s on s.id = e.selling_id where e.id in (select MAX(e.id) from event e group by e.selling_id) ;
+//select s.id , e.id, e.name from selling s join event e on s.id = e.selling_id where e.id in (select MAX(e.id) from event e group by e.selling_id) ;
