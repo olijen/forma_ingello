@@ -113,7 +113,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
                 'pluginOptions' => [
                     'autoclose' => true,
-                    'format' => 'dd-mm-yyyy'
+                    'format' => 'dd.m.yyyy'
                 ],
             ]),
         'value' => function($model){

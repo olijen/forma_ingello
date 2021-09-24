@@ -164,7 +164,6 @@ class ProductController extends Controller
 
     public function actionDeleteSelection()
     {
-        de('11111');
         $selection = Yii::$app->request->post('selection');
 
         if ($selection) {

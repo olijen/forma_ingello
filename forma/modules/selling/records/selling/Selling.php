@@ -31,7 +31,6 @@ use forma\modules\selling\records\selling\StateDone;
 
 /**
  * This is the model class for table "selling".
- *
  * @property integer $id
  * @property integer $customer_id
  * @property integer $warehouse_id
@@ -39,11 +38,9 @@ use forma\modules\selling\records\selling\StateDone;
  * @property string $date_create
  * @property string $date_complete
  * @property integer $state_id
- *
  * @property Customer $customer
  * @property Warehouse $warehouse
  * @property SellingProduct[] $sellingProducts
- * @property string $next_step
  * @property string $selling_token
  * @property integer $sale_warehouse
  */

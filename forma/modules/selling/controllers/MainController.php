@@ -46,7 +46,6 @@ class MainController extends Controller
         if (Yii::$app->request->isAjax) Yii::debug('ВОТ');
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//        de($dataProvider);
         //Yii::debug("PROVIDER ON PAGE");
         //Yii::debug($dataProvider);
 
@@ -82,7 +81,6 @@ class MainController extends Controller
         $selection = Yii::$app->request->post('selection');
 
         if ($selection) {
-            Product::deleteAll(['IN', 'id', $selection]);
             Selling::deleteAll(['IN', 'id', $selection]);
         }
 
