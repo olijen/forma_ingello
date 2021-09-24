@@ -18,8 +18,7 @@ class m210917_102700_add_columt_customer_customer_source extends Migration
             'customer',
             'customer_source_id',
             'customer_source',
-            'id',
-            'CASCADE'
+            'id'
         );
 
     }

@@ -97,6 +97,8 @@ class EventController extends Controller
             Yii::debug($model);
             if(isset($_GET['selling_id']))
             $model->selling_id = $_GET['selling_id'];
+            if(isset($_GET['hash']))
+                $model->hash_for_event = $_GET['hash'];
             if ($model->save()) {
                 if (isset($_GET['json'])) {
                     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -107,6 +109,8 @@ class EventController extends Controller
                     echo "<script>$('#modal').modal('hide')</script>";
                     echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                     echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
+                    echo "<script>$('#w1').fullCalendar('refetchEvents')</script>";
+                    echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";
                     exit;
                 }
 
@@ -167,6 +171,7 @@ class EventController extends Controller
                         echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";
+                        echo "<script>$('#w1').fullCalendar('refetchEvents')</script>";
                         exit;
                     }
                     if (isset($_GET['json'])) {

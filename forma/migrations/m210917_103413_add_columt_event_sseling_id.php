@@ -18,8 +18,7 @@ class m210917_103413_add_columt_event_sseling_id extends Migration
             'event',
             'selling_id',
             'selling',
-            'id',
-            'CASCADE'
+            'id'
         );
     }
 

@@ -39,6 +39,10 @@
 </script>
 <?php
 for($i = 0; $i < count($sellingInWarehouse); $i++){
+
+    Yii::debug($sellingInWarehouse[$i]->warehouse->name??'Склад не задан');
+    ?>
+
     ?>
     <script>
         warehouseName.push('<?=@$sellingInWarehouse[$i]->warehouse->name??'-без склада-'?>');

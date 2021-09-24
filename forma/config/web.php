@@ -125,6 +125,7 @@ $config = [
                 'signup' => 'core/site/signup',
                 'core/regularity'=>'core/regularity/index',
                 '<user-name:>/regularity' => 'core/regularity/regularity',
+                'hash' => 'selling/talk/hash-for-event',
 
             ],
         ],
