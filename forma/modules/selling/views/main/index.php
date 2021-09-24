@@ -1,4 +1,5 @@
 <?php
+
 use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
 use forma\modules\customer\records\Customer;
@@ -86,27 +87,39 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
         ],
         [
-//            'attribute' => 'event_name',
+            'attribute' => 'event_name',
             'label' => 'Следующий шаг',
-            'value' => 'event.name'
+            'value' => function ($model) {
+        if (empty($model->events) ){
+            return null;
+        }
+        $maxEvent = $model->events[0];
+
+                foreach ($model->events as $event){
+                    if ($event->id >
+                        $maxEvent->id )
+                        $maxEvent = $event;
+                }
+                return $maxEvent->name;
+            }
 
         ],
     ];
 
-        $columns[] = [
-            'attribute' => 'date_next_step',
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_next_step]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'dd-mm-yyyy'
-                ],
-                'value' => 'date_next_step',
-            ]),
-            'label' => 'Дата следующего шага'
+    $columns[] = [
+//            'attribute' => 'date_next_step',
+//            'filter' => DatePicker::widget([
+//                'name' => 'SellingSearch[date_next_step]',
+//                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+//                'pluginOptions' => [
+//                    'autoclose' => true,
+//                    'format' => 'dd-mm-yyyy'
+//                ],
+//                'value' => 'date_next_step',
+//            ]),
+//            'label' => 'Дата следующего шага'
 
-        ];
+    ];
 
 
     foreach (['date_create'] as $attribute) {

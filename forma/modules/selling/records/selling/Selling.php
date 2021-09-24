@@ -171,10 +171,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return $this->hasOne(Event::className(),['date_from'=>'id']);
     }
-//   public function getEvent()
-//    {
-//        return $this->hasOne(Event::className(), ['id' => 'selling_id']);
-//    }
+
 
 
 

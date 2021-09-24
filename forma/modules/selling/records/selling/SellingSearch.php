@@ -20,7 +20,6 @@ class SellingSearch extends Selling
 {
     public $date_createRange;
     public $date_completeRange;
-
     public $customer_viber;
     public $customer_telegram;
     public $customer_whatsapp;
@@ -29,7 +28,7 @@ class SellingSearch extends Selling
     public $customerName;
     public $companyName;
     public $date_next_step;
-    public $event_id;
+    public $event_name;
 
     /**
      * @inheritdoc
@@ -51,11 +50,11 @@ class SellingSearch extends Selling
                     'customer_chief_phone',
                     'date_next_step',
                     'event.date_form',
-                    'event_name'
+//                    'event_name'
                 ],
                 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step','event.date_form'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step', 'event.date_form'], 'safe'],
 
         ];
     }
@@ -139,6 +138,7 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
             ->andFilterWhere(['like', 'selling.date_next_step', $this->date_next_step]);
+//            ->andFilterWhere(['like', 'event.name', $this->event_name]);
         return $dataProvider;
     }
 
@@ -165,23 +165,48 @@ class SellingSearch extends Selling
         }
 
 
-
 //        $query = Selling::find()->join('LEFT JOIN', 'event', 'id = event.selling_id')
 //            ->where(['event.id'=> (new Query())->select(max(['event.id']))
 //                ->from('event')
 //                ->groupBy('event.selling_id')]);
+        $eventsIds = [
+
+            '79',
+            '116',
+            '93',
+            '117',
+            '115',
+            '77',
+
+        ];
+//        ((SELECT max(id) FROM `event` GROUP BY `selling_id`))
 
         $query = Selling::find()->joinWith(['accessory'])
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Selling::className()])
             ->andWhere(['in', 'accessory.user_id', $ids])
+//            ->leftJoin('event', 'event.selling_id  = selling.id')
+//            ->andWhere(['in', 'event.id', $eventsIds])
 
-            ->join('LEFT JOIN', 'event', 'selling.id = event.selling_id')
-            ->where(['event.id'=> (new Query())->select(max(['event.id']))])
+//            ->leftJoin('event', 'event.selling_id  = selling.id')
+//            ->where('event.id')
+//            ->onCondition(Event::find()->select('id')->groupBy('selling_id'))
+//            de(1);
+
+
+//            ->joinWith(['event'],true,'LEFT JOIN')
+//            ->where(['selling.id' => 'event.selling_id'])
+//            ->andWhere(['event.id'=> (new Query())
+//                ->select(max(['event.id']))
+//                    ->from('event')->groupBy('event.selling_id')]);
+
+//            ->joinWith(['event', 'selling_id'], false,'LEFT JOIN')
+//            ->where(['selling.id'=> 'event.selling_id'])
+//            ->where(['event.id'=> (new Query())->select(max(['event.id']))])
 //                ->from('event')
-                ->groupBy(['event.selling_id']);
-            //->orderBy(['date_create' => SORT_DESC])
+//                ->groupBy(['event.selling_id'])
+//            ->orderBy(['date_create' => SORT_DESC]);
         ;
 //        de($query);
 
@@ -210,6 +235,7 @@ class SellingSearch extends Selling
         return $query->all();
     }
 }
+
 ;
 //select e.id, e.name, s.id from event e join selling s on s.id = e.selling_id where e.id in (select MAX(e.id) from event e group by e.selling_id) ;
 //select s.id , e.id, e.name from selling s join event e on s.id = e.selling_id where e.id in (select MAX(e.id) from event e group by e.selling_id) ;
