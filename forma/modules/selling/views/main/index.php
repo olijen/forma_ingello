@@ -107,17 +107,29 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
     ];
 
     $columns[] = [
-//            'attribute' => 'date_next_step',
-//            'filter' => DatePicker::widget([
-//                'name' => 'SellingSearch[date_next_step]',
-//                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-//                'pluginOptions' => [
-//                    'autoclose' => true,
-//                    'format' => 'dd-mm-yyyy'
-//                ],
-//                'value' => 'date_next_step',
-//            ]),
-//            'label' => 'Дата следующего шага'
+            'attribute' => 'date_from',
+            'filter' => DatePicker::widget([
+                'name' => 'SellingSearch[date_from]',
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd-mm-yyyy'
+                ],
+            ]),
+        'value' => function($model){
+            if (empty($model->events) ){
+                return null;
+            }
+        $maxEvent = $model->events[0];
+        foreach($model->events as $event){
+            if ($event->id
+                > $maxEvent->id)
+                $maxEvent=$event;
+        }
+        return $maxEvent->date_from;
+
+        },
+    'label' => 'Дата следующего шага'
 
     ];
 
