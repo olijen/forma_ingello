@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 <div class="answer-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?php $id = $_GET["id"]; $model->request_id=$id;?>
     <?= $form->field($model, 'request_id')->textInput()->dropDownList(\yii\helpers\ArrayHelper::map(\forma\modules\selling\records\talk\Request::find()->all(), 'id', 'text')) ?>
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
