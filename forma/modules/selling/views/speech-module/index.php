@@ -234,7 +234,7 @@ $this->title = Yii::t(
                 }
                 if (listItemsTrueManager.length !== 0 && listItemsTrueManager.length !== countundefinedTrue)
                 {
-                    elem.innerHTML = '<p>Вопросы от менеджера</p>' + listItemsTrueManager.join('');
+                    elem.innerHTML = '<p>Вопросы от менеджеров</p>' + listItemsTrueManager.join('');
                 }
                 var countundefinedFalse = 0;
                 for (var i = 0, l = listItemsFalseManager.length; i < l; i++) {
@@ -244,7 +244,7 @@ $this->title = Yii::t(
                 }
                 if (listItemsFalseManager.length !== 0 && listItemsFalseManager.length !== countundefinedFalse)
                 {
-                    elemR.innerHTML = '<p>Вопросы от клиента</p>' + listItemsFalseManager.join('');
+                    elemR.innerHTML = '<p>Вопросы от клиентов</p>' + listItemsFalseManager.join('');
                 }
                 var target = document.querySelector('#element');
                 var targetR = document.querySelector('#elementR');
