@@ -89,7 +89,8 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         [
             'attribute' => 'event_name',
             'label' => 'Следующий шаг',
-            'value' => function ($model) {
+            'value' =>
+ function ($model) {
         if (empty($model->events) ){
             return null;
         }
@@ -113,7 +114,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
                 'pluginOptions' => [
                     'autoclose' => true,
-                    'format' => 'dd.m.yyyy'
+                    'format' => 'yyyy-mm-dd'
                 ],
             ]),
         'value' => function($model){
@@ -132,7 +133,6 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
     'label' => 'Дата следующего шага'
 
     ];
-
 
     foreach (['date_create'] as $attribute) {
         $columns[] = [

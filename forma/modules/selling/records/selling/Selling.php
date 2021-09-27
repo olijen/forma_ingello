@@ -42,6 +42,9 @@ use forma\modules\selling\records\selling\StateDone;
  * @property Warehouse $warehouse
  * @property SellingProduct[] $sellingProducts
  * @property string $selling_token
+ * @property Event $events
+ * @property string $date_from
+ * @property Event $eventDate
  * @property integer $sale_warehouse
  */
 class Selling extends AccessoryActiveRecord implements NomenclatureInterface
@@ -107,7 +110,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return [
             [['customer_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
-            [['date_create', 'date_complete','date_next_step'], 'safe'],
+            [['date_create', 'date_complete','date_from'], 'safe'],
             [['name',], 'string', 'max' => 100],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
@@ -164,13 +167,6 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return $this->hasOne(Event::className(), ['selling_id' => 'id']);
     }
-    public function getEventDate()
-    {
-        return $this->hasOne(Event::className(),['date_from'=>'id']);
-    }
-
-
-
 
     /**
      * @return \yii\db\ActiveQuery

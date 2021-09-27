@@ -11,6 +11,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use function GuzzleHttp\Promise\all;
 
 /**
@@ -27,7 +28,7 @@ class SellingSearch extends Selling
     public $customer_chief_phone;
     public $customerName;
     public $companyName;
-    public $date_next_step;
+    public $date_from;
     public $event_name;
 
     /**
@@ -49,12 +50,12 @@ class SellingSearch extends Selling
                     'customer_skype',
                     'customer_chief_phone',
                     'date_next_step',
-                    'event.date_form',
+                    'date_from',
 //                    'event_name'
                 ],
                 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step', 'event.date_form'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName',  'date_from'], 'safe'],
 
         ];
     }
@@ -77,45 +78,48 @@ class SellingSearch extends Selling
      */
     public function search($params)
     {
-
         $query = $this->getStartQuery();
-
-//        $query->join('join', 'state', 'state.id = selling.state_id ')
-//            ->andWhere(['state.user_id' => Yii::$app->user->id]);
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 0
+                'pageSize' => 0,
             ],
-//            'sort'=>[
-//                'defaultOrder'=>[
-//                    'date_next_step'=>SORT_DESC
-//                ]
-//            ]
+
+        ]);
+        $this->load($params);
+
+        $dataProvider->setSort([
+            'attributes' => ArrayHelper::merge($dataProvider->sort->attributes, [
+                'date_from' => [
+                    'asc' => ['event.date_from' => SORT_ASC],
+                    'desc' => ['event.date_from' => SORT_DESC],
+                ],
+
+            ]),
         ]);
 
-        $this->load($params);
+//        $dataProvider->setSort([
+//            'attributes'=>['date_from'=>[
+//                'asc'=>['date_from'=> SORT_ASC],
+//                'desc'=>['date_from'=> SORT_DESC]
+//            ]
+//                ]
+//        ]);
+
 
         if (!($this->load($params) && $this->validate())) {
             /**
              * Жадная загрузка данных модели Страны
              * для работы сортировки.
              */
+//            $query = Event::find()->joinWith['event.date_from'];
             $query->joinWith(['customer']);
+            $query->joinWith(['event']);
             return $dataProvider;
         }
-//        $query = Event::find()->where(['id'=>6])->orderBy(['id'=>'DESC'])->limit(1);
-//        if (!($this->load($params) && $this->validate())) {
-//            /**
-//             * Жадная загрузка данных модели Страны
-//             * для работы сортировки.
-//             */
-//            $query->joinWith(['event']);
-//            return $dataProvider;
-//        }
+
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -124,9 +128,11 @@ class SellingSearch extends Selling
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,
-//            'event_id' => $this->event_id,
 
         ]);
+        $query->joinWith(['event' => function ($q) {
+            $q->where('event.date_from LIKE "%' . $this->date_from . '%"');
+        }]);
         $query->joinWith(['customer' => function ($q) {
             $q->where('customer.name LIKE "%' . $this->customerName . '%"');
         }]);
@@ -136,8 +142,8 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
-            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
-            ->andFilterWhere(['like', 'selling.date_next_step', $this->date_next_step]);
+            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
+//            ->andFilterWhere(['like', 'event.date_from', $this->date_from]);
 //            ->andFilterWhere(['like', 'event.name', $this->event_name]);
         return $dataProvider;
     }
@@ -169,20 +175,12 @@ class SellingSearch extends Selling
 //            ->where(['event.id'=> (new Query())->select(max(['event.id']))
 //                ->from('event')
 //                ->groupBy('event.selling_id')]);
-        $eventsIds = [
 
-            '79',
-            '116',
-            '93',
-            '117',
-            '115',
-            '77',
-
-        ];
 //        ((SELECT max(id) FROM `event` GROUP BY `selling_id`))
 
         $query = Selling::find()->joinWith(['accessory'])
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
+//            ->joinWith(['event', 'event.from_date'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Selling::className()])
             ->andWhere(['in', 'accessory.user_id', $ids])
