@@ -1,3 +1,5 @@
+alert('hello');
+
 $(function() {
     $('.grid-view tbody td, table.kv-grid-table tbody td').click(function(event) {
         var $td = $(this),
