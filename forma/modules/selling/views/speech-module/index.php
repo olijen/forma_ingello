@@ -8,26 +8,36 @@ $this->title = Yii::t(
 );
 ?>
 
-<div class="row">
-    <?php \forma\modules\core\widgets\DetachedBlock::begin(['example' => 'Работа с вопросами']) ?>
-    <div style="width: 50%; float: left;padding-top: 30px;">
+<div class="row" style="padding-left: 20px" onload="myFunction();">
+    <p>Стратегии</p>
+    <div style="width: 50%; float: left;padding-top: 5px;">
+
         <?php
         if (!empty($getWithoutEmptyStrategies)) {
             echo Select2::widget([
                 'name' => 'Стратегия',
                 'hideSearch' => true,
                 'data' => $getWithoutEmptyStrategies,
+                'value' => array_keys($getWithoutEmptyStrategies, array_values($getWithoutEmptyStrategies)[0])[0],
                 'options' => ['placeholder' => 'Выбрать стратегию...', 'onchange' => "myFunction()"],
                 'pluginOptions' => [
                     'allowClear' => true,
                 ],
             ]);
         }
+        else{
+            echo  '<h3>У вас еще нет ни одной стратегии</h3>';
+        }
         ?>
     </div>
-    <div style="width: 20%;float: left;padding-top: 30px;margin-left:10px">
+    <div style="width: 24%;float: left;padding-top: 5px;margin-left:10px">
         <?php
-        echo \yii\helpers\Html::a('Добавить стратегию', ['/selling/strategy/create'], ['class' => 'btn btn-block btn-success forma_blue']);
+        echo \yii\helpers\Html::a('<i class="fa fa-plus" style="float: left"></i>Добавить стратегию', ['/selling/strategy/create'], ['class' => 'btn btn-block btn-success forma_blue']);
+        ?>
+    </div>
+    <div style="width: 24%;float: left;padding-top: 5px;margin-left:10px">
+        <?php
+        echo \yii\helpers\Html::a('<i class="fa fa-edit" style="float: left"></i>Редактировать стратегии', ['/selling/strategy'], ['class' => 'btn btn-block btn-success forma_blue']);
         ?>
     </div>
     <div style="width: 50%; float: left; padding-top: 30px" class="box-body">
@@ -43,8 +53,11 @@ $this->title = Yii::t(
 </div>
 <div style="width: 100%;float: left;">
 </div>
-<div style="width: 20%;float: left;padding-top: 30px;">
+<div style="width: 45%;float: left;padding-top: 30px;margin-left: 50px;padding-bottom: 30px">
     <div id="elementCreateRequest"></div>
+</div>
+<div style="width: 45%;float: left;padding-top: 30px;margin-left: 50px;padding-bottom: 30px">
+    <div id="elementCreateRequestClient"></div>
 </div>
 <script>
     $('.regularity_name').hover(function (event) {
@@ -55,16 +68,25 @@ $this->title = Yii::t(
     function myFunction() {
         var x = document.getElementById("w0").value;
         var elemCreateRequest = document.getElementById("elementCreateRequestE");
+        var elemCreateRequestR = document.getElementById("elemCreateRequestR");
         if (elemCreateRequest != null) {
             elemCreateRequest.remove();
         }
+        if (elemCreateRequestR != null) {
+            elemCreateRequestR.remove();
+        }
+        elemCreateRequestR = document.createElement("div");
+        elemCreateRequestR.setAttribute("id", "elemCreateRequestR");
         elemCreateRequest = document.createElement("div");
         elemCreateRequest.setAttribute("id", "elementCreateRequestE");
         console.log(x)
         if(x){
-            elemCreateRequest.innerHTML = '<a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId='+x+'">Добавить вопрос</a>';
+            elemCreateRequest.innerHTML = '<a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId='+x+'+&isManager=1"><i align="left" class="fa fa-plus"</i>Добавить вопрос менеджеру</a>';
             var findElementCreateRequest = document.querySelector('#elementCreateRequest');
             findElementCreateRequest.parentNode.append(elemCreateRequest, findElementCreateRequest);
+            elemCreateRequestR.innerHTML = '<a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId='+x+'+&isManager=0"><i align="left" class="fa fa-plus"</i>Добавить вопрос клиенту</a>';
+            var findElementCreateRequestR = document.querySelector('#elementCreateRequestClient');
+            findElementCreateRequestR.parentNode.append(elemCreateRequestR, findElementCreateRequestR);
         }
         $.ajax({
             url: '/selling/speech-module/hash-for-event',
@@ -136,17 +158,6 @@ $this->title = Yii::t(
                                                                                 </a>
                                                                             </h4>
                                                                         </div>
-                                                                        <div id="collapse_` + answer.id + requests.id + `"
-                                                                             class="panel-collapse collapse"
-                                                                             aria-expanded="false" style="height: 0px;">
-                                                                            <div class="box-body">
-                                                                                <div class="box-body">
-                                                                                    <div class="box-group" id="accordion1">
-                                                                                        ` + answer.text + `
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
                                                                     </div>`;
                                                             }).join('') + `
                                                     </div>
@@ -206,17 +217,6 @@ $this->title = Yii::t(
                                                                                 </a>
                                                                             </h4>
                                                                         </div>
-                                                                        <div id="collapse_` + answer.id + requests.id + `"
-                                                                             class="panel-collapse collapse"
-                                                                             aria-expanded="false" style="height: 0px;">
-                                                                            <div class="box-body">
-                                                                                <div class="box-body">
-                                                                                    <div class="box-group" id="accordion1">
-                                                                                        ` + answer.text + `
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
                                                                     </div>`;
                                                                  }).join('') + `
                                                     </div>
@@ -236,6 +236,9 @@ $this->title = Yii::t(
                 {
                     elem.innerHTML = '<p>Вопросы от менеджеров</p>' + listItemsTrueManager.join('');
                 }
+                else {
+                    elem.innerHTML = '<p>В этой стратегии диалога еще нет вопросов и ответов, сначала создайте вопрос</p>' + listItemsTrueManager.join('');
+                }
                 var countundefinedFalse = 0;
                 for (var i = 0, l = listItemsFalseManager.length; i < l; i++) {
                     if (typeof (listItemsFalseManager[i]) == 'undefined') {
@@ -245,6 +248,9 @@ $this->title = Yii::t(
                 if (listItemsFalseManager.length !== 0 && listItemsFalseManager.length !== countundefinedFalse)
                 {
                     elemR.innerHTML = '<p>Вопросы от клиентов</p>' + listItemsFalseManager.join('');
+                }
+                else {
+                    elemR.innerHTML = '<p>В этой стратегии диалога еще нет вопросов и ответов, сначала создайте вопрос</p>' + listItemsFalseManager.join('');
                 }
                 var target = document.querySelector('#element');
                 var targetR = document.querySelector('#elementR');
@@ -256,14 +262,12 @@ $this->title = Yii::t(
             }
         });
     }
+    window.onload = myFunction;
 </script>
-<?php \forma\modules\core\widgets\DetachedBlock::end() ?>
+
 </div>
 <div class="row">
     <?php \forma\modules\core\widgets\DetachedBlock::begin() ?>
-    <div class="form-group">
-        <?= \yii\helpers\Html::a('Быстрое добавление', ['/selling/answer/fast-create'], ['class' => 'btn btn-block btn-danger']) ?>
-    </div>
     <div class="form-group">
         <?= \yii\helpers\Html::a('Смотреть ответы', ['/selling/answer'], ['class' => 'btn btn-block btn-success forma_blue']) ?>
     </div>
@@ -272,9 +276,6 @@ $this->title = Yii::t(
     </div>
     <div class="form-group">
         <?= \yii\helpers\Html::a('Смотреть стратегии', ['/selling/strategy'], ['class' => 'btn btn-block btn-success forma_blue']) ?>
-    </div>
-    <div class="form-group">
-        <?= \yii\helpers\Html::a('Связать вопрос и стратегию', ['/selling/request-strategy'], ['class' => 'btn btn-block btn-success forma_blue']) ?>
     </div>
     <?php \forma\modules\core\widgets\DetachedBlock::end() ?>
 </div>

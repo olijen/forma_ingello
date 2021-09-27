@@ -68,6 +68,8 @@ class RequestController extends Controller
         $model = new Request();
         $request_strategy = new RequestStrategy();
         $strategy_id = $_GET['strategyId'];
+        $isManager = $_GET['isManager'];
+        $model->is_manager = $isManager;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $request_strategy->strategy_id = $strategy_id;
             $request_strategy->request_id = $model->id;
