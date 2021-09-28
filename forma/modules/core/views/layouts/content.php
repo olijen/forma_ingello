@@ -38,3 +38,28 @@ use yii\widgets\Breadcrumbs;
         left: 45px !important;
     }
 </style>
+ <script>
+     var newElement = document.getElementById("newBtn");
+     if (newElement != null) {
+         newElement.remove();
+     }
+     newElement = document.createElement("div");
+     newElement.setAttribute("id", "newBtn");
+     newElement.style.cssText ="position:relative; top:-25px; right:10px";
+     newElement.innerHTML= `<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>`;
+     var findElementCreateRequest = document.querySelector('.modal-header');
+     findElementCreateRequest.append(newElement);
+     $("#newBtn").click(function () {
+         var ele = document.querySelector('.modal-body');
+         if(ele.style.display == "block") {
+             ele.style.display = "none";
+         }
+         else {
+             ele.style.display = "block";
+         }
+     });
+ </script>
