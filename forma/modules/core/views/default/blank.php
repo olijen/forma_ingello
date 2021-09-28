@@ -284,7 +284,7 @@
             $('#preloader_text').css({left: '3000px'});
             $('#preloader_text').animate({left: '0%'}, 500);
         });
-    }, 3000);
+    }, 10000);
 
 
 

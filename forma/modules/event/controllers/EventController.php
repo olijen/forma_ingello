@@ -2,6 +2,7 @@
 
 namespace forma\modules\event\controllers;
 
+use forma\modules\selling\records\selling\Selling;
 use Yii;
 use forma\modules\event\records\Event;
 use forma\modules\event\records\EventSearch;

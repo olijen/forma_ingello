@@ -25,6 +25,7 @@ class SellingSearch extends Selling
     public $customer_chief_phone;
     public $customerName;
     public $companyName;
+    public $date_next_step;
 
     /**
      * @inheritdoc
