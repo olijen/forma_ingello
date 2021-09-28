@@ -31,21 +31,18 @@ use forma\modules\selling\records\selling\StateDone;
 
 /**
  * This is the model class for table "selling".
+ *
  * @property integer $id
  * @property integer $customer_id
  * @property integer $warehouse_id
  * @property string $name
  * @property string $date_create
  * @property string $date_complete
- * @property string $date_next_step
  * @property integer $state_id
  * @property Customer $customer
  * @property Warehouse $warehouse
  * @property SellingProduct[] $sellingProducts
  * @property string $selling_token
- * @property Event $events
- * @property string $date_from
- * @property Event $eventDate
  * @property integer $sale_warehouse
  */
 class Selling extends AccessoryActiveRecord implements NomenclatureInterface
@@ -111,12 +108,11 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return [
             [['customer_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
-            [['date_create', 'date_complete','date_from'], 'safe'],
-            [['name',], 'string', 'max' => 100],
+            [['date_create', 'date_complete'], 'safe'],
+            [['name'], 'string', 'max' => 100],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
-            [['event_name'], 'exist', 'skipOnError' => true, 'targetClass' => Event::className(), 'targetAttribute' => ['event_id' => 'id']],
         ];
     }
 
@@ -134,8 +130,6 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',
             'selling_token' => 'Токен',
-            'event_name' => 'Следующий шаг',
-            'date_next_step' => 'Дата следующего шага',
 
         ];
     }
@@ -164,14 +158,6 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEvent()
-    {
-        return $this->hasOne(Event::className(), ['selling_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getSellingProducts()
     {
         return $this->hasMany(SellingProduct::className(), ['selling_id' => 'id']);
@@ -183,6 +169,12 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     public function getToState()
     {
         return $this->hasOne(State::className(), [ 'id' =>'state_id']);
+    }
+    public function getLastEvent()
+    {
+        return $this->hasMany(Event::className(), ['selling_id' => 'id']) //или наоборот
+        ->orderBy(['id'=>SORT_DESC])
+            ->one();
     }
 
     /**
@@ -251,9 +243,6 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
     public function beforeSave($insert)
     {
-        if ($this->event) {
-            $this->next_step = strip_tags($this->next_step);
-        }
         if ($this->date_create) {
             $this->date_create = date('Y-m-d H:i:s', strtotime($this->date_create));
         }

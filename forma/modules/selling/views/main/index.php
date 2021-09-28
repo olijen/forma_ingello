@@ -1,4 +1,5 @@
 <?php
+
 use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
 use forma\modules\customer\records\Customer;
@@ -87,41 +88,13 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
         ],
-        [
-            'attribute' => 'next_step',
-            'label' => 'Следующий шаг',
-            'value' => function ($model) {
-                if (empty($model->events)) {
-                    return null;
-                }
-                $maxEvent = $model->events[0];
 
-                foreach ($model->events as $event) {
-                    if ($event->id > $maxEvent->id)
-                        $maxEvent = $event;
-                }
-                return $maxEvent->name;
-            },
-        ],
+        'lastEvent.name',
+
+        'lastEvent.date_from',
+
     ];
 
-    foreach (['date_next_step'] as $attribute) {
-        $columns[] = [
-            'attribute' => 'date_next_step',
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_next_step]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_next_step']) ?
-                    $_GET['SellingSearch']['date_next_step'] : '',
-            ]),
-            'label' => 'Дата следующего шага'
-
-        ];
-    }
 
     foreach (['date_create'] as $attribute) {
         $columns[] = [

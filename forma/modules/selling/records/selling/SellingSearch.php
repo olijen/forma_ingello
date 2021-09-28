@@ -25,7 +25,6 @@ class SellingSearch extends Selling
     public $customer_chief_phone;
     public $customerName;
     public $companyName;
-    public $date_next_step;
 
     /**
      * @inheritdoc
@@ -45,7 +44,7 @@ class SellingSearch extends Selling
                     'customer_whatsapp',
                     'customer_skype',
                     'customer_chief_phone',
-                    'date_next_step'
+
                 ],
                 'safe'
             ],
@@ -75,9 +74,6 @@ class SellingSearch extends Selling
 
         $query = $this->getStartQuery();
 
-//        $query->join('join', 'state', 'state.id = selling.state_id ')
-//            ->andWhere(['state.user_id' => Yii::$app->user->id]);
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -86,10 +82,6 @@ class SellingSearch extends Selling
                 'pageSize' => 0
             ]
         ]);
-        $dataProvider->sort->attributes['date_next_step'] = [
-            'asc' => ['selling.date_next_step' => SORT_ASC],
-            'desc' => ['selling.date_next_step' => SORT_DESC],
-        ];
         $this->load($params);
 
         if (!($this->load($params) && $this->validate())) {
@@ -119,8 +111,7 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
-            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
-            ->andFilterWhere(['like', 'selling.date_next_step', $this->date_next_step]);
+            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
         return $dataProvider;
     }
 
@@ -146,7 +137,7 @@ class SellingSearch extends Selling
         }
 
         $query = Selling::find()->joinWith(['accessory'])
-            ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
+            ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'LEFT JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->orWhere(['warehouse_user.user_id' => null])
             ->andWhere(['accessory.entity_class' => Selling::className()])
