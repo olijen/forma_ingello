@@ -17,7 +17,9 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel \forma\modules\selling\records\selling\SellingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+echo '<pre>';
+//var_dump($dataProvider->getModels());
+echo '</pre>';
 $this->title = 'Продажи';
 $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' => View::POS_BEGIN]);
 ?>
@@ -89,48 +91,44 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         [
             'attribute' => 'event_name',
             'label' => 'Следующий шаг',
-            'value' =>
- function ($model) {
-        if (empty($model->events) ){
-            return null;
-        }
-        $maxEvent = $model->events[0];
+            'value' => function ($model) {
+                if (empty($model->events)) {
+                    return null;
+                }
+                $maxEvent = $model->events[0];
 
-                foreach ($model->events as $event){
-                    if ($event->id >
-                        $maxEvent->id )
+                foreach ($model->events as $event) {
+                    if ($event->id > $maxEvent->id)
                         $maxEvent = $event;
                 }
                 return $maxEvent->name;
-            }
-
+            },
         ],
     ];
 
     $columns[] = [
-            'attribute' => 'date_from',
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_from]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-            ]),
-        'value' => function($model){
-            if (empty($model->events) ){
-                return null;
-            }
-        $maxEvent = $model->events[0];
-        foreach($model->events as $event){
-            if ($event->id
-                > $maxEvent->id)
-                $maxEvent=$event;
-        }
-        return $maxEvent->date_from;
+        'attribute' => 'date_from',
+        'filter' => DatePicker::widget([
+            'name' => 'SellingSearch[date_from]',
+            'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd'
+            ],
+        ]),
+        'value' => function ($model) {
+                if (empty($model->events)) {
+                    return null;
+                }
+                $maxEvent = $model->events[0];
 
-        },
-    'label' => 'Дата следующего шага'
+                foreach ($model->events as $event) {
+                    if ($event->id > $maxEvent->id)
+                        $maxEvent = $event;
+                }
+                return $maxEvent->date_from;
+            },
+        'label' => 'Дата следующего шага'
 
     ];
 

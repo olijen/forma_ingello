@@ -100,39 +100,23 @@ class SellingSearch extends Selling
             ]),
         ]);
 
-//        $dataProvider->setSort([
-//            'attributes'=>['date_from'=>[
-//                'asc'=>['date_from'=> SORT_ASC],
-//                'desc'=>['date_from'=> SORT_DESC]
-//            ]
-//                ]
-//        ]);
-
-
         if (!($this->load($params) && $this->validate())) {
             /**
              * Жадная загрузка данных модели Страны
              * для работы сортировки.
              */
-//            $query = Event::find()->joinWith['event.date_from'];
             $query->joinWith(['customer']);
-            $query->joinWith(['event']);
             return $dataProvider;
         }
 
-
         // grid filtering conditions
         $query->andFilterWhere([
-
             'id' => $this->id,
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,
 
         ]);
-        $query->joinWith(['event' => function ($q) {
-            $q->where('event.date_from LIKE "%' . $this->date_from . '%"');
-        }]);
         $query->joinWith(['customer' => function ($q) {
             $q->where('customer.name LIKE "%' . $this->customerName . '%"');
         }]);
@@ -142,9 +126,11 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
-            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
-//            ->andFilterWhere(['like', 'event.date_from', $this->date_from]);
+            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
+            ->andFilterWhere(['like', 'event.date_from', $this->date_from]);
 //            ->andFilterWhere(['like', 'event.name', $this->event_name]);
+
+
         return $dataProvider;
     }
 
@@ -180,7 +166,7 @@ class SellingSearch extends Selling
 
         $query = Selling::find()->joinWith(['accessory'])
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
-//            ->joinWith(['event', 'event.from_date'], false, 'INNER JOIN')
+//            ->joinWith(['event', 'event.date_from'], false, 'INNER JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Selling::className()])
             ->andWhere(['in', 'accessory.user_id', $ids])
