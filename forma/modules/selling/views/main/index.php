@@ -90,6 +90,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         [
             'attribute' => 'next_step',
             'label' => 'Следующий шаг',
+
         ],
     ];
 

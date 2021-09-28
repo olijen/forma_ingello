@@ -53,7 +53,7 @@ $hostInfo = Url::home(true);
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <ul class="list-group parent-list">
-                                <?php foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
+                                <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
                                     <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
                                         <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
                                         <?= $request->text ?>
@@ -70,6 +70,7 @@ $hostInfo = Url::home(true);
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -85,7 +86,7 @@ $hostInfo = Url::home(true);
                     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                         <div class="panel-body">
                             <ul class="list-group parent-list">
-                                <?php foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
+                                <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
                                     <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
                                         <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
                                         <?= $request->text ?>
@@ -102,6 +103,7 @@ $hostInfo = Url::home(true);
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
+                                 <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -222,7 +224,7 @@ $("document").ready(function(){
 });
 
 
-function editEvent(event)
+function editEvent(event,start)
 {
     var ServerMapper;
     if (event.title) {
@@ -236,7 +238,7 @@ function editEvent(event)
             'Event[event_type_id]': 1,
             'Event[status]': 1,
         }
-        $.post( "/event/event/update?json&id="+event.id, serverMapper, function( data ) {
+        $.post( "/event/event/update?json&id="+event.id+'&date_from='+start.format('DD.MM.YYYY'), serverMapper, function( data ) {
           console.log('Сервер сохранил событие');
         }).fail(function() {
           console.log("Внутренняя ошибка");

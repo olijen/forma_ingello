@@ -86,7 +86,10 @@ class SellingSearch extends Selling
                 'pageSize' => 0
             ]
         ]);
-
+        $dataProvider->sort->attributes['date_next_step'] = [
+            'asc' => ['selling.date_next_step' => SORT_ASC],
+            'desc' => ['selling.date_next_step' => SORT_DESC],
+        ];
         $this->load($params);
 
         if (!($this->load($params) && $this->validate())) {

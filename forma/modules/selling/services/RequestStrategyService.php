@@ -18,10 +18,13 @@ class RequestStrategyService
      */
     public static function getStrategyRequests($id)
     {
-        $requestStrategy = RequestStrategy::find()->where(['strategy_id' => $id])->one();
-        $strategy = $requestStrategy->getStrategy()->one();
+        if(!empty(RequestStrategy::find()->where(['strategy_id' => $id])->one())){
+            $requestStrategy = RequestStrategy::find()->where(['strategy_id' => $id])->one();
+            $strategy = $requestStrategy->getStrategy()->one();
 
-        return $strategy->getRequests()->all();
+            return $strategy->getRequests()->all();
+        }
+
     }
 
 }
