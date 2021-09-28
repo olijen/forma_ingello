@@ -2,7 +2,6 @@
 
 namespace forma\modules\event\controllers;
 
-use forma\modules\selling\records\selling\Selling;
 use Yii;
 use forma\modules\event\records\Event;
 use forma\modules\event\records\EventSearch;
@@ -87,7 +86,6 @@ class EventController extends Controller
         $model->loadDefaultValues(); //load default data from db
         $searchModel = new EventSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $selling = Selling::find()->where(['id'=>$_GET['selling_id']])->one();
 
 
         if (Yii::$app->request->isAjax) {
@@ -102,8 +100,6 @@ class EventController extends Controller
             if(isset($_GET['hash']))
                 $model->hash_for_event = $_GET['hash'];
             if ($model->save()) {
-                $selling->date_next_step = $model->date_from;
-                $selling->save();
                 if (isset($_GET['json'])) {
                     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                     return $model;
@@ -156,7 +152,7 @@ class EventController extends Controller
         $model->date_from =$dates[2].'.'.$dates[1].'.'.$dates[0];
         $dates = explode("-",$model->date_to);
         $model->date_to =$dates[2].'.'.$dates[1].'.'.$dates[0];
-        $selling = Selling::find()->where(['id'=>$model->selling_id])->one();
+
 
         if (!$model) {
             throw new HttpException('Ошибка');
@@ -168,9 +164,8 @@ class EventController extends Controller
         if ($model->validate()){
 
             if ($model->load(Yii::$app->request->post())){
+
                 if ($model->save()) {
-                    $selling->date_next_step = $model->date_from;
-                    $selling->save();
                     if(isset($_POST['close'])){
                         echo "<script>$('#modal').modal('hide')</script>";
                         echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
@@ -199,7 +194,6 @@ class EventController extends Controller
         }else{
             return $model->errors;
         }
-
     }
 
     /**
