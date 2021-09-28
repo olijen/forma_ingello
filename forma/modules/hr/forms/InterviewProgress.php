@@ -4,7 +4,6 @@ namespace forma\modules\hr\forms;
 
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
-use forma\modules\hr\records\interviewstate\InterviewStateQuery;
 use forma\modules\hr\services\InterviewService;
 use Yii;
 use yii\base\Model;
@@ -19,6 +18,7 @@ class InterviewProgress extends Model
     protected $states;
     protected $sales;
 
+    //todo: описать назначение класса
     public function __construct()
     {
         parent::__construct();

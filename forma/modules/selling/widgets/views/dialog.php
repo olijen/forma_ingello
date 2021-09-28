@@ -9,6 +9,7 @@ use yii\web\JsExpression;
 use forma\modules\core\widgets\CalendarWidget;
 use yii\bootstrap\Modal;
 use forma\extensions\fullcalendar;
+use yii\widgets\Pjax;
 
 
 \forma\modules\selling\assets\ScriptAsset::register($this);
@@ -16,6 +17,11 @@ use forma\extensions\fullcalendar;
 ?>
 
 <?php // \forma\components\widgets\ModalCreate::begin() ?>
+<?php
+$date = date_create();
+$hash_for_event = date_timestamp_get($date);
+$hostInfo = Url::home(true);
+?>
 <style>
     .bs-example {
         margin-top: 0;
@@ -47,7 +53,7 @@ use forma\extensions\fullcalendar;
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <ul class="list-group parent-list">
-                                <?php foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
+                                <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
                                     <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
                                         <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
                                         <?= $request->text ?>
@@ -64,6 +70,7 @@ use forma\extensions\fullcalendar;
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -79,7 +86,7 @@ use forma\extensions\fullcalendar;
                     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                         <div class="panel-body">
                             <ul class="list-group parent-list">
-                                <?php foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
+                                <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
                                     <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
                                         <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
                                         <?= $request->text ?>
@@ -96,6 +103,7 @@ use forma\extensions\fullcalendar;
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
+                                 <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -177,6 +185,10 @@ use forma\extensions\fullcalendar;
                         'id' => 'mBut',
                         'onclick' => 'next()',
                     ],
+                    'closeButton' =>[
+                            'onClick' =>'findHash();',
+                            'id' => 'hash',
+                        ]
                 ]); ?>
 
         </div>
@@ -212,7 +224,7 @@ $("document").ready(function(){
 });
 
 
-function editEvent(event)
+function editEvent(event,start)
 {
     var ServerMapper;
     if (event.title) {
@@ -226,7 +238,7 @@ function editEvent(event)
             'Event[event_type_id]': 1,
             'Event[status]': 1,
         }
-        $.post( "/event/event/update?json&id="+event.id, serverMapper, function( data ) {
+        $.post( "/event/event/update?json&id="+event.id+'&date_from='+start.format('DD.MM.YYYY'), serverMapper, function( data ) {
           console.log('Сервер сохранил событие');
         }).fail(function() {
           console.log("Внутренняя ошибка");
@@ -276,7 +288,8 @@ function(start, end) {
     '&start_time='+start.format('H:m:ss')+
     '&end_time='+end.format('H:m:ss')+
     '&name='+inputNext+
-    '&selling_id='+$sellingId);
+    '&selling_id='+$sellingId+
+    '&hash='+$hash_for_event);
     $('#modal').modal();
     
 
@@ -503,7 +516,7 @@ JS;
             </div>
 
             <div class="box-body no-padding">
-                <?= yii2fullcalendar::widget([
+                <?= \yii2fullcalendar\yii2fullcalendar::widget([
                     'clientOptions' => [
                         'header' => [
                             'left' => 'prev,next today',
@@ -514,13 +527,13 @@ JS;
                         'eventLimit' => false,
                         'selectable' => true,
                         'selectHelper' => true,
+                        'selectLongPressDelay' => 1000,
                         'droppable' => true,
                         'editable' => true,
                         'select' => new JsExpression($JSCode),
                         'eventClick' => new JsExpression($JSEventClick),
                         'eventResize' => new JsExpression($JSEventResize),
                         'eventDrop' => new JsExpression($JSEventDrop),
-                        'defaultDate' => date('Y-m-d'),
                         'defaultView' => $_GET['defaultView'] ?? 'month',
                         'timeFormat'=> 'h:mm',
                     ],
@@ -543,7 +556,7 @@ JS;
 
         <div class="row" style="margin-top: 10px">
             <div class="col-xs-12">
-            <a href="/selling/form/?id =<?php echo $sellingId ?>" class="btn btn-success btn-lg btn-block" type="submit" id="end-talk">
+            <a  href='/selling/form/?id=<?php echo $sellingId ?>' style="visibility: hidden" class="btn btn-success btn-lg btn-block" type="submit" id="end_talk">
                 Завершить разговор
             </a>
             </div>
@@ -553,6 +566,9 @@ JS;
     </div>
 </div>
 <script>
+
+</script>
+<script>
     mBut.onclick = function (e) {
         if (next_step.value === '') {
             alert('Заполните "Следующий шаг" перед тем как перейти к работе с календарем');
@@ -560,5 +576,37 @@ JS;
             return false;
         }
     }
+
+    hash.onclick = function (e){
+        /*console.log(<?php echo $hash_for_event ?>)
+        document.getElementById('end_talk').style.visibility = 'visible';
+*/
+        $.ajax({
+            url: '/hash',
+            type: 'POST',
+            dataType: 'JSON',
+            data: '',
+            success: function (data) {
+                results = $.map(data, function(entry) {
+                    if(entry.hash_for_event == <?php echo $hash_for_event?>)
+                    return true;
+                });
+                if(results == 'true'){
+                    document.getElementById('end_talk').style.visibility = 'visible';
+                }
+                //alert(results);
+            },
+            error: function (errormessage) {
+
+                //do something else
+                alert("not working");
+
+            }
+        });
+
+    }
+
+
+
 </script>
 <?php  // \forma\components\widgets\ModalCreate::end() ?>

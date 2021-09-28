@@ -37,6 +37,7 @@ use forma\modules\selling\records\selling\StateDone;
  * @property string $name
  * @property string $date_create
  * @property string $date_complete
+ * @property string $date_next_step
  * @property integer $state_id
  * @property Customer $customer
  * @property Warehouse $warehouse

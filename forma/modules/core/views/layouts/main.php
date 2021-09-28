@@ -1,11 +1,8 @@
 <?php
 
-use yii\helpers\Url;
-use yii\helpers\Html;
-use keygenqt\autocompleteAjax\AutocompleteAjax;
-use forma\modules\product\records\Product;
 use dmstr\helpers\AdminLteHelper;
 use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -238,7 +235,7 @@ JS;
                 color: <?php echo $color?> !important;
             }
 
-            .info-box, .box, .form-control, .redactor-box,
+            .info-box, .box, .redactor-box,
             .navbar, .navbar-static-top, .main-sidebar, .btn, s .select2-selection {
                 box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), 1px 1px 3px rgba(0, 0, 0, 0.22) !important;
                 border-radius: 2px !important;
