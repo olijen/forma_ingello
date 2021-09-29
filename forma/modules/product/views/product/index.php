@@ -109,36 +109,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                             ],
                         ]),
             ]);
-            $columns [] = [
-                'label' => $field->name,
-                'attribute' => 'FieldProductValue' . $fieldId,
-                'value' => function ($model) use ($field, $allFieldProductValue) {
-                    Yii::debug('field');
-                    Yii::debug($field);
-                    Yii::debug('model');
-                    Yii::debug($model);
-                    Yii::debug('allFieldProductValue');
-                    Yii::debug($allFieldProductValue);
-                    foreach ($allFieldProductValue as $fieldProductValue) {
-                        if ($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id) {
-                            if (is_array($fieldProductValue->value)) {
-                                $multiSelectFieldProductValues = '';
-                                foreach ($fieldProductValue->value as $multiSelectFieldProductValue) {
-                                    if (empty($multiSelectFieldProductValues)) {
-                                        $multiSelectFieldProductValues = $multiSelectFieldProductValue;
-                                    } else {
-                                        $multiSelectFieldProductValues .= ', ' . $multiSelectFieldProductValue;
-                                    }
-                                }
-                                return $multiSelectFieldProductValues;
-                            }
-                            return $fieldProductValue->value;
-                        }
-                    }
-                    return null;
-                },
-                'filter' => $filter,
-            ];
+
         }
     }
     ?>
@@ -172,7 +143,6 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
         <br><br>
 
         <?php
-
         $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
             [
                 'content' => '<button onclick="$(\'#grid-product\').yiiGridView(\'applyFilter\');" class="btn btn-success forma_light_orange"> <i class="glyphicon glyphicon-search"></i> Поиск по таблице </button>',
@@ -180,11 +150,15 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             :
             ['content' => ''];
         ?>
-        <?php if (isset($_GET['ProductSearch'])): ?>
-        <p>
-            <?= Html::a('Сбросить фильтры', ['product/index'], ['class' => 'btn btn-success']); ?>
-        </p>
-        <?php endif; ?>
+        <?php
+        $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
+            [
+                'content' => '<a class="btn btn-success" href="/product/product/index">Сбросить фильтры</a>',
+            ]
+            :
+            ['content' => ''];
+        ?>
+
         <?= DynaGrid::widget([
         'allowSortSetting' => false,
         'showPersonalize' => true,
