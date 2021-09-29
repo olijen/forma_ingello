@@ -77,8 +77,14 @@ class ProductSearch extends Product
         }
 
         if (isset($params['ProductSearch']['category_id'])) {
-            $categoriesId = $this->getCategoriesId((int)$this->category_id);
-            $query->andWhere(['category_id' => $this->categoriesId]);
+            if($params['ProductSearch']['category_id']==""){
+
+            }
+            else{
+                $categoriesId = $this->getCategoriesId((int)$this->category_id);
+                $query->andWhere(['category_id' => $this->categoriesId]);
+            }
+
         }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
