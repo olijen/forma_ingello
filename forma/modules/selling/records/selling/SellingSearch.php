@@ -25,7 +25,8 @@ class SellingSearch extends Selling
     public $customer_chief_phone;
     public $customerName;
     public $companyName;
-    public $date_next_step;
+    public $lastEvent;
+    public $date_from;
 
     /**
      * @inheritdoc
@@ -45,11 +46,12 @@ class SellingSearch extends Selling
                     'customer_whatsapp',
                     'customer_skype',
                     'customer_chief_phone',
+                    'event_name'
 
                 ],
                 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_from'], 'safe'],
 
         ];
     }
@@ -74,15 +76,26 @@ class SellingSearch extends Selling
     {
 
         $query = $this->getStartQuery();
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 0
-            ]
+            ],
+// Метод сортировки
+
+//            'sort'=> [
+//                'asc'=>['lastEvent.date_from' => SORT_ASC, ],
+//                'desc'=>['lastEvent.date_from' => SORT_DESC, ]
+//            ],
         ]);
+//        $dataProvider->sort->attributes['date_from'] = [
+//            'asc'=>['event.date_from'=> SORT_ASC],
+//            'desc'=>['event.date_from'=> SORT_DESC],
+//        ];
+//        $dataProvider->sort->defaultOrder['date_from'] = SORT_ASC;
+
         $this->load($params);
 
         if (!($this->load($params) && $this->validate())) {
@@ -103,6 +116,7 @@ class SellingSearch extends Selling
             'state_id' => $this->state_id,
 
         ]);
+
         $query->joinWith(['customer' => function ($q) {
             $q->where('customer.name LIKE "%' . $this->customerName . '%"');
         }]);
@@ -113,7 +127,9 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
+//            ->andFilterWhere(['like', 'event.date_from', $this->date_from]);
         return $dataProvider;
+
     }
 
     public function getStartQuery()

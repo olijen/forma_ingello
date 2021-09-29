@@ -5,6 +5,8 @@ namespace forma\modules\selling\controllers;
 use forma\modules\core\forms\LoginForm;
 use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\User;
+use forma\modules\event\records\Event;
+use forma\modules\event\records\EventSearch;
 use forma\modules\product\records\Product;
 use forma\modules\selling\records\selling\Selling;
 use Google_Client;
@@ -49,6 +51,9 @@ class MainController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         //Yii::debug("PROVIDER ON PAGE");
         //Yii::debug($dataProvider);
+//        $data = new EventSearch()->fi
+        $date= $dataProvider->getModels();
+//        de($date);
 
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }

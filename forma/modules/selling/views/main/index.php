@@ -89,9 +89,23 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
         ],
 
-        'lastEvent.name',
+        ['attribute' => 'lastEvent.name',
+            'label' => 'Следующего шага',
+        ],
 
-        'lastEvent.date_from',
+        ['attribute' => 'lastEvent.date_from',
+            'filter' => DatePicker::widget([
+                'name' => 'SellingSearch[date_from]',
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd.mm.yyyy'
+                ],
+                'value' => isset($_GET['SellingSearch']['date_from']) ?
+                    $_GET['SellingSearch']['date_from'] : '',
+            ]),
+            'label' => 'Дата следующего шага'
+        ]
 
     ];
 
@@ -104,7 +118,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
                 'pluginOptions' => [
                     'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
+                    'format' => 'dd.mm.yyyy h:m'
                 ],
                 'value' => isset($_GET['SellingSearch']['date_create']) ?
                     $_GET['SellingSearch']['date_create'] : '',

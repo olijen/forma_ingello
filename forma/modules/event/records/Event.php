@@ -130,4 +130,9 @@ class Event extends AccessoryActiveRecord
         }
         return parent::beforeSave($insert);
     }
+    public function afterFind()
+    {
+        $this->date_from = date('m.d.Y', strtotime($this->date_from));
+        parent::afterFind();
+    }
 }
