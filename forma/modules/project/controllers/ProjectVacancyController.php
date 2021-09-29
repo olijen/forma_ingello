@@ -6,6 +6,7 @@ use Yii;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\project\records\projectvacancy\ProjectVacancySearch;
 use forma\components\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -62,17 +63,17 @@ class ProjectVacancyController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id = null)
+    public function actionCreate($id = null, $vacancy_id = null)
     {
         $model = new ProjectVacancy();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['project/index']);
         }
-
         return $this->render('create', [
             'model' => $model,
             'id' => $id ? $id : null,
+            'vacancy_id' => $vacancy_id ? $vacancy_id : null,
         ]);
     }
 
