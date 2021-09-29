@@ -53,13 +53,16 @@ use yii\widgets\Breadcrumbs;
             </div>`;
      var findElementCreateRequest = document.querySelector('.modal-header');
      findElementCreateRequest.append(newElement);
+     var ele = document.querySelector('.modal-dialog');
+     var eleBody = document.querySelector('.modal-body');
+     eleBody.style.height ="80%";
+     ele.style.height = "90vh";
      $("#newBtn").click(function () {
-         var ele = document.querySelector('.modal-body');
-         if(ele.style.display == "block") {
-             ele.style.display = "none";
+         if(ele.style.height == "90vh") {
+             ele.style.height = "45vh";
          }
          else {
-             ele.style.display = "block";
+             ele.style.height = "90vh";
          }
      });
  </script>
