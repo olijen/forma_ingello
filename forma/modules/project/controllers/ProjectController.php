@@ -8,6 +8,7 @@ use Yii;
 use forma\modules\project\records\project\Project;
 use forma\modules\project\records\project\ProjectSearch;
 use forma\components\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -142,6 +143,9 @@ class ProjectController extends Controller
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['id' => $model->id, 'name' => $model->name];
+            }
+            if (Yii::$app->request->get('r') == 't') {
+                return $this->redirect(Url::previous('vacancy'));
             }
             return $this->redirect(['index']);
         } else {
