@@ -8,7 +8,7 @@ use yii\db\Migration;
 class m210921_112120_table_template extends Migration
 {
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}<div style="background: yellowg…
      */
     public function safeUp()
     {
