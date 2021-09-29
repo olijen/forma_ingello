@@ -18,7 +18,10 @@ class FormController extends Controller
             ->where(['user_id' => Yii::$app->user->getId()])
             ->orderBy('order')
             ->all();
-        $interviewState = InterviewState::findOne($model->state_id);
+        $interviewState = [];
+        if (!empty($model->state_id)) {
+            $interviewState = InterviewState::findOne($model->state_id);
+        }
         if (!empty($projectId) && !empty($vacancyId) && !empty($model)) {
             $model->project_id = $projectId;
             $model->vacancy_id = $vacancyId;
