@@ -38,7 +38,7 @@ use yii\widgets\Breadcrumbs;
         left: 45px !important;
     }
 </style>
- <script>
+ <!--<script>
      var newElement = document.getElementById("newBtn");
      if (newElement != null) {
          newElement.remove();
@@ -65,4 +65,4 @@ use yii\widgets\Breadcrumbs;
              ele.style.height = "90vh";
          }
      });
- </script>
+ </script>-->
