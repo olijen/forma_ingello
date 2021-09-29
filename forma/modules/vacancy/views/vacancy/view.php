@@ -1,7 +1,7 @@
 <?php
 
+use forma\extensions\tabsx\TabsX;
 use forma\modules\core\widgets\DetachedBlock;
-use kartik\tabs\TabsX;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
