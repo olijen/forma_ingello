@@ -255,6 +255,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     }
     public function afterFind()
     {
+        // convert the date back to mm/dd/yyyy format while viewing
         $this->date_create = date('m.d.Y H:i', strtotime($this->date_create));
         parent::afterFind();
     }
