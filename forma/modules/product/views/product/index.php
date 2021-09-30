@@ -109,7 +109,36 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                             ],
                         ]),
             ]);
-
+            $columns [] = [
+                'label' => $field->name,
+                'attribute' => 'FieldProductValue' . $fieldId,
+                'value' => function ($model) use ($field, $allFieldProductValue) {
+                    Yii::debug('field');
+                    Yii::debug($field);
+                    Yii::debug('model');
+                    Yii::debug($model);
+                    Yii::debug('allFieldProductValue');
+                    Yii::debug($allFieldProductValue);
+                    foreach ($allFieldProductValue as $fieldProductValue) {
+                        if ($fieldProductValue->field_id == $field->id && $fieldProductValue->product_id == $model->id) {
+                            if (is_array($fieldProductValue->value)) {
+                                $multiSelectFieldProductValues = '';
+                                foreach ($fieldProductValue->value as $multiSelectFieldProductValue) {
+                                    if (empty($multiSelectFieldProductValues)) {
+                                        $multiSelectFieldProductValues = $multiSelectFieldProductValue;
+                                    } else {
+                                        $multiSelectFieldProductValues .= ', ' . $multiSelectFieldProductValue;
+                                    }
+                                }
+                                return $multiSelectFieldProductValues;
+                            }
+                            return $fieldProductValue->value;
+                        }
+                    }
+                    return null;
+                },
+                'filter' => $filter,
+            ];
         }
     }
     ?>
@@ -151,7 +180,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             ['content' => ''];
         ?>
         <?php
-        $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
+        $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && isset($_GET['ProductSearch'])) ?
             [
                 'content' => '<a class="btn btn-success" href="/product/product/index">Сбросить фильтры</a>',
             ]
