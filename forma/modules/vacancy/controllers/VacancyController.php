@@ -2,10 +2,13 @@
 
 namespace forma\modules\vacancy\controllers;
 
+use forma\modules\hr\records\interviewstate\InterviewState;
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use Yii;
 use forma\modules\vacancy\records\Vacancy;
 use forma\modules\vacancy\records\VacancySearch;
 use forma\components\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -57,10 +60,28 @@ class VacancyController extends Controller
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
-
+        Url::remember([Yii::$app->request->url],'vacancy');
+        $projectVacancies = ProjectVacancy::find()->where(['vacancy_id' => (int)$id])->all();
+        $projects = [];
+        $projectIds = [];
+        foreach ($projectVacancies as $projectVacancy) {
+            $projects[] = $projectVacancy->project;
+        }
+        if (Yii::$app->request->post('Vacancy')) {
+            $interviewStateWorkerItems = InterviewState::getItems(Yii::$app->request->post('Vacancy')['projectId'], $id);
+            return $this->render('view', [
+                    'model' => $this->findModel($id),
+                    'projects' => $projects,
+                    'interviewStateWorkerItems' => $interviewStateWorkerItems,
+                ]
+            );
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+            'projects' => $projects,
+            'interviewStateWorkerItems' => [],
+            ]
+        );
     }
 
     /**

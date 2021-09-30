@@ -28,6 +28,7 @@ use yii\db\Query;
  * @property Warehouse $warehouse
  * @property SellingProduct[] $sellingProducts
  * @property string $selling_token
+ * @property string $lastEvent
  * @property integer $sale_warehouse
  */
 class Selling extends AccessoryActiveRecord implements NomenclatureInterface
@@ -95,7 +96,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return [
             [['customer_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
-            [['date_create', 'date_complete'], 'safe'],
+            [['date_create', 'date_complete','lastEvent'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
@@ -238,6 +239,12 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         }
 
         return parent::beforeSave($insert);
+    }
+    public function afterFind()
+    {
+        // convert the date back to mm/dd/yyyy format while viewing
+        $this->date_create = date('m.d.Y H:i', strtotime($this->date_create));
+        parent::afterFind();
     }
 
     public function behaviors()

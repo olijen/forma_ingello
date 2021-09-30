@@ -39,6 +39,8 @@ class SellingController extends Controller
         $searchModel = new SellingSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
