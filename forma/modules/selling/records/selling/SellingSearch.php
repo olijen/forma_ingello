@@ -46,6 +46,7 @@ class SellingSearch extends Selling
                     'customerName',
                     'companyName',
                     'lastEventName',
+                    'lastEventDate',
                 ], 'safe'
             ],
             [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName',], 'safe'],
@@ -179,7 +180,9 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
-            ->andFilterWhere(['like', 'event.name', $this->lastEventName]);
+            ->andFilterWhere(['like', 'event.name', $this->lastEventName])
+            ->andFilterWhere(['like', 'event.date_from', $this->lastEventDate])
+        ;
 
         return $dataProvider;
     }
