@@ -2,9 +2,8 @@
 
 namespace forma\modules\selling\records\selling;
 
-use forma\components\DateRangeHelper;
 use forma\modules\core\records\User;
-use forma\modules\customer\records\Customer;
+use forma\modules\event\records\Event;
 use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
