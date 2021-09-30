@@ -320,7 +320,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                     };
                 });
             }
-        }, 5000)
+        }, 1)
 
     });
 </script>
