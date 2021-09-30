@@ -26,7 +26,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 <div class="selling-index">
 
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа</a>
-    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary forma_blue"><i
+    <a href="/selling/main?sort=-lastEventDate" class="btn btn-primary forma_blue"><i
                 class="fas fa-phone-volume"></i> План по продажам</a>
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
         состояния</a>
@@ -118,7 +118,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
     $columns[] = [
         'attribute' => 'lastEventDate',
-        'label' => 'Дата следующего шаг',
+        'label' => 'Дата следующего шага',
         'value' => 'lastEventDate',
     ];
 
