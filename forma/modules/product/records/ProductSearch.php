@@ -81,7 +81,7 @@ class ProductSearch extends Product
 
             }
             else{
-                $categoriesId = $this->getCategoriesId((int)$this->category_id);
+                $this->getCategoriesId((int)$this->category_id);
                 $query->andWhere(['category_id' => $this->categoriesId]);
             }
 
