@@ -5,28 +5,13 @@ namespace forma\modules\selling\records\selling;
 use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
 use forma\modules\core\components\NomenclatureInterface;
-use forma\modules\core\components\StateActiveRecord;
 use forma\modules\core\components\TotalSumBehavior;
+use forma\modules\customer\records\Customer;
 use forma\modules\event\records\Event;
+use forma\modules\selling\records\sellingproduct\SellingProduct;
 use forma\modules\selling\records\state\State;
 use forma\modules\warehouse\records\Warehouse;
-use forma\modules\customer\records\Customer;
-use Yii;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
-use forma\modules\selling\records\sellingproduct\SellingProduct;
-
-use forma\modules\selling\records\selling\StateCold;
-use forma\modules\selling\records\selling\StateLead;
-use forma\modules\selling\records\selling\StateFamiliar;
-use forma\modules\selling\records\selling\StateHot;
-use forma\modules\selling\records\selling\StateMeeting;
-use forma\modules\selling\records\selling\StateTestIssue;
-use forma\modules\selling\records\selling\StateOffer;
-use forma\modules\selling\records\selling\StatePayment;
-use forma\modules\selling\records\selling\StateWork;
-use forma\modules\selling\records\selling\StateDone;
-
 
 
 /**
@@ -47,6 +32,8 @@ use forma\modules\selling\records\selling\StateDone;
  */
 class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 {
+
+    public $lastEventName;
 
     public $sale_warehouse;
 
@@ -162,19 +149,20 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return $this->hasMany(SellingProduct::className(), ['selling_id' => 'id']);
     }
+
     public function getEvents()
     {
         return $this->hasMany(Event::className(), ['selling_id' => 'id']);
     }
+
+    public function getEvent()
+    {
+        return $this->hasOne(Event::className(), ['selling_id' => 'id']);
+    }
+
     public function getToState()
     {
         return $this->hasOne(State::className(), [ 'id' =>'state_id']);
-    }
-    public function getLastEvent()
-    {
-        return $this->hasMany(Event::className(), ['selling_id' => 'id']) //или наоборот
-        ->orderBy(['id'=>SORT_DESC])
-            ->one();
     }
 
     /**
@@ -190,7 +178,6 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return EntityLister::getList(self::className());
     }
-
 
     public function getCustomerName()
     {

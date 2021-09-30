@@ -1,10 +1,10 @@
 <?php
 
 namespace forma\modules\selling\records\selling;
+;
 
-use forma\components\DateRangeHelper;
 use forma\modules\core\records\User;
-use forma\modules\customer\records\Customer;
+use forma\modules\event\records\Event;
 use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
@@ -25,7 +25,6 @@ class SellingSearch extends Selling
     public $customer_chief_phone;
     public $customerName;
     public $companyName;
-    public $date_next_step;
 
     /**
      * @inheritdoc
@@ -33,8 +32,7 @@ class SellingSearch extends Selling
     public function rules()
     {
         return [
-            [['id', 'customer_id', 'warehouse_id', 'state_id'], 'integer'],
-
+            [['id', 'customer_id', 'warehouse_id', 'state_id', 'customer_chief_phone'], 'integer'],
             [
                 [
                     'name',
@@ -46,11 +44,11 @@ class SellingSearch extends Selling
                     'customer_skype',
                     'customer_chief_phone',
 
-                ],
-                'safe'
+                    'customerName',
+                    'companyName',
+                    'lastEventName',
+                ], 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step'], 'safe'],
-
         ];
     }
 
@@ -81,38 +79,82 @@ class SellingSearch extends Selling
             'query' => $query,
             'pagination' => [
                 'pageSize' => 0
+            ],
+            'sort' => [
+                'attributes' => [
+                    'customer_id',
+                    'date_create',
+                    'warehouse_id',
+                    'state_id',
+                    'name',
+                    'date_createRange',
+                    'date_completeRange',
+                    'customer_viber',
+                    'customer_telegram',
+                    'customer_whatsapp',
+                    'customer_skype',
+                    'customer_chief_phone',
+                    'customerName',
+                    'customer_chief_phone' => [
+                        'asc' => ['customer.chief_phone' => SORT_ASC],
+                        'desc' => ['customer.chief_phone' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'companyName' => [
+                        'asc' => ['customer.firm' => SORT_ASC],
+                        'desc' => ['customer.firm' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'lastEventName' => [
+                        'asc' => ['event.name' => SORT_ASC],
+                        'desc' => ['event.name' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                ]
             ]
         ]);
-        $this->load($params);
+
+        $query->select('event.name as lastEventName, selling.*');
+
+        //SELECT * FROM event where id in(SELECT max(id) FROM `event` WHERE selling_id is not null GROUP BY selling_id) GROUP BY `selling_id`
+        $groupedQuery = Event::find()
+            ->select('max(id) as id')
+            ->where('selling_id is not null')
+            ->groupBy('selling_id');
+        $eventQuery = Event::find()
+            ->where(['id' => $groupedQuery]);
+        $query->leftJoin(['event' => $eventQuery], 'event.selling_id = selling.id');
+
+        $query->joinWith('customer');
 
         if (!($this->load($params) && $this->validate())) {
             /**
              * Жадная загрузка данных модели Страны
              * для работы сортировки.
              */
-            $query->joinWith(['customer']);
             return $dataProvider;
         }
 
         // grid filtering conditions
         $query->andFilterWhere([
-
             'id' => $this->id,
             'customer_id' => $this->customer_id,
             'selling.warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,
-
         ]);
-        $query->joinWith(['customer' => function ($q) {
-            $q->where('customer.name LIKE "%' . $this->customerName . '%"');
-        }]);
+
         $query->andWhere('customer.firm LIKE "%' . $this->companyName . '%"');
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andWhere('customer.name LIKE "%' . $this->customerName . '%"');
+
+        $query
+            ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'customer.viber', $this->customer_viber])
             ->andFilterWhere(['like', 'customer.telegram', $this->customer_telegram])
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
-            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone]);
+            ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
+        ;
+
         return $dataProvider;
     }
 
@@ -144,7 +186,6 @@ class SellingSearch extends Selling
             ->andWhere(['accessory.entity_class' => Selling::className()])
             ->andWhere(['in', 'accessory.user_id', $ids])//->orderBy(['date_create' => SORT_DESC])
         ;
-
 
         return $query;
     }

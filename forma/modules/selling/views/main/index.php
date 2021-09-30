@@ -1,10 +1,6 @@
 <?php
 
-use forma\modules\selling\records\selling\Selling;
 use forma\components\ActiveRecordHelper;
-use forma\modules\customer\records\Customer;
-use forma\modules\warehouse\records\Warehouse;
-use forma\widgets\DateRangeFilter;
 use forma\modules\selling\records\state\State;
 use kartik\date\DatePicker;
 use kartik\dynagrid\DynaGrid;
@@ -88,34 +84,32 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
         ],
-
-        'lastEvent.name',
-
-        'lastEvent.date_from',
-
     ];
 
-
-    foreach (['date_create'] as $attribute) {
-        $columns[] = [
-            'attribute' => $attribute,
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_create]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_create']) ?
-                    $_GET['SellingSearch']['date_create'] : '',
-            ]),
-        ];
-    }
+    $columns[] = [
+        'attribute' => 'date_create',
+        'filter' => DatePicker::widget([
+            'name' => 'SellingSearch[date_create]',
+            'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd'
+            ],
+            'value' => isset($_GET['SellingSearch']['date_create']) ?
+                $_GET['SellingSearch']['date_create'] : '',
+        ]),
+    ];
 
     $columns[] = [
         'attribute' => 'companyName',
         'label' => 'Компания',
         'value' => 'customer.firm',
+    ];
+
+    $columns[] = [
+        'attribute' => 'lastEventName',
+        'label' => 'След. шаг',
+        'value' => 'lastEventName',
     ];
 
     echo DynaGrid::widget([

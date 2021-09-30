@@ -61,3 +61,6 @@ docker-compose exec -T dbapplan mysqlimport -u root -p eva eva.sql
 
 Вытащить все переводы translates
 yii message/extract
+
+SET sql_mode = '';
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
