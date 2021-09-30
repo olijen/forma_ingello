@@ -112,8 +112,14 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
     $columns[] = [
         'attribute' => 'lastEventName',
-        'label' => 'След. шаг',
+        'label' => 'Следeдующий шаг',
         'value' => 'lastEventName',
+    ];
+
+    $columns[] = [
+        'attribute' => 'lastEventDate',
+        'label' => 'Дата следующего шаг',
+        'value' => 'lastEventDate',
     ];
 
     echo DynaGrid::widget([
@@ -129,8 +135,9 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
             'toolbar' => [
 
-                ['content'=>
-                    isset($_GET['SellingSearch'])?Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']):false
+                ['content' =>
+                    (isset($_GET['SellingSearch']) || isset($_GET['sort']) )?
+                        Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']) : false
                 ],
                 [
                     'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [

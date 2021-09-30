@@ -48,7 +48,7 @@ class SellingSearch extends Selling
                     'lastEventName',
                 ], 'safe'
             ],
-            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName', 'date_next_step'], 'safe'],
+            [['name', 'date_createRange', 'date_completeRange', 'customerName', 'companyName',], 'safe'],
 
         ];
     }
@@ -90,12 +90,6 @@ class SellingSearch extends Selling
                     'name',
                     'date_createRange',
                     'date_completeRange',
-                    'customer_viber',
-                    'customer_telegram',
-                    'customer_whatsapp',
-                    'customer_skype',
-                    'customer_chief_phone',
-                    'customerName',
                     'customer_chief_phone' => [
                         'asc' => ['customer.chief_phone' => SORT_ASC],
                         'desc' => ['customer.chief_phone' => SORT_DESC],
@@ -111,11 +105,42 @@ class SellingSearch extends Selling
                         'desc' => ['event.name' => SORT_DESC],
                         'default' => SORT_DESC
                     ],
+                    'customer_viber' => [
+                        'asc' => ['customer.viber' => SORT_ASC],
+                        'desc' => ['customer.viber' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'customerName' => [
+                        'asc' => ['customer.name' => SORT_ASC],
+                        'desc' => ['customer.name' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'customer_telegram' => [
+                        'asc' => ['customer.telegram' => SORT_ASC],
+                        'desc' => ['customer.telegram' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'customer_whatsapp' => [
+                        'asc' => ['customer.whatsapp' => SORT_ASC],
+                        'desc' => ['customer.whatsapp' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'customer_skype' => [
+                        'asc' => ['customer.skype' => SORT_ASC],
+                        'desc' => ['customer.skype' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'lastEventDate' => [
+                        'asc' => ['event.date_from' => SORT_ASC],
+                        'desc' => ['event.date_from' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
                 ]
             ]
         ]);
 
-        $query->select('event.name as lastEventName, selling.*');
+        $query->select('event.name as lastEventName,event.date_from as lastEventDate, selling.*');
+//        $query->select('event.date_from as lastEventDate, selling.*');
 
         //SELECT * FROM event where id in(SELECT max(id) FROM `event` WHERE selling_id is not null GROUP BY selling_id) GROUP BY `selling_id`
         $groupedQuery = Event::find()
@@ -154,7 +179,7 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.skype', $this->customer_skype])
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
-        ;
+            ->andFilterWhere(['like', 'event.name', $this->lastEventName]);
 
         return $dataProvider;
     }
