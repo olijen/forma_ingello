@@ -7,6 +7,7 @@ use yii\db\Migration;
  */
 class m210917_092423_create_interview_state_table extends Migration
 {
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class m210917_092423_create_interview_state_table extends Migration
             'order' => $this->integer(),
             'user_id' => $this->integer(),
             'description' => $this->char(255),
-        ]);
+        ], 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
         $this->addForeignKey(
             'fk_interview_state-user_id',
             'interview_state',
