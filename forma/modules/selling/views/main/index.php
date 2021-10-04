@@ -26,7 +26,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 <div class="selling-index">
 
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа</a>
-    <a href="/selling/main?SellingSearch[state]=0" class="btn btn-primary forma_blue"><i
+    <a href="/selling/main?sort=-lastEventDate" class="btn btn-primary forma_blue"><i
                 class="fas fa-phone-volume"></i> План по продажам</a>
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
         состояния</a>
@@ -88,48 +88,38 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'value' => 'toState.name',
             'filter' => ArrayHelper::map(State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
         ],
-
-        ['attribute' => 'lastEvent.name',
-            'label' => 'Следующего шага',
-        ],
-
-        ['attribute' => 'lastEvent.date_from',
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_from]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'dd.mm.yyyy'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_from']) ?
-                    $_GET['SellingSearch']['date_from'] : '',
-            ]),
-            'label' => 'Дата следующего шага'
-        ]
-
     ];
 
-
-    foreach (['date_create'] as $attribute) {
-        $columns[] = [
-            'attribute' => $attribute,
-            'filter' => DatePicker::widget([
-                'name' => 'SellingSearch[date_create]',
-                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'dd.mm.yyyy h:m'
-                ],
-                'value' => isset($_GET['SellingSearch']['date_create']) ?
-                    $_GET['SellingSearch']['date_create'] : '',
-            ]),
-        ];
-    }
+    $columns[] = [
+        'attribute' => 'date_create',
+        'filter' => DatePicker::widget([
+            'name' => 'SellingSearch[date_create]',
+            'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd'
+            ],
+            'value' => isset($_GET['SellingSearch']['date_create']) ?
+                $_GET['SellingSearch']['date_create'] : '',
+        ]),
+    ];
 
     $columns[] = [
         'attribute' => 'companyName',
         'label' => 'Компания',
         'value' => 'customer.firm',
+    ];
+
+    $columns[] = [
+        'attribute' => 'lastEventName',
+        'label' => 'Следeдующий шаг',
+        'value' => 'lastEventName',
+    ];
+
+    $columns[] = [
+        'attribute' => 'lastEventDate',
+        'label' => 'Дата следующего шага',
+        'value' => 'lastEventDate',
     ];
 
     echo DynaGrid::widget([
@@ -145,8 +135,9 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
             'toolbar' => [
 
-                ['content'=>
-                    isset($_GET['SellingSearch'])?Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']):false
+                ['content' =>
+                    (isset($_GET['SellingSearch']) || isset($_GET['sort']) )?
+                        Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']) : false
                 ],
                 [
                     'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
