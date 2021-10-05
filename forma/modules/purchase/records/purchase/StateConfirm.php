@@ -23,7 +23,7 @@ class StateConfirm extends State
 
     public function getDescription()
     {
-        return 'Этот тавар находится в архиве, его нельзя редактировать';
+        return 'Этот процесс находится в архиве, его нельзя редактировать';
     }
 
     public function beforeSave(Purchase $purchase)
