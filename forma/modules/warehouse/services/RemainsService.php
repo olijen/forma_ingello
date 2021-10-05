@@ -40,10 +40,10 @@ class RemainsService
         $unit = new WarehouseProduct();
         $unit->product_id = $productId;
         $unit->warehouse_id = $warehouseId;
-        $unit->currency_id = $_POST['OverheadCost']['currency_id']??1;
+        $unit->currency_id = $_POST['OverheadCost']['currency_id'] ?? 1;
         return $unit;
     }
-    
+
     public static function searchByWarehouse($warehouseId, $q)
     {
         $results = [];
@@ -54,13 +54,13 @@ class RemainsService
             ->joinWith(['product'])
             ->where(['warehouse_product.warehouse_id' => $warehouseId]);
 
-        if(strlen($q) > 0)
+        if (strlen($q) > 0)
             $warehouseProducts->andWhere(['OR', ['LIKE', 'product.name', $q], ['LIKE', 'product.sku', $q]]);
 
         $warehouseProducts = $warehouseProducts->all();
         \Yii::debug($warehouseProducts);
 
-        foreach($warehouseProducts as $warehouseProduct) {
+        foreach ($warehouseProducts as $warehouseProduct) {
             $productQty = self::getAvailable($warehouseProduct->product_id, $warehouseId);
             if ($productQty < 1) {
                 continue;
@@ -68,7 +68,9 @@ class RemainsService
 
             $results[] = [
                 'id' => $warehouseProduct->product_id,
-                'text' => $warehouseProduct->product->name . ' (' . $warehouseProduct->product->sku . ')',
+                'text' => $warehouseProduct->product->name . ' (' . $warehouseProduct->product->sku . ')' .
+                    " Ц.З."  . $warehouseProduct->purchase_cost . ' ' . $warehouseProduct->currency->code. " Осталось" . ' ' . ($warehouseProduct->quantity -
+                     $warehouseProduct->getReserved())  . ' шт'
             ];
         }
         return $results;
