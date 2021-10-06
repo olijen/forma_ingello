@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вакансии'), 
             ],
         ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -44,6 +43,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вакансии'), 
             ],
         ],
     ]) ?>
+    <?php if (!empty($projects)):?>
     <?php DetachedBlock::begin(['example' => 'История вакансии']); ?>
     <?php \yii\widgets\Pjax::begin(); ?>
         <?php $form = ActiveForm::begin(['action' => \yii\helpers\Url::to(['/vacancy/vacancy/view?id=' . $model->id])])?>
@@ -70,4 +70,5 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Вакансии'), 
         <?php ActiveForm::end()?>
     <?php \yii\widgets\Pjax::end();?>
     <?php DetachedBlock::end();?>
+    <?php endif; ?>
 </div>
