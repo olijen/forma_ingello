@@ -3,6 +3,7 @@
 namespace forma\modules\hr\controllers;
 
 use forma\modules\hr\records\interviewstate\InterviewState;
+use forma\modules\vacancy\records\Vacancy;
 use Yii;
 use forma\components\Controller;
 use yii\helpers\Url;
@@ -22,11 +23,13 @@ class FormController extends Controller
         if (!empty($model->state_id)) {
             $interviewState = InterviewState::findOne($model->state_id);
         }
+        $vacancy = Vacancy::getListVacancyProject();
+
         if (!empty($projectId) && !empty($vacancyId) && !empty($model)) {
             $model->project_id = $projectId;
             $model->vacancy_id = $vacancyId;
         }
-        return $this->render('index', compact('model', 'userState', 'interviewState'));
+        return $this->render('index', compact('model', 'userState', 'interviewState', 'vacancy'));
     }
     public function actionSave($id = null)
     {

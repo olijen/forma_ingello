@@ -19,6 +19,7 @@ use yii\web\JsExpression;
 /**
  * @var Interview $model
  */
+/* @var Vacancy $vacancy */
 
 Pjax::begin(['id' => 'selling-form-pjax', 'enablePushState' => false]);
 
@@ -54,7 +55,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
     ];
 
     $form = ActiveForm::begin($formOptions);
-
     ?>
     <div class="alert alert-danger" id='alert-danger' role="alert" hidden
          style="position: absolute; width: 300px; float: left; top: -50%; z-index: 9991;">
@@ -93,30 +93,29 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
         </div>
-
         <div class="col-md-4">
             <?php //TODO: !!!!!!!!!!!!!!!! WORKER to VACANCY
+
             $label = $model->getAttributeLabel('vacancy_id');
             $label .= '
                 [<a
                     class="select-modal-link no-loader"
                     data-select="#interview-vacancy_id"
                     data-action="view"
-                    href="' . Url::to(['/vacancy/vacancy/view']) . '"
+                    href="'.  Url::to(['/vacancy/vacancy/view-vacancy-project']).'" 
                 >детали</a>]
                 [<a
                     class="select-modal-link no-loader"
                     data-select="#interview-vacancy_id"
                     data-action="create"
-                    href="' . Url::to(['/vacancy/vacancy/create']) . '"
+                    href="' . Url::to(['/project/project-vacancy/create']) . '"
                 >добавить</a>]
             ';
             ?>
             <?= $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
-                'data' => Vacancy::getList(),
+                'data' => ArrayHelper::map($vacancy, 'id', 'name'),
                 'options' => ['placeholder' => 'Поиск в базе'],
                 'pluginOptions' => ['allowClear' => true],
-
             ])->label($label) ?>
         </div>
         <?php if ($model->isNewRecord): ?>
@@ -166,31 +165,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 })
             })
         </script>
-        <div class="col-md-4">
-            <?php
-            $label = $model->getAttributeLabel('project_id');
-            $label .= '
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#interview-project_id"
-                    data-action="view"
-                    href="' . Url::to(['/project/project/view']) . '"
-                >детали</a>]
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#interview-project_id"
-                    data-action="create"
-                    href="' . Url::to(['/project/project/create']) . '"
-                >добавить</a>]
-            ';
-            ?>
-            <?= $form->field($model, 'project_id')->widget(Select2::classname(), [
-                'data' => Project::getList(),
-                'options' => ['placeholder' => 'Поиск в базе'],
-                'pluginOptions' => ['allowClear' => true],
-            ])->label($label) ?>
-        </div>
-
     </div>
     <?php if ($model->date_create || $model->id): ?>
         <div class="row">
