@@ -75,14 +75,11 @@ class NomenclatureService
 
     public static function getUnitByProduct($post)
     {
-        $transitId = $post['TransitProduct']['transit_id'];
-        $productId = $post['TransitProduct']['product_id'];
-
-        $unit = TransitProduct::findOne([
-            'transit_id' => $transitId,
-            'product_id' => $productId,
-        ]);
-        return $unit ?? self::createPosition($transitId, $productId);
+        $unit = new TransitProduct();
+        if($unit->load($post) && $unit->validate()){
+            $unit->save();
+        }
+        return $unit;
     }
 
     public static function getDataProvider($transitId)

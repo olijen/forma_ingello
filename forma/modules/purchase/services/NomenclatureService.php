@@ -4,6 +4,7 @@ namespace forma\modules\purchase\services;
 
 use forma\modules\product\records\Currency;
 use forma\modules\purchase\records\purchase\Purchase;
+use forma\modules\transit\records\transitproduct\TransitProduct;
 use Yii;
 use forma\modules\warehouse\Module;
 use forma\modules\product\Module as ProductModule;
@@ -68,14 +69,11 @@ class NomenclatureService
 
     public static function getUnitByProduct($post)
     {
-        $purchaseId = $post['PurchaseProduct']['purchase_id'];
-        $productId = $post['PurchaseProduct']['product_id'];
-
-        $unit = PurchaseProduct::findOne([
-            'purchase_id' => $purchaseId,
-            'product_id' => $productId,
-        ]);
-        return $unit ?? self::createPosition($purchaseId);
+        $unit = new PurchaseProduct();
+        if($unit->load($post) && $unit->validate()){
+            $unit->save();
+        }
+        return $unit;
     }
 
     public static function getUnitByProductId($unitId)
