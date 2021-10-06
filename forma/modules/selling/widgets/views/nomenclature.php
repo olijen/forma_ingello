@@ -63,6 +63,7 @@ Yii::debug($warehouseProducts);
                        value="<?= Yii::$app->request->getCsrfToken(); ?>"/>
                 <?php if (Yii::$app->user->isGuest) { ?><input type="hidden" name="selling_token"
                                                                value="<?= isset($_GET['selling_token']) ? $_GET['selling_token'] : $_COOKIE['selling_token']; ?>" /> <?php } ?>
+
                 <div class="col-md-3">
                     <?php // todo: более правильный способ передачи данных вместо дозаписи гет запроса?>
                     <?= $form->field($unit, 'product_id')->widget(AutoComplete::className(), [
@@ -71,8 +72,13 @@ Yii::debug($warehouseProducts);
                             'sellingId' => $unit->selling_id,
                             'selling_token' => $_GET['selling_token'] ?? $_COOKIE['selling_token'] ?? null
                         ]),
-                    ]) ?>
+
+                    ]);
+
+
+                    ?>
                 </div>
+
                 <div class="col-md-2">
                     <?= $form->field($unit, 'currency_id')->dropDownList(Currency::getList())
                         ->label('Валюта') ?>
