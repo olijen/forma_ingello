@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="project-vacancy-form">
-<?php if (empty($projectVacancyModel) && empty($vacancyModel)):?>
+<?php if ($projectVacancyModel == [] && $vacancyModel == []):?>
     <?php $form = ActiveForm::begin(); ?>
     <?php if (\forma\modules\project\records\project\Project::getList() !== []): ?>
     <div class="col-md-3 form-group">

@@ -101,8 +101,8 @@ class ProjectVacancyController extends Controller
             'model' => $model,
             'id' => $id ? $id : null,
             'vacancy_id' => $vacancy_id ? $vacancy_id : null,
-            'projectVacancyModel' => $model,
-            'vacancyModel' => $vacancyModel
+            'projectVacancyModel' => [],
+            'vacancyModel' => []
         ]);
     }
 
