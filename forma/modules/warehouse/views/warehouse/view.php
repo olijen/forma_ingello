@@ -236,6 +236,16 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
     </a>
     <br>
     <br>
+        <?php
+
+        $items = [];
+        foreach (\forma\modules\warehouse\records\Warehouse::getList() as $id => $name) {
+            if($id == $model->id){
+                continue;
+            }
+            $items[] = ['label' => $name, 'url' => 'javascript:void(0)','linkOptions'=>['data-warehouse'=>$id,'class'=>'warehouse-list']];
+        }
+        ?>
 
     <?= DynaGrid::widget([
         'allowSortSetting' => false,
@@ -286,11 +296,18 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                     ]),
                 ],
                 [
-                    'content' => Html::button('<i class="fa fa-retweet"></i> Переместить', [
+                    'content' => ButtonDropdown::widget([
+                        'label' => 'Добавить в перемещение',
+                        'dropdown' => [
+                            'items' => $items,
+                        ],
+                        'options' => ['class' => 'btn btn-success forma_light_orange'],
+                    ])
+                       /* Html::button('<i class="fa fa-retweet"></i> Переместить', [
                         'class' => 'btn btn-primary',
                         'id' => 'add-to-transit',
                         'title' => 'Добавить в перемещение',
-                    ]),
+                    ]),*/
                 ],
                 [
                     'content' => ButtonDropdown::widget([

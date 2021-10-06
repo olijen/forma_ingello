@@ -39,6 +39,7 @@ class MainController extends Controller
     public function actionCreateByRemains()
     {
         $transitId = TransitService::createByRemains(Yii::$app->request->post());
-        return $this->redirect('/transit/form/index?id=' . $transitId);
+        $warehouse_id = (Yii::$app->request->post('select_warehouse_id'));
+        return $this->redirect('/transit/form/index?id=' . $transitId.'&warehouse_id='.$warehouse_id);
     }
 }
