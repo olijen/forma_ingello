@@ -22,21 +22,20 @@ use yii\widgets\Breadcrumbs;
         <span class="logo-mini">F.I</span>
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
-        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-static-top"
+        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-expand-lg navbar-static-top"
              role="navigation">
 
             <a href="#" data-toggle="push-menu"
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
-               class="logo-mini"><i class="fa fa-bars" aria-hidden="true"></i></a>
+               class="logo-mini "><i class="fa fa-bars" aria-hidden="true"></i></a>
 
-            <a href="#" title="Вернуться назад"
+            <a href="#" id="bs" title="Вернуться назад" class="nav-item "
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
                onclick="window.history.back()">
                 <i class="fa fa-arrow-left"></i></a>
-            <a href="#" id="fs" title="На весь экран"
+            <a href="#" id="fs" title="На весь экран" class="nav-item "
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;">
                 <i class="fa fa-expand"></i></a>
-
             <div class="navbar-custom-menu">
 
 
