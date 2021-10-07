@@ -22,7 +22,7 @@ use yii\widgets\Breadcrumbs;
         <span class="logo-mini">F.I</span>
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
-        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-expand-lg navbar-static-top"
+        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-static-top"
              role="navigation">
 
             <a href="#" data-toggle="push-menu"
