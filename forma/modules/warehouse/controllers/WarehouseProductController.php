@@ -212,10 +212,15 @@ class WarehouseProductController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['success' => true];
 
-        $productId = Yii::$app->request->post('productId');
-        $warehouseId = Yii::$app->request->post('warehouseId');
+        $data = \Yii::$app->request->getRawBody();
+        parse_str($data,$result);
 
-        $response['available'] = RemainsService::getAvailable($productId, $warehouseId);
+
+        Yii::debug($result);
+
+
+        $response['available'] = RemainsService::getAvailable($result['productId'], $result['warehouseId']);
+        $response['currencyId'] = RemainsService::getCurrencyId($result['productId'], $result['warehouseId']);
         return $response;
     }
 }

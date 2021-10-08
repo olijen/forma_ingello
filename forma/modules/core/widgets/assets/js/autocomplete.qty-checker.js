@@ -48,6 +48,7 @@ $(function() {
         var postCallback = function(response) {
             if (response.success === true) {
                 changeQtyLabel(response.available);
+                changeCurrency(response.currencyId);
             }
         };
 
@@ -56,6 +57,13 @@ $(function() {
                 value = '<span class="not-set">(<= ' + value + ')</span>';
             }
             $('#position-available-qty').html(value);
+        };
+
+        var changeCurrency = function(currencyId) {
+            if (currencyId){
+                $("#sellingproduct-currency_id").val(currencyId)
+            }
+
         };
 
         var resetQtyLabel = function() {

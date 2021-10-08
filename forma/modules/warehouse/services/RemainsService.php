@@ -78,11 +78,26 @@ class RemainsService
 
     public static function getAvailable($productId, $warehouseId)
     {
-        $unit = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
+        $unit = self::getWarehouseProduct($productId, $warehouseId);
         if (!$unit) {
             return false;
         }
         return $unit['quantity'] - $unit->getReserved();
+    }
+
+    public static function getCurrencyId($productId, $warehouseId)
+    {
+        $unit = self::getWarehouseProduct($productId, $warehouseId);
+        if (!$unit) {
+            return false;
+        }
+        return $unit->currency_id;
+    }
+
+    public static function getWarehouseProduct($productId, $warehouseId)
+    {
+//        de(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
+        return WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
     }
 
     public static function recalculate(Warehouse $warehouse, InventorizationProduct $product)
