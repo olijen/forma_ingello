@@ -3,6 +3,7 @@
 namespace forma\modules\worker\records\workervacancy;
 
 use forma\modules\hr\records\interview\Interview;
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\vacancy\records\Vacancy;
 use forma\modules\vacancy\records\VacancySearch;
 use forma\modules\worker\records\Worker;
@@ -77,13 +78,13 @@ class WorkerVacancy extends \yii\db\ActiveRecord
         return ArrayHelper::map($vacancies->getModels(), 'id', 'name');
     }
 
-    public static function getListWorker($vacancyId)
+    public static function getListWorker($vacancyProjectId)
     {
         if (Yii::$app->request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
-
-        $workerVacancies = self::find()->where(['vacancy_id' => $vacancyId])->all();
+        $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId ])->one();
+        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
 
         foreach ($workerVacancies as $workerVacancy) {
             if (empty($workerVacancy->worker->interviews)){

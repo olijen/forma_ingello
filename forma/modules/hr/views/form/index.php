@@ -9,6 +9,7 @@ use yii\helpers\Url;
 /**
  * @var $model Interview
  */
+/* @var $vacancy \forma\modules\vacancy\records\Vacancy*/
 
 $this->title = 'Новый найм от ' . Yii::$app->formatter->asDatetime($model->date_create, 'php:d.m.Y');
 if ($model->date_complete) {
@@ -22,9 +23,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Найм', 'url' => Url::to(['/hr/
 
 ?>
 
-<?= SellingFormView::widget(compact('model')) ?>
-<div class="bs-example">
-    <?php if($model->id): ?>
+
+<?= SellingFormView::widget(compact('model', 'vacancy')) ?>
+
+<?php if($model->id): ?>
+    <div class="bs-example">
     <div class="detached-block-example" style="margin-bottom: 10px">Состояние <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/hr/interview-state' . "||" . " Изменить состояния" . "}}"), 'dot-circle');?></div>
 
     <div class="operation-states" style="margin-top: 20px;">

@@ -3,6 +3,7 @@
 namespace forma\modules\vacancy\controllers;
 
 use forma\modules\hr\records\interviewstate\InterviewState;
+use forma\modules\project\records\project\Project;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use Yii;
 use forma\modules\vacancy\records\Vacancy;
@@ -63,7 +64,6 @@ class VacancyController extends Controller
         Url::remember([Yii::$app->request->url],'vacancy');
         $projectVacancies = ProjectVacancy::find()->where(['vacancy_id' => (int)$id])->all();
         $projects = [];
-        $projectIds = [];
         foreach ($projectVacancies as $projectVacancy) {
             $projects[] = $projectVacancy->project;
         }
@@ -89,6 +89,20 @@ class VacancyController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    public function actionViewVacancyProject($id)
+    {
+        if (Yii::$app->request->isAjax) {
+            $this->layout = '@app/modules/core/views/layouts/modal';
+            $projectVacancy = ProjectVacancy::find()->where(['id' => $id])->one();
+            $project = $projectVacancy->project;
+            return $this->render('@app/modules/vacancy/views/vacancyProject/view', [
+                    'model' => $this->findModel($projectVacancy->vacancy_id),
+                    'project' => $project
+                ]
+            );
+        }
+
+    }
     public function actionCreate()
     {
         if (Yii::$app->request->isAjax) {

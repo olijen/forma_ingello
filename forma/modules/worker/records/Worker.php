@@ -38,6 +38,7 @@ class Worker extends AccessoryActiveRecord
      * {@inheritdoc}
      */
     public $workerVacanciesArray;
+    public $workerVacancies;
 
     public static function tableName()
     {
@@ -50,7 +51,7 @@ class Worker extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['status', 'gender', 'name', 'surname', 'patronymic', 'passport', 'apply_position'], 'required'],
+            [['status', 'name', 'surname', 'workerVacancies'], 'required'],
             [['status', 'gender', 'experience'], 'integer'],
             [['date_birth'], 'safe'],
             [['collaborated'], 'boolean'],

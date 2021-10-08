@@ -2,6 +2,8 @@
 
 namespace forma\modules\project\controllers;
 
+use forma\modules\project\records\project\Project;
+use forma\modules\vacancy\records\Vacancy;
 use Yii;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\project\records\projectvacancy\ProjectVacancySearch;
@@ -66,6 +68,31 @@ class ProjectVacancyController extends Controller
     public function actionCreate($id = null, $vacancy_id = null)
     {
         $model = new ProjectVacancy();
+        $vacancyModel = new Vacancy();
+        if (Yii::$app->request->isAjax) {
+            $this->layout = '@app/modules/core/views/layouts/modal';
+            if (
+                (
+                    $vacancyModel->load(Yii::$app->request->post())
+                ) && (
+                    $vacancyModel->save()
+                )
+            ) {
+                if ($vacancyModel->id) {
+                    $model->vacancy_id = $vacancyModel->id;
+                    $model->load(Yii::$app->request->post());
+                    $model->save();
+                }
+                return $this->redirect(Url::to(['/hr/form/index']));
+            }
+            return $this->render('create', [
+                'model' => [],
+                'id' => null,
+                'vacancy_id' => null,
+                'vacancyModel' => $vacancyModel,
+                'projectVacancyModel' => $model
+            ]);
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['project/index']);
@@ -74,6 +101,8 @@ class ProjectVacancyController extends Controller
             'model' => $model,
             'id' => $id ? $id : null,
             'vacancy_id' => $vacancy_id ? $vacancy_id : null,
+            'projectVacancyModel' => [],
+            'vacancyModel' => []
         ]);
     }
 
