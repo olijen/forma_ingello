@@ -220,7 +220,7 @@ class WarehouseProductController extends Controller
 
 
         $response['available'] = RemainsService::getAvailable($result['productId'], $result['warehouseId']);
-        $response['currencyId'] = RemainsService::getCurrencyId($result['productId'], $result['warehouseId']);
+        $response['currencyName'] = RemainsService::getCurrencyName($result['productId'], $result['warehouseId']);
         return $response;
     }
 }

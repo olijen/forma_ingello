@@ -48,7 +48,7 @@ $(function() {
         var postCallback = function(response) {
             if (response.success === true) {
                 changeQtyLabel(response.available);
-                changeCurrency(response.currencyId);
+                changeCurrencyName(response.currencyName);
             }
         };
 
@@ -59,9 +59,9 @@ $(function() {
             $('#position-available-qty').html(value);
         };
 
-        var changeCurrency = function(currencyId) {
-            if (currencyId){
-                $("#sellingproduct-currency_id").val(currencyId)
+        var changeCurrencyName = function(currencyName) {
+            if (currencyName){
+                $("#sellingproduct-currency_id").val(currencyName)
             }
 
         };

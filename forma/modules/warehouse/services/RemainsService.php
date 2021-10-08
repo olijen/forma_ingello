@@ -85,18 +85,17 @@ class RemainsService
         return $unit['quantity'] - $unit->getReserved();
     }
 
-    public static function getCurrencyId($productId, $warehouseId)
+    public static function getCurrencyName($productId, $warehouseId)
     {
         $unit = self::getWarehouseProduct($productId, $warehouseId);
         if (!$unit) {
             return false;
         }
-        return $unit->currency_id;
+        return $unit->currency->name;
     }
 
     public static function getWarehouseProduct($productId, $warehouseId)
     {
-//        de(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
         return WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
     }
 
