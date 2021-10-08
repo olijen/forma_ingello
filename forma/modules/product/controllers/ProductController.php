@@ -202,14 +202,13 @@ class ProductController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-
             $excel = $_FILES['excel']['tmp_name'];
             $importer = new ExcelImporter();
             $success = $importer->import($excel);
             $errors = $importer->getErrors();
             $warehouseId = $importer->getWarehouseId();
 
-            return json_encode(compact('success', 'errors', 'warehouseId'));
+            return json_encode(compact('success', 'errors', 'warehouseId','excel'));
         }
     }
 
@@ -275,5 +274,15 @@ class ProductController extends Controller
         }
 
         throw new ForbiddenHttpException;
+    }
+    public function actionDownloadExampleFile()
+    {
+        $path = \Yii::getAlias('@uploads') ;
+        $file = $path . '/example-product.xls';
+
+        if (file_exists($file)) {
+            return \Yii::$app->response->sendFile($file);
+        }
+        throw new \Exception('File not found');
     }
 }
