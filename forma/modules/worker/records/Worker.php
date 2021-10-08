@@ -34,12 +34,11 @@ use yii\helpers\ArrayHelper;
  */
 class Worker extends AccessoryActiveRecord
 {
+    public $workerVacanciesList;
+
     /**
      * {@inheritdoc}
      */
-    public $workerVacanciesArray;
-    public $workerVacancies;
-
     public static function tableName()
     {
         return 'worker';
@@ -51,12 +50,13 @@ class Worker extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['status', 'name', 'surname', 'workerVacancies'], 'required'],
+            [['status', 'name', 'surname'], 'required'],
+            [['workerVacanciesList'], 'required', 'on' => 'fromForm'],
             [['status', 'gender', 'experience'], 'integer'],
             [['date_birth'], 'safe'],
             [['collaborated'], 'boolean'],
             [['name', 'surname', 'patronymic', 'passport', 'apply_position'], 'string', 'max' => 255],
-            [['experience_description'], 'string', 'max' => 65000]
+            [['experience_description'], 'string', 'max' => 65000],
         ];
     }
 
@@ -108,7 +108,7 @@ class Worker extends AccessoryActiveRecord
             'apply_position' => Yii::t('app', 'Претендует на должность'),
             'experience' => Yii::t('app', 'Опыт работы(лет)'),
             'experience_description' => Yii::t('app', 'Описание опыта'),
-            'workerVacancies' => Yii::t('app', 'Интересуеться вакансиями'),
+            'workerVacanciesList' => Yii::t('app', 'Интересуется вакансиями'),
             'collaborated' => Yii::t('app', 'Сотрудничали?'),
             'historyDialog' => Yii::t('app', 'История диалогов'),
         ];
@@ -170,17 +170,16 @@ class Worker extends AccessoryActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if (isset($_POST['Worker']['workerVacancies'])) {
+        if (isset($_POST['Worker']['workerVacanciesList'])) {
 
             WorkerVacancy::deleteAll(['worker_id' => $this->id]);
-            if (is_array($_POST['Worker']['workerVacancies'])) {
+            if (is_array($_POST['Worker']['workerVacanciesList'])) {
 
                 $workerVacancy = new WorkerVacancy();
-                foreach ($_POST['Worker']['workerVacancies'] as $vacancyId) {
+                foreach ($_POST['Worker']['workerVacanciesList'] as $vacancyId) {
                     $workerVacancy->isNewRecord = true;
                     $workerVacancy->id = null;
                     $workerVacancy->setAttributes(['worker_id' => $this->id, 'vacancy_id' => $vacancyId]);
-
                     try {
                         $workerVacancy->save();
                     } catch (Exception $e) {
