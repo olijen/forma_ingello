@@ -1,0 +1,33 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=utf-8'/><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>ЭкспортPабочийЛист</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table class='kv-grid-table table table-bordered table-striped'><colgroup>
+
+<col class=' ' style='display: none; width: auto;'>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+
+
+<col class=' '>
+<col class=' '>
+<col class=' '>
+
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' ' style='display: none; width: auto;'>
+<col class=' '>
+<col class=' ' style='display: none; width: auto;'>
+</colgroup>
+<thead>
+
+<tr><th class=' ' style='display: none; width: auto;'>Склад</th><th class=' ' style='width: 6.31%;'>Артикул</th><th class=' ' style='width: 14.73%;'>Товар</th><th class=' ' style='width: 5.98%;'>Группа товаров</th><th class=' ' style='width: 7.33%;'>Количество</th><th class=' ' style='width: 8.49%;'>Производитель</th><th class=' ' style='width: 2.62%;'>Валюта закупки</th><th class=' ' style='width: 5.53%;'>Цена закупки</th><th class=' ' style='width: 6.01%;'>Розничная цена</th><th class=' ' style='width: 6.01%;'>Рекомендованная цена</th><th class=' ' style='width: 6.01%;'>Оптовая цена</th><th class=' ' style='width: 6.01%;'>Налог</th><th class=' ' style='display: none; width: auto;'>Накладной расход</th><th class=' ' style='width: 4.33%;'> Рейтинг</th><th class=' ' style='display: none; width: auto;'>Категория</th></tr>
+
+</thead>
+<tbody>
+<tr class='grid-remains' data-key='5'><td class=' ' style='display: none; width: auto;'>Склад 1</td><td class=' '>MBLN-3</td><td class=' '>Мобильный телефон Xiaomi Redmi Note 9 Pro 6/128GB Interstellar Grey</td><td class=' '></td><td class=' '>20</td><td class=' '>Xiaomi</td><td class=' '>USD</td><td class=' '>5600</td><td class=' '></td><td class=' '></td><td class=' '></td><td class=' '></td><td class=' ' style='display: none; width: auto;'></td><td class=' '></td><td class=' ' style='display: none; width: auto;'>Смартфоны</td></tr>
+<tr class='grid-remains' data-key='6'><td class=' ' style='display: none; width: auto;'>Склад 1</td><td class=' '>MBLN-4</td><td class=' '>Мобильный телефон Huawei P Smart 2021 128GB Gold</td><td class=' '></td><td class=' '>60</td><td class=' '>Huawei</td><td class=' '>USD</td><td class=' '>6000</td><td class=' '></td><td class=' '></td><td class=' '></td><td class=' '></td><td class=' ' style='display: none; width: auto;'></td><td class=' '></td><td class=' ' style='display: none; width: auto;'>Смартфоны</td></tr>
+<tr class='grid-remains' data-key='40'><td class=' ' style='display: none; width: auto;'>Склад 1</td><td class=' '>MBLN-2</td><td class=' '>Мобильный телефон Realme 6 8/128GB White</td><td class=' '></td><td class=' '>50</td><td class=' '>Realme</td><td class=' '>UAH</td><td class=' '>4000</td><td class=' '>6000</td><td class=' '>6000</td><td class=' '>5000</td><td class=' '></td><td class=' ' style='display: none; width: auto;'></td><td class=' '></td><td class=' ' style='display: none; width: auto;'>Смартфоны</td></tr>
+<tr class='grid-remains' data-key='41'><td class=' ' style='display: none; width: auto;'>Склад 1</td><td class=' '>MBLN</td><td class=' '>Мобильный телефон Samsung Galaxy Note 10 Lite (SM-N770) 6/128GB Aura Silver (SM-N770FZSDSEK)</td><td class=' '></td><td class=' '>30</td><td class=' '>Samsung</td><td class=' '>UAH</td><td class=' '>5600</td><td class=' '></td><td class=' '></td><td class=' '></td><td class=' '></td><td class=' ' style='display: none; width: auto;'></td><td class=' '></td><td class=' ' style='display: none; width: auto;'>Смартфоны</td></tr>
+<tr class='grid-remains' data-key='45'><td class=' ' style='display: none; width: auto;'>Склад 1</td><td class=' '>MBLN-1</td><td class=' '>Мобильный телефон Meizu M10 3/32GB Black</td><td class=' '></td><td class=' '>20</td><td class=' '>Meizu</td><td class=' '>USD</td><td class=' '>15000</td><td class=' '>32630</td><td class=' '></td><td class=' '>30120</td><td class=' '>0</td><td class=' ' style='display: none; width: auto;'>10100</td><td class=' '></td><td class=' ' style='display: none; width: auto;'>Смартфоны</td></tr>
+</tbody></table></body></html>

@@ -322,7 +322,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                                 [
                                     'label' => 'Example of file',
                                     'options' => [
-                                        'onclick' => 'location.href = "/product/product/download-example-file"',
+                                        'onclick' => 'location.href = "/warehouse/warehouse/download-example-file"',
                                         'style' => 'cursor: pointer;',
                                     ],
                                 ],
