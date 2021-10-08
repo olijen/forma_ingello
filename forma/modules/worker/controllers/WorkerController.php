@@ -114,6 +114,7 @@ class WorkerController extends Controller
         }
 
         $model = new Worker();
+        $model->scenario = 'fromForm';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
@@ -138,6 +139,7 @@ class WorkerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'fromForm';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
