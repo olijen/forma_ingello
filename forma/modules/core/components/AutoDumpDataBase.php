@@ -8,6 +8,7 @@ use forma\modules\core\records\Accessory;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\SystemEvent;
 use forma\modules\hr\records\interview\Interview;
+use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\ProductPackUnit;
 use forma\modules\warehouse\records\Warehouse;
@@ -25,7 +26,8 @@ class AutoDumpDataBase
     protected $deleteAutoDamp = false;
 
     //возвращаем id продуктов из accessory
-    public function getOldAccessoryProducts () {
+    public function getOldAccessoryProducts()
+    {
         $productIds = [];
         $arrayModels = Accessory::find()->where(['user_id' => 1])
             ->andWhere(['like', 'entity_class', ['\Product']])
@@ -55,15 +57,13 @@ class AutoDumpDataBase
             $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
         }
 
-       // \Yii::debug($accessoryKeys);
+        // \Yii::debug($accessoryKeys);
 
         foreach ($accessoryKeys as $entityClass => $modelId) {
             //создаем модели для всех выбранных из accessory, подставляем класс и из него кидаем запрос на save
             $modelRout = '\\' . $entityClass;
             $models = $modelRout::find()->where(['id' => $modelId])->orderBy(['id' => SORT_ASC])->all();
-
             foreach ($models as $model) {
-
                 $key = $model->id;
                 if ($this->deleteAutoDamp == false) {
                     if (array_key_exists('parent_id', $model->attributes)) {
@@ -75,11 +75,9 @@ class AutoDumpDataBase
                     } else {
                         $newModel = $this->saveNewRecord($model);
                     }
-                    //Yii::debug($newModel);
+
                     $this->accessoryOldKeys[$entityClass][$key] = $key;
                     $this->accessoryNewKeys[$entityClass][$key] = $newModel->id;
-                    //Yii::debug($this->accessoryOldKeys);
-                    //Yii::debug($this->accessoryNewKeys);
 
                 } else {
                     $this->accessoryOldKeys[$entityClass][$key] = $key;
@@ -162,7 +160,9 @@ class AutoDumpDataBase
     public function start()
     {
         $this->getAccessoryKeys();
+        $this->workerVacancy();
         $this->state();
+        $this->interviewState();
         $this->product();
         $this->warehouse();
         $this->regularity();
@@ -171,7 +171,6 @@ class AutoDumpDataBase
 
         $this->field();
         $this->productPackUnit();
-        $this->workerVacancy();
         $this->overheadCost();
         $this->purchase();
         $this->requestStrategy();
@@ -185,7 +184,7 @@ class AutoDumpDataBase
         $this->systemEvents();
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
-        
+
         return true;
     }
 
@@ -255,8 +254,6 @@ class AutoDumpDataBase
 
             if (array_key_exists('id', $model->attributes)) $model->id = null;
             if (array_key_exists('user_id', $model->attributes)) $model->user_id = \Yii::$app->user->identity->id;
-            //\Yii::debug($model);
-//            de($model);
             if (!$model->save()) {
                 de($model->errors, false);
                 de($model);
@@ -328,6 +325,24 @@ class AutoDumpDataBase
         return true;
     }
 
+    public function interviewState()
+    {
+        $states = $this->findModels('forma\modules\hr\records\interviewstate\InterviewState', ['user_id' => 1]);
+
+        foreach ($states as $state) {
+            $state = $this->changeAttributes(
+                ['1' => \Yii::$app->user->identity->id],
+                $state,
+                'user_id');
+
+            $this->forSaveAndGetKey($state, 'interviewState_id');
+        }
+
+        if ($this->deleteAutoDamp) return $this->delete($states);
+
+        return true;
+    }
+
     public function warehouse()
     {
         $modelsRoute = [
@@ -365,8 +380,6 @@ class AutoDumpDataBase
         foreach ($key as $oldKey => $newKey) {
             if ($model->$attribute == $oldKey) {
                 $model->$attribute = $newKey;
-              //  \Yii::debug($attribute . ' attribute');
-              //  \Yii::debug($model->$attribute);
                 return $model;
             }
         }
@@ -441,11 +454,7 @@ class AutoDumpDataBase
             //выбираем все модели от админа со старым ключом Field, получаем FieldValue
             $fieldValues = $this->findModels('forma\modules\product\records\FieldValue',
                 [
-                    //'field_id' => $this->getOldAccessoryProducts(),
-                    //'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
-                    // 'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
                     'field_id' => $this->oldKeys['field_id'],
-                    // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
 
             //перебираем полученные FieldValue меняем их страрые field_id на новые и сохраняем.
@@ -463,18 +472,12 @@ class AutoDumpDataBase
             Yii::debug($this->newKeys['field_value']);
             $fieldProductValues = $this->findModels('forma\modules\product\records\FieldProductValue',
                 [
-                    //'field_id' => $this->getOldAccessoryProducts(),
-                    //'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
-                    // 'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
                     'field_id' => $this->oldKeys['field_id'],
-                    // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
-//de($sellingProducts);
-           // Yii::debug($fieldProductValues);
 
             Yii::debug($this->newKeys['field_id']);
 
-            foreach ( $this->findModels('\forma\modules\product\records\Field',
+            foreach ($this->findModels('\forma\modules\product\records\Field',
                 ['id' => $this->newKeys['field_id']]) as $field) {
                 Yii::debug($field);
             }
@@ -507,22 +510,16 @@ class AutoDumpDataBase
                     $valueArr = json_decode($valueStr);
                     $finalValue = '[';
                     for ($i = 0; $i < count($valueArr); $i++) {
-                        if ($i == count($valueArr)-1) {
-                            $finalValue .= '"'.$this->newKeys['field_value'][$valueArr[$i]].'"';
+                        if ($i == count($valueArr) - 1) {
+                            $finalValue .= '"' . $this->newKeys['field_value'][$valueArr[$i]] . '"';
                         } else {
-                            $finalValue .= '"'.$this->newKeys['field_value'][$valueArr[$i]].'",';
+                            $finalValue .= '"' . $this->newKeys['field_value'][$valueArr[$i]] . '",';
                         }
                     }
                     $finalValue .= ']';
                     $fieldProductValue->value = $finalValue;
 
-//                    $fieldProductValue = $this->changeAttributes(
-//                        $this->newKeys['field_value'],
-//                        $fieldProductValue,
-//                        'value');
                 }
-
-
 
                 $this->saveNewRecord($fieldProductValue);
             }
@@ -532,8 +529,7 @@ class AutoDumpDataBase
 
     public function productPackUnit()
     {
-        ['\forma\modules\product\records\ProductPackUnit',];  //product_id   pack_unit_id
-//                '\forma\modules\product\records\PackUnit',
+        ['\forma\modules\product\records\ProductPackUnit',];
 
         $productPackUnits = $this->findModels(new ProductPackUnit(),
             ['pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
@@ -563,7 +559,6 @@ class AutoDumpDataBase
         $workerVacancies = $this->findModels('forma\modules\worker\records\workervacancy\WorkerVacancy',
             ['worker_id' => $this->accessoryOldKeys['forma\modules\worker\records\Worker'],
                 'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
-
         foreach ($workerVacancies as $workerVacancy) {
             $workerVacancy = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\worker\records\Worker'],
@@ -717,7 +712,7 @@ class AutoDumpDataBase
         return true;
     }
 
-    public function answer()////////////////++++++++++++++++++
+    public function answer()
     {
 
         $answers = $this->findModels('forma\modules\selling\records\talk\Answer',
@@ -743,9 +738,9 @@ class AutoDumpDataBase
         $interviews = $this->findModels('\forma\modules\hr\records\interview\Interview',
             ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
                 'worker_id' => $this->accessoryOldKeys['forma\modules\worker\records\Worker'],
-                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']
+                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy'],
+                'state_id' => $this->oldKeys['interviewState_id']
             ]);
-
         Yii::debug($interviews);
 
         foreach ($interviews as $interview) {
@@ -764,52 +759,17 @@ class AutoDumpDataBase
                 $interview,
                 'vacancy_id');
 
+            $interview = $this->changeAttributes(
+                $this->newKeys['interviewState_id'],
+                $interview,
+                'state_id');
 
             $this->forSaveAndGetKey($interview, 'interview_id');
 
         }
 
         if ($this->deleteAutoDamp) return $this->delete($interviews);
-        if (isset($this->oldKeys['interview_id'])) {
 
-            $interviewVacancies = $this->findModels('forma\modules\hr\records\interviewvacancy\InterviewVacancy',
-                ['vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy'],
-                    'interview_id' => $this->oldKeys['interview_id'],
-                    'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
-                    'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
-                    'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit']
-                ]);
-
-
-            foreach ($interviewVacancies as $interviewVacancy) {
-                $interviewVacancy = $this->changeAttributes(
-                    $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
-                    $interviewVacancy,
-                    'vacancy_id');
-                $interviewVacancy = $this->changeAttributes(
-                    $this->accessoryNewKeys['forma\modules\product\records\Currency'],
-                    $interviewVacancy,
-                    'currency_id');
-
-                $interviewVacancy = $this->changeAttributes(
-                    $this->accessoryNewKeys['forma\modules\product\records\PackUnit'],
-                    $interviewVacancy,
-                    'pack_unit_id');
-
-                $interviewVacancy = $this->changeAttributes(
-                    $this->newKeys['overhead_cost_id'],
-                    $interviewVacancy,
-                    'overhead_cost_id');
-
-                $interviewVacancy = $this->changeAttributes(
-                    $this->newKeys['interview_id'],
-                    $interviewVacancy,
-                    'interview_id');
-
-
-                $this->saveNewRecord($interviewVacancy);
-            }
-        }
         return true;
     }
 
@@ -830,8 +790,6 @@ class AutoDumpDataBase
 
         if ($this->deleteAutoDamp) return $this->delete($inventorizations);
         if (isset($this->oldKeys['inventorization_id'])) {
-
-
             $inventorizationProducts = $this->findModels('\forma\modules\inventorization\records\InventorizationProduct',
                 ['inventorization_id' => $this->oldKeys['inventorization_id'],
                     'product_id' => $this->getOldAccessoryProducts(),
@@ -857,26 +815,6 @@ class AutoDumpDataBase
 
     public function project()
     {
-//        $projectUsers = $this->findModels('forma\modules\project\records\projectuser\ProjectUser',
-//            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-//                'user_id' => 1]);
-//
-//        foreach ($projectUsers as $projectUser) {
-//
-//
-//            $projectUser = $this->changeAttributes(
-//                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
-//                $projectUser,
-//                'project_id');
-//
-//            $projectUser = $this->changeAttributes(
-//                ['1' => \Yii::$app->user->identity->id],
-//                $projectUser,
-//                'user_id');
-//
-//            $this->saveNewRecord($projectUser);
-//        }
-
         $projectVacancies = $this->findModels('forma\modules\project\records\projectvacancy\ProjectVacancy',
             ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
                 'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
@@ -898,33 +836,9 @@ class AutoDumpDataBase
         return true;
     }
 
-//    public function patient()
-//    {
-//        $patient = $this->findModels('\forma\modules\selling\records\Patient',
-//            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-//                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
-//
-//        foreach ($projectUsers as $projectUser) {
-//            $projectUser = $this->changeAttributes(
-//                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
-//                $projectUser,
-//                'project_id');
-//
-//            $projectVacancy = $this->changeAttributes(
-//                $this->accessoryNewKeys['forma\modules\vacancy\records\Vacancy'],
-//                $projectVacancy,
-//                'vacancy_id');
-//
-//            $this->saveNewRecord($projectVacancy);
-//        }
-//
-//    }
-
-    public function product() {
+    public function product()
+    {
         $productIds = $this->getOldAccessoryProducts();
-      //  Yii::debug($this->accessoryNewKeys);
-
-
 
         $products = $this->findModels('forma\modules\product\records\Product',
             ['id' => $productIds]);
@@ -958,16 +872,12 @@ class AutoDumpDataBase
 
     public function selling()
     {
-     //   Yii::debug($this->accessoryOldKeys);
-      //  Yii::debug($this->oldKeys);
-        //Yii::debug();
-
         $sales = $this->findModels('forma\modules\selling\records\selling\Selling',
             ['customer_id' => $this->accessoryOldKeys['forma\modules\customer\records\Customer'],
                 'warehouse_id' => $this->oldKeys['warehouse_id'],
                 'state_id' => $this->oldKeys['state_id']
             ]);
-//de($sales);
+
         foreach ($sales as $sale) {
             $sale = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
@@ -988,18 +898,13 @@ class AutoDumpDataBase
         }
 
         if ($this->deleteAutoDamp) return $this->delete($sales);
-      //  Yii::debug($this->oldKeys);
+
         if (isset($this->oldKeys['selling_id'])) {
             $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
                 [
                     'product_id' => $this->getOldAccessoryProducts(),
-                    //'currency_id' => $this->accessoryOldKeys['forma\modules\product\records\Currency'],
-                   // 'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
                     'selling_id' => $this->oldKeys['selling_id'],
-                   // 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 ]);
-//de($sellingProducts);
-          //  Yii::debug($sellingProducts);
             foreach ($sellingProducts as $sellingProduct) {
                 $sellingProduct = $this->changeAttributes(
                     $this->newKeys['product_id'],
@@ -1105,22 +1010,5 @@ class AutoDumpDataBase
 
         }
         return true;
-    }
-
-
-    public function saveRelation(string $relation = null, $relationAttributes = null)
-    {
-//    if (!is_null($relation) && $relationAttributes){
-//        if(is_array($newModal->$relation)){
-//
-//        }else{
-//            if (is_array($relationAttributes)){
-//                foreach ($relationAttributes as $attribute){
-//                    $newModal->$relation->$attribute = 'daw';
-//                        }
-//            }
-//            $this->saveNewRecord($model->$relation);
-//        }
-//    }
     }
 }

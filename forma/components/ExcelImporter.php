@@ -2,6 +2,7 @@
 
 namespace forma\components;
 
+use forma\modules\product\records\Currency;
 use Yii;
 use moonland\phpexcel\Excel;
 
@@ -21,8 +22,8 @@ class ExcelImporter
 
         'category.name' => 'Категория',
         'manufacturer.name' => 'Производитель',
-        'country.name' => 'Страна',
-        'color.name' => 'Цвет',
+        //'country.name' => 'Страна',
+        //'color.name' => 'Цвет',
         'type.name' => 'Группа товаров',
 
         'product.name' => 'Товар',
@@ -33,7 +34,7 @@ class ExcelImporter
 //
 //        'product.sizeColumnValue' => 'Размер',
 //        'product.combinedColumn' => 'Дозатор / Рейтинг',
-
+        'currency.code' => 'Валюта закупки',
         'warehouse_product.quantity' => 'Количество',
         'warehouse_product.purchase_cost' => 'Цена закупки',
         'warehouse_product.recommended_cost' => 'Рекомендованная цена',
@@ -152,6 +153,14 @@ class ExcelImporter
                 $warehouseProduct->warehouse_id = $warehouse->id;
                 $warehouseProduct->product_id = $product->id;
             }
+            $currencyCode = $row[$this->_excelFields['currency.code']];
+            $currency = Currency::findOne(['code'=>$currencyCode]);
+            if(!$currency){
+                $currency = new Currency();
+                $currency->code = $currencyCode;
+                $currency->save();
+            }
+
 
             $warehouseProduct->quantity += $row[$this->_excelFields['warehouse_product.quantity']];
 
@@ -162,7 +171,7 @@ class ExcelImporter
 
             $warehouseProduct->tax = $row[$this->_excelFields['warehouse_product.tax']];
             $warehouseProduct->overhead_cost = $row[$this->_excelFields['warehouse_product.tax']];
-
+            $warehouseProduct->currency_id = $currency->id;
             $warehouseProduct->save();
 
             if ($warehouseProduct->hasErrors()) {

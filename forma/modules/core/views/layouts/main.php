@@ -381,7 +381,10 @@ JS;
                     width: 100% !important;
                 }
             }
-
+            @media screen and (max-width: 500px) {
+                #fs {display: none}
+                #bs {display: none}
+            }
             .breadcrumb {
                 display: none !important;
             }
