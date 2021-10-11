@@ -92,7 +92,7 @@ class DefaultController extends Controller
                 }
             }
 
-            Yii::$app->controller->layout = 'clear.php';
+            Yii::$app->controller->layout = false;
             return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
         }
 

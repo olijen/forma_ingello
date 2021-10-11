@@ -1,7 +1,8 @@
 <?php
+
 use yii\helpers\Url;
-use yii\helpers\Html;
 use yii\web\JsExpression;
+
 ?>
 <?php
 
@@ -70,6 +71,9 @@ function createEvent(start, end, title)
         }
         $.post( "/event/event/create?json", serverMapper, function( data ) {
           $('#w0').fullCalendar('renderEvent', eventData, true);
+          history.pushState(null, null, '/event');
+          alert('safdasf');
+          
         }).fail(function() {
           alert("Внутренняя ошибка");
         });
@@ -88,7 +92,6 @@ function(start, end) {
     '&end_time='+end.format('H:m:ss'));
     $('#modal').modal();
     
-
     //createEvent(start, end, title);
 }
 JS;

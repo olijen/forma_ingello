@@ -215,7 +215,7 @@ $fieldOptions5 = [
 
         <!-- Masthead Subheading-->
         <p class="masthead-subheading font-weight-light mb-0" style="">Бесплатная система для развития малого бизнеса</p>
-<br><br>
+        <br><br>
         <!-- Masthead Heading-->
         <h1 class="masthead-heading text-uppercase mb-0" style="position: relative; right: 6px">> FORMA . INGELLO</h1>
         <!-- Icon Divider-->
@@ -417,12 +417,13 @@ $fieldOptions5 = [
 
 
                 <?php
+
                 use yii\bootstrap\ActiveForm;
                 use yii\bootstrap\Html;
 
                 $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => true, 'options' => ['style' => 'width: 75%; margin: 0 auto']]);
 
-                 ?>
+                ?>
 
                 <div style="">
 
@@ -463,28 +464,28 @@ $fieldOptions5 = [
                     <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true, 'options' => ['style' => 'width: 75%; margin: 0 auto 40px']]); ?>
                 <?php endif; ?>
                 <div class="control-group">
-                <?= $form
-                    ->field($model, 'username', $fieldOptions2)
-                    ->label(false)
-                    ->textInput(['placeholder' => 'Как Вас зовут?']) ?>
+                    <?= $form
+                        ->field($model, 'username', $fieldOptions2)
+                        ->label(false)
+                        ->textInput(['placeholder' => 'Как Вас зовут?']) ?>
                 </div>
                 <div class="control-group">
-                <?= $form
-                    ->field($model, 'phone', $fieldOptions2)
-                    ->label(false)
-                    ->textInput(['placeholder' => $model->getAttributeLabel('phone')]) ?>
+                    <?= $form
+                        ->field($model, 'phone', $fieldOptions2)
+                        ->label(false)
+                        ->textInput(['placeholder' => $model->getAttributeLabel('phone')]) ?>
                 </div>
                 <div class="control-group">
-                <?= $form
-                    ->field($model, 'email', $fieldOptions2)
-                    ->label(false)
-                    ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
+                    <?= $form
+                        ->field($model, 'email', $fieldOptions2)
+                        ->label(false)
+                        ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
                 </div>
                 <div class="control-group">
-                <?= $form
-                    ->field($model, 'password', $fieldOptions2)
-                    ->label(false)
-                    ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+                    <?= $form
+                        ->field($model, 'password', $fieldOptions2)
+                        ->label(false)
+                        ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
                 </div>
                 <br>
                 <div class="success"></div>
@@ -604,7 +605,7 @@ $fieldOptions5 = [
         $('#login-form').show();
         window.location.href += '#contact'
     </script>
-<?php
+    <?php
 } ?>
 <?php if (isset($_GET['failedSignup'])) {
     ?>
