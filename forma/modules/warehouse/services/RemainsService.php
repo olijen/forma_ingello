@@ -91,7 +91,7 @@ class RemainsService
         if (!$unit) {
             return false;
         }
-        return $unit->currency->name;
+        return $unit->currency_id;
     }
 
     public static function getWarehouseProduct($productId, $warehouseId)

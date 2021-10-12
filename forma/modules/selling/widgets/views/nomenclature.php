@@ -81,7 +81,7 @@ Yii::debug($warehouseProducts);
                 </div>
 
                 <div class="col-md-2">
-                    <?= $form->field($unit, 'currency_id')->textInput(['readonly' => true,Currency::getList()])
+                    <?= $form->field($unit, 'currency_id')->dropDownList(['readonly' => true,Currency::getList(),'prompt' => 'Выберите статус...'])
                         ->label('Валюта') ?>
                 </div>
                 <div class="col-md-2">
