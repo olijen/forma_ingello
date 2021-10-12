@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Кадры'), 'url' 
                 }
             ],
             [
-                'attribute' => 'workerVacancies',
+                'attribute' => 'workerVacanciesList',
                 'format' => 'html',
                 'value' => function($data){
                         $list = '';
