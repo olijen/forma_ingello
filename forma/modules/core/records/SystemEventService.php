@@ -197,32 +197,36 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
             $rule = Rule::find()->andWhere(['action' => 'Delete'])->andWhere(['model' => $model->tableName()])->one();
-            $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
-              ['rule_id' => $rule->id]
-            )->one();
-            if ($accessInterface === null) {
-                $newAccessInterface = new AccessInterface();
-                $newAccessInterface->rule_id = $rule->id;
-                $newAccessInterface->currentMark = 1;
-                $newAccessInterface->user_id = Yii::$app->user->identity->id;
-                $newAccessInterface->status = "0";
+            de($rule);
+            if ($rule) {
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if ($accessInterface === null) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = "0";
 
-                if ( $newAccessInterface->save()) {
-                    dd(53534);
-                } else {
-                    dd(111111111);
-                }
-            } else {
-                if ($accessInterface->status == "0") {
-                    $accessInterface->status = "0";
-                    $accessInterface->currentMark = ++$accessInterface->currentMark;
-                    if ($accessInterface->save()) {
-                        dd(11111);
+                    if ($newAccessInterface->save()) {
+                        dd(53534);
                     } else {
-                        dd($accessInterface->errors);
+                        dd(111111111);
+                    }
+                } else {
+                    if ($accessInterface->status == "0") {
+                        $accessInterface->status = "0";
+                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        if ($accessInterface->save()) {
+                            dd(11111);
+                        } else {
+                            dd($accessInterface->errors);
+                        }
                     }
                 }
             }
+            var_dump('Not rule');
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
             $systemEvent->data = Yii::$app->params['translate'][$className] . ' Удален: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
