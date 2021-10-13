@@ -196,30 +196,23 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'Delete'])->andWhere(['model' => $model->tableName()])->one();
-            $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
-              ['rule_id' => $rule->id]
-            )->one();
-            if ($accessInterface === null) {
-                $newAccessInterface = new AccessInterface();
-                $newAccessInterface->rule_id = $rule->id;
-                $newAccessInterface->currentMark = 1;
-                $newAccessInterface->user_id = Yii::$app->user->identity->id;
-                $newAccessInterface->status = "0";
-
-                if ( $newAccessInterface->save()) {
-                    dd(53534);
+            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['model' => $model->tableName()])->one();
+            if($rule){
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if ($accessInterface === null) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = false;
+                    $newAccessInterface->save();
                 } else {
-                    dd(111111111);
-                }
-            } else {
-                if ($accessInterface->status == "0") {
-                    $accessInterface->status = "0";
-                    $accessInterface->currentMark = ++$accessInterface->currentMark;
-                    if ($accessInterface->save()) {
-                        dd(11111);
-                    } else {
-                        dd($accessInterface->errors);
+                    if ($accessInterface->status == false) {
+                        $accessInterface->status = false;
+                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        $accessInterface->save();
                     }
                 }
             }

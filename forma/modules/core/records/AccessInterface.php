@@ -44,7 +44,7 @@ class AccessInterface extends \yii\db\ActiveRecord
   {
     return [
             [['currentMark', 'rule_id', 'user_id'], 'integer'],
-            [['status'], 'string', 'max' => 1]
+            [['status'], 'boolean']
         ];
   }
 
