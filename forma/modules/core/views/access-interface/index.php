@@ -36,13 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'current_mark',
             'rule_id',
             'user_id',
-                [
-                'attribute' => 'status',
-//                'filter'=>
-                'value' => function ($data) {
-                                        return $data->statusName;
-                                 },
-                ],
+             'status',
     
             ['class' => 'yii\grid\ActionColumn'],
         ],
