@@ -8,7 +8,7 @@ use Yii;
 * This is the model class for table "access_interface".
 *
   * @property integer $id
-  * @property integer $currentMark
+  * @property integer $current_mark
   * @property integer $rule_id
   * @property integer $user_id
   * @property integer $status
@@ -43,8 +43,8 @@ class AccessInterface extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['currentMark', 'rule_id', 'user_id'], 'integer'],
-            [['status'], 'boolean']
+            [['current_mark', 'rule_id', 'user_id'], 'integer'],
+            [['status'], 'string', 'max' => 1]
         ];
   }
 
@@ -55,7 +55,7 @@ class AccessInterface extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'currentMark' => 'Current Mark',
+        'current_mark' => 'Current Mark',
         'rule_id' => 'Rule ID',
         'user_id' => 'User ID',
         'status' => 'Status',
