@@ -9,11 +9,12 @@ use Yii;
 *
   * @property integer $id
   * @property string $action
-  * @property string $model
-  * @property integer $mark
+  * @property string $table
+  * @property integer $count_action
   * @property integer $item_id
   *
       * @property AccessInterface[] $accessInterfaces
+      * @property ItemRule[] $itemRules
       * @property Item $item
   */
 class Rule extends \yii\db\ActiveRecord
@@ -43,8 +44,8 @@ class Rule extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['mark', 'item_id'], 'integer'],
-            [['action', 'model'], 'string', 'max' => 255]
+            [['count_action', 'item_id'], 'integer'],
+            [['action', 'table'], 'string', 'max' => 255]
         ];
   }
 
@@ -56,8 +57,8 @@ class Rule extends \yii\db\ActiveRecord
     return [
         'id' => 'ID',
         'action' => 'Action',
-        'model' => 'Model',
-        'mark' => 'Mark',
+        'table' => 'Table',
+        'count_action' => 'Count Action',
         'item_id' => 'Item ID',
     ];
   }
@@ -68,6 +69,14 @@ class Rule extends \yii\db\ActiveRecord
   public function getAccessInterfaces()
   {
   return $this->hasMany(AccessInterface::className(), ['rule_id' => 'id']);
+  }
+
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getItemRules()
+  {
+  return $this->hasMany(ItemRule::className(), ['rule_id' => 'id']);
   }
 
   /**

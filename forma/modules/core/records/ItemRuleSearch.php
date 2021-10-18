@@ -5,12 +5,12 @@ namespace forma\modules\core\records;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\core\records\Rule;
+use forma\modules\core\records\ItemRule;
 
 /**
- * RuleSearch represents the model behind the search form about `forma\modules\core\records\Rule`.
+ * ItemRuleSearch represents the model behind the search form about `forma\modules\core\records\ItemRule`.
  */
-class RuleSearch extends Rule
+class ItemRuleSearch extends ItemRule
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class RuleSearch extends Rule
     public function rules()
     {
         return [
-            [['id', 'count_action', 'item_id'], 'integer'],
-            [['action', 'table'], 'safe'],
+            [['id', 'rule_id', 'item_interface_id'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class RuleSearch extends Rule
      */
     public function search($params)
     {
-        $query = Rule::find();
+        $query = ItemRule::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,12 +56,9 @@ class RuleSearch extends Rule
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'count_action' => $this->count_action,
-            'item_id' => $this->item_id,
+            'rule_id' => $this->rule_id,
+            'item_interface_id' => $this->item_interface_id,
         ]);
-
-        $query->andFilterWhere(['like', 'action', $this->action])
-            ->andFilterWhere(['like', 'table', $this->table]);
 
         return $dataProvider;
     }
