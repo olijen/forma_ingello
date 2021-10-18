@@ -30,9 +30,9 @@ endif;
     ]); ?>
             <?= $form->field($model, 'action',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'model',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'table',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'mark',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'count_action',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
             <?= $form->field($model, 'item_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 

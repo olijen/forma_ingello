@@ -27,11 +27,11 @@ use yii\widgets\ActiveForm;
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'model') ?>
+   <?= $form->field($model, 'table') ?>
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'mark') ?>
+   <?= $form->field($model, 'count_action') ?>
 </div>
 
 <div class="col-xs-3">

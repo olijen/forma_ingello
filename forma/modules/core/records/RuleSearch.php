@@ -18,8 +18,8 @@ class RuleSearch extends Rule
     public function rules()
     {
         return [
-            [['id', 'mark', 'item_id'], 'integer'],
-            [['action', 'model'], 'safe'],
+            [['id', 'count_action', 'item_id'], 'integer'],
+            [['action', 'table'], 'safe'],
         ];
     }
 
@@ -57,12 +57,12 @@ class RuleSearch extends Rule
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'mark' => $this->mark,
+            'count_action' => $this->count_action,
             'item_id' => $this->item_id,
         ]);
 
         $query->andFilterWhere(['like', 'action', $this->action])
-            ->andFilterWhere(['like', 'model', $this->model]);
+            ->andFilterWhere(['like', 'table', $this->table]);
 
         return $dataProvider;
     }
