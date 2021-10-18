@@ -14,7 +14,6 @@ use Yii;
   * @property integer $item_id
   *
       * @property AccessInterface[] $accessInterfaces
-      * @property ItemRule[] $itemRules
       * @property Item $item
   */
 class Rule extends \yii\db\ActiveRecord
@@ -58,7 +57,7 @@ class Rule extends \yii\db\ActiveRecord
         'id' => 'ID',
         'action' => 'Action',
         'table' => 'Table',
-        'count_action' => 'Count Action',
+        'count_action' => 'Count action',
         'item_id' => 'Item ID',
     ];
   }

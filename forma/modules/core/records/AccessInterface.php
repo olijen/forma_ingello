@@ -43,8 +43,8 @@ class AccessInterface extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['current_mark', 'rule_id', 'user_id'], 'integer'],
-            [['status'], 'string', 'max' => 1]
+            [['currentMark', 'rule_id', 'user_id'], 'integer'],
+            [['status'], 'boolean']
         ];
   }
 
@@ -55,7 +55,7 @@ class AccessInterface extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'current_mark' => 'Current Mark',
+        'currentMark' => 'Current Mark',
         'rule_id' => 'Rule ID',
         'user_id' => 'User ID',
         'status' => 'Status',

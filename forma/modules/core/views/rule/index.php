@@ -34,8 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'action',
-            'model',
-            'mark',
+            'table',
+            'count_action',
             'item_id',
 
             ['class' => 'yii\grid\ActionColumn'],

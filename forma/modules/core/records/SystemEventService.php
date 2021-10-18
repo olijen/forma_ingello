@@ -107,23 +107,27 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
-            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['model' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
 
-            if($rule->action === 'insert'){
+            if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
                 if ($accessInterface === null) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->current_mark = 1;
                     $newAccessInterface->user_id = Yii::$app->user->identity->id;
                     $newAccessInterface->status = false;
                     $newAccessInterface->save();
                 } else {
                     if ($accessInterface->status == false) {
                         $accessInterface->status = false;
-                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        $accessInterface->current_mark = ++$accessInterface->current_mark;
+                        $accessInterface->save();
+                    }
+                    if($accessInterface->current_mark == $rule->count_action){
+                        $accessInterface->status =1;
                         $accessInterface->save();
                     }
                 }
@@ -179,7 +183,7 @@ class SystemEventService
         if(self::checkBlackList($className)) {
 //            var_dump('11');
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['model' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->one();
             if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
@@ -187,14 +191,18 @@ class SystemEventService
                 if ($accessInterface === null) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->current_mark = 1;
                     $newAccessInterface->user_id = Yii::$app->user->identity->id;
                     $newAccessInterface->status = false;
                     $newAccessInterface->save();
                 } else {
                     if ($accessInterface->status == false) {
                         $accessInterface->status = false;
-                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        $accessInterface->current_mark = ++$accessInterface->current_mark;
+                        $accessInterface->save();
+                    }
+                    if($accessInterface->current_mark == $rule->count_action){
+                        $accessInterface->status =1;
                         $accessInterface->save();
                     }
                 }
@@ -240,23 +248,26 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['model' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->one();
             if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
-                if ($accessInterface === false) {
-//                    de($rule);
+                if (!$accessInterface) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->current_mark = 1;
                     $newAccessInterface->user_id = Yii::$app->user->identity->id;
                     $newAccessInterface->status = false;
                     $newAccessInterface->save();
                 } else {
                     if ($accessInterface->status == false) {
                         $accessInterface->status = false;
-                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        $accessInterface->current_mark = ++$accessInterface->current_mark;
+                        $accessInterface->save();
+                    }
+                    if($accessInterface->current_mark == $rule->count_action){
+                        $accessInterface->status =1;
                         $accessInterface->save();
                     }
                 }
