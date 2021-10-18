@@ -107,6 +107,28 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
+            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['model' => $model->tableName()])->one();
+
+            if($rule->action === 'insert'){
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if ($accessInterface === null) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = false;
+                    $newAccessInterface->save();
+                } else {
+                    if ($accessInterface->status == false) {
+                        $accessInterface->status = false;
+                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        $accessInterface->save();
+                    }
+                }
+            }
+
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
             $systemEvent->data = Yii::$app->params['translate'][$className] . ' Создан: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
@@ -131,6 +153,7 @@ class SystemEventService
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
 
+
     public static function eventAfterUpdate($event) {
         $model = $event->sender;
         $className = self::getClassName($event);
@@ -154,7 +177,28 @@ class SystemEventService
         $subject = '';
         $text = '';
         if(self::checkBlackList($className)) {
+//            var_dump('11');
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
+            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['model' => $model->tableName()])->one();
+            if($rule){
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if ($accessInterface === null) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->currentMark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = false;
+                    $newAccessInterface->save();
+                } else {
+                    if ($accessInterface->status == false) {
+                        $accessInterface->status = false;
+                        $accessInterface->currentMark = ++$accessInterface->currentMark;
+                        $accessInterface->save();
+                    }
+                }
+            }
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
@@ -201,7 +245,8 @@ class SystemEventService
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
-                if ($accessInterface === null) {
+                if ($accessInterface === false) {
+//                    de($rule);
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
                     $newAccessInterface->currentMark = 1;
@@ -216,6 +261,7 @@ class SystemEventService
                     }
                 }
             }
+
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
             $systemEvent->data = Yii::$app->params['translate'][$className] . ' Удален: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
