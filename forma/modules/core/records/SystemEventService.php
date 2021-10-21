@@ -78,7 +78,13 @@ class SystemEventService
         }
         return $data;
     }
-
+    public static function setCookieSystemEvent(string $name,int $rule_id){
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => $name,
+            'value' => [$rule_id],
+        ]));
+    }
     public static function eventAfterInsert($event){
 
         //Yii::debug($event);
@@ -129,6 +135,7 @@ class SystemEventService
                     if($accessInterface->current_mark == $rule->count_action){
                         $accessInterface->status =1;
                         $accessInterface->save();
+                        self::setCookieSystemEvent('event',$rule->id);
                     }
                 }
             }
@@ -204,6 +211,7 @@ class SystemEventService
                     if($accessInterface->current_mark == $rule->count_action){
                         $accessInterface->status =1;
                         $accessInterface->save();
+                        self::setCookieSystemEvent('event',$rule->id);
                     }
                 }
             }
@@ -227,7 +235,6 @@ class SystemEventService
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
-
     public static function eventAfterDelete($event){
         $model = $event->sender;
         $className = self::getClassName($event);
@@ -269,6 +276,7 @@ class SystemEventService
                     if($accessInterface->current_mark == $rule->count_action){
                         $accessInterface->status =1;
                         $accessInterface->save();
+                        self::setCookieSystemEvent('event',$rule->id);
                     }
                 }
             }

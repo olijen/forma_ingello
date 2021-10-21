@@ -65,7 +65,7 @@ class Rule extends \yii\db\ActiveRecord
   /**
   * @return \yii\db\ActiveQuery
   */
-  public function getAccessInterfaces()
+  public function getAccessInterfaces(): \yii\db\ActiveQuery
   {
   return $this->hasMany(AccessInterface::className(), ['rule_id' => 'id']);
   }
