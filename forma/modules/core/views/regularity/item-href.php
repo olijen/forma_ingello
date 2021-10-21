@@ -51,7 +51,20 @@ if (isset($parentItem)) {
         </label>
 
         <div class="hidden-description" data-id="<?= $item->id ?>" style="visibility: hidden; display: none;">
-            <?= $item->description ?>
+            <?= $item->description;
+           if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$item->id])->all())){
+               $countMark = \forma\modules\core\records\AccessInterface::find()->sum('current_mark');
+               echo '<hr>';
+               echo 'Правила <br>';
+               foreach($rules as $rule){
+                   echo "
+                   Операция : $rule->action над таблицей $rule->table,
+                   количество : $rule->count_action <br>" ;
+               }
+               echo "Общее количество = $countMark";
+           }
+
+            ?>
         </div>
     </a>
 </div>
