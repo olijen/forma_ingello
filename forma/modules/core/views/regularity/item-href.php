@@ -28,8 +28,26 @@ if (isset($parentItem)) {
         <label class="container-label" style="border: 1px solid #3c8dbc; border-radius: 15px; margin-right: 5px; margin-left: 2px; display: inline-block;">
             <input type="radio" class="check-radio" name=<?= $radioName ?> id="<?= $item->id ?>">
             <span class="checkmark"></span>
+            <?php
+            $countRightAnswer = 0;
+            $countAnswer = 0;
+            if(!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$item->id]))){
+                foreach ($rules->all() as $rule){
+                    $countAnswer++;
+                    foreach ($rule->accessInterfaces as $accessInterface){
+                        if($rule->count_action == $accessInterface->current_mark){
+                            $countRightAnswer++;
+                        }
+                    }
+                }
+            }
+            if($countAnswer == $countRightAnswer && $countAnswer!=0){
+                echo "<i class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>";
+            }
 
-            <label style="font-size: 15px; margin-right: 10px;"> <?= $item->title ?> </label>
+
+            ?>
+            <label style="font-size: 15px; margin-right: 10px; float: left"> <?= $item->title ?> </label>
         </label>
 
         <div class="hidden-description" data-id="<?= $item->id ?>" style="visibility: hidden; display: none;">
