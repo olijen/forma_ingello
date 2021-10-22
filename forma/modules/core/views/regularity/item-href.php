@@ -1,6 +1,7 @@
 <?php
 
 use forma\modules\core\components\LinkHelper;
+use kartik\dialog\Dialog;
 
 if (is_null($item->picture)) {
     $item->picture = 'false';
@@ -17,7 +18,7 @@ if (isset($parentItem)) {
 }
 ?>
 <div class="carousel-child">
-    <a href="#menu<?= $item->id ?>"
+    <a id="btn-alert<?= $item->id ?>" href="#menu<?= $item->id ?>"
        data-href="menu<?= $item->id ?>"
        data-name="<?= $dataName ?>"
        data-picture="<?= $item->picture ?>"
@@ -29,7 +30,7 @@ if (isset($parentItem)) {
             <input type="radio" class="check-radio" name=<?= $radioName ?> id="<?= $item->id ?>">
             <span class="checkmark"></span>
             <?php
-            $countRightAnswer = 0;
+          $countRightAnswer = 0;
             $countAnswer = 0;
             if(!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$item->id]))){
                 foreach ($rules->all() as $rule){
@@ -41,10 +42,6 @@ if (isset($parentItem)) {
                     }
                 }
             }
-            if($countAnswer == $countRightAnswer && $countAnswer!=0){
-                echo "<i class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>";
-            }
-
 
             ?>
             <label style="font-size: 15px; margin-right: 10px; float: left"> <?= $item->title ?> </label>
@@ -68,3 +65,30 @@ if (isset($parentItem)) {
         </div>
     </a>
 </div>
+
+<?php echo Dialog::widget();
+
+$js = <<< JS
+if($countAnswer == $countRightAnswer && $countAnswer!=0){
+    $("#btn-alert"+$item->id).on("click", function() {
+    krajeeDialog.alert("Вы выполнили это задание!")
+    let el = document.getElementById('li'+$item->id);
+            if(el===null){
+                let value = `<i id='li`+$item->id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
+                $('#'+$item->id).after(value);
+            }
+            
+});
+    let el = document.getElementById('li'+$item->id);
+            if(el===null){
+                let value = `<i id='li`+$item->id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
+                $('#'+$item->id).after(value);
+            }
+}
+
+JS;
+$this->registerJs($js);
+
+
+?>
+

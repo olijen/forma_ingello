@@ -299,6 +299,32 @@
             checkedRadioAndShowTab(hrefTabRegularityId);
         }
 
+        let addIconItemTab = function(itemId) {
+            let url = '/core/rule/check-right-answer';
+            $.ajax({
+                url:url,
+                type:"POST",
+                data:{itemId: itemId},
+                dataType:"json",
+                success: postCallback,
+            });
+        };
+
+        let postCallback = function(response) {
+            if (response.result === true) {
+                addNewElement(response[0].id);
+
+            }
+        };
+        let addNewElement = function (id){
+            let el = document.getElementById('li'+id);
+            if(el===null){
+                let value = `<i id='li`+id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
+                $('#'+id).after(value);
+            }
+        }
+
+
         $("a.change-item").click(function (event) {
 
             let currentActiveItemsTabs = $('.tab-pane.fade.active');
@@ -317,6 +343,7 @@
             }
 
             if (currentParentActiveItemsTabs.length > 0 && parent == undefined) {
+                addIconItemTab(currentParentActiveItemsTabs[0].id.split('menu')[1]);
                 changeBorderTopColor($('a[href$="#' + currentParentActiveItemsTabs[0].id + '"]'), false);
             }
 
@@ -350,4 +377,7 @@
                 activeItem.className = 'tab-pane fade';
             }
         }
+    });
+    window.addEventListener("load", function(event) {
+        console.log("All resources finished loading!");
     });

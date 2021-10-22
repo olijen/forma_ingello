@@ -8,6 +8,7 @@ use forma\modules\core\records\RuleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * RuleController implements the CRUD actions for Rule model.
@@ -118,5 +119,27 @@ class RuleController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    public function actionCheckRightAnswer()
+    {
+        $itemId = $_POST['itemId'];
+        $countRightAnswer = 0;
+        $countAnswer = 0;
+        if(!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$itemId]))){
+            foreach ($rules->all() as $rule){
+                $countAnswer++;
+                foreach ($rule->accessInterfaces as $accessInterface){
+                    if($rule->count_action == $accessInterface->current_mark){
+                        $countRightAnswer++;
+                    }
+                }
+            }
+        }
+        $result = ['result'=>false];
+        if($countAnswer == $countRightAnswer && $countAnswer!=0){
+            $result = ['result'=>true];
+            $result[] =['id'=>$itemId];
+        }
+        return $this->asJson($result);
     }
 }
