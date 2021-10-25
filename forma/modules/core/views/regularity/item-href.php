@@ -14,7 +14,7 @@ $dataName = '<h2>' .'<i style=\' margin-right: 30px; \' class=\'fa fa-' . $regul
 if (isset($parentItem)) {
     $dataName = $dataName . '<h3 class=\'h-text\'>' . $parentItem->title . '</h3>' . '<h4 class=\'h-text\'>' . $item->title . '</h4>';
 } else {
-    $dataName = $dataName . '<h3 class=\'h-text\'>' . $item->title . '</h3>';
+    $dataName = $dataName . "<h3 id='li$item->id' class='h-text'>$item->title </h3>";
 }
 ?>
 <div class="carousel-child">
@@ -66,19 +66,11 @@ if (isset($parentItem)) {
     </a>
 </div>
 
-<?php echo Dialog::widget();
+<?php
 
 $js = <<< JS
 if($countAnswer == $countRightAnswer && $countAnswer!=0){
-    $("#btn-alert"+$item->id).on("click", function() {
-    krajeeDialog.alert("Вы выполнили это задание!")
-    let el = document.getElementById('li'+$item->id);
-            if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
-                $('#'+$item->id).after(value);
-            }
-            
-});
+    
     let el = document.getElementById('li'+$item->id);
             if(el===null){
                 let value = `<i id='li`+$item->id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;

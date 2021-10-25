@@ -319,8 +319,8 @@
         let addNewElement = function (id){
             let el = document.getElementById('li'+id);
             if(el===null){
-                let value = `<i id='li`+id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
-                $('#'+id).after(value);
+                /*let value = `<i id='li`+id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
+                $('#'+id).after(value);*/
             }
         }
 
