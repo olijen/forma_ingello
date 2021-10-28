@@ -21,7 +21,6 @@ echo \yii\widgets\DetailView::widget([
 ]);
 \wokster\ltewidgets\BoxWidget::end();
 endif;
-
 ?>
 
 <div class="access-interface-form">
@@ -30,11 +29,17 @@ endif;
     ]); ?>
             <?= $form->field($model, 'current_mark',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'rule_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'rule_id',['options'=>['class'=>'col-xs-12']])->dropDownList(
+                $rules
+            ) ?>
 
-            <?= $form->field($model, 'user_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'user_id',['options'=>['class'=>'col-xs-12']])->dropDownList(
+                $users
+            ) ?>
 
-            <?= $form->field($model, 'status',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'status',['options'=>['class'=>'col-xs-12']])->dropDownList(
+                ['0'=>'false','1'=>'true']
+            ) ?>
 
 
         <div class="col-xs-12 col-md-12">
