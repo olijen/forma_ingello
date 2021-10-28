@@ -55,10 +55,10 @@ class AccessInterface extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'current_mark' => 'Current Mark',
-        'rule_id' => 'Rule ID',
-        'user_id' => 'User ID',
-        'status' => 'Status',
+        'current_mark' => 'Текущая оценка',
+        'rule_id' => 'Правило',
+        'user_id' => 'Пользователь',
+        'status' => 'Статус',
     ];
   }
 
