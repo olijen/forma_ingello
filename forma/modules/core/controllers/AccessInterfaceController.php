@@ -2,9 +2,13 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\Regularity;
+use forma\modules\core\records\Rule;
+use forma\modules\core\records\User;
 use Yii;
 use forma\modules\core\records\AccessInterface;
 use forma\modules\core\records\AccessInterfaceSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,8 +52,13 @@ class AccessInterfaceController extends Controller
      */
     public function actionView($id)
     {
+        $accessInterface =$this->findModel($id);
+        $rule = Rule::find()->where(['id'=>$accessInterface->rule_id])->one();
+        $user = User::find()->where(['id'=>$accessInterface->user_id])->one();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $accessInterface,
+            'rule'=>$rule,
+            'user'=>$user,
         ]);
     }
 
@@ -62,12 +71,20 @@ class AccessInterfaceController extends Controller
     {
         $model = new AccessInterface();
         $model->loadDefaultValues(); //load default data from db
-
+        $rules =  ArrayHelper::map(Rule::find()
+            ->select(['id', 'rule_name'])
+            ->all(), 'id', 'rule_name');
+        $user = User::find()->where(['id'=>$model->user_id])->select(['id','parent_id','email'])->one();
+        $usersParent = User::find()->where(['parent_id'=>$model->user_id])->select(['id','parent_id','email'])->all();
+        $usersParent[] = $user;
+        $users = ArrayHelper::map($usersParent,'id','email');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'rules' =>$rules,
+                'users' =>$users,
             ]);
         }
     }
@@ -81,12 +98,20 @@ class AccessInterfaceController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $rules =  ArrayHelper::map(Rule::find()
+            ->select(['id', 'rule_name'])
+            ->all(), 'id', 'rule_name');
+        $user = User::find()->where(['id'=>$model->user_id])->select(['id','parent_id','email'])->one();
+        $usersParent = User::find()->where(['parent_id'=>$model->user_id])->select(['id','parent_id','email'])->all();
+        $usersParent[] = $user;
+        $users = ArrayHelper::map($usersParent,'id','email');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'rules' =>$rules,
+                'users' =>$users,
             ]);
         }
     }

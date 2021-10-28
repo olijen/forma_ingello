@@ -15,11 +15,13 @@ class AccessInterfaceSearch extends AccessInterface
     /**
      * @inheritdoc
      */
+    public $rule_name;
+    public $status;
     public function rules()
     {
         return [
             [['id', 'current_mark', 'rule_id', 'user_id'], 'integer'],
-            [['status'], 'safe'],
+            [['status','rule_name','status'], 'safe'],
         ];
     }
 
@@ -42,9 +44,25 @@ class AccessInterfaceSearch extends AccessInterface
     public function search($params)
     {
         $query = AccessInterface::find();
-
+        $query->joinWith('user');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'current_mark',
+                    'status',
+                    'rule_name' => [
+                        'asc' => ['rule.rule_name' => SORT_ASC],
+                        'desc' => ['rule.rule_name' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                    'user' => [
+                        'asc' => ['user.email' => SORT_ASC],
+                        'desc' => ['user.email' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                ],
+            ]
         ]);
 
         $this->load($params);
@@ -58,11 +76,10 @@ class AccessInterfaceSearch extends AccessInterface
         $query->andFilterWhere([
             'id' => $this->id,
             'current_mark' => $this->current_mark,
-            'rule_id' => $this->rule_id,
-            'user_id' => $this->user_id,
         ]);
 
         $query->andFilterWhere(['like', 'status', $this->status]);
+        $query->joinWith('rule')->andFilterWhere(['like', 'rule.rule_name', $this->rule_name]);
 
         return $dataProvider;
     }
