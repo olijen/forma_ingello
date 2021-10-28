@@ -32,12 +32,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'current_mark',
-            'rule_id',
-            'user_id',
-             'status',
-    
+            [
+                'attribute' => 'rule_name',
+                'value' => 'rule.rule_name',
+                'label' => 'Правило',
+            ],
+            [
+                'attribute' => 'user',
+                'value' => 'user.email',
+                'label' => 'Пользователь',
+            ],
+            [
+                'attribute' => 'status',
+                'value' => 'status',
+                'label' => 'Статус',
+                'filter' => Html::activeDropDownList($searchModel, 'status',
+                    ['1'=>'true','0'=>'false'],
+                    ['placeholder' => 'Выбрать таблицу...','class' => 'form-control','prompt' =>'']),
+            ],
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

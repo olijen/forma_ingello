@@ -20,6 +20,8 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
     <?= $this->render('_form', [
     'model' => $model,
+        'rules'=>$rules,
+        'users'=>$users,
     ]) ?>
 
     <?php BoxWidget::end();?>
