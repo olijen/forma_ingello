@@ -10,6 +10,7 @@ $this->title = 'Редактировать Правило: ' . ' ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Правила', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактировать';
+
 ?>
 <div class="rule-update">
 
@@ -20,6 +21,8 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
     <?= $this->render('_form', [
     'model' => $model,
+        'tables'=>$tables,
+        'items'=>$items,
     ]) ?>
 
     <?php BoxWidget::end();?>

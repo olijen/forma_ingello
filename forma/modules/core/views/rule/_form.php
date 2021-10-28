@@ -7,19 +7,19 @@ use kartik\form\ActiveForm;
 /* @var $model forma\modules\core\records\Rule */
 /* @var $form yii\widgets\ActiveForm */
 
-if($model->hasErrors()):
-\wokster\ltewidgets\BoxWidget::begin([
-'solid'=>true,
-'color'=>'danger',
-'title'=>'Ошибки валидации',
-'close'=> true,
-]);
-$error_data = $model->firstErrors;
-echo \yii\widgets\DetailView::widget([
-'model'=>$error_data,
-'attributes'=>array_keys($error_data)
-]);
-\wokster\ltewidgets\BoxWidget::end();
+if ($model->hasErrors()):
+    \wokster\ltewidgets\BoxWidget::begin([
+        'solid' => true,
+        'color' => 'danger',
+        'title' => 'Ошибки валидации',
+        'close' => true,
+    ]);
+    $error_data = $model->firstErrors;
+    echo \yii\widgets\DetailView::widget([
+        'model' => $error_data,
+        'attributes' => array_keys($error_data)
+    ]);
+    \wokster\ltewidgets\BoxWidget::end();
 endif;
 
 ?>
@@ -28,19 +28,28 @@ endif;
 
     <?php $form = ActiveForm::begin([
     ]); ?>
-            <?= $form->field($model, 'action',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'table',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'rule_name', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'count_action',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'action', ['options' => ['class' => 'col-xs-12']])->dropDownList(
+        ['insert'=>'insert', 'update'=>'update','delete'=>'delete']
+    ) ?>
 
-            <?= $form->field($model, 'item_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'table', ['options' => ['class' => 'col-xs-12']])->dropDownList(
+        $tables
+    ) ?>
+
+    <?= $form->field($model, 'count_action', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+
+    <?= $form->field($model, 'item_id', ['options' => ['class' => 'col-xs-12']])->dropDownList(
+        $items
+    )->label('Элемент') ?>
 
 
-        <div class="col-xs-12 col-md-12">
-            <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            </div>
+    <div class="col-xs-12 col-md-12">
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
+    </div>
     <?php ActiveForm::end(); ?>
 </div>

@@ -29,11 +29,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-					'id',
-					'action',
-					'table',
-					'count_action',
-					'item_id',
+            'rule_name',
+            [
+                'attribute' => 'action',
+                'label' => 'Событие',
+                'value' => 'action',
+
+            ],
+
+            [
+                'attribute' => 'table',
+                'label' => 'Таблица',
+                'value' => 'table',
+
+            ],
+
+            'count_action',
+            [
+                'attribute' => 'item',
+                'label' => 'Элемент',
+                'value' => $item->title,
+
+            ],
         ],
     ]) ?>
     <?php BoxWidget::end();?></div>

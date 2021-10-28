@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'tables'=>$tables,
+        'items'=>$items,
     ]) ?>
 
     <?php BoxWidget::end();?>
