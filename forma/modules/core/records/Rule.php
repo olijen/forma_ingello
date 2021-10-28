@@ -3,6 +3,8 @@
 namespace forma\modules\core\records;
 
 use Yii;
+use forma\modules\core\records\ItemRule;
+use forma\modules\core\records\Item;
 
 /**
 * This is the model class for table "rule".
@@ -10,6 +12,7 @@ use Yii;
   * @property integer $id
   * @property string $action
   * @property string $table
+  * @property string $rule_name
   * @property integer $count_action
   * @property integer $item_id
   *
@@ -44,7 +47,8 @@ class Rule extends \yii\db\ActiveRecord
   {
     return [
             [['count_action', 'item_id'], 'integer'],
-            [['action', 'table'], 'string', 'max' => 255]
+            [['action', 'table','rule_name'], 'string', 'max' => 255],
+
         ];
   }
 
@@ -55,9 +59,10 @@ class Rule extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'action' => 'Action',
-        'table' => 'Table',
-        'count_action' => 'Count action',
+        'action' => 'Событие',
+        'table' => 'Таблица',
+        'count_action' => 'Количество действий',
+        'rule_name'=>'Описание правила',
         'item_id' => 'Item ID',
     ];
   }

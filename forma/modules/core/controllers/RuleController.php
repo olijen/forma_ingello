@@ -5,10 +5,13 @@ namespace forma\modules\core\controllers;
 use Yii;
 use forma\modules\core\records\Rule;
 use forma\modules\core\records\RuleSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use forma\modules\core\records\Regularity;
+use forma\modules\core\records\Item;
 
 /**
  * RuleController implements the CRUD actions for Rule model.
@@ -35,10 +38,18 @@ class RuleController extends Controller
     {
         $searchModel = new RuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $tables[''] ='';
+        foreach (Yii::$app->db->schema->tableNames as $table){
+            $tables[$table] = $table;
+        };
+        $items = ArrayHelper::map(Regularity::find()->joinWith('items')
+            ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
+            ->all(), 'title', 'title', 'name');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'tables'=>$tables,
+            'items'=>$items,
         ]);
     }
 
@@ -49,8 +60,11 @@ class RuleController extends Controller
      */
     public function actionView($id)
     {
+        $rule =$this->findModel($id);
+        $item = Item::find()->where(['id'=>$rule->item->id])->one();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $rule,
+            'item' =>$item,
         ]);
     }
 
@@ -63,12 +77,20 @@ class RuleController extends Controller
     {
         $model = new Rule();
         $model->loadDefaultValues(); //load default data from db
-
+        $tables[''] ='';
+        foreach (Yii::$app->db->schema->tableNames as $table){
+            $tables[$table] = $table;
+        };
+        $items = ArrayHelper::map(Regularity::find()->joinWith('items')
+            ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
+            ->all(), 'id', 'title', 'name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'tables'=>$tables,
+                'items'=>$items,
             ]);
         }
     }
@@ -82,12 +104,20 @@ class RuleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $tables[''] ='';
+        foreach (Yii::$app->db->schema->tableNames as $table){
+            $tables[$table] = $table;
+        };
+        $items = ArrayHelper::map(Regularity::find()->joinWith('items')
+            ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
+            ->all(), 'id', 'title', 'name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'tables'=>$tables,
+                'items'=>$items,
             ]);
         }
     }

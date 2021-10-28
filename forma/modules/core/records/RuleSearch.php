@@ -15,11 +15,13 @@ class RuleSearch extends Rule
     /**
      * @inheritdoc
      */
+    public $item;
+
     public function rules()
     {
         return [
             [['id', 'count_action', 'item_id'], 'integer'],
-            [['action', 'table'], 'safe'],
+            [['action', 'table', 'rule_name', 'item'], 'safe'],
         ];
     }
 
@@ -45,6 +47,19 @@ class RuleSearch extends Rule
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'rule_name',
+                    'action',
+                    'table',
+                    'count_action',
+                    'item' => [
+                        'asc' => ['item.title' => SORT_ASC],
+                        'desc' => ['item.title' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
+                ],
+            ]
         ]);
 
         $this->load($params);
@@ -58,11 +73,11 @@ class RuleSearch extends Rule
         $query->andFilterWhere([
             'id' => $this->id,
             'count_action' => $this->count_action,
-            'item_id' => $this->item_id,
         ]);
-
-        $query->andFilterWhere(['like', 'action', $this->action])
-            ->andFilterWhere(['like', 'table', $this->table]);
+        $query->andFilterWhere(['like', 'action', $this->action]);
+        $query->andFilterWhere(['like', 'table', $this->table])
+            ->andFilterWhere(['like ', 'rule_name', $this->rule_name]);
+        $query->joinWith('item')->andFilterWhere(['like ', 'item.title', $this->item]);
 
         return $dataProvider;
     }
