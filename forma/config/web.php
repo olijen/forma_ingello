@@ -38,7 +38,7 @@ $config = [
                 SystemEventService::eventAfterInsert($event);
             }
         });
-
+        Yii::$app->params['selling']=['linkAdd'=>1,'linkDelete'=>2,'dynaGrid'=>1];
 
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_UPDATE, function ($event) {
             if (Yii::$app->controller->action->id != 'test-data') {

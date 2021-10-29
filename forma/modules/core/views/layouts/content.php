@@ -1,13 +1,27 @@
  <?php
 
 use forma\components\widgets\ModalCreate;
-use yii\bootstrap\Modal;
+ use yii\bootstrap\Alert;
+ use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
-
+ $cookies = Yii::$app->request->cookies;
 ?>
 <div class="content-wrapper" style="">
     <div class="container-fluid">
+        <?php if (($cookie = $cookies->get('event')) !== null):
+            Alert::begin([
+                'options' => [
+                    'class' => 'alert-warning',
+                ],
+            ]);
+            $value = "";
+            $rule = \forma\modules\core\records\Rule::find()->where(['id' => $cookie->value])->one();
+            $value = 'Действие ' . $rule->action . ' над таблицей ' . $rule->table . ', количество операций ' . $rule->count_action . ', пройдено! <br/>';
+            echo $value;
+            Alert::end();
+            Yii::$app->response->cookies->remove('event');
+        endif; ?>
         <section class="content">
             <?= $content ?>
         </section>
@@ -26,7 +40,7 @@ use yii\widgets\Breadcrumbs;
 <?= Modal::widget([
     'id' => 'modal',
 
-    'header' => '<p>FORMA . INGELLO 2021</p>',
+    'header' => '<p>FORMA . INGELLO 2021</p> ',
 ]) ?>
 
 <style>

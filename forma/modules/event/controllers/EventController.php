@@ -106,13 +106,11 @@ class EventController extends Controller
                 }
 
                 if(isset($_POST['close'])){
-                    $rr = $_SERVER['HTTP_REFERER'];
                     echo "<script>$('#modal').modal('hide')</script>";
                     echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                     echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
                     echo "<script>$('#w1').fullCalendar('refetchEvents')</script>";
-                    echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";
-                    echo "<script> history.pushState(null, null, '$rr');</script>";
+                    echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";;
                     exit;
                 }
 
@@ -166,13 +164,11 @@ class EventController extends Controller
             if ($model->load(Yii::$app->request->post())){
                 if ($model->save()) {
                     if(isset($_POST['close'])){
-                        $rr = $_SERVER['HTTP_REFERER'];
                         echo "<script>$('#modal').modal('hide')</script>";
                         echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w1').fullCalendar('refetchEvents')</script>";
-                        echo "<script> history.pushState(null, null, '$rr');</script>";
                         exit;
                     }
                     if (isset($_GET['json'])) {

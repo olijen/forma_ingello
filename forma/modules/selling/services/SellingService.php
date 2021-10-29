@@ -66,15 +66,13 @@ class SellingService
         if ($userState) {
             $model->state_id = $userState->id;
         }
+        $model->name .= strval(time());
 
         $model->load($post);
         if (!$model->save()) {
             var_dump($model->getErrors());
             die;
         }
-
-        $model->name .= strval($model->id);
-        $model->save();
 
         if (isset($warehouseId) && $model->warehouse_id != $warehouseId) {
             NomenclatureService::deleteAllBySelling($model->id);
