@@ -55,7 +55,7 @@ if($countAnswer == $countRightAnswer && $countAnswer!=0){
             <?= $item->description;
             if (!empty($rules)) {
                 echo "<div class='box-header with-border big_widget_header'>
-                            <h3 class='box-title'><i class='fas fa-bullseye'></i> Выполнение задач</h3>
+                            <h3 class='box-title' style='font-size: 16px;'><i class='fas fa-bullseye fa-2x' style='color: red;'></i> Выполнение задач</h3>
                         </div>";
                 echo "<div class='box-body' style='border:2px solid #00a65a;'>";
 
@@ -65,7 +65,7 @@ if($countAnswer == $countRightAnswer && $countAnswer!=0){
                     foreach ($accessInterfaceUser as $item){
 
                         if($item->rule_id == $rule->id){
-                            $sum = ($item->current_mark/$rule->count_action)*100;
+                            $sum = round(($item->current_mark/$rule->count_action)*100);
                             echo "<div class='clearfix'>
                             <span class='pull-left'>#$key $rule->rule_name</span>
                             <small class='pull-right'>$sum % ($item->current_mark из $rule->count_action)</small>

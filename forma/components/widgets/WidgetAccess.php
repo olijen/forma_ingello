@@ -33,6 +33,9 @@ abstract class WidgetAccess extends Widget
 
     abstract function printWidget();
 
+    /**
+     * @throws \yii\db\Exception
+     */
     public function run()
     {
         if ($this->isAccessible() == true) {

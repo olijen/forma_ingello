@@ -126,41 +126,32 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         'label' => 'Дата следующего шага',
         'value' => 'lastEventDate',
     ];
+    $responsiveWrap =false;
+    $options = ['id' => 'grid-' . $searchModel->tableName()];
+    $toolbar =[
 
-    echo DynaGrid::widget([
-        'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],
-        'theme' => 'panel-default',
-        'columns' => $columns,
-        'gridOptions' => [
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'responsiveWrap' => false,
-
-            'options' => ['id' => 'grid-' . $searchModel->tableName()],
-
-            'toolbar' => [
-
-                ['content' =>
-                    (isset($_GET['SellingSearch']) || isset($_GET['sort']) )?
-                        Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']) : false
-                ],
-                [
-                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
-                        'type' => 'button',
-                        'class' => 'btn btn-danger forma_light_orange',
-                        'onclick' => '$("#grid-' . $searchModel->tableName() . '")
+        ['content' =>
+            (isset($_GET['SellingSearch']) || isset($_GET['sort']) )?
+                Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']) : false
+        ],
+        [
+            'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
+                'type' => 'button',
+                'class' => 'btn btn-danger forma_light_orange',
+                'onclick' => '$("#grid-' . $searchModel->tableName() . '")
                         .groupOperation("' . Url::to(['/selling/main/delete-selection']) . '", {
                             message: "Are you sure you want to delete selected items?"
                         });
                     ',
-                    ]),
-                ],
-                '{export}',
-                '{toggleData}',
-                '{dynagrid}',
-            ],
-        ]
-    ]);
+            ]),
+        ],
+        '{export}',
+        '{toggleData}',
+        '{dynagrid}',
+    ];
+    echo \forma\components\widgets\DynaGridWidgetAccess::widget(['id' => Yii::$app->params['selling']['dynaGrid'],
+        'searchModel' => $searchModel, 'columns' => $columns,'dataProvider'=>$dataProvider,
+        'responsiveWrap'=>$responsiveWrap,'options'=>$options,'toolbar'=>$toolbar])
 
     ?>
 
