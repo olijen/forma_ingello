@@ -12,10 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rule-create">
 
-    <?php BoxWidget::begin([
-    'title'=>'Правило: форма добавления',
-    ]);
-    ?>
 
     <?= $this->render('_form', [
         'model' => $model,
@@ -23,6 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'items'=>$items,
     ]) ?>
 
-    <?php BoxWidget::end();?>
+
 
 </div>

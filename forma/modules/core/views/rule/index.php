@@ -12,19 +12,14 @@ use yii\widgets\Pjax;
 
 $this->title = 'Правила';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="rule-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?= Html::a('<i class="fas fa-user-plus"></i> Создать правило', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
 
-    <?php BoxWidget::begin([
-        'title' => '<small class="m-l-sm">записей ' . $dataProvider->getCount() . ' из ' . $dataProvider->getTotalCount() . '</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>', ['create'], ['title' => 'создать Правило']]
-        ]
-    ]);
 
-    ?>
 
     <?php Pjax::begin(['id' => 'grid']) ?>
 
@@ -32,21 +27,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
             'rule_name',
             [
                 'attribute' => 'action',
                 'label' => 'Событие',
-                'value' => 'action',
+                'value' => function($searchModel){
+                    if($searchModel->action=='insert')return"Вставить";else if($searchModel->action=='update')
+                        return"Обновить";else if($searchModel->action=='delete')return"Удалить";else return"-";
+                },
                 'filter' => Html::activeDropDownList($searchModel, 'action',
-                    [''=>'','insert'=>'insert', 'update'=>'update','delete'=>'delete'],
+                    [''=>'','insert'=>'Вставить', 'update'=>'Обновить','delete'=>'Удалить'],
                     ['placeholder' => 'Выбрать событие...','class' => 'form-control']),
             ],
 
             [
                 'attribute' => 'table',
                 'label' => 'Таблица',
-                'value' => 'table',
+                'value' =>function($searchModel){
+                    if(!empty(Yii::$app->params['translateTablesName'][$searchModel->table])){
+                        return Yii::$app->params['translateTablesName'][$searchModel->table];
+                    }
+                }
+                ,
                 'filter' => Html::activeDropDownList($searchModel, 'table',
                     $tables,
                     ['placeholder' => 'Выбрать таблицу...','class' => 'form-control']),
@@ -62,12 +68,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['placeholder' => 'Выбрать элемент...','class' => 'form-control','prompt' =>'']),
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
 
     <?php Pjax::end(); ?>
 
-    <?php BoxWidget::end(); ?>
 
 </div>
