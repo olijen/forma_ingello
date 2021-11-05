@@ -1,8 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
-use \wokster\ltewidgets\BoxWidget;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -10,19 +9,12 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Интерфейсы доступа';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Интерфейсы доступа', 'url' => '/core/access-interface'];
 ?>
 <div class="access-interface-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <?php BoxWidget::begin([
-        'title'=>'Интерфейс доступа <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Интерфейс доступа']]
-        ]
-    ]);
-    ?>
+    <?= Html::a('<i class="fas fa-user-plus"></i> Создать интерфейс доступа', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
 
     <?php Pjax::begin(['id' => 'grid'])?>
     
@@ -30,8 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            //['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
             'current_mark',
             [
                 'attribute' => 'rule_name',
@@ -45,20 +40,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'status',
-                'value' => 'status',
+                'value' => function($searchModel){
+                  return (($searchModel->status==1)?"Выполнил":"Не выполнил");
+                },
                 'label' => 'Статус',
                 'filter' => Html::activeDropDownList($searchModel, 'status',
-                    ['1'=>'true','0'=>'false'],
+                    ['1'=>'Выполнил','0'=>'Не выполнил'],
                     ['placeholder' => 'Выбрать таблицу...','class' => 'form-control','prompt' =>'']),
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
 
     <?php Pjax::end();?>
-
-    <?php BoxWidget::end();?>
 
 
 </div>
