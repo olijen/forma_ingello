@@ -28,6 +28,7 @@
                         'item' => $item,
                         'rulesData'=>$rulesData,
                         'userData'=>$userData,
+                        'userDataIsNull'=>$userDataIsNull,
 
                     ]);
                 }

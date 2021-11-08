@@ -19,6 +19,7 @@ foreach ($rulesData as $ruleData){
 $countRegularityItem=0; $countRightRegularityItem =0;
 foreach ($regularity->items as $regularityItem) {
     foreach ($rulesData as $rulesDatum){
+
         if($rulesDatum->item_id == $regularityItem->id){
             $countRegularityItem++;
             foreach ($userData as $userDatum){
@@ -71,7 +72,9 @@ if (isset($parentItem)) {
 
         <div class="hidden-description" data-id="<?= $item->id ?>" style="visibility: hidden; display: none;">
             <?= $item->description;
+
             if (!empty($rulesData)) {
+
                 $isEmptyElement = array_search($item->id, array_column($rulesData, 'item_id'));
 
                 if ($isEmptyElement!=false || $isEmptyElement===0) {
@@ -85,14 +88,29 @@ if (isset($parentItem)) {
                     foreach ($rulesData as $rule) {
                         if ($rule->item_id == $item->id) {
                         echo "<div class='clearfix'>
-                                    <span class='pull-left'>#Задание: ".(($rule->action ==='insert')?'Вставить':'')
-                                .(($rule->action ==='update')?'Обновить':'').(($rule->action ==='delete')?'Удалить':'')." данные из(для): 
-                                ".Yii::$app->params['translateTablesName'][$rule->table].", $rule->count_action зап.</span>
+                                    <span class='pull-left'>Название задачи: ".(($rule->action ==='insert')?'добавить':'')
+                                .(($rule->action ==='update')?'обновить':'').(($rule->action ==='delete')?'удалить':'').", объект 
+                                '".Yii::$app->params['translateTablesName'][$rule->table]."'</span>
                                </div>";
+                        foreach ($userDataIsNull as $dataNull){
+                            if($dataNull->id == $rule->id){
+                                echo "<div class='clearfix'>
+                                                
+                                                <small class='pull-right'>0 % (0 из 0)
+                                                
+                                        <i style='color:red;padding-left: 10px;' class='fa fa-times'></i>" . "</small>
+                                            </div>
+                                            <div class='progress xs'>
+                                                <div class='progress-bar progress-bar-green' style='" . "width:0%;" .
+                                    "background-color:red;" . "' ></div>
+                                            </div>";
+                            }
+                        }
 
                             foreach ($userData as $accessInterface) {
 
                                 if ($accessInterface->rule_id == $rule->id) {
+                                    //var_dump(count($userData),'vfvfd');
                                     $sum = round(($accessInterface->current_mark / $rule->count_action) * 100);
                                     echo "<div class='clearfix'>
                                                 
@@ -109,6 +127,18 @@ if (isset($parentItem)) {
 
                             }
 
+                            /*if(!empty($rule->accessInterface == null)){
+                                echo "<div class='clearfix'>
+                                                
+                                                <small class='pull-right'>0 % (0 из 0)
+                                                
+                                        <i style='color:red;padding-left: 10px;' class='fa fa-times'></i>" . "</small>
+                                            </div>
+                                            <div class='progress xs'>
+                                                <div class='progress-bar progress-bar-green' style='" . "width:0%;" .
+                                    "background-color:red;" . "' ></div>
+                                            </div>";
+                            }*/
                         }
 
                     }

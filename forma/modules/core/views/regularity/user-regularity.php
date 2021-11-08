@@ -581,6 +581,7 @@ width: 100%;
                             'subItems' => $subItems,
                             'rulesData'=>$rulesData,
                             'userData'=>$userData,
+                            'userDataIsNull'=>$userDataIsNull,
 
                         ]) ?>
 
