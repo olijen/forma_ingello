@@ -82,7 +82,7 @@ dmstr\web\AdminLteAsset::register($this);
     <?= $content ?>
     <?= Modal::widget([
         'id' => 'modal',
-        'header' => '<p>FORMA . INGELLO 2021</p>',
+        'header' => "<p>FORMA . INGELLO 2021</p>",
 
     ]) ?>
 
