@@ -102,7 +102,7 @@ return [
     ],
     "main" =>
 
-        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
+        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"AccessInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
     "colors" => [
         "HRM" => '#f08080',
         "ERP" => '#f49258',
@@ -111,6 +111,8 @@ return [
     ],
 
     "translate" => [
+        'Rule'=> 'Правило',
+        'AccessInterface'=>'Доступ к интерфейсу',
         'DashbordWidget' => 'Виджет на главной странице',
         'Template' => 'Шаблон',
         'Item' => "Шаблон",
@@ -250,6 +252,12 @@ return [
                     'style' => 'margin-left: 20px'] ],
                 ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Добавить регламент', 'url' => ['/core/regularity/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Права доступа', 'url' => ['/core/access-interface'], 'icon' => 'key' ],
+                ['label' => 'Назначить доступ', 'url' => ['/core/access-interface/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Правила', 'url' => ['/core/rule'], 'icon' => 'unlock' ],
+                ['label' => 'Добавить правило', 'url' => ['/core/rule/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px'] ],
                 ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
@@ -478,6 +486,43 @@ return [
         ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat', 'options' => [
                 'class'=>'menuColor text_black']],
     ],
+    
+    'translateTablesName' => [
+        'answer' => 'Ответы',
+        'event' => 'События',
+        'event_type' => 'Типы событий',
+        'interview' => 'Интервью',
+        'interview_state' => 'Состояние интервью',
+        'vacancy' => 'Вакансии',
+        'strategy' => 'Стратегии',
+        'regularity' => 'Регламент',
+        'message' => 'Сообщения',
+        
+        'country' => 'Страны',
+        'currency' => 'Валюта',
+        'project' => 'Проекты',
+        'project_user' => 'Проекты пользователя',
+        'project_vacancy' => 'Проекты вакансии',
+        'manufacturer' => 'Производитель',
+        
+        'customer' => 'Клиенты',
+        'customer_source' => 'Источники клиентов',
+        'purchase_product' => 'Покупка продукта',
+        'selling' => 'Продажа',
+        'purchase' => 'Покупка',
+        
+        'inventorization' => 'Инвентаризация',
+        'inventoriza1tion_product' => 'Инвентаризация продукции',
+        'supplier' => 'Поставщики',
+        'purchase_overhead_cost' => 'Накладные расходы на закупку',
+        
+        'product' => 'Продукция',
+        'product_pack_unit' => 'Единица упаковки продукта',
+        'selling_product' => 'Продажа продукции',
+        'warehouse' => 'Склад',
+        'warehouse_product' => 'Продукция на складе',
+        ],
+
 ];
 
 

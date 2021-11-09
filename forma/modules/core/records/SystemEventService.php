@@ -78,7 +78,13 @@ class SystemEventService
         }
         return $data;
     }
-
+    public static function setCookieSystemEvent(string $name,int $rule_id){
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => $name,
+            'value' => [$rule_id],
+        ]));
+    }
     public static function eventAfterInsert($event){
 
         //Yii::debug($event);
@@ -107,6 +113,33 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
+            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
+
+            if($rule){
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if ($accessInterface === null) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->current_mark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = false;
+                    $newAccessInterface->save();
+                } else {
+                    if ($accessInterface->status == false) {
+                        $accessInterface->status = false;
+                        $accessInterface->current_mark = ++$accessInterface->current_mark;
+                        $accessInterface->save();
+                    }
+                    if($accessInterface->current_mark == $rule->count_action){
+                        $accessInterface->status =1;
+                        $accessInterface->save();
+                        self::setCookieSystemEvent('event',$rule->id);
+                    }
+                }
+            }
+
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
             $systemEvent->data = Yii::$app->params['translate'][$className] . ' Создан: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
@@ -131,6 +164,7 @@ class SystemEventService
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
 
+
     public static function eventAfterUpdate($event) {
         $model = $event->sender;
         $className = self::getClassName($event);
@@ -154,7 +188,33 @@ class SystemEventService
         $subject = '';
         $text = '';
         if(self::checkBlackList($className)) {
+//            var_dump('11');
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
+            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->one();
+            if($rule){
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if ($accessInterface === null) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->current_mark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = false;
+                    $newAccessInterface->save();
+                } else {
+                    if ($accessInterface->status == false) {
+                        $accessInterface->status = false;
+                        $accessInterface->current_mark = ++$accessInterface->current_mark;
+                        $accessInterface->save();
+                    }
+                    if($accessInterface->current_mark == $rule->count_action){
+                        $accessInterface->status =1;
+                        $accessInterface->save();
+                        self::setCookieSystemEvent('event',$rule->id);
+                    }
+                }
+            }
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
@@ -175,7 +235,6 @@ class SystemEventService
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
-
     public static function eventAfterDelete($event){
         $model = $event->sender;
         $className = self::getClassName($event);
@@ -196,6 +255,31 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
+            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->one();
+            if($rule){
+                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
+                    ['rule_id' => $rule->id]
+                )->one();
+                if (!$accessInterface) {
+                    $newAccessInterface = new AccessInterface();
+                    $newAccessInterface->rule_id = $rule->id;
+                    $newAccessInterface->current_mark = 1;
+                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
+                    $newAccessInterface->status = false;
+                    $newAccessInterface->save();
+                } else {
+                    if ($accessInterface->status == false) {
+                        $accessInterface->status = false;
+                        $accessInterface->current_mark = ++$accessInterface->current_mark;
+                        $accessInterface->save();
+                    }
+                    if($accessInterface->current_mark == $rule->count_action){
+                        $accessInterface->status =1;
+                        $accessInterface->save();
+                        self::setCookieSystemEvent('event',$rule->id);
+                    }
+                }
+            }
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
