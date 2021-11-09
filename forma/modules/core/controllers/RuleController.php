@@ -2,9 +2,11 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\AccessInterfaceSearch;
 use Yii;
 use forma\modules\core\records\Rule;
 use forma\modules\core\records\RuleSearch;
+use yii\console\widgets\Table;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -29,26 +31,69 @@ class RuleController extends Controller
             ],
         ];
     }
+    public  function tableTranslate(): array
+    {
+        $groupTable = [
+            ''=>'',
+            'Управление'=>[],
+            'Продажи'=>[],
+            'Найм и проекты'=>[],
+            'Продукты и услуги'=>[],
+            'Хранилища'=>[],
+        ];
+        $groupTable['Управление']['answer'] = 'Ответы';
+        $groupTable['Управление']['event'] = 'События';
+        $groupTable['Управление']['event_type'] = 'Типы событий';
+        $groupTable['Управление']['interview'] = 'Интервью';
+        $groupTable['Управление']['interview_state'] = 'Состояние интервью';
+        $groupTable['Управление']['vacancy'] = 'Вакансии';
+        $groupTable['Управление']['strategy'] = 'Стратегии';
+        $groupTable['Управление']['regularity'] = 'Регламент';
+        $groupTable['Управление']['message'] = 'Сообщения';
 
+        $groupTable['Найм и проекты']['country'] = 'Страны';
+        $groupTable['Найм и проекты']['currency'] = 'Валюта';
+        $groupTable['Найм и проекты']['project'] = 'Проекты';
+        $groupTable['Найм и проекты']['project_user'] = 'Проекты пользователя';
+        $groupTable['Найм и проекты']['project_vacancy'] = 'Проекты вакансии';
+        $groupTable['Найм и проекты']['manufacturer'] = 'Производитель';
+
+        $groupTable['Продажи']['customer'] = 'Клиенты';
+        $groupTable['Продажи']['customer_source'] = 'Источники клиентов';
+        $groupTable['Продажи']['purchase_product'] = 'Покупка продукта';
+        $groupTable['Продажи']['selling'] = 'Продажа';
+        $groupTable['Продажи']['purchase'] = 'Покупка';
+
+        $groupTable['Хранилища']['inventorization'] = 'Инвентаризация';
+        $groupTable['Хранилища']['inventorization_product'] = 'Инвентаризация продукции';
+        $groupTable['Хранилища']['supplier'] = 'Поставщики';
+        $groupTable['Хранилища']['purchase_overhead_cost'] = 'Накладные расходы на закупку';
+
+        $groupTable['Продукты и услуги']['product'] = 'Продукция';
+        $groupTable['Продукты и услуги']['product_pack_unit'] = 'Единица упаковки продукта';
+        $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукции';
+        $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукта';
+        $groupTable['Продукты и услуги']['warehouse'] = 'Склад';
+        $groupTable['Продукты и услуги']['warehouse_product'] = 'Продукция на складе';
+        return $groupTable;
+    }
     /**
      * Lists all Rule models.
      * @return mixed
      */
     public function actionIndex()
     {
+        $groupTable = $this->tableTranslate();
         $searchModel = new RuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $tables[''] ='';
-        foreach (Yii::$app->db->schema->tableNames as $table){
-            $tables[$table] = $table;
-        };
+
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'title', 'title', 'name');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'tables'=>$tables,
+            'tables'=>$groupTable,
             'items'=>$items,
         ]);
     }
@@ -77,15 +122,12 @@ class RuleController extends Controller
     {
         $model = new Rule();
         $model->loadDefaultValues(); //load default data from db
-        $tables[''] ='';
-        foreach (Yii::$app->db->schema->tableNames as $table){
-            $tables[$table] = $table;
-        };
+        $tables = $this->tableTranslate();
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'id', 'title', 'name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -103,21 +145,22 @@ class RuleController extends Controller
      */
     public function actionUpdate($id)
     {
+        $tables = $this->tableTranslate();
         $model = $this->findModel($id);
-        $tables[''] ='';
-        foreach (Yii::$app->db->schema->tableNames as $table){
-            $tables[$table] = $table;
-        };
+        $searchModel = new AccessInterfaceSearch();
+        $dataProvider = $searchModel->searchRule(Yii::$app->request->queryParams,$id);
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'id', 'title', 'name');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
                 'tables'=>$tables,
                 'items'=>$items,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }
@@ -171,5 +214,14 @@ class RuleController extends Controller
             $result[] =['id'=>$itemId];
         }
         return $this->asJson($result);
+    }
+    public  function  actionUserRule(){
+        $searchModel = new AccessInterfaceSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('user-rule', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

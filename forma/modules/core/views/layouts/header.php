@@ -421,11 +421,7 @@ JS;
         </h1>
 
 
-        <?php if (!empty($this->params['panel'])) : ?>
-            <div style="text-align: right;">
-                <?= $this->params['panel'] ?>
-            </div>
-        <?php endif ?>
+
 
     <?php endif ?>
 <?php } ?>

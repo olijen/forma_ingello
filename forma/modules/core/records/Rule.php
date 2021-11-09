@@ -18,6 +18,7 @@ use forma\modules\core\records\Item;
   *
       * @property AccessInterface[] $accessInterfaces
       * @property Item $item
+      * @property ItemRule $itemRules
   */
 class Rule extends \yii\db\ActiveRecord
 {
@@ -78,7 +79,7 @@ class Rule extends \yii\db\ActiveRecord
   /**
   * @return \yii\db\ActiveQuery
   */
-  public function getItemRules()
+  public function getItemRule(): \yii\db\ActiveQuery
   {
   return $this->hasMany(ItemRule::className(), ['rule_id' => 'id']);
   }

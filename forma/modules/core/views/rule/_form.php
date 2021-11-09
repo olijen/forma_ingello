@@ -29,19 +29,19 @@ endif;
     <?php $form = ActiveForm::begin([
     ]); ?>
 
-    <?= $form->field($model, 'rule_name', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'rule_name', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
-    <?= $form->field($model, 'action', ['options' => ['class' => 'col-xs-12']])->dropDownList(
-        ['insert'=>'insert', 'update'=>'update','delete'=>'delete']
+    <?= $form->field($model, 'action', ['options' => ['class' => 'col-xs-6']])->dropDownList(
+        [''=>'','insert'=>'Вставить', 'update'=>'Обновить','delete'=>'Удалить']
     ) ?>
 
-    <?= $form->field($model, 'table', ['options' => ['class' => 'col-xs-12']])->dropDownList(
+    <?= $form->field($model, 'table', ['options' => ['class' => 'col-xs-6']])->dropDownList(
         $tables
     ) ?>
 
-    <?= $form->field($model, 'count_action', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'count_action', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
-    <?= $form->field($model, 'item_id', ['options' => ['class' => 'col-xs-12']])->dropDownList(
+    <?= $form->field($model, 'item_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
         $items
     )->label('Элемент') ?>
 

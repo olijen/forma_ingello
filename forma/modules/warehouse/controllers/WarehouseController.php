@@ -94,7 +94,11 @@ class WarehouseController extends Controller
 
         $model = new Warehouse();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->capacity == null){
+                $model->capacity = 1000;
+            }
+            $model->save();
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['id' => $model->id, 'name' => $model->name];
