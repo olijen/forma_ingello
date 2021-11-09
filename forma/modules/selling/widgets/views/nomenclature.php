@@ -16,6 +16,7 @@ use forma\modules\selling\records\selling\StateConfirm;
 use forma\modules\core\widgets\DetachedBlock;
 use forma\modules\product\records\Currency;
 use forma\modules\selling\widgets\TotalSumView;
+use yii\widgets\ActiveField;
 
 /**
  * @var SellingProduct $unit
@@ -80,7 +81,7 @@ Yii::debug($warehouseProducts);
                 </div>
 
                 <div class="col-md-2">
-                    <?= $form->field($unit, 'currency_id')->dropDownList(Currency::getList())
+                    <?= $form->field($unit, 'currency_id')->textInput(['readonly' => true,Currency::getList()])
                         ->label('Валюта') ?>
                 </div>
                 <div class="col-md-2">

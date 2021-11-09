@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
-use kartik\form\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\form\ActiveForm;
 use kartik\time\TimePicker;
 use vova07\imperavi\Widget;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\event\records\Event */
@@ -29,6 +29,7 @@ endif;
 
 <div class="event-form" >
     <?php \yii\widgets\Pjax::begin(['id' => 'create-event','enablePushState' => false]); ?>
+
     <?php $form = ActiveForm::begin([
         'options' => [
             'data-pjax' => 1
