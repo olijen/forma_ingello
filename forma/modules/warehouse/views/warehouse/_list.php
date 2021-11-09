@@ -21,6 +21,7 @@ use yii\helpers\Url;
                     data-pjax="0"
                     data-confirm="Вы уверены, что хотите удалить этот элемент?"
                     data-method="post"
+                    data-confirm="Вы уверены, что хотите удалить этот элемент?"
             ><i class="fa fa-times"></i>
             </button>
         </div>
