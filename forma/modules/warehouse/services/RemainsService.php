@@ -28,11 +28,7 @@ class RemainsService
      */
     public static function getByProductId($productId, $warehouseId)
     {
-        $unit = WarehouseProduct::findOne([
-            'product_id' => $productId,
-            'warehouse_id' => $warehouseId
-        ]);
-        return $unit ? $unit : self::create($productId, $warehouseId);
+        return self::create($productId, $warehouseId);
     }
 
     public static function create($productId = null, $warehouseId)

@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $model \forma\modules\warehouse\records\Warehouse */
@@ -16,14 +17,22 @@ use yii\helpers\Url;
                     data-method="get"
             ><i class="fa fa-edit"></i>
             </button>
-            <button class="btn btn-box-tool list-card-btn"
-                    data-link="<?= Url::to(['delete', 'id' => $model->id]) ?>"
-                    data-pjax="0"
+            <a
+                    class="btn btn-box-tool list-card-btn"
+                    href="<?= Url::to(['delete', 'id' => $model->id]) ?>"
                     data-confirm="Вы уверены, что хотите удалить этот элемент?"
                     data-method="post"
-                    data-confirm="Вы уверены, что хотите удалить этот элемент?"
+                    data-pjax="0"
             ><i class="fa fa-times"></i>
-            </button>
+            </a>
+            <a
+                    class="btn btn-box-tool list-card-btn"
+                    data-pjax="0"
+               href="<?= Url::to(['delete', 'id' => $model->id]) ?>"
+               data-confirm="Вы уверены, что хотите удалить этот элемент?"
+               data-method="post">
+                <i class="fa fa-times"></i></a>
+
         </div>
 
         <?php $increase = round(($model->getWarehouseProducts()->count()/$model->capacity) * 100,2);
