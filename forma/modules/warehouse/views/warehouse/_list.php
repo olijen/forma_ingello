@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $model \forma\modules\warehouse\records\Warehouse */
@@ -16,22 +17,34 @@ use yii\helpers\Url;
                     data-method="get"
             ><i class="fa fa-edit"></i>
             </button>
-            <button class="btn btn-box-tool list-card-btn"
-                    data-link="<?= Url::to(['delete', 'id' => $model->id]) ?>"
+            <a
+                    class="btn btn-box-tool list-card-btn"
+                    href="<?= Url::to(['delete', 'id' => $model->id]) ?>"
+                    data-confirm="Вы уверены, что хотите удалить этот элемент?"
                     data-method="post"
+                    data-pjax="0"
             ><i class="fa fa-times"></i>
-            </button>
+            </a>
+            <a
+                    class="btn btn-box-tool list-card-btn"
+                    data-pjax="0"
+               href="<?= Url::to(['delete', 'id' => $model->id]) ?>"
+               data-confirm="Вы уверены, что хотите удалить этот элемент?"
+               data-method="post">
+                <i class="fa fa-times"></i></a>
+
         </div>
 
-        <?php $increase = rand(0, 1000) / 10; ?>
+        <?php $increase = round(($model->getWarehouseProducts()->count()/$model->capacity) * 100,2);
+        ?>
         <div class="info-box-content">
             <span class="info-box-text"><?= $model->name ?></span>
             <span class="info-box-number">Объекты: <?= $model->getWarehouseProducts()->count() ?></span>
 
             <div class="progress">
-                <div class="progress-bar" style="width: <?= $increase ?>%"></div>
+                <div class="progress-bar" style="width: <?= $increase ?>%; <?= (($increase>= 100)? 'background-color:red;':'') ?>"></div>
             </div>
-            <span class="progress-description">
+            <span class="progress-description" style="<?= (($increase>= 100)? 'color:red;':'') ?>">
                 Загружен на <?= $increase ?>%
             </span>
         </div>

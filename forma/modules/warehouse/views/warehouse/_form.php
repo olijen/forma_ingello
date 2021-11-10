@@ -32,6 +32,7 @@ use forma\modules\country\records\Country;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'capacity')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'country_id')->dropDownList(ActiveRecordHelper::getList(Country::className()), [
         'prompt' => '',

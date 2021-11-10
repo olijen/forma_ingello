@@ -57,7 +57,9 @@ Pjax::begin(['id' => 'transit-form-pjax', 'enablePushState' => false, 'enableRep
         </div>
         <?php
         $modelToTransit = new Transit();
-        $modelToTransit->to_warehouse_id = $_GET['warehouse_id'];
+        if(!empty($_GET['warehouse_id'])){
+            $modelToTransit->to_warehouse_id = $_GET['warehouse_id'];
+        }
         ?>
         <div class="col-md-6">
             <?= $form->field($modelToTransit, 'to_warehouse_id', [

@@ -139,11 +139,23 @@ class NomenclatureService
          */
         $model = TransitProduct::findOne($id);
         $module = Yii::$app->getModule('warehouse');
+        //TODO Не удаляется продукт из склада, мелкие наработки, возможно,
+        // нужно будет добавить ключ перемещения в таблицу склад продукта
+        /*$warehouseProduct = WarehouseProduct::find()
+            ->where(['warehouse_id'=>$model->transit->to_warehouse_id,
+                    'product_id'=>$model->product_id]
+            )->one();*/
+
 
         $module->removeEmptyUnit($model, $model->transit->toWarehouse);
-        $model->delete();
+        if(!empty($model->delete())){
+            return $model;
+        }else{
+            var_dump($model->getErrors());
+            die;
+        }
 
-        return $model;
+
     }
 
     public static function deleteAllByTransit($transitId)

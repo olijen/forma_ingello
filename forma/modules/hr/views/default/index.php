@@ -30,7 +30,20 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
 /** @var forma\modules\hr\forms\InterviewProgress $interviewProgress */
 $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 ?>
+<?php
+    foreach ($list as $k => $item) {
 
+        $panel .= '
+                    <a href="'.$item['url'].'" class="'.(@$item['class']??'btn btn-success').'">
+                    <i class="fa fa-'.$item['icon'].'"></i> '.$item['label'].' 
+                    </a>';
+    }
+    $this->params['panel'] = $panel;
+    if (!empty($this->params['panel'])) : ?>
+    <div style="text-align: right; padding: 10px;">
+        <?= $this->params['panel'] ?>
+    </div>
+<?php endif ?>
 <div class="row">
 
     <div class="col-lg-9 col-xs-12">
@@ -175,14 +188,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                 'pagination' => $dp->pagination,
             ]) : '';
 
-        foreach ($list as $k => $item) {
 
-            $panel .= '
-                <a href="'.$item['url'].'" class="'.(@$item['class']??'btn btn-success').'">
-                <i class="fa fa-'.$item['icon'].'"></i> '.$item['label'].' 
-                </a>';
-        }
-        $this->params['panel'] = $panel;
         ?>
     </div>
 

@@ -27,8 +27,9 @@ endif;
 ?>
 
 
-<div class="event-form">
-    <?php \yii\widgets\Pjax::begin(['id' => 'create-event', 'enablePushState' => false]); ?>
+<div class="event-form" >
+    <?php \yii\widgets\Pjax::begin(['id' => 'create-event','enablePushState' => false]); ?>
+
     <?php $form = ActiveForm::begin([
         'options' => [
             'data-pjax' => 1

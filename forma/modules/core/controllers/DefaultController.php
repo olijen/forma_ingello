@@ -37,12 +37,12 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm', 'index'],
+                        'actions' => ['confirm', 'index', 'auth'],
                         'roles' => ['?'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => [ 'index'],
+                        'actions' => ['index'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -52,16 +52,14 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             $googleLink = $this->googleAuth();
             Yii::debug('зашли на туда регистрация');
             if (!Yii::$app->user->isGuest) {
                 return $this->goHome();
             }
 
-
             Yii::debug('зашли на туда регистрация');
-
 
             $modelLogin = new LoginForm();
             $loginLoad = $modelLogin->load(Yii::$app->request->post());
@@ -93,6 +91,9 @@ class DefaultController extends Controller
             }
 
             Yii::$app->controller->layout = false;
+            if (isset($_GET['without-header'])) {
+                return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
+            }
             return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
         }
 
@@ -169,6 +170,52 @@ class DefaultController extends Controller
             'pages',
             'systemEventsRows'
         ));
+    }
+
+    public function actionAuth()
+    {
+        if (Yii::$app->user->isGuest) {
+            $googleLink = $this->googleAuth();
+            Yii::debug('зашли на туда регистрация');
+            if (!Yii::$app->user->isGuest) {
+                return $this->goHome();
+            }
+
+            Yii::debug('зашли на туда регистрация');
+
+            $modelLogin = new LoginForm();
+            $loginLoad = $modelLogin->load(Yii::$app->request->post());
+            if (isset($_POST['login-button'])) {
+                $user = $modelLogin->getUser();
+                if ($loginLoad) {
+                    if ($modelLogin->login()) {
+                        Yii::debug("trigger");
+                        $this->trigger(self::EVENT_AFTER_LOGIN);
+                        return $this->goBack();
+                    } else if (!is_null($user) && $user->confirmed_email == 0) {
+                        return Yii::$app->response
+                            ->redirect('https://' . $_SERVER['HTTP_HOST'] . '/core/default/confirm', 301)
+                            ->send();
+                    } else {
+                        $_GET['failedLogin'] = true;
+                    }
+                }
+            }
+
+            $model = new SignupForm();
+            if (isset($_POST['signup-button'])) {
+                Yii::debug('зашли на туда регистрация');
+                if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+                    return $this->goHome();
+                } else {
+                    $_GET['failedSignup'] = true;
+                }
+            }
+
+            Yii::$app->controller->layout = false;
+            return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
+        }
+        return $this->goHome();
     }
 
     public function actionPeople()
