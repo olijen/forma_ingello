@@ -81,9 +81,18 @@ Yii::debug($warehouseProducts);
                 </div>
 
                 <div class="col-md-2">
-                    <?= $form->field($unit, 'currency_id')->dropDownList(['readonly' => true,Currency::getList(),'prompt' => 'Выберите статус...'])
-                        ->label('Валюта') ?>
+                    <div class="form-group field-sellingproduct-currency_id required">
+                        <label class="control-label" for="sellingproduct-currency_name">Валюта</label>
+                        <input type="text" id="sellingproduct-currency_name" class="form-control"
+                               name="currency-name" aria-required="true">
+                        <div class="help-block"></div>
+                    </div>
+                    <?= $form->field($unit, 'currency_id')
+                        ->hiddenInput()->label(false);
+
+                    ?>
                 </div>
+
                 <div class="col-md-2">
                     <?= $form->field($unit, 'quantity', ['enableAjaxValidation' => true])->textInput(['class' => 'form-control change-cost'])
                         ->label('К-во <span id="position-available-qty"></span>') ?>
