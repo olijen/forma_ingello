@@ -23,7 +23,7 @@ use yii\helpers\Url;
             </button>
         </div>
 
-        <?php $increase = round(($model->getWarehouseProducts()->count()/$model->capacity) * 100,2);
+        <?php (($model->capacity>0)?$increase = round(($model->getWarehouseProducts()->count()/$model->capacity) * 100,2):$increase=0) ;
         ?>
         <div class="info-box-content">
             <span class="info-box-text"><?= $model->name ?></span>
