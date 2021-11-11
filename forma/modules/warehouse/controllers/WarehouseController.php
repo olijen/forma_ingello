@@ -59,10 +59,10 @@ class WarehouseController extends Controller
 
         if ($model->belongsToUser()) {
 
-            if (Yii::$app->request->isAjax) {
+            /*if (Yii::$app->request->isAjax) {
                 $this->layout = '@app/modules/core/views/layouts/modal';
                 return $this->render('detail', compact('model'));
-            }
+            }*/
 
             $warehouseProductsSearchModel = new WarehouseProductSearch;
 
