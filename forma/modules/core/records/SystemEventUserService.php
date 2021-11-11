@@ -77,8 +77,9 @@ class SystemEventUserService {
                 }
             }
         }
-
-//        echo "<br /><br /> SAVE LIST </br>"; уточнить причину ошибки.
+//        ob_start();
+//        echo "<br /><br /> SAVE LIST </br>"; уточнить причину ошибки
+//        ob_clean();
 //        print_r($saveList);
 
         return $saveList;
