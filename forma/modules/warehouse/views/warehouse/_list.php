@@ -17,22 +17,10 @@ use yii\helpers\Url;
                     data-method="get"
             ><i class="fa fa-edit"></i>
             </button>
-            <a
-                    class="btn btn-box-tool list-card-btn"
-                    href="<?= Url::to(['delete', 'id' => $model->id]) ?>"
-                    data-confirm="Вы уверены, что хотите удалить этот элемент?"
-                    data-method="post"
-                    data-pjax="0"
+            <button class="btn btn-box-tool list-card-btn"
+                    onclick="confirmDelete(<?=$model->id?>)"
             ><i class="fa fa-times"></i>
-            </a>
-            <a
-                    class="btn btn-box-tool list-card-btn"
-                    data-pjax="0"
-               href="<?= Url::to(['delete', 'id' => $model->id]) ?>"
-               data-confirm="Вы уверены, что хотите удалить этот элемент?"
-               data-method="post">
-                <i class="fa fa-times"></i></a>
-
+            </button>
         </div>
 
         <?php $increase = round(($model->getWarehouseProducts()->count()/$model->capacity) * 100,2);
@@ -50,3 +38,22 @@ use yii\helpers\Url;
         </div>
     </div>
 </a>
+<script>
+    function confirmDelete(id)
+    {
+        let x = confirm("Вы уверены, что хотите удалить?");
+        let w_id = id;
+
+        if (x){
+            $.ajax({
+                type: "POST",
+                url: "/warehouse/warehouse/delete?id="+w_id,
+            }).done(function( msg ) {
+
+            });
+        }
+        else{
+
+        }
+    }
+</script>

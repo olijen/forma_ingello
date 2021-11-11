@@ -46,7 +46,7 @@ Yii::debug($warehouseProducts);
 
     <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
 
-        <?php if ($warehouseProducts !== []) { ?>
+        <?php if ($warehouseProducts !== [] || stristr(Yii::$app->request->pathInfo,"selling")!=false) { ?>
 
             <?php if (!$unit->selling->stateIs(new StateDone())): ?>
 
