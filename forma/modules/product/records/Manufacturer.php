@@ -4,8 +4,6 @@ namespace forma\modules\product\records;
 
 use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
-use Yii;
-use yii\helpers\ArrayHelper;
 use forma\modules\country\records\Country;
 
 /**
@@ -95,7 +93,7 @@ class Manufacturer extends AccessoryActiveRecord
                     'country' => $manufacturer->country ? $manufacturer->country->name : null,
                     'address' => $manufacturer->address,
                 ],
-                'htmlContent' => "<h4>{$manufacturer->address}</h4>",
+                'htmlContent' => "<h4><a href='/product/manufacturer/update?id={$manufacturer->id}'>{$manufacturer->name}</a> {$manufacturer->address}</h4>",
             ];
         }
 

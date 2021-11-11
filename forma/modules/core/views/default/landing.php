@@ -88,7 +88,7 @@
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M33.3335 4.75H6.66683C4.8335 4.75 3.3335 6.175 3.3335 7.91667V30.0833C3.3335 31.825 4.8335 33.25 6.66683 33.25H33.3335C35.1668 33.25 36.6668 31.825 36.6668 30.0833V7.91667C36.6668 6.175 35.1668 4.75 33.3335 4.75ZM33.3335 30.0833H6.66683V7.91667H33.3335V30.0833Z" fill="#ffffff"/>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M32.3502 16.4987L29.9835 14.2504L24.7002 19.2696L22.3502 17.0212L20.0002 19.2537L24.7002 23.7504L32.3502 16.4987ZM8.3335 11.0837H16.6668V14.2504H8.3335V11.0837ZM8.3335 17.4171H16.6668V20.5837H8.3335V17.4171ZM8.3335 23.7504H16.6668V26.9171H8.3335V23.7504Z" fill="#ffffff"/>
                             </svg>
-                            <span>Начать управление...</span>
+                            <span>Войти в систему</span>
                         </a>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                         <br>
                         <a style="width: 75%;" class="button-quiz" href="/core/default/auth" rel="nofollow noopener"><svg class="svg-icon-quiz">
                                 <use xlink:href="img/sprite.svg#quiz"></use>
-                            </svg><span>Начать управление...</span></a>
+                            </svg><span>Войти в систему</span></a>
                     </div>
                     <div class="block-intro__rightside animate" data-amt="right">
                         <div class="block-intro__img">
@@ -1677,7 +1677,7 @@
                     </div>
                     <div class="slider-architecture__item slider-special-item"><img class="slider-architecture__avatar lazyload" width="125" height="125" data-src="img/min/architecture-mob-min.webp" alt="Олег Григорьев - Архитектор веб сервисов для бизнеса" /><span class="slider-special-content">Предлагаю обсудить ваш проект на видеовстрече. Для этого прошу пройти короткий бриф-опрос, результаты которого мы проанализируем и подготовимся к встрече. Свяжитесь с нами и мы вышлем список вопросов для подготовки к проекту.</span><a class="button-quiz" href="/core/default/auth" rel="nofollow noopener"><svg class="svg-icon-quiz">
                                 <use xlink:href="img/sprite.svg#quiz"></use>
-                            </svg>Начать управление...</a></div>
+                            </svg>Войти в систему</a></div>
                 </div>
             </div>
         </section>
@@ -1969,9 +1969,9 @@ if (!isset($_SERVER['HTTP_USER_AGENT']) || stripos($_SERVER['HTTP_USER_AGENT'], 
 
 <style>
     @media only screen and (max-width: 500px) {
-        #titletext {
-            font-size: 32px;
 
+        #titletext {
+            font-size: 78%;
         }
         #titletext2 {
             font-size: 42px;
