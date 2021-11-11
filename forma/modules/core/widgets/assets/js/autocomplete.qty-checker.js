@@ -49,6 +49,8 @@ $(function() {
             if (response.success === true) {
                 changeQtyLabel(response.available);
                 changeCurrencyName(response.currencyName);
+                changeCurrencyId(response.currencyId);
+
             }
         };
 
@@ -59,11 +61,15 @@ $(function() {
             $('#position-available-qty').html(value);
         };
 
-        var changeCurrencyName = function(currencyName) {
-            if (currencyName){
-                $("#sellingproduct-currency_id").val(currencyName)
+        var changeCurrencyName = function(name) {
+            if (name){
+                $("#sellingproduct-currency_name").val(name)
             }
-
+        };
+        var changeCurrencyId = function(id) {
+            if (id){
+                $("#sellingproduct-currency_id").val(id)
+            }
         };
 
         var resetQtyLabel = function() {

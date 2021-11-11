@@ -46,7 +46,7 @@ Yii::debug($warehouseProducts);
 
     <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
 
-        <?php if ($warehouseProducts !== []) { ?>
+        <?php if ($warehouseProducts !== [] || stristr(Yii::$app->request->pathInfo,"selling")!=false) { ?>
 
             <?php if (!$unit->selling->stateIs(new StateDone())): ?>
 
@@ -81,9 +81,18 @@ Yii::debug($warehouseProducts);
                 </div>
 
                 <div class="col-md-2">
-                    <?= $form->field($unit, 'currency_id')->textInput(['readonly' => true,Currency::getList()])
-                        ->label('Валюта') ?>
+                    <div class="form-group field-sellingproduct-currency_id required">
+                        <label class="control-label" for="sellingproduct-currency_name">Валюта</label>
+                        <input type="text" id="sellingproduct-currency_name" class="form-control"
+                               name="currency-name" aria-required="true">
+                        <div class="help-block"></div>
+                    </div>
+                    <?= $form->field($unit, 'currency_id')
+                        ->hiddenInput()->label(false);
+
+                    ?>
                 </div>
+
                 <div class="col-md-2">
                     <?= $form->field($unit, 'quantity', ['enableAjaxValidation' => true])->textInput(['class' => 'form-control change-cost'])
                         ->label('К-во <span id="position-available-qty"></span>') ?>

@@ -54,7 +54,7 @@ class NomenclatureService
         }
 
         if ($model->load($post) && $model->validate() && isset($addendQty)) {
-            $model->quantity += $addendQty;
+            $model->quantity = $addendQty;
         }
 
         if ($model->save()) {

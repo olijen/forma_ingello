@@ -3,6 +3,7 @@
 namespace forma\modules\warehouse\services;
 
 use forma\modules\inventorization\records\InventorizationProduct;
+use forma\modules\product\records\Currency;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use yii\data\ActiveDataProvider;
@@ -87,7 +88,17 @@ class RemainsService
         if (!$unit) {
             return false;
         }
+
         return $unit->currency->name;
+    }
+    public static function getCurrencyId($productId, $warehouseId)
+    {
+        $unit = self::getWarehouseProduct($productId, $warehouseId);
+        if (!$unit) {
+            return false;
+        }
+
+        return $unit->currency_id;
     }
 
     public static function getWarehouseProduct($productId, $warehouseId)
