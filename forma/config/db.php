@@ -1,6 +1,6 @@
 <?php
 
-define('DB_MODE', 'docker');
+define('DB_MODE', 'remote');
 
 if (DB_MODE == 'docker') {
     //DOCKER
@@ -18,7 +18,7 @@ if (DB_MODE == 'docker') {
         'class' => 'yii\db\Connection',
         'dsn' => 'mysql:host=forma.ingello.com;dbname=forma;port=3306',
         'username' => 'root',
-        'password' => 'rootingello138096152382',
+        'password' => 'rootingello82138096',
         'charset' => 'utf8',
         'commandClass' => 'forma\modules\core\records\Command',
     ];
