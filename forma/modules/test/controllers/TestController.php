@@ -39,10 +39,10 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-//        $model_id = new TestType();
+        $model_id = new TestType();
 
-//        $id = $_GET['id'];
-//        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
+        $id = $_GET['id'];
+        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
         $model = new TestTypeField();
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -90,7 +90,6 @@ class TestController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $id = $model->test_id;
             $name = TestType::find()->where(['id' => $id])->one();
-
 
             return $this->redirect(['index', 'id' => $model->test_id]);
         }
@@ -168,7 +167,6 @@ class TestController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
