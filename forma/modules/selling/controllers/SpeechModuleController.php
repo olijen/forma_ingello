@@ -22,7 +22,7 @@ class SpeechModuleController extends Controller
             $temp[] = $key;
         }
         $getStrategiesUser = Strategy::find()->where(['in', 'id', $temp])->all();
-        return $this->render('index',compact('getWithoutEmptyStrategies',$getWithoutEmptyStrategies,'getStrategiesUser',$getStrategiesUser));
+        return $this->render('index',compact('getWithoutEmptyStrategies','getStrategiesUser'));
     }
     public function actionHashForEvent()
     {
