@@ -33,7 +33,7 @@ foreach ($menu as $itemMain): ?>
             <?php endif; ?>
 
             <div class="col-md-<?= $colMd ?>">
-                <div onclick="setLabel('<?= $item['label'] ?>')" class="info-box">
+                <div onclick="setLabel('<?= $item['url'][0] ?>')" class="info-box">
                     <span class="info-box-icon bg-green"><i class="fa fa-<?= $item['icon']; ?>"></i></span>
                     <div class="info-box-content">
 
@@ -73,10 +73,17 @@ foreach ($menu as $itemMain): ?>
         })
     })
 
-    function setLabel(item){
-
+    function setLabel(url) {
         let findElementCreateRequest = document.querySelector('.modal-header');
-        findElementCreateRequest.innerHTML = "<p>"+item+"</p>";
+        $.ajax({
+            url : url,
+            type : "GET",
+            success : function(msg){
+                let res = msg.match(/<title>(.*?)<\/title>/).join('');
+                findElementCreateRequest.innerHTML = "<p >" + res + "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+            }
+        });
+
     }
 
 </script>
