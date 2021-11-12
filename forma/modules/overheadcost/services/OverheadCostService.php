@@ -82,11 +82,15 @@ class OverheadCostService
         $module = \Yii::$app->getModule('warehouse');
 
         $unitOverheadCost = 0;
-        //TODO Постоянная ошибка Trying to get property 'rate' of non-object (из-за чего возникает не вникал)
+
         if ($unit->overheadCost) {
             $currency = $module->getProductCurrency($unit->transit->fromWarehouse, $unit->product);
+
             $usdUnitOverheadCost = $unit->overheadCost->sum * $unit->overheadCost->currency->rate;
-            $unitOverheadCost += $usdUnitOverheadCost / $currency->rate;
+            if($currency){
+                $unitOverheadCost += $usdUnitOverheadCost / $currency->rate;
+            }
+
         }
 
         $transitProductsCount = TransitProduct::find()
@@ -96,9 +100,12 @@ class OverheadCostService
 
         $usdMainOverheadCost = static::getMainTransitOverheadCostsSum($unit->transit) / $transitProductsCount;
         $currency = $module->getProductCurrency($unit->transit->fromWarehouse, $unit->product);
-        $mainOverheadCost = $usdMainOverheadCost / $currency->rate;
+        if($currency){
+            $mainOverheadCost = $usdMainOverheadCost / $currency->rate;
+        }
 
-        return $unitOverheadCost + $mainOverheadCost;
+
+        return $unitOverheadCost + (($currency!=null)?$mainOverheadCost:0);
     }
 
     /**
