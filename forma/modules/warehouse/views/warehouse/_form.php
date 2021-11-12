@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use forma\components\ActiveRecordHelper;
 use forma\modules\country\records\Country;
+use kartik\range\RangeInput;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\warehouse\records\Warehouse */
@@ -32,7 +33,15 @@ use forma\modules\country\records\Country;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'capacity')->textInput(['maxlength' => true]) ?>
+    <?php if ($model->isNewRecord) {
+        $model->capacity = 1000;
+    } ?>
+    <?= $form->field($model, 'capacity')->widget(RangeInput::classname(), [
+        'options' => ['placeholder' => 'Вместимость (0 - 5)...'],
+        'html5Container' => ['style' => 'width:350px'],
+        'html5Options' => ['min' => 1, 'max' => 5000],
+        'addon' => ['append' => ['content' => '<i class="fas fa-warehouse"></i>']]
+    ]); ?>
 
     <?= $form->field($model, 'country_id')->dropDownList(ActiveRecordHelper::getList(Country::className()), [
         'prompt' => '',
