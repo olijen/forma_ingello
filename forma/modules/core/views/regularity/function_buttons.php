@@ -76,11 +76,11 @@ foreach ($menu as $itemMain): ?>
     function setLabel(url) {
         let findElementCreateRequest = document.querySelector('.modal-header');
         $.ajax({
-            url : url,
+            url : url+'?without-header&only-title',
             type : "GET",
             success : function(msg){
-                let res = msg.match(/<title>(.*?)<\/title>/).join('');
-                findElementCreateRequest.innerHTML = "<p >" + res + "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+
+                findElementCreateRequest.innerHTML = "<p >" + msg + "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
             }
         });
 
