@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Customers', 'url' => ['index']];
             ],
             'address',
             'tax_rate',
-            'customer_source.name',
+            'customerSource.name',
         ],
     ]) ?>
 
