@@ -45,6 +45,11 @@ $list = [
                                 'data-pjax' => '0',
                             ]);
                         },
+                        'update' => function ($url = '/test/test/index?id=', $model) {
+                            return Html::a('<span class="fa fa-check glyphicon glyphicon-pencil"></span>', '/test/test/index?id=' . $model->id, [
+                                'title' => 'Редактировать',
+                            ]);
+                        },
                     ],
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{delete} {update} {check} {quality}',

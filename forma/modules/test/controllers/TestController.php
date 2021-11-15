@@ -167,8 +167,9 @@ class TestController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        $model=$this->findModel($id);
+        $model->delete();
+        return $this->redirect(['index', 'id' => $model->test_id]);
     }
 
     /**

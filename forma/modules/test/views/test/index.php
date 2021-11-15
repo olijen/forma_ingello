@@ -25,21 +25,21 @@ if (!empty($_GET['name'])){
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (!empty($_GET['id'])): ?>
-    <div style="float:left; width: 10%;height: 10px">
+    <div style="float:left; width: 13%;height: 10px">
     <p>
         <?= Html::a('<i class="fa fa-plus"></i>'. ' '.'Добавить вопрос', ['test/create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
 
     </p>
     </div>
     <?php else: ?>
-<div class="">
+<div class="" >
     <p>
         <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 </div>
 <?php endif; ?>
-    <div>
-        <div class="btn" style="margin-bottom: 20px">
+    <div >
+        <div class="btn" style="margin-bottom: 30px ;">
             <a href="/test/main">Вернуться к списку</a>
         </div>
     </div>
@@ -80,16 +80,7 @@ if (!empty($_GET['name'])){
                             'title' => 'Редактировать',
                         ]);
                     },
-                    'view' => function ($url = '/test/test/view?id=', $model) {
-                        return Html::a('<span class="fa fa-check glyphicon glyphicon-eye-open"></span>', '/test/test/view?id=' . $model->id, [
-                            'title' => 'Просмотреть',
-                        ]);
-                    },
-//                    'delete' => function ($url = '/test/test/delete?id=', $model) {
-//                        return Html::a('<span class="fa fa-check glyphicon glyphicon-trash"></span>', '/test/test/delete?id=' . $model->id, [
-//                            'title' => 'Удалить',
-//                        ]);
-//                    },
+
                 ],
             ],
         ],
