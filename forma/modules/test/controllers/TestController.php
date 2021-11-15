@@ -69,10 +69,11 @@ class TestController extends Controller
 
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model= $this->findModel($id);
         return $this->render('/test/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 

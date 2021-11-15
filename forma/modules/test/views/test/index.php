@@ -71,7 +71,26 @@ if (!empty($_GET['name'])){
             ['attribute'=>'required',
                 'label'=>'Обязательный'],
 
-            ['class' => 'yii\grid\ActionColumn'
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'update' => function ($url = '/test/test/update?id=', $model) {
+                        return Html::a('<span class="fa fa-check glyphicon glyphicon-pencil"></span>', '/test/test/update?id=' . $model->id, [
+                            'title' => 'Редактировать',
+                        ]);
+                    },
+                    'view' => function ($url = '/test/test/view?id=', $model) {
+                        return Html::a('<span class="fa fa-check glyphicon glyphicon-eye-open"></span>', '/test/test/view?id=' . $model->id, [
+                            'title' => 'Просмотреть',
+                        ]);
+                    },
+//                    'delete' => function ($url = '/test/test/delete?id=', $model) {
+//                        return Html::a('<span class="fa fa-check glyphicon glyphicon-trash"></span>', '/test/test/delete?id=' . $model->id, [
+//                            'title' => 'Удалить',
+//                        ]);
+//                    },
+                ],
             ],
         ],
     ]); ?>
