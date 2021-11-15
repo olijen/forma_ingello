@@ -73,7 +73,7 @@ if (!empty($_GET['name'])){
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete}',
+                'template' => '{update} {delete}',
                 'buttons' => [
                     'update' => function ($url = '/test/test/update?id=', $model) {
                         return Html::a('<span class="fa fa-check glyphicon glyphicon-pencil"></span>', '/test/test/update?id=' . $model->id, [
