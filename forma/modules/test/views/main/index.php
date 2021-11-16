@@ -35,7 +35,7 @@ $list = [
                     'buttons' => [
                         'check' => function ($url = '/test/test/test?id=', $model, $key) {
                             return Html::a('<span class="fa fa-check glyphicon glyphicon-check"></span>', '/test/test/test?id=' . $model->id, [
-                                'title' => 'Прости тест',
+                                'title' => 'Пройти тест',
                                 'data-pjax' => '0',
                             ]);
                         },

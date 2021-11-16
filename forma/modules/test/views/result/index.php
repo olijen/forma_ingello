@@ -24,11 +24,11 @@ $this->title = 'Результаты тестов';
                 'value' => function($model){return strip_tags($model->result);}
             ],
 
-            ['attribute'=>'test_type_id',
-                'label'=>'Номер теста'],
+            ['attribute'=>'testType.name',
+                'label'=>'Тест'],
 
-            ['attribute'=>'customer_id',
-                'label'=>'ID Пользователя'],
+            ['attribute'=>'customer.name',
+                'label'=>'Клиент'],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view}',
