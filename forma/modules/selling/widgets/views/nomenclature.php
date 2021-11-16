@@ -54,13 +54,15 @@ Yii::debug($warehouseProducts);
             <div class="row">
 
                 <?php $form = ActiveForm::begin([
+                    'id' => 'contact-form',
+                    'enableAjaxValidation' => true,
                     'action' => Url::to(['/selling/nomenclature/add-position']),
                     'validationUrl' => Url::to(['/selling/nomenclature/validate']),
                     'options' => ['data-pjax' => '1'],
                 ]); ?>
 
                 <?= $form->field($unit, 'selling_id')->hiddenInput()->label(false) ?>
-                <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
+                <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>""
                        value="<?= Yii::$app->request->getCsrfToken(); ?>"/>
                 <?php if (Yii::$app->user->isGuest) { ?><input type="hidden" name="selling_token"
                                                                value="<?= isset($_GET['selling_token']) ? $_GET['selling_token'] : $_COOKIE['selling_token']; ?>" /> <?php } ?>
