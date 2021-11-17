@@ -29,7 +29,14 @@ class RemainsService
      */
     public static function getByProductId($productId, $warehouseId)
     {
-        return self::create($productId, $warehouseId);
+        $warehouse = WarehouseProduct::find()->where(['product_id'=>$productId,'warehouse_id'=>$warehouseId])->one();
+        //dd($warehouse);
+        if($warehouse){
+            return $warehouse;
+        }
+        else{
+            return self::create($productId, $warehouseId);
+        }
     }
 
     public static function create($productId = null, $warehouseId)

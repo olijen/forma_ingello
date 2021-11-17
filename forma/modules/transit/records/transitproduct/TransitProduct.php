@@ -24,6 +24,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property string $trade_cost
  * @property string $tax
  * @property string $overhead_cost
+ * @property string $currency_id
  *
  * @property Product $product
  * @property Transit $transit
@@ -63,7 +64,7 @@ implements NomenclatureUnitInterface
     {
         return [
             [['product_id', 'transit_id', 'quantity'], 'required'],
-            [['product_id', 'transit_id', 'quantity', 'overhead_cost_id', 'pack_unit_id'], 'integer'],
+            [['product_id', 'transit_id', 'quantity', 'overhead_cost_id', 'pack_unit_id','currency_id'], 'integer'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['transit_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transit::className(), 'targetAttribute' => ['transit_id' => 'id']],
             [['purchase_cost', 'recommended_cost','consumer_cost','trade_cost','tax','overhead_cost'], 'double'],
