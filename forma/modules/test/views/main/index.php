@@ -35,7 +35,7 @@ $list = [
                     'buttons' => [
                         'check' => function ($url = '/test/test/test?id=', $model, $key) {
                             return Html::a('<span class="fa fa-check glyphicon glyphicon-check"></span>', '/test/test/test?id=' . $model->id, [
-                                'title' => 'Прости тест',
+                                'title' => 'Пройти тест',
                                 'data-pjax' => '0',
                             ]);
                         },
@@ -43,6 +43,11 @@ $list = [
                             return Html::a('<span class="fa fa-check glyphicon glyphicon-list"></span>', 'url?' . $model->id, [
                                 'title' => 'Список пройденнных тестов',
                                 'data-pjax' => '0',
+                            ]);
+                        },
+                        'update' => function ($url = '/test/test/index?id=', $model) {
+                            return Html::a('<span class="fa fa-check glyphicon glyphicon-pencil"></span>', '/test/test/index?id=' . $model->id, [
+                                'title' => 'Редактировать',
                             ]);
                         },
                     ],

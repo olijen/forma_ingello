@@ -131,7 +131,8 @@ class MainController extends Controller
      * Finds the TestType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TestType the loaded model
+//     * @return TestType the loaded model
+//     * @return TestTypeField the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -139,6 +140,10 @@ class MainController extends Controller
         if (($model = TestType::findOne($id)) !== null) {
             return $model;
         }
+        if (($model = TestTypeField::findOne($id)) !== null) {
+            return $model;
+        }
+
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }

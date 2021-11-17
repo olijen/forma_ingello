@@ -69,10 +69,11 @@ class TestController extends Controller
 
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model= $this->findModel($id);
         return $this->render('/test/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -166,8 +167,9 @@ class TestController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        $model=$this->findModel($id);
+        $model->delete();
+        return $this->redirect(['index', 'id' => $model->test_id]);
     }
 
     /**
