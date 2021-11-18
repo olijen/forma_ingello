@@ -258,7 +258,7 @@ $this->title = Yii::t(
                 target.parentNode.append(elem, target);
             },
             error: function (errormessage) {
-                alert("not working" + errormessage);
+                //alert("not working" + errormessage);
             }
         });
     }
