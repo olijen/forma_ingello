@@ -74,7 +74,7 @@ class MainController extends Controller
 
         $sellingData = array_merge(Yii::$app->request->post(), ['customer' => $customer]);
         $selling = SellingService::createByRemains($sellingData);
-        return $this->redirect(['/selling/form/index', 'id' => $selling->id,'isCustomer'=>false]);
+        return $this->redirect(['/selling/form/index', 'id' => $selling->id]);
     }
 
     public function actionDelete($id)
