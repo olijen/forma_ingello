@@ -118,6 +118,7 @@ class TransitService
 
     public static function createByRemains($post)
     {
+        Yii::debug($post);
         /** @var Warehouse $warehouse */
         $warehouse = WarehouseService::get($post['warehouse_id']);
         if (!$warehouse->belongsToUser()) {
@@ -128,8 +129,8 @@ class TransitService
 
         $transit->setAttributes([
             'name' => 'Новое перемещение с ' . Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
-            'from_warehouse_id' => $warehouse->id,
-            'to_warehouse_id' => $warehouse->id,
+            'from_warehouse_id' => $post['warehouse_id'],
+            'to_warehouse_id' => $post['select_warehouse_id'],
         ]);
         if (!$transit->save()) {
             var_dump($transit->getErrors());
