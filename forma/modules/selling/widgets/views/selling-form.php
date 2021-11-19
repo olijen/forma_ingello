@@ -106,10 +106,6 @@ if (!Yii::$app->request->isPjax) {
                 'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
-            <?php if (Yii::$app->request->get('isCustomer') == false && Yii::$app->request->get('isCustomer')!=null) {
-                echo "<span style='color: red;'>Нужно добавить клиента!!</span>";
-            }
-            ?>
         </div>
 
 

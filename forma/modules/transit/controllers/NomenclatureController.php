@@ -31,7 +31,7 @@ class NomenclatureController extends Controller
         return NomenclatureView::widget([
             'model' => $model,
             'transitId' => $model->transit_id,
-            'warehouseId' => $transit->from_warehouse_id,
+            'warehouseId' => $model->transit->to_warehouse_id,
         ]);
     }
 

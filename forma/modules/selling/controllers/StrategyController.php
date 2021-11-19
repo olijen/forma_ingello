@@ -69,7 +69,7 @@ class StrategyController extends Controller
         $model = new Strategy();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/selling/speech-module']);
         }
 
         return $this->render('create', [

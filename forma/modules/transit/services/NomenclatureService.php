@@ -26,11 +26,11 @@ class NomenclatureService
 
         $model = self::getUnitByProduct($post);
 
-        $warehouseModule = Yii::$app->getModule('warehouse');
+        /*$warehouseModule = Yii::$app->getModule('warehouse');
         $productCurrency = $warehouseModule->getProductCurrency(
             $model->transit->fromWarehouse,
             $model->product
-        );
+        );*/
         //$post['OverheadCost']['currency_id'] = $productCurrency->id;
 
         if (!isset($post['OverheadCost'])) {
@@ -59,8 +59,8 @@ class NomenclatureService
 
         if ($model->save()) {
             /** @var Module $module */
-            $module = Yii::$app->getModule('warehouse');
-            $module->createExpected($model->transit);
+            /*$module = Yii::$app->getModule('warehouse');
+            $module->createExpected($model->transit);*/
 
             $model->pack_unit_id = $model->product->pack_unit_id;
             $model->save();
@@ -76,7 +76,18 @@ class NomenclatureService
     public static function getUnitByProduct($post)
     {
         $unit = new TransitProduct();
-        if($unit->load($post) && $unit->validate()){
+        if ($unit->load($post) && $unit->validate()) {
+            $warehouseProduct = WarehouseProduct::find()->where(
+                ['warehouse_id' => $unit->transit->from_warehouse_id,
+                    'product_id' => $unit->product_id,
+                ])->one();
+            $unit->purchase_cost = $warehouseProduct->purchase_cost;
+            $unit->recommended_cost = $warehouseProduct->recommended_cost;
+            $unit->consumer_cost = $warehouseProduct->consumer_cost;
+            $unit->trade_cost = $warehouseProduct->trade_cost;
+            $unit->tax = $warehouseProduct->tax;
+            $unit->overhead_cost = $warehouseProduct->overhead_cost;
+            $unit->currency_id = $warehouseProduct->currency_id;
             $unit->save();
         }
         return $unit;
