@@ -20,6 +20,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property integer $selling_id
  * @property integer $quantity
  * @property integer $currency_id
+ * @property string $currency_name
  * @property integer $pack_unit_id
  * @property integer $overhead_cost_id
  *
@@ -105,6 +106,7 @@ class SellingProduct extends ActiveRecord
             'cost' => 'Стоимость',
             'overhead_cost_id' => 'Накладной расход',
             'cost_type' => 'Тип стоимости',
+            'currency_id' => 'Валюта',
         ];
     }
 
