@@ -113,10 +113,9 @@ class WorkerVacancyController extends Controller
     {
         return WorkerVacancy::getListWorker(Yii::$app->request->post());
     }
-
-    public function actionVacancies()
+    public function actionVacanciesForWorker()
     {
-        return (WorkerVacancy::getListVacancies(Yii::$app->request->post()));
+        return (WorkerVacancy::getListVacanciesForWorker(Yii::$app->request->post()));
     }
 
     /**

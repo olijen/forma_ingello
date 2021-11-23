@@ -71,9 +71,14 @@ class WorkerVacancy extends \yii\db\ActiveRecord
         return $this->hasOne(Worker::className(), ['id' => 'worker_id']);
     }
 
-    public static function getListVacancies($workerId)
+    public static function getListVacancies()
     {
-//        $vacancies = (new VacancySearch())->search([]);
+        $vacancies = (new VacancySearch())->search([]);
+        return ArrayHelper::map($vacancies->getModels(), 'id', 'name');
+    }
+
+    public static function getListVacanciesForWorker($workerId)
+    {
         if (Yii::$app->request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
@@ -91,7 +96,6 @@ class WorkerVacancy extends \yii\db\ActiveRecord
         $vacancies = Vacancy::find()->where(['vacancy.id'=>$ids])->all();
 
         return ArrayHelper::map($vacancies, 'id', 'name');
-//        return ArrayHelper::map($vacancies->getModels(), 'id', 'name');
     }
 
     public static function getListWorker($vacancyProjectId)
