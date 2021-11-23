@@ -122,8 +122,12 @@ class OverheadCostService
             ->all();
 
         $sum = 0;
+
         foreach ($purchaseOverheadCosts as $cost) {
-            $sum += $cost->overheadCost->sum * $cost->overheadCost->currency->rate;
+            if($cost->overheadCost->currency){
+                $sum += $cost->overheadCost->sum * $cost->overheadCost->currency->rate;
+            }
+
         }
 
         return $sum;

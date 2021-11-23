@@ -98,9 +98,13 @@ class TotalSumView extends Widget
             ->all();
 
         $sums = [];
+
         foreach ($costs as $cost) {
-            $sums[$cost->currency->code] = $sums[$cost->currency->code] ?? 0;
-            $sums[$cost->currency->code] += $cost->sum;
+            if($cost->currency){
+                $sums[$cost->currency->code] = $sums[$cost->currency->code] ?? 0;
+                $sums[$cost->currency->code] += $cost->sum;
+            }
+            //$sums[$cost->currency->code] += $cost->sum;
         }
         return $sums;
     }

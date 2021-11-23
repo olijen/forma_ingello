@@ -9,6 +9,7 @@ use forma\modules\core\records\SystemEventUserSearch;
 use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use \stdClass;
 
 /**
  * SystemEventUserController implements the CRUD actions for SystemEventUser model.
@@ -58,6 +59,34 @@ class SystemEventUserController extends Controller
 
         $models = SystemEventUserService::$models;
         return $this->render('subscribe', ['records' => $models, 'subscribes' => $subscribes]);
+    }
+    public static function send_request($url, $json_value, $user, $password){
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($json_value));
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json;charset=UTF-8'));
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_USERPWD, $user.':'.$password);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt ($ch, CURLOPT_SSLVERSION, 6);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+    public function  actionSaveWebPush()
+    {
+        $user = 'admin';
+        $password = '22366DA912319E8C739538C81CA5557A';
+        $event_url = 'https://esputnik.com/api/v1/message/2780574/smartsend';
+
+        //$event->keyValue = 'test@mail.com'; // ключ уникальности события - обычно используется email контакта, его идентификатор в системе eSputnik либо в другой системе, или другая уникальная для каждого контакта информация
+        $event = array(["recipients"=>["jsonParam"=>null,"locator"=>"22366DA912319E8C739538C81CA5557A"],"email"=>false]); // параметры события, которые будут передаваться в сценарий, запускаемый данным событием
+        $resultData = self::send_request($event_url, $event, $user, $password);
+        return $this->render('save-web-push',compact('resultData'));
+
+
     }
 
     /**
