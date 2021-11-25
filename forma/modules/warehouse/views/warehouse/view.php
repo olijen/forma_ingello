@@ -293,7 +293,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                         'class' => 'btn btn-primary',
                         'id' => 'add-to-selling',
                         'title' => 'Добавить в продажу',
-                        'onClick'=>'alert("Пожалуйста, выберите клиента и нажмите кнопку Сохранить");'
+                        'onClick'=>'alert("Мы создаем продажу автоматически. Поэтому на следующей стр. вам необходимо выбрать нужного клиента и нажать кнопку Сохранить");'
                     ]),
                 ],
                 [

@@ -43,7 +43,11 @@ class NomenclatureService
         if ($model->save()) {
             /** @var Module $module */
             $module = Yii::$app->getModule('warehouse');
-            $module->createExpected($model->purchase);
+
+            if($model->purchase->getState()->getName() == 'Оприходован'){
+                $module->createExpected($model->purchase);
+            }
+
 
             $model->pack_unit_id = $model->product->pack_unit_id;
             $model->save();
