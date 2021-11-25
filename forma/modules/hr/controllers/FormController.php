@@ -2,7 +2,9 @@
 
 namespace forma\modules\hr\controllers;
 
+use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\vacancy\records\Vacancy;
 use Yii;
 use forma\components\Controller;
@@ -33,6 +35,16 @@ class FormController extends Controller
     }
     public function actionSave($id = null)
     {
+        $projectVacancyId = $_POST['Interview']['vacancy_id'];
+        $projectVacancy = ProjectVacancy::find()->where(['id'=> $projectVacancyId ])->one();;
+        $model = new Interview();
+        $model->project_id = $projectVacancy->project_id;
+        $model->vacancy_id = $projectVacancy->vacancy_id;
+        $model->worker_id = $_POST['Interview']['worker_id'];
+        $model->name = '-';
+        if ($model->save()){
+            return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
+        }
         $interview = InterviewService::get($id);
         if ($interview) {
             $model = InterviewService::save($id, Yii::$app->request->post());

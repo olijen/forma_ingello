@@ -55,6 +55,7 @@ Yii::debug($warehouseProducts);
 
                 <?php $form = ActiveForm::begin([
                     'id' => 'contact-form',
+                    'method' => 'post',
                     'enableAjaxValidation' => true,
                     'action' => Url::to(['/selling/nomenclature/add-position']),
                     'validationUrl' => Url::to(['/selling/nomenclature/validate']),
@@ -83,10 +84,10 @@ Yii::debug($warehouseProducts);
                 </div>
 
                 <div class="col-md-2">
-                    <div class="form-group field-sellingproduct-currency_id required">
+                    <div class="form-group field-sellingproduct-currency_name required">
                         <label class="control-label" for="sellingproduct-currency_name">Валюта</label>
                         <input type="text" id="sellingproduct-currency_name" class="form-control"
-                               name="currency-name" aria-required="true">
+                               name="currency-name" aria-required="true" readonly>
                         <div class="help-block"></div>
                     </div>
                     <?= $form->field($unit, 'currency_id')
@@ -107,7 +108,7 @@ Yii::debug($warehouseProducts);
                 </div>
                 <div class="col-md-1">
                     <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
-                        'class' => 'btn btn-success no-loader form-control',
+                        'class' => 'btn btn-success form-control',
                         'style' => 'margin-top: 25px;',
                     ]) ?>
                 </div>

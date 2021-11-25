@@ -145,6 +145,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-worker_id').empty();
                         $('#worker-view').attr("data-enabled", false);
                         $('#worker-view').addClass("text-gray");
+                        console.log(data,'!!!!!!!!!!!');
                         if (data !== null) {
                             $('#interview-worker_id').removeAttr('disabled');
                             $('#selling-form-submit-button').removeAttr('disabled');
@@ -163,6 +164,39 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         }
                     }
                 })
+            })
+        </script>
+        <script>
+            $('#interview-worker_id').on('change', function () {
+                $.ajax({
+                    url: '/worker/worker-vacancy/vacancies-for-worker',
+                    type: 'post',
+                    data: {
+                        id: $(this).val(),
+                    },
+                success: function (data) {
+                    // alert(123);
+                    // $('#interview-vacansy_id').empty();
+                    console.log(data,'!!!!!!!!!!!');
+                    if (data !== null) {
+                        $('#interview-vacansy_id').removeAttr('disabled');
+                        $('#selling-form-submit-button').removeAttr('disabled');
+                        $('#alert-danger').hide();
+                        $('#interview-worker_id').attr('enable', 'enable');
+                        $.each(data, function (value, key) {
+                            $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
+                        });
+                        $('#interview-worker_id').val('');
+
+                    } else {
+                        $('#interview-worker_id').attr('disabled', 'disabled');
+                        $('#selling-form-submit-button').attr('disabled', 'disabled');
+                        $('#alert-danger').show();
+
+                        // $('#worker-select').hide();
+                    }
+                }
+            })
             })
         </script>
     </div>
