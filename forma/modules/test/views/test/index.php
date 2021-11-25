@@ -55,7 +55,7 @@ if (!empty($_GET['name'])){
             'label'=>'ID Теста'],
 
             ['attribute'=>'block_name',
-            'label'=>'Имя Теста'],
+            'label'=>'Блок вопросов'],
 
             ['attribute'=>'label_name',
             'label'=>'Название'],
