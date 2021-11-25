@@ -43,7 +43,7 @@ class FormController extends Controller
         $model->worker_id = $_POST['Interview']['worker_id'];
         $model->name = '-';
         if ($model->save()){
-            return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
+            return $this->redirect(Url::to(['/hr/main', 'id' => $model->id]));
         }
         $interview = InterviewService::get($id);
         if ($interview) {
