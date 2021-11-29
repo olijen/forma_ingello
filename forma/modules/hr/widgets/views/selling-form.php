@@ -182,7 +182,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-vacansy_id').removeAttr('disabled');
                         $('#selling-form-submit-button').removeAttr('disabled');
                         $('#alert-danger').hide();
-                        $('#interview-worker_id').attr('enable', 'enable');
+                        $('#interview-worker_id').prop('disabled', false);
                         $.each(data, function (value, key) {
                             $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
                         });
@@ -192,8 +192,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-worker_id').attr('disabled', 'disabled');
                         $('#selling-form-submit-button').attr('disabled', 'disabled');
                         $('#alert-danger').show();
-
-                        // $('#worker-select').hide();
                     }
                 }
             })

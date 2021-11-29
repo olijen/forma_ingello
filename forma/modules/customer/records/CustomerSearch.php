@@ -20,7 +20,7 @@ class CustomerSearch extends Customer
     public function rules()
     {
         return [
-            [['id', 'country_id','customer_source_id'], 'integer'],
+            [['id', 'country_id','customer_source_id',], 'integer'],
             [
                 [
                     'name',
@@ -99,7 +99,6 @@ class CustomerSearch extends Customer
             'id' => $this->id,
             'tax_rate' => $this->tax_rate,
             'country_id' => $this->country_id,
-            'chief_phone' => $this->chief_phone,
         ]);
 
 
@@ -108,6 +107,7 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'company_email', $this->company_email])
             ->andFilterWhere(['like', 'telegram', $this->telegram])
+            ->andFilterWhere(['like', 'chief_phone', $this->chief_phone])
             ->andFilterWhere(['like', 'skype', $this->skype])
             ->andFilterWhere(['like', 'whatsapp', $this->whatsapp])
             ->andFilterWhere(['like', 'viber', $this->viber])

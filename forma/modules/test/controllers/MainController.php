@@ -37,13 +37,17 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->isGuest){
+            return $this->redirect('/core/default/auth');
+        }
         $searchModel = new TestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $checkUserId=Yii::$app->user->identity->getId();
+            $queryParams['TestSearch']['user_id']=$checkUserId;
+            $dataProvider = $searchModel->search($queryParams);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
 
     /**
@@ -77,7 +81,7 @@ class MainController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $command = Yii::$app->db->
-            createCommand("UPDATE forma.test_type t SET t.link = 'test/test/test?id=$model->id' WHERE t.id =".$model->id)->execute();
+            createCommand("UPDATE forma.test_type t SET t.user_id = ". (Yii::$app->user->id) .", t.link = 'test/test/test?id=$model->id' WHERE t.id =".$model->id)->execute();
 
             return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
         }
@@ -96,7 +100,9 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
-
+        if(Yii::$app->user->isGuest){
+            return $this->redirect('/core/default/auth');
+        }
         $model = new TestTypeField();
         $model_test = $this->findModel($id);
 

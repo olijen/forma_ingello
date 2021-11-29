@@ -25,7 +25,7 @@ if (!empty($_GET['name'])){
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (!empty($_GET['id'])): ?>
-    <div style="float:left; width: 13%;height: 10px">
+    <div style="float:left; height: 10px; width: auto">
     <p>
         <?= Html::a('<i class="fa fa-plus"></i>'. ' '.'Добавить вопрос', ['test/create?id='.$_GET['id']], ['class' => 'btn btn-success']) ?>
 
@@ -39,7 +39,7 @@ if (!empty($_GET['name'])){
 </div>
 <?php endif; ?>
     <div >
-        <div class="btn" style="margin-bottom: 30px ;">
+        <div class="btn" style="margin-bottom: 30px ; margin-left: 1%">
             <a href="/test/main">Вернуться к списку</a>
         </div>
     </div>
@@ -55,7 +55,7 @@ if (!empty($_GET['name'])){
             'label'=>'ID Теста'],
 
             ['attribute'=>'block_name',
-            'label'=>'Имя Теста'],
+            'label'=>'Блок вопросов'],
 
             ['attribute'=>'label_name',
             'label'=>'Название'],

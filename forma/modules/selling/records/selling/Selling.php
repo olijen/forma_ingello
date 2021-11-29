@@ -246,7 +246,9 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         // convert the date back to mm/dd/yyyy format while viewing
         $this->date_create = date('m.d.Y H:i', strtotime($this->date_create));
-        $this->lastEventDate = date('m.d.Y H:i', strtotime($this->lastEventDate));
+        if ($this->lastEventDate !== null) {
+            $this->lastEventDate = date('m.d.Y H:i', strtotime($this->lastEventDate));
+        }
         parent::afterFind();
     }
 

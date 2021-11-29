@@ -36,6 +36,9 @@ class ResultController extends Controller
      */
     public function actionIndex()
     {
+        if(!Yii::$app->user->isGuest){
+            return $this->redirect('/core/default/auth');
+        }
         $searchModel = new TestResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

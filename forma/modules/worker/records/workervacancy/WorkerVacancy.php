@@ -79,21 +79,21 @@ class WorkerVacancy extends \yii\db\ActiveRecord
 
     public static function getListVacanciesForWorker($workerId)
     {
+        de(Yii::$app->request->post());
         if (Yii::$app->request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
-        $worker = self::find()->where(['worker_id'=>$workerId])->one();
-        $vacanciesWorker = self::find()->where(['vacancy_id'=>$worker->vacancy_id])->all();
+        $vacanciesWorker = self::find()->where(['worker_id'=>$workerId])->all();
         foreach ($vacanciesWorker as $vacancyWorker){
             if (empty($vacancyWorker->vacancy->interviews)){
                 $ids[]= $vacancyWorker->vacancy_id;
             }
-            if (empty($ids)) {
-                return null;
-            }
 
         }
-        $vacancies = Vacancy::find()->where(['vacancy.id'=>$ids])->all();
+        if (empty($ids)) {
+            return null;
+        }
+        $vacancies = Vacancy::find()->where(['id'=>$ids])->all();
 
         return ArrayHelper::map($vacancies, 'id', 'name');
     }
