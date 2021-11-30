@@ -58,7 +58,7 @@ $fieldOptions5 = [
     ]) */?>
 
 
-  <h2 style="color: white;">Настроить бесплатный аккаунт реферала?</h2>
+  <h2 style="color: white; text-align: center;">Настроить бесплатный дочерний аккаунт?</h2>
 
 
     <div class="register-box-body">
@@ -72,27 +72,26 @@ $fieldOptions5 = [
 
 
         <?php if (!Yii::$app->user->isGuest): ?>
-            <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true, 'action' =>'/core/site/signup-referer' ]); ?>
+            <?php $form = ActiveForm::begin(['id' => 'signup-form','options' => ['autocomplete'=>'off'],'enableClientValidation' => true, 'action' =>'/core/site/signup-referer' ]); ?>
         <?php else:?>
         <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true]); ?>
         <?php endif; ?>
-
-        <?= $form
-            ->field($model, 'username', $fieldOptions5)
-            ->label(false)
-            ->textInput(['placeholder' => 'Как зовут реферала?']) ?>
-        <?= $form
-            ->field($model, 'phone', $fieldOptions4)
-            ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('phone')]) ?>
         <?= $form
             ->field($model, 'email', $fieldOptions3)
             ->label(false)
             ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
         <?= $form
+            ->field($model, 'username', $fieldOptions5)
+            ->label(false)
+            ->textInput(['placeholder' => 'Имя']) ?>
+        <?= $form
+            ->field($model, 'phone', $fieldOptions4)
+            ->label(false)
+            ->textInput(['placeholder' => $model->getAttributeLabel('phone')]) ?>
+        <?= $form
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+            ->passwordInput(['placeholder' => $model->getAttributeLabel('password'),'autocomplete'=>'new-password']) ?>
 
         <?php if (!Yii::$app->user->isGuest): ?>
 
@@ -100,7 +99,7 @@ $fieldOptions5 = [
 
         <?php endif; ?>
 
-       <?= Html::submitButton('Создать реферала', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
+       <?= Html::submitButton('Создать дочерний аккаунт', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
 
         <?php ActiveForm::end(); ?>
 

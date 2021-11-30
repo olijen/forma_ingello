@@ -14,6 +14,7 @@ class SignupForm extends Model
     public $email;
     public $phone;
     public $parent_id;
+    public $confirmed_email;
 
     public function rules()
     {
@@ -67,6 +68,7 @@ class SignupForm extends Model
             'phone' => $this->phone,
             'parent_id' => $this->parent_id,
             'password' => Yii::$app->getSecurity()->generatePasswordHash($this->password),
+            'confirmed_email'=>$this->confirmed_email,
         ]);
 
         if($google){
@@ -84,6 +86,8 @@ class SignupForm extends Model
         }
 
         if ($referer) {
+            $user->confirmed_email = 1;
+            $user->email_string=null;
             $user->save();
             return $user->id;
         }
