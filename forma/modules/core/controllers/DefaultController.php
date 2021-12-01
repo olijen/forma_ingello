@@ -9,6 +9,7 @@ use forma\modules\core\components\UserIdentity;
 use forma\modules\core\forms\LoginForm;
 use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\SystemEventSearch;
+use forma\modules\core\records\User;
 use forma\modules\core\records\WidgetUser;
 use forma\modules\hr\services\InterviewService;
 use forma\modules\product\services\ProductService;
@@ -37,7 +38,7 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm', 'index', 'auth'],
+                        'actions' => ['confirm', 'index', 'auth','login'],
                         'roles' => ['?'],
                     ],
                     [
@@ -170,6 +171,20 @@ class DefaultController extends Controller
             'pages',
             'systemEventsRows'
         ));
+    }
+
+    public function actionChangeAccount()
+    {
+        //Yii::$app->user->logout();
+        $identity = User::findOne(['username' => $_POST['id']]);
+        $loginForm = new LoginForm();
+        $loginForm->setAttributes([
+            'email'=>$identity->email,
+            'password'=>$identity->password
+        ]);
+
+        $loginForm->login();
+        $this->goHome();
     }
 
     public function actionAuth()
