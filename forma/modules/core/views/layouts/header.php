@@ -292,6 +292,31 @@ JS;
                                     <small><?= Yii::$app->user->getIdentity()->role ?></small>
                                 </p>
                             </li>
+                            <?php
+                            $userLoginInfo = \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one();
+                            if ($userLoginInfo->parent_id == null) {
+
+                                $parenUsers = \forma\modules\core\records\User::find()->where(['parent_id' => $userLoginInfo->id])->all();
+                                $items = array();
+                                foreach ($parenUsers as $parenUser) {
+                                    $items[] = ['label' => $parenUser->username, 'url' => '#', 'options'=>['onclick'=>"changeAccount($parenUser->id,'$parenUser->username')"]];
+                                }
+                                ?>
+                                <?= \yii\widgets\Menu::widget([
+                                    'options' => ['class' => 'sidebar-menu treeview', 'style' => 'background-color: #00a65a;'],
+                                    'items' => [
+                                        ['label' => 'Переключиться в аккаунт',
+                                            'url' => ['#'],
+                                            'template' => '<a style="color: black;" href="{url}" >{label}<i class="fa fa-user-circle" style="float: right;"></i></a>',
+                                            'items' => $items
+                                        ],
+                                    ],
+                                    'submenuTemplate' => "\n<ul class='treeview-menu'>\n{items}\n</ul>\n",
+                                    'encodeLabels' => false, //allows you to use html in labels
+                                    'activateParents' => true,]);
+                            }
+                            ?>
+<!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */?>
                             <li class="user-footer">
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
@@ -329,6 +354,26 @@ JS;
     });
     ?>
     <script>
+        function changeAccount(id,username) {
+            let userId = id;
+            let userName = username;
+            let r = confirm("Вы уверены что хотите выйти со своего аккаунта и зайти в аккаунт ".concat(userName));
+            if (r == true) {
+                $.ajax({
+                    url: '/core/default/change-account',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        name: userId,
+                        id: userName
+                    }
+                }).done(fill);
+
+            } else {
+                return false;
+            }
+
+        }
         var options = {
             scales: {
                 yAxes: [{
