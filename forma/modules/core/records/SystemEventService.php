@@ -64,7 +64,6 @@ class SystemEventService
 
     //получим имя приложения и модуля, к которому относится объект при ActiveRecord
     public static function getModuleApplication($className):array{
-        $apps = Yii::$app->params['applications'];
         $apps = json_decode(Yii::$app->params['main'], true);
         $data = [];
         foreach($apps as $app_name => $app_value){

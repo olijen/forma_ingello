@@ -34,6 +34,9 @@ return [
     'selling' => [
         'class' => forma\modules\selling\Module::class
     ],
+    'selling-history' => [
+        'class' => forma\modules\sellinghistory\Module::class
+    ],
     'purchase' => [
         'class' => forma\modules\purchase\Module::class
     ],

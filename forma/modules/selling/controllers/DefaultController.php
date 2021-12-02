@@ -22,4 +22,12 @@ class DefaultController extends Controller
             'salesProgress'
         ));
     }
+    public function actionHistory()
+    {
+        $salesProgress = new SalesProgress();
+
+        return $this->render('diagramma',compact(
+            'salesProgress'
+        ));
+    }
 }
