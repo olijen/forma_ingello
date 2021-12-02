@@ -77,7 +77,7 @@ class CustomerSearch extends Customer
         }
 
         $query = Customer::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', $ids])
+            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Customer::className()]);
 
     // add conditions that should always apply here

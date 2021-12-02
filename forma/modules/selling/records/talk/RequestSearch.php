@@ -88,7 +88,7 @@ class RequestSearch extends Request
         }
 
         $query = Request::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', $ids])
+            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Request::className()]);
 
         return $query;

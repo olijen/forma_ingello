@@ -32,9 +32,10 @@ class AccessoryActiveRecord extends ActiveRecord
         }
 
         Yii::debug($ids);
+        Yii::debug($query->one()->formName(),'fsvfvfd');
 
         $results = Accessory::find()
-            ->andWhere([ 'in', 'accessory.user_id', $ids])
+            ->andWhere([ 'in', 'accessory.user_id', (($query->one()->formName() == 'Event' || $query->one()->formName() == 'Product')?Yii::$app->user->id : $ids)])
             ->andWhere([ 'accessory.entity_class' => explode('Search!!!', static::class.'!!!')[0] ])
             ->all();
 
