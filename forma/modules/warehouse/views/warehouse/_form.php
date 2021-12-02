@@ -38,7 +38,7 @@ use kartik\range\RangeInput;
     } ?>
     <?= $form->field($model, 'capacity')->widget(RangeInput::classname(), [
         'options' => ['placeholder' => 'Вместимость (0 - 5)...'],
-        'html5Container' => ['style' => 'width:350px'],
+        'html5Container' => ['style' => 'width:250px'],
         'html5Options' => ['min' => 1, 'max' => 5000],
         'addon' => ['append' => ['content' => '<i class="fas fa-warehouse"></i>']]
     ]); ?>
