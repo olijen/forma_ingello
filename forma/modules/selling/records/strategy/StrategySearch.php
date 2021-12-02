@@ -89,7 +89,7 @@ class StrategySearch extends Strategy
         }
 
         $query = Strategy::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', $ids])
+            ->andWhere(['in', 'accessory.user_id', \Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Strategy::className()]);
 
         return $query;

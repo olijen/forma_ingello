@@ -60,7 +60,7 @@ class AnswerSearch extends Answer
         }
 
         $query = Answer::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', $ids])
+            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Answer::className()]);
 
 

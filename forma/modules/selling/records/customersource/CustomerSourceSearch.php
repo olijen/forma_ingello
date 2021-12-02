@@ -89,7 +89,7 @@ class CustomerSourceSearch extends CustomerSource
 
         $query = CustomerSource::find()->joinWith(['accessory'])
             ->andWhere(['accessory.entity_class' => CustomerSource::className()])
-            ->andWhere(['in', 'accessory.user_id', $ids])//->orderBy(['date_create' => SORT_DESC])
+            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])//->orderBy(['date_create' => SORT_DESC])
         ;
 
         return $query;
