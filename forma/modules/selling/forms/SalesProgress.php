@@ -18,8 +18,7 @@ class SalesProgress extends Model
     /** @var array */
     protected $states;
     protected $sales;
-    protected $date;
-    protected $count;
+    protected $sellinghistory;
 
     public function __construct()
     {
@@ -34,7 +33,7 @@ class SalesProgress extends Model
             ->orderBy('order')
             ->all();;
 
-            $this->date =SellingHistory::find()->all();
+            $this->sellinghistory = SellingHistory::find()->all();
 
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
@@ -114,11 +113,10 @@ class SalesProgress extends Model
     {
         $result = '';
 
-        foreach ($this->date as $date) {
+        foreach ($this->sellinghistory as $date) {
 
             $result .= '"' . $date['date'] . '",';
         }
-
         return $result;
     }
 
@@ -126,7 +124,7 @@ class SalesProgress extends Model
     {
         $result = '';
 
-        foreach ($this->date as $count) {
+        foreach ($this->sellinghistory as $count) {
 
             $result .= '"' . $count['count'] . '",';
         }
