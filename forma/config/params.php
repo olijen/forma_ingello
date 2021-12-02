@@ -329,6 +329,11 @@ return [
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
+                ['label' => 'История состояний',
+                    'url' => ['/selling/selling-history'],
+                    'icon' => 'eye',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
                 [
                     'label' => 'Клиенты',
                     'url' => ['/customer/customer'],

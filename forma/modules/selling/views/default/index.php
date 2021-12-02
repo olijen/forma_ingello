@@ -48,10 +48,24 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                 <canvas id="plan" style=""></canvas>
             </div>
         </div>
+
+        </div>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title" id="scroll">История изменений состояния продаж</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
         <div class="myChart">
             <div class="myChart">
                 <canvas id="myChart" style=""></canvas>
             </div>
+
         </div>
     </div>
 </div>
@@ -122,4 +136,32 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
       window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
     };
 
+</script>
+<script>
+    <?php
+    $date = getdate(); // использовано текущее время
+    $month = $date['mon'];
+    $number =  date('t', mktime(0, 0, 0, $month));
+    $datadays = range(1,$number);
+    //        de(1);
+    $result = '';
+
+    foreach ($datadays as $dates) {
+
+        $result .= '"' . $date['year'].'-'. $month .'-'.$dates. '",';
+    }
+    ?>
+    myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: [<?=$salesProgress->getDate(),$result?>],
+            datasets: [{
+                label: 'Количество изменений',
+                data: [<?=$salesProgress->getCount()?>],
+                backgroundColor: ['transparent'],
+                borderColor: ['green'],
+            }]
+        },
+        options: {}
+    });
 </script>
