@@ -2,16 +2,18 @@
 
 $(function() {
     $('.grid-view tbody td, table.kv-grid-table tbody td').click(function(event) {
-        var $td = $(this),
-            $row = $td.closest('tr').first();
+        if(!$(this).hasClass('kv-expand-icon-cell') && !$(this).hasClass('no-load') && !$(this).hasClass('no-load')){
+            var $td = $(this),
+                $row = $td.closest('tr').first();
 
-        if ($td.find('a').length > 0 || $td.find('input').length > 0) {
-            return;
-        }
+            if ($td.find('a').length > 0 || $td.find('input').length > 0) {
+                return;
+            }
 
-        var url = $row.find("a[title='Редактировать']").first().attr('href');
-        if (url) {
-            window.location.href = url;
+            var url = $row.find("a[title='Редактировать']").first().attr('href');
+            if (url) {
+                window.location.href = url;
+            }
         }
     });
 });
@@ -22,12 +24,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
         this.className += ' no-loader';
     })
 
+    $('.kv-expand-row ').each(function() {
+        this.className += ' no-loader';
+    })
+
     $('.kv-grid-table tbody a[href*="delete"]').each(function() {
         this.className += ' no-loader';
     })
 
 
     $('.kv-panel-before a').each(function () {
+        this.className += ' no-loader';
+    });
+    $('.extend-before a').each(function () {
         this.className += ' no-loader';
     });
 
