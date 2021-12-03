@@ -3,6 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\selling\records\state\StateSearch;
+use forma\modules\sellinghistory\records\SellingHistory;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
 use forma\components\Controller;
@@ -53,12 +54,27 @@ class FormController extends Controller
 
     public function actionTest()
     {
-
         $id = $_GET['id'];
 
         $model = SellingService::get($id);
         $state_id = $_GET['state_id'];
         $sellingState = State::findOne($state_id);
+        $date = date('Y-m-d');
+        if ($state_id){
+            $sellingHistory=SellingHistory::find()->where(['date'=>$date])->one();
+            if($sellingHistory){
+                $sellingHistory->count = ++$sellingHistory->count ;
+                if (!$sellingHistory->save()){
+                    de($sellingHistory->getErrors());
+                }
+            }else{
+                $sellingHistory = new SellingHistory();
+                $sellingHistory->date = date('Y-m-d');
+                $sellingHistory->count = 1;
+                $sellingHistory->save();
+                }
+
+        }
         if ($state_id == 6) {
             $model->date_complete = date('Y-m-d H:i:s');
         }
@@ -69,8 +85,6 @@ class FormController extends Controller
         }
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])->asArray()
             ->all();
-
-
         if ($sellingState) {
             $toState = $sellingState->state;
 

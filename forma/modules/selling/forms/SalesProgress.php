@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\forms;
 
+use forma\modules\sellinghistory\records\SellingHistory;
 use Yii;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\services\SellingService;
@@ -17,6 +18,7 @@ class SalesProgress extends Model
     /** @var array */
     protected $states;
     protected $sales;
+    protected $sellinghistory;
 
     public function __construct()
     {
@@ -30,6 +32,9 @@ class SalesProgress extends Model
             ->where(['user_id' => Yii::$app->user->getId()])
             ->orderBy('order')
             ->all();;
+
+            $this->sellinghistory = SellingHistory::find()->all();
+
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
             $this->sales[$state->id] = ['sum' => 0, 'color' => ''];
@@ -101,9 +106,31 @@ class SalesProgress extends Model
 
             $result .= '"' . $state['name'] . '",';
         }
-
         return $result;
     }
+
+    public function getDate()
+    {
+        $result = '';
+
+        foreach ($this->sellinghistory as $date) {
+
+            $result .= '"' . $date['date'] . '",';
+        }
+        return $result;
+    }
+
+    public function getCount()
+    {
+        $result = '';
+
+        foreach ($this->sellinghistory as $count) {
+
+            $result .= '"' . $count['count'] . '",';
+        }
+        return $result;
+    }
+
 
     public function getComaListOfSales()
     {
