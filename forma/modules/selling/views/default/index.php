@@ -139,22 +139,23 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 </script>
 <script>
     <?php
-    $date = getdate(); // использовано текущее время
-    $month = $date['mon'];
-    $number =  date('t', mktime(0, 0, 0, $month));
-    $datadays = range(1,$number);
-    //        de(1);
+    $list=array();
+    for($d=1; $d<=31; $d++)
+    {
+        $time=mktime(12, 0, 0, date('m'), $d, date('Y'));
+        if (date('m', $time)==date('m'))
+            $list[]=date('d.m.Y', $time);
+    }
     $result = '';
+    foreach ($list as $dates) {
 
-    foreach ($datadays as $dates) {
-
-        $result .= '"' . $date['year'].'-'. $month .'-'.$dates. '",';
+        $result .= '"' . $dates . '",';
     }
     ?>
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'line',
         data: {
-            labels: [<?=$salesProgress->getDate(),$result?>],
+            labels: [<?=$result?>],
             datasets: [{
                 label: 'Количество изменений',
                 data: [<?=$salesProgress->getCount()?>],
