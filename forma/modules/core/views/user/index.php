@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\core\records\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+/* @var $model \forma\modules\core\records\User */
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core/default/people'];
 
@@ -33,7 +33,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{update} {delete} {login}',
+                'buttons' => [
+                    'login' => function ($url,$model) {
+                        if (Yii::$app->user->id == 1){
+                        return Html::a('<span class="glyphicon glyphicon-user"></span>', ["impersonate?id=" . $model->id], ["title" => "login"]);
+                    }
+                        },
+                    ]
             ],
         ],
     ]); ?>
