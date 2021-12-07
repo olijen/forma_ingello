@@ -33,7 +33,7 @@ class SalesProgress extends Model
             ->orderBy('order')
             ->all();;
 
-            $this->sellinghistory = SellingHistory::find()->all();
+            //$this->sellinghistory = SellingHistory::find()->all();
 
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {

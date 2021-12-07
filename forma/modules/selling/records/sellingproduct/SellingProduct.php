@@ -23,6 +23,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property string $currency_name
  * @property integer $pack_unit_id
  * @property integer $overhead_cost_id
+ * @property integer $purchase_cost
  *
  * @property Product $product
  * @property Selling $selling
@@ -65,6 +66,7 @@ class SellingProduct extends ActiveRecord
         return [
             [['product_id', 'selling_id', 'quantity', 'currency_id'], 'required'],
             [['product_id', 'selling_id', 'quantity', 'overhead_cost_id', 'cost_type'], 'integer'],
+            [['purchase_cost'], 'double'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['selling_id'], 'exist', 'skipOnError' => true, 'targetClass' => Selling::className(), 'targetAttribute' => ['selling_id' => 'id']],
             [['cost'], 'number'],
