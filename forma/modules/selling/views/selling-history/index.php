@@ -49,7 +49,7 @@ $comaList = $salesProgress->getComaListOfSales();
                     'convertFormat' => true,
                     'pluginOptions' => [
                         'locale' => [
-                            'format' => 'd.m.y'
+                            'format' => 'Y-m-d'
                         ],
                         'opens' => 'left',
                     ],
