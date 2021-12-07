@@ -76,7 +76,7 @@ class FormController extends Controller
 
         }
         if ($state_id == 6) {
-            $model->date_complete = date('Y-m-d H:i:s');
+            $model->date_complete = date('Y-m-d');
         }
         if ($sellingState) {
             $model->state_id = $sellingState->id;

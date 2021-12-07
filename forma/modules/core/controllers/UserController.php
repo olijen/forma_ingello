@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\components\UserIdentity;
 use Yii;
 use forma\modules\core\records\User;
 use forma\modules\core\records\UserSearch;
@@ -110,6 +111,19 @@ class UserController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionImpersonate($id)
+    {
+        if (Yii::$app->user->id == 1) {
+            $user = UserIdentity::findIdentity($id);
+            if ($user) {
+                Yii::$app->user->login($user);
+                return $this->redirect('referral');
+
+            }
+        }
+
     }
 
     public function actionReferral()

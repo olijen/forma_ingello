@@ -4,6 +4,7 @@ namespace forma\modules\core\records;
 
 use forma\modules\warehouse\records\WarehouseUser;
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
