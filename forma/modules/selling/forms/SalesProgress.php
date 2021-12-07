@@ -114,9 +114,13 @@ class SalesProgress extends Model
         $result = '';
 
         foreach ($this->sellinghistory as $date) {
-
-            $result .= '"' . $date['date'] . '",';
+            $dates = date('d.m.Y',strtotime($date['date']));
+            $result .= '"' . $dates . '",';
         }
+        $result = substr($result,0,-1);;
+        $result = explode(',',$result);
+        $result = array_reverse($result);
+        $result = implode(',',$result);
         return $result;
     }
 

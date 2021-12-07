@@ -155,10 +155,10 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'line',
         data: {
-            labels: [<?=$result?>],
+            labels: [<?=$salesProgress->getDate()?>],
             datasets: [{
                 label: 'Количество изменений',
-                data: [<?=$salesProgress->getCount()?>],
+                data: [<?=$salesProgress->getCount(),0?>],
                 backgroundColor: ['transparent'],
                 borderColor: ['green'],
             }]
