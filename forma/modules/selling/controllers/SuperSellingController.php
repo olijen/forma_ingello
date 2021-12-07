@@ -3,6 +3,7 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\customer\records\Customer;
+use forma\modules\selling\records\state\State;
 use Yii;
 use forma\modules\selling\records\superselling\Selling;
 use forma\modules\selling\records\superselling\SellingSearch;
@@ -40,21 +41,35 @@ class SuperSellingController extends Controller
             $requestPost = Yii::$app->request->post();
             $sellingId = $requestPost['editableKey'];
             $selling = Selling::find()->where(['id'=>$sellingId])->one();
-            $customer = Customer::find()->where(['id'=>$selling->customer_id])->one();
             $index = Yii::$app->request->post('editableIndex');
-            $requestPost = Yii::$app->request->post();
+            $customer = Customer::find()->where(['id'=>$selling->customer_id])->one();
+
             if(isset($requestPost['Selling'][$index]['customerName'])){
                 $newName = $requestPost['Selling'][$index]['customerName'];
                 $customer->name = $newName;
+                if($customer->save()){
+                    return true;
+                }
             }
+
             if(isset($requestPost['Selling'][$index]['customerPhone'])  ){
                 $newPhone = $requestPost['Selling'][$index]['customerPhone'];
                 $customer->chief_phone = $newPhone;
+                if($customer->save()){
+                    return true;
+                }
             }
-            if($customer->save()){
-                return true;
+
+            if(isset($requestPost['Selling'][$index]['stateName'])){
+                $newSate = $requestPost['Selling'][$index]['stateName'];
+                $state = State::find()->where(['name'=>$newSate])->one();
+                $selling->state_id = $state->id;
+                if($selling->save()){
+                    return true;
+                }
             }
         }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -122,6 +137,16 @@ class SuperSellingController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    public function actionDeleteSelection()
+    {
+        $selection = Yii::$app->request->post('selection');
+
+        if ($selection) {
+            Selling::deleteAll(['IN', 'id', $selection]);
+        }
+
+        return $this->redirect('/selling/super-selling/index');
     }
 
     /**

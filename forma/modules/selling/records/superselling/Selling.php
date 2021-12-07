@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\superselling;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\customer\records\Customer;
 use forma\modules\event\records\Event;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
@@ -25,15 +26,19 @@ use Yii;
  *
  * @property Event[] $events
  * @property Customer $customer
- * @property State $state
+ * @property State $toState
  * @property Warehouse $warehouse
  * @property SellingProduct[] $sellingProducts
  */
-class Selling extends \yii\db\ActiveRecord
+class Selling extends AccessoryActiveRecord
 {
-    public  $customerName;
-    public  $customerPhone;
-    public  $warehouseName;
+    public $customerName;
+    public $customerPhone;
+    public $warehouseName;
+    public $stateName;
+    public $sumPurchaseСost;
+    public $sumСost;
+    public $markup;
 
 
     /**
@@ -63,7 +68,7 @@ class Selling extends \yii\db\ActiveRecord
             [['customer_id', 'warehouse_id', 'state_id'], 'integer'],
             [['date_create', 'date_complete'], 'safe'],
             [['dialog', 'next_step'], 'string'],
-            [['name', 'selling_token'], 'string', 'max' => 100]
+            [['name', 'selling_token'], 'string', 'max' => 100],
         ];
     }
 
@@ -105,7 +110,7 @@ class Selling extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getState()
+    public function getToState()
     {
         return $this->hasOne(State::className(), ['id' => 'state_id']);
     }
@@ -125,6 +130,7 @@ class Selling extends \yii\db\ActiveRecord
     {
         return $this->hasMany(SellingProduct::className(), ['selling_id' => 'id']);
     }
+
 
     /**
      * @inheritdoc
