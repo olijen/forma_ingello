@@ -302,10 +302,12 @@ JS;
                                 $users = \forma\modules\core\records\User::find()->where(['id' => $userLoginInfo->parent_id])->all();
 
                             }
-                                $items = array();
+                            $items = array();
+                            if (isset ($users) ) {
                                 foreach ($users as $user) {
-                                    $items[] = ['label' => $user->username, 'url' => '#', 'options'=>['onclick'=>"changeAccount($user->id,'$user->username')"]];
+                                    $items[] = ['label' => $user->username, 'url' => '#', 'options' => ['onclick' => "changeAccount($user->id,'$user->username')"]];
                                 }
+                            }
                                 ?>
                                 <?= \yii\widgets\Menu::widget([
                                     'options' => ['class' => 'sidebar-menu treeview', 'style' => 'background-color: #00a65a;'],
@@ -319,7 +321,7 @@ JS;
                                     'submenuTemplate' => "\n<ul class='treeview-menu'>\n{items}\n</ul>\n",
                                     'encodeLabels' => false, //allows you to use html in labels
                                     'activateParents' => true,]);
-
+//                            }
                             ?>
 <!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */?>
                             <li class="user-footer">
