@@ -62,11 +62,11 @@ class SellingHistory extends \yii\db\ActiveRecord
   
   /**
   * @inheritdoc
-  * @return \forma\modules\sellinghistory\records\SellingHistoryQuery the active query used by this AR class.
+  * @return \forma\modules\selling\records\sellinghistory\SellingHistoryQuery the active query used by this AR class.
   */
   public static function find()
   {
-  return new \forma\modules\sellinghistory\records\SellingHistoryQuery(get_called_class());
+  return new \forma\modules\selling\records\sellinghistory\SellingHistoryQuery (get_called_class());
   }
 
 }

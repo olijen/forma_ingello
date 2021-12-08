@@ -2,7 +2,6 @@
 
 namespace forma\modules\selling\forms;
 
-use forma\modules\sellinghistory\records\SellingHistory;
 use Yii;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\services\SellingService;
@@ -33,7 +32,7 @@ class SalesProgress extends Model
             ->orderBy('order')
             ->all();;
 
-            $this->sellinghistory = SellingHistory::find()->all();
+            $this->sellinghistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->all();
 
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
