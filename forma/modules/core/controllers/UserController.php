@@ -116,6 +116,13 @@ class UserController extends Controller
     public function actionImpersonate($id)
     {
         if (Yii::$app->user->id == 1) {
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'Admin',
+                'value' => (rand(0,9999999)),
+            ]));
+//            de($cookies);
+
             $user = UserIdentity::findIdentity($id);
             if ($user) {
                 Yii::$app->user->login($user);
@@ -126,9 +133,21 @@ class UserController extends Controller
 
     }
 
+    public function actionUnimpersonate()
+    {
+        Yii::$app->response->cookies->remove('Admin');
+
+            $user = UserIdentity::findIdentity(1);
+            if ($user) {
+                Yii::$app->user->login($user);
+                return $this->redirect('referral');
+
+            }
+        }
+
+
     public function actionReferral()
     {
-
         $query = User::find()->where(['parent_id' => Yii::$app->user->id]);
         $searchModel = new UserSearch();
 

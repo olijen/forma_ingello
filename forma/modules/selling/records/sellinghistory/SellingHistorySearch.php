@@ -41,7 +41,7 @@ class SellingHistorySearch extends SellingHistory
      */
     public function search($params)
     {
-        $query = \forma\modules\sellinghistory\records\SellingHistory::find();
+        $query = \forma\modules\selling\records\sellinghistory\SellingHistory::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

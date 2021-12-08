@@ -22,19 +22,11 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-
         $salesProgress = new SalesProgress();
 
         return $this->render('index',compact(
             'salesProgress'
         ));
     }
-    public function actionHistory()
-    {
-        $salesProgress = new SalesProgress();
 
-        return $this->render('diagramma',compact(
-            'salesProgress'
-        ));
-    }
 }

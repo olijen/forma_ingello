@@ -33,8 +33,10 @@ class InterviewProgress extends Model
         foreach ($this->models as $model) {
             if ($model->state_id) {
                 $state = $model->getInterviewState()->one();
-                $this->sales[$state->name]['sum']++;
-                $this->sales[$state->name]['color'] = '';
+                if (isset($this->sales)) {
+                    $this->sales[$state->name]['sum']++;
+                    $this->sales[$state->name]['color'] = '';
+                }
             }
         }
     }

@@ -33,11 +33,16 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete} {login}',
+                'template' => '{update} {delete} {back} {login} ',
                 'buttons' => [
                     'login' => function ($url,$model) {
                         if (Yii::$app->user->id == 1){
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ["impersonate?id=" . $model->id], ["title" => "login"]);
+                    }
+                        },
+                    'back' => function ($url,$model) {
+                        if (Yii::$app->request->cookies->getValue('Admin') ){
+                        return Html::a('<span class="glyphicon glyphicon-user"></span>', ["unimpersonate"], ["title" => "назад"]);
                     }
                         },
                     ]

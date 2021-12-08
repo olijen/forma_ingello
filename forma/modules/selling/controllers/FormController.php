@@ -61,14 +61,14 @@ class FormController extends Controller
         $sellingState = State::findOne($state_id);
         $date = date('Y-m-d');
         if ($state_id){
-            $sellingHistory=SellingHistory::find()->where(['date'=>$date])->one();
+            $sellingHistory=\forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['date'=>$date])->one();
             if($sellingHistory){
                 $sellingHistory->count = ++$sellingHistory->count ;
                 if (!$sellingHistory->save()){
                     de($sellingHistory->getErrors());
                 }
             }else{
-                $sellingHistory = new SellingHistory();
+                $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
                 $sellingHistory->date = date('Y-m-d');
                 $sellingHistory->count = 1;
                 $sellingHistory->save();
