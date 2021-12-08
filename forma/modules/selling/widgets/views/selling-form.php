@@ -25,7 +25,7 @@ use forma\modules\selling\widgets\HistoryView;
 
 $formOptions = [
     'action' => Url::to(['/selling/form/save', 'id' => $model->id]),
-    'options' => ['data-pjax' => '1'],
+    'options' => ['data-pjax' => '1','id'=>'selling-form-send'],
     'fieldConfig' => [
         'inputOptions' => [
             'class' => 'form-control',
@@ -78,7 +78,7 @@ $formOptions = [
             ?>
             <?= $form->field($model, 'warehouse_id')->widget(Select2::classname(), [
                 'data' => Warehouse::getList(),
-                'options' => ['placeholder' => ''],
+                'options' => ['placeholder' => '','id'=>'warehouse-id'],
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
 
@@ -120,19 +120,18 @@ $formOptions = [
                 'settings' => [
                     'lang' => 'ru',
                     'minHeight' => 200,]]); ?>
-            <?php if (!$model->stateIs(new StateDone())): ?>
-
-                <button style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
-                            class="fa fa-save"></i>
-                    Сохранить
-                </button>
 
 
-            <?php endif; ?>
         </div>
 
-        <?php ActiveForm::end(); ?>
 
+        <?php ActiveForm::end(); ?>
+        <?php if (!$model->stateIs(new StateDone())): ?>
+            <button onclick="isWarehouse(<?= $model->warehouse_id ?>)" style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
+                        class="fa fa-save"></i>
+                Сохранить
+            </button>
+        <?php endif; ?>
         <?php Pjax::end() ?>
         <?php DetachedBlock::end(); ?>
     </div>
@@ -146,7 +145,22 @@ $formOptions = [
 
     </div>
 </div>
+<script>
+    function  isWarehouse(e){
+        let newWarehouseId = document.getElementById('warehouse-id').value;
+        if(newWarehouseId == e){
+            let form = document.getElementById("selling-form-send");
+            form.submit();
+        }else{
+            let r = confirm("При смене склада, все выбранные товары сбросятся, хотите продолжить ?");
+            if (r === true) {
+                let form = document.getElementById("selling-form-send");
+                form.submit();
+            } else {
+                return false;
+            }
 
+        }
 
-
-
+    }
+</script>

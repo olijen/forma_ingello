@@ -40,6 +40,9 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
+        if($model->warehouse_id != $post['Selling']['warehouse_id']){
+            NomenclatureService::deleteAllBySelling($model->id);
+        }
         $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
         if (Yii::$app->user->isGuest && Yii::$app->controller->action->id == 'test') {
             $model->tmpUserId = $post['Selling']['tmpUserId'];
