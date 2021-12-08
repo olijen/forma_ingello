@@ -30,7 +30,7 @@ class EntityLister
         }
 
         $query = $entityClass::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', Yii::$app->id])
+            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => $entityClass::className()]);
 
         if ($flag) return $query->all();
