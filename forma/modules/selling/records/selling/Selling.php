@@ -21,6 +21,7 @@ use yii\db\Query;
  * @property integer $customer_id
  * @property integer $warehouse_id
  * @property string $name
+ * @property string $comment
  * @property string $date_create
  * @property string $date_complete
  * @property integer $state_id
@@ -100,6 +101,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             [['customer_id', 'warehouse_id'], 'integer'],
             [['date_create', 'date_complete','lastEvent'], 'safe'],
             [['name'], 'string', 'max' => 100],
+            [['comment'], 'string', 'max' => 255],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],
@@ -116,6 +118,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             'customer_id' => 'Клиент',
             'warehouse_id' => 'Место',
             'name' => 'Название',
+            'comment' => 'Комментарий',
             'date_create' => 'Дата создания',
             'date_complete' => 'Дата завершения',
             'state_id' => 'Состояние',

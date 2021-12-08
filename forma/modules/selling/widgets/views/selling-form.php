@@ -18,48 +18,48 @@ use forma\modules\selling\widgets\HistoryView;
  * @var Selling $model
  */
 
-Pjax::begin(['id' => 'selling-form-pjax', 'enablePushState' => false]);
-
-if (!Yii::$app->request->isPjax) {
-    $js = "
-    $('document').ready(function() {
-        $('#selling-form-pjax').on('pjax:complete', function(xhr, textStatus, error, options) {
-            $.pjax.reload({container: '#selling-nomenclature-pjax'});
-            krajeeDialog.alert('Состояние успешно изменено!');
-        });
-    });
-";
-    $this->registerJs($js);
-}
 
 ?>
 
-<?php DetachedBlock::begin([
-    'example' => 'Данные',
-]); ?>
+<?php
 
-<div class="operation-form">
-
-    <?php
-
-    $formOptions = [
-        'action' => Url::to(['/selling/form/save', 'id' => $model->id]),
-        'options' => ['data-pjax' => '1'],
-        'fieldConfig' => [
-            'inputOptions' => [
-                'class' => 'form-control',
-                'disabled' => $model->stateIs(new StateDone()),
-            ],
+$formOptions = [
+    'action' => Url::to(['/selling/form/save', 'id' => $model->id]),
+    'options' => ['data-pjax' => '1'],
+    'fieldConfig' => [
+        'inputOptions' => [
+            'class' => 'form-control',
+            'disabled' => $model->stateIs(new StateDone()),
         ],
-    ];
+    ],
+];
 
-    $form = ActiveForm::begin($formOptions);
 
-    ?>
+?>
 
-    <div class="row">
-        <div class="col-md-<?=($model->isNewRecord)?'6':'4'?>">
+<div class="row">
+    <div class="col-md-<?= ($model->isNewRecord) ? '8' : '4' ?>">
+        <div class="operation-form">
+            <?php DetachedBlock::begin([
+                'example' => 'Данные',
+            ]); ?>
             <?php
+            if (!Yii::$app->request->isPjax) {
+                $js = "
+                    $('document').ready(function() {
+                        $('#selling-form-pjax').on('pjax:complete', function(xhr, textStatus, error, options) {
+                            $.pjax.reload({container: '#selling-nomenclature-pjax'});
+                            krajeeDialog.alert('Состояние успешно изменено!');
+                        });
+                    });
+                ";
+                $this->registerJs($js);
+            }
+            Pjax::begin(['id' => 'selling-form-pjax', 'enablePushState' => false]);
+            ?>
+            <?php
+
+            $form = ActiveForm::begin($formOptions);
             $label = $model->getAttributeLabel('warehouse_id');
             $label .= '
                 [<a
@@ -81,9 +81,7 @@ if (!Yii::$app->request->isPjax) {
                 'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
-        </div>
 
-        <div class="col-md-<?=($model->isNewRecord)?'6':'4'?>">
             <?php
             $label = $model->getAttributeLabel('customer_id');
             $label .= '
@@ -106,40 +104,49 @@ if (!Yii::$app->request->isPjax) {
                 'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
-        </div>
 
+            <?php if (!$model->isNewRecord): ?>
 
-    <?php if (!$model->isNewRecord): ?>
-
-            <div class="col-md-4">
                 <?= $form->field($model, 'date_complete')->widget(kartik\datetime\DateTimePicker::className(), [
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'yyyy-mm-dd hh:ii:ss'
                     ]
                 ]) ?>
-            </div>
 
-    <?php endif; ?>
-    </div>
-    <?php if (!$model->stateIs(new StateDone())): ?>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <button type="submit" id="selling-form-submit-button" class="btn btn-success"><i class="fa fa-save"></i>
+            <?php endif; ?>
+
+            <?= $form->field($model, 'comment')->widget(\vova07\imperavi\Widget::className(), [
+                'settings' => [
+                    'lang' => 'ru',
+                    'minHeight' => 200,]]); ?>
+            <?php if (!$model->stateIs(new StateDone())): ?>
+
+                <button style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
+                            class="fa fa-save"></i>
                     Сохранить
                 </button>
-            </div>
+
+
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
 
-    <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>
 
+        <?php Pjax::end() ?>
+        <?php DetachedBlock::end(); ?>
+    </div>
+
+
+    <div class="col-md-8" style="height: 100%;">
+
+        <?php if (!$model->isNewRecord): ?>
+            <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
+        <?php endif; ?>
+
+    </div>
 </div>
 
-<?php DetachedBlock::end(); ?>
 
-<?php Pjax::end() ?>
 
-<?php if (!$model->isNewRecord): ?>
-    <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
-<?php endif; ?>
+
