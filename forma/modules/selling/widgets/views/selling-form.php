@@ -60,50 +60,50 @@ $formOptions = [
             <?php
 
             $form = ActiveForm::begin($formOptions);
-            $label = $model->getAttributeLabel('warehouse_id');
-            $label .= '
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-warehouse_id"
-                    data-action="view"
-                    href="' . Url::to(['/warehouse/warehouse/view']) . '"
-                >детали</a>]
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-warehouse_id no-loader"
-                    data-action="create"
-                    href="' . Url::to(['/warehouse/warehouse/create']) . '"
-                >добавить</a>]
+            //$label = $model->getAttributeLabel('warehouse_id');
+            $label = '
+                <span>Место</span>
+                <div style="float:right" class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                  <div style="padding-left: 20px;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a data-action="view" data-select="#selling-warehouse_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/detail']) . '">детали</a>
+                    <br/>
+                    <a data-action="create" data-select="#selling-warehouse_id no-loader" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/create']) . '">добавить</a>
+                  <br/>
+                  </div>
+                </div>
             ';
             ?>
             <?= $form->field($model, 'warehouse_id')->widget(Select2::classname(), [
                 'data' => Warehouse::getList(),
-                'options' => ['placeholder' => '','id'=>'warehouse-id'],
+                'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
-            ])->label($label) ?>
+            ])->label($label,['style'=>'min-width:100%;']) ?>
 
             <?php
-            $label = $model->getAttributeLabel('customer_id');
-            $label .= '
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-customer_id"
-                    data-action="view"
-                    href="' . Url::to(['/customer/customer/view']) . '"
-                >детали</a>]
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-customer_id"
-                    data-action="create"
-                    href="' . Url::to(['/customer/customer/create']) . '"
-                >добавить</a>]
+            //$label = $model->getAttributeLabel('customer_id');
+            $label = '
+                <span>Клиент</span>
+                <div style="float:right" class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                  <div style="padding-left: 20px;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a data-action="view" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/view']) . '">детали</a>
+                    <br/>
+                    <a data-action="create" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/create']) . '">добавить</a>
+                  <br/>
+                  </div>
+                </div>
             ';
             ?>
             <?= $form->field($model, 'customer_id')->widget(Select2::classname(), [
                 'data' => Customer::getList(),
                 'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
-            ])->label($label) ?>
+            ])->label($label,['style'=>'min-width:100%;']) ?>
 
             <?php if (!$model->isNewRecord): ?>
 
@@ -147,7 +147,7 @@ $formOptions = [
 </div>
 <script>
     function  isWarehouse(e){
-        let newWarehouseId = document.getElementById('warehouse-id').value;
+        let newWarehouseId = document.getElementById('selling-warehouse_id').value;
         if(newWarehouseId == e){
             let form = document.getElementById("selling-form-send");
             form.submit();

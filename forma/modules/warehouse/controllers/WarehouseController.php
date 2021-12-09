@@ -52,17 +52,24 @@ class WarehouseController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionDetail($id)
+    {
+        $model = $this->findModel($id);
 
+        if ($model->belongsToUser()) {
+            if (Yii::$app->request->isAjax) {
+                $this->layout = '@app/modules/core/views/layouts/modal';
+                return $this->render('detail', compact('model'));
+            }
+        }
+
+        throw new ForbiddenHttpException;
+    }
     public function actionView($id)
     {
         $model = $this->findModel($id);
 
         if ($model->belongsToUser()) {
-
-            /*if (Yii::$app->request->isAjax) {
-                $this->layout = '@app/modules/core/views/layouts/modal';
-                return $this->render('detail', compact('model'));
-            }*/
 
             $warehouseProductsSearchModel = new WarehouseProductSearch;
 
