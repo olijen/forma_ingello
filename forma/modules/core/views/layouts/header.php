@@ -297,7 +297,8 @@ JS;
                             if ($userLoginInfo->id == 1) {
                                 Yii::$app->response->cookies->add(new \yii\web\Cookie([
                                         'name'=>'Admin',
-                                        'value'=>'goBack' ]));
+                                        'value'=> md5('goBack')
+                                    ]));
                                 $parenUsers = \forma\modules\core\records\User::find()->all();
                                 $items = array();
                                 foreach ($parenUsers as $parenUser) {
@@ -324,7 +325,7 @@ JS;
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
                                 </div>-->
-                                <?php if ($userLoginInfo->id !== 1 && Yii::$app->request->cookies->getValue('Admin')):?>
+                                <?php if ($userLoginInfo->id !== 1 && Yii::$app->request->cookies->getValue('Admin',md5('goBack'))):?>
                                 <div class="pull-right">
                                     <?= Html::a(
                                         'Назад в аккаунт',
