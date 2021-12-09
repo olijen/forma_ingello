@@ -133,8 +133,7 @@ class UserController extends Controller
 
     public function actionUnimpersonate()
     {
-       if(Yii::$app->request->cookies->getValue('Admin')){
-
+       if(Yii::$app->request->cookies->getValue('Admin',md5('goBack'))){
            $user = UserIdentity::findIdentity(1);
            if ($user) {
                Yii::$app->user->login($user);
@@ -171,7 +170,6 @@ class UserController extends Controller
 
         }
         $query = User::find()->where(['!=','id',1]);
-//        de($query);
         $searchModel = new UserSearch();
 
         $provider = new ActiveDataProvider([
