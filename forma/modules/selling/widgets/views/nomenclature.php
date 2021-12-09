@@ -1,6 +1,7 @@
 <?php
 
 use forma\modules\core\components\LinkHelper;
+use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\selling\StateDone;
 use forma\modules\selling\records\sellingproduct\SellingProduct;
 use forma\modules\warehouse\services\RemainsService;
@@ -20,6 +21,7 @@ use yii\widgets\ActiveField;
 
 /**
  * @var SellingProduct $unit
+ * @var Selling $selling
  * @var ActiveDataProvider $dataProvider
  * @var float $sumTotal
  */
@@ -45,8 +47,18 @@ Yii::debug($warehouseProducts);
 
 
     <div class="operation-nomenclature" data-warehouse-id="<?= $unit->selling->warehouse_id ?>">
-
-        <?php if ($warehouseProducts !== [] || stristr(Yii::$app->request->pathInfo,"selling")!=false) { ?>
+        <?php
+        if ($warehouseProducts == []){
+            echo "<div class='row'>
+                <div class='col-md-12'>
+                    <p style='color: red; margin-top: 15px'>На вашем складе нет товаров! Перейдите <a href='/purchase/form/index'
+                                                                                                      onclick='location.href=/purchase/form/index'>по
+                            ссылке</a> и добавьте товары в закупку.</p>
+                </div>
+            </div>";
+        }
+        ?>
+        <?php if ($warehouseProducts !== [] && stristr(Yii::$app->request->pathInfo,"selling")!=false || $selling->sellingProducts !== []) { ?>
 
             <?php if (!$unit->selling->stateIs(new StateDone())): ?>
 
@@ -95,6 +107,18 @@ Yii::debug($warehouseProducts);
 
                     ?>
                 </div>
+                <div class="col-md-2">
+                    <div class="form-group field-sellingproduct-purchase_cost">
+                        <label class="control-label" for="sellingproduct-purchase_cost">Ц.З.</label>
+                        <input type="text" id="sellingproduct-purchase_cost" class="form-control"
+                               name="purchase-cost" readonly>
+                        <div class="help-block"></div>
+                    </div>
+                    <?= $form->field($unit, 'purchase_cost',['enableClientValidation' => false])
+                        ->hiddenInput()->label(false);
+
+                    ?>
+                </div>
 
                 <div class="col-md-2">
                     <?= $form->field($unit, 'quantity', ['enableAjaxValidation' => true])->textInput(['class' => 'form-control change-cost'])
@@ -105,6 +129,14 @@ Yii::debug($warehouseProducts);
                 </div>
                 <div class="col-md-2">
                     <?= $form->field($unit, 'cost')->textInput() ?>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Сумма</label>
+                        <input type="text" id="sellingproduct-sum" class="form-control"
+                               name="purchase-cost" readonly>
+                        <div class="help-block"></div>
+                    </div>
                 </div>
                 <div class="col-md-1">
                     <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
@@ -117,16 +149,37 @@ Yii::debug($warehouseProducts);
 
             <script>
                 document.addEventListener("DOMContentLoaded", function (event) {
-                    $('.change-cost').change(function () {
 
-                        let $quantity = $('#sellingproduct-quantity').val();
-                        let $costType = $('#sellingproduct-cost_type').val();
+
+                    $('#sellingproduct-product_id').change(function (){
                         let $productId = $('#sellingproduct-product_id').val();
-
-                        $.post( "/selling/form/change-selling-product-cost", { quantity: $quantity, costType: $costType, productId: $productId, }, function( data ) {
+                        let $warehouseId = $('#selling-warehouse_id').val();
+                        let $costType = $('#sellingproduct-currency_id').val();
+                        $.post( "/selling/form/change-selling-product-purchase-cost", {  productId: $productId,warehouseId:$warehouseId }, function( data ) {
+                            $('#sellingproduct-purchase_cost').val(data);
+                        });
+                        $.post( "/selling/form/change-selling-product-cost", { costType: $costType, productId: $productId,warehouseId:$warehouseId }, function( data ) {
+                            $('#sellingproduct-cost').val(data);
+                        });
+                    })
+                    $('.change-cost').change(function () {
+                        let $costType = $('#sellingproduct-currency_id').val();
+                        let $productId = $('#sellingproduct-product_id').val();
+                        let $warehouseId = $('#selling-warehouse_id').val();
+                        $.post( "/selling/form/change-selling-product-cost", { costType: $costType, productId: $productId,warehouseId:$warehouseId }, function( data ) {
                             $('#sellingproduct-cost').val(data);
                         });
 
+                    })
+                    $('#sellingproduct-cost').change(function (){
+                        let cost = $('#sellingproduct-cost').val();
+                        let quantity = $('#sellingproduct-quantity').val();
+                        $('#sellingproduct-sum').val(cost*quantity);
+                    })
+                    $('#sellingproduct-quantity').change(function (){
+                        let cost = $('#sellingproduct-cost').val();
+                        let quantity = $('#sellingproduct-quantity').val();
+                        $('#sellingproduct-sum').val(cost*quantity);
                     })
                 })
             </script>
@@ -143,16 +196,7 @@ Yii::debug($warehouseProducts);
                             'label' => 'Товар',
                         ],
                         [
-                            'attribute' => 'pack_unit_id',
-                            'label' => 'Упаковка',
-                            'inputType' => DataColumn::INPUT_SELECT,
-                            'optionsListCallback' => function ($model) {
-                                /* @var SellingProduct $model */
-                                /* @var \forma\modules\product\Module $module */
-                                $module = Yii::$app->getModule('product');
-                                return $module->getPacksUnits($model->product);
-                            },
-                            'updateUrl' => Url::to(['/selling/nomenclature/change-pack']),
+                            'attribute' => 'quantity',
                             'reloadPjax' => true,
                         ],
                         [
@@ -164,10 +208,7 @@ Yii::debug($warehouseProducts);
                             'label' => 'Валюта',
                             'reloadPjax' => true,
                         ],
-                        [
-                            'attribute' => 'quantity',
-                            'reloadPjax' => true,
-                        ],
+
                         [
                             'attribute' => 'cost_type',
                             'inputType' => DataColumn::INPUT_SELECT,
@@ -214,13 +255,7 @@ Yii::debug($warehouseProducts);
             </div>
 
         <?php } else { ?>
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="color: red; margin-top: 15px">На вашем складе нет товаров! Перейдите <a href="/purchase/form/index"
-                                                                                                      onclick="location.href='/purchase/form/index'">по
-                            ссылке</a> и добавьте товары в закупку.</p>
-                </div>
-            </div>
+
         <?php } ?>
     </div>
 </div>

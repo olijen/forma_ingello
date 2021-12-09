@@ -41,13 +41,28 @@ class FormController extends Controller
          *      использовать получение складов по getMyWarehouseUser, для гостя.
          *      поменять цену
         */
-        if (!empty($_POST['productId']) && !empty($_POST['quantity'])) {
-
-            $cost = 'consumer_cost';
-            $product = WarehouseProduct::findOne(['product_id' => $_POST['productId']]);
-            $cost = $product->$cost * $_POST['quantity'];
+        if (!empty($_POST['productId']) && !empty($_POST['warehouseId'])) {
+            $productId = $_POST['productId'];
+            $warehouseId = $_POST['warehouseId'];
+            $costType = $_POST['costType'];
+            $product = WarehouseProduct::findOne(['product_id' => $productId,'warehouse_id'=>$warehouseId]);
+            $cost = $product->consumer_cost;
 
             return $cost;
+        }
+        return 0;
+    }
+    public function actionChangeSellingProductPurchaseCost()
+    {
+
+        if (!empty($_POST['productId']) && !empty($_POST['warehouseId'])) {
+
+            $productId = $_POST['productId'];
+            $warehouseId = $_POST['warehouseId'];
+            $product = WarehouseProduct::findOne(['product_id' =>$productId,'warehouse_id'=>$warehouseId]);
+            $purchaseCost = $product->purchase_cost;
+
+            return $purchaseCost;
         }
         return '';
     }
