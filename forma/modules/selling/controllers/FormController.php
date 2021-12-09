@@ -99,10 +99,11 @@ class FormController extends Controller
     {
         $model = SellingService::save($id, Yii::$app->request->post());
 
-        if (!$id) {
+        return $this->redirect(Url::to(['/selling/form', 'id' => $model->id]));
+        /*if (!$id) {
             return $this->redirect(Url::to(['/selling/form', 'id' => $model->id]));
         }
-        return SellingFormView::widget(compact('model'));
+        return SellingFormView::widget(compact('model'));*/
     }
 
 }

@@ -159,14 +159,6 @@ $hostInfo = Url::home(true);
 
         </div>
 
-        <form id="custom-answer" action="/selling/talk/end-talk" name="end-talk" method="post">
-            <input id="sellingId" type="hidden" value="<?=$sellingId?>" name="endTalk">
-            <ul class="list-group" id="no-usage-list">
-
-            </ul>
-            <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>">
-
-        </form>
         <div class="row">
             <div class="col-xs-6">
             <label for="next_step">Следуйщий шаг</label>
@@ -556,9 +548,12 @@ JS;
 
         <div class="row" style="margin-top: 10px">
             <div class="col-xs-12">
-            <a  href='/selling/form/?id=<?php echo $sellingId ?>' style="visibility: hidden" class="btn btn-success btn-lg btn-block" type="submit" id="end_talk">
+                <button style="visibility: hidden" class="btn btn-success btn-lg btn-block" id="end_talk">
+                    Завершить разговор
+                </button>
+            <!--<a  href='/selling/form/?id=<?php /*echo $sellingId */?>' style="visibility: hidden" class="btn btn-success btn-lg btn-block" type="submit" id="end_talk">
                 Завершить разговор
-            </a>
+            </a>-->
             </div>
         </div>
         <?php ActiveForm::end()?>

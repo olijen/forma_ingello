@@ -80,7 +80,7 @@ class SellingSearch extends Selling
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 0
+                'pageSize' =>20
             ],
             'sort' => [
                 'attributes' => [
