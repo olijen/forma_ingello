@@ -296,19 +296,13 @@ JS;
                             $userLoginInfo = \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one();
                             if ($userLoginInfo->id == 1) {
                                 Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                                    'name' => 'Admin',
-                                    'value' => 'backToAdmin']));
-                                $users = \forma\modules\core\records\User::find()->all();
-                            }
-                            if ($userLoginInfo->id !== 1 && Yii::$app->request->cookies['Admin']) {
-                                $users = \forma\modules\core\records\User::find()->where(['id'=>'1'])->all();
-                            }
-                            $items = array();
-                            if (isset ($users) ) {
-                                foreach ($users as $user) {
-                                    $items[] = ['label' => $user->username, 'url' => '#', 'options' => ['onclick' => "changeAccount($user->id,'$user->username')"]];
+                                        'name'=>'Admin',
+                                        'value'=>'goBack' ]));
+                                $parenUsers = \forma\modules\core\records\User::find()->all();
+                                $items = array();
+                                foreach ($parenUsers as $parenUser) {
+                                    $items[] = ['label' => $parenUser->username, 'url' => '#', 'options'=>['onclick'=>"changeAccount($parenUser->id,'$parenUser->username')"]];
                                 }
-                            }
                                 ?>
                                 <?= \yii\widgets\Menu::widget([
                                     'options' => ['class' => 'sidebar-menu treeview', 'style' => 'background-color: #00a65a;'],
@@ -322,13 +316,23 @@ JS;
                                     'submenuTemplate' => "\n<ul class='treeview-menu'>\n{items}\n</ul>\n",
                                     'encodeLabels' => false, //allows you to use html in labels
                                     'activateParents' => true,]);
-//                            }
+                            }
                             ?>
+
 <!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */?>
                             <li class="user-footer">
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
                                 </div>-->
+                                <?php if ($userLoginInfo->id !== 1 && Yii::$app->request->cookies->getValue('Admin')):?>
+                                <div class="pull-right">
+                                    <?= Html::a(
+                                        'Назад в аккаунт',
+                                        ['/core/user/unimpersonate'],
+                                        ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
+                                    ) ?>
+                                </div>
+                                <?php endif ?>
                                 <div class="pull-right">
                                     <?= Html::a(
                                         'Выйти из системы',

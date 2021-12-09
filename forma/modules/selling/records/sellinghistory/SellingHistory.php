@@ -2,6 +2,8 @@
 
 namespace forma\modules\selling\records\sellinghistory;
 
+use forma\components\AccessoryActiveRecord;
+use forma\modules\core\components\NomenclatureInterface;
 use Yii;
 
 /**
@@ -13,7 +15,7 @@ use Yii;
   * @property string $date_to
   * @property integer $count
 */
-class SellingHistory extends \yii\db\ActiveRecord
+class SellingHistory extends AccessoryActiveRecord
 {
 
 

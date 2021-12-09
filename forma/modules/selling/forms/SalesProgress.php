@@ -7,6 +7,7 @@ use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\services\SellingService;
 use forma\modules\selling\records\state\State;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class SalesProgress extends Model
 {
@@ -110,12 +111,15 @@ class SalesProgress extends Model
 
     public function getDate()
     {
+        $data = ArrayHelper::map($this->sellinghistory,'date','count');
+
         $result = '';
 
-        foreach ($this->sellinghistory as $date) {
-            $dates = date('d.m.Y',strtotime($date['date']));
+        foreach ($data as $key=>$date) {
+            $dates = date('d.m.Y',strtotime($key));
             $result .= '"' . $dates . '",';
         }
+//        de($result);
         $result = substr($result,0,-1);;
         $result = explode(',',$result);
         $result = array_reverse($result);
@@ -125,11 +129,13 @@ class SalesProgress extends Model
 
     public function getCount()
     {
+        $data = ArrayHelper::map($this->sellinghistory,'date','count');
+
         $result = '';
 
-        foreach ($this->sellinghistory as $count) {
+        foreach ($data as $k=>$count) {
 
-            $result .= '"' . $count['count'] . '",';
+            $result .= '"' . $count . '",';
         }
         return $result;
     }

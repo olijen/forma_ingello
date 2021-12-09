@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
                     }
                         },
                     'back' => function ($url,$model) {
-                        if (Yii::$app->request->cookies->getValue('Admin') ){
+                        if (Yii::$app->request->cookies->getValue('Admin','goBack') && Yii::$app->user->id !== 1 ){
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ["unimpersonate"], ["title" => "назад"]);
                     }
                         },
