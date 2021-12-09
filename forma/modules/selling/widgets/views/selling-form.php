@@ -63,11 +63,12 @@ $formOptions = [
             //$label = $model->getAttributeLabel('warehouse_id');
             $label = '
                 <span>Место</span>
+                
                 <div style="float:right" class="dropdown show">
                   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-angle-down"></i>
                   </a>
-                  <div style="padding-left: 20px;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <div style="padding-left: 20px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a data-action="view" data-select="#selling-warehouse_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/detail']) . '">детали</a>
                     <br/>
                     <a data-action="create" data-select="#selling-warehouse_id no-loader" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/create']) . '">добавить</a>
@@ -90,7 +91,7 @@ $formOptions = [
                   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-angle-down"></i>
                   </a>
-                  <div style="padding-left: 20px;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <div style="padding-left: 20px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a data-action="view" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/view']) . '">детали</a>
                     <br/>
                     <a data-action="create" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/create']) . '">добавить</a>
