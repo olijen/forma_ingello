@@ -280,7 +280,12 @@ return [
                         ['label' => 'Производители', 'url' => ['/product/manufacturer/'], 'icon' => 'id-card'],
                         ['label' => 'Добавить производ.', 'url' => ['/product/manufacturer/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                             'style' => 'margin-left: 20px'] ],
-                        ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
+
+                        ['label' => 'Все пользователи', 'url' => '/core/user/all-users', 'icon' => 'user',
+//                        'visible'=> false ,
+                        ],
+
+
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
                     ]
@@ -492,7 +497,7 @@ return [
         ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat', 'options' => [
                 'class'=>'menuColor text_black']],
     ],
-    
+
     'translateTablesName' => [
         'answer' => 'Ответы',
         'event' => 'События',

@@ -126,7 +126,7 @@ class UserController extends Controller
             $user = UserIdentity::findIdentity($id);
             if ($user) {
                 Yii::$app->user->login($user);
-                return $this->redirect('referral');
+                return $this->redirect('all-users');
 
             }
         }
@@ -140,7 +140,7 @@ class UserController extends Controller
             $user = UserIdentity::findIdentity(1);
             if ($user) {
                 Yii::$app->user->login($user);
-                return $this->redirect('referral');
+                return $this->redirect('all-users');
 
             }
         }
@@ -149,6 +149,31 @@ class UserController extends Controller
     public function actionReferral()
     {
         $query = User::find()->where(['parent_id' => Yii::$app->user->id]);
+        $searchModel = new UserSearch();
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('index',[
+            'searchModel' => $searchModel,
+            'dataProvider' => $provider,
+        ]);
+    }
+
+
+    public function actionAllUsers()
+    {
+//        de(Yii::$app->request->cookies);
+
+        if (Yii::$app->user->id !=1){
+            return $this->redirect('referral');
+
+        }
+        $query = User::find()->where(['!=','id',1]);
+//        de($query);
         $searchModel = new UserSearch();
 
         $provider = new ActiveDataProvider([

@@ -294,13 +294,14 @@ JS;
                             </li>
                             <?php
                             $userLoginInfo = \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one();
-                            if ($userLoginInfo->parent_id == null) {
-
-                                $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userLoginInfo->id])->all();
+                            if ($userLoginInfo->id == 1) {
+                                Yii::$app->response->cookies->add(new \yii\web\Cookie([
+                                    'name' => 'Admin',
+                                    'value' => 'backToAdmin']));
+                                $users = \forma\modules\core\records\User::find()->all();
                             }
-                            if ($userLoginInfo->parent_id == 1) {
-                                $users = \forma\modules\core\records\User::find()->where(['id' => $userLoginInfo->parent_id])->all();
-
+                            if ($userLoginInfo->id !== 1 && Yii::$app->request->cookies['Admin']) {
+                                $users = \forma\modules\core\records\User::find()->where(['id'=>'1'])->all();
                             }
                             $items = array();
                             if (isset ($users) ) {
