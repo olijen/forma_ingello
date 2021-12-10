@@ -49,13 +49,7 @@ class MainController extends Controller
         if (Yii::$app   ->request->isAjax) Yii::debug('ВОТ');
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //Yii::debug("PROVIDER ON PAGE");
-        //Yii::debug($dataProvider);
-//        $data = new EventSearch()->fi
-        $date= $dataProvider->getModels();
-//        de($date);
-
-        return $this->render('index', compact('searchModel', 'dataProvider'));
+        return $this->render('index', compact('searchModel', 'dataProvider' ));
     }
 
     public function actionUpdate($id)

@@ -119,10 +119,8 @@ class UserController extends Controller
             $cookies = Yii::$app->response->cookies;
             $cookies->add(new \yii\web\Cookie([
                 'name' => 'Admin',
-                'value' => (rand(0,9999999)),
+                'value' => 'goBack',
             ]));
-//            de($cookies);
-
             $user = UserIdentity::findIdentity($id);
             if ($user) {
                 Yii::$app->user->login($user);
@@ -135,14 +133,15 @@ class UserController extends Controller
 
     public function actionUnimpersonate()
     {
-        Yii::$app->response->cookies->remove('Admin');
+       if(Yii::$app->request->cookies->getValue('Admin',md5('goBack'))){
+           $user = UserIdentity::findIdentity(1);
+           if ($user) {
+               Yii::$app->user->login($user);
+//               Yii::$app->response->cookies->remove('Admin');
+               return $this->redirect('all-users');
+           }
+       };
 
-            $user = UserIdentity::findIdentity(1);
-            if ($user) {
-                Yii::$app->user->login($user);
-                return $this->redirect('all-users');
-
-            }
         }
 
 
@@ -166,14 +165,11 @@ class UserController extends Controller
 
     public function actionAllUsers()
     {
-//        de(Yii::$app->request->cookies);
-
-        if (Yii::$app->user->id !=1){
+        if (Yii::$app->user->id !==1){
             return $this->redirect('referral');
 
         }
         $query = User::find()->where(['!=','id',1]);
-//        de($query);
         $searchModel = new UserSearch();
 
         $provider = new ActiveDataProvider([

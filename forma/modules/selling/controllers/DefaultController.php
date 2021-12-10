@@ -4,8 +4,9 @@ namespace forma\modules\selling\controllers;
 
 use forma\modules\selling\forms\SalesProgress;
 use forma\components\Controller;
+use forma\modules\selling\records\sellinghistory\SellingHistory;
 use forma\modules\selling\services\SellingService;
-use forma\modules\sellinghistory\records\SellingHistory;
+//use forma\modules\selling\records\sellinghistory;
 use Yii;
 
 /**
@@ -13,6 +14,7 @@ use Yii;
  */
 class DefaultController extends Controller
 {
+
     public $date;
     public $sellinghistory;
 

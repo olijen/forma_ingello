@@ -8,6 +8,7 @@ use forma\modules\selling\records\state\State;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 
 /**
  * SellingSearch represents the model behind the search form about `\forma\modules\selling\records\selling\Selling`.
@@ -80,7 +81,7 @@ class SellingSearch extends Selling
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' =>20
+                'pageSize' =>10
             ],
             'sort' => [
                 'attributes' => [
