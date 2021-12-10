@@ -28,21 +28,16 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
 
     <?php
     $gridColumns = [
-        [
-            'class' => 'kartik\grid\SerialColumn',
-            'contentOptions' => ['class' => 'kartik-sheet-style'],
-            'width' => '36px',
-            'pageSummary' => 'Всего',
-            'pageSummaryOptions' => ['colspan' => 8],
-            'header' => '',
-            'headerOptions' => ['class' => 'kartik-sheet-style']
-        ],
+
         ['class' => 'kartik\grid\CheckboxColumn'],
         ['class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
             'urlCreator' => function ($action, $model, $key, $index) {
                 if ($action == 'update') {
                     return \yii\helpers\Url::to(['/selling/form', 'id' => $model->id]);
+                }
+                if ($action == 'delete') {
+                    return \yii\helpers\Url::to(['delete', 'id' => $model->id]);
                 }
             }
         ],
@@ -76,7 +71,6 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                 ];
             },
             'contentOptions' => ['class' => 'no-load'],
-            'filterInputOptions' => ['id'=>'customer-name','class'=>'form-control']
         ],
         [
             'class' => 'kartik\grid\EditableColumn',
@@ -96,7 +90,6 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                 ];
             },
             'contentOptions' => ['class' => 'no-load'],
-            'filterInputOptions' => ['id'=>'customer-phone','class'=>'form-control']
 
         ],
         [
@@ -120,10 +113,10 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     return $warehouse->name;
                 }
             },
-            'filterType' => GridView::FILTER_SELECT2,
-            'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\warehouse\records\Warehouse::find()->all(), 'id', 'name'),
+
+            'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\warehouse\records\Warehouse::getMyWarehouses(), 'id', 'name'),
             'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => false],
+                'pluginOptions' => ['allowClear' => false,'pjax'=>false],
                 'value' => isset($_GET['SellingSearch']['warehouseName']) ?
                     $_GET['SellingSearch']['warehouseName'] : '',
                 'options' => ['placeholder' => 'Выбрать склад...'],
@@ -132,7 +125,6 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                 'data' => \yii\helpers\ArrayHelper::map(\forma\modules\warehouse\records\Warehouse::find()->all(), 'id', 'name'),
             ],
             'format' => 'raw',
-            'filterInputOptions' => ['id'=>'warehouse-name','class'=>'form-control']
 
         ],
         [
@@ -153,7 +145,6 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                 ];
             },
             'contentOptions' => ['class' => 'no-load'],
-            'filterInputOptions' => ['id'=>'state-name','class'=>'form-control']
 
         ],
         [
