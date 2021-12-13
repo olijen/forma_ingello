@@ -3,13 +3,12 @@
 use yii\bootstrap\Html;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-use kartik\editors\Summernote;
 
 ?>
 <style>
     #chat{
         overflow-x: scroll;
-        height: 250px;
+        height: 300px;
     }
 </style>
 
@@ -42,7 +41,7 @@ use kartik\editors\Summernote;
             'name' => 'comment',
             'settings' => [
                 'lang' => 'ru',
-                'minHeight' => 220,
+                //'minHeight' => 300,
                 'plugins' => [
                     'clips',
                     'fullscreen',
@@ -60,12 +59,11 @@ use kartik\editors\Summernote;
                 'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
                 'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
-            'options' => ['style'=>'overflow-x: scroll;']
         ]);
         ?>
     </div>
 
-    <div class="form-group col-md-12" style="padding: 0;">
+    <div class="form-group col-md-12">
 
         <button style="width: 100%;" type="submit" class="btn no-loader btn-success"><i class="fa fa-paper-plane"></i> Отправить</button>
 

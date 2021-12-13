@@ -38,11 +38,10 @@ $formOptions = [
 ?>
 
 <div class="row">
-    <div class="col-md-<?= ($model->isNewRecord) ? '12' : '4' ?>">
+    <div class="col-md-<?= ($model->isNewRecord) ? '8' : '4' ?>">
         <div class="operation-form">
             <?php DetachedBlock::begin([
                 'example' => 'Данные',
-                'id' => 'operation-form',
             ]); ?>
             <?php
             if (!Yii::$app->request->isPjax) {
@@ -126,15 +125,10 @@ $formOptions = [
 
         </div>
 
-        <?php if ($model->isNewRecord == true): ?>
-            <button style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
-                        class="fa fa-save"></i>
-                Сохранить
-            </button>
-        <?php endif; ?>
+
         <?php ActiveForm::end(); ?>
-        <?php if (!$model->stateIs(new StateDone()) && $model->isNewRecord !== true): ?>
-            <button onclick = isWarehouse(<?= $model->warehouse_id ?>) style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
+        <?php if (!$model->stateIs(new StateDone())): ?>
+            <button onclick="isWarehouse(<?= $model->warehouse_id ?>)" style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
                         class="fa fa-save"></i>
                 Сохранить
             </button>
@@ -144,9 +138,7 @@ $formOptions = [
     </div>
 
 
-
-
-    <div class="col-md-8" >
+    <div class="col-md-8" style="height: 100%;">
 
         <?php if (!$model->isNewRecord): ?>
             <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
@@ -172,10 +164,4 @@ $formOptions = [
         }
 
     }
-    function newWarehouse(){
-        let form = document.getElementById("selling-form-send");
-        form.submit();
-    }
-    $(".bs-example").css( "height",'660px');
-
 </script>
