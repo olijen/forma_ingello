@@ -42,6 +42,7 @@ use yii\helpers\Url;
             'settings' => [
                 'lang' => 'ru',
                 'minHeight' => 220,
+                'maxHeight' => 221,
                 'plugins' => [
                     'clips',
                     'fullscreen',
