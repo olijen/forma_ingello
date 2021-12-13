@@ -121,7 +121,7 @@ $formOptions = [
             <?= $form->field($model, 'comment')->widget(\vova07\imperavi\Widget::className(), [
                 'settings' => [
                     'lang' => 'ru',
-                    'minHeight' => 200,]]); ?>
+                    'minHeight' => 200,'maxHeight' => 220]]); ?>
 
 
         </div>
@@ -176,6 +176,6 @@ $formOptions = [
         let form = document.getElementById("selling-form-send");
         form.submit();
     }
-    $(".bs-example").css( "height",'660px');
+    $(".bs-example").css( "height",'670px');
 
 </script>
