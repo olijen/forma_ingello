@@ -84,7 +84,7 @@ use yii\helpers\Url;
 
         $('#history_form').on('submit', (e) => {
             let date = new Date().toLocaleString();
-            document.getElementsByClassName('redactor-editor')[0].textContent = '';
+            document.getElementsByClassName('redactor-editor')[1].textContent = '';
             heightForScroll = div[0].scrollHeight;
             e.preventDefault();
             let data = $(e.target).serialize()+'&date='+date;
