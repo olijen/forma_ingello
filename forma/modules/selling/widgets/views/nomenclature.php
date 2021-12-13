@@ -114,7 +114,7 @@ Yii::debug($warehouseProducts);
                                name="purchase-cost" readonly>
                         <div class="help-block"></div>
                     </div>
-                    <?= $form->field($unit, 'purchase_cost',['enableClientValidation' => false])
+                    <?= $form->field($unit, 'purchase_cost')
                         ->hiddenInput()->label(false);
 
                     ?>
@@ -128,13 +128,13 @@ Yii::debug($warehouseProducts);
                     <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['prompt' => '', 'class' => 'form-control change-cost']) ?>
                 </div>
                 <div class="col-md-2">
-                    <?= $form->field($unit, 'cost')->textInput() ?>
+                    <?= $form->field($unit, 'cost')->textInput()->label('Стоимость за 1 шт.') ?>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="control-label">Сумма</label>
                         <input type="text" id="sellingproduct-sum" class="form-control"
-                               name="purchase-cost" readonly>
+                               name="sellingproduct-sum" readonly>
                         <div class="help-block"></div>
                     </div>
                 </div>
@@ -150,28 +150,7 @@ Yii::debug($warehouseProducts);
             <script>
                 document.addEventListener("DOMContentLoaded", function (event) {
 
-
-                    $('#sellingproduct-product_id').change(function (){
-                        let $productId = $('#sellingproduct-product_id').val();
-                        let $warehouseId = $('#selling-warehouse_id').val();
-                        let $costType = $('#sellingproduct-currency_id').val();
-                        $.post( "/selling/form/change-selling-product-purchase-cost", {  productId: $productId,warehouseId:$warehouseId }, function( data ) {
-                            $('#sellingproduct-purchase_cost').val(data);
-                        });
-                        $.post( "/selling/form/change-selling-product-cost", { costType: $costType, productId: $productId,warehouseId:$warehouseId }, function( data ) {
-                            $('#sellingproduct-cost').val(data);
-                        });
-                    })
-                    $('.change-cost').change(function () {
-                        let $costType = $('#sellingproduct-currency_id').val();
-                        let $productId = $('#sellingproduct-product_id').val();
-                        let $warehouseId = $('#selling-warehouse_id').val();
-                        $.post( "/selling/form/change-selling-product-cost", { costType: $costType, productId: $productId,warehouseId:$warehouseId }, function( data ) {
-                            $('#sellingproduct-cost').val(data);
-                        });
-
-                    })
-                    $('#sellingproduct-cost').change(function (){
+                    $('#sellingproduct-cost').change(function () {
                         let cost = $('#sellingproduct-cost').val();
                         let quantity = $('#sellingproduct-quantity').val();
                         $('#sellingproduct-sum').val(cost*quantity);
@@ -180,6 +159,24 @@ Yii::debug($warehouseProducts);
                         let cost = $('#sellingproduct-cost').val();
                         let quantity = $('#sellingproduct-quantity').val();
                         $('#sellingproduct-sum').val(cost*quantity);
+                    })
+                    $('#sellingproduct-cost_type').change(function (){
+                        let $productId = $('#sellingproduct-product_id').val();
+                        let $warehouseId = $('#selling-warehouse_id').val();
+                        let $costType = $('#sellingproduct-cost_type').val();
+                        let quantity = $('#sellingproduct-quantity').val();
+                        $.post( "/selling/form/change-selling-product-cost", {  costType:$costType,productId: $productId,warehouseId:$warehouseId }, function( data ) {
+                            $('#sellingproduct-cost').val(data);
+                            $('#sellingproduct-sum').val(data*quantity);
+                        });
+
+                    })
+                    $('#sellingproduct-product_id').change(function (){
+                        let $productId = $('#sellingproduct-product_id').val();
+                        let $warehouseId = $('#selling-warehouse_id').val();
+                        $.post( "/selling/form/change-selling-product-purchase-cost", {  productId: $productId,warehouseId:$warehouseId }, function( data ) {
+                            $('#sellingproduct-purchase_cost').val(data);
+                        });
                     })
                 })
             </script>

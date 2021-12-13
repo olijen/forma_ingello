@@ -46,7 +46,16 @@ class FormController extends Controller
             $warehouseId = $_POST['warehouseId'];
             $costType = $_POST['costType'];
             $product = WarehouseProduct::findOne(['product_id' => $productId,'warehouse_id'=>$warehouseId]);
-            $cost = $product->consumer_cost;
+            $cost = 0;
+            switch ($costType) {
+                case 0:
+                    $cost = $product->consumer_cost;
+                    break;
+                case 1:
+                    $cost = $product->trade_cost;
+                    break;
+            }
+
 
             return $cost;
         }
@@ -59,12 +68,12 @@ class FormController extends Controller
 
             $productId = $_POST['productId'];
             $warehouseId = $_POST['warehouseId'];
-            $product = WarehouseProduct::findOne(['product_id' =>$productId,'warehouse_id'=>$warehouseId]);
+            $product = WarehouseProduct::findOne(['product_id' => $productId,'warehouse_id'=>$warehouseId]);
             $purchaseCost = $product->purchase_cost;
 
             return $purchaseCost;
         }
-        return '';
+        return 0;
     }
 
     public function actionTest()
