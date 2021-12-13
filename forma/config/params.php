@@ -321,6 +321,11 @@ return [
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
+                ['label' => 'Супер-таблица',
+                    'url' => ['/selling/super-selling'],
+                    'icon' => 'eye',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
                 [
                     'label' => 'Состояния',
                     'url' => ['/selling/main-state/index'],
