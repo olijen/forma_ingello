@@ -293,7 +293,7 @@ JS;
                                 </p>
                             </li>
                             <?php
-/*                            $userLoginInfo = \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one();
+                         $userLoginInfo = \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one();
                             if ($userLoginInfo->id == 1) {
                                 Yii::$app->response->cookies->add(new \yii\web\Cookie([
                                     'name' => 'Admin',
@@ -309,7 +309,7 @@ JS;
                                     $items[] = ['label' => $user->username, 'url' => '#', 'options' => ['onclick' => "changeAccount($user->id,'$user->username')"]];
                                 }
                             }
-                            */?>
+                            ?>
                             <li class="user-footer">
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
