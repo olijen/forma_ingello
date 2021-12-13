@@ -292,33 +292,7 @@ JS;
                                     <small><?= Yii::$app->user->getIdentity()->role ?></small>
                                 </p>
                             </li>
-                            <?php
-                            $userLoginInfo = \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one();
-                            if ($userLoginInfo->id == 1) {
-                                Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                                        'name'=>'Admin',
-                                        'value'=> md5('goBack')
-                                    ]));
-                                $parenUsers = \forma\modules\core\records\User::find()->all();
-                                $items = array();
-                                foreach ($parenUsers as $parenUser) {
-                                    $items[] = ['label' => $parenUser->username, 'url' => '#', 'options'=>['onclick'=>"changeAccount($parenUser->id,'$parenUser->username')"]];
-                                }
-                                ?>
-                                <?= \yii\widgets\Menu::widget([
-                                    'options' => ['class' => 'sidebar-menu treeview', 'style' => 'background-color: #00a65a;'],
-                                    'items' => [
-                                        ['label' => 'Переключиться в аккаунт',
-                                            'url' => ['#'],
-                                            'template' => '<a style="color: black;" href="{url}" >{label}<i class="fa fa-user-circle" style="float: right;"></i></a>',
-                                            'items' => $items
-                                        ],
-                                    ],
-                                    'submenuTemplate' => "\n<ul class='treeview-menu'>\n{items}\n</ul>\n",
-                                    'encodeLabels' => false, //allows you to use html in labels
-                                    'activateParents' => true,]);
-                            }
-                            ?>
+
 
 <!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */?>
                             <li class="user-footer">
@@ -328,19 +302,28 @@ JS;
                                 <?php
                                 if (isset (Yii::$app->user->id) ) {
                                     $userId = Yii::$app->user->id;
-                                    $users = \forma\modules\core\records\User::find()->where(['parent_id'=>$userId])->all();
-                                    if($users != []){
+                                    if ($userId == 1){
+                                        Yii::$app->response->cookies->add(new \yii\web\Cookie([
+                                            'name'=>'Admin',
+                                            'value'=> 'goBack'
+                                        ]));
+                                        $users = \forma\modules\core\records\User::find()->all();
+                                    }else {
+                                        $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
+                                    }
+                                    if ($users != []) {
                                         echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
                                         foreach ($users as $user) {
 
                                             echo Html::a(
                                                 $user->username,
                                                 ['#'],
-                                                ['style'=>'width:100%','data-method' => 'post','class' => 'btn btn-default btn-flat','onclick' => "changeAccount($user->id,'$user->username')"]
+                                                ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
                                             );
                                         }
                                         echo "</div>";
                                     }
+
 
                                 }
                                 ?>
@@ -352,6 +335,19 @@ JS;
                                         ['/logout'],
                                         ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                                     ) ?>
+                                </div>
+                                <div class="pull-right">
+
+
+                                    <?php
+                                    $cookies = Yii::$app->request->cookies->getValue('Admin');
+                                    if ( Yii::$app->user->id!==1 && isset($cookies) ) {
+                                        echo Html::a(
+                                            'Переключиться назад',
+                                            ['/core/user/unimpersonate'],
+                                            ['data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'style'=>'margin-top: 10px']
+                                        );
+                                    }?>
                                 </div>
                             </li>
                         </ul>

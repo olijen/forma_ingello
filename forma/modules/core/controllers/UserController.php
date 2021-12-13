@@ -138,7 +138,7 @@ class UserController extends Controller
            if ($user) {
                Yii::$app->user->login($user);
 //               Yii::$app->response->cookies->remove('Admin');
-               return $this->redirect('all-users');
+               return $this->redirect('/#');
            }
        };
 
