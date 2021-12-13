@@ -8,7 +8,7 @@ use yii\helpers\Url;
 <style>
     #chat{
         overflow-x: scroll;
-        height: 300px;
+        height: 250px;
     }
 </style>
 
@@ -41,7 +41,7 @@ use yii\helpers\Url;
             'name' => 'comment',
             'settings' => [
                 'lang' => 'ru',
-                //'minHeight' => 300,
+                'minHeight' => 220,
                 'plugins' => [
                     'clips',
                     'fullscreen',
@@ -59,11 +59,12 @@ use yii\helpers\Url;
                 'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
                 'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
+            'options' => ['style'=>'overflow-x: scroll;']
         ]);
         ?>
     </div>
 
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-12" style="padding: 0;">
 
         <button style="width: 100%;" type="submit" class="btn no-loader btn-success"><i class="fa fa-paper-plane"></i> Отправить</button>
 

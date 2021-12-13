@@ -325,16 +325,28 @@ JS;
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
                                 </div>-->
-                                <?php if ($userLoginInfo->id !== 1 && Yii::$app->request->cookies->getValue('Admin')):?>
+                                <?php
+                                if (isset (Yii::$app->user->id) ) {
+                                    $userId = Yii::$app->user->id;
+                                    $users = \forma\modules\core\records\User::find()->where(['parent_id'=>$userId])->all();
+                                    if($users != []){
+                                        echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                        foreach ($users as $user) {
+
+                                            echo Html::a(
+                                                $user->username,
+                                                ['#'],
+                                                ['style'=>'width:100%','data-method' => 'post','class' => 'btn btn-default btn-flat','onclick' => "changeAccount($user->id,'$user->username')"]
+                                            );
+                                        }
+                                        echo "</div>";
+                                    }
+
+                                }
+                                ?>
                                 <div class="pull-right">
-                                    <?= Html::a(
-                                        'Назад в аккаунт',
-                                        ['/core/user/unimpersonate'],
-                                        ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
-                                    ) ?>
-                                </div>
-                                <?php endif ?>
-                                <div class="pull-right">
+
+
                                     <?= Html::a(
                                         'Выйти из системы',
                                         ['/logout'],
