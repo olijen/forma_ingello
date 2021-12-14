@@ -38,9 +38,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
 
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ["impersonate?id=" . $model->id], ["title" => "login"]);
                         },
-                    'back' => function ($url,$model) {
-                        return Html::a('<span class="glyphicon glyphicon-user"></span>', ["unimpersonate"], ["title" => "назад"]);
-                        },
                     ]
             ],
         ],

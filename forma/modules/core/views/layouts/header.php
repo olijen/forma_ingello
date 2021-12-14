@@ -305,7 +305,7 @@ JS;
                                     if ($userId == 1){
                                         Yii::$app->response->cookies->add(new \yii\web\Cookie([
                                             'name' => 'Admin',
-                                            'value' => 'goBack'
+                                            'value' => md5('goBack')
                                         ]));
                                         $users = \forma\modules\core\records\User::find()->all();
                                         echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";

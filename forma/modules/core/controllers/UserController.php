@@ -126,7 +126,7 @@ class UserController extends Controller
 
     public function actionUnimpersonate()
     {
-        if (Yii::$app->request->cookies->getValue('Admin', 'goBack')) {
+        if (Yii::$app->request->cookies->getValue('Admin') === md5('goBack')) {
             $user = UserIdentity::findIdentity(1);
             if ($user) {
                 Yii::$app->user->login($user);
@@ -157,6 +157,7 @@ class UserController extends Controller
 
     public function actionAllUsers()
     {
+//        de(Yii::$app->request->cookies->getValue('Admin'));
         if (Yii::$app->user->id !==1){
             return $this->redirect('referral');
 
