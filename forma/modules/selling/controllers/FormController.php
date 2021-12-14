@@ -45,13 +45,14 @@ class FormController extends Controller
             $productId = $_POST['productId'];
             $warehouseId = $_POST['warehouseId'];
             $costType = $_POST['costType'];
-            $product = WarehouseProduct::findOne(['product_id' => $productId,'warehouse_id'=>$warehouseId]);
+            $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $cost = $product->consumer_cost;
 
             return $cost;
         }
         return 0;
     }
+
     public function actionChangeSellingProductPurchaseCost()
     {
 
@@ -59,7 +60,7 @@ class FormController extends Controller
 
             $productId = $_POST['productId'];
             $warehouseId = $_POST['warehouseId'];
-            $product = WarehouseProduct::findOne(['product_id' =>$productId,'warehouse_id'=>$warehouseId]);
+            $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $purchaseCost = $product->purchase_cost;
 
             return $purchaseCost;
@@ -86,7 +87,6 @@ class FormController extends Controller
                 $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
                 $sellingHistory->date = date('Y-m-d');
                 $sellingHistory->count = 1;
-                $sellingHistory->user_id = Yii::$app->user->id;
                 $sellingHistory->save();
             }
 

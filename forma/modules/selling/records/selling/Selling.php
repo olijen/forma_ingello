@@ -91,6 +91,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     {
         return $this->warehouse;
     }
+
     /**
      * @inheritdoc
      */
@@ -99,7 +100,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return [
             [['customer_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
-            [['date_create', 'date_complete','lastEvent'], 'safe'],
+            [['date_create', 'date_complete', 'lastEvent'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['comment'], 'string', 'max' => 255],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
@@ -168,7 +169,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
     public function getToState()
     {
-        return $this->hasOne(State::className(), [ 'id' =>'state_id']);
+        return $this->hasOne(State::className(), ['id' => 'state_id']);
     }
 
     /**
@@ -195,7 +196,8 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         return $this->warehouse->name;
     }
 
-    public function getSellingToken(){
+    public function getSellingToken()
+    {
         return $this->selling_token;
     }
 
@@ -245,6 +247,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
 
         return parent::beforeSave($insert);
     }
+
     public function afterFind()
     {
         // convert the date back to mm/dd/yyyy format while viewing
@@ -262,11 +265,13 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
         ]);
     }
 
-    public function findStateById($id){
+    public function findStateById($id)
+    {
 
     }
 
-    public function getSellingInWeek(){
+    public function getSellingInWeek()
+    {
 
     }
 }

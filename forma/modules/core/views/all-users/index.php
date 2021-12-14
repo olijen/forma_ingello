@@ -1,7 +1,9 @@
 <?php
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\core\records\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,7 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
     <p>
         <?= Html::a('Создать реферала', ['/core/site/signup-referer'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -34,13 +36,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete} {back} {login} ',
                 'buttons' => [
-                    'login' => function ($url,$model) {
+                    'login' => function ($url, $model) {
 
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ["impersonate?id=" . $model->id], ["title" => "login"]);
-                        },
-                    ]
+                    },
+                ]
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+    <?php Pjax::end(); ?></div>
 

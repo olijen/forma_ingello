@@ -22,7 +22,8 @@ use yii\widgets\Breadcrumbs;
         <span class="logo-mini">F.I</span>
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
-        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-static-top"
+        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;"
+             class="navbar navbar-static-top"
              role="navigation">
 
             <a href="#" data-toggle="push-menu"
@@ -42,11 +43,11 @@ use yii\widgets\Breadcrumbs;
                 <ul class="nav navbar-nav">
                     <li class="dropdown messages-menu">
 
-                        <a      id="info"
-                                style="color: #fff;"
-                                href="/core/regularity/regularity"
-                                class="btn btn-outline-secondary"
-                                type="button"
+                        <a id="info"
+                           style="color: #fff;"
+                           href="/core/regularity/regularity"
+                           class="btn btn-outline-secondary"
+                           type="button"
                         >
 
                             <i class="fa fa-tree" style="font-size: 18px;"></i>
@@ -250,9 +251,9 @@ JS;
                                     <?php
                                     $searchModelWarehouse = new WarehouseSearch();
                                     //$warehouses = $searchModelWarehouse->getWarehouseListHeader();
-//                                    $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
-//                                        return $searchModelWarehouse->getWarehouseListHeader();
-//                                    });
+                                    //                                    $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
+                                    //                                        return $searchModelWarehouse->getWarehouseListHeader();
+                                    //                                    });
                                     //todo: плохо работают куки, я их очищаю в браузере он мне все равно гонит склады главного юзера.
 
                                     foreach ($searchModelWarehouse->getWarehouseListHeader() as $warehouse) {
@@ -294,15 +295,15 @@ JS;
                             </li>
 
 
-<!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */?>
+                            <!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */ ?>
                             <li class="user-footer">
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
                                 </div>-->
                                 <?php
-                                if (isset (Yii::$app->user->id) ) {
+                                if (isset (Yii::$app->user->id)) {
                                     $userId = Yii::$app->user->id;
-                                    if ($userId == 1){
+                                    if ($userId == 1) {
                                         Yii::$app->response->cookies->add(new \yii\web\Cookie([
                                             'name' => 'Admin',
                                             'value' => md5('goBack')
@@ -320,20 +321,20 @@ JS;
                                         echo "</div>";
 //
                                     } else {
-                                    $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
-                                    if ($users != []) {
-                                        echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
-                                        foreach ($users as $user) {
+                                        $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
+                                        if ($users != []) {
+                                            echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                            foreach ($users as $user) {
 
-                                            echo Html::a(
-                                                $user->username,
-                                                ['#'],
-                                                ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
-                                            );
+                                                echo Html::a(
+                                                    $user->username,
+                                                    ['#'],
+                                                    ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
+                                                );
+                                            }
+                                            echo "</div>";
                                         }
-                                        echo "</div>";
                                     }
-                                }
 
                                 }
                                 ?>
@@ -351,13 +352,13 @@ JS;
 
                                     <?php
                                     $cookies = Yii::$app->request->cookies->getValue('Admin');
-                                    if ( Yii::$app->user->id!==1 && isset($cookies) ) {
+                                    if (Yii::$app->user->id !== 1 && isset($cookies)) {
                                         echo Html::a(
                                             'Переключиться назад',
                                             ['/core/user/unimpersonate'],
-                                            ['data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'style'=>'margin-top: 10px']
+                                            ['data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'style' => 'margin-top: 10px']
                                         );
-                                    }?>
+                                    } ?>
                                 </div>
                             </li>
                         </ul>
@@ -385,7 +386,7 @@ JS;
     });
     ?>
     <script>
-        function changeAccount(id,username) {
+        function changeAccount(id, username) {
             let userId = id;
             let userName = username;
             let r = confirm("Вы уверены что хотите выйти со своего аккаунта и зайти в аккаунт ".concat(userName));
@@ -405,6 +406,7 @@ JS;
             }
 
         }
+
         var options = {
             scales: {
                 yAxes: [{
@@ -495,8 +497,6 @@ JS;
     </span>
 
         </h1>
-
-
 
 
     <?php endif ?>

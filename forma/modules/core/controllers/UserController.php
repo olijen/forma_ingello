@@ -50,14 +50,14 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->identity->role == 'admin'){
+        if (Yii::$app->user->identity->role == 'admin') {
             $searchModel = new UserSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-        }else{
+        } else {
             throw new NotFoundHttpException();
         }
 
@@ -148,7 +148,7 @@ class UserController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        return $this->render('index',[
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $provider,
         ]);
@@ -158,11 +158,11 @@ class UserController extends Controller
     public function actionAllUsers()
     {
 //        de(Yii::$app->request->cookies->getValue('Admin'));
-        if (Yii::$app->user->id !==1){
+        if (Yii::$app->user->id !== 1) {
             return $this->redirect('referral');
 
         }
-        $query = User::find()->where(['!=','id',1]);
+        $query = User::find()->where(['!=', 'id', 1]);
         $searchModel = new UserSearch();
 
         $provider = new ActiveDataProvider([
@@ -171,7 +171,7 @@ class UserController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        return $this->render('index',[
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $provider,
         ]);

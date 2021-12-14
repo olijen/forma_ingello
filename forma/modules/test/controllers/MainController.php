@@ -91,9 +91,9 @@ class MainController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $command = Yii::$app->db->
-            createCommand("UPDATE forma.test_type t SET t.user_id = ". (Yii::$app->user->id) .", t.link = 'test/test/test?id=$model->id' WHERE t.id =".$model->id)->execute();
+            createCommand("UPDATE forma.test_type t SET t.user_id = " . (Yii::$app->user->id) . ", t.link = 'test/test/test?id=$model->id' WHERE t.id =" . $model->id)->execute();
 
-            return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
+            return $this->redirect(['/test/test', 'name' => $model->name, 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -120,9 +120,9 @@ class MainController extends Controller
         }
 
         return $this->render('/test/index', [
-            'model_test'=>$model_test,
-            'searchModel'=>$searchModel,
-            'dataProvider'=>$dataProvider,
+            'model_test' => $model_test,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'model' => $model,
         ]);
     }
@@ -144,8 +144,8 @@ class MainController extends Controller
      * Finds the TestType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-//     * @return TestType the loaded model
-//     * @return TestTypeField the loaded model
+     * //     * @return TestType the loaded model
+     * //     * @return TestTypeField the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
