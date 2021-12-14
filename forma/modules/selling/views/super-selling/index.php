@@ -100,18 +100,24 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($model, $key, $index, $widget) use ($warehouseIsVisible) {
                 $warehouse = $model->warehouse;
                 $isVisible = false;
-                foreach ($warehouseIsVisible as $value) {
-                    if ($value->id == $warehouse->id) {
-                        $isVisible = true;
+                if($model->warehouse){
+                    foreach ($warehouseIsVisible as $value) {
+                        if ($value->id == $warehouse->id) {
+                            $isVisible = true;
+                        }
+                    }
+                    if ($isVisible == true) {
+                        return Html::a($warehouse->name,
+                            "/warehouse/warehouse/view?id=$warehouse->id",
+                            ['title' => 'Можно перейти на склад', 'onclick' => 'alert("Открыть страницу склада?")']);
+                    } else {
+                        return $warehouse->name;
                     }
                 }
-                if ($isVisible == true) {
-                    return Html::a($warehouse->name,
-                        "/warehouse/warehouse/view?id=$warehouse->id",
-                        ['title' => 'Можно перейти на склад', 'onclick' => 'alert("Открыть страницу склада?")']);
-                } else {
-                    return $warehouse->name;
+                else{
+                    return  null;
                 }
+
             },
 
             'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\warehouse\records\Warehouse::getMyWarehouses(), 'id', 'name'),
