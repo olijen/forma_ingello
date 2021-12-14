@@ -7,6 +7,7 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\selling\records\superselling\SellingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $sellingExport \forma\modules\selling\records\selling\Selling */
 
 $this->title = 'Продажи';
 $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' => \yii\web\View::POS_BEGIN]);
@@ -18,8 +19,12 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
 <style>
 
     .no-hover {
-        pointer-events: none;
+        //pointer-events: none;
+        background: #EEFCFF;
         background-color: #F1F4FB;
+    }
+    .no-hover:hover{
+        background: #EEFCFF;
     }
 </style>
 <div class="selling-index">
@@ -44,6 +49,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         [
             'class' => 'kartik\grid\ExpandRowColumn',
             'width' => '50px',
+            'enableRowClick' => true,
             'value' => function ($model, $key, $index, $column) {
                 return GridView::ROW_COLLAPSED;
             },
@@ -51,7 +57,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'detail' => function ($model, $key, $index, $column) {
                 return Yii::$app->controller->renderPartial('_search', ['model' => $model]);
             },
-            'format' => 'raw'
+
         ],
         [
             'class' => 'kartik\grid\EditableColumn',
@@ -100,7 +106,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($model, $key, $index, $widget) use ($warehouseIsVisible) {
                 $warehouse = $model->warehouse;
                 $isVisible = false;
-                if($model->warehouse){
+                if ($model->warehouse) {
                     foreach ($warehouseIsVisible as $value) {
                         if ($value->id == $warehouse->id) {
                             $isVisible = true;
@@ -113,16 +119,15 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     } else {
                         return $warehouse->name;
                     }
-                }
-                else{
-                    return  null;
+                } else {
+                    return null;
                 }
 
             },
 
             'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\warehouse\records\Warehouse::getMyWarehouses(), 'id', 'name'),
             'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => false,'pjax'=>false],
+                'pluginOptions' => ['allowClear' => false, 'pjax' => false],
                 'value' => isset($_GET['SellingSearch']['warehouseName']) ?
                     $_GET['SellingSearch']['warehouseName'] : '',
                 'options' => ['placeholder' => 'Выбрать склад...'],
@@ -182,118 +187,62 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         ]
     ];
     $gridColumnsExport = [
-
         [
-            'value' => function ($model) {
-                $newArray = "";
-                foreach ($model->sellingProducts as $sellingProduct) {
-                    $productName = (isset($sellingProduct->product->name) ? $sellingProduct->product->name : '');
-                    $productPrice = (isset($sellingProduct->cost) ? number_format($sellingProduct->cost, 2) : '');
-                    $productQuantity = (isset($sellingProduct->quantity) ? $sellingProduct->quantity : '');
-                    $productSum = ((isset($sellingProduct->quantity) && isset($sellingProduct->cost))
-                        ? number_format($sellingProduct->quantity * $sellingProduct->cost, 2) : '');
-                    $newArray .= "<br /> Название товар: $productName
-                                      <br /> Цена продажи: $productPrice,
-                                      <br /> Кол-во: $productQuantity,
-                                      <br /> Сумма: $productSum
-                                      ";
-                }
-                return $newArray;
-            },
-            'format' => 'raw',
+            'label' => 'Код продажи',
+            'value' => 'id',
         ],
         [
-            'attribute' => 'customerName',
             'label' => 'Клиент',
-            'value' => 'customer.name',
+            'value' => 'customerName',
         ],
         [
-            'attribute' => 'customerPhone',
             'label' => 'Номер',
-            'value' => 'customer.chief_phone',
+            'value' => 'customerPhone',
         ],
         [
-            'attribute' => 'warehouseName',
-
             'label' => 'Место',
-            'value' => function ($model, $key, $index, $widget) use ($warehouseIsVisible) {
-                $warehouse = $model->warehouse;
-                $isVisible = false;
-                foreach ($warehouseIsVisible as $value) {
-                    if ($value->id == $warehouse->id) {
-                        $isVisible = true;
-                    }
-                }
-                if ($isVisible == true) {
-                    return Html::a($warehouse->name,
-                        "/warehouse/warehouse/view?id=$warehouse->id",
-                        ['title' => 'Можно перейти на склад', 'onclick' => 'alert("Открыть страницу склада?")']);
-                } else {
-                    return $warehouse->name;
-                }
-            },
-
-            'format' => 'raw',
+            'value' => 'warehouseName',
         ],
         [
-
-            'attribute' => 'stateName',
-            'value' => 'toState.name',
-            'label' => 'Номер',
-
+            'label' => 'Состояние',
+            'value' => 'stateName',
         ],
         [
-            'attribute' => 'sumPurchaseСost',
-            'label' => 'Сумма закупки',
-            'value' => 'sumPurchaseСost',
-            'format' => ['decimal', 2],
+            'label' => 'Название товара',
+            'value' => 'productName',
         ],
         [
-            'attribute' => 'sumСost',
-            'label' => 'Сумма продажи',
-            'value' => 'sumСost',
-            'format' => ['decimal', 2],
+            'label' => 'Цена продажи за 1 шт.',
+            'value' => 'cost',
         ],
         [
-            'attribute' => 'markup',
-            'label' => 'Наценка',
-            'value' => 'markup',
-            'format' => ['decimal', 2],
-        ]
+            'label' => 'Количество',
+            'value' => 'quantity',
+        ],
+        [
+            'label' => 'Сумма',
+            'value' => 'sum',
+        ],
 
     ];
     ?>
 
     <?php
     //dd($dataProvider);
-    /*$exportMenu = ExportMenu::widget([
-        'dataProvider' => $dataProvider,
+    $exportMenu = ExportMenu::widget([
+        'dataProvider' => $exportprovider,
         'columns' => $gridColumnsExport,
         'target' => '_blank',
         'fontAwesome' => true,
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
+            ExportMenu :: FORMAT_PDF=> false,
         ],
         'onRenderSheet' => function ($sheet, $widget) {
-            for ($i = 2; $i <= 1000; $i++) {
-                $sheet->getRowDimension($i)->setRowHeight(100);
-            }
-            $maxWidth = 50;
-            $sheet->calculateColumnWidths();
-            foreach ($sheet->getColumnDimensions() as $colDim) {
-                if (!$colDim->getAutoSize()) {
-                    continue;
-                }
-                $colWidth = $colDim->getWidth();
-                if ($colWidth > $maxWidth) {
-                    $colDim->setAutoSize(false);
-                    $colDim->setWidth($maxWidth);
-                }
-            }
             $sheet->setTitle('Продажа');
         }
-    ]);*/
+    ]);
     echo GridView::widget([
         'id' => 'grid',
         'dataProvider' => $dataProvider,
@@ -324,7 +273,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                 (isset($_GET['SellingSearch']) || isset($_GET['sort'])) ?
                     Html::a('Сбросить фильтры', ['index'], ['class' => 'btn btn-success']) : false
             ],
-            '{export}',
+            $exportMenu,
             '{toggleData}',
         ],
         'bordered' => true,
@@ -337,7 +286,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         ],
         'persistResize' => false,
         'toggleDataOptions' => ['minCount' => 10],
-        //'exportConfig' => true,
+        'exportConfig' => true,
         'itemLabelSingle' => 'продажа',
         'itemLabelPlural' => 'продажи'
     ]);
