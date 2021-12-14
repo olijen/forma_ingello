@@ -40,6 +40,13 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     public $lastEventDate;
 
     public $sale_warehouse;
+    public $customerName;
+    public $customerPhone;
+    public $warehouseName;
+    public $stateName;
+    public $sumPurchaseСost;
+    public $sumСost;
+    public $markup;
 
     public $tmpUserId = null;
 
