@@ -77,7 +77,7 @@ class FormController extends Controller
         $sellingState = State::findOne($state_id);
         $date = date('Y-m-d');
         if ($state_id) {
-            $sellingHistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['date' => $date])->one();
+            $sellingHistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['date' => $date,'user_id'=>Yii::$app->user->id])->one();
             if ($sellingHistory) {
                 $sellingHistory->count = ++$sellingHistory->count;
                 if (!$sellingHistory->save()) {
@@ -87,6 +87,7 @@ class FormController extends Controller
                 $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
                 $sellingHistory->date = date('Y-m-d');
                 $sellingHistory->count = 1;
+                $sellingHistory->user_id = Yii::$app->user->id;
                 $sellingHistory->save();
             }
 
