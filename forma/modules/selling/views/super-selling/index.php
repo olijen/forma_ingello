@@ -137,7 +137,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'class' => 'kartik\grid\EditableColumn',
             'attribute' => 'stateName',
             'value' => 'toState.name',
-            'label' => 'Номер',
+            'label' => 'Состояние',
             'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\selling\records\state\State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'name', 'name'),
             'vAlign' => 'middle',
             'width' => '210px',
