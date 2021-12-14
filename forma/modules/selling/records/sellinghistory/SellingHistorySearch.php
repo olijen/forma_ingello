@@ -41,7 +41,7 @@ class SellingHistorySearch extends SellingHistory
      */
     public function search($params)
     {
-        $query = \forma\modules\selling\records\sellinghistory\SellingHistory::find();
+        $query = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['user_id'=>Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -304,13 +304,23 @@ JS;
                                     $userId = Yii::$app->user->id;
                                     if ($userId == 1){
                                         Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                                            'name'=>'Admin',
-                                            'value'=> 'goBack'
+                                            'name' => 'Admin',
+                                            'value' => 'goBack'
                                         ]));
                                         $users = \forma\modules\core\records\User::find()->all();
-                                    }else {
-                                        $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
-                                    }
+                                        echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                        foreach ($users as $user) {
+
+                                            echo Html::a(
+                                                $user->username,
+                                                ['#'],
+                                                ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
+                                            );
+                                        }
+                                        echo "</div>";
+//
+                                    } else {
+                                    $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
                                     if ($users != []) {
                                         echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
                                         foreach ($users as $user) {
@@ -323,7 +333,7 @@ JS;
                                         }
                                         echo "</div>";
                                     }
-
+                                }
 
                                 }
                                 ?>

@@ -18,7 +18,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
     <p>
         <?= Html::a('Создать дочерний аккаунт', ['/core/site/signup-referer'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+    <?php $id = Yii::$app->user->id; ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -33,17 +35,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete} {back} {login} ',
+                'template' => '{update} {delete}  {login} ',
                 'buttons' => [
                     'login' => function ($url,$model) {
-                        if (Yii::$app->user->id == 1){
                         return Html::a('<span class="glyphicon glyphicon-user"></span>', ["impersonate?id=" . $model->id], ["title" => "login"]);
-                    }
-                        },
-                    'back' => function ($url,$model) {
-                        if (Yii::$app->request->cookies->getValue('Admin') && Yii::$app->user->id !== 1 ){
-                        return Html::a('<span class="glyphicon glyphicon-user"></span>', ["unimpersonate"], ["title" => "назад"]);
-                    }
                         },
                     ]
             ],

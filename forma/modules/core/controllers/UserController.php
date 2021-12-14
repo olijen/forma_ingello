@@ -115,34 +115,26 @@ class UserController extends Controller
 
     public function actionImpersonate($id)
     {
-        if (Yii::$app->user->id == 1) {
-            $cookies = Yii::$app->response->cookies;
-            $cookies->add(new \yii\web\Cookie([
-                'name' => 'Admin',
-                'value' => 'goBack',
-            ]));
-            $user = UserIdentity::findIdentity($id);
-            if ($user) {
-                Yii::$app->user->login($user);
-                return $this->redirect('all-users');
+        $user = UserIdentity::findIdentity($id);
+        if ($user) {
+            Yii::$app->user->login($user);
+            return $this->redirect('all-users');
 
-            }
         }
 
     }
 
     public function actionUnimpersonate()
     {
-       if(Yii::$app->request->cookies->getValue('Admin',md5('goBack'))){
-           $user = UserIdentity::findIdentity(1);
-           if ($user) {
-               Yii::$app->user->login($user);
-//               Yii::$app->response->cookies->remove('Admin');
-               return $this->redirect('/#');
-           }
-       };
-
+        if (Yii::$app->request->cookies->getValue('Admin', 'goBack')) {
+            $user = UserIdentity::findIdentity(1);
+            if ($user) {
+                Yii::$app->user->login($user);
+                return $this->redirect('/#');
+            }
         }
+
+    }
 
 
     public function actionReferral()

@@ -8,6 +8,7 @@ use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestSearch;
 use forma\components\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -28,6 +29,18 @@ class MainController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index', 'update'],
+                'rules' => [
+                    // разрешаем аутентифицированным пользователям
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
         ];
     }
 
@@ -37,17 +50,14 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest){
-            return $this->redirect('/core/default/auth');
-        }
         $searchModel = new TestSearch();
-        $checkUserId=Yii::$app->user->identity->getId();
-            $queryParams['TestSearch']['user_id']=$checkUserId;
-            $dataProvider = $searchModel->search($queryParams);
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
+        $checkUserId = Yii::$app->user->identity->getId();
+        $queryParams['TestSearch']['user_id'] = $checkUserId;
+        $dataProvider = $searchModel->search($queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -100,9 +110,6 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->isGuest){
-            return $this->redirect('/core/default/auth');
-        }
         $model = new TestTypeField();
         $model_test = $this->findModel($id);
 

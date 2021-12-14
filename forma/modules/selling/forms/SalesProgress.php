@@ -33,7 +33,7 @@ class SalesProgress extends Model
             ->orderBy('order')
             ->all();;
 
-            $this->sellinghistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->all();
+            $this->sellinghistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['user_id'=>Yii::$app->user->id])->all();
 
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
