@@ -385,10 +385,9 @@ JS;
                     type: 'POST',
                     dataType: 'JSON',
                     data: {
-                        name: userId,
-                        id: userName
+                        id: userId
                     }
-                }).done(fill);
+                });
 
             } else {
                 return false;

@@ -108,7 +108,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
             [['customer_id', 'warehouse_id'], 'integer'],
             [['date_create', 'date_complete','lastEvent'], 'safe'],
             [['name'], 'string', 'max' => 100],
-            [['comment'], 'string', 'max' => 255],
+            [['comment'], 'string'],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['warehouse_id'], 'exist', 'skipOnError' => true, 'targetClass' => Warehouse::className(), 'targetAttribute' => ['warehouse_id' => 'id']],

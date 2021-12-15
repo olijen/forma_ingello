@@ -58,11 +58,9 @@ class Strategy extends AccessoryActiveRecord
 
     public static function getListWithoutEmptyStrategy($byUser = null)
     {
-        //$query = EntityLister::getListQuery(self::className(), $byUser);
         $query = \forma\modules\hr\records\strategy\Strategy::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
+            ->andWhere(['accessory.user_id'=> Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Strategy::className()]);
-        //$query->innerJoin('request_strategy', 'strategy.id = request_strategy.strategy_id');
         return ArrayHelper::map($query->all(), 'id', 'name');
     }
 

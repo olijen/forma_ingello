@@ -42,34 +42,12 @@ class AnswerSearch extends Answer
      */
     public function search($params)
     {
-        $user = \Yii::$app->getUser()->getIdentity();
-        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
-        $condition = '';
-
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} OR id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
-        }
-
-
-        foreach (User::find()->where($condition)->all() as $user) {
-            array_push($ids, $user->id);
-        }
-
         $query = Answer::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
+            ->andWhere(['accessory.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Answer::className()]);
-
-
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
 
         if (!$this->validate()) {

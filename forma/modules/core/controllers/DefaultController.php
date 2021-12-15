@@ -38,7 +38,7 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm', 'index', 'auth','login'],
+                        'actions' => ['confirm', 'index', 'auth'],
                         'roles' => ['?'],
                     ],
                     [
@@ -175,16 +175,22 @@ class DefaultController extends Controller
 
     public function actionChangeAccount()
     {
-        //Yii::$app->user->logout();
-        $identity = User::findOne(['username' => $_POST['id']]);
+        $identity = User::findOne(['id' => $_POST['id']]);
+        $currentUser = User::findOne(['id' => Yii::$app->user->id]);
         $loginForm = new LoginForm();
         $loginForm->setAttributes([
-            'email'=>$identity->email,
-            'password'=>$identity->password
+            'email'=>$identity->email
         ]);
+        if ($identity->parent_id == Yii::$app->user->id || $currentUser->email == 'admin@admin.admin') {
+            if ($loginForm->getUser() != false) {
+                if ($loginForm->googleLogin()) {
+                    $this->trigger(self::EVENT_AFTER_LOGIN);
+                    return $this->goHome();
+                }
+            }
+        }
 
-        $loginForm->login();
-        $this->goHome();
+
     }
 
     public function actionAuth()

@@ -49,7 +49,6 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         [
             'class' => 'kartik\grid\ExpandRowColumn',
             'width' => '50px',
-            'enableRowClick' => true,
             'value' => function ($model, $key, $index, $column) {
                 return GridView::ROW_COLLAPSED;
             },
@@ -143,16 +142,18 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'attribute' => 'stateName',
             'value' => 'toState.name',
             'label' => 'Состояние',
-            'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\selling\records\state\State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'name', 'name'),
+            'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\selling\records\state\State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
             'vAlign' => 'middle',
             'width' => '210px',
+
             'editableOptions' => function ($model, $key, $index) {
                 return [
                     'header' => ' состояние',
                     'size' => 'md',
                     'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                    'data' => \yii\helpers\ArrayHelper::map(\forma\modules\selling\records\state\State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'name', 'name'),
-                    'options' => ['value' => isset($model->toState) ? $model->toState->name : ''],
+                    'data' => \yii\helpers\ArrayHelper::map(\forma\modules\selling\records\state\State::find()->where(['user_id' => Yii::$app->user->id])->all(), 'id', 'name'),
+                    'options' => ['value' => isset($model->toState) ? $model->toState->id : ''],
+
                 ];
             },
             'contentOptions' => ['class' => 'no-load'],
@@ -263,7 +264,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     'type' => 'button',
                     'class' => 'btn btn-danger forma_light_orange',
                     'onclick' => '$("#grid")
-                        .groupOperation("' . \yii\helpers\Url::to(['/selling/super-selling/delete-selection']) . '", {
+                        .groupOperation("' . \yii\helpers\Url::to(['/selling/main/delete-selection']) . '", {
                             message: "Вы уверены, что хотите удалить выбранные элементы?"
                         });
                     ',

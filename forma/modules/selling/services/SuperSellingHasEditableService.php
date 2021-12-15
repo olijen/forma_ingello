@@ -31,8 +31,7 @@ class SuperSellingHasEditableService
     {
         $this->selling = Selling::find()->where(['id' => $this->sellingId])->one();
         $this->customer = Customer::find()->where(['id' => $this->selling->customer_id])->one();
-        $this->state = State::find()->where(['name' => $this->requestSelling[$this->index][$this->editableAttribute]])->one();
-
+        $this->state = State::find()->where(['id' => $this->requestSelling[$this->index][$this->editableAttribute]])->one();
         if (strpos($this->editableAttribute, 'customer') !== false) {
             if($this->editableAttribute == 'customerName'){
                 $this->customer->name = $this->requestSelling[$this->index][$this->editableAttribute];
@@ -46,8 +45,9 @@ class SuperSellingHasEditableService
         }
         if (strpos($this->editableAttribute, 'state') !== false) {
             $this->selling->state_id = $this->state->id;
+            $this->requestSelling[$this->index][$this->editableAttribute] = $this->state->name;
             if ($this->selling->validate() && $this->selling->save()) {
-                return true;
+                return $this->requestSelling[$this->index][$this->editableAttribute];
             }
         }
         return true;

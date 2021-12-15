@@ -131,7 +131,7 @@ class SellingSearch extends \forma\modules\selling\records\selling\Selling
         $query->andFilterWhere(['like', 'customer.name', $this->customerName])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customerPhone])
             ->andFilterWhere(['like', 'warehouse.id', $this->warehouseName])
-            ->andFilterWhere(['like', 'state.name', $this->stateName])
+            ->andFilterWhere(['like', 'state.id', $this->stateName])
             ->andFilterHaving(['like', 'sumPurchaseСost', $this->sumPurchaseСost])
             ->andFilterHaving(['like', 'sumСost', $this->sumСost])
             ->andFilterHaving(['like', 'markup', $this->markup]);

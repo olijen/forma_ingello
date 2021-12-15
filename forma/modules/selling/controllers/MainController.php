@@ -9,6 +9,7 @@ use forma\modules\event\records\Event;
 use forma\modules\event\records\EventSearch;
 use forma\modules\product\records\Product;
 use forma\modules\selling\records\selling\Selling;
+use forma\modules\selling\services\NomenclatureService;
 use Google_Client;
 use Google_Service_Oauth2;
 use Yii;
@@ -79,8 +80,8 @@ class MainController extends Controller
     public function actionDeleteSelection()
     {
         $selection = Yii::$app->request->post('selection');
-
         if ($selection) {
+            NomenclatureService::deleteAllBySelling($selection);
             Selling::deleteAll(['IN', 'id', $selection]);
         }
 

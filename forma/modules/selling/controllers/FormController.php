@@ -41,7 +41,7 @@ class FormController extends Controller
          *      использовать получение складов по getMyWarehouseUser, для гостя.
          *      поменять цену
         */
-        if (!empty($_POST['productId']) && !empty($_POST['warehouseId'])) {
+        if (!empty($_POST['productId']) && !empty($_POST['warehouseId']) && !empty($_POST['costType'])) {
             $productId = $_POST['productId'];
             $warehouseId = $_POST['warehouseId'];
             $costType = $_POST['costType'];

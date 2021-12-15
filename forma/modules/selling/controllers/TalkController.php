@@ -80,17 +80,15 @@ class TalkController extends Controller
         $selling->comment .= "<h6>Дата</h6><p>$dateNow</p><h6>Комментарий</h6> <p>$comment</p> <h6>Следующий шаг</h6> <p>$nexStep</p>";
         $customerId = Yii::$app->request->post('Customer')['id'];
         $customer = Customer::find()->where(['id' => $customerId])->one();
-        $customer->name = Yii::$app->request->post('Customer')['name'];
-        $customer->firm = Yii::$app->request->post('Customer')['firm'];
-        $customer->address = Yii::$app->request->post('Customer')['address'];
-        $customer->chief_email = Yii::$app->request->post('Customer')['chief_email'];
-        $customer->company_email = Yii::$app->request->post('Customer')['company_email'];
-        $customer->chief_phone = Yii::$app->request->post('Customer')['chief_phone'];
-        $customer->company_phone = Yii::$app->request->post('Customer')['company_phone'];
-        $customer->site_company = Yii::$app->request->post('Customer')['site_company'];
-        if ($customer->save() && $selling->save()) {
-            return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $sellingId]));
 
+        if ($customer->load(Yii::$app->request->post()) && $customer->validate()
+            && $selling->validate()) {
+            if ($customer->save() && $selling->save()) {
+                return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $sellingId]));
+            } else {
+                return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $sellingId]));
+
+            }
         }
 
         throw new NotFoundHttpException('User not found');

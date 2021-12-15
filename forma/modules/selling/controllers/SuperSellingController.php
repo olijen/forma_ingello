@@ -45,8 +45,9 @@ class SuperSellingController extends Controller
             $superSellingEditableService = new SuperSellingHasEditableService();
             $superSellingEditableService
                 ->setAttribute($requestPost['editableKey'], $requestPost['editableIndex'], $requestPost['editableAttribute'], $requestPost['Selling']);
-            if ($superSellingEditableService->editColumn()) {
-                return true;
+            if ($output = $superSellingEditableService->editColumn()) {
+                $data = ['output' => $output];
+                return json_encode($data);
             } else {
                 return false;
             }
@@ -66,6 +67,7 @@ class SuperSellingController extends Controller
         $exportprovider = new ActiveDataProvider([
             'query' => $sellingExport,
         ]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

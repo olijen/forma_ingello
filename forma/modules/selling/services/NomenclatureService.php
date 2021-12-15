@@ -128,7 +128,7 @@ class NomenclatureService
 
     public static function deleteAllBySelling($sellingId)
     {
-        return SellingProduct::deleteAll(['selling_id' => $sellingId]);
+        return SellingProduct::deleteAll(['IN', 'selling_id',  $sellingId]);
     }
 
     public static function changeCell($post, $outputAttribute = false)
