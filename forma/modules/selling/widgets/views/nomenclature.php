@@ -148,51 +148,44 @@ Yii::debug($warehouseProducts);
             </div>
 
             <script>
-                document.addEventListener("DOMContentLoaded", function (event) {
+                $('#sellingproduct-cost').change(function () {
+                    let cost = $('#sellingproduct-cost').val();
+                    let quantity = $('#sellingproduct-quantity').val();
+                    $('#sellingproduct-sum').val(cost * quantity);
+                })
+                $('#sellingproduct-quantity').change(function () {
+                    let cost = $('#sellingproduct-cost').val();
+                    let quantity = $('#sellingproduct-quantity').val();
+                    $('#sellingproduct-sum').val(cost * quantity);
+                })
+                $('#sellingproduct-cost_type').change(function () {
+                    let $productId = $('#sellingproduct-product_id').val();
+                    let $warehouseId = $('#selling-warehouse_id').val();
+                    let $costType = $('#sellingproduct-cost_type').val();
+                    let quantity = $('#sellingproduct-quantity').val();
+                    $.post("/selling/form/change-selling-product-cost", {
+                        costType: $costType,
+                        productId: $productId,
+                        warehouseId: $warehouseId
+                    }, function (data) {
+                        $('#sellingproduct-cost').val(data);
+                        $('#sellingproduct-sum').val(data * quantity);
+                    });
 
-                    let sellingProductCost = $('#sellingproduct-cost').change(function () {
-                        let cost = $('#sellingproduct-cost').val();
-                        let quantity = $('#sellingproduct-quantity').val();
-                        $('#sellingproduct-sum').val(cost * quantity);
-                    })
-                    let sellingProductQuantity = $('#sellingproduct-quantity').change(function () {
-                        let cost = $('#sellingproduct-cost').val();
-                        let quantity = $('#sellingproduct-quantity').val();
-                        $('#sellingproduct-sum').val(cost * quantity);
-                    })
-                    let sellingProductCostType = $('#sellingproduct-cost_type').change(function () {
-                        let $productId = $('#sellingproduct-product_id').val();
-                        let $warehouseId = $('#selling-warehouse_id').val();
-                        let $costType = $('#sellingproduct-cost_type').val();
-                        let quantity = $('#sellingproduct-quantity').val();
-                        $.post("/selling/form/change-selling-product-cost", {
-                            costType: $costType,
-                            productId: $productId,
-                            warehouseId: $warehouseId
-                        }, function (data) {
-                            $('#sellingproduct-cost').val(data);
-                            $('#sellingproduct-sum').val(data * quantity);
-                        });
-
-                    })
-                    let sellingProductId = $('#sellingproduct-product_id').change(function (){
-                        let $productId = $('#sellingproduct-product_id').val();
-                        let $warehouseId = $('#selling-warehouse_id').val();
-                        $.post( "/selling/form/change-selling-product-purchase-cost", {  productId: $productId,warehouseId:$warehouseId }, function( data ) {
-                            $('#sellingproduct-purchase_cost').val(data);
-                            $('#sellingproduct-quantity').val('');
-                            $('#sellingproduct-sum').val('');
-                            $('#sellingproduct-cost').val('');
-                            $('#sellingproduct-cost_type').val('');
-                        });
-                    })
-                    let callbacks = $.Callbacks();
-                    callbacks.add(sellingProductId);
-                    callbacks.add(sellingProductCostType)
-                    callbacks.add(sellingProductQuantity)
-                    callbacks.add(sellingProductQuantity)
-                    callbacks.fire(sellingProductCost);
-
+                })
+                $('#sellingproduct-product_id').change(function () {
+                    let $productId = $('#sellingproduct-product_id').val();
+                    let $warehouseId = $('#selling-warehouse_id').val();
+                    $.post("/selling/form/change-selling-product-purchase-cost", {
+                        productId: $productId,
+                        warehouseId: $warehouseId
+                    }, function (data) {
+                        $('#sellingproduct-purchase_cost').val(data);
+                        $('#sellingproduct-quantity').val('');
+                        $('#sellingproduct-sum').val('');
+                        $('#sellingproduct-cost').val('');
+                        $('#sellingproduct-cost_type').val('');
+                    });
                 })
             </script>
         <?php endif; ?>

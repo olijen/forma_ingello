@@ -42,7 +42,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     return \yii\helpers\Url::to(['/selling/form', 'id' => $model->id]);
                 }
                 if ($action == 'delete') {
-                    return \yii\helpers\Url::to(['delete', 'id' => $model->id]);
+                    return \yii\helpers\Url::to(['/selling/main/delete', 'id' => $model->id]);
                 }
             }
         ],
@@ -238,11 +238,8 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
-            ExportMenu :: FORMAT_PDF=> false,
+            ExportMenu :: FORMAT_TEXT=> false,
         ],
-        'onRenderSheet' => function ($sheet, $widget) {
-            $sheet->setTitle('Продажа');
-        }
     ]);
     echo GridView::widget([
         'id' => 'grid',
@@ -250,9 +247,6 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         'filterModel' => $searchModel,
         'pjax' => true,
 
-        'export' => [
-            'fontAwesome' => false,
-        ],
         'columns' => $gridColumns,   // check the configuration for grid columns by clicking button above
         'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
         'showPageSummary' => true, // table page summary floats when you scroll
