@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Warehouses', 'url' => ['index']];
             'name',
             [
                 'attribute' => 'country_id',
-                'value' => $model->country->name,
+                'value' => isset($model->country->name)?$model->country->name:null
             ],
             'address',
         ],
