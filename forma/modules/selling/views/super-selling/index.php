@@ -229,12 +229,10 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
     ?>
 
     <?php
-    //dd($dataProvider);
     $exportMenu = ExportMenu::widget([
         'dataProvider' => $exportprovider,
         'columns' => $gridColumnsExport,
-        'target' => '_blank',
-        'fontAwesome' => true,
+        'filename' => 'Продажи' . date('d-m-Y h-m'),
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
@@ -281,7 +279,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         ],
         'persistResize' => false,
         'toggleDataOptions' => ['minCount' => 10],
-        'exportConfig' => true,
+        'exportConfig' =>false,
         'itemLabelSingle' => 'продажа',
         'itemLabelPlural' => 'продажи'
     ]);
