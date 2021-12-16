@@ -115,25 +115,24 @@ class SalesProgress extends Model
         $data = array_reverse($data);
 
 
-        $list=[];
+        $list = [];
         $days = (int)date('t');
-        for($d=1; $d<=$days; $d++)
-        {
-            $time=mktime(12, 0, 0, date('m'), $d, date('Y'));
-            if (date('m', $time)==date('m'))
-                $list[date('d.m.Y', $time)]= 0;
+        for ($d = 1; $d <= $days; $d++) {
+            $time = mktime(12, 0, 0, date('m'), $d, date('Y'));
+            if (date('m', $time) == date('m'))
+                $list[date('d.m.Y', $time)] = 0;
         }
 
         $result = [];
 
         foreach ($data as $key => $date) {
             $dates = date('d.m.Y', strtotime($key));
-            $result [$dates]= $date;
+            $result [$dates] = $date;
         }
-        foreach ($list as $key=>$value){
-            foreach ($result as $k=>$v){
-                if ($key == $k){
-                    $list[$key]=$v;
+        foreach ($list as $key => $value) {
+            foreach ($result as $k => $v) {
+                if ($key == $k) {
+                    $list[$key] = $v;
                 }
             }
         }
@@ -145,8 +144,7 @@ class SalesProgress extends Model
     {
         $date = $this->getDateForCount();
         $daties = '';
-        foreach ($date as $key=>$item)
-        {
+        foreach ($date as $key => $item) {
             $daties .= '"' . $key . '",';
         }
         return $daties;
@@ -157,8 +155,7 @@ class SalesProgress extends Model
     {
         $counte = $this->getDateForCount();
         $count = '';
-        foreach ($counte as $key=>$item)
-        {
+        foreach ($counte as $key => $item) {
             $count .= '"' . $item . '",';
         }
         return $count;

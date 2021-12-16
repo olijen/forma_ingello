@@ -29,6 +29,7 @@ class DefaultController extends Controller
 {
 
     const EVENT_AFTER_LOGIN = "eventAfterLogin";
+
     public function behaviors()
     {
         return [
@@ -179,7 +180,7 @@ class DefaultController extends Controller
         $currentUser = User::findOne(['id' => Yii::$app->user->id]);
         $loginForm = new LoginForm();
         $loginForm->setAttributes([
-            'email'=>$identity->email
+            'email' => $identity->email
         ]);
         if ($identity->parent_id == Yii::$app->user->id || $currentUser->email == 'admin@admin.admin') {
             if ($loginForm->getUser() != false) {

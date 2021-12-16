@@ -49,7 +49,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             </div>
         </div>
 
-        </div>
+    </div>
     <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title" id="scroll">История изменений состояния продаж</h3>
@@ -127,13 +127,13 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
 
     function getId(index) {
-      return [<?=$salesProgress->getComaListOfSales()?>][index];
+        return [<?=$salesProgress->getComaListOfSales()?>][index];
     }
 
-    plan.onclick = function(evt){
-      var activePoints = myLineChart.getElementsAtEvent(evt);
-      console.log(activePoints);
-      window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
+    plan.onclick = function (evt) {
+        var activePoints = myLineChart.getElementsAtEvent(evt);
+        console.log(activePoints);
+        window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index));
     };
 
 </script>
@@ -145,7 +145,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             labels: [<?= $salesProgress->getDate() ?>],
             datasets: [{
                 label: 'Количество изменений',
-                data:[<?= $salesProgress->getCounte() ?>],
+                data: [<?= $salesProgress->getCounte() ?>],
                 backgroundColor: ['transparent'],
                 borderColor: ['green'],
             }]
