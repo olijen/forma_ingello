@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
     ->joinWith('warehouseUsers')->where(['warehouse_user.user_id' => Yii::$app->user->id])
     ->select(['warehouse.id'])->all();
-$serviceExport = new \forma\modules\selling\services\ExportSellingAndProductService();
 ?>
 <style>
 
@@ -188,19 +187,105 @@ $serviceExport = new \forma\modules\selling\services\ExportSellingAndProductServ
             'format' => ['decimal', 2],
         ]
     ];
+    $gridColumnsExport = [
+        [
+            'label' => 'Код продажи',
+            'value' => 'id',
+        ],
+        [
+            'label' => 'Клиент',
+            'value' => 'customer.name',
+        ],
+        [
+            'label' => 'Номер',
+            'value' => 'customer.chief_phone',
+        ],
+        [
+            'label' => 'Место',
+            'value' => 'warehouse.name',
+        ],
+        [
+            'label' => 'Состояние',
+            'value' => 'toState.name',
+        ],
+        [
+            'label' => 'Товар',
+            'value' => function($selling){
+                $products ="";
+                foreach ($selling->sellingProducts as $sellingProduct){
+                    $productName = $sellingProduct->product->name;
+                    $products .= "\n$productName";
+                }
+                return  $products;
+            },
+            'format' => 'raw',
+            'width'=>'300'
+        ],
+        [
+            'label' => 'Цена продажи за 1 шт.',
+            'value' => function ($selling) {
+                $products = "";
+                foreach ($selling->sellingProducts as $sellingProduct) {
+                    $productSellingCost = $sellingProduct->cost;
+                    $products .= "\n$productSellingCost";
+                }
+                return $products;
+            },
+        ],
+        [
+            'label' => 'Количество',
+            'value' => function ($selling) {
+                $products = "";
+                foreach ($selling->sellingProducts as $sellingProduct) {
+                    $productSellingQuantity = $sellingProduct->quantity;
+                    $products .= "\n$productSellingQuantity";
+                }
+                return $products;
+            },
+        ],
+        [
+            'label' => 'Сумма',
+            'value' => function ($selling) {
+                $products = 0;
+                foreach ($selling->sellingProducts as $sellingProduct) {
+                    $products +=  $sellingProduct->quantity*$sellingProduct->cost;
+                }
+                return $products;
+            },
+        ]
+    ];
 
     ?>
 
     <?php
     $exportMenu = ExportMenu::widget([
-        'dataProvider' => $serviceExport->getProvider(),
-        'columns' => $serviceExport->getSellingColumn(),
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumnsExport,
         'filename' => 'Продажи' . date('d-m-Y h-m'),
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
             ExportMenu :: FORMAT_TEXT=> false,
         ],
+        //размер полей
+        'onRenderSheet' => function ($sheet, $widget) {
+            for ($i = 2; $i <= 1000; $i++) {
+                $sheet->getRowDimension($i)->setRowHeight(50);
+            }
+            $maxWidth = 60;
+            $sheet->calculateColumnWidths();
+            foreach ($sheet->getColumnDimensions() as $colDim) {
+                if (!$colDim->getAutoSize()) {
+                    continue;
+                }
+                $colWidth = $colDim->getWidth();
+                if ($colWidth > $maxWidth) {
+                    $colDim->setAutoSize(false);
+                    $colDim->setWidth($maxWidth);
+                }
+            }
+            $sheet->setTitle('Продажа');
+        }
     ]);
     echo GridView::widget([
         'id' => 'grid',
