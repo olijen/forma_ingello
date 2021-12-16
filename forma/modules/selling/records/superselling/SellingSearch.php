@@ -67,6 +67,9 @@ class SellingSearch extends \forma\modules\selling\records\selling\Selling
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10
+            ],
             'sort' => [
                 'attributes' => [
                     'id' => [
