@@ -301,8 +301,7 @@ JS;
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
                                 </div>-->
                                 <?php
-                                if (isset (Yii::$app->user->id)) {
-                                    $userId = Yii::$app->user->id;
+                                $userId = Yii::$app->user->id;
                                     if ($userId == 1) {
                                         Yii::$app->response->cookies->add(new \yii\web\Cookie([
                                             'name' => 'Admin',
@@ -336,7 +335,7 @@ JS;
                                         }
                                     }
 
-                                }
+
                                 ?>
                                 <div class="pull-right">
 
