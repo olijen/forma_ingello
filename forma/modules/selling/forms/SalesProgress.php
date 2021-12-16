@@ -109,35 +109,60 @@ class SalesProgress extends Model
         return $result;
     }
 
-    public function getDate()
+    public function getDateForCount()
     {
         $data = ArrayHelper::map($this->sellinghistory, 'date', 'count');
+        $data = array_reverse($data);
 
-        $result = '';
+
+        $list=[];
+        $days = (int)date('t');
+        for($d=1; $d<=$days; $d++)
+        {
+            $time=mktime(12, 0, 0, date('m'), $d, date('Y'));
+            if (date('m', $time)==date('m'))
+                $list[date('d.m.Y', $time)]= 0;
+        }
+
+        $result = [];
 
         foreach ($data as $key => $date) {
             $dates = date('d.m.Y', strtotime($key));
-            $result .= '"' . $dates . '",';
+            $result [$dates]= $date;
         }
-//        de($result);
-        $result = substr($result, 0, -1);;
-        $result = explode(',', $result);
-        $result = array_reverse($result);
-        $result = implode(',', $result);
-        return $result;
+        foreach ($list as $key=>$value){
+            foreach ($result as $k=>$v){
+                if ($key == $k){
+                    $list[$key]=$v;
+                }
+            }
+        }
+        $list = array_reverse($list);
+        return $list;
     }
 
-    public function getCount()
+    public function getDate()
     {
-        $data = ArrayHelper::map($this->sellinghistory, 'date', 'count');
-
-        $result = '';
-
-        foreach ($data as $k => $count) {
-
-            $result .= '"' . $count . '",';
+        $date = $this->getDateForCount();
+        $daties = '';
+        foreach ($date as $key=>$item)
+        {
+            $daties .= '"' . $key . '",';
         }
-        return $result;
+        return $daties;
+
+    }
+
+    public function getCounte()
+    {
+        $counte = $this->getDateForCount();
+        $count = '';
+        foreach ($counte as $key=>$item)
+        {
+            $count .= '"' . $item . '",';
+        }
+        return $count;
+
     }
 
 
