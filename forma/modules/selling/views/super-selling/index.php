@@ -269,8 +269,8 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         ],
         //размер полей
         'onRenderSheet' => function ($sheet, $widget) {
-            for ($i = 2; $i <= 1000; $i++) {
-                $sheet->getRowDimension($i)->setRowHeight(50);
+            for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
+                $sheet->getRowDimension($i)->setRowHeight(strlen($sheet->getCell('F' . $i)->getValue()) / 3);
             }
             $maxWidth = 60;
             $sheet->calculateColumnWidths();
