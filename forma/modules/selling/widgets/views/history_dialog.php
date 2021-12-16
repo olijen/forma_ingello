@@ -65,7 +65,7 @@ use yii\helpers\Url;
         ?>
     </div>
 
-    <div class="form-group col-md-12" style="padding: 0;">
+    <div class="form-group col-md-12" style="padding: 0; width: 100%;">
 
         <button style="width: 100%;" type="submit" class="btn no-loader btn-success"><i class="fa fa-paper-plane"></i> Отправить</button>
 
