@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
     ->joinWith('warehouseUsers')->where(['warehouse_user.user_id' => Yii::$app->user->id])
     ->select(['warehouse.id'])->all();
+$serviceExport = new \forma\modules\selling\services\ExportSellingAndProductService();
 ?>
 <style>
 
@@ -187,51 +188,13 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'format' => ['decimal', 2],
         ]
     ];
-    $gridColumnsExport = [
-        [
-            'label' => 'Код продажи',
-            'value' => 'id',
-        ],
-        [
-            'label' => 'Клиент',
-            'value' => 'customerName',
-        ],
-        [
-            'label' => 'Номер',
-            'value' => 'customerPhone',
-        ],
-        [
-            'label' => 'Место',
-            'value' => 'warehouseName',
-        ],
-        [
-            'label' => 'Состояние',
-            'value' => 'stateName',
-        ],
-        [
-            'label' => 'Название товара',
-            'value' => 'productName',
-        ],
-        [
-            'label' => 'Цена продажи за 1 шт.',
-            'value' => 'cost',
-        ],
-        [
-            'label' => 'Количество',
-            'value' => 'quantity',
-        ],
-        [
-            'label' => 'Сумма',
-            'value' => 'sum',
-        ],
 
-    ];
     ?>
 
     <?php
     $exportMenu = ExportMenu::widget([
-        'dataProvider' => $exportprovider,
-        'columns' => $gridColumnsExport,
+        'dataProvider' => $serviceExport->getProvider(),
+        'columns' => $serviceExport->getSellingColumn(),
         'filename' => 'Продажи' . date('d-m-Y h-m'),
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
