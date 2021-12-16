@@ -7,6 +7,7 @@ use forma\modules\test\records\Test;
 use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestResultSearch;
 use forma\components\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -27,6 +28,18 @@ class ResultController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index'],
+                'rules' => [
+                    // разрешаем аутентифицированным пользователям
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    // всё остальное по умолчанию запрещено
+                ],
+            ],
         ];
     }
 
@@ -36,9 +49,6 @@ class ResultController extends Controller
      */
     public function actionIndex()
     {
-        if(!Yii::$app->user->isGuest){
-            return $this->redirect('/core/default/auth');
-        }
         $searchModel = new TestResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
