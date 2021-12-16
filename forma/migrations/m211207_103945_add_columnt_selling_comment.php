@@ -12,7 +12,7 @@ class m211207_103945_add_columnt_selling_comment extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('selling', 'comment', $this->string(255)->null());
+        $this->addColumn('selling', 'comment', $this->text()->null());
     }
 
     /**

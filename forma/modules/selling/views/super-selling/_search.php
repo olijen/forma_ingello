@@ -9,7 +9,7 @@ use \wokster\ltewidgets\BoxWidget;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="selling-view" style="pointer-events: none;">
+<div class="selling-view">
     <div class="row">
         <div class="col-md-12" style="padding: 10px;">
             <h3 style="text-align: center">Продажа № <?= $model->id ?></h3>
@@ -67,7 +67,7 @@ use \wokster\ltewidgets\BoxWidget;
                 <?php
                 $index = 1;
                 foreach ($model->sellingProducts as $sellingProduct) {
-                    if ($index <= 10) {
+                    if ($index <= 3) {
                         echo "<h4 style='text-align: left'>Код товара $sellingProduct->product_id</h4>";
                         echo \yii\widgets\DetailView::widget([
                             'model' => $model,
@@ -94,7 +94,7 @@ use \wokster\ltewidgets\BoxWidget;
                         $index++;
                     }
                     else{
-                        break;
+                        echo Html::a('Посмотреть все записи',['/selling/form', 'id' => $model->id], ['class' => 'btn btn-success']);
                     }
                 }
                 ?>

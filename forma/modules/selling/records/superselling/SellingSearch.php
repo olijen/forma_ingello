@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 /**
  * SellingSearch represents the model behind the search form about `forma\modules\selling\records\superselling\Selling`.
  */
-class SellingSearch extends Selling
+class SellingSearch extends \forma\modules\selling\records\selling\Selling
 {
     /**
      * @inheritdoc
@@ -54,8 +54,8 @@ class SellingSearch extends Selling
      */
     public function search($params)
     {
-        $query = $this->getStartQuery();
-
+        $query = \forma\modules\selling\records\selling\Selling::find();
+        $this->access($query);
         $query->joinWith('customer');
         $query->joinWith('warehouse');
         $query->joinWith('toState');
@@ -65,7 +65,6 @@ class SellingSearch extends Selling
             (sum(selling_product.cost*selling_product.quantity)-sum(selling_product.purchase_cost*selling_product.quantity)) AS markup')
             ->groupBy('id');
 
-        //dd($query->all());
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
@@ -132,23 +131,11 @@ class SellingSearch extends Selling
         $query->andFilterWhere(['like', 'customer.name', $this->customerName])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customerPhone])
             ->andFilterWhere(['like', 'warehouse.id', $this->warehouseName])
-            ->andFilterWhere(['like', 'state.name', $this->stateName])
+            ->andFilterWhere(['like', 'state.id', $this->stateName])
             ->andFilterHaving(['like', 'sumPurchaseСost', $this->sumPurchaseСost])
             ->andFilterHaving(['like', 'sumСost', $this->sumСost])
             ->andFilterHaving(['like', 'markup', $this->markup]);
 
         return $dataProvider;
-    }
-
-    public function getStartQuery()
-    {
-        $query = Selling::find()->joinWith(['accessory'])
-            ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'LEFT JOIN')
-            ->where(['warehouse_user.user_id' => Yii::$app->user->id])
-            ->orWhere(['warehouse_user.user_id' => null])
-            ->andWhere(['accessory.entity_class' => 'forma\modules\selling\records\selling\Selling'])
-            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id]);
-
-        return $query;
     }
 }

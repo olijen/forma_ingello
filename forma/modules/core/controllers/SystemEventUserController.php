@@ -60,7 +60,8 @@ class SystemEventUserController extends Controller
         $models = SystemEventUserService::$models;
         return $this->render('subscribe', ['records' => $models, 'subscribes' => $subscribes]);
     }
-    public static function send_request($url, $json_value, $user, $password){
+    //TODO можно продолжить разработку
+    /*public static function send_request($url, $json_value, $user, $password){
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -87,7 +88,7 @@ class SystemEventUserController extends Controller
         return $this->render('save-web-push',compact('resultData'));
 
 
-    }
+    }*/
 
     /**
      * Page where user's subscribes save into DB. Redirect

@@ -31,15 +31,13 @@ class AccessoryActiveRecord extends ActiveRecord
             array_push($ids, $user->id);
         }
 
-        Yii::debug($ids);
-        Yii::debug($query->one()->formName(),'fsvfvfd');
-
+        $staticClass = explode('Search!!!', static::class.'!!!')[0];
+        $arrayStaticClass = explode('\\',$staticClass);
+        $currentClass = end($arrayStaticClass);
         $results = Accessory::find()
-            ->andWhere([ 'in', 'accessory.user_id', (($query->one()->formName() == 'Event' || $query->one()->formName() == 'Product')?Yii::$app->user->id : $ids)])
-            ->andWhere([ 'accessory.entity_class' => explode('Search!!!', static::class.'!!!')[0] ])
+            ->andWhere([ 'in', 'accessory.user_id', Yii::$app->user->id])
+            ->andWhere(['like', 'accessory.entity_class', '%'.$currentClass,false ])
             ->all();
-
-
 
         $accessedIds = [];
         foreach ($results as $result) {

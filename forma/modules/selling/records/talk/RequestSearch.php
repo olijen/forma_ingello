@@ -69,26 +69,10 @@ class RequestSearch extends Request
         return $dataProvider;
     }
 
-    public function createQuery() {
-        $user = \Yii::$app->getUser()->getIdentity();
-        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
-        $condition = '';
-
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} OR id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
-        }
-
-
-        foreach (User::find()->where($condition)->all() as $user) {
-            array_push($ids, $user->id);
-        }
-
+    public function createQuery()
+    {
         $query = Request::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])
+            ->andWhere(['accessory.user_id' => Yii::$app->user->id])
             ->andWhere(['accessory.entity_class' => Request::className()]);
 
         return $query;

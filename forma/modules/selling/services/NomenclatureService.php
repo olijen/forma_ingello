@@ -32,7 +32,7 @@ class NomenclatureService
         if ($model->load($post) && $model->validate() && isset($addendQty)) {
             $model->quantity += $addendQty;
         }
-
+        $model->purchase_cost = $post['purchase-cost'];
         $model->pack_unit_id = $model->product->pack_unit_id ?? null;
 
         if (!$model->save()) {
@@ -128,7 +128,7 @@ class NomenclatureService
 
     public static function deleteAllBySelling($sellingId)
     {
-        return SellingProduct::deleteAll(['selling_id' => $sellingId]);
+        return SellingProduct::deleteAll(['IN', 'selling_id',  $sellingId]);
     }
 
     public static function changeCell($post, $outputAttribute = false)

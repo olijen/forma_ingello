@@ -104,7 +104,6 @@ class TotalSumView extends Widget
                 $sums[$cost->currency->code] = $sums[$cost->currency->code] ?? 0;
                 $sums[$cost->currency->code] += $cost->sum;
             }
-            //$sums[$cost->currency->code] += $cost->sum;
         }
         return $sums;
     }

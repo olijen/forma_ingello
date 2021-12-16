@@ -190,32 +190,12 @@ class SellingSearch extends Selling
 
     public function getStartQuery()
     {
-        $user = \Yii::$app->getUser()->getIdentity();
-        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
-        $condition = '';
-
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
-        }
-
-        $users = Yii::$app->cache->getOrSet($condition, function () use ($condition) {
-            return User::find()->where($condition)->all();
-        });
-        foreach ($users as $user) {
-            array_push($ids, $user->id);
-        }
-
         $query = Selling::find()->joinWith(['accessory'])
             ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'LEFT JOIN')
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->orWhere(['warehouse_user.user_id' => null])
             ->andWhere(['accessory.entity_class' => Selling::className()])
-            ->andWhere(['in', 'accessory.user_id', Yii::$app->user->id])//->orderBy(['date_create' => SORT_DESC])
-        ;
+            ->andWhere(['accessory.user_id'=> Yii::$app->user->id]);
 
         return $query;
     }
