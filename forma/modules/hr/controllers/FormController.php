@@ -41,10 +41,11 @@ class FormController extends Controller
         $model = new Interview();
         $model->project_id = $projectVacancy->project_id;
         $model->vacancy_id = $projectVacancy->vacancy_id;
+        $model->date_create = date('d.m.Y');
         $model->worker_id = $_POST['Interview']['worker_id'];
         $model->name = '-';
         if ($model->save()) {
-            return $this->redirect(Url::to(['/hr/main', 'id' => $model->id]));
+            return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
         }
         $interview = InterviewService::get($id);
         if ($interview) {
