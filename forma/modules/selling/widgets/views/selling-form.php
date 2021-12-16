@@ -176,6 +176,8 @@ $formOptions = [
         let form = document.getElementById("selling-form-send");
         form.submit();
     }
-    $(".bs-example").css( "height",'670px');
-
+    $(".bs-example").css("height",'670px');
+    $(".bs-example").css("display", 'flex');
+    $(".bs-example").css("flex-direction",'column');
+    $(".bs-example").css("justify-content",'end');
 </script>
