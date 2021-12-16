@@ -50,14 +50,14 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->identity->role == 'admin'){
+        if (Yii::$app->user->identity->role == 'admin') {
             $searchModel = new UserSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-        }else{
+        } else {
             throw new NotFoundHttpException();
         }
 
@@ -115,34 +115,26 @@ class UserController extends Controller
 
     public function actionImpersonate($id)
     {
-        if (Yii::$app->user->id == 1) {
-            $cookies = Yii::$app->response->cookies;
-            $cookies->add(new \yii\web\Cookie([
-                'name' => 'Admin',
-                'value' => 'goBack',
-            ]));
-            $user = UserIdentity::findIdentity($id);
-            if ($user) {
-                Yii::$app->user->login($user);
-                return $this->redirect('all-users');
+        $user = UserIdentity::findIdentity($id);
+        if ($user) {
+            Yii::$app->user->login($user);
+            return $this->redirect('all-users');
 
-            }
         }
 
     }
 
     public function actionUnimpersonate()
     {
-       if(Yii::$app->request->cookies->getValue('Admin',md5('goBack'))){
-           $user = UserIdentity::findIdentity(1);
-           if ($user) {
-               Yii::$app->user->login($user);
-//               Yii::$app->response->cookies->remove('Admin');
-               return $this->redirect('/#');
-           }
-       };
-
+        if (Yii::$app->request->cookies->getValue('Admin') === md5('goBack')) {
+            $user = UserIdentity::findIdentity(1);
+            if ($user) {
+                Yii::$app->user->login($user);
+                return $this->redirect('/#');
+            }
         }
+
+    }
 
 
     public function actionReferral()
@@ -156,7 +148,7 @@ class UserController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        return $this->render('index',[
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $provider,
         ]);
@@ -165,11 +157,12 @@ class UserController extends Controller
 
     public function actionAllUsers()
     {
-        if (Yii::$app->user->id !==1){
+//        de(Yii::$app->request->cookies->getValue('Admin'));
+        if (Yii::$app->user->id !== 1) {
             return $this->redirect('referral');
 
         }
-        $query = User::find()->where(['!=','id',1]);
+        $query = User::find()->where(['!=', 'id', 1]);
         $searchModel = new UserSearch();
 
         $provider = new ActiveDataProvider([
@@ -178,7 +171,7 @@ class UserController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        return $this->render('index',[
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $provider,
         ]);

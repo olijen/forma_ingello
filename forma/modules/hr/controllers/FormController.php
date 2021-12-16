@@ -33,16 +33,17 @@ class FormController extends Controller
         }
         return $this->render('index', compact('model', 'userState', 'interviewState', 'vacancy'));
     }
+
     public function actionSave($id = null)
     {
         $projectVacancyId = $_POST['Interview']['vacancy_id'];
-        $projectVacancy = ProjectVacancy::find()->where(['id'=> $projectVacancyId ])->one();;
+        $projectVacancy = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one();;
         $model = new Interview();
         $model->project_id = $projectVacancy->project_id;
         $model->vacancy_id = $projectVacancy->vacancy_id;
         $model->worker_id = $_POST['Interview']['worker_id'];
         $model->name = '-';
-        if ($model->save()){
+        if ($model->save()) {
             return $this->redirect(Url::to(['/hr/main', 'id' => $model->id]));
         }
         $interview = InterviewService::get($id);

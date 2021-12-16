@@ -69,7 +69,7 @@ class TestController extends Controller
 
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $model= $this->findModel($id);
+        $model = $this->findModel($id);
         return $this->render('/test/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -112,10 +112,10 @@ class TestController extends Controller
                 $testData = TestService::completeTest($_POST['Customer']);
             }
             $result = $_POST;
-            $save = $this->renderFile('@forma/modules/test/views/test/test_result.php',[
-                'model'=> $model,
-                'testType'=> $testType,
-                'result'=>$result,
+            $save = $this->renderFile('@forma/modules/test/views/test/test_result.php', [
+                'model' => $model,
+                'testType' => $testType,
+                'result' => $result,
             ]);
 
             $model->result = $save;
@@ -124,7 +124,7 @@ class TestController extends Controller
             $model->save();
 
             if ($model->save()) {
-                return $this->redirect(['/selling/main/show-selling?selling_token='.$testData['sellingToken']]);
+                return $this->redirect(['/selling/main/show-selling?selling_token=' . $testData['sellingToken']]);
             }
         }
 
@@ -167,7 +167,7 @@ class TestController extends Controller
      */
     public function actionDelete($id)
     {
-        $model=$this->findModel($id);
+        $model = $this->findModel($id);
         $model->delete();
         return $this->redirect(['index', 'id' => $model->test_id]);
     }

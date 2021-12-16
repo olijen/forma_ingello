@@ -4,10 +4,6 @@ namespace forma\modules\selling\controllers;
 
 use forma\modules\selling\forms\SalesProgress;
 use forma\components\Controller;
-use forma\modules\selling\records\sellinghistory\SellingHistory;
-use forma\modules\selling\services\SellingService;
-//use forma\modules\selling\records\sellinghistory;
-use Yii;
 
 /**
  * Default controller for the `selling` module
@@ -26,7 +22,7 @@ class DefaultController extends Controller
     {
         $salesProgress = new SalesProgress();
 
-        return $this->render('index',compact(
+        return $this->render('index', compact(
             'salesProgress'
         ));
     }

@@ -33,7 +33,7 @@ class SalesProgress extends Model
             ->orderBy('order')
             ->all();;
 
-            $this->sellinghistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->all();
+        $this->sellinghistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['user_id' => Yii::$app->user->id])->all();
 
         // перебиваем состояния и находим в какой продаже они находятся
         foreach ($this->states as $state) {
@@ -43,10 +43,10 @@ class SalesProgress extends Model
         //мы находим каких состояний сколько
         foreach ($this->models as $model) {
             Yii::debug($model->id . ' - id; ' . $model->state_id);
-            if(isset($this->sales[$model->state_id]))
-            if ($model->state_id !== null) {
-                $this->sales[$model->state_id]['sum']++;
-            }
+            if (isset($this->sales[$model->state_id]))
+                if ($model->state_id !== null) {
+                    $this->sales[$model->state_id]['sum']++;
+                }
         }
         $this->getLabelsString();
 
@@ -61,25 +61,25 @@ class SalesProgress extends Model
         $red = '"rgba(221, 75, 57, 1)",';
 
         $lastSale = false;
-      if ($this->sales){
-          foreach ($this->sales as &$sale) {
-              if (!$lastSale) {
-                  $lastSale = $sale;
-                  continue;
-              }
+        if ($this->sales) {
+            foreach ($this->sales as &$sale) {
+                if (!$lastSale) {
+                    $lastSale = $sale;
+                    continue;
+                }
 
-              if ($sale['sum'] > $lastSale['sum']) {
-                  $lastSale['color'] = $red;
-              } elseif ($lastSale['sum'] == ($sale['sum'])) {
-                  $lastSale['color'] = $yellow;
-              } else {
-                  $lastSale['color'] = $green;
-              }
-              @$e[] = $lastSale['color'];
-              $colorsString .= $lastSale['color'];
-              $lastSale = $sale;
-          }
-      }
+                if ($sale['sum'] > $lastSale['sum']) {
+                    $lastSale['color'] = $red;
+                } elseif ($lastSale['sum'] == ($sale['sum'])) {
+                    $lastSale['color'] = $yellow;
+                } else {
+                    $lastSale['color'] = $green;
+                }
+                @$e[] = $lastSale['color'];
+                $colorsString .= $lastSale['color'];
+                $lastSale = $sale;
+            }
+        }
         $colorsString .= $green;
 
         return $colorsString;
@@ -109,35 +109,57 @@ class SalesProgress extends Model
         return $result;
     }
 
-    public function getDate()
+    public function getDateForCount()
     {
-        $data = ArrayHelper::map($this->sellinghistory,'date','count');
+        $data = ArrayHelper::map($this->sellinghistory, 'date', 'count');
+        $data = array_reverse($data);
 
-        $result = '';
 
-        foreach ($data as $key=>$date) {
-            $dates = date('d.m.Y',strtotime($key));
-            $result .= '"' . $dates . '",';
+        $list = [];
+        $days = (int)date('t');
+        for ($d = 1; $d <= $days; $d++) {
+            $time = mktime(12, 0, 0, date('m'), $d, date('Y'));
+            if (date('m', $time) == date('m'))
+                $list[date('d.m.Y', $time)] = 0;
         }
-//        de($result);
-        $result = substr($result,0,-1);;
-        $result = explode(',',$result);
-        $result = array_reverse($result);
-        $result = implode(',',$result);
-        return $result;
+
+        $result = [];
+
+        foreach ($data as $key => $date) {
+            $dates = date('d.m.Y', strtotime($key));
+            $result [$dates] = $date;
+        }
+        foreach ($list as $key => $value) {
+            foreach ($result as $k => $v) {
+                if ($key == $k) {
+                    $list[$key] = $v;
+                }
+            }
+        }
+        $list = array_reverse($list);
+        return $list;
     }
 
-    public function getCount()
+    public function getDate()
     {
-        $data = ArrayHelper::map($this->sellinghistory,'date','count');
-
-        $result = '';
-
-        foreach ($data as $k=>$count) {
-
-            $result .= '"' . $count . '",';
+        $date = $this->getDateForCount();
+        $daties = '';
+        foreach ($date as $key => $item) {
+            $daties .= '"' . $key . '",';
         }
-        return $result;
+        return $daties;
+
+    }
+
+    public function getCounte()
+    {
+        $counte = $this->getDateForCount();
+        $count = '';
+        foreach ($counte as $key => $item) {
+            $count .= '"' . $item . '",';
+        }
+        return $count;
+
     }
 
 

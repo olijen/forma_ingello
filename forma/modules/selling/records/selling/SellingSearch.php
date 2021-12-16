@@ -81,7 +81,7 @@ class SellingSearch extends Selling
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' =>10
+                'pageSize' => 10
             ],
             'sort' => [
                 'attributes' => [
@@ -182,8 +182,7 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.whatsapp', $this->customer_whatsapp])
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
             ->andFilterWhere(['like', 'event.name', $this->lastEventName])
-            ->andFilterWhere(['like', 'event.date_from', $this->lastEventDate])
-        ;
+            ->andFilterWhere(['like', 'event.date_from', $this->lastEventDate]);
 
         return $dataProvider;
     }
@@ -195,7 +194,7 @@ class SellingSearch extends Selling
             ->where(['warehouse_user.user_id' => Yii::$app->user->id])
             ->orWhere(['warehouse_user.user_id' => null])
             ->andWhere(['accessory.entity_class' => Selling::className()])
-            ->andWhere(['accessory.user_id'=> Yii::$app->user->id]);
+            ->andWhere(['accessory.user_id' => Yii::$app->user->id]);
 
         return $query;
     }

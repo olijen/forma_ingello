@@ -8,6 +8,7 @@ use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestSearch;
 use forma\components\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -28,6 +29,18 @@ class MainController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index', 'update'],
+                'rules' => [
+                    // разрешаем аутентифицированным пользователям
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
         ];
     }
 
@@ -37,17 +50,14 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest){
-            return $this->redirect('/core/default/auth');
-        }
         $searchModel = new TestSearch();
-        $checkUserId=Yii::$app->user->identity->getId();
-            $queryParams['TestSearch']['user_id']=$checkUserId;
-            $dataProvider = $searchModel->search($queryParams);
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
+        $checkUserId = Yii::$app->user->identity->getId();
+        $queryParams['TestSearch']['user_id'] = $checkUserId;
+        $dataProvider = $searchModel->search($queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -81,9 +91,9 @@ class MainController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $command = Yii::$app->db->
-            createCommand("UPDATE forma.test_type t SET t.user_id = ". (Yii::$app->user->id) .", t.link = 'test/test/test?id=$model->id' WHERE t.id =".$model->id)->execute();
+            createCommand("UPDATE forma.test_type t SET t.user_id = " . (Yii::$app->user->id) . ", t.link = 'test/test/test?id=$model->id' WHERE t.id =" . $model->id)->execute();
 
-            return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
+            return $this->redirect(['/test/test', 'name' => $model->name, 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -100,9 +110,6 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->isGuest){
-            return $this->redirect('/core/default/auth');
-        }
         $model = new TestTypeField();
         $model_test = $this->findModel($id);
 
@@ -113,9 +120,9 @@ class MainController extends Controller
         }
 
         return $this->render('/test/index', [
-            'model_test'=>$model_test,
-            'searchModel'=>$searchModel,
-            'dataProvider'=>$dataProvider,
+            'model_test' => $model_test,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'model' => $model,
         ]);
     }
@@ -137,8 +144,8 @@ class MainController extends Controller
      * Finds the TestType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-//     * @return TestType the loaded model
-//     * @return TestTypeField the loaded model
+     * //     * @return TestType the loaded model
+     * //     * @return TestTypeField the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

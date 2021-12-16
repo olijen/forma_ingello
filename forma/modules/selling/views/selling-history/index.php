@@ -23,17 +23,17 @@ $comaList = $salesProgress->getComaListOfSales();
 <div class="selling-history-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
+
     <?php BoxWidget::begin([
-        'title'=>'История изменений состояния продаж<small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
+        'title' => 'История изменений состояния продаж<small class="m-l-sm">записей ' . $dataProvider->getCount() . ' из ' . $dataProvider->getTotalCount() . '</small>',
         'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Историю продаж']]
+            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>', ['create'], ['title' => 'создать Историю продаж']]
         ]
     ]);
     ?>
 
-    <?php Pjax::begin(['id' => 'grid'])?>
-    
+    <?php Pjax::begin(['id' => 'grid']) ?>
+
     <?= GridView::widget([
 
         'dataProvider' => $dataProvider,
@@ -53,19 +53,19 @@ $comaList = $salesProgress->getComaListOfSales();
                         ],
                         'opens' => 'left',
                     ],
-                ]) ,
+                ]),
             ],
             'count',
         ],
     ]);; ?>
 
-    <?php Pjax::end();?>
+    <?php Pjax::end(); ?>
 
-    <?php BoxWidget::end();?>
+    <?php BoxWidget::end(); ?>
     <div>
-    <?=
-    Html::a('Просмотреть график', ['/selling/default'], ['class'=>'btn btn-primary'])
-    ?>
+        <?=
+        Html::a('Просмотреть график', ['/selling/default'], ['class' => 'btn btn-primary'])
+        ?>
     </div>
 
 

@@ -41,11 +41,11 @@ class FormController extends Controller
          *      использовать получение складов по getMyWarehouseUser, для гостя.
          *      поменять цену
         */
-        if (!empty($_POST['productId']) && !empty($_POST['warehouseId']) && !empty($_POST['costType'])) {
+        if (!empty($_POST['productId']) && !empty($_POST['warehouseId'])) {
             $productId = $_POST['productId'];
             $warehouseId = $_POST['warehouseId'];
             $costType = $_POST['costType'];
-            $product = WarehouseProduct::findOne(['product_id' => $productId,'warehouse_id'=>$warehouseId]);
+            $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $cost = 0;
             switch ($costType) {
                 case 0:
@@ -61,6 +61,7 @@ class FormController extends Controller
         }
         return 0;
     }
+
     public function actionChangeSellingProductPurchaseCost()
     {
 
@@ -68,12 +69,12 @@ class FormController extends Controller
 
             $productId = $_POST['productId'];
             $warehouseId = $_POST['warehouseId'];
-            $product = WarehouseProduct::findOne(['product_id' => $productId,'warehouse_id'=>$warehouseId]);
+            $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $purchaseCost = $product->purchase_cost;
 
             return $purchaseCost;
         }
-        return 0;
+        return '';
     }
 
     public function actionTest()
@@ -84,19 +85,19 @@ class FormController extends Controller
         $state_id = $_GET['state_id'];
         $sellingState = State::findOne($state_id);
         $date = date('Y-m-d');
-        if ($state_id){
-            $sellingHistory=\forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['date'=>$date])->one();
-            if($sellingHistory){
-                $sellingHistory->count = ++$sellingHistory->count ;
-                if (!$sellingHistory->save()){
+        if ($state_id) {
+            $sellingHistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['date' => $date])->one();
+            if ($sellingHistory) {
+                $sellingHistory->count = ++$sellingHistory->count;
+                if (!$sellingHistory->save()) {
                     de($sellingHistory->getErrors());
                 }
-            }else{
+            } else {
                 $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
                 $sellingHistory->date = date('Y-m-d');
                 $sellingHistory->count = 1;
                 $sellingHistory->save();
-                }
+            }
 
         }
         if ($state_id == 6) {

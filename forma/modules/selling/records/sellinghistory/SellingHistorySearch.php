@@ -41,7 +41,7 @@ class SellingHistorySearch extends SellingHistory
      */
     public function search($params)
     {
-        $query = \forma\modules\selling\records\sellinghistory\SellingHistory::find();
+        $query = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['user_id' => Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,11 +56,11 @@ class SellingHistorySearch extends SellingHistory
         $query->andFilterWhere([
             'count' => $this->count,
         ]);
-        if(isset ($this->date)&&$this->date!=''){
-            $date=explode(" - ",$this->date);
-            $dateFrom=trim($date[0]);
-            $dateTo=trim($date[1]);
-            $query->andFilterWhere(['between','date',$dateFrom,$dateTo]);
+        if (isset ($this->date) && $this->date != '') {
+            $date = explode(" - ", $this->date);
+            $dateFrom = trim($date[0]);
+            $dateTo = trim($date[1]);
+            $query->andFilterWhere(['between', 'date', $dateFrom, $dateTo]);
         }
 
         return $dataProvider;
