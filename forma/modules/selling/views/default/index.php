@@ -145,7 +145,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             labels: [<?= $salesProgress->getDate() ?>],
             datasets: [{
                 label: 'Количество изменений',
-                data: [<?= $salesProgress->getCounte() ?>],
+                data: [<?= $salesProgress->getCount() ?>],
                 backgroundColor: ['transparent'],
                 borderColor: ['green'],
             }]

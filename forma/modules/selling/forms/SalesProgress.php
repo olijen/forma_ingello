@@ -151,7 +151,7 @@ class SalesProgress extends Model
 
     }
 
-    public function getCounte()
+    public function getCount()
     {
         $counte = $this->getDateForCount();
         $count = '';
