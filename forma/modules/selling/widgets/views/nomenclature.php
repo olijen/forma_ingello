@@ -266,13 +266,13 @@ Yii::debug($warehouseProducts);
 </div>
 
 
-<?php DetachedBlock::begin([
-    'example' => 'Итого',
-]); ?>
+<div class="bs-example">
+    <div class="detached-block-example" style="margin-bottom: 10px">Товар
+    </div>
 
-<?= TotalSumView::widget(['selling' => $unit->selling]) ?>
+    <?= TotalSumView::widget(['selling' => $unit->selling]) ?>
+</div>
 
-<?php DetachedBlock::end(); ?>
 
 </div>
 
