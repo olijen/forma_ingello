@@ -58,6 +58,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             },
 
         ],
+        'id',
         [
             'class' => 'kartik\grid\EditableColumn',
             'attribute' => 'customerName',

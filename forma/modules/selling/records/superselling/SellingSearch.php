@@ -119,7 +119,7 @@ class SellingSearch extends \forma\modules\selling\records\selling\Selling
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'selling.id' => $this->id,
             'customer_id' => $this->customer_id,
             'warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,

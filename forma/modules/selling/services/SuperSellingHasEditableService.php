@@ -36,11 +36,11 @@ class SuperSellingHasEditableService
             if($this->editableAttribute == 'customerName'){
                 $this->customer->name = $this->requestSelling[$this->index][$this->editableAttribute];
             }
-            if($this->editableAttribute == 'chief_phone'){
+            if($this->editableAttribute == 'customerPhone'){
                 $this->customer->chief_phone = $this->requestSelling[$this->index][$this->editableAttribute];
             }
             if ($this->customer->validate() && $this->customer->save()) {
-                return true;
+                return $this->requestSelling[$this->index][$this->editableAttribute];
             }
         }
         if (strpos($this->editableAttribute, 'state') !== false) {
