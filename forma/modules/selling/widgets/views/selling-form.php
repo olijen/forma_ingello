@@ -43,6 +43,7 @@ $formOptions = [
             <?php DetachedBlock::begin([
                 'example' => 'Данные',
                 'id' => 'operation-form',
+                'style' => ($model->isNewRecord)?"height: 100%":'height:640px'
             ]); ?>
             <?php
             if (!Yii::$app->request->isPjax) {
@@ -176,7 +177,6 @@ $formOptions = [
         let form = document.getElementById("selling-form-send");
         form.submit();
     }
-    $(".bs-example").css("height",'670px');
     $(".bs-example").css("display", 'flex');
     $(".bs-example").css("flex-direction",'column');
     $(".bs-example").css("justify-content",'end');
