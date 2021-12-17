@@ -42,7 +42,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     return \yii\helpers\Url::to(['/selling/form', 'id' => $model->id]);
                 }
                 if ($action == 'delete') {
-                    return \yii\helpers\Url::to(['/selling/main/delete', 'id' => $model->id]);
+                    return \yii\helpers\Url::to(['/selling/super-selling/delete', 'id' => $model->id]);
                 }
             }
         ],
@@ -266,6 +266,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
             ExportMenu :: FORMAT_TEXT=> false,
+            ExportMenu :: FORMAT_PDF=> false,
         ],
         //размер полей
         'onRenderSheet' => function ($sheet, $widget) {
@@ -304,7 +305,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     'type' => 'button',
                     'class' => 'btn btn-danger forma_light_orange',
                     'onclick' => '$("#grid")
-                        .groupOperation("' . \yii\helpers\Url::to(['/selling/main/delete-selection']) . '", {
+                        .groupOperation("' . \yii\helpers\Url::to(['/selling/super-selling/delete-selection']) . '", {
                             message: "Вы уверены, что хотите удалить выбранные элементы?"
                         });
                     ',

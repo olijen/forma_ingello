@@ -6,6 +6,8 @@ use forma\components\AccessoryActiveRecord;
 use forma\modules\customer\records\Customer;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\state\State;
+use forma\modules\selling\services\NomenclatureService;
+use forma\modules\selling\services\SellingService;
 use forma\modules\selling\services\SuperSellingHasEditableService;
 use Yii;
 use forma\modules\selling\records\superselling\SellingSearch;
@@ -57,5 +59,20 @@ class SuperSellingController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    public function actionDelete($id)
+    {
+        SellingService::delete($id);
+        $this->redirect('index');
+    }
+    public function actionDeleteSelection()
+    {
+        $selection = Yii::$app->request->post('selection');
+        if ($selection) {
+            NomenclatureService::deleteAllBySelling($selection);
+            Selling::deleteAll(['IN', 'id', $selection]);
+        }
+
+        return $this->redirect('index');
     }
 }
