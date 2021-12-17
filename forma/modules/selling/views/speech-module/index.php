@@ -8,11 +8,21 @@ $this->title = Yii::t(
     'app', 'Речевые модули'
 );
 ?>
+<style>
+    @media (max-width: 991px) {
+        .col-md-6 {
+            width: 100%;
+        }
 
+        .col-sm-3 {
+            width: 100%;
+        }
+    }
+</style>
 <?php \forma\modules\core\widgets\DetachedBlock::begin(['example' => 'Стратегии']) ?>
 <div class="row" onload="myFunction();">
     <div class="menu-strategy col-md-12" style="padding: 10px;">
-        <div class="col-md-6 col-sm-6 col-xs-12" style="margin: 0 0 10px;">
+        <div class="col-md-6 col-sm-12 col-xs-12" style="margin: 0 0 10px;">
             <?php
             if (!empty($getWithoutEmptyStrategies)) {
                 echo Select2::widget([
