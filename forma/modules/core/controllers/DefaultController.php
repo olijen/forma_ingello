@@ -93,7 +93,7 @@ class DefaultController extends Controller
             }
 
             Yii::$app->controller->layout = false;
-            if (!isset($_GET['without-header'])) {
+            if (isset($_GET['without-header'])) {
                 return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
             }
             return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
