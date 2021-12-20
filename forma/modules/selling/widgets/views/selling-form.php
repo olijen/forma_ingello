@@ -36,7 +36,14 @@ $formOptions = [
 
 
 ?>
-
+<style>
+    @media screen and (max-width: 768px){
+        .col-md-8 {
+            padding: 0 !important;
+        }
+        /*  */
+    }
+</style>
 <div class="row">
     <div class="col-md-<?= ($model->isNewRecord) ? '12' : '4' ?>">
         <div class="operation-form">
@@ -147,7 +154,7 @@ $formOptions = [
 
 
 
-    <div class="col-md-8" >
+    <div class="col-md-8" style="padding-left: 15px; padding-right: 15px;">
 
         <?php if (!$model->isNewRecord): ?>
             <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
