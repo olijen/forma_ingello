@@ -72,9 +72,6 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
-        if(Yii::$app->user->isGuest){
-            return $this->goHome();
-        }
         $this->layout = 'public';
         /*$rulesData = \forma\modules\core\records\Rule::find()->joinWith('accessInterfaces')->joinWith(['itemRule'=>function($q){
             $q->joinWith('itemInterface');
