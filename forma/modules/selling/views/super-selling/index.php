@@ -214,8 +214,8 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function($selling){
                 $products ="";
                 foreach ($selling->sellingProducts as $sellingProduct){
-                    $productName = $sellingProduct->product->name;
-                    $products .= "\n$productName";
+                    $productName = (isset($sellingProduct->product->name)?$sellingProduct->product->name:'не задано');
+                    $products .= "\n $productName";
                 }
                 return  $products;
             },
@@ -227,7 +227,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($selling) {
                 $products = "";
                 foreach ($selling->sellingProducts as $sellingProduct) {
-                    $productSellingCost = $sellingProduct->cost;
+                    $productSellingCost = (isset($sellingProduct->cost)?$sellingProduct->cost:0);
                     $products .= "\n$productSellingCost";
                 }
                 return $products;
@@ -238,7 +238,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($selling) {
                 $products = "";
                 foreach ($selling->sellingProducts as $sellingProduct) {
-                    $productSellingQuantity = $sellingProduct->quantity;
+                    $productSellingQuantity = (isset($sellingProduct->quantity)?$sellingProduct->quantity:0);
                     $products .= "\n$productSellingQuantity";
                 }
                 return $products;
@@ -249,7 +249,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($selling) {
                 $products = 0;
                 foreach ($selling->sellingProducts as $sellingProduct) {
-                    $products +=  $sellingProduct->quantity*$sellingProduct->cost;
+                    $products +=  (isset($sellingProduct->cost)?$sellingProduct->quantity*$sellingProduct->cost:0);
                 }
                 return $products;
             },
@@ -272,7 +272,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         //размер полей
         'onRenderSheet' => function ($sheet, $widget) {
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $sheet->getRowDimension($i)->setRowHeight(strlen($sheet->getCell('F' . $i)->getValue()) / 3);
+                $sheet->getRowDimension($i)->setRowHeight(strlen($sheet->getCell('F' . $i)->getValue()) / 2);
             }
             $maxWidth = 60;
             $sheet->calculateColumnWidths();
