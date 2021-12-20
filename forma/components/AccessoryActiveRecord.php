@@ -18,40 +18,42 @@ class AccessoryActiveRecord extends ActiveRecord
         $ids = []; //$ids - это массив типа [1,2,3,4,5...]
 
         $condition = '';
+        if(isset($user->parent_id)){
+            if ($user->parent_id != null) {
+                // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
+                $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
+            } else {
+                // Выбирает себя (начальника, реферера) и всех рефералов.
+                $condition = "parent_id = {$user->id} OR id = {$user->id}";
+            }
 
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
+            foreach (User::find()->where($condition)->all() as $user) {
+                array_push($ids, $user->id);
+            }
+
+            $staticClass = explode('Search!!!', static::class.'!!!')[0];
+            $arrayStaticClass = explode('\\',$staticClass);
+            $currentClass = end($arrayStaticClass);
+            $results = Accessory::find()
+                ->andWhere([ 'in', 'accessory.user_id', Yii::$app->user->id])
+                ->andWhere(['like', 'accessory.entity_class', '%'.$currentClass,false ])
+                ->all();
+
+            $accessedIds = [];
+            foreach ($results as $result) {
+                $accessedIds[]=$result->entity_id;
+            }
+
+            $searchClass = static::class;
+            $searchClass = new $searchClass;
+            $name = (new ReflectionClass($searchClass))->getShortName();
+            Yii::debug($name);
+            $name = explode('Search!!!', $name.'!!!')[0];
+            Yii::debug($name);
+            if (empty($results)) {$query->andFilterWhere(['in', strtolower($name).'.id', [-1]]);}
+            if (!empty($accessedIds)) $query->andFilterWhere(['in', strtolower($name).'.id', $accessedIds]);
         }
 
-        foreach (User::find()->where($condition)->all() as $user) {
-            array_push($ids, $user->id);
-        }
-
-        $staticClass = explode('Search!!!', static::class.'!!!')[0];
-        $arrayStaticClass = explode('\\',$staticClass);
-        $currentClass = end($arrayStaticClass);
-        $results = Accessory::find()
-            ->andWhere([ 'in', 'accessory.user_id', Yii::$app->user->id])
-            ->andWhere(['like', 'accessory.entity_class', '%'.$currentClass,false ])
-            ->all();
-
-        $accessedIds = [];
-        foreach ($results as $result) {
-            $accessedIds[]=$result->entity_id;
-        }
-
-        $searchClass = static::class;
-        $searchClass = new $searchClass;
-        $name = (new ReflectionClass($searchClass))->getShortName();
-        Yii::debug($name);
-        $name = explode('Search!!!', $name.'!!!')[0];
-        Yii::debug($name);
-        if (empty($results)) {$query->andFilterWhere(['in', strtolower($name).'.id', [-1]]);}
-        if (!empty($accessedIds)) $query->andFilterWhere(['in', strtolower($name).'.id', $accessedIds]);
     }
 
     public function afterSave($insert, $changedAttributes)
