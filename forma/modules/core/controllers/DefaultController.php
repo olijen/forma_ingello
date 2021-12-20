@@ -44,7 +44,7 @@ class DefaultController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index','confirm'],
                         'roles' => ['@'],
                     ],
                 ],
