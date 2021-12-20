@@ -99,6 +99,7 @@ class DefaultController extends Controller
                     parse_str(parse_url($url)['query'], $params);
                 }
             }
+            //TODO можно изменить на более правильный метод (сейчас топорный)
             if (isset($_GET['without-header']) || isset($params['userId'])){
             return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
             }
