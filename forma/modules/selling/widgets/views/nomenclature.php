@@ -56,9 +56,9 @@ Yii::debug($warehouseProducts);
                             ссылке</a> и добавьте товары в закупку.</p>
                 </div>
             </div>";
-        }
+        } else {
         ?>
-        <?php if (!empty($warehouseProducts ) && stristr(Yii::$app->request->pathInfo,"selling")!=false || !empty($selling->sellingProducts)) { ?>
+        <?php if (stristr(Yii::$app->request->pathInfo,"selling")!=false || !empty($selling->sellingProducts)) { ?>
 
             <?php if (!$unit->selling->stateIs(new StateDone())): ?>
 
@@ -259,9 +259,7 @@ Yii::debug($warehouseProducts);
                 </div>
             </div>
 
-        <?php } else { ?>
-
-        <?php } ?>
+        <?php }  } ?>
     </div>
 </div>
 
