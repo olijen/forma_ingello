@@ -263,6 +263,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         'dataProvider' => $dataProvider,
         'columns' => $gridColumnsExport,
         'filename' => 'Продажи' . date('d-m-Y h-m'),
+        'showColumnSelector' => false,
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
