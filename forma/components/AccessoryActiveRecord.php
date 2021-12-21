@@ -28,9 +28,7 @@ class AccessoryActiveRecord extends ActiveRecord
         $searchClass = static::class;
         $searchClass = new $searchClass;
         $name = (new ReflectionClass($searchClass))->getShortName();
-        Yii::debug($name);
         $name = explode('Search!!!', $name . '!!!')[0];
-        Yii::debug($name);
         if (!empty($accessedIds)) $query->andFilterWhere(['in', strtolower($name) . '.id', $accessedIds]);
     }
 
