@@ -81,18 +81,21 @@ class Vacancy extends AccessoryActiveRecord
         $user = \Yii::$app->getUser()->getIdentity();
         $ids = []; //$ids - это массив типа [1,2,3,4,5...]
         $condition = '';
-        if ($user !== null) {
-            if ($user->parent_id != null) {
+        if ($user !== null ) {
+            if ($user->parent_id != null and Yii::$app->user->id!==1 ) {
                 // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
                 $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
             } else {
                 // Выбирает себя (начальника, реферера) и всех рефералов.
                 $condition = "parent_id = {$user->id} OR id = {$user->id}";
             }
-
             foreach (User::find()->where($condition)->all() as $user) {
                 array_push($ids, $user->id);
             }
+
+        }
+        foreach (User::find()->all() as $user) {
+            array_push($ids, $user->id);
         }
 
         $projectVacancies = ProjectVacancy::find()->joinWith(['accessory'])
@@ -101,8 +104,8 @@ class Vacancy extends AccessoryActiveRecord
         $projectVacancyData = [];
         foreach ($projectVacancies as $projectVacancy) {
             $projectVacancyData[] = [
-                'id' => $projectVacancy->id,
-                'name' => $projectVacancy->vacancy->name . '|' . $projectVacancy->project->name
+                'id' => $projectVacancy->vacancy_id,
+                'name' => $projectVacancy->vacancy->name . '|' . $projectVacancy->project->nameт
             ];
         }
         return $projectVacancyData;
