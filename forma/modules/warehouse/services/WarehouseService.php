@@ -113,68 +113,47 @@ class WarehouseService
 
     public static function getReplaceProduct(TransitProduct $unit)
     {
-        $warehouseFrom = Warehouse::find()->joinWith('warehouseProducts')
-            ->where(['warehouse_id' => $unit->transit->from_warehouse_id])->one();
-        $warehouseTo = Warehouse::find()->joinWith('warehouseProducts')
-            ->where(['warehouse_id' => $unit->transit->to_warehouse_id])->one();
-        $_transitProduct = Transit::find()->joinWith(['transitProducts' => function ($q) {
-            $q->joinWith('overheadCost');
-        }])
-            ->where(['transit.id' => $unit->transit->id])->one();
-        //dd($unit);
-        foreach ($_transitProduct->transitProducts as $transitProduct) {
-            $overheadCost = OverheadCostService::getByNomenclatureUnit($transitProduct) /  $transitProduct->quantity;
-            $isFound = false;
-            if ($warehouseTo != null) {
-                if (count($warehouseTo->warehouseProducts) > 0) {
-                    foreach ($warehouseTo->warehouseProducts as $warehouseProductTo) {
-                        if ($transitProduct->product_id == $warehouseProductTo->product_id
-                            && $warehouseProductTo->currency_id == $transitProduct->currency_id
-                            && $overheadCost == $warehouseProductTo->overhead_cost){
-                            $isFound = true;
-                            $warehouseProductTo->quantity += $transitProduct->quantity;
-                            $transitProduct->transit->date_complete = date('Y-m-d H:i:s');
-                            if ($transitProduct->save() && $warehouseProductTo->save()) {
-                                self::replaceQuantityFromWarehouseProduct($warehouseFrom, $transitProduct);
-                            }
-                        }
-                    }
-                }
+        $transit = Transit::find()->where(['id'=>$unit->transit_id])->one();
+        $moveWarehouseTo = WarehouseProduct::find()->where(['product_id' => $unit->product_id,'warehouse_id' => $transit->to_warehouse_id,
+            'purchase_cost' => $unit->purchase_cost,'currency_id' => $unit->currency_id])->one();
+        if(isset($moveWarehouseTo)){
+            $moveWarehouseTo->quantity += $unit->quantity;
+            $transit->date_complete = date('Y-m-d H:i:s');
+            if ($moveWarehouseTo->save() && $transit->save()) {
+                self::replaceQuantityFromWarehouseProduct($transit->from_warehouse_id, $unit);
             }
-            if ($isFound == false) {
-                $newWarehouseProduct = new WarehouseProduct();
-                $overheadCost = OverheadCostService::getByNomenclatureUnit($transitProduct) /  $transitProduct->quantity;
-                $purchaseCost = $transitProduct->purchase_cost;
-                $indirectCost = $transitProduct->overhead_cost + $transitProduct->tax;
-                $newWarehouseProduct->consumer_cost = ($purchaseCost + $indirectCost) * 1.3;
-                $newWarehouseProduct->trade_cost = ($purchaseCost + $indirectCost) * 1.2;
-                $newWarehouseProduct->product_id = $transitProduct->product_id;
-                $newWarehouseProduct->warehouse_id = $transitProduct->transit->to_warehouse_id;
-                $newWarehouseProduct->quantity = $transitProduct->quantity;
-                $newWarehouseProduct->purchase_cost = $transitProduct->purchase_cost;
-                $newWarehouseProduct->recommended_cost = $transitProduct->recommended_cost;
-                $newWarehouseProduct->tax = $transitProduct->tax;
-                $newWarehouseProduct->overhead_cost = $overheadCost;
-                $newWarehouseProduct->currency_id = $transitProduct->currency_id;
-                if ($newWarehouseProduct->save()) {
-                    $transitProduct->transit->date_complete = date('Y-m-d H:i:s');
-                    if ($transitProduct->save()) {
-                        self::replaceQuantityFromWarehouseProduct($warehouseFrom, $transitProduct);
-                    }
-                }
+        }else{
+
+            $newWarehouseToProduct = new WarehouseProduct();
+            $overheadCost = OverheadCostService::getByNomenclatureUnit($unit) /  $unit->quantity;
+            $purchaseCost = $unit->purchase_cost;
+            $indirectCost = ((double)$unit->overhead_cost + (double)$unit->tax);
+            $newWarehouseToProduct->product_id = $unit->product_id;
+            $newWarehouseToProduct->warehouse_id = $unit->transit->to_warehouse_id;
+            $newWarehouseToProduct->quantity = $unit->quantity;
+            $newWarehouseToProduct->trade_cost = ((double)$purchaseCost + $indirectCost) * 1.2;
+            $newWarehouseToProduct->purchase_cost = $unit->purchase_cost;
+            $newWarehouseToProduct->recommended_cost = $unit->recommended_cost;
+            $newWarehouseToProduct->consumer_cost = ((double)$purchaseCost + $indirectCost) * 1.3;
+            $newWarehouseToProduct->tax = $unit->tax;
+            $newWarehouseToProduct->overhead_cost = $overheadCost;
+            $newWarehouseToProduct->currency_id = $unit->currency_id;
+            $transit->date_complete = date('Y-m-d H:i:s');
+            if($newWarehouseToProduct->validate() && $newWarehouseToProduct->save() && $transit->save()){
+                self::replaceQuantityFromWarehouseProduct($transit->from_warehouse_id, $unit);
             }
         }
     }
 
-    public static  function replaceQuantityFromWarehouseProduct($warehouseFrom,$transitProduct){
-        foreach ($warehouseFrom->warehouseProducts as $warehouseProductFrom) {
-            if ($transitProduct->transit->from_warehouse_id == $warehouseProductFrom->warehouse_id
-                && $warehouseProductFrom->product_id == $transitProduct->product_id
-                && $warehouseProductFrom->currency_id == $transitProduct->currency_id
-                && $warehouseProductFrom->consumer_cost == $transitProduct->consumer_cost) {
-                $warehouseProductFrom->quantity -= $transitProduct->quantity;
-                $warehouseProductFrom->save();
-            }
+    public static function replaceQuantityFromWarehouseProduct($warehouseFrom, $transitProduct)
+    {
+        $replaceQuantityFromWarehouseProduct = WarehouseProduct::find()->where(['product_id' => $transitProduct->product_id,
+            'purchase_cost' => $transitProduct->purchase_cost,
+            'consumer_cost' => $transitProduct->consumer_cost, 'trade_cost' => $transitProduct->trade_cost, 'overhead_cost' => $transitProduct->overhead_cost,
+            'currency_id' => $transitProduct->currency_id, 'warehouse_id' => $warehouseFrom])->one();
+        if(isset($replaceQuantityFromWarehouseProduct)){
+            $replaceQuantityFromWarehouseProduct->quantity -= $transitProduct->quantity;
+            $replaceQuantityFromWarehouseProduct->save();
         }
     }
 

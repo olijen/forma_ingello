@@ -12,12 +12,13 @@ class StateController extends Controller
 {
     public function actionConfirm($id)
     {
-        if (!Yii::$app->request->isAjax) {
-            Yii::debug('sfjid');
-            return Yii::$app->controller->redirect('/transit/form?id='.$id);
+        if (Yii::$app->request->isAjax) {
+            $model = TransitService::confirm($id);
+            return StateView::widget(['model' => $model]);
         }
-        $model = TransitService::confirm($id);
-        return StateView::widget(['model' => $model]);
+        Yii::debug('sfjid');
+        return Yii::$app->controller->redirect('/transit/form?id=' . $id);
+
     }
 
     public function actionDeny($id)
