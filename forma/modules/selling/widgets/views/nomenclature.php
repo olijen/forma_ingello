@@ -26,7 +26,7 @@ use yii\widgets\ActiveField;
  * @var float $sumTotal
  */
 
-$warehouseProducts = RemainsService::searchByWarehouse($unit->selling->warehouse, '');
+$warehouseProducts = RemainsService::searchByWarehouse($unit->selling->warehouse->id, '');
 Yii::debug($warehouseProducts);
 ?>
 
