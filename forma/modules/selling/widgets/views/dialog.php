@@ -190,9 +190,9 @@ $hostInfo = Url::home(true);
             function next() {
                 return false;
                 alert(1);
-              let next = $("#next_step").val().replace(/\?/g,'%3f').replace(" ",'%20').toString();
+              let next = $("#next_step").val();
                 step.textContent= next;
-                //inputValue = next;
+                inputValue = next;
             }
             next();
         </script>
@@ -274,7 +274,7 @@ JS;
         $JSCode = <<<JS
 
 function(start, end) {
-    let inputNext = $("#next_step").val().replace(/\?/g,'%3f').replace(" ",'%20').replace(" ",'%20');
+    let inputNext = $("#next_step").val().replaceAll(/ +/g, ' ').trim().replaceAll(" ",'%20').replaceAll(" ",'%20').replaceAll(/\?/g,'%3f');
     let url = '/event/event/create?date_from='+start.format('DD.MM.YYYY')+'&date_to='+end.format('DD.MM.YYYY')+'&start_time='+start.format('H:m:ss')+'&end_time='+end.format('H:m:ss')+'&name='+inputNext+'&selling_id='+$sellingId+'&hash='+$hash_for_event;
     $('#modal .modal-dialog .modal-content .modal-body').load(url);
     $('#modal').modal();
