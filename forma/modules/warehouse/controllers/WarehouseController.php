@@ -191,7 +191,7 @@ class WarehouseController extends Controller
     public function actionDownloadExampleFile()
     {
         $path = \Yii::getAlias('@uploads') ;
-        $file = $path . '/example_warehouse.xls';
+        $file = $path . '/пример_склад_продуктов.xls';
 
         if (file_exists($file)) {
             return \Yii::$app->response->sendFile($file);

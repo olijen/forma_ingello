@@ -316,12 +316,12 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                         'encodeLabel' => false,
                         'dropdown' => [
                             'items' => [
-                                ['label' => 'Import file', 'options' => [
+                                ['label' => 'Импорта файла', 'options' => [
                                     'onclick' => '$("#import-file-input").trigger("click");',
                                     'style' => 'cursor: pointer;',
                                 ]],
                                 [
-                                    'label' => 'Example of file',
+                                    'label' => 'Пример импотра файла',
                                     'options' => [
                                         'onclick' => 'location.href = "/warehouse/warehouse/download-example-file"',
                                         'style' => 'cursor: pointer;',
