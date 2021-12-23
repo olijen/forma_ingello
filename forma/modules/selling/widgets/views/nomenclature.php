@@ -25,9 +25,10 @@ use yii\widgets\ActiveField;
  * @var ActiveDataProvider $dataProvider
  * @var float $sumTotal
  */
+if(isset($unit->selling->warehouse)){
+    $warehouseProducts = RemainsService::searchByWarehouse($unit->selling->warehouse->id, '');
+}
 
-$warehouseProducts = RemainsService::searchByWarehouse($unit->selling->warehouse->id, '');
-Yii::debug($warehouseProducts);
 ?>
 
 <?php Pjax::begin([
