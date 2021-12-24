@@ -2,6 +2,7 @@
 
 namespace forma\modules\overheadcost\records;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\product\records\Currency;
 use forma\modules\purchase\records\purchase\PurchaseOverheadCost;
 use forma\modules\purchase\records\purchaseproduct\PurchaseProduct;
@@ -26,7 +27,7 @@ use Yii;
  *
  * @property Currency[] $currency
  */
-class OverheadCost extends \yii\db\ActiveRecord
+class OverheadCost extends AccessoryActiveRecord
 {
     /**
      * @inheritdoc

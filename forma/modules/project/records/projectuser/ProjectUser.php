@@ -2,6 +2,7 @@
 
 namespace forma\modules\project\records\projectuser;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\records\User;
 use forma\modules\project\records\project\Project;
 use Yii;
@@ -15,7 +16,7 @@ use Yii;
  * @property Project $project
  * @property User $user
  */
-class ProjectUser extends \yii\db\ActiveRecord
+class ProjectUser extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}

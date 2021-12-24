@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\sellingproduct;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 use forma\modules\product\records\Currency;
 use forma\modules\product\records\Product;
@@ -31,7 +32,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property Currency $currency
  * @property OverheadCost $overheadCost
  */
-class SellingProduct extends ActiveRecord
+class SellingProduct extends AccessoryActiveRecord
     implements NomenclatureUnitInterface
 {
     /**

@@ -2,6 +2,7 @@
 
 namespace forma\modules\template\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -13,7 +14,7 @@ use Yii;
  * @property string|null $theme
  * @property string|null $user
  */
-class Template extends \yii\db\ActiveRecord
+class Template extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}

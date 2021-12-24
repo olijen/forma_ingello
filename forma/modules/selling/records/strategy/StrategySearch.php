@@ -42,10 +42,8 @@ class StrategySearch extends Strategy
      */
     public function search($params)
     {
-        $query = $this->createQuery();
-
-
-        // add conditions that should always apply here
+        $query = Strategy::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -68,14 +66,5 @@ class StrategySearch extends Strategy
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
-    }
-
-    public function createQuery () {
-
-        $query = Strategy::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id'=> \Yii::$app->user->id])
-            ->andWhere(['accessory.entity_class' => Strategy::className()]);
-
-        return $query;
     }
 }

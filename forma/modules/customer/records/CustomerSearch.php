@@ -60,10 +60,8 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id'=> Yii::$app->user->id])
-            ->andWhere(['accessory.entity_class' => Customer::className()]);
-
+        $query = Customer::find();
+        $this->access($query);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

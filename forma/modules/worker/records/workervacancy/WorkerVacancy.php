@@ -2,6 +2,7 @@
 
 namespace forma\modules\worker\records\workervacancy;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\vacancy\records\Vacancy;
@@ -21,7 +22,7 @@ use yii\helpers\ArrayHelper;
  * @property Vacancy $vacancy
  * @property Worker $worker
  */
-class WorkerVacancy extends \yii\db\ActiveRecord
+class WorkerVacancy extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}

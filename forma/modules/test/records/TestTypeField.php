@@ -2,6 +2,7 @@
 
 namespace forma\modules\test\records;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\test\records\TestType;
 use Yii;
 
@@ -19,7 +20,7 @@ use Yii;
  *
  * @property TestType $test
  */
-class TestTypeField extends \yii\db\ActiveRecord
+class TestTypeField extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}

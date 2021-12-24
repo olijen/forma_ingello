@@ -42,6 +42,7 @@ class TemplateSearch extends Template
     public function search($params)
     {
         $query = Template::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

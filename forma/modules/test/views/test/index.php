@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use forma\modules\test\records\TestType;
-use forma\modules\test\records\TestSearch;
+use forma\modules\test\records\TestTypeSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\test\records\TestTypeFieldSearch */

@@ -43,8 +43,7 @@ class OverheadCostSearch extends OverheadCost
     public function search($params)
     {
         $query = OverheadCost::find();
-
-        // add conditions that should always apply here
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

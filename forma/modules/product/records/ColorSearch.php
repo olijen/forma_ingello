@@ -42,6 +42,7 @@ class ColorSearch extends Color
     public function search($params)
     {
         $query = Color::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

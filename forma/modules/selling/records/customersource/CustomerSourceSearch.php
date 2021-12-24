@@ -3,10 +3,10 @@
 namespace forma\modules\selling\records\customersource;
 
 use forma\modules\core\records\User;
+use forma\modules\selling\records\customersource\CustomerSource;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\selling\records\customersource\CustomerSource;
 
 /**
  * CustomerSourceSearch represents the model behind the search form about `forma\modules\selling\records\customersource\CustomerSource`.
@@ -42,7 +42,8 @@ class CustomerSourceSearch extends CustomerSource
      */
     public function search($params)
     {
-        $query = $this->getStartQuery();
+        $query = CustomerSource::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,13 +66,5 @@ class CustomerSourceSearch extends CustomerSource
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
-    }
-
-    public function getStartQuery()
-    {
-        $query = CustomerSource::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.entity_class' => CustomerSource::className()])
-            ->andWhere(['accessory.user_id' => Yii::$app->user->id]);
-        return $query;
     }
 }

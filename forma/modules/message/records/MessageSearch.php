@@ -42,6 +42,7 @@ class MessageSearch extends Message
     public function search($params)
     {
         $query = Message::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

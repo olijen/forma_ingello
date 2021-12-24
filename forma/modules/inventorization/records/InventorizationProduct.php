@@ -2,6 +2,7 @@
 
 namespace forma\modules\inventorization\records;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\product\records\Product;
 use Yii;
 
@@ -17,7 +18,7 @@ use Yii;
  * @property Inventorization $inventorization
  * @property Product $product
  */
-class InventorizationProduct extends \yii\db\ActiveRecord
+class InventorizationProduct extends AccessoryActiveRecord
 {
     /**
      * @inheritdoc

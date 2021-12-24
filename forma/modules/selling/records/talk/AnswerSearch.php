@@ -42,9 +42,8 @@ class AnswerSearch extends Answer
      */
     public function search($params)
     {
-        $query = Answer::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->user->id])
-            ->andWhere(['accessory.entity_class' => Answer::className()]);
+        $query = Answer::find();
+        $this->access($query);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
