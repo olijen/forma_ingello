@@ -109,13 +109,12 @@ class WorkerController extends Controller
      */
     public function actionCreate()
     {
+        $vacancyId = Yii::$app->request->get('vacancyId');
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
-
         $model = new Worker();
         $model->scenario = 'fromForm';
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -125,6 +124,7 @@ class WorkerController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'vacancyId' => $vacancyId,
             ]);
         }
     }
