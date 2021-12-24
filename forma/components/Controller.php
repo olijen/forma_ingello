@@ -11,6 +11,11 @@ class Controller extends C
 {
     public function beforeAction($action)
     {
+        if(Yii::$app->user->isGuest){
+            if(isset($_GET['without-header'])){
+                return $this->goHome();
+            }
+        }
         if (parent::beforeAction($action)){
             Yii::debug($_GET);
             if (isset($_GET['form-without-header'])) {

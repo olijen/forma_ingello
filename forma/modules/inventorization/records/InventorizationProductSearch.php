@@ -46,10 +46,9 @@ class InventorizationProductSearch extends InventorizationProduct
      */
     public function search($params)
     {
-        $query = InventorizationProduct::find()
-            ->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'INNER JOIN');
-
-        // add conditions that should always apply here
+        $query = InventorizationProduct::find();
+        $this->access($query);
+        $query->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'INNER JOIN');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

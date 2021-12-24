@@ -35,7 +35,7 @@ class DefaultController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'confirm'],
+                'only' => ['index', 'confirm','auth'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -44,7 +44,7 @@ class DefaultController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index','confirm','auth'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -93,8 +93,15 @@ class DefaultController extends Controller
             }
 
             Yii::$app->controller->layout = false;
-            if (isset($_GET['without-header'])) {
-                return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
+            if(isset($_SERVER['HTTP_REFERER'])){
+                $url = $_SERVER['HTTP_REFERER'];
+                if(isset(parse_url($url)['query'])){
+                    parse_str(parse_url($url)['query'], $params);
+                }
+            }
+            //TODO можно изменить на более правильный метод (сейчас топорный)
+            if (isset($_GET['without-header']) || isset($params['userId'])){
+            return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
             }
             return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
         }

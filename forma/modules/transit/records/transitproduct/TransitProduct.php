@@ -2,6 +2,7 @@
 
 namespace forma\modules\transit\records\transitproduct;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\components\NomenclatureUnitInterface;
 use forma\modules\product\records\Product;
 use forma\modules\product\records\PackUnit;
@@ -30,7 +31,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property Transit $transit
  * @property PackUnit $packUnit
  */
-class TransitProduct extends \yii\db\ActiveRecord
+class TransitProduct extends AccessoryActiveRecord
 implements NomenclatureUnitInterface
 {
     /**

@@ -42,10 +42,8 @@ class CurrencySearch extends Currency
      */
     public function search($params)
     {
-        $query = Currency::find()
-            ->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => Currency::className()]);
+        $query = Currency::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

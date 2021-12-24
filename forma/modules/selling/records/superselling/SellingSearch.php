@@ -6,7 +6,6 @@ use forma\modules\core\records\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\selling\records\superselling\Selling;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -64,7 +63,7 @@ class SellingSearch extends \forma\modules\selling\records\selling\Selling
             ,sum(selling_product.cost*selling_product.quantity) AS sumСost,
             (sum(selling_product.cost*selling_product.quantity)-sum(selling_product.purchase_cost*selling_product.quantity)) AS markup')
             ->groupBy('id');
-
+        //dd($query->select(['selling.id'])->all());
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -119,7 +118,7 @@ class SellingSearch extends \forma\modules\selling\records\selling\Selling
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'selling.id' => $this->id,
             'customer_id' => $this->customer_id,
             'warehouse_id' => $this->warehouse_id,
             'state_id' => $this->state_id,

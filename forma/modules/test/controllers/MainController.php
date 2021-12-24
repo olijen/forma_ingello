@@ -6,7 +6,7 @@ use forma\modules\test\records\TestTypeFieldSearch;
 use Yii;
 use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestTypeField;
-use forma\modules\test\records\TestSearch;
+use forma\modules\test\records\TestTypeSearch;
 use forma\components\Controller;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
@@ -50,7 +50,7 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TestSearch();
+        $searchModel = new TestTypeSearch();
         $checkUserId = Yii::$app->user->identity->getId();
         $queryParams['TestSearch']['user_id'] = $checkUserId;
         $dataProvider = $searchModel->search($queryParams);

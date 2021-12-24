@@ -313,7 +313,7 @@ JS;
 
                                             echo Html::a(
                                                 $user->username,
-                                                ['#'],
+                                                [''],
                                                 ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
                                             );
                                         }
@@ -327,7 +327,7 @@ JS;
 
                                                 echo Html::a(
                                                     $user->username,
-                                                    ['#'],
+                                                    [''],
                                                     ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
                                                 );
                                             }

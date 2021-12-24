@@ -42,7 +42,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     return \yii\helpers\Url::to(['/selling/form', 'id' => $model->id]);
                 }
                 if ($action == 'delete') {
-                    return \yii\helpers\Url::to(['/selling/main/delete', 'id' => $model->id]);
+                    return \yii\helpers\Url::to(['/selling/super-selling/delete', 'id' => $model->id]);
                 }
             }
         ],
@@ -58,6 +58,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             },
 
         ],
+        'id',
         [
             'class' => 'kartik\grid\EditableColumn',
             'attribute' => 'customerName',
@@ -213,8 +214,8 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function($selling){
                 $products ="";
                 foreach ($selling->sellingProducts as $sellingProduct){
-                    $productName = $sellingProduct->product->name;
-                    $products .= "\n$productName";
+                    $productName = (isset($sellingProduct->product->name)?$sellingProduct->product->name:'не задано');
+                    $products .= "\n $productName";
                 }
                 return  $products;
             },
@@ -226,7 +227,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($selling) {
                 $products = "";
                 foreach ($selling->sellingProducts as $sellingProduct) {
-                    $productSellingCost = $sellingProduct->cost;
+                    $productSellingCost = (isset($sellingProduct->cost)?$sellingProduct->cost:0);
                     $products .= "\n$productSellingCost";
                 }
                 return $products;
@@ -237,7 +238,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($selling) {
                 $products = "";
                 foreach ($selling->sellingProducts as $sellingProduct) {
-                    $productSellingQuantity = $sellingProduct->quantity;
+                    $productSellingQuantity = (isset($sellingProduct->quantity)?$sellingProduct->quantity:0);
                     $products .= "\n$productSellingQuantity";
                 }
                 return $products;
@@ -248,7 +249,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             'value' => function ($selling) {
                 $products = 0;
                 foreach ($selling->sellingProducts as $sellingProduct) {
-                    $products +=  $sellingProduct->quantity*$sellingProduct->cost;
+                    $products +=  (isset($sellingProduct->cost)?$sellingProduct->quantity*$sellingProduct->cost:0);
                 }
                 return $products;
             },
@@ -262,15 +263,17 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         'dataProvider' => $dataProvider,
         'columns' => $gridColumnsExport,
         'filename' => 'Продажи' . date('d-m-Y h-m'),
+        'showColumnSelector' => false,
         'exportConfig' => [
             ExportMenu :: FORMAT_CSV => false,
             ExportMenu :: FORMAT_HTML => false,
             ExportMenu :: FORMAT_TEXT=> false,
+            ExportMenu :: FORMAT_PDF=> false,
         ],
         //размер полей
         'onRenderSheet' => function ($sheet, $widget) {
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $sheet->getRowDimension($i)->setRowHeight(strlen($sheet->getCell('F' . $i)->getValue()) / 3);
+                $sheet->getRowDimension($i)->setRowHeight(strlen($sheet->getCell('F' . $i)->getValue()) / 2);
             }
             $maxWidth = 60;
             $sheet->calculateColumnWidths();
@@ -304,7 +307,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
                     'type' => 'button',
                     'class' => 'btn btn-danger forma_light_orange',
                     'onclick' => '$("#grid")
-                        .groupOperation("' . \yii\helpers\Url::to(['/selling/main/delete-selection']) . '", {
+                        .groupOperation("' . \yii\helpers\Url::to(['/selling/super-selling/delete-selection']) . '", {
                             message: "Вы уверены, что хотите удалить выбранные элементы?"
                         });
                     ',

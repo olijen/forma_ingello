@@ -36,13 +36,21 @@ $formOptions = [
 
 
 ?>
-
+<style>
+    @media screen and (max-width: 768px){
+        .col-md-8 {
+            padding: 0 !important;
+        }
+        /*  */
+    }
+</style>
 <div class="row">
     <div class="col-md-<?= ($model->isNewRecord) ? '12' : '4' ?>">
         <div class="operation-form">
             <?php DetachedBlock::begin([
                 'example' => 'Данные',
                 'id' => 'operation-form',
+                'style' => ($model->isNewRecord)?"height: 100%":'height:640px'
             ]); ?>
             <?php
             if (!Yii::$app->request->isPjax) {
@@ -146,7 +154,7 @@ $formOptions = [
 
 
 
-    <div class="col-md-8" >
+    <div class="col-md-8" style="padding-left: 15px; padding-right: 15px;">
 
         <?php if (!$model->isNewRecord): ?>
             <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
@@ -176,6 +184,7 @@ $formOptions = [
         let form = document.getElementById("selling-form-send");
         form.submit();
     }
-    $(".bs-example").css( "height",'670px');
-
+    $(".bs-example").css("display", 'flex');
+    $(".bs-example").css("flex-direction",'column');
+    $(".bs-example").css("justify-content",'end');
 </script>

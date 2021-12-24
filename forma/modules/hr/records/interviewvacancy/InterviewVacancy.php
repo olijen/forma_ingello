@@ -2,6 +2,7 @@
 
 namespace forma\modules\hr\records\interviewvacancy;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewvacancy\InterviewVacancyQuery;
 use forma\modules\vacancy\records\Vacancy;
@@ -30,7 +31,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property Currency $currency
  * @property OverheadCost $overheadCost
  */
-class InterviewVacancy extends ActiveRecord
+class InterviewVacancy extends AccessoryActiveRecord
 {
     /**
      * @inheritdoc

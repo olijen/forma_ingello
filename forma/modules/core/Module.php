@@ -38,6 +38,7 @@ class Module extends \yii\base\Module
             $_SERVER['REQUEST_URI'] == '/login' ||
             $_SERVER['REQUEST_URI'] == '/' ||
             $_SERVER['REQUEST_URI'] == '/signup' ||
+           isset($_GET['without-header']) ||
             strpos($_SERVER['REQUEST_URI'], '/core/default/confirm') !== false ||
             strpos($_SERVER['REQUEST_URI'], '/core/site/landing') !== false ||
             strpos($_SERVER['REQUEST_URI'], '/core/default/auth') !== false

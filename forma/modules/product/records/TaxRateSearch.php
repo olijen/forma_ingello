@@ -42,12 +42,8 @@ class TaxRateSearch extends TaxRate
      */
     public function search($params)
     {
-        $query = TaxRate::find()
-            ->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => TaxRate::className()]);
-
-        // add conditions that should always apply here
+        $query = TaxRate::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

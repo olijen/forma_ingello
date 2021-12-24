@@ -50,6 +50,9 @@ class RegularityController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->isGuest){
+            return $this->goHome();
+        }
         $searchModel = new RegularitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $regularitys = $dataProvider->getModels();
@@ -149,6 +152,9 @@ class RegularityController extends Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->isGuest){
+            return $this->goHome();
+        }
         $model = new Regularity();
         $model->loadDefaultValues(); //load default data from db
         $model->user_id = Yii::$app->user->identity->id;

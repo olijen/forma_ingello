@@ -74,7 +74,8 @@ class SellingSearch extends Selling
     public function search($params)
     {
 
-        $query = $this->getStartQuery();
+        $query = Selling::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

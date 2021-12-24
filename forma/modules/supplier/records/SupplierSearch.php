@@ -42,12 +42,8 @@ class SupplierSearch extends Supplier
      */
     public function search($params)
     {
-        $query = Supplier::find()
-            ->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => Supplier::className()]);
-
-        // add conditions that should always apply here
+        $query = Supplier::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

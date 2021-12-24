@@ -2,6 +2,7 @@
 
 namespace forma\modules\product\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 use forma\components\EntityLister;
 /**
@@ -14,7 +15,7 @@ use forma\components\EntityLister;
   *
       * @property Field $field
   */
-class FieldValue extends \yii\db\ActiveRecord
+class FieldValue extends AccessoryActiveRecord
 {
 
 

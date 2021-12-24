@@ -40,8 +40,7 @@ class WorkerVacancySearch extends WorkerVacancy
     public function search($params)
     {
         $query = WorkerVacancy::find();
-
-        // add conditions that should always apply here
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

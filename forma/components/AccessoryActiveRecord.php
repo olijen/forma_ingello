@@ -14,44 +14,34 @@ class AccessoryActiveRecord extends ActiveRecord
 {
     public function access($query)
     {
-        $user = \Yii::$app->getUser()->getIdentity();
-        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
-
-        $condition = '';
-
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
-        }
-
-        foreach (User::find()->where($condition)->all() as $user) {
-            array_push($ids, $user->id);
-        }
-
-        $staticClass = explode('Search!!!', static::class.'!!!')[0];
-        $arrayStaticClass = explode('\\',$staticClass);
+        $staticClass = explode('Search!!!', static::class . '!!!')[0];
+        $arrayStaticClass = explode('\\', $staticClass);
         $currentClass = end($arrayStaticClass);
         $results = Accessory::find()
-            ->andWhere([ 'in', 'accessory.user_id', Yii::$app->user->id])
-            ->andWhere(['like', 'accessory.entity_class', '%'.$currentClass,false ])
+            ->andWhere(['accessory.user_id' => Yii::$app->user->id])
+            ->andWhere(['like', 'accessory.entity_class', '%' . $currentClass, false])
             ->all();
 
         $accessedIds = [];
         foreach ($results as $result) {
-            $accessedIds[]=$result->entity_id;
+            $accessedIds[] = $result->entity_id;
         }
 
         $searchClass = static::class;
         $searchClass = new $searchClass;
         $name = (new ReflectionClass($searchClass))->getShortName();
-        Yii::debug($name);
-        $name = explode('Search!!!', $name.'!!!')[0];
-        Yii::debug($name);
-        if (empty($results)) {$query->andFilterWhere(['in', strtolower($name).'.id', [-1]]);}
-        if (!empty($accessedIds)) $query->andFilterWhere(['in', strtolower($name).'.id', $accessedIds]);
+        $name = explode('Search!!!', $name . '!!!')[0];
+        $nameMoreVariant = preg_split("/(?<=[a-z])(?![a-z])/", "$name", -1, PREG_SPLIT_NO_EMPTY);
+        $multiNameEntity = "";
+        foreach ($nameMoreVariant as $item) {
+            $multiNameEntity .= '_' . $item;
+        }
+        $currentNameEntity = trim(strtolower($multiNameEntity), '_');
+        if (!empty($accessedIds)) {
+            $query->andFilterWhere(['in', $currentNameEntity . '.id', $accessedIds]);
+        } else {
+            $query->andFilterWhere(['in', $currentNameEntity . '.id', -1]);
+        }
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -61,10 +51,10 @@ class AccessoryActiveRecord extends ActiveRecord
                 $this->createAccessoryToTmpUser($this->tmpUserId);
             }
         } else if (empty(Accessory::find()->where([
-            'entity_class' => get_class($this),
-            'entity_id' => $this->id,
-            'user_id' => Yii::$app->getUser()->id,
-        ])->one()) && !isset($_GET['selling_token'])) {
+                'entity_class' => get_class($this),
+                'entity_id' => $this->id,
+                'user_id' => Yii::$app->getUser()->id,
+            ])->one()) && !isset($_GET['selling_token'])) {
             $this->createAccessoryToUser();
         }
         parent::afterSave($insert, $changedAttributes);
