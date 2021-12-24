@@ -54,12 +54,12 @@ $hostInfo = Url::home(true);
                         <div class="panel-body">
                             <ul class="list-group parent-list">
                                 <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
-                                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
+                                    <li style="cursor: pointer;" id="collapseOne-li-<?= $request->id ?>" onclick="collapseOneChildren(<?=$request->id?>)" class="list-group-item d-flex justify-content-between align-items-center selected-item">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" >
                                         <?= $request->text ?>
                                         <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
                                     </li>
-                                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
+                                    <div  id="collapseOne-children_<?= $request->id ?>" class="hidden-block-selected">
                                         <ul class="list-group" >
                                             <?php foreach ($request->getAnswers()->all() as $answer): ?>
                                                 <li  class="list-group-item " >
@@ -87,12 +87,12 @@ $hostInfo = Url::home(true);
                         <div class="panel-body">
                             <ul class="list-group parent-list">
                                 <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
-                                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
+                                    <li style="cursor: pointer;" id="collapseTwo-li-<?= $request->id ?>" onclick="collapseTowChildren(<?=$request->id?>)" class="list-group-item d-flex justify-content-between align-items-center selected-item">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" >
                                         <?= $request->text ?>
                                         <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
                                     </li>
-                                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
+                                    <div  id="collapseTwo-children_<?= $request->id ?>" class="hidden-block-selected">
                                         <ul class="list-group" >
                                             <?php foreach ($request->getAnswers()->all() as $answer): ?>
                                                 <li  class="list-group-item " >
@@ -111,7 +111,29 @@ $hostInfo = Url::home(true);
             </div>
         </div>
     </div>
+    <script>
+        function collapseTowChildren(id) {
+            let children = $('#collapseTwo-children_' + id);
+            if (children.hasClass('hidden-block-selected') === true) {
+                children.removeClass()
+                children.addClass('block-selected')
+            } else {
+                children.removeClass('block-selected')
+                children.addClass('hidden-block-selected')
+            }
+        }
 
+        function collapseOneChildren(id) {
+            let children = $('#collapseOne-children_' + id);
+            if (children.hasClass('hidden-block-selected') === true) {
+                children.removeClass()
+                children.addClass('block-selected')
+            } else {
+                children.removeClass('block-selected')
+                children.addClass('hidden-block-selected')
+            }
+        }
+    </script>
     <div class="col-md-6">
         <?php DetachedBlock::begin(); ?>
         <?php $form = ActiveForm::begin([
@@ -317,10 +339,7 @@ JS;
         ?>
 
         <script>
-            var small_widgets_in_block = [];
-        </script>
 
-        <script>
             function smallWidget() {
                 small_widgets_in_block = [];
                 var num = $('#panel_small_widget').children('li').length;
@@ -335,8 +354,6 @@ JS;
                     $('.small_widget').find('.big_widget_header').css('display', 'none');
 
                 }
-
-
             }
         </script>
 
