@@ -120,7 +120,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 'options' => ['placeholder' => 'Поиск в базе'],
                 'pluginOptions' => ['allowClear' => true],
                 'pluginEvents' => [
-                    "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?vacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
+                    "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
                 ]
             ])->label($label) ?>
         </div>

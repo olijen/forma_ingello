@@ -2,6 +2,7 @@
 
 namespace forma\modules\worker\controllers;
 
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use Yii;
 use forma\modules\worker\records\Worker;
 use forma\modules\worker\records\WorkerSearch;
@@ -109,7 +110,8 @@ class WorkerController extends Controller
      */
     public function actionCreate()
     {
-        $vacancyId = Yii::$app->request->get('vacancyId');
+        $projectVacancyId = Yii::$app->request->get('projectVacancyId');
+        $vacancyId = ProjectVacancy::find()->where(['id'=>$projectVacancyId])->one()->vacancy_id;
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
@@ -147,6 +149,7 @@ class WorkerController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'vacancyId' => null,
         ]);
     }
 
