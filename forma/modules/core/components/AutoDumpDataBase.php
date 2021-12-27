@@ -370,6 +370,11 @@ class AutoDumpDataBase
                 $warehouseProductModel,
                 'warehouse_id');
 
+            $warehouseProductModel = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\product\records\Currency'],
+                $warehouseProductModel,
+                'currency_id');
+
             $this->saveNewRecord($warehouseProductModel);
         }
         return true;

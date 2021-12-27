@@ -62,7 +62,14 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
     </div>
     <div class="row">
         <div class="col-md-4" id="worker-select">
+            <?php if (Yii::$app->request->get('vacancyId')) {
+                $data = \forma\modules\worker\records\workervacancy\WorkerVacancy::getListWorker(Yii::$app->request->get('vacancyId'));
+            } else {
+                $data = ArrayHelper::map(Worker::getListQuery()->all(), 'id', 'fullName');
+            }
+            ?>
             <?php
+
             $label = $model->getAttributeLabel('worker_id');
             $label .= '
                 [<a
@@ -73,19 +80,15 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     href="' . Url::to(['/worker/worker/view']) . '"
                 >детали</a>]
                 [<a
+                    id="vacancyUserId"
                     class="select-modal-link no-loader"
                     data-select="#interview-worker_id"
                     data-action="create"
-                    href="' . Url::to(['/worker/worker/create']) . '"
+                    href="' . Url::to(["/worker/worker/create"]) . '"
                 >добавить</a>]
             ';
             ?>
-            <?php if (Yii::$app->request->get('vacancyId')) {
-                $data = \forma\modules\worker\records\workervacancy\WorkerVacancy::getListWorker(Yii::$app->request->get('vacancyId'));
-            } else {
-                $data = ArrayHelper::map(Worker::getListQuery()->all(), 'id', 'fullName');
-            }
-            ?>
+
 
             <?= $form->field($model, 'worker_id')->widget(Select2::classname(), [
                 'data' => $data,
@@ -116,6 +119,9 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 'data' => ArrayHelper::map($vacancy, 'id', 'name'),
                 'options' => ['placeholder' => 'Поиск в базе'],
                 'pluginOptions' => ['allowClear' => true],
+                'pluginEvents' => [
+                    "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
+                ]
             ])->label($label) ?>
         </div>
         <?php if ($model->isNewRecord): ?>
