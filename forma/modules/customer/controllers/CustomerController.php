@@ -151,7 +151,6 @@ class CustomerController extends Controller
                 Yii::$app->db->createCommand($sql)->execute();
                 $id = Yii::$app->db->getLastInsertID();
                 $entityClass = \forma\modules\selling\records\selling\Selling::className();
-                de($sql);
                 $userId = Yii::$app->user->id;
                 $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
                 if (!Yii::$app->db->createCommand($sqlAccessory)->execute()){
