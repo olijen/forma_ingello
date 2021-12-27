@@ -24,7 +24,8 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
-        '@uploads' =>'@forma/import'
+        '@uploads' =>'@forma/import',
+        '@inst' =>'@forma/instagram_generation_lid'
     ],
     'on beforeAction' => function($event) {
 

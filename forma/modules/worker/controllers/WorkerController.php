@@ -163,6 +163,44 @@ class WorkerController extends Controller
 
         return $this->redirect(['index']);
     }
+    public function actionAddWorker()
+    {
+        $path = \Yii::getAlias('@inst') ;
+        $file = $path . '/instagram_service2.csv';
+        if (($handle = fopen($file, "r")) !== FALSE) {
+            $row = 1;
+            while (($data = fgetcsv($handle, 1000)) !== FALSE) {
+                $num = count($data);
+                if ($row == 1) {
+                    $row++;
+                    continue;
+                }
+                $str = '';
+                $vacancy_id = 86;
+                foreach ($data as $k => $value) {
+                    $str .= '\'' . $value . '\'' . ',';
+                }
+                $str = substr($str, 0, -1);
+                $sql = "INSERT INTO worker (patronymic,surname,passport,experience_description) VALUES ($str)";
+                $addWorker = Yii::$app->db->createCommand($sql)->execute();
+                $id = Yii::$app->db->getLastInsertID();
+                $entityClass = \forma\modules\worker\records\Worker::className();
+                $userId = Yii::$app->user->id;
+                $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
+                Yii::$app->db->createCommand($sqlAccessory)->execute();
+
+                $sql = "INSERT INTO worker_vacancy (worker_id,vacancy_id) VALUES ($id,$vacancy_id)";
+                Yii::$app->db->createCommand($sql)->execute();
+                $id = Yii::$app->db->getLastInsertID();
+                $entityClass = \forma\modules\worker\records\Worker::className()::className();
+                $userId = Yii::$app->user->id;
+                $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
+                Yii::$app->db->createCommand($sqlAccessory)->execute();
+            }
+            fclose($handle);
+        }
+        return $this->redirect('index');
+    }
 
     /**
      * Finds the Worker model based on its primary key value.
