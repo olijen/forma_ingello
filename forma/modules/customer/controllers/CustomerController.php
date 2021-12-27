@@ -2,7 +2,9 @@
 
 namespace forma\modules\customer\controllers;
 
+use forma\components\ExcelImporter;
 use forma\modules\customer\records\Messenger;
+use forma\modules\product\records\Product;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\services\SellingService;
 use Yii;
@@ -153,5 +155,18 @@ class CustomerController extends Controller
         ]);
 
     }
+    public function actionImportExcel()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $excel = $_FILES['excel']['tmp_name'];
+            $importer = new ExcelImporter();
+            $success = $importer->import($excel);
+            $errors = $importer->getErrors();
+
+            return json_encode(compact('success', 'errors','excel'));
+        }
+    }
+
 
 }
