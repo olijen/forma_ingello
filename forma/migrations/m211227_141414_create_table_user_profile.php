@@ -16,6 +16,7 @@ class m211227_141414_create_table_user_profile extends Migration
             'id' => $this->primaryKey(),
             'image' => $this->text(255)->null(),
             'user_id' => $this->integer(11)->null(),
+            'rank_id' => $this->integer(11)->null(),
         ]);
         $this->addForeignKey(
             'fk_rank_id',
