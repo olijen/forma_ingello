@@ -57,7 +57,10 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     <input id="import-file-input" type="file" style="display: none;">
 
-    <?php $columns = [
+    <?php
+
+
+    $columns = [
         ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
@@ -187,6 +190,8 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             :
             ['content' => ''];
         ?>
+
+
 
         <?= DynaGrid::widget([
         'allowSortSetting' => false,
