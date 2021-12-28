@@ -30,13 +30,7 @@ endif;
     ]); ?>
             <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'file',['options'=>['class'=>'col-xs-12 col-md-6']])->label('Картинка',['style'=>'float:none; display:block;'])->widget(\dosamigos\fileinput\FileInput::className(),
-                [
-                    'attribute' => 'image',
-                    'style'=>\dosamigos\fileinput\FileInput::STYLE_IMAGE,
-                    'thumbnail'=>'<img src="'.$model->getImage().'" style="width:100%;">',
-                ])
-             ?>
+            <?= $form->field($model, 'image',['options'=>['class'=>'col-xs-12 col-md-6']])->textInput() ?>
 
             <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 

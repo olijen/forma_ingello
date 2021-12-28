@@ -17,9 +17,6 @@ use Yii;
 class Rank extends \yii\db\ActiveRecord
 {
 
-    public $file;
-
-    const IMAGE_DIR_NAME = 'rank';
 
     /**
      * @inheritdoc
@@ -32,17 +29,11 @@ class Rank extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['name', 'image'], 'string'],
             [['order'], 'integer'],
-            [['file'], 'file', 'maxSize' => 2097152]
         ];
     }
 
