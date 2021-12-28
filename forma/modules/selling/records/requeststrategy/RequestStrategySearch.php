@@ -41,9 +41,8 @@ class RequestStrategySearch extends RequestStrategy
     public function search($params)
     {
 
-        $query = RequestStrategy::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id'=> \Yii::$app->user->id])
-            ->andWhere(['accessory.entity_class' => RequestStrategy::className()]);
+        $query = RequestStrategy::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

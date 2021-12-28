@@ -45,8 +45,9 @@ class  InterviewVacancySearch extends  InterviewVacancy
      */
     public function search($params)
     {
-        $query = InterviewVacancy::find()
-            ->joinWith(['vacancy'], false, 'LEFT JOIN');
+        $query = InterviewVacancy::find();
+        $this->access($query);
+        $query->joinWith(['vacancy'], false, 'LEFT JOIN');
 
         // add conditions that should always apply here
 

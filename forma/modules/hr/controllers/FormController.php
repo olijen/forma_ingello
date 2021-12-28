@@ -40,7 +40,7 @@ class FormController extends Controller
         $projectVacancy = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one();;
         $model = new Interview();
         $model->project_id = $projectVacancy->project_id;
-        $model->vacancy_id = $projectVacancy->vacancy_id;
+        $model->vacancy_id = $projectVacancy->id;
         $model->date_create = date('d.m.Y');
         $model->worker_id = $_POST['Interview']['worker_id'];
         $model->name = '-';

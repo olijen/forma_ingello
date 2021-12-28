@@ -19,11 +19,11 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
 <style>
 
     .no-hover {
-        //pointer-events: none;
         background: #EEFCFF;
         background-color: #F1F4FB;
     }
-    .no-hover:hover{
+
+    .no-hover:hover {
         background: #EEFCFF;
     }
 </style>

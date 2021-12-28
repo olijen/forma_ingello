@@ -41,8 +41,7 @@ class StateSearch extends State
     public function search($params)
     {
         $query = State::find();
-
-        // add conditions that should always apply here
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

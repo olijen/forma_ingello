@@ -2,6 +2,7 @@
 
 namespace forma\modules\product\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -16,7 +17,7 @@ use yii\helpers\ArrayHelper;
  * @property Field $field
  * @property Product $product
  */
-class FieldProductValue extends \yii\db\ActiveRecord
+class FieldProductValue extends AccessoryActiveRecord
 {
 
 

@@ -2,6 +2,8 @@
 
 namespace forma\modules\test\controllers;
 
+use forma\modules\customer\records\Customer;
+use forma\modules\vacancy\records\Vacancy;
 use Yii;
 use forma\modules\test\records\Test;
 use forma\modules\test\records\TestType;

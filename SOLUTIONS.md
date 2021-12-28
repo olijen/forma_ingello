@@ -64,3 +64,7 @@ yii message/extract
 
 SET sql_mode = '';
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
+
+добавление клиентов - /customer/customer/add-customer
+добавление кадров - /worker/worker/add-worker

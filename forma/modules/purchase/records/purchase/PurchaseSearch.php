@@ -46,11 +46,8 @@ class PurchaseSearch extends Purchase
      */
     public function search($params)
     {
-        $query = Purchase::find()
-            ->joinWith(['warehouse', 'warehouse.warehouseUsers'], false, 'INNER JOIN')
-            ->where(['warehouse_user.user_id' => Yii::$app->user->id]);
-
-        // add conditions that should always apply here
+        $query = Purchase::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

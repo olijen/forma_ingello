@@ -6,6 +6,7 @@ use vova07\imperavi\Widget;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
+/* @var $vacancyId integer */
 /* @var $model forma\modules\worker\records\Worker */
 /* @var $form yii\widgets\ActiveForm */
 
@@ -103,12 +104,13 @@ use kartik\select2\Select2;
                         <?= $form->field($model, 'workerVacanciesList')->widget(Select2::className(), [
                             'data' =>  \forma\modules\worker\records\workervacancy\WorkerVacancy::getListVacancies(),
                             'options' => [
-                                'placeholder' => 'Выберете вакансии...',
+                                'value' => $vacancyId,
                                 'multiple' => true,
                             ],
                             'pluginOptions' => [
                                 'tags' => true,
                             ],
+
                         ])->label(false) ?>
 
                     </div>

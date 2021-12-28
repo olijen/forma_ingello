@@ -7,7 +7,7 @@ namespace forma\modules\core\records;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestTypeFieldSearch;
 use forma\modules\core\records\SystemEventUserService;
-use forma\modules\test\records\TestSearch;
+use forma\modules\test\records\TestTypeSearch;
 use forma\modules\test\records\TestType;
 use Yii;
 use forma\modules\selling\records\selling\Selling;

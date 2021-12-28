@@ -2,6 +2,7 @@
 
 namespace forma\modules\worker\records\workervacancy;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\vacancy\records\Vacancy;
@@ -21,7 +22,7 @@ use yii\helpers\ArrayHelper;
  * @property Vacancy $vacancy
  * @property Worker $worker
  */
-class WorkerVacancy extends \yii\db\ActiveRecord
+class WorkerVacancy extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -84,7 +85,7 @@ class WorkerVacancy extends \yii\db\ActiveRecord
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
         $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId ])->one();
-        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
+        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->id])->all();
 
         foreach ($workerVacancies as $workerVacancy) {
             if (empty($workerVacancy->worker->interviews)){

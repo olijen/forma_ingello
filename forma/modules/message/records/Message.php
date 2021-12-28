@@ -2,6 +2,7 @@
 
 namespace forma\modules\message\records;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\records\User;
 use Yii;
 
@@ -20,7 +21,7 @@ use Yii;
  * @property User $fromUser
  * @property User $toUser
  */
-class Message extends \yii\db\ActiveRecord
+class Message extends AccessoryActiveRecord
 {
 
 

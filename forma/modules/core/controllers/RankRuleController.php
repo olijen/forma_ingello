@@ -35,7 +35,7 @@ class RankRuleController extends Controller
         $searchModel = new RankRuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('/user-profile/rankrule/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

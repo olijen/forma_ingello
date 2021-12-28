@@ -15,7 +15,6 @@ use yii\base\Model;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
-
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
@@ -120,6 +119,48 @@ class CustomerController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionAddCustomer()
+    {
+        $path = \Yii::getAlias('@inst') ;
+        $file = $path . '/instagram_service2.csv';
+        if (($handle = fopen($file, "r")) !== FALSE) {
+            $row = 1;
+            while (($data = fgetcsv($handle, 1000)) !== FALSE) {
+                $num = count($data);
+                if ($row == 1) {
+                    $row++;
+                    continue;
+                }
+                $str = '';
+                $vacancy_id = 87;
+                foreach ($data as $k => $value) {
+                    $str .= '\'' . $value . '\'' . ',';
+                }
+                $str = substr($str, 0, -1);
+
+
+                $sql = "INSERT INTO customer (telegram,name,skype,description) VALUES ($str)";
+                Yii::$app->db->createCommand($sql)->execute();
+                $id = Yii::$app->db->getLastInsertID();
+                $entityClass = \forma\modules\customer\records\Customer::className();
+                $userId = Yii::$app->user->id;
+                $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
+                Yii::$app->db->createCommand($sqlAccessory)->execute();
+
+                $sql = "INSERT INTO selling (customer_id) VALUES ($id)";
+                Yii::$app->db->createCommand($sql)->execute();
+                $id = Yii::$app->db->getLastInsertID();
+                $entityClass = \forma\modules\selling\records\selling\Selling::className();
+                $userId = Yii::$app->user->id;
+                $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
+                if (!Yii::$app->db->createCommand($sqlAccessory)->execute()){
+                    de('Sorry,error');
+                };
+            }
+        }
+        return $this->redirect(['index']);
     }
 
     /**

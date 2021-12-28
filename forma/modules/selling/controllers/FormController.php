@@ -21,10 +21,12 @@ class FormController extends Controller
             return $this->redirect('/selling/main-state/index');
 
         $model = SellingService::get($id);
-        $sellingState = State::findOne($model->state_id);
+        if(!empty($model)){
+            $sellingState = State::findOne($model->state_id);
+        }
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])
             ->all();
-        if ($sellingState) {
+        if (isset($sellingState)) {
             $toState = $sellingState->state;
             return $this->render('index', compact('model', 'userState', 'sellingState', 'toState'));
         } else {

@@ -3,10 +3,10 @@
 namespace forma\modules\selling\records\talk;
 
 use forma\modules\core\records\User;
+use forma\modules\selling\records\talk\Request;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\selling\records\talk\Request;
 
 /**
  * RequestSearch represents the model behind the search form about `forma\modules\selling\records\talk\Request`.
@@ -42,10 +42,8 @@ class RequestSearch extends Request
      */
     public function search($params)
     {
-        $query = $this->createQuery();
-
-
-        // add conditions that should always apply here
+        $query = Request::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -69,12 +67,4 @@ class RequestSearch extends Request
         return $dataProvider;
     }
 
-    public function createQuery()
-    {
-        $query = Request::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->user->id])
-            ->andWhere(['accessory.entity_class' => Request::className()]);
-
-        return $query;
-    }
 }

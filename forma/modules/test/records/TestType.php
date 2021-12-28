@@ -2,6 +2,7 @@
 
 namespace forma\modules\test\records;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\records\User;
 use Yii;
 
@@ -17,7 +18,7 @@ use Yii;
  * @property Test[] $tests
  * @property User $user
  */
-class TestType extends \yii\db\ActiveRecord
+class TestType extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}

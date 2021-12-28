@@ -46,6 +46,7 @@ class InventorizationSearch extends Inventorization
     public function search($params)
     {
         $query = Inventorization::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

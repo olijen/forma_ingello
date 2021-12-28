@@ -10,7 +10,7 @@ use forma\modules\test\records\TestType;
 /**
  * TestSearch represents the model behind the search form of `app\records\TestType`.
  */
-class TestSearch extends TestType
+class TestTypeSearch extends TestType
 {
     /**
      * {@inheritdoc}
@@ -42,6 +42,7 @@ class TestSearch extends TestType
     public function search($params)
     {
         $query = TestType::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 
