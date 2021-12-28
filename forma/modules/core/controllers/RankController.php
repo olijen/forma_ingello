@@ -35,7 +35,7 @@ class RankController extends Controller
         $searchModel = new RankSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('/user-profile/rank/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -48,7 +48,7 @@ class RankController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('/user-profile/rank/view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -66,7 +66,7 @@ class RankController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('/user-profile/rank/create', [
                 'model' => $model,
             ]);
         }
@@ -85,7 +85,7 @@ class RankController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('/user-profile/rank/update', [
                 'model' => $model,
             ]);
         }
