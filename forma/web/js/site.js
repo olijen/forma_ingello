@@ -1,5 +1,4 @@
-
-
+//TODO вечать на grid-view select change
 $(function() {
     $('.grid-view tbody td, table.kv-grid-table tbody td').click(function(event) {
         if(!$(this).hasClass('kv-expand-icon-cell') && !$(this).hasClass('no-load') && !$(this).hasClass('no-load')){
