@@ -2,6 +2,8 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use forma\extensions\kartik\DynaGrid;
+use yii\bootstrap\ButtonDropdown;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\customer\records\CustomerSearch */
@@ -18,6 +20,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
         <?= Html::a('<i class="fas fa-user-plus"></i> Создать клиента', ['create'], ['class' => 'btn btn-success forma_green']) ?>
         <?= Html::button('<i class="fas fa-envelope-open-text"></i> Подготовить рассылку', ['id' => 'preSend', 'class' => 'btn btn-success forma_green']) ?>
     </p>
+
+
+
 <?php /*Pjax::begin(['enablePushState' => false]); */?>
     <?= Html::beginForm(['customer/send'], 'post', ['data-pjax' => ''])?>
     <div class="row hidden" id="mail-form">
@@ -53,6 +58,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
             [
                 'class' => 'yii\grid\CheckboxColumn', 'checkboxOptions' => ['name' => 'checkbox[]']
             ],
+
 
             [
                 'class' => 'yii\grid\ActionColumn',

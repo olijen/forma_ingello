@@ -66,19 +66,7 @@ $this->title = Yii::t(
 </div>
 <?php \forma\modules\core\widgets\DetachedBlock::end() ?>
 
-<?php \forma\modules\core\widgets\DetachedBlock::begin() ?>
-<div class="row">
-    <div class="form-group">
-        <?= \yii\helpers\Html::a('Смотреть ответы', ['/selling/answer'], ['class' => 'btn btn-block btn-success forma_blue']) ?>
-    </div>
-    <div class="form-group">
-        <?= \yii\helpers\Html::a('Смотреть вопросы', ['/selling/request'], ['class' => 'btn btn-block btn-success forma_blue']) ?>
-    </div>
-    <div class="form-group">
-        <?= \yii\helpers\Html::a('Смотреть стратегии', ['/selling/strategy'], ['class' => 'btn btn-block btn-success forma_blue']) ?>
-    </div>
-</div>
-<?php \forma\modules\core\widgets\DetachedBlock::end() ?>
+
 
 <script>
     $('.regularity_name').hover(function (event) {
