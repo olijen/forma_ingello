@@ -32,10 +32,11 @@ class UserProfileController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'public';
         $searchModel = new UserProfileSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('/user-profile/userprofile/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -102,6 +103,18 @@ class UserProfileController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    public function actionRankProcess()
+    {
+        return $this->render('/user-profile/userprofile/rank-process', [
+
+        ]);
+    }
+    public function actionChartProcessRank()
+    {
+        return $this->render('/user-profile/userprofile/chart-process-rank', [
+
+        ]);
     }
 
     /**
