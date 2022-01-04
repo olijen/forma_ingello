@@ -118,6 +118,10 @@ class SystemEventService
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
+                /*$userRankRule = UserRuleRank::find()->where(['rule_rank_id'=>$rule->])
+                if($rule->count_action == ){
+
+                }*/
                 if ($accessInterface === null) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
