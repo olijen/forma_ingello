@@ -8,12 +8,14 @@
                      class="img-circle"
                      alt="User Image"/>
             </li>
+            <div class="block_rank">
             <div class="user_rank">
                 Rank: <?php ?>
             </div>
             <div class="number_rules">
 
                 Number of rules executed: <?php ?>
+            </div>
             </div>
         </div>
         <?= $this->render('/user-profile/userprofile/rank-process', [
@@ -40,14 +42,15 @@
     })()
 </script>
 <style>
-    .user_rank {
-        padding: 5px; /* Поля вокруг текста */
-        float: left; /* Обтекание по правому краю */
-        width: 200px; /* Ширина слоя */
+    div.block_rank {
+        width:450px;
     }
-    .number_rules {
-        padding: 5px; /* Поля вокруг текста */
-        width: 300px; /* Ширина слоя */
-        float: left; /* Обтекание по правому краю */
+    div.user_rank {
+        float:left;
+        width:200px;
+    }
+    div.number_rules {
+        float:right;
+        width:200px;
     }
 </style>
