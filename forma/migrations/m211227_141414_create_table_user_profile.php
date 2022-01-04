@@ -26,6 +26,14 @@ class m211227_141414_create_table_user_profile extends Migration
             'id',
             'NO ACTION'
         );
+        $this->addForeignKey(
+            'fk_user_id',
+            'user_profile',
+            'user_id',
+            'user',
+            'id',
+            'NO ACTION'
+        );
 
 
     }
