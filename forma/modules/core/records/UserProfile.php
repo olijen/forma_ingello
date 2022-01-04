@@ -14,6 +14,8 @@ use Yii;
  *
  * @property Rank $rank
  * @property User $user
+ * @property UserRuleRank $userrulerank
+ *
  */
 class UserProfile extends \yii\db\ActiveRecord
 {
@@ -63,7 +65,11 @@ class UserProfile extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }  public function getUserRuleRank()
+    {
+        return $this->hasMany(UserRuleRank::className(), ['id' => 'user_rule_rank_id']);
     }
+
 
     /**
      * @inheritdoc
