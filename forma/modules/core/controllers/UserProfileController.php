@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\Rank;
 use Yii;
 use forma\modules\core\records\UserProfile;
 use forma\modules\core\records\UserProfileSearch;
@@ -32,12 +33,13 @@ class UserProfileController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserProfileSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $this->layout = 'public';
+        $currenUser = UserProfile::find()->where(['id'=>Yii::$app->user->id])->one();
+        $userRank = $currenUser->rank;
+        $needCountRule = $userRank;
+        //dd($userRank);
 
         return $this->render('/user-profile/userprofile/index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -102,6 +104,18 @@ class UserProfileController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['/user-profile/userprofile/index']);
+    }
+    public function actionRankProcess()
+    {
+        return $this->render('/user-profile/userprofile/rank-process', [
+
+        ]);
+    }
+    public function actionChartProcessRank()
+    {
+        return $this->render('/user-profile/userprofile/chart-process-rank', [
+
+        ]);
     }
 
     /**

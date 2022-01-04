@@ -1,49 +1,27 @@
-<?php
+<div class="container" style="width: 100%;">
+    <div class="row">
+        <div class="col-md-4">
+            <h1 style="text-align: center">Профиль</h1>
+        </div>
+        <?= $this->render('/user-profile/userprofile/rank-process', [
 
-use yii\helpers\Html;
-use yii\grid\GridView;
-use \wokster\ltewidgets\BoxWidget;
-use yii\widgets\Pjax;
+        ]) ?>
+        <?= $this->render('/user-profile/userprofile/chart-process-rank', [
 
-/* @var $this yii\web\View */
-/* @var $searchModel forma\modules\core\records\UserProfileSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Профили пользователей';
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="user-profile-index">
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <?php BoxWidget::begin([
-        'title'=>'Профиль пользователя <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Профиль пользователя']]
-        ]
-    ]);
-    ?>
-
-    <?php Pjax::begin(['id' => 'grid'])?>
-    
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'image:ntext',
-            'user_id',
-            'rank_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
-    <?php Pjax::end();?>
-
-    <?php BoxWidget::end();?>
-
-
+        ]) ?>
+        <div class="col-md-12" style="padding-top: 100px;">
+            <h1 style="text-align: center">Картинка</h1>
+        </div>
+    </div>
 </div>
+<script>
+    (function(){
+        var tId = setInterval(function() {
+            if (document.readyState == "complete") onComplete()
+        }, 800);
+        function onComplete(){
+            clearInterval(tId);
+            $('.globalClass_2ebe').remove();
+        };
+    })()
+</script>
