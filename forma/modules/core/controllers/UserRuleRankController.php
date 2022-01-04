@@ -35,7 +35,7 @@ class UserRuleRankController extends Controller
         $searchModel = new UserRuleRankSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('/user-profile/userrulerank/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -48,7 +48,7 @@ class UserRuleRankController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('/user-profile/userrulerank/view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -64,9 +64,9 @@ class UserRuleRankController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user-profile/userrulerank/view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('/user-profile/userrulerank/create', [
                 'model' => $model,
             ]);
         }
@@ -83,9 +83,9 @@ class UserRuleRankController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user-profile/userrulerank/view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('/user-profile/userrulerank/update', [
                 'model' => $model,
             ]);
         }
@@ -101,7 +101,7 @@ class UserRuleRankController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/user-profile/userrulerank/index']);
     }
 
     /**

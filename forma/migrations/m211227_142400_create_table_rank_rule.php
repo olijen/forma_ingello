@@ -12,7 +12,7 @@ class m211227_142400_create_table_rank_rule extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('rank_rule', [
+        $this->createTable('rule_rank', [
             'id' => $this->primaryKey(),
             'rule_id' => $this->integer(11)->null(),
             'rank_id' => $this->integer(11)->null(),
