@@ -14,7 +14,7 @@ class m211227_142941_create_table_user_rule_rank extends Migration
     {
         $this->createTable('user_rule_rank', [
             'id' => $this->primaryKey(),
-            'id_user_profile' => $this->integer(11)->null(),
+            'user_profile_id' => $this->integer(11)->null(),
             'rule_rank_id' => $this->integer(11)->null(),
             'date' => $this->date()->null(),
         ]);
@@ -22,7 +22,15 @@ class m211227_142941_create_table_user_rule_rank extends Migration
             'fk_rule_rank_id',
             'user_rule_rank',
             'rule_rank_id',
-            'rank_rule',
+            'rule_rank',
+            'id',
+            'NO ACTION'
+        );
+        $this->addForeignKey(
+            'fk_user_rule_rank_id',
+            'user_rule_rank',
+            'user_profile_id',
+            'user_profile',
             'id',
             'NO ACTION'
         );

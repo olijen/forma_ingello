@@ -18,7 +18,7 @@ class UserRuleRankSearch extends UserRuleRank
     public function rules()
     {
         return [
-            [['id', 'id_user_profile', 'rule_rank_id'], 'integer'],
+            [['id', 'user_profile_id', 'rule_rank_id'], 'integer'],
             [['date'], 'safe'],
         ];
     }
@@ -57,7 +57,7 @@ class UserRuleRankSearch extends UserRuleRank
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_user_profile' => $this->id_user_profile,
+            'user_profile_id' => $this->user_profile_id,
             'rule_rank_id' => $this->rule_rank_id,
             'date' => $this->date,
         ]);

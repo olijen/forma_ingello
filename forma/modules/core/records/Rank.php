@@ -13,6 +13,7 @@ use Yii;
  * @property integer $order
  *
  * @property UserProfile[] $userProfiles
+ * @property RuleRank[] $ruleRank
  */
 class Rank extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,7 @@ class Rank extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'image'], 'string'],
-            [['order'], 'integer'],
+            [['order', 'rule_rank_id'], 'integer'],
         ];
     }
 
@@ -47,6 +48,8 @@ class Rank extends \yii\db\ActiveRecord
             'name' => 'Name',
             'image' => 'Image',
             'order' => 'Order',
+            'rule_rank_id' => 'RuleRankID',
+
         ];
     }
 
@@ -56,6 +59,11 @@ class Rank extends \yii\db\ActiveRecord
     public function getUserProfiles()
     {
         return $this->hasMany(UserProfile::className(), ['rank_id' => 'id']);
+    }
+
+    public function getRuleRank()
+    {
+        return $this->hasMany(RuleRank::className(), ['rule_rank_id' => 'id']);
     }
 
     /**

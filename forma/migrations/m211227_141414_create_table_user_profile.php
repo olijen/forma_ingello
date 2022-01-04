@@ -27,6 +27,7 @@ class m211227_141414_create_table_user_profile extends Migration
             'NO ACTION'
         );
 
+
     }
 
     /**
