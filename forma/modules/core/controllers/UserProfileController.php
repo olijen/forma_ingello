@@ -35,8 +35,8 @@ class UserProfileController extends Controller
     {
         $this->layout = 'public';
         $currenUser = UserProfile::find()->where(['id'=>Yii::$app->user->id])->one();
-        $userRank = $currenUser->rank;
-        $needCountRule = $userRank;
+//        $userRank = $currenUser->rank;
+//        $needCountRule = $userRank;
         //dd($userRank);
 
         return $this->render('/user-profile/userprofile/index', [
