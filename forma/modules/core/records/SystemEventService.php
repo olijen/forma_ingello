@@ -114,31 +114,48 @@ class SystemEventService
 
             $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
 
-            if($rule){
+            if ($rule) {
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
-                /*$userRankRule = UserRuleRank::find()->where(['rule_rank_id'=>$rule->])
-                if($rule->count_action == ){
-
-                }*/
-                if ($accessInterface === null) {
+                $currentUserProfile = UserProfile::find()->where(['id' => Yii::$app->user->id])->one();
+                $userProfileRules = UserProfileRule::find()->where(['user_profile_id' => $currentUserProfile->id
+                    , 'rule_id' => $rule->id])->all();
+                $currentDate = date('Y-m-d');
+                if (empty($userProfileRules)) {
+                    $newUserProfileRule = new UserProfileRule();
+                    $newUserProfileRule->rule_id = $rule->id;
+                    $newUserProfileRule->user_profile_id = $currentUserProfile->id;
+                    $newUserProfileRule->date = $currentDate;
+                    $newUserProfileRule->save();
+                }
+                if (isset($userProfileRules)) {
+                    if ($rule->count_action > count($userProfileRules)) {
+                        $newUserProfileRule = new UserProfileRule();
+                        $newUserProfileRule->rule_id = $rule->id;
+                        $newUserProfileRule->user_profile_id = $currentUserProfile->id;
+                        $newUserProfileRule->date = $currentDate;
+                        $newUserProfileRule->save();
+                    }
+                }
+                if (empty($accessInterface)) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
                     $newAccessInterface->current_mark = 1;
                     $newAccessInterface->user_id = Yii::$app->user->identity->id;
                     $newAccessInterface->status = false;
                     $newAccessInterface->save();
-                } else {
+                }
+                if (isset($accessInterface)) {
                     if ($accessInterface->status == false) {
                         $accessInterface->status = false;
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if($accessInterface->current_mark == $rule->count_action){
-                        $accessInterface->status =1;
+                    if ($accessInterface->current_mark == $rule->count_action) {
+                        $accessInterface->status = 1;
                         $accessInterface->save();
-                        self::setCookieSystemEvent('event',$rule->id);
+                        self::setCookieSystemEvent('event', $rule->id);
                     }
                 }
             }
