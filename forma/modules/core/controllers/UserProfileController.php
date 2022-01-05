@@ -34,10 +34,11 @@ class UserProfileController extends Controller
     public function actionIndex()
     {
         $this->layout = 'public';
-        $currenUser = UserProfile::find()->where(['id' => Yii::$app->user->id])->one();
+        $currenUser = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->one();
         $ranks = Rank::find()->joinWith(['rules' => function ($q) {
             $q->joinWith('userProfileRules')->where(['user_profile_rule.user_profile_id' => Yii::$app->user->id])->orWhere(['user_profile_rule.user_profile_id' => null]);
         }])->all();
+        dd($currenUser);
         return $this->render('/user-profile/userprofile/index', [
             'ranks' => $ranks
         ]);
