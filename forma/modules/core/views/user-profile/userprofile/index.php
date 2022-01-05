@@ -2,7 +2,6 @@
 
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\UserProfile;
-
 /* @var $ranks Rank[] */
 /* @var $currenUser UserProfile */
 ?>
