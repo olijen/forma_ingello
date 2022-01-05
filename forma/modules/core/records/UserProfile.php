@@ -13,38 +13,32 @@ use Yii;
   * @property integer $rank_id
   *
       * @property Rank $rank
+      * @property User $user
+      * @property UserProfileRule[] $userProfileRules
   */
 class UserProfile extends \yii\db\ActiveRecord
 {
 
-  public $file;
 
-  const IMAGE_DIR_NAME = 'user-profile';
-
-  /**
-  * @inheritdoc
-  */
-  public static function tableName()
-  {
-    return 'user_profile';
-  }
-
-  /**
-  * @inheritdoc
-  */
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'user_profile';
+    }
 
 
-  /**
-  * @inheritdoc
-  */
-  public function rules()
-  {
-    return [
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
             [['image'], 'string'],
             [['user_id', 'rank_id'], 'integer'],
-            [['file'], 'file', 'maxSize' => 2097152]
         ];
-  }
+    }
 
   /**
   * @inheritdoc
@@ -66,13 +60,29 @@ class UserProfile extends \yii\db\ActiveRecord
   {
   return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
   }
-  
+
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUser()
+  {
+  return $this->hasOne(User::className(), ['id' => 'user_id']);
+  }
+
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUserProfileRules()
+  {
+  return $this->hasMany(UserProfileRule::className(), ['user_profile_id' => 'id']);
+  }
+
   /**
   * @inheritdoc
-  * @return UserProfileQuery the active query used by this AR class.
+  * @return UserProfileRuleQuery the active query used by this AR class.
   */
   public static function find()
   {
-  return new UserProfileQuery(get_called_class());
+  return new UserProfileRuleQuery(get_called_class());
   }
 }

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\form\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model forma\modules\core\records\UserRuleRank */
+/* @var $model forma\modules\core\records\RuleRank */
 /* @var $form yii\widgets\ActiveForm */
 
 if($model->hasErrors()):
@@ -24,18 +24,13 @@ endif;
 
 ?>
 
-<div class="user-rule-rank-form">
+<div class="rule-rank-form">
 
     <?php $form = ActiveForm::begin([
     ]); ?>
-            <?= $form->field($model, 'id_user_profile',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'rule_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'rule_rank_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
-
-            <?= $form->field($model, 'date', ['addon' => ['prepend' => ['content' => '<i class="fa fa-calendar"></i>']],'options'=>['class'=>'col-xs-12 col-md-6']])->widget(\kartik\datecontrol\DateControl::className(),[
-                    'type'=>'date',
-                    ])
-             ?>
+            <?= $form->field($model, 'rank_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
 
         <div class="col-xs-12 col-md-12">

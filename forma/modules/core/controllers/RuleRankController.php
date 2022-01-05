@@ -3,16 +3,16 @@
 namespace forma\modules\core\controllers;
 
 use Yii;
-use forma\modules\core\records\RankRule;
-use forma\modules\core\records\RankRuleSearch;
+use forma\modules\core\records\RuleRank;
+use forma\modules\core\records\RuleRankSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * RankRuleController implements the CRUD actions for RankRule model.
+ * RuleRankController implements the CRUD actions for RuleRank model.
  */
-class RankRuleController extends Controller
+class RuleRankController extends Controller
 {
     public function behaviors()
     {
@@ -27,53 +27,53 @@ class RankRuleController extends Controller
     }
 
     /**
-     * Lists all RankRule models.
+     * Lists all RuleRank models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RankRuleSearch();
+        $searchModel = new RuleRankSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('/user-profile/rankrule/index', [
+        return $this->render('/user-profile/rulerank/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single RankRule model.
+     * Displays a single RuleRank model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('/user-profile/rulerank/view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new RankRule model.
+     * Creates a new RuleRank model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new RankRule();
+        $model = new RuleRank();
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('/user-profile/rulerank/create', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing RankRule model.
+     * Updates an existing RuleRank model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -83,16 +83,16 @@ class RankRuleController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user-profile/rulerank/view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('/user-profile/rulerank/update', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing RankRule model.
+     * Deletes an existing RuleRank model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -101,19 +101,19 @@ class RankRuleController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/user-profile/rulerank/index']);
     }
 
     /**
-     * Finds the RankRule model based on its primary key value.
+     * Finds the RuleRank model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return RankRule the loaded model
+     * @return RuleRank the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = RankRule::findOne($id)) !== null) {
+        if (($model = RuleRank::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

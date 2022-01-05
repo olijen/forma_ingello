@@ -7,7 +7,7 @@ namespace forma\modules\core\records;
  *
  * @see UserRuleRank
  */
-class UserRankRuleQuery extends \yii\db\ActiveQuery
+class UserRuleRankQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {

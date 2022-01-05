@@ -64,7 +64,7 @@ class RankController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user-profile/rank/view', 'id' => $model->id]);
         } else {
             return $this->render('/user-profile/rank/create', [
                 'model' => $model,
@@ -83,7 +83,7 @@ class RankController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user-profile/rank/view', 'id' => $model->id]);
         } else {
             return $this->render('/user-profile/rank/update', [
                 'model' => $model,
@@ -101,7 +101,7 @@ class RankController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/user-profile/rank/index']);
     }
 
     /**

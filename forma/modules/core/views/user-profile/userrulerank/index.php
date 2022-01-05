@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel forma\modules\core\records\UserRuleRankSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Правила рангов';
+$this->title = 'Условия рангов пользователя';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-rule-rank-index">
@@ -17,9 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
     <?php BoxWidget::begin([
-        'title'=>'Правило ранга <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
+        'title'=>'Условие ранга пользователя <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
         'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Правило ранга']]
+            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Условие ранга пользователя']]
         ]
     ]);
     ?>
@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'id_user_profile',
+            'user_profile_id',
             'rule_rank_id',
             'date',
 

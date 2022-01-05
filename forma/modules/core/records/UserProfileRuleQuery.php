@@ -3,11 +3,11 @@
 namespace forma\modules\core\records;
 
 /**
- * This is the ActiveQuery class for [[RankRule]].
+ * This is the ActiveQuery class for [[UserProfile]].
  *
- * @see RankRule
+ * @see UserProfile
  */
-class RankRuleQuery extends \yii\db\ActiveQuery
+class UserProfileRuleQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +17,7 @@ class RankRuleQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return RankRule[]|array
+     * @return UserProfile[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class RankRuleQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return RankRule|array|null
+     * @return UserProfile|array|null
      */
     public function one($db = null)
     {

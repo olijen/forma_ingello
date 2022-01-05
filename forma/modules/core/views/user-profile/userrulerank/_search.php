@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model forma\modules\core\records\RankRuleSearch */
+/* @var $model forma\modules\core\records\UserRuleRankSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -23,11 +23,15 @@ use yii\widgets\ActiveForm;
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'rule_id') ?>
+   <?= $form->field($model, 'user_profile_id') ?>
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'rank_id') ?>
+   <?= $form->field($model, 'rule_rank_id') ?>
+</div>
+
+<div class="col-xs-3">
+   <?= $form->field($model, 'date') ?>
 </div>
 
 <div class="form-group col-xs-12">

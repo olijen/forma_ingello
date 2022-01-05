@@ -30,18 +30,5 @@ class m211227_140807_create_table_rank extends Migration
         return false;
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
 
-    }
-
-    public function down()
-    {
-        echo "m211227_140807_create_table_rank cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

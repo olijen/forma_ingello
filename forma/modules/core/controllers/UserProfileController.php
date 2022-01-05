@@ -3,7 +3,6 @@
 namespace forma\modules\core\controllers;
 
 use forma\modules\core\records\Rank;
-use forma\modules\core\records\UserRuleRank;
 use Yii;
 use forma\modules\core\records\UserProfile;
 use forma\modules\core\records\UserProfileSearch;
@@ -35,13 +34,11 @@ class UserProfileController extends Controller
     public function actionIndex()
     {
         $this->layout = 'public';
-        $currenUser = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->one();
-        $ranks = Rank::find()->joinWith(['rules' => function ($q) {
-            $q->joinWith('userProfileRules')->where(['user_profile_rule.user_profile_id' => Yii::$app->user->id])->orWhere(['user_profile_rule.user_profile_id' => null]);
-        }])->all();
-        dd($currenUser);
+        $currenUser = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith(['userProfileRules'])->one();
+        $ranks = Rank::find()->joinWith(['rules'])->all();
         return $this->render('/user-profile/userprofile/index', [
-            'ranks' => $ranks
+            'ranks' => $ranks,
+            'currenUser' => $currenUser
         ]);
     }
 
@@ -52,7 +49,7 @@ class UserProfileController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/user-profile/userprofile/view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -68,9 +65,9 @@ class UserProfileController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('/user-profile/userprofile/create', [
+            return $this->render('create', [
                 'model' => $model,
             ]);
         }
@@ -87,9 +84,9 @@ class UserProfileController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('/user-profile/userprofile/update', [
+            return $this->render('update', [
                 'model' => $model,
             ]);
         }
@@ -105,16 +102,14 @@ class UserProfileController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/user-profile/userprofile/index']);
+        return $this->redirect(['index']);
     }
-
     public function actionRankProcess()
     {
         return $this->render('/user-profile/userprofile/rank-process', [
 
         ]);
     }
-
     public function actionChartProcessRank()
     {
         return $this->render('/user-profile/userprofile/chart-process-rank', [
