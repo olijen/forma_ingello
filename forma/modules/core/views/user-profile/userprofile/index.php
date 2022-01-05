@@ -1,8 +1,10 @@
 <?php
 
 use forma\modules\core\records\Rank;
+use forma\modules\core\records\UserProfile;
 
-/* @var $ranks Rank */
+/* @var $ranks Rank[] */
+/* @var $currenUser UserProfile */
 ?>
 <div class="container" style="width: 100%;">
     <div class="row">
@@ -27,6 +29,7 @@ use forma\modules\core\records\Rank;
             </div>
             <?= $this->render('/user-profile/userprofile/rank-process', [
                 'ranks' => $ranks,
+                'currenUser' => $currenUser,
             ]) ?>
             <?= $this->render('/user-profile/userprofile/chart-process-rank', [
             ]) ?>
