@@ -7,12 +7,13 @@ use forma\modules\core\records\UserProfile;
 /* @var $currenUser UserProfile */
 ?>
 <style>
-    .row{
+    .row {
         display: flex;
         flex-wrap: wrap;
         padding: 10px;
     }
-    .stretch-card{
+
+    .stretch-card {
         display: -webkit-flex;
         display: flex;
         -webkit-align-items: stretch;
@@ -20,6 +21,7 @@ use forma\modules\core\records\UserProfile;
         -webkit-justify-content: stretch;
         justify-content: stretch;
     }
+
     @media (max-width: 990px) {
         .stretch-card {
             width: 100%;
@@ -31,7 +33,7 @@ use forma\modules\core\records\UserProfile;
 <div class="container" style="width: 100%;">
     <div class="row">
         <div class="col-md-4 col-sm-12 col-12 stretch-card" style="min-height: 450px;">
-            <div class="box box-success" >
+            <div class="box box-success">
                 <div class="box-header with-border big_widget_header">
                     <h3 class="box-title">
                         Профиль
@@ -41,7 +43,8 @@ use forma\modules\core\records\UserProfile;
                 <div class="box-body">
                     <h1 style="text-align: center"> <?= Yii::$app->user->getIdentity()->username ?>
                         <small><?= Yii::$app->user->getIdentity()->role ?></small></h1>
-                    <img style="width: 100px; height: 100px;" src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
+                    <img style="width: 100px; height: 100px;"
+                         src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
                          class="img-circle"
                          alt="User Image"/>
                     <div class="block_rank">
