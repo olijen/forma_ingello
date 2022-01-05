@@ -104,7 +104,6 @@ class UserProfileController extends Controller
 
         return $this->redirect(['/user-profile/userprofile/index']);
     }
-
     public function actionRankProcess()
     {
         return $this->render('/user-profile/userprofile/rank-process', [
