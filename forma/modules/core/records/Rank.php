@@ -18,9 +18,6 @@ use Yii;
 class Rank extends \yii\db\ActiveRecord
 {
 
-  public $file;
-
-  const IMAGE_DIR_NAME = 'rank';
 
   /**
   * @inheritdoc
@@ -30,18 +27,16 @@ class Rank extends \yii\db\ActiveRecord
     return 'rank';
   }
 
-  /**
-  * @inheritdoc
-  */
-
-  public function rules()
-  {
-    return [
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
             [['name', 'image'], 'string'],
             [['order'], 'integer'],
-            [['file'], 'file', 'maxSize' => 2097152]
         ];
-  }
+    }
 
   /**
   * @inheritdoc
@@ -71,7 +66,7 @@ class Rank extends \yii\db\ActiveRecord
   {
   return $this->hasMany(UserProfile::className(), ['rank_id' => 'id']);
   }
-  
+
   /**
   * @inheritdoc
   * @return UserProfileRuleQuery the active query used by this AR class.
