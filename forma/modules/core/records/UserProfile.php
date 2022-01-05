@@ -19,48 +19,26 @@ use Yii;
 class UserProfile extends \yii\db\ActiveRecord
 {
 
-  public $file;
 
-  const IMAGE_DIR_NAME = 'user-profile';
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'user_profile';
+    }
 
-  /**
-  * @inheritdoc
-  */
-  public static function tableName()
-  {
-    return 'user_profile';
-  }
 
-  /**
-  * @inheritdoc
-  */
-  public function behaviors()
-  {
-    return [
-            'image_uploader' => [
-              'class' => \wokster\behaviors\ImageUploadBehavior::className(),
-              'size_for_resize' => [
-              [400,400,true],
-              [1000,null,false],
-              [50,50,true]
-              ],
-              'dir_name'=>self::IMAGE_DIR_NAME,
-              'attribute' => 'image',
-            ],
-          ];
-  }
-
-  /**
-  * @inheritdoc
-  */
-  public function rules()
-  {
-    return [
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
             [['image'], 'string'],
             [['user_id', 'rank_id'], 'integer'],
-            [['file'], 'file', 'maxSize' => 2097152]
         ];
-  }
+    }
 
   /**
   * @inheritdoc
@@ -98,7 +76,7 @@ class UserProfile extends \yii\db\ActiveRecord
   {
   return $this->hasMany(UserProfileRule::className(), ['user_profile_id' => 'id']);
   }
-  
+
   /**
   * @inheritdoc
   * @return UserProfileRuleQuery the active query used by this AR class.
