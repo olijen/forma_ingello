@@ -2,6 +2,10 @@
 
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\UserProfile;
+use forma\modules\core\services\UserProfileChartService;
+
+$userProfileChart = new UserProfileChartService();
+
 
 /* @var $ranks Rank[] */
 /* @var $currenUser UserProfile */
@@ -32,6 +36,7 @@ use forma\modules\core\records\UserProfile;
                 'currenUser' => $currenUser,
             ]) ?>
             <?= $this->render('/user-profile/userprofile/chart-process-rank', [
+
             ]) ?>
         </section>
         <div class="col-md-12" style="padding-top: 100px;">
@@ -39,6 +44,7 @@ use forma\modules\core\records\UserProfile;
         </div>
     </div>
 </div>
+
 <script>
     (function () {
         var tId = setInterval(function () {
@@ -64,3 +70,19 @@ use forma\modules\core\records\UserProfile;
         width:200px;
     }
 </style>
+<script>
+
+    myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: [<?=$userProfileChart->getDate()?>],
+            datasets: [{
+                label: 'Количество изменений',
+                data: [<?=$userProfileChart->getCount()?>],
+                backgroundColor: ['transparent'],
+                borderColor: ['green'],
+            }]
+        },
+        options: {}
+    });
+</script>

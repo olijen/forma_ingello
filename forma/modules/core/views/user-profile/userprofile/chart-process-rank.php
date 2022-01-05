@@ -7,7 +7,6 @@ $userProfileChart = new UserProfileChartService();
 ?>
 <div class="col-md-4">
     <h1 style="text-align: center">График</h1>
-</div>
 
 <div class="box box-success">
     <div class="box-header with-border">
@@ -27,6 +26,8 @@ $userProfileChart = new UserProfileChartService();
         </div>
     </div>
 </div>
+</div>
+
 <script>
 
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
