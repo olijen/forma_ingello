@@ -66,8 +66,7 @@ use forma\modules\core\records\UserProfile;
         ]) ?>
         <?= $this->render('/user-profile/userprofile/chart-process-rank', [
         ]) ?>
-<!--        --><?//= $this->render('/user-profile/userprofile/chart-process-rank', [
-//        ]) ?>
+
     </div>
     <div class="col-md-12">
         <h1 style="text-align: center">Картинка</h1>
