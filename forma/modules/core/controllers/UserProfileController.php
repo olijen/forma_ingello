@@ -3,6 +3,7 @@
 namespace forma\modules\core\controllers;
 
 use forma\modules\core\records\Rank;
+use forma\modules\core\records\UserRuleRank;
 use Yii;
 use forma\modules\core\records\UserProfile;
 use forma\modules\core\records\UserProfileSearch;
@@ -35,8 +36,8 @@ class UserProfileController extends Controller
     {
         $this->layout = 'public';
         $currenUser = UserProfile::find()->where(['id'=>Yii::$app->user->id])->one();
-        $userRank = $currenUser->rank;
-        $needCountRule = $userRank;
+//        $userRank = $currenUser->rank;
+//        $needCountRule = $userRank;
         //dd($userRank);
 
         return $this->render('/user-profile/userprofile/index', [
