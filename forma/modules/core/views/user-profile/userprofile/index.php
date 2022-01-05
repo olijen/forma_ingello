@@ -43,7 +43,7 @@ use forma\modules\core\records\UserProfile;
                 <div class="box-body">
                     <h1 style="text-align: center"> <?= Yii::$app->user->getIdentity()->username ?>
                         <small><?= Yii::$app->user->getIdentity()->role ?></small></h1>
-                    <img style="width: 100px; height: 100px;"
+                    <img style="width: 200px; height: 200px; "
                          src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
                          class="img-circle"
                          alt="User Image"/>
