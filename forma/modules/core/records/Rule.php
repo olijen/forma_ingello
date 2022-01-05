@@ -3,8 +3,6 @@
 namespace forma\modules\core\records;
 
 use Yii;
-use forma\modules\core\records\ItemRule;
-use forma\modules\core\records\Item;
 
 /**
 * This is the model class for table "rule".
@@ -12,13 +10,17 @@ use forma\modules\core\records\Item;
   * @property integer $id
   * @property string $action
   * @property string $table
-  * @property string $rule_name
   * @property integer $count_action
   * @property integer $item_id
+  * @property string $rule_name
+  * @property string $icon
+  * @property integer $rank_id
   *
       * @property AccessInterface[] $accessInterfaces
+      * @property ItemRule[] $itemRules
+      * @property Rank $rank
       * @property Item $item
-      * @property ItemRule $itemRules
+      * @property UserProfileRule[] $userProfileRules
   */
 class Rule extends \yii\db\ActiveRecord
 {
@@ -47,9 +49,9 @@ class Rule extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['count_action', 'item_id'], 'integer'],
-            [['action', 'table','rule_name'], 'string', 'max' => 255],
-
+            [['count_action', 'item_id', 'rank_id'], 'integer'],
+            [['icon'], 'string'],
+            [['action', 'table', 'rule_name'], 'string', 'max' => 255]
         ];
   }
 
@@ -60,18 +62,20 @@ class Rule extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'action' => 'Событие',
-        'table' => 'Таблица',
-        'count_action' => 'Количество действий',
-        'rule_name'=>'Описание правила',
+        'action' => 'Action',
+        'table' => 'Table',
+        'count_action' => 'Count Action',
         'item_id' => 'Item ID',
+        'rule_name' => 'Rule Name',
+        'icon' => 'Icon',
+        'rank_id' => 'Rank ID',
     ];
   }
 
   /**
   * @return \yii\db\ActiveQuery
   */
-  public function getAccessInterfaces(): \yii\db\ActiveQuery
+  public function getAccessInterfaces()
   {
   return $this->hasMany(AccessInterface::className(), ['rule_id' => 'id']);
   }
@@ -79,9 +83,17 @@ class Rule extends \yii\db\ActiveRecord
   /**
   * @return \yii\db\ActiveQuery
   */
-  public function getItemRule(): \yii\db\ActiveQuery
+  public function getItemRules()
   {
   return $this->hasMany(ItemRule::className(), ['rule_id' => 'id']);
+  }
+
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getRank()
+  {
+  return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
   }
 
   /**
@@ -90,6 +102,14 @@ class Rule extends \yii\db\ActiveRecord
   public function getItem()
   {
   return $this->hasOne(Item::className(), ['id' => 'item_id']);
+  }
+
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUserProfileRules()
+  {
+  return $this->hasMany(UserProfileRule::className(), ['rule_id' => 'id']);
   }
   
   /**
