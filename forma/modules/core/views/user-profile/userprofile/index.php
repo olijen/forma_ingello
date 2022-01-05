@@ -2,7 +2,6 @@
 
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\UserProfile;
-
 /* @var $ranks Rank[] */
 /* @var $currenUser \forma\modules\core\records\User */
 $myAssetBundle = forma\assets\AppAsset::register($this);
