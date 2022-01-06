@@ -73,7 +73,7 @@ class UserProfileController extends Controller
                 ->saveAs('./img/user-profile/' . $fileName)) {
                 $model->image = $fileName;
                 $model->user_id = $_POST['UserProfile']['user_id'];
-                $model->rank_id = $_POST['UserProfile']['rank_id'];
+                $model->rank_id = Rank::find()->where(['name'=>'Новичок'])->one()->id;
                 if($model->save()){
                     return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
                 }
