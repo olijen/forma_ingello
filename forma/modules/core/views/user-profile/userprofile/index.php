@@ -48,7 +48,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
             <div class="box box-success">
                 <div class="box-header with-border big_widget_header">
                     <h3 class="box-title">
-                        Профиль
+                        Профиль <a href="/core/user-profile/update/?id=<?= $currenUser->id ?>">Обновить профиль</a>
                     </h3>
                 </div>
 

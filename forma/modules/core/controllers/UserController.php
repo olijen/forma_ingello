@@ -3,6 +3,7 @@
 namespace forma\modules\core\controllers;
 
 use forma\modules\core\components\UserIdentity;
+use forma\modules\core\records\UserProfile;
 use Yii;
 use forma\modules\core\records\User;
 use forma\modules\core\records\UserSearch;
@@ -11,6 +12,7 @@ use yii\filters\AccessControl;
 use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 
 /**
@@ -90,9 +92,20 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelUpload = $model->userProfile;
+        $modelUser = UserProfile::find()->where(['user_id'=>$model->id])->one();
+        if (Yii::$app->request->isPost) {
+            unlink('./img/user-profile/' . $model->userProfile->image);
+            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+            $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
+            if ($modelUpload->imageFile
+                ->saveAs('./img/user-profile/' . $fileName)) {
+                $modelUser->image = $fileName;
+            }
+        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post()) && $model->save() && $modelUser->save()) {
+            $this->redirect('/core/user-profile');
         } else {
             return $this->render('update', [
                 'model' => $model,

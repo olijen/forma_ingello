@@ -19,6 +19,7 @@ use yii\web\IdentityInterface;
  * @property integer $parent_id
  *
  * @property WarehouseUser[] $warehouseUsers
+ * @property UserProfile $userProfile
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -67,6 +68,11 @@ class User extends \yii\db\ActiveRecord
     public function getWarehouseUsers()
     {
         return $this->hasMany(WarehouseUser::className(), ['user_id' => 'id']);
+    }
+
+    public function getUserProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 
     /**

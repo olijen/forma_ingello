@@ -59,7 +59,8 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'image' => 'Image',
+            'image' => 'Фото профиля',
+            'imageFile' => 'Фото профиля',
             'user_id' => 'User ID',
             'rank_id' => 'Rank ID',
         ];

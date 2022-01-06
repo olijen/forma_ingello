@@ -8,6 +8,7 @@ use forma\modules\core\records\UploadForm;
 use Yii;
 use forma\modules\core\records\UserProfile;
 use forma\modules\core\records\UserProfileSearch;
+use yii\debug\models\search\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,20 +67,19 @@ class UserProfileController extends Controller
     {
         $modelUpload = new UserProfile();
         $model = new UserProfile();
-        if(Yii::$app->request->isPost){
+        if (Yii::$app->request->isPost) {
             $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
-            $fileName = $modelUpload->imageFile->baseName .'_'.time().date('Y-m-d'). '.' . $modelUpload->imageFile->extension;
+            $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
             if ($modelUpload->imageFile
                 ->saveAs('./img/user-profile/' . $fileName)) {
                 $model->image = $fileName;
-                $model->user_id = $_POST['UserProfile']['user_id'];
-                $model->rank_id = Rank::find()->where(['name'=>'Новичок'])->one()->id;
-                if($model->save()){
+                $model->user_id = Yii::$app->user->id;
+                $model->rank_id = Rank::find()->where(['name' => 'Новичок'])->one()->id;
+                if ($model->save()) {
                     return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
                 }
             }
-        }
-        else{
+        } else {
             return $this->render('/user-profile/userprofile/create', [
                 'model' => $model,
             ]);
@@ -95,14 +95,8 @@ class UserProfileController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
-        } else {
-            return $this->render('/user-profile/userprofile/update', [
-                'model' => $model,
-            ]);
-        }
+        $modelUser = $model->user;
+        return $this->redirect(['/core/user/update', 'id' => $modelUser->id]);
     }
 
     /**
@@ -116,12 +110,6 @@ class UserProfileController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['/user-profile/userprofile/index']);
-    }
-    public function actionRankProcess()
-    {
-        return $this->render('/user-profile/userprofile/rank-process', [
-
-        ]);
     }
 
     public function actionChartProcessRank()

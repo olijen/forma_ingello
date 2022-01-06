@@ -14,10 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
+    <div class="custom-file">
+        <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->fileInput() ?>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

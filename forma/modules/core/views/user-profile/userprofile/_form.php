@@ -29,17 +29,12 @@ endif;
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
-
-
-    <?= $form->field($model, 'user_id', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
-
-    <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
-
-    <?= $form->field($model, 'imageFile', ['options' => ['class' => 'col-xs-12']])->fileInput() ?>
-
+    <div class="custom-file">
+        <?= $form->field($model, 'imageFile', ['options' => ['class' => 'col-xs-12']])->fileInput() ?>
+    </div>
     <div class="col-xs-12 col-md-12">
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Создать игровой профиль' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
