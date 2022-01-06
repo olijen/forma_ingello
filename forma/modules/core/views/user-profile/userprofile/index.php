@@ -8,6 +8,9 @@ use forma\modules\core\records\UserProfile;
 forma\assets\AppAsset::register($this);
 ?>
 <style>
+    .login-page{
+        background: #8f5d102e;
+    }
     .row {
         display: flex;
         flex-wrap: wrap;
