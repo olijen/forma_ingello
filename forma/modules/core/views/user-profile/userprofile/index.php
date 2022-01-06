@@ -78,15 +78,16 @@ forma\assets\AppAsset::register($this);
     <div class="col-md-12">
         <h1 style="text-align: center">Картинка</h1>
 <!--        --><?php
-//        $path = \Yii::getAlias('@rank') ;
-//        $file = $path . '/' . $ranks[0]->image;
-//        de(\yii\helpers\Html::img('img.jpg'));
+        $path = \Yii::getAlias('@rank') ;
+        $file = $path . '/' . $ranks[0]->image;
+//        echo (\yii\helpers\Html::img($file));
 ////      echo  \yii\helpers\Html::img('img.jpg')
 //?>
 
         <div style="text-align: center">
             <img style="width: 100%; height: 200px; "
-                 src="512.jpg"
+                 src="<?= \Yii::getAlias('@rank/512.jpg') ?>">
+
 
         </div>
     </div>
