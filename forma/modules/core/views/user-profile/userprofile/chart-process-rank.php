@@ -23,7 +23,7 @@ $userProfileChart = new UserProfileChartService();
 <script>
 
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: [<?=$userProfileChart->getDate()?>],
             datasets: [{
