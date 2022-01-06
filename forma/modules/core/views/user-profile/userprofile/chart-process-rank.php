@@ -28,7 +28,7 @@ $userProfileChart = new UserProfileChartService();
             labels: ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'],
 
             datasets: [{
-                label: 'Количество изменений',
+                label: 'Количество пройденных испытаний',
                 data: [<?=$userProfileChart->getCount()?>],
                 backgroundColor: ['transparent'],
                 borderColor: ['green'],
