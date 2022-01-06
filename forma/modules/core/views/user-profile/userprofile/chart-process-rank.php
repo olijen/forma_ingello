@@ -25,7 +25,8 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: [<?=$userProfileChart->getDate()?>],
+            labels: ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'],
+
             datasets: [{
                 label: 'Количество изменений',
                 data: [<?=$userProfileChart->getCount()?>],
