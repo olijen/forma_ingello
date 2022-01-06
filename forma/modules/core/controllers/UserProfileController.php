@@ -2,13 +2,16 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\assets\AppAsset;
 use forma\modules\core\records\Rank;
+use forma\modules\core\records\UploadForm;
 use Yii;
 use forma\modules\core\records\UserProfile;
 use forma\modules\core\records\UserProfileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * UserProfileController implements the CRUD actions for UserProfile model.
@@ -61,12 +64,22 @@ class UserProfileController extends Controller
      */
     public function actionCreate()
     {
+        $modelUpload = new UserProfile();
         $model = new UserProfile();
-        $model->loadDefaultValues(); //load default data from db
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
-        } else {
+        if(Yii::$app->request->isPost){
+            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+            $fileName = $modelUpload->imageFile->baseName .'_'.time().date('Y-m-d'). '.' . $modelUpload->imageFile->extension;
+            if ($modelUpload->imageFile
+                ->saveAs('./img/user-profile/' . $fileName)) {
+                $model->image = $fileName;
+                $model->user_id = $_POST['UserProfile']['user_id'];
+                $model->rank_id = $_POST['UserProfile']['rank_id'];
+                if($model->save()){
+                    return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
+                }
+            }
+        }
+        else{
             return $this->render('/user-profile/userprofile/create', [
                 'model' => $model,
             ]);

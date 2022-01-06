@@ -7,19 +7,19 @@ use kartik\form\ActiveForm;
 /* @var $model forma\modules\core\records\UserProfile */
 /* @var $form yii\widgets\ActiveForm */
 
-if($model->hasErrors()):
-\wokster\ltewidgets\BoxWidget::begin([
-'solid'=>true,
-'color'=>'danger',
-'title'=>'Ошибки валидации',
-'close'=> true,
-]);
-$error_data = $model->firstErrors;
-echo \yii\widgets\DetailView::widget([
-'model'=>$error_data,
-'attributes'=>array_keys($error_data)
-]);
-\wokster\ltewidgets\BoxWidget::end();
+if ($model->hasErrors()):
+    \wokster\ltewidgets\BoxWidget::begin([
+        'solid' => true,
+        'color' => 'danger',
+        'title' => 'Ошибки валидации',
+        'close' => true,
+    ]);
+    $error_data = $model->firstErrors;
+    echo \yii\widgets\DetailView::widget([
+        'model' => $error_data,
+        'attributes' => array_keys($error_data)
+    ]);
+    \wokster\ltewidgets\BoxWidget::end();
 endif;
 
 ?>
@@ -27,19 +27,20 @@ endif;
 <div class="user-profile-form">
 
     <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
 
 
-            <?= $form->field($model, 'user_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'user_id', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'rank_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'image',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'imageFile', ['options' => ['class' => 'col-xs-12']])->fileInput() ?>
 
-        <div class="col-xs-12 col-md-12">
-            <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            </div>
+    <div class="col-xs-12 col-md-12">
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
+    </div>
     <?php ActiveForm::end(); ?>
 </div>
