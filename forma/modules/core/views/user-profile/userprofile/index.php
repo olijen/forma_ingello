@@ -29,6 +29,9 @@ forma\assets\AppAsset::register($this);
             min-width: 100%;
         }
     }
+    canvas {
+        background-color: #eee;
+    }
 </style>
 
 <div class="container" style="width: 100%;">
