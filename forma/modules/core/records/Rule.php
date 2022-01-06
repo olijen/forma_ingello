@@ -60,16 +60,16 @@ class Rule extends \yii\db\ActiveRecord
   */
   public function attributeLabels()
   {
-    return [
-        'id' => 'ID',
-        'action' => 'Action',
-        'table' => 'Table',
-        'count_action' => 'Count Action',
-        'item_id' => 'Item ID',
-        'rule_name' => 'Rule Name',
-        'icon' => 'Icon',
-        'rank_id' => 'Rank ID',
-    ];
+      return [
+          'id' => 'ID',
+          'action' => 'Событие',
+          'table' => 'Таблица',
+          'count_action' => 'Количество',
+          'item_id' => 'Item ID',
+          'rule_name' => 'Правило',
+          'icon' => 'Иконка',
+          'rank_id' => 'Ранг',
+      ];
   }
 
   /**

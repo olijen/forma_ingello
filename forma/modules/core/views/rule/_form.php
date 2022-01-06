@@ -44,6 +44,10 @@ endif;
     <?= $form->field($model, 'item_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
         $items
     )->label('Элемент') ?>
+    <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
+        \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name')
+    )->label('Ранг') ?>
+    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
 
     <div class="col-xs-12 col-md-12">
