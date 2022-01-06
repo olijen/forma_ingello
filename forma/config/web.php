@@ -26,7 +26,6 @@ $config = [
         '@npm' => '@vendor/npm-asset',
         '@uploads' =>'@forma/import',
         '@inst' =>'@forma/instagram_generation_lid',
-        '@rank' =>'@forma/web/images/FORMA/rank_image'
     ],
     'on beforeAction' => function($event) {
 

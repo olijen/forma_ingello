@@ -8,6 +8,7 @@ use forma\modules\core\records\RankSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * RankController implements the CRUD actions for Rank model.
@@ -63,8 +64,19 @@ class RankController extends Controller
         $model = new Rank();
         $model->loadDefaultValues(); //load default data from db
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/rank/view', 'id' => $model->id]);
+            if ( Yii::$app->request->isPost) {
+                $model->load(Yii::$app->request->post());
+                $model->image = UploadedFile::getInstance($model,'image');
+                $imageName = $model->image->baseName . $model->image->extension;
+                if ($model->image->saveAs('./img/user-profile/'.$imageName)) {
+                    $model->image = $imageName;
+                }
+                if ($model->save()){
+                    return $this->redirect('index');
+                }else{
+                    de(1);
+                }
+
         } else {
             return $this->render('/user-profile/rank/create', [
                 'model' => $model,

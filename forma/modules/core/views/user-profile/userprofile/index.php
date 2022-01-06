@@ -89,7 +89,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
 
         <div style="text-align: center">
             <img style="width: 100%; height: 200px; "
-                 src="<?= \Yii::getAlias('@rank/512.jpg') ?>">
+                 src="/img/user-profile/512.jpg">
 
 
         </div>
