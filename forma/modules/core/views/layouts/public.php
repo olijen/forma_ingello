@@ -75,7 +75,7 @@ dmstr\web\AdminLteAsset::register($this);
     </style>
 
 </head>
-<body class="login-page" style="background: #f3da127a;" ">
+<body class="login-page" ">
 
 <?php $this->beginBody() ?>
 
