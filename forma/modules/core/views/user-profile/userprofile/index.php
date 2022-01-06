@@ -32,6 +32,11 @@ forma\assets\AppAsset::register($this);
     canvas {
         background-color: #eee;
     }
+
+    .fourval {
+        border: solid lightgreen;
+        border-width: thin medium thick 1em;
+    }
 </style>
 
 <div class="container" style="width: 100%;">
@@ -45,21 +50,20 @@ forma\assets\AppAsset::register($this);
                 </div>
 
                 <div class="box-body">
-                    <h1 style="text-align: center"> <?= Yii::$app->user->getIdentity()->username ?>
-                        <small><?= Yii::$app->user->getIdentity()->role ?></small></h1>
-                    <img style="width: 200px; height: 200px; "
-                         src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
-                         class="img-circle"
-                         alt="User Image"/>
-                    <div class="block_rank">
-                        <div class="user_rank">
-                            Rank: <?php ?>
-                        </div>
-                        <div class="number_rules">
-
-                            Number of rules executed: <?php ?>
-                        </div>
+                    <h1 style="text-align: center"> <?= $currenUser->user->username ?></h1>
+                    <div class="text-center">
+                        <img style="width: 200px; height: 200px;"
+                             src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
+                             class="img-circle"
+                             alt="User Image"/>
                     </div>
+                    <h4 class="fourval" style="float: left; height: 150px; width: 50%; padding: 10px;">Ранг: <p
+                                style="word-wrap: break-word;text-align: center; padding-top: 20px;"><?= $currenUser->rank->name ?></p>
+                    </h4>
+                    <h4 class="fourval" style="word-wrap: break-word;float: right; height: 150px; width: 50%; padding: 10px;">Количество
+                        баллов:
+                        <p style="word-wrap: break-word;text-align: center; padding-top: 20px;"><?= isset($currenUser->userProfileRules) ? count($currenUser->userProfileRules) : 0 ?></p>
+                    </h4>
                 </div>
             </div>
 
