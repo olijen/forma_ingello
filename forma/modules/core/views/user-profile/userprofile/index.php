@@ -5,6 +5,7 @@ use forma\modules\core\records\UserProfile;
 
 /* @var $ranks Rank[] */
 /* @var $currenUser UserProfile */
+forma\assets\AppAsset::register($this);
 ?>
 <style>
     .row {
@@ -32,7 +33,7 @@ use forma\modules\core\records\UserProfile;
 
 <div class="container" style="width: 100%;">
     <div class="row">
-        <div class="col-md-4 col-sm-12 col-12 stretch-card" style="min-height: 450px;">
+        <div class="col-md-3 col-sm-12 col-12 stretch-card" style="min-height: 450px;">
             <div class="box box-success">
                 <div class="box-header with-border big_widget_header">
                     <h3 class="box-title">
@@ -66,7 +67,6 @@ use forma\modules\core\records\UserProfile;
         ]) ?>
         <?= $this->render('/user-profile/userprofile/chart-process-rank', [
         ]) ?>
-
     </div>
     <div class="col-md-12">
         <h1 style="text-align: center">Картинка</h1>
