@@ -5,9 +5,12 @@ use forma\modules\core\records\UserProfile;
 
 /* @var $ranks Rank[] */
 /* @var $currenUser UserProfile */
-forma\assets\AppAsset::register($this);
+$myAssetBundle = forma\assets\AppAsset::register($this);
 ?>
 <style>
+    .login-page{
+        background: #8f5d102e;
+    }
     .row {
         display: flex;
         flex-wrap: wrap;
@@ -45,7 +48,7 @@ forma\assets\AppAsset::register($this);
             <div class="box box-success">
                 <div class="box-header with-border big_widget_header">
                     <h3 class="box-title">
-                        Профиль
+                        Профиль <a href="/core/user-profile/update/?id=<?= $currenUser->id ?>">Обновить профиль</a>
                     </h3>
                 </div>
 
@@ -53,7 +56,7 @@ forma\assets\AppAsset::register($this);
                     <h1 style="text-align: center"> <?= $currenUser->user->username ?></h1>
                     <div class="text-center">
                         <img style="width: 200px; height: 200px;"
-                             src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
+                             src="<?= $myAssetBundle->baseUrl . "/img/user-profile/$currenUser->image";?>"
                              class="img-circle"
                              alt="User Image"/>
                     </div>

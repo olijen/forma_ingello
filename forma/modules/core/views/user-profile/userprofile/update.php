@@ -5,6 +5,7 @@ use \wokster\ltewidgets\BoxWidget;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\UserProfile */
+/* @var $modelUser \forma\modules\core\records\User */
 
 $this->title = 'Редактировать Профиль пользователя: ' . ' ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Профили пользователей', 'url' => ['index']];
@@ -20,6 +21,7 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
     <?= $this->render('_form', [
     'model' => $model,
+    'modelUser' => $modelUser,
     ]) ?>
 
     <?php BoxWidget::end();?>

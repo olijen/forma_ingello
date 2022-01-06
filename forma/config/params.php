@@ -291,6 +291,7 @@ return [
 
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
+                        ['label' => 'Игровой провиль', 'url' => ['/core/user-profile/create'], 'icon' => 'history'],
                     ]
                 ],
             ],
