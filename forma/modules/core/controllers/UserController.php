@@ -95,13 +95,16 @@ class UserController extends Controller
         $modelUpload = $model->userProfile;
         $modelUser = UserProfile::find()->where(['user_id'=>$model->id])->one();
         if (Yii::$app->request->isPost) {
-            unlink('./img/user-profile/' . $model->userProfile->image);
-            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
-            $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
-            if ($modelUpload->imageFile
-                ->saveAs('./img/user-profile/' . $fileName)) {
-                $modelUser->image = $fileName;
+            if(!empty(UploadedFile::getInstance($modelUpload, 'imageFile'))){
+                unlink('./img/user-profile/' . $model->userProfile->image);
+                $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+                $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
+                if ($modelUpload->imageFile
+                    ->saveAs('./img/user-profile/' . $fileName)) {
+                    $modelUser->image = $fileName;
+                }
             }
+
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save() && $modelUser->save()) {
