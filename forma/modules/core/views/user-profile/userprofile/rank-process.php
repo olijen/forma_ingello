@@ -25,7 +25,7 @@ use forma\modules\core\records\UserProfile;
     }
 </style>
 
-<div class="col-md-4 col-sm-12 col-12 stretch-card">
+<div class="col-md-3 col-sm-12 col-12 stretch-card">
     <div class="box box-success">
         <div class="box-header with-border big_widget_header">
             <h3 class="box-title">
