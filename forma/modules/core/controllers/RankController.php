@@ -105,7 +105,7 @@ class RankController extends Controller
             }
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/rank/view', 'id' => $model->id]);
+            return $this->redirect(['/core/rank/']);
         } else {
             return $this->render('/user-profile/rank/update', [
                 'model' => $model,
