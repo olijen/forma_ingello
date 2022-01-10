@@ -47,18 +47,7 @@ class RankController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        return $this->render('/user-profile/rank/view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
 
-    /**
-     * Creates a new Rank model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Rank();
@@ -95,7 +84,7 @@ class RankController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/rank/view', 'id' => $model->id]);
+            return $this->redirect('/core/rank/');
         } else {
             return $this->render('/user-profile/rank/update', [
                 'model' => $model,
