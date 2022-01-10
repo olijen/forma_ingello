@@ -45,10 +45,10 @@ use forma\modules\core\records\UserProfile;
                         }
                         ?>
                         <?php if ($rule->count_action == $countBall) { ?>
-                            <a style="background: green" title="<?= $rule->rule_name ?>"><i
+                            <a href="<?= $rule->link ?>" style="background: green" title="<?= $rule->rule_name ?>"><i
                                         class="fa <?= $rule->icon ?>"></i></a>
                         <?php } else { ?>
-                            <a style="background: darkred" title="<?= $rule->rule_name ?>"><i
+                            <a href="<?= $rule->link ?>" style="background: darkred" title="<?= $rule->rule_name ?>"><i
                                         class="fa <?= $rule->icon ?>"></i></a>
                         <?php } ?>
                     <?php }

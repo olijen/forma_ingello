@@ -47,9 +47,10 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         <div class="col-md-3 col-sm-12 col-12 stretch-card" style="min-height: 450px;">
             <div class="box box-success">
                 <div class="box-header with-border big_widget_header">
-                    <h3 class="box-title">
-                        Профиль <a href="/core/user-profile/update/?id=<?= $currenUser->id ?>">Обновить профиль</a>
+                    <h3 style="float: left;" class="box-title">
+                        Профиль
                     </h3>
+                    <a style="float: right" href="/core/user-profile/update/?id=<?= $currenUser->id ?>" class="btn btn-success forma_green"> <i class="fa fa-edit"></i> Обновить профиль </a>
                 </div>
 
                 <div class="box-body">
@@ -91,7 +92,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
     (function () {
         var tId = setInterval(function () {
             if (document.readyState == "complete") onComplete()
-        }, 800);
+        }, 10000);
 
         function onComplete() {
             clearInterval(tId);
