@@ -32,7 +32,7 @@ endif;
     <?= $form->field($model, 'rule_name', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
     <?= $form->field($model, 'action', ['options' => ['class' => 'col-xs-6']])->dropDownList(
-        [''=>'','insert'=>'Вставить', 'update'=>'Обновить','delete'=>'Удалить']
+        ['' => '', 'insert' => 'Вставить', 'update' => 'Обновить', 'delete' => 'Удалить']
     ) ?>
 
     <?= $form->field($model, 'table', ['options' => ['class' => 'col-xs-6']])->dropDownList(

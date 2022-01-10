@@ -21,7 +21,7 @@ class RuleSearch extends Rule
     {
         return [
             [['id', 'count_action', 'item_id'], 'integer'],
-            [['action', 'table', 'rule_name', 'item', 'icon', 'rank_id'], 'safe'],
+            [['action', 'table', 'rule_name', 'item', 'icon', 'rank_id', 'link'], 'safe'],
         ];
     }
 
@@ -51,6 +51,7 @@ class RuleSearch extends Rule
                 'attributes' => [
                     'rule_name',
                     'action',
+                    'link',
                     'table',
                     'count_action',
                     'icon',
@@ -80,6 +81,7 @@ class RuleSearch extends Rule
             'id' => $this->id,
             'count_action' => $this->count_action,
             'rank_id' => $this->rank_id,
+            'link' => $this->link,
         ]);
         $query->andFilterWhere(['like', 'action', $this->action]);
         $query->andFilterWhere(['like', 'table', $this->table])

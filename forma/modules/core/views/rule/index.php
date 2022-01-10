@@ -12,7 +12,6 @@ use yii\widgets\Pjax;
 
 $this->title = 'Правила';
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="rule-index">
 
@@ -73,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'rank.name',
                 'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id','name'])->asArray()->all(), 'id', 'name'),
             ],
-
+            'link',
         ],
     ]); ?>
 
