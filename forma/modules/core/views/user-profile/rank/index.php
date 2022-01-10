@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= Html::a('<i class="fas fa-user-plus"></i> Создать правило', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
+    <?= Html::a('<i class="fas fa-user-plus"></i> Создать ранг', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
 
 
     <?php Pjax::begin(['id' => 'grid'])?>

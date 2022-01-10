@@ -32,7 +32,7 @@ endif;
     <?= $form->field($model, 'rule_name', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
     <?= $form->field($model, 'action', ['options' => ['class' => 'col-xs-6']])->dropDownList(
-        [''=>'','insert'=>'Вставить', 'update'=>'Обновить','delete'=>'Удалить']
+        ['' => '', 'insert' => 'Вставить', 'update' => 'Обновить', 'delete' => 'Удалить']
     ) ?>
 
     <?= $form->field($model, 'table', ['options' => ['class' => 'col-xs-6']])->dropDownList(
@@ -44,6 +44,10 @@ endif;
     <?= $form->field($model, 'item_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
         $items
     )->label('Элемент') ?>
+    <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
+        \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name')
+    )->label('Ранг') ?>
+    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
 
     <div class="col-xs-12 col-md-12">

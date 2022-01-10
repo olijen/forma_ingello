@@ -21,7 +21,7 @@ class RuleSearch extends Rule
     {
         return [
             [['id', 'count_action', 'item_id'], 'integer'],
-            [['action', 'table', 'rule_name', 'item'], 'safe'],
+            [['action', 'table', 'rule_name', 'item', 'icon', 'rank_id', 'link'], 'safe'],
         ];
     }
 
@@ -44,15 +44,22 @@ class RuleSearch extends Rule
     public function search($params)
     {
         $query = Rule::find();
-
+        $query->joinWith('rank');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
                 'attributes' => [
                     'rule_name',
                     'action',
+                    'link',
                     'table',
                     'count_action',
+                    'icon',
+                    'rank_id' => [
+                        'asc' => ['rank.name' => SORT_ASC],
+                        'desc' => ['rank.name' => SORT_DESC],
+                        'default' => SORT_DESC
+                    ],
                     'item' => [
                         'asc' => ['item.title' => SORT_ASC],
                         'desc' => ['item.title' => SORT_DESC],
@@ -73,6 +80,8 @@ class RuleSearch extends Rule
         $query->andFilterWhere([
             'id' => $this->id,
             'count_action' => $this->count_action,
+            'rank_id' => $this->rank_id,
+            'link' => $this->link,
         ]);
         $query->andFilterWhere(['like', 'action', $this->action]);
         $query->andFilterWhere(['like', 'table', $this->table])

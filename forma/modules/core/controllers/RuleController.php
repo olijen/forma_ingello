@@ -31,15 +31,15 @@ class RuleController extends Controller
             ],
         ];
     }
-    public  function tableTranslate(): array
+    public  function tableTranslate($key = true): array
     {
         $groupTable = [
             ''=>'',
-            'Управление'=>[],
-            'Продажи'=>[],
-            'Найм и проекты'=>[],
-            'Продукты и услуги'=>[],
-            'Хранилища'=>[],
+            'Управление'=>['/'],
+            'Продажи'=>['/selling/defaul'],
+            'Найм и проекты'=>['/hr'],
+            'Продукты и услуги'=>['/product'],
+            'Хранилища'=>['/warehouse/warehouse'],
         ];
         $groupTable['Управление']['answer'] = 'Ответы';
         $groupTable['Управление']['event'] = 'События';
@@ -75,15 +75,36 @@ class RuleController extends Controller
         $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукта';
         $groupTable['Продукты и услуги']['warehouse'] = 'Склад';
         $groupTable['Продукты и услуги']['warehouse_product'] = 'Продукция на складе';
-        return $groupTable;
+        if ($key == false) {
+            foreach ($groupTable as $key => $table) {
+                if ($groupTable[$key]) {
+                    unset($groupTable[$key][0]);
+                }
+            }
+            return $groupTable;
+        } else {
+            return $groupTable;
+        }
     }
+
+    public function getLinkEvent($groupTable, $nameTable)
+    {
+        foreach ($groupTable as $key => $table) {
+            if ($groupTable[$key]) {
+                if (isset($groupTable[$key][$nameTable])) {
+                    return $groupTable[$key][0];
+                }
+            }
+        }
+    }
+
     /**
      * Lists all Rule models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $groupTable = $this->tableTranslate();
+        $groupTable = $this->tableTranslate(false);
         $searchModel = new RuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -122,17 +143,22 @@ class RuleController extends Controller
     {
         $model = new Rule();
         $model->loadDefaultValues(); //load default data from db
-        $tables = $this->tableTranslate();
+        $tables = $this->tableTranslate(false);
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'id', 'title', 'name');
+        if (isset($_POST['Rule']['table'])) {
+            if ($result = $this->getLinkEvent($this->tableTranslate(), $_POST['Rule']['table'])) {
+                $model->link = $result;
+            }
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'tables'=>$tables,
-                'items'=>$items,
+                'tables' => $tables,
+                'items' => $items,
             ]);
         }
     }
@@ -145,13 +171,22 @@ class RuleController extends Controller
      */
     public function actionUpdate($id)
     {
-        $tables = $this->tableTranslate();
+        $tables = $this->tableTranslate(false);
+        if(isset($tables['Управление']['0']))
+        {
+            unset($tables['Управление']['0']);
+        }
         $model = $this->findModel($id);
         $searchModel = new AccessInterfaceSearch();
         $dataProvider = $searchModel->searchRule(Yii::$app->request->queryParams,$id);
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'id', 'title', 'name');
+        if (isset($_POST['Rule']['table'])) {
+            if ($result = $this->getLinkEvent($this->tableTranslate(), $_POST['Rule']['table'])) {
+                $model->link = $result;
+            }
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {

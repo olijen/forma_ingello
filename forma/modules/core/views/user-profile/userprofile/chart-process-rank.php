@@ -3,7 +3,6 @@
 use forma\modules\core\services\UserProfileChartService;
 
 $userProfileChart = new UserProfileChartService();
-
 ?>
 <div class="col-md-6 col-sm-12 col-12 stretch-card">
     <div class="box box-success">
@@ -30,8 +29,6 @@ $userProfileChart = new UserProfileChartService();
             datasets: [{
                 label: 'Количество пройденных испытаний',
                 data: [<?=$userProfileChart->getCount()?>],
-                backgroundColor: ['transparent'],
-                borderColor: ['green'],
             }]
         },
         options: {}
