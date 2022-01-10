@@ -45,9 +45,9 @@ class Rank extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'name' => 'Name',
-        'image' => 'Image',
-        'order' => 'Order',
+        'name' => 'Имя',
+        'image' => 'Картинка',
+        'order' => 'Приоритет',
     ];
   }
 

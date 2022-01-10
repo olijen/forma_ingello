@@ -13,15 +13,10 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="rank-update">
 
-    <?php BoxWidget::begin([
-    'title'=>'Ранг: форма редактирования',
-    ]);
-    ?>
 
     <?= $this->render('_form', [
     'model' => $model,
     ]) ?>
 
-    <?php BoxWidget::end();?>
 
 </div>

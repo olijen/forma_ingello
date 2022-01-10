@@ -12,15 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rank-create">
 
-    <?php BoxWidget::begin([
-    'title'=>'Ранг: форма добавления',
-    ]);
-    ?>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
-    <?php BoxWidget::end();?>
 
 </div>
