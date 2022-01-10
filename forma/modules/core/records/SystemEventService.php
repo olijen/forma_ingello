@@ -275,9 +275,14 @@ class SystemEventService
                     }
 
                     if ($countCurrentBall == $needCountBall) {
-                        if ($newRank->order > $currentRank->order) {
+                        if(!isset($currentRank->order)){
                             $currentUserProfile->rank_id = $newRank->id;
                             $currentUserProfile->save();
+                        }else{
+                            if ($newRank->order > $currentRank->order) {
+                                $currentUserProfile->rank_id = $newRank->id;
+                                $currentUserProfile->save();
+                            }
                         }
                     }
                 }

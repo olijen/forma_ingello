@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\services;
 
+use forma\modules\core\records\User;
 use forma\modules\core\records\UserProfileRule;
 use Yii;
 
@@ -15,8 +16,8 @@ class UserProfileChartService
             $dates[date("Y-m-d", $date)] = 0;
             $date = strtotime('+1 day', $date);
         }
-
-        $count = UserProfileRule::find()->where(['user_profile_id' => Yii::$app->user->id])
+        $user = User::find()->where(['id'=>Yii::$app->user->id])->one();
+        $count = UserProfileRule::find()->where(['user_profile_id' => $user->userProfile->id])
             ->select(['date,count(*) as countRule'])
             ->groupBy('date')
             ->asArray()
