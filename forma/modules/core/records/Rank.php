@@ -17,6 +17,7 @@ use Yii;
   */
 class Rank extends \yii\db\ActiveRecord
 {
+    public $imageFile;
 
 
   /**
@@ -34,9 +35,11 @@ class Rank extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'image'], 'string'],
+            [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['order'], 'integer'],
         ];
     }
+
 
   /**
   * @inheritdoc
@@ -47,6 +50,7 @@ class Rank extends \yii\db\ActiveRecord
         'id' => 'ID',
         'name' => 'Name',
         'image' => 'Image',
+        'imageFile' => 'Image',
         'order' => 'Order',
     ];
   }

@@ -42,16 +42,6 @@ class UserProfile extends \yii\db\ActiveRecord
         ];
     }
 
-    public function upload()
-    {
-        if ($this->validate()) {
-            $this->imageFile->saveAs('./img/user-profile/' . $this->image->baseName . '.' . $this->image->extension);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * @inheritdoc
      */

@@ -27,10 +27,11 @@ endif;
 <div class="rank-form">
 
     <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
             <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'image',['options'=>['class'=>'col-xs-12 col-md-6']])->fileInput() ?>
+            <?= $form->field($model, 'imageFile',['options'=>['class'=>'col-xs-12 col-md-6']])->fileInput() ?>
 
             <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
