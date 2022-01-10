@@ -15,14 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="rank-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <?php BoxWidget::begin([
-        'title'=>'Ранг <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Ранг']]
-        ]
-    ]);
-    ?>
+
+    <?= Html::a('<i class="fas fa-user-plus"></i> Создать правило', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
+
 
     <?php Pjax::begin(['id' => 'grid'])?>
     
@@ -44,8 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <?php Pjax::end();?>
-
-    <?php BoxWidget::end();?>
 
 
 </div>

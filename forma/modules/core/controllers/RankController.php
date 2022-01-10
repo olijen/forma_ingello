@@ -67,7 +67,7 @@ class RankController extends Controller
             if ( Yii::$app->request->isPost) {
                 $model->load(Yii::$app->request->post());
                 $model->image = UploadedFile::getInstance($model,'image');
-                $imageName = $model->image->baseName . $model->image->extension;
+                $imageName = $model->image->baseName .'.'. $model->image->extension;
                 if ($model->image->saveAs('./img/user-profile/'.$imageName)) {
                     $model->image = $imageName;
                 }
