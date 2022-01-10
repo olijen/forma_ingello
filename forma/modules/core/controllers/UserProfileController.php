@@ -69,7 +69,6 @@ class UserProfileController extends Controller
                 ->saveAs('./img/user-profile/' . $fileName)) {
                 $model->image = $fileName;
                 $model->user_id = Yii::$app->user->id;
-                $model->rank_id = Rank::find()->where(['name' => 'Новичок'])->one()->id;
                 if ($model->save()) {
                     return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
                 }

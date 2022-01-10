@@ -62,7 +62,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
                              alt="User Image"/>
                     </div>
                     <h4 class="fourval" style="float: left; height: 150px; width: 50%; padding: 10px;">Ранг: <p
-                                style="word-wrap: break-word;text-align: center; padding-top: 20px;"><?= $currenUser->rank->name ?></p>
+                                style="word-wrap: break-word;text-align: center; padding-top: 20px;"><?= isset($currenUser->rank->name)?$currenUser->rank->name:'-' ?></p>
                     </h4>
                     <h4 class="fourval" style="word-wrap: break-word;float: right; height: 150px; width: 50%; padding: 10px;">Количество
                         баллов:
@@ -81,10 +81,10 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
     </div>
     <div class="col-md-12">
         <div style="text-align: center">
+            <?php if(isset($currenUser->rank->image)){ ?>
             <img style="width: 100%; height: 100%; "
                  src="/img/user-profile/<?= $currenUser->rank->image ?>">
-
-
+            <?php } ?>
         </div>
     </div>
 </div>
