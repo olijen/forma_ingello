@@ -62,6 +62,12 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         width: 100%;
         height: 100%;
     }
+    .pull-right{
+        padding: 10px;
+    }
+    .box-title{
+        padding: 10px;
+    }
 
 </style>
 
