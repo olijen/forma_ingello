@@ -43,18 +43,6 @@ class RankController extends Controller
     }
 
     /**
-     * Displays a single Rank model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('/user-profile/rank/view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Rank model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -96,7 +84,9 @@ class RankController extends Controller
 
         if (Yii::$app->request->isPost) {
             if (!empty(UploadedFile::getInstance($model, 'imageFile'))) {
-                unlink('./img/user-profile/' . $model->image);
+                if(isset($model->image)){
+                    unlink('./img/user-profile/' . $model->image);
+                }
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 $imageName = $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
@@ -105,7 +95,7 @@ class RankController extends Controller
             }
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/core/rank/']);
+            return $this->redirect(['/core/rank']);
         } else {
             return $this->render('/user-profile/rank/update', [
                 'model' => $model,

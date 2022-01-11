@@ -4,6 +4,7 @@
 namespace forma\modules\core\records;
 
 
+use forma\modules\core\services\EventUserProfileService;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestTypeFieldSearch;
 use forma\modules\core\records\SystemEventUserService;
@@ -31,9 +32,24 @@ class SystemEventService
         'TestTypeFieldSearch',
         'UserIdentity'//при регистрации не учитывать ничего в системных событиях
     ];
+    /**
+     * @var $userProfileService EventUserProfileService
+     */
+    public static $userProfileService;
+
+    public static function createEventUserProfile()
+    {
+        self::$userProfileService = new EventUserProfileService();
+    }
+
+    public static function getUserProfileService(): EventUserProfileService
+    {
+        return self::$userProfileService;
+    }
 
     public static function init(){
         self::$models = SystemEventUserService::getModels();
+        self::createEventUserProfile();
         //Yii::debug(self::$records);
     }
 
@@ -118,49 +134,7 @@ class SystemEventService
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
-                $currentUserProfile = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith('userProfileRules')->one();
-                $newRank = Rank::find()->where(['rank.id' => $rule->rank_id])->joinWith(['rules' => function ($q) {
-                    $q->joinWith('userProfileRules');
-                }])->one();
-                $currentRank = Rank::find()->where(['rank.id' => $currentUserProfile->rank_id])->joinWith(['rules' => function ($q) {
-                    $q->joinWith('userProfileRules');
-                }])->one();
-                $currentDate = date('Y-m-d');
-                $countRule = 0;
-                foreach ($currentUserProfile->userProfileRules as $profileRule) {
-                    if ($profileRule->rule_id == $rule->id) {
-                        $countRule++;
-                    }
-                }
-                if ($rule->count_action > $countRule) {
-                    $newUserProfileRule = new UserProfileRule();
-                    $newUserProfileRule->rule_id = $rule->id;
-                    $newUserProfileRule->user_profile_id = $currentUserProfile->id;
-                    $newUserProfileRule->date = $currentDate;
-                    $newUserProfileRule->save();
-                }
-                if ($rule->count_action == $countRule) {
-                    $countCurrentBall = 0;
-                    $needCountBall = count($newRank->rules);
-                    foreach ($newRank->rules as $itemRule) {
-                        $countUserProfileRule = 0;
-                        foreach ($currentUserProfile->userProfileRules as $userProfileRule){
-                            if ($userProfileRule->rule_id == $itemRule->id) {
-                                $countUserProfileRule++;
-                            }
-                        }
-                        if($itemRule->count_action == $countUserProfileRule){
-                            $countCurrentBall++;
-                        }
-                    }
-
-                    if ($countCurrentBall == $needCountBall) {
-                        if ($newRank->order > $currentRank->order) {
-                            $currentUserProfile->rank_id = $newRank->id;
-                            $currentUserProfile->save();
-                        }
-                    }
-                }
+                self::getUserProfileService()->setEvent($rule);
                 if (empty($accessInterface)) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
@@ -238,54 +212,7 @@ class SystemEventService
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
-                $currentUserProfile = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith('userProfileRules')->one();
-                $newRank = Rank::find()->where(['rank.id' => $rule->rank_id])->joinWith(['rules' => function ($q) {
-                    $q->joinWith('userProfileRules');
-                }])->one();
-                $currentRank = Rank::find()->where(['rank.id' => $currentUserProfile->rank_id])->joinWith(['rules' => function ($q) {
-                    $q->joinWith('userProfileRules');
-                }])->one();
-                $currentDate = date('Y-m-d');
-                $countRule = 0;
-                foreach ($currentUserProfile->userProfileRules as $profileRule) {
-                    if ($profileRule->rule_id == $rule->id) {
-                        $countRule++;
-                    }
-                }
-                if ($rule->count_action > $countRule) {
-                    $newUserProfileRule = new UserProfileRule();
-                    $newUserProfileRule->rule_id = $rule->id;
-                    $newUserProfileRule->user_profile_id = $currentUserProfile->id;
-                    $newUserProfileRule->date = $currentDate;
-                    $newUserProfileRule->save();
-                }
-                if ($rule->count_action == $countRule) {
-                    $countCurrentBall = 0;
-                    $needCountBall = count($newRank->rules);
-                    foreach ($newRank->rules as $itemRule) {
-                        $countUserProfileRule = 0;
-                        foreach ($currentUserProfile->userProfileRules as $userProfileRule){
-                            if ($userProfileRule->rule_id == $itemRule->id) {
-                                $countUserProfileRule++;
-                            }
-                        }
-                        if($itemRule->count_action == $countUserProfileRule){
-                            $countCurrentBall++;
-                        }
-                    }
-
-                    if ($countCurrentBall == $needCountBall) {
-                        if(!isset($currentRank->order)){
-                            $currentUserProfile->rank_id = $newRank->id;
-                            $currentUserProfile->save();
-                        }else{
-                            if ($newRank->order > $currentRank->order) {
-                                $currentUserProfile->rank_id = $newRank->id;
-                                $currentUserProfile->save();
-                            }
-                        }
-                    }
-                }
+                self::getUserProfileService()->setEvent($rule);
                 if ($accessInterface === null) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;
@@ -353,49 +280,7 @@ class SystemEventService
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
-                $currentUserProfile = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith('userProfileRules')->one();
-                $newRank = Rank::find()->where(['rank.id' => $rule->rank_id])->joinWith(['rules' => function ($q) {
-                    $q->joinWith('userProfileRules');
-                }])->one();
-                $currentRank = Rank::find()->where(['rank.id' => $currentUserProfile->rank_id])->joinWith(['rules' => function ($q) {
-                    $q->joinWith('userProfileRules');
-                }])->one();
-                $currentDate = date('Y-m-d');
-                $countRule = 0;
-                foreach ($currentUserProfile->userProfileRules as $profileRule) {
-                    if ($profileRule->rule_id == $rule->id) {
-                        $countRule++;
-                    }
-                }
-                if ($rule->count_action > $countRule) {
-                    $newUserProfileRule = new UserProfileRule();
-                    $newUserProfileRule->rule_id = $rule->id;
-                    $newUserProfileRule->user_profile_id = $currentUserProfile->id;
-                    $newUserProfileRule->date = $currentDate;
-                    $newUserProfileRule->save();
-                }
-                if ($rule->count_action == $countRule) {
-                    $countCurrentBall = 0;
-                    $needCountBall = count($newRank->rules);
-                    foreach ($newRank->rules as $itemRule) {
-                        $countUserProfileRule = 0;
-                        foreach ($currentUserProfile->userProfileRules as $userProfileRule){
-                            if ($userProfileRule->rule_id == $itemRule->id) {
-                                $countUserProfileRule++;
-                            }
-                        }
-                        if($itemRule->count_action == $countUserProfileRule){
-                            $countCurrentBall++;
-                        }
-                    }
-
-                    if ($countCurrentBall == $needCountBall) {
-                        if ($newRank->order > $currentRank->order) {
-                            $currentUserProfile->rank_id = $newRank->id;
-                            $currentUserProfile->save();
-                        }
-                    }
-                }
+                self::getUserProfileService()->setEvent($rule);
                 if (!$accessInterface) {
                     $newAccessInterface = new AccessInterface();
                     $newAccessInterface->rule_id = $rule->id;

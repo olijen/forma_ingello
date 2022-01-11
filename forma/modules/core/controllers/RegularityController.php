@@ -76,7 +76,7 @@ class RegularityController extends Controller
         /*$rulesData = \forma\modules\core\records\Rule::find()->joinWith('accessInterfaces')->joinWith(['itemRule'=>function($q){
             $q->joinWith('itemInterface');
         }])->all();*/
-        $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRule'=>function($q){
+        $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRules'=>function($q){
             $q->joinWith('itemInterface');
         }])->all();
         $userData = AccessInterface::find()->where(['user_id'=>Yii::$app->user->id])->all();

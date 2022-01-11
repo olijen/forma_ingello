@@ -20,11 +20,10 @@ $userProfileChart = new UserProfileChartService();
 
 </div>
 <script>
-
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ['ВС','Сб','ПТ','ЧТ','СР','ВТ','ПН'],
+            labels: ['ВС', 'Сб', 'ПТ', 'ЧТ', 'СР', 'ВТ', 'ПН'],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',

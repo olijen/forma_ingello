@@ -2,21 +2,14 @@
 
 namespace forma\modules\core\controllers;
 
-use forma\assets\AppAsset;
 use forma\modules\core\records\Rank;
-use forma\modules\core\records\UploadForm;
 use Yii;
 use forma\modules\core\records\UserProfile;
-use forma\modules\core\records\UserProfileSearch;
-use yii\debug\models\search\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
-/**
- * UserProfileController implements the CRUD actions for UserProfile model.
- */
 class UserProfileController extends Controller
 {
     public function behaviors()
@@ -39,14 +32,13 @@ class UserProfileController extends Controller
     {
         $this->layout = 'public';
         $currenUser = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith(['userProfileRules'])->one();
-        if(!empty($currenUser)){
+        if (!empty($currenUser)) {
             $ranks = Rank::find()->joinWith(['rules'])->all();
             return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
                 'currenUser' => $currenUser
             ]);
-        }
-        else{
+        } else {
             return $this->redirect(['/core/user-profile/create']);
         }
 
@@ -102,15 +94,7 @@ class UserProfileController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['/user-profile/userprofile/index']);
-    }
-
-    public function actionChartProcessRank()
-    {
-        return $this->render('/user-profile/userprofile/chart-process-rank', [
-
-        ]);
     }
 
     /**

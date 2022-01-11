@@ -107,15 +107,14 @@ class RuleController extends Controller
         $groupTable = $this->tableTranslate(false);
         $searchModel = new RuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'title', 'title', 'name');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'tables'=>$groupTable,
-            'items'=>$items,
+            'tables' => $groupTable,
+            'items' => $items,
         ]);
     }
 
