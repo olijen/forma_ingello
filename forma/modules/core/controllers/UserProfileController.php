@@ -34,7 +34,7 @@ class UserProfileController extends Controller
         $currenUser = UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith(['userProfileRules'])->one();
         if (!empty($currenUser)) {
             $ranks = Rank::find()->joinWith(['rules'])->all();
-            return $this->render('/user-profile/userprofile/index', [
+                return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
                 'currenUser' => $currenUser
             ]);
@@ -111,5 +111,10 @@ class UserProfileController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function getFilterChart()
+    {
+        dd($_POST);
     }
 }
