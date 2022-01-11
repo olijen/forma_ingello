@@ -16,7 +16,7 @@ $user = \forma\modules\core\records\UserProfile::find()->where(['user_id' => Yii
         <?= $this->render('_form', [
             'model' => $model,
         ]) ?>
-    <?php } else{ ?>
-    <p>У вас уже есть профиль перейти по ссылке <a href="/core/user-profile/">Перейти</a></p>
+    <?php } else { ?>
+        <p>У вас уже есть профиль перейти по ссылке <a href="/core/user-profile/">Перейти</a></p>
     <?php } ?>
 </div>

@@ -23,6 +23,18 @@ use forma\modules\core\records\UserProfile;
         line-height: 90px;
         color: black;
     }
+
+    .links {
+        padding: 5px;
+    }
+
+    .link-active {
+        background: green;
+    }
+
+    .link-inactive {
+        background: darkred;
+    }
 </style>
 
 <div class="col-md-3 col-sm-12 col-12 stretch-card">
@@ -33,7 +45,7 @@ use forma\modules\core\records\UserProfile;
             </h3>
         </div>
         <div class="box-body">
-            <div class="links" style="padding: 5px;">
+            <div class="links">
                 <?php
                 foreach ($ranks as $rank) {
                     foreach ($rank->rules as $rule) {
@@ -45,10 +57,10 @@ use forma\modules\core\records\UserProfile;
                         }
                         ?>
                         <?php if ($rule->count_action == $countBall) { ?>
-                            <a href="<?= $rule->link ?>" style="background: green" title="<?= $rule->rule_name ?>"><i
+                            <a class="link-active" href="<?= $rule->link ?>" title="<?= $rule->rule_name ?>"><i
                                         class="fa <?= $rule->icon ?>"></i></a>
                         <?php } else { ?>
-                            <a href="<?= $rule->link ?>" style="background: darkred" title="<?= $rule->rule_name ?>"><i
+                            <a class="link-inactive" href="<?= $rule->link ?>" title="<?= $rule->rule_name ?>"><i
                                         class="fa <?= $rule->icon ?>"></i></a>
                         <?php } ?>
                     <?php }
@@ -56,5 +68,4 @@ use forma\modules\core\records\UserProfile;
             </div>
         </div>
     </div>
-
 </div>
