@@ -8,9 +8,10 @@ use forma\modules\core\records\UserProfile;
 $myAssetBundle = forma\assets\AppAsset::register($this);
 ?>
 <style>
-    .login-page{
+    .login-page {
         background: #8f5d102e;
     }
+
     .row {
         display: flex;
         flex-wrap: wrap;
@@ -33,6 +34,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
             min-width: 100%;
         }
     }
+
     canvas {
         background-color: #eee;
     }
@@ -46,29 +48,34 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         padding: 10px;
         word-wrap: break-word;
     }
+
     .container {
         width: 100%;
     }
-    .img-circle{
+
+    .img-circle {
         width: 200px;
         height: 200px;
     }
-    .ball-rank{
+
+    .ball-rank {
         word-wrap: break-word;
         text-align: center;
         padding-top: 20px;
     }
-    .rank-image{
+
+    .rank-image {
         width: 100%;
         height: 100%;
     }
-    .pull-right{
-        padding: 10px;
-    }
-    .box-title{
+
+    .pull-right {
         padding: 10px;
     }
 
+    .box-title {
+        padding: 10px;
+    }
 </style>
 
 <div class="container">
@@ -93,7 +100,8 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
                                 class="img-circle"
                                 alt="User Image"/>
                     </div>
-                    <h4 class="fourval">Ранг: <p class="ball-rank"><?= isset($currenUser->rank->name)?$currenUser->rank->name:'-' ?></p>
+                    <h4 class="fourval">Ранг: <p
+                                class="ball-rank"><?= isset($currenUser->rank->name) ? $currenUser->rank->name : '-' ?></p>
                     </h4>
                     <h4 class="fourval">Количество
                         баллов:
@@ -107,14 +115,13 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
             'ranks' => $ranks,
             'currenUser' => $currenUser,
         ]) ?>
-        <?= $this->render('/user-profile/userprofile/chart-process-rank', [
-        ]) ?>
+        <?= $this->render('/user-profile/userprofile/chart-process-rank') ?>
     </div>
     <div class="col-md-12">
         <div class="text-center">
-            <?php if(isset($currenUser->rank->image)){ ?>
-            <img class="rank-image"
-                 src="/img/user-profile/<?= $currenUser->rank->image ?>">
+            <?php if (isset($currenUser->rank->image)) { ?>
+                <img class="rank-image"
+                     src="/img/user-profile/<?= $currenUser->rank->image ?>">
             <?php } ?>
         </div>
     </div>
