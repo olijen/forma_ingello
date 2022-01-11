@@ -96,7 +96,9 @@ class RankController extends Controller
 
         if (Yii::$app->request->isPost) {
             if (!empty(UploadedFile::getInstance($model, 'imageFile'))) {
-                unlink('./img/user-profile/' . $model->image);
+                if(isset($model->image)){
+                    unlink('./img/user-profile/' . $model->image);
+                }
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 $imageName = $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
