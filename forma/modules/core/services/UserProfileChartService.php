@@ -32,6 +32,7 @@ class UserProfileChartService
                 }
             }
         }
+        $dates = array_reverse($dates);
         return $dates;
 
     }

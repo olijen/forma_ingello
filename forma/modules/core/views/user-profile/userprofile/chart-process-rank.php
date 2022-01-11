@@ -24,7 +24,7 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'],
+            labels: ['ВС','Сб','ПТ','ЧТ','СР','ВТ','ПН'],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',

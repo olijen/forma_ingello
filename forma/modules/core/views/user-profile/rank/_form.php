@@ -28,11 +28,11 @@ endif;
 
     <?php $form = ActiveForm::begin([
     ]); ?>
-    <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-6']])->textInput() ?></br>
+            <?= $form->field($model, 'name',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-            <?= $form->field($model, 'image',['options'=>['class'=>'col-xs-6 col-md-6']])->fileInput() ?>
+            <?= $form->field($model, 'imageFile',['options'=>['class'=>'col-xs-12 col-md-6']])->fileInput() ?>
 
-            <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-6']])->textInput() ?>
+            <?= $form->field($model, 'order',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
 
         <div class="col-xs-12 col-md-12">

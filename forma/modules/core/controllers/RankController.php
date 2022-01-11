@@ -47,24 +47,35 @@ class RankController extends Controller
      * @param integer $id
      * @return mixed
      */
+    public function actionView($id)
+    {
+        return $this->render('/user-profile/rank/view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
+    /**
+     * Creates a new Rank model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
     public function actionCreate()
     {
         $model = new Rank();
         $model->loadDefaultValues(); //load default data from db
 
-            if ( Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            $imageName = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+            if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
                 $model->load(Yii::$app->request->post());
-                $model->image = UploadedFile::getInstance($model,'image');
-                $imageName = $model->image->baseName .'.'. $model->image->extension;
-                if ($model->image->saveAs('./img/user-profile/'.$imageName)) {
-                    $model->image = $imageName;
-                }
-                if ($model->save()){
-                    return $this->redirect('index');
-                }else{
-                    de(1);
-                }
+                $model->image = $imageName;
+            }
+            if ($model->save()) {
+                return $this->redirect('index');
+            } else {
+                de('ПРОИЗОШЛА ОШИБКА');
+            }
 
         } else {
             return $this->render('/user-profile/rank/create', [
@@ -83,8 +94,18 @@ class RankController extends Controller
     {
         $model = $this->findModel($id);
 
+        if (Yii::$app->request->isPost) {
+            if (!empty(UploadedFile::getInstance($model, 'imageFile'))) {
+                unlink('./img/user-profile/' . $model->image);
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                $imageName = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
+                    $model->image = $imageName;
+                }
+            }
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('/core/rank/');
+            return $this->redirect(['/core/rank/']);
         } else {
             return $this->render('/user-profile/rank/update', [
                 'model' => $model,
