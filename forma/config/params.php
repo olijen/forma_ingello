@@ -1,6 +1,19 @@
 <?php
 
 return [
+    'access-interface' => [
+        'HRM' => [
+            'selections delete button' => 'Кнопка массовго удаления',
+            'index' => 'Начальная страница'
+        ],
+        'СRM' => [
+            'selections delete button' => 'Кнопка массовго удаления',
+            'selling default page' => 'Начальная страница'
+        ],
+        "ERP" =>[],
+        "BOSS" =>[],
+
+    ],
     'adminEmail' => 'admin@example.com',
     'globalQueries' => [],
     'bsDependencyEnabled' => false,
