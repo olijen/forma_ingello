@@ -119,15 +119,3 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         </div>
     </div>
 </div>
-<script>
-    (function () {
-        var tId = setInterval(function () {
-            if (document.readyState == "complete") onComplete()
-        }, 10000);
-
-        function onComplete() {
-            clearInterval(tId);
-            $('.globalClass_2ebe').remove();
-        };
-    })()
-</script>
