@@ -66,7 +66,7 @@ class ItemInterface extends \yii\db\ActiveRecord
   {
   return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
   }
-  
+
   /**
   * @inheritdoc
   * @return ItemInterfaceQuery the active query used by this AR class.

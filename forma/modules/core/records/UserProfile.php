@@ -70,7 +70,7 @@ class UserProfile extends \yii\db\ActiveRecord
   {
   return $this->hasOne(User::className(), ['id' => 'user_id']);
   }
-  
+
   /**
   * @inheritdoc
   * @return UserProfileQuery the active query used by this AR class.
