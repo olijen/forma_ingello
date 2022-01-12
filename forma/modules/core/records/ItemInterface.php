@@ -75,13 +75,4 @@ class ItemInterface extends \yii\db\ActiveRecord
   {
   return $this->hasMany(ItemRule::className(), ['item_interface_id' => 'id']);
   }
-  
-  /**
-  * @inheritdoc
-  * @return ItemInterfaceQuery the active query used by this AR class.
-  */
-  public static function find()
-  {
-  return new ItemInterfaceQuery(get_called_class());
-  }
 }

@@ -11,9 +11,11 @@ use Yii;
   * @property integer $rule_id
   * @property integer $user_profile_id
   * @property string $date
+  * @property integer $user_id
   *
       * @property Rule $rule
       * @property UserProfile $userProfile
+      * @property User $user
   */
 class UserProfileRule extends \yii\db\ActiveRecord
 {
@@ -42,7 +44,7 @@ class UserProfileRule extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['rule_id', 'user_profile_id'], 'integer'],
+            [['rule_id', 'user_profile_id', 'user_id'], 'integer'],
             [['date'], 'safe']
         ];
   }
@@ -57,6 +59,7 @@ class UserProfileRule extends \yii\db\ActiveRecord
         'rule_id' => 'Rule ID',
         'user_profile_id' => 'User Profile ID',
         'date' => 'Date',
+        'user_id' => 'User ID',
     ];
   }
 
@@ -75,13 +78,12 @@ class UserProfileRule extends \yii\db\ActiveRecord
   {
   return $this->hasOne(UserProfile::className(), ['id' => 'user_profile_id']);
   }
-  
+
   /**
-  * @inheritdoc
-  * @return UserProfileRuleQuery the active query used by this AR class.
+  * @return \yii\db\ActiveQuery
   */
-  public static function find()
+  public function getUser()
   {
-  return new UserProfileRuleQuery(get_called_class());
+  return $this->hasOne(User::className(), ['id' => 'user_id']);
   }
 }

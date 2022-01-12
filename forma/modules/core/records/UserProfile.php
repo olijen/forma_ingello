@@ -3,89 +3,99 @@
 namespace forma\modules\core\records;
 
 use Yii;
-use yii\web\UploadedFile;
 
 /**
- * This is the model class for table "user_profile".
- *
- * @property integer $id
- * @property string $image
- * @property integer $user_id
- * @property integer $rank_id
- *
- * @property Rank $rank
- * @property User $user
- * @property UserProfileRule[] $userProfileRules
- */
+* This is the model class for table "user_profile".
+*
+  * @property integer $id
+  * @property string $image
+  * @property integer $user_id
+  * @property integer $rank_id
+  *
+      * @property Rank $rank
+      * @property User $user
+      * @property UserProfileRule[] $userProfileRules
+  */
 class UserProfile extends \yii\db\ActiveRecord
 {
-    public $imageFile;
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'user_profile';
-    }
+  public $file;
 
+  const IMAGE_DIR_NAME = 'user-profile';
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
+  /**
+  * @inheritdoc
+  */
+  public static function tableName()
+  {
+    return 'user_profile';
+  }
+
+  /**
+  * @inheritdoc
+  */
+  public function behaviors()
+  {
+    return [
+            'image_uploader' => [
+              'class' => \wokster\behaviors\ImageUploadBehavior::className(),
+              'size_for_resize' => [
+              [400,400,true],
+              [1000,null,false],
+              [50,50,true]
+              ],
+              'dir_name'=>self::IMAGE_DIR_NAME,
+              'attribute' => 'image',
+            ],
+          ];
+  }
+
+  /**
+  * @inheritdoc
+  */
+  public function rules()
+  {
+    return [
             [['image'], 'string'],
-            [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['user_id', 'rank_id'], 'integer'],
+            [['file'], 'file', 'maxSize' => 2097152]
         ];
-    }
+  }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'image' => 'Фото профиля',
-            'imageFile' => 'Фото профиля',
-            'user_id' => 'User ID',
-            'rank_id' => 'Rank ID',
-        ];
-    }
+  /**
+  * @inheritdoc
+  */
+  public function attributeLabels()
+  {
+    return [
+        'id' => 'ID',
+        'image' => 'Image',
+        'user_id' => 'User ID',
+        'rank_id' => 'Rank ID',
+    ];
+  }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRank()
-    {
-        return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
-    }
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getRank()
+  {
+  return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
+  }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUser()
+  {
+  return $this->hasOne(User::className(), ['id' => 'user_id']);
+  }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserProfileRules()
-    {
-        return $this->hasMany(UserProfileRule::className(), ['user_profile_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserProfileRuleQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserProfileRuleQuery(get_called_class());
-    }
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUserProfileRules()
+  {
+  return $this->hasMany(UserProfileRule::className(), ['user_profile_id' => 'id']);
+  }
 }
