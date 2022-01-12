@@ -131,30 +131,7 @@ class SystemEventService
             $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
 
             if ($rule) {
-                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
-                    ['rule_id' => $rule->id]
-                )->one();
                 self::getUserProfileService()->setEvent($rule);
-                if (empty($accessInterface)) {
-                    $newAccessInterface = new AccessInterface();
-                    $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->current_mark = 1;
-                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
-                    $newAccessInterface->status = false;
-                    $newAccessInterface->save();
-                }
-                if (isset($accessInterface)) {
-                    if ($accessInterface->status == false) {
-                        $accessInterface->status = false;
-                        $accessInterface->current_mark = ++$accessInterface->current_mark;
-                        $accessInterface->save();
-                    }
-                    if ($accessInterface->current_mark == $rule->count_action) {
-                        $accessInterface->status = 1;
-                        $accessInterface->save();
-                        self::setCookieSystemEvent('event', $rule->id);
-                    }
-                }
             }
 
             $systemEvent = self::loadSystemEvent($appMod);

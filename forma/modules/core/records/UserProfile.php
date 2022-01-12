@@ -3,6 +3,7 @@
 namespace forma\modules\core\records;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
 * This is the model class for table "user_profile".
@@ -14,14 +15,10 @@ use Yii;
   *
       * @property Rank $rank
       * @property User $user
-      * @property UserProfileRule[] $userProfileRules
   */
 class UserProfile extends \yii\db\ActiveRecord
 {
-
-  public $file;
-
-  const IMAGE_DIR_NAME = 'user-profile';
+    public $imageFile;
 
   /**
   * @inheritdoc
@@ -31,24 +28,6 @@ class UserProfile extends \yii\db\ActiveRecord
     return 'user_profile';
   }
 
-  /**
-  * @inheritdoc
-  */
-  public function behaviors()
-  {
-    return [
-            'image_uploader' => [
-              'class' => \wokster\behaviors\ImageUploadBehavior::className(),
-              'size_for_resize' => [
-              [400,400,true],
-              [1000,null,false],
-              [50,50,true]
-              ],
-              'dir_name'=>self::IMAGE_DIR_NAME,
-              'attribute' => 'image',
-            ],
-          ];
-  }
 
   /**
   * @inheritdoc
@@ -57,23 +36,24 @@ class UserProfile extends \yii\db\ActiveRecord
   {
     return [
             [['image'], 'string'],
+            [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['user_id', 'rank_id'], 'integer'],
-            [['file'], 'file', 'maxSize' => 2097152]
         ];
   }
 
-  /**
-  * @inheritdoc
-  */
-  public function attributeLabels()
-  {
-    return [
-        'id' => 'ID',
-        'image' => 'Image',
-        'user_id' => 'User ID',
-        'rank_id' => 'Rank ID',
-    ];
-  }
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'image' => 'Фото профиля',
+            'imageFile' => 'Фото профиля',
+            'user_id' => 'User ID',
+            'rank_id' => 'Rank ID',
+        ];
+    }
 
   /**
   * @return \yii\db\ActiveQuery
@@ -92,10 +72,11 @@ class UserProfile extends \yii\db\ActiveRecord
   }
 
   /**
-  * @return \yii\db\ActiveQuery
+  * @inheritdoc
+  * @return UserProfileQuery the active query used by this AR class.
   */
-  public function getUserProfileRules()
+  public static function find()
   {
-  return $this->hasMany(UserProfileRule::className(), ['user_profile_id' => 'id']);
+  return new UserProfileQuery(get_called_class());
   }
 }

@@ -9,12 +9,10 @@ use Yii;
 *
   * @property integer $id
   * @property integer $rule_id
-  * @property integer $user_profile_id
   * @property string $date
   * @property integer $user_id
   *
       * @property Rule $rule
-      * @property UserProfile $userProfile
       * @property User $user
   */
 class UserProfileRule extends \yii\db\ActiveRecord
@@ -44,7 +42,7 @@ class UserProfileRule extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['rule_id', 'user_profile_id', 'user_id'], 'integer'],
+            [['rule_id','user_id'], 'integer'],
             [['date'], 'safe']
         ];
   }
@@ -57,7 +55,6 @@ class UserProfileRule extends \yii\db\ActiveRecord
     return [
         'id' => 'ID',
         'rule_id' => 'Rule ID',
-        'user_profile_id' => 'User Profile ID',
         'date' => 'Date',
         'user_id' => 'User ID',
     ];
@@ -74,16 +71,17 @@ class UserProfileRule extends \yii\db\ActiveRecord
   /**
   * @return \yii\db\ActiveQuery
   */
-  public function getUserProfile()
-  {
-  return $this->hasOne(UserProfile::className(), ['id' => 'user_profile_id']);
-  }
-
-  /**
-  * @return \yii\db\ActiveQuery
-  */
   public function getUser()
   {
   return $this->hasOne(User::className(), ['id' => 'user_id']);
+  }
+  
+  /**
+  * @inheritdoc
+  * @return UserProfileRuleQuery the active query used by this AR class.
+  */
+  public static function find()
+  {
+  return new UserProfileRuleQuery(get_called_class());
   }
 }
