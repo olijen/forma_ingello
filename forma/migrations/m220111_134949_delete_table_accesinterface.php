@@ -21,22 +21,6 @@ class m220111_134949_delete_table_accesinterface extends Migration
             'id',
             'NO ACTION'
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        {
-
-        }
-    }
-
-
-
-    public function down()
-    {
         $this->dropForeignKey(
             'fk_access_interface_rule_id',
             'access_interface'
@@ -59,7 +43,14 @@ class m220111_134949_delete_table_accesinterface extends Migration
             'fk_user_profile_id',
             'user_profile_rule'
         );
-
-
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        return false;
+    }
+
 }
