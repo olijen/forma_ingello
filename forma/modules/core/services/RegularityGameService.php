@@ -113,13 +113,28 @@ class RegularityGameService
         return $this->userProfileRules;
     }
 
+    public function isItemById($id)
+    {
+        $flag = false;
+        foreach ($this->items as $item) {
+            if ($item['id'] == $id) {
+                foreach ($this->rules as $rule) {
+                    if ($rule['item_id'] == $item['id']) {
+                        $flag = true;
+                    }
+                }
+                break;
+            }
+        }
+        return $flag;
+    }
 
     public function setUserProfileRules(): void
     {
         $userProfileRules = [];
         foreach ($this->regularity->items as $item) {
             foreach ($item->rules as $rule) {
-                foreach ($rule->userProfileRules as $userProfileRule){
+                foreach ($rule->userProfileRules as $userProfileRule) {
                     $userProfileRules [] = $userProfileRule->getAttributes();
                 }
             }

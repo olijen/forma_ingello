@@ -481,15 +481,25 @@ width: 100%;
 
 
             <div class="navigator-pane" id="public_for_newUser" style=" justify-content: center; ">
-                <button class='btn btn-light' style="background-color: #F08080; color: white" onclick="window.location.href='/'"
+                <button class='btn btn-light' style="background-color: #F08080; color: white"
+                        onclick="window.location.href='/'"
                         style="margin-bottom: 20px;">
                     <i class="fas fa-ban" style="color: white; margin-right: 5px;"></i>
-                     Пропустить обучение
+                    Пропустить обучение
                 </button>
-                <button class='btn btn-light' style="background-color: #00a65a; color: white" onclick="public_for_newUser.style.display = 'none'; usualReglament.style.display = 'flex'"
+                <button class='btn btn-light' style="background-color: #00a65a; color: white"
+                        onclick="public_for_newUser.style.display = 'none'; usualReglament.style.display = 'flex'"
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
                     Продолжить обучение <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>
+                <?php if (isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile)) { ?>
+                    <button class='btn btn-light' style="background-color:cadetblue; color: white"
+                            onclick="window.location.href='/core/user-profile'"
+                            style="margin-bottom: 20px;">
+                        <i class="fas fa-user" style="color: white;"></i>
+                        Профиль
+                    </button>
+                <?php } ?>
             </div>
             <div class="navigator-pane" id="usualReglament" style=" justify-content: center; ">
                 <button class='btn btn-light navigator prev' id="prev_step" onclick="event.stopPropagation()"
@@ -504,6 +514,14 @@ width: 100%;
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
                     Вперед <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>
+                <?php if (isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile)) { ?>
+                    <button class='btn btn-light' style="background-color:cadetblue; color: white"
+                            onclick="window.location.href='/core/user-profile'"
+                            style="margin-bottom: 20px;">
+                        <i class="fas fa-user" style="color: white;"></i>
+                        Профиль
+                    </button>
+                <?php } ?>
             </div>
 
 
@@ -517,21 +535,6 @@ width: 100%;
                 <?php foreach ($regularities as $regularity): ?>
                     <?php
                     $countRegularityItem=0; $countRightRegularityItem =0;
-                    /*foreach ($regularity->items as $regularityItem) {
-                        foreach ($rulesData as $rulesDatum){
-                            if($rulesDatum->item_id == $regularityItem->id){
-                                $countRegularityItem++;
-                                foreach ($userData as $userDatum){
-                                    if($userDatum->rule_id == $rulesDatum->id && $userDatum->status ==1){
-                                        $countRightRegularityItem++;
-                                    }
-                                }
-                            }
-                        }
-
-
-                    }*/
-
                     ?>
                     <li class=" <?php if ($regularity->id == $regularities[0]->id) echo 'active'; ?> "
                         data-href="tab_regularity_<?= $regularity['id'] ?>">
