@@ -6,6 +6,12 @@ use forma\modules\core\records\UserProfile;
 /* @var $ranks Rank[] */
 /* @var $currenUser \forma\modules\core\records\User */
 $myAssetBundle = forma\assets\AppAsset::register($this);
+
+if (file_exists($myAssetBundle->baseUrl . "img/user-profile/" . $currenUser->userProfile->image))
+    $fileName = $myAssetBundle->baseUrl . "/img/user-profile/" . $currenUser->userProfile->image;
+else
+    $fileName = $myAssetBundle->baseUrl . "/img/user-profile/defaultImage.jpg";
+
 ?>
 <style>
     .login-page {
@@ -96,7 +102,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
                     <h1 class="text-center"> <?= $currenUser->username ?></h1>
                     <div class="text-center">
                         <img
-                                src="<?= $myAssetBundle->baseUrl . "/img/user-profile/".$currenUser->userProfile->image.""; ?>"
+                                src="<?= $fileName ?>"
                                 class="img-circle"
                                 alt="User Image"/>
                     </div>
@@ -126,3 +132,15 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         </div>
     </div>
 </div>
+<script>
+    (function () {
+        var tId = setInterval(function () {
+            if (document.readyState == "complete") onComplete()
+        }, 800);
+
+        function onComplete() {
+            clearInterval(tId);
+            $('.globalClass_2ebe').remove();
+        };
+    })()
+</script>
