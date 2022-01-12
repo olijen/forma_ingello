@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -16,7 +17,7 @@ use Yii;
       * @property Rule[] $rules
       * @property UserProfile[] $userProfiles
   */
-class Rank extends \yii\db\ActiveRecord
+class Rank extends AccessoryActiveRecord
 {
     public $imageFile;
 

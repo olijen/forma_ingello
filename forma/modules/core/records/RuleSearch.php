@@ -44,6 +44,7 @@ class RuleSearch extends Rule
     public function search($params)
     {
         $query = Rule::find();
+        $this->access($query);
         $query->joinWith('rank');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

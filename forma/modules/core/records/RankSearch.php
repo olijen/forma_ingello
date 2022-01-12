@@ -42,6 +42,7 @@ class RankSearch extends Rank
     public function search($params)
     {
         $query = Rank::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

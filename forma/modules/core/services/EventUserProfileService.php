@@ -18,6 +18,12 @@ class EventUserProfileService
 
     public static $userProfile;
 
+    public static function init()
+    {
+        self::setUserProfile(User::find()->joinWith(['userProfileRules'])
+            ->where(['user.id' => Yii::$app->user->id])->one());
+    }
+
     public static function setUserProfile(User $userProfile): void
     {
         self::$userProfile = $userProfile;
@@ -47,8 +53,6 @@ class EventUserProfileService
 
     public function setEvent(Rule $rule)
     {
-        self::setUserProfile(User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one());
-
         $newRank = $this->getNewRank($rule);
         $currentRank = $this->getCurrenRank();
         $currentDate = date('Y-m-d');
@@ -82,6 +86,9 @@ class EventUserProfileService
                 }
             }
             if ($countCurrentBall <= $needCountBall) {
+                if ($countCurrentBall == $needCountBall) {
+                    $this->setCookieSystemEvent('event', $rule->id);
+                }
                 if (empty(self::getUserProfile()->userProfile->rank)) {
                     self::getUserProfile()->userProfile->rank_id = $newRank->id;
                     if (self::getUserProfile()->userProfile->save()) {
@@ -98,5 +105,12 @@ class EventUserProfileService
                 }
             }
         }
+    }
+    public function setCookieSystemEvent(string $name,int $rule_id){
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => $name,
+            'value' => [$rule_id],
+        ]));
     }
 }
