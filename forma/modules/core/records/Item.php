@@ -20,6 +20,7 @@ use yii\web\UploadedFile;
  * @property Regularity $regularity
  * @property Item $parent
  * @property Item[] $items
+ * @property Rule[] $rules
  */
 class Item extends \yii\db\ActiveRecord
 {
@@ -88,6 +89,11 @@ class Item extends \yii\db\ActiveRecord
     public function getItems()
     {
         return $this->hasMany(Item::className(), ['parent_id' => 'id'])->inverseOf('parent');
+    }
+
+    public function getRules()
+    {
+        return $this->hasMany(Rule::className(), ['item_id' => 'id']);
     }
 
     public static function getSubItems($items)

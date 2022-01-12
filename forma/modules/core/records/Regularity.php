@@ -18,7 +18,7 @@ use yii\web\UploadedFile;
  * @property string $picture
  *
  * @property User $user
- * @property RegularityItem[] $regularityItems
+ * @property Item[] $items
  */
 class Regularity extends \yii\db\ActiveRecord
 {

@@ -33,7 +33,6 @@ class UserProfileController extends Controller
     {
         $this->layout = 'public';
         $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
-        //dd($currenUser);
         if (!empty($currenUser)) {
             $ranks = Rank::find()->joinWith(['rules'])->all();
             return $this->render('/user-profile/userprofile/index', [

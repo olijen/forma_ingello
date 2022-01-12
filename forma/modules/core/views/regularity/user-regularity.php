@@ -517,7 +517,7 @@ width: 100%;
                 <?php foreach ($regularities as $regularity): ?>
                     <?php
                     $countRegularityItem=0; $countRightRegularityItem =0;
-                    foreach ($regularity->items as $regularityItem) {
+                    /*foreach ($regularity->items as $regularityItem) {
                         foreach ($rulesData as $rulesDatum){
                             if($rulesDatum->item_id == $regularityItem->id){
                                 $countRegularityItem++;
@@ -530,7 +530,7 @@ width: 100%;
                         }
 
 
-                    }
+                    }*/
 
                     ?>
                     <li class=" <?php if ($regularity->id == $regularities[0]->id) echo 'active'; ?> "
@@ -579,9 +579,7 @@ width: 100%;
                             'regularity' => $regularity,
                             'items' => $items,
                             'subItems' => $subItems,
-                            'rulesData'=>$rulesData,
-                            'userData'=>$userData,
-                            'userDataIsNull'=>$userDataIsNull,
+                            'newUserReglament' => $newUserReglament,
 
                         ]) ?>
 
