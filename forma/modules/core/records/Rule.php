@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -21,7 +22,7 @@ use Yii;
       * @property Item $item
       * @property UserProfileRule[] $userProfileRules
   */
-class Rule extends \yii\db\ActiveRecord
+class Rule extends AccessoryActiveRecord
 {
 
 
