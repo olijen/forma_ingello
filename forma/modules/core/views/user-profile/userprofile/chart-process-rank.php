@@ -59,6 +59,20 @@ $userProfileChart = new UserProfileChartService();
     </div>
 
 </div>
+
+
+<!--<input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />-->
+
+<script>
+    $(function() {
+        $('input[name="chart"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            alert(1)
+        });
+    });
+</script>
+
 <script>
     $(document).ready(function (){
 
@@ -67,7 +81,7 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ['ВС', 'Сб', 'ПТ', 'ЧТ', 'СР', 'ВТ', 'ПН'],
+            labels: ["ВС","СБ","ПТ","ЧТ","СР","ВТ","СБ"],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',
