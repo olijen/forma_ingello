@@ -4,7 +4,7 @@ use forma\modules\core\records\Rank;
 use forma\modules\core\records\UserProfile;
 
 /* @var $ranks Rank[] */
-/* @var $currenUser UserProfile */
+/* @var $currenUser \forma\modules\core\records\User */
 $myAssetBundle = forma\assets\AppAsset::register($this);
 ?>
 <style>
@@ -93,15 +93,15 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
                 </div>
 
                 <div class="box-body">
-                    <h1 class="text-center"> <?= $currenUser->user->username ?></h1>
+                    <h1 class="text-center"> <?= $currenUser->username ?></h1>
                     <div class="text-center">
                         <img
-                                src="<?= $myAssetBundle->baseUrl . "/img/user-profile/$currenUser->image"; ?>"
+                                src="<?= $myAssetBundle->baseUrl . "/img/user-profile/".$currenUser->userProfile->image.""; ?>"
                                 class="img-circle"
                                 alt="User Image"/>
                     </div>
                     <h4 class="fourval">Ранг: <p
-                                class="ball-rank"><?= isset($currenUser->rank->name) ? $currenUser->rank->name : '-' ?></p>
+                                class="ball-rank"><?= isset($currenUser->userProfile->rank->name) ? $currenUser->userProfile->rank->name : '-' ?></p>
                     </h4>
                     <h4 class="fourval">Количество
                         баллов:
@@ -119,9 +119,9 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
     </div>
     <div class="col-md-12">
         <div class="text-center">
-            <?php if (isset($currenUser->rank->image)) { ?>
+            <?php if (isset($currenUser->userProfile->rank->image)) { ?>
                 <img class="rank-image"
-                     src="/img/user-profile/<?= $currenUser->rank->image ?>">
+                     src="/img/user-profile/<?= $currenUser->userProfile->rank->image ?>">
             <?php } ?>
         </div>
     </div>

@@ -13,7 +13,6 @@ use Yii;
   * @property string $key
   *
       * @property Rank $rank
-      * @property ItemRule[] $itemRules
   */
 class ItemInterface extends \yii\db\ActiveRecord
 {
@@ -66,14 +65,6 @@ class ItemInterface extends \yii\db\ActiveRecord
   public function getRank()
   {
   return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
-  }
-
-  /**
-  * @return \yii\db\ActiveQuery
-  */
-  public function getItemRules()
-  {
-  return $this->hasMany(ItemRule::className(), ['item_interface_id' => 'id']);
   }
   
   /**

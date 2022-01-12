@@ -3,9 +3,9 @@
 namespace forma\modules\core\records;
 
 /**
- * This is the ActiveQuery class for [[UserProfile]].
+ * This is the ActiveQuery class for [[UserProfileRule]].
  *
- * @see UserProfile
+ * @see UserProfileRule
  */
 class UserProfileRuleQuery extends \yii\db\ActiveQuery
 {
@@ -17,7 +17,7 @@ class UserProfileRuleQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return UserProfile[]|array
+     * @return UserProfileRule[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class UserProfileRuleQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return UserProfile|array|null
+     * @return UserProfileRule|array|null
      */
     public function one($db = null)
     {

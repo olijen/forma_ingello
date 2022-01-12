@@ -4,28 +4,29 @@ namespace forma\modules\core\services;
 
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
-use forma\modules\core\records\UserProfile;
+use forma\modules\core\records\User;
 use forma\modules\core\records\UserProfileRule;
 use Yii;
+use function GuzzleHttp\Promise\all;
 
 class EventUserProfileService
 {
 
     /**
-     * @param UserProfile $userProfile
+     * @param User $userProfile
      */
 
     public static $userProfile;
 
-    public static function setUserProfile(UserProfile $userProfile): void
+    public static function setUserProfile(User $userProfile): void
     {
         self::$userProfile = $userProfile;
     }
 
     /**
-     * @return UserProfile
+     * @return User
      */
-    public static function getUserProfile(): UserProfile
+    public static function getUserProfile(): User
     {
         return self::$userProfile;
     }
@@ -39,14 +40,15 @@ class EventUserProfileService
 
     public function getCurrenRank()
     {
-        return Rank::find()->where(['rank.id' => self::getUserProfile()->rank_id])->joinWith(['rules' => function ($q) {
+        return Rank::find()->where(['rank.id' => self::getUserProfile()->userProfile->rank_id])->joinWith(['rules' => function ($q) {
             $q->joinWith('userProfileRules');
         }])->one();
     }
 
     public function setEvent(Rule $rule)
     {
-        self::setUserProfile(UserProfile::find()->where(['user_id' => Yii::$app->user->id])->joinWith('userProfileRules')->one());
+        self::setUserProfile(User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one());
+
         $newRank = $this->getNewRank($rule);
         $currentRank = $this->getCurrenRank();
         $currentDate = date('Y-m-d');
@@ -57,11 +59,10 @@ class EventUserProfileService
                 $countRule++;
             }
         }
-
         if ($rule->count_action > $countRule) {
             $newUserProfileRule = new UserProfileRule();
             $newUserProfileRule->rule_id = $rule->id;
-            $newUserProfileRule->user_profile_id = self::getUserProfile()->id;
+            $newUserProfileRule->user_id = self::getUserProfile()->id;
             $newUserProfileRule->date = $currentDate;
             $newUserProfileRule->save();
         }
@@ -81,16 +82,16 @@ class EventUserProfileService
                 }
             }
             if ($countCurrentBall <= $needCountBall) {
-                if (empty(self::getUserProfile()->rank)) {
-                    self::getUserProfile()->rank_id = $newRank->id;
-                    if (self::getUserProfile()->save()) {
+                if (empty(self::getUserProfile()->userProfile->rank)) {
+                    self::getUserProfile()->userProfile->rank_id = $newRank->id;
+                    if (self::getUserProfile()->userProfile->save()) {
                         return true;
                     }
                 }
                 if (isset($currentRank)) {
                     if ($newRank->order > $currentRank->order) {
-                        self::getUserProfile()->rank_id = $newRank->id;
-                        if (self::getUserProfile()->save()) {
+                        self::getUserProfile()->userProfile->rank_id = $newRank->id;
+                        if (self::getUserProfile()->userProfile->save()) {
                             return true;
                         }
                     }

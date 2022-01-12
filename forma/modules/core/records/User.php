@@ -18,9 +18,10 @@ use yii\web\IdentityInterface;
  * @property string $access_token
  * @property integer $parent_id
  *
- * @property WarehouseUser[] $warehouseUsers
- * @property UserProfile $userProfile
- */
+      * @property UserProfile $userProfile
+      * @property UserProfileRule[] $userProfileRules
+      * @property WarehouseUser[] $warehouseUsers
+  */
 class User extends \yii\db\ActiveRecord
 {
     /**
@@ -62,13 +63,21 @@ class User extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getWarehouseUsers()
-    {
-        return $this->hasMany(WarehouseUser::className(), ['user_id' => 'id']);
-    }
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUserProfileRules()
+  {
+  return $this->hasMany(UserProfileRule::className(), ['user_id' => 'id']);
+  }
+
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getWarehouseUsers()
+  {
+  return $this->hasMany(WarehouseUser::className(), ['user_id' => 'id']);
+  }
 
     public function getUserProfile()
     {
