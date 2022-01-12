@@ -22,10 +22,6 @@ $this->params['breadcrumbs'][] = 'Редактировать';
         'tables'=>$tables,
         'items'=>$items,
     ]) ?>
-    <?= $this->render('user-rule', [
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-    ]); ?>
 
 
 

@@ -5,24 +5,22 @@ namespace forma\modules\core\records;
 use Yii;
 
 /**
- * This is the model class for table "rule".
- *
- * @property integer $id
- * @property string $action
- * @property string $table
- * @property integer $count_action
- * @property integer $item_id
- * @property string $rule_name
- * @property string $icon
- * @property string $link
- * @property integer $rank_id
- *
- * @property AccessInterface[] $accessInterfaces
- * @property ItemRule[] $itemRules
- * @property Rank $rank
- * @property Item $item
- * @property UserProfileRule[] $userProfileRules
- */
+* This is the model class for table "rule".
+*
+  * @property integer $id
+  * @property string $action
+  * @property string $table
+  * @property integer $count_action
+  * @property integer $item_id
+  * @property string $rule_name
+  * @property string $icon
+  * @property integer $rank_id
+  * @property string $link
+  *
+      * @property Rank $rank
+      * @property Item $item
+      * @property UserProfileRule[] $userProfileRules
+  */
 class Rule extends \yii\db\ActiveRecord
 {
 
@@ -74,46 +72,29 @@ class Rule extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAccessInterfaces()
-    {
-        return $this->hasMany(AccessInterface::className(), ['rule_id' => 'id']);
-    }
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getRank()
+  {
+  return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
+  }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getItemRules()
-    {
-        return $this->hasMany(ItemRule::className(), ['rule_id' => 'id']);
-    }
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getItem()
+  {
+  return $this->hasOne(Item::className(), ['id' => 'item_id']);
+  }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRank()
-    {
-        return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getItem()
-    {
-        return $this->hasOne(Item::className(), ['id' => 'item_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserProfileRules()
-    {
-        return $this->hasMany(UserProfileRule::className(), ['rule_id' => 'id']);
-    }
-
+  /**
+  * @return \yii\db\ActiveQuery
+  */
+  public function getUserProfileRules()
+  {
+  return $this->hasMany(UserProfileRule::className(), ['rule_id' => 'id']);
+  }
     /**
      * @inheritdoc
      * @return RuleQuery the active query used by this AR class.

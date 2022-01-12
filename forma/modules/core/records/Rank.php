@@ -12,6 +12,7 @@ use Yii;
   * @property string $image
   * @property integer $order
   *
+      * @property ItemInterface[] $itemInterfaces
       * @property Rule[] $rules
       * @property UserProfile[] $userProfiles
   */
@@ -38,21 +39,29 @@ class Rank extends \yii\db\ActiveRecord
             [['imageFile'], 'file', 'extensions' => 'png, jpg'],
             [['order'], 'integer'],
         ];
+  }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Name',
+            'image' => 'Image',
+            'imageFile' => 'Image',
+            'order' => 'Order',
+        ];
     }
 
-
   /**
-  * @inheritdoc
+  * @return \yii\db\ActiveQuery
   */
-  public function attributeLabels()
+  public function getItemInterfaces()
   {
-    return [
-        'id' => 'ID',
-        'name' => 'Name',
-        'image' => 'Image',
-        'imageFile' => 'Image',
-        'order' => 'Order',
-    ];
+  return $this->hasMany(ItemInterface::className(), ['rank_id' => 'id']);
   }
 
   /**
@@ -70,13 +79,13 @@ class Rank extends \yii\db\ActiveRecord
   {
   return $this->hasMany(UserProfile::className(), ['rank_id' => 'id']);
   }
-
+  
   /**
   * @inheritdoc
-  * @return UserProfileRuleQuery the active query used by this AR class.
+  * @return RankQuery the active query used by this AR class.
   */
   public static function find()
   {
-  return new UserProfileRuleQuery(get_called_class());
+  return new RankQuery(get_called_class());
   }
 }
