@@ -176,8 +176,6 @@ class RuleController extends Controller
             unset($tables['Управление']['0']);
         }
         $model = $this->findModel($id);
-        $searchModel = new AccessInterfaceSearch();
-        $dataProvider = $searchModel->searchRule(Yii::$app->request->queryParams,$id);
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
             ->all(), 'id', 'title', 'name');
@@ -193,8 +191,6 @@ class RuleController extends Controller
                 'model' => $model,
                 'tables'=>$tables,
                 'items'=>$items,
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
             ]);
         }
     }
