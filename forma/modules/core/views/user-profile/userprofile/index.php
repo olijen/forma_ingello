@@ -6,6 +6,12 @@ use forma\modules\core\records\UserProfile;
 /* @var $ranks Rank[] */
 /* @var $currenUser \forma\modules\core\records\User */
 $myAssetBundle = forma\assets\AppAsset::register($this);
+
+if (isset($currenUser->userProfile->image))
+    $fileName = $myAssetBundle->baseUrl . "/img/user-profile/" . $currenUser->userProfile->image;
+else
+    $fileName = $myAssetBundle->baseUrl . "/img/user-profile/defaultImage.png";
+
 ?>
 <style>
     .login-page {
@@ -77,7 +83,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         padding: 10px;
     }
 </style>
-
+<?php if(isset(\forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one()->userProfile)){ ?>
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-sm-12 col-12 stretch-card">
@@ -96,7 +102,7 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
                     <h1 class="text-center"> <?= $currenUser->username ?></h1>
                     <div class="text-center">
                         <img
-                                src="<?= $myAssetBundle->baseUrl . "/img/user-profile/".$currenUser->userProfile->image.""; ?>"
+                                src="<?= $fileName ?>"
                                 class="img-circle"
                                 alt="User Image"/>
                     </div>
@@ -127,3 +133,20 @@ $myAssetBundle = forma\assets\AppAsset::register($this);
         </div>
     </div>
 </div>
+<?php }else{?>
+    <div>
+        У вас нет игрового профиля
+    </div>
+<?php }?>
+<script>
+    (function () {
+        var tId = setInterval(function () {
+            if (document.readyState == "complete") onComplete()
+        }, 800);
+
+        function onComplete() {
+            clearInterval(tId);
+            $('.globalClass_2ebe').remove();
+        };
+    })()
+</script>

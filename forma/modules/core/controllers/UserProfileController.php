@@ -40,7 +40,7 @@ class UserProfileController extends Controller
     {
         $this->layout = 'public';
         $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
-        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if (!empty($currenUser)) {
             $ranks = Rank::find()->joinWith(['rules'])->all();
             return $this->render('/user-profile/userprofile/index', [
@@ -107,23 +107,38 @@ class UserProfileController extends Controller
         return $this->redirect(['/user-profile/userprofile/index']);
     }
 
-    public function actionGenerateGame(){
+    public function actionGenerateGame()
+    {
         $rankMasterCRM = new Rank();
         $rankMasterCRM->name = 'Мастер в CRM модуле';
         $rankMasterCRM->order = '2';
         $rankMasterCRM->image = 'stol.png';
         $rankMasterCRM->save();
         $accessInterfaceCRM = Yii::$app->params['access-interface']['СRM'];
-        foreach ($accessInterfaceCRM as $key => $item){
+        foreach ($accessInterfaceCRM as $key => $item) {
             $newItemInterface = new ItemInterface();
-            $newItemInterface->module ='CRM';
-            $newItemInterface->key =$key;
-            $newItemInterface->rank_id =$rankMasterCRM->id;
+            $newItemInterface->module = 'CRM';
+            $newItemInterface->key = $key;
+            $newItemInterface->rank_id = $rankMasterCRM->id;
             $newItemInterface->save();
-
+        }
+        $rankMasterHRM = new Rank();
+        $rankMasterHRM->name = 'Мастер в HRM модуле';
+        $rankMasterHRM->order = '1';
+        $rankMasterHRM->image = 'stol.png';
+        $rankMasterHRM->save();;
+        $accessInterfaceHRM = Yii::$app->params['access-interface']['HRM'];
+        foreach ($accessInterfaceHRM as $key => $item) {
+            $newItemInterface = new ItemInterface();
+            $newItemInterface->module = 'HRM';
+            $newItemInterface->key = $key;
+            $newItemInterface->rank_id = isset($rankMasterHRM->id) ? $rankMasterHRM->id : null;
+            $newItemInterface->save();
         }
     }
-    public function actionCleanGame(){
+
+    public function actionCleanGame()
+    {
         UserProfileRule::deleteAll();
         UserProfile::deleteAll();
         Rule::deleteAll();

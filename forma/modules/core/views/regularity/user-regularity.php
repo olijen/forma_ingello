@@ -530,12 +530,13 @@ box-sizing: border-box;
             <div id="name_on_picture" style="">
                 <h2 class="h-text">Публичный регламент</h2>
             </div>
-            <input type="checkbox" name="toggle" id="toggle" style="display: none;" />
+            <input type="checkbox" name="toggle" id="toggle" style="display: none;"/>
             <label for="toggle"></label>
-            <div class="message"><h1> Ваш ранг: <?php echo \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one()->userProfile->rank->name ?></h1>
+
+            <div class="message"><h1> Ваш
+                    ранг: <?php echo isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile->rank)?\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile->rank->name :'у вас еще нет ранга' ?></h1>
                 <h2>Вы можете перейти по ссылке <a href="/core/user-profile">ПРОФИЛЬ</a></h2>
             </div>
-
 
             <div class="navigator-pane" id="public_for_newUser" style=" justify-content: center; ">
                 <button class='btn btn-light' style="background-color: #F08080; color: white"

@@ -1,8 +1,9 @@
-<?php use forma\components\widgets\WidgetAccess;
+<?php
+use forma\components\widgets\WidgetAccess;
 use kartik\select2\Select2;
 use forma\modules\selling\records\strategy\Strategy;
 use forma\modules\selling\records\strategy\RequestStrategy;
-
+use \forma\modules\core\widgets\DetachedBlock;
 ?>
 <?php
 $this->title = Yii::t(
@@ -21,7 +22,7 @@ $this->title = Yii::t(
     }
 </style>
 <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'bs selling speech-module']) ?>
-<?php \forma\modules\core\widgets\DetachedBlock::begin(['example' => 'Стратегии']) ?>
+<?php DetachedBlock::begin(['example' => 'Стратегии']) ?>
 <div class="row" onload="myFunction();">
     <div class="menu-strategy col-md-12" style="padding: 10px;">
         <div class="col-md-6 col-sm-12 col-xs-12" style="margin: 0 0 10px;">
@@ -53,8 +54,9 @@ $this->title = Yii::t(
             <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'button edit strategy']) ?>
             <?php
             echo \yii\helpers\Html::a('<i class="fa fa-edit" style="float: left"></i>Редактировать стратегии', ['/selling/strategy'], ['class' => 'btn btn-block btn-success forma_blue']);
-            ?>
             WidgetAccess::end();
+            ?>
+
         </div>
     </div>
     <div class="button-strategy col-md-12" style="padding: 10px;">
@@ -70,7 +72,7 @@ $this->title = Yii::t(
         <div id="elementCreateRequestClient"></div>
     </div>
 </div>
-<?php \forma\modules\core\widgets\DetachedBlock::end() ?>
+<?php DetachedBlock::end(); ?>
 <?php WidgetAccess::end(); ?>
 
 
