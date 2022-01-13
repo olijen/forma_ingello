@@ -18,16 +18,19 @@ class WidgetAccess extends Widget
      */
     public function isAccessible(): bool
     {
-        $itemInterface = ItemInterface::find()->where(['module' => $this->module, 'key' => $this->key])->one();
-        if (!isset($itemInterface)) {
-            return false;
+        $itemInterface = ItemInterface::find()->where(['module' => $this->module])->one();
+        var_dump($itemInterface);
+        if(empty($itemInterface->rank->rank_id)){
+            return true;
         }
+
         $this->user = User::find()->where(['id' => \Yii::$app->id])->one();
         $needBall = count($itemInterface->rank->getRules()->all());
         $currentBall = count($this->user->getUserProfileRules()->all());
         if ($needBall == $currentBall) {
             return true;
         }
+
         return false;
     }
 
