@@ -46,6 +46,7 @@ class MainController extends Controller
 
     public function actionIndex()
     {
+        de($_COOKIE);
 
         if (Yii::$app   ->request->isAjax) Yii::debug('ВОТ');
         $searchModel = SellingService::search();
