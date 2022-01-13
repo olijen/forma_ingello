@@ -24,6 +24,7 @@ use yii\widgets\Breadcrumbs;
             echo $value;
             Alert::end();
             Yii::$app->response->cookies->remove('event');
+
         endif; ?>
         <section class="content">
             <?= $content ?>
