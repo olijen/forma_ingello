@@ -12,6 +12,8 @@ use yii\widgets\Pjax;
 
 $this->title = 'Правила';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['icons'][] = $icons;
+/*dd($icons);*/
 ?>
 <div class="rule-index">
 
@@ -65,14 +67,33 @@ $this->params['breadcrumbs'][] = $this->title;
                     $items,
                     ['placeholder' => 'Выбрать элемент...', 'class' => 'form-control', 'prompt' => '']),
             ],
-            'icon',
+
             [
                 'attribute' => 'rank_id',
                 'label' => 'Ранг',
                 'value' => 'rank.name',
                 'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id','name'])->asArray()->all(), 'id', 'name'),
             ],
-            'link',
+            [
+                'attribute' => 'icon',
+                'label' => 'Иконка',
+                'format' => 'raw',
+                'contentOptions' => ['style'=>'text-align: center;'],
+                'value' => function ($model) {
+                    $iconName = "";
+                    foreach ($this->params['icons'][0] as $key=>$icon){
+                        if($key == $model->icon){
+                            $iconName = $icon;
+                            break;
+                        }
+
+                    }
+
+                    return "<i class='fa fa-$iconName fa-5x' ></i>";
+                }
+                ,
+
+            ],
         ],
     ]); ?>
 

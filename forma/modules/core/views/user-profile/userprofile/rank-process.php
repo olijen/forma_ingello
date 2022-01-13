@@ -49,6 +49,13 @@ use forma\modules\core\records\UserProfile;
                 <?php
                 foreach ($ranks as $rank) {
                     foreach ($rank->rules as $rule) {
+                        $iconName = "";
+                        foreach ($icons as $key=>$icon){
+                            if($key == $rule->icon){
+                                $iconName = $icon;
+                            }
+
+                        }
                         $countBall = 0;
                         foreach ($currenUser->userProfileRules as $profileRule) {
                             if ($profileRule->rule_id == $rule->id) {
@@ -58,10 +65,10 @@ use forma\modules\core\records\UserProfile;
                         ?>
                         <?php if ($rule->count_action == $countBall) { ?>
                             <a class="link-active" href="<?= $rule->link ?>" title="<?= $rule->rule_name ?>"><i
-                                        class="fa <?= $rule->icon ?>"></i></a>
+                                        class="fa fa-<?= $iconName ?>"></i></a>
                         <?php } else { ?>
                             <a class="link-inactive" href="<?= $rule->link ?>" title="<?= $rule->rule_name ?>"><i
-                                        class="fa <?= $rule->icon ?>"></i></a>
+                                        class="fa fa-<?= $iconName ?>"></i></a>
                         <?php } ?>
                     <?php }
                 } ?>

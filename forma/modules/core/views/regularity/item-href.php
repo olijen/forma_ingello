@@ -5,35 +5,6 @@ use forma\modules\core\records\ItemInterface;
 use kartik\dialog\Dialog;
 use yii\bootstrap\Collapse;
 
-/*$countRuleQuestion = 0;
-$countAnswerUserAnswer = 0;
-foreach ($rulesData as $ruleData){
-    if($ruleData->item_id == $item->id){
-        $countRuleQuestion++;
-        foreach ($userData as $userDatum){
-            if($userDatum->rule_id == $ruleData->id && $userDatum->status ==1){
-                $countAnswerUserAnswer++;
-            }
-        }
-    }
-}
-$countRegularityItem=0; $countRightRegularityItem =0;
-foreach ($regularity->items as $regularityItem) {
-    foreach ($rulesData as $rulesDatum){
-
-        if($rulesDatum->item_id == $regularityItem->id){
-            $countRegularityItem++;
-            foreach ($userData as $userDatum){
-                if($userDatum->rule_id == $rulesDatum->id && $userDatum->status ==1){
-                    $countRightRegularityItem++;
-                }
-            }
-        }
-    }
-
-
-}*/
-
 $allDataRegularity = new \forma\modules\core\services\RegularityGameService($regularity->id);
 
 if (is_null($item->picture)) {
@@ -73,9 +44,8 @@ if (isset($parentItem)) {
             <?= $item->description;
 
             if (!empty($allDataRegularity)) {
-                $isEmptyElement = array_search($item->id, array_column($allDataRegularity->getItems(), 'id'));
 
-                if ($isEmptyElement == false) {
+                if ($allDataRegularity->isItemById($item->id)) {
                     echo "<div class='box-header with-border big_widget_header'>
                             <h3 class='box-title' style='font-size: 25px;'>
                             <i class='fas fa-bullseye' style='color: red;'></i> Выполнение задач</h3>
@@ -110,8 +80,7 @@ if (isset($parentItem)) {
                                                 <div class='progress-bar progress-bar-green' style='" . "width:0%;" .
                                             "background-color:red;" . "' ></div>
                                             </div>";
-                                    }
-                                    else{
+                                    } else {
                                         $sum = round(($tempCurrentBall / $rule["count_action"]) * 100);
                                         echo "<div class='clearfix'>
                                                 

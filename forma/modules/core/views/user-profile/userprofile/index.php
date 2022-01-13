@@ -120,6 +120,7 @@ else
         <?= $this->render('/user-profile/userprofile/rank-process', [
             'ranks' => $ranks,
             'currenUser' => $currenUser,
+            'icons' => $icons,
         ]) ?>
         <?= $this->render('/user-profile/userprofile/chart-process-rank') ?>
     </div>

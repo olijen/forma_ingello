@@ -2,7 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
-use forma\modules\core\records\AccessInterfaceSearch;
+use rmrevin\yii\ionicon\AssetBundle;
 use Yii;
 use forma\modules\core\records\Rule;
 use forma\modules\core\records\RuleSearch;
@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\Item;
-
+use rmrevin\yii\fontawesome\FontAwesome;
 /**
  * RuleController implements the CRUD actions for Rule model.
  */
@@ -35,11 +35,11 @@ class RuleController extends Controller
     {
         $groupTable = [
             ''=>'',
-            'Управление'=>['/'],
-            'Продажи'=>['/selling/defaul'],
-            'Найм и проекты'=>['/hr'],
-            'Продукты и услуги'=>['/product'],
-            'Хранилища'=>['/warehouse/warehouse'],
+            'Управление'=>['/core/regularity/regularity'],
+            'Продажи'=>['/core/regularity/regularity'],
+            'Найм и проекты'=>['/core/regularity/regularity'],
+            'Продукты и услуги'=>['/core/regularity/regularity'],
+            'Хранилища'=>['/core/regularity/regularity'],
         ];
         $groupTable['Управление']['answer'] = 'Ответы';
         $groupTable['Управление']['event'] = 'События';
@@ -104,6 +104,7 @@ class RuleController extends Controller
      */
     public function actionIndex()
     {
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
         $groupTable = $this->tableTranslate(false);
         $searchModel = new RuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -115,6 +116,7 @@ class RuleController extends Controller
             'dataProvider' => $dataProvider,
             'tables' => $groupTable,
             'items' => $items,
+            'icons' => $icons,
         ]);
     }
 
@@ -151,6 +153,7 @@ class RuleController extends Controller
                 $model->link = $result;
             }
         }
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
@@ -158,6 +161,7 @@ class RuleController extends Controller
                 'model' => $model,
                 'tables' => $tables,
                 'items' => $items,
+                'icons' => $icons,
             ]);
         }
     }
@@ -175,6 +179,7 @@ class RuleController extends Controller
         {
             unset($tables['Управление']['0']);
         }
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
         $model = $this->findModel($id);
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
@@ -191,6 +196,7 @@ class RuleController extends Controller
                 'model' => $model,
                 'tables'=>$tables,
                 'items'=>$items,
+                'icons' =>$icons,
             ]);
         }
     }
