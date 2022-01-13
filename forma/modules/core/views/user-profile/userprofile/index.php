@@ -7,10 +7,10 @@ use forma\modules\core\records\UserProfile;
 /* @var $currenUser \forma\modules\core\records\User */
 $myAssetBundle = forma\assets\AppAsset::register($this);
 
-if (file_exists($myAssetBundle->baseUrl . "img/user-profile/" . $currenUser->userProfile->image))
+if (isset($currenUser->userProfile->image))
     $fileName = $myAssetBundle->baseUrl . "/img/user-profile/" . $currenUser->userProfile->image;
 else
-    $fileName = $myAssetBundle->baseUrl . "/img/user-profile/defaultImage.jpg";
+    $fileName = $myAssetBundle->baseUrl . "/img/user-profile/defaultImage.png";
 
 ?>
 <style>
@@ -83,7 +83,7 @@ else
         padding: 10px;
     }
 </style>
-
+<?php if(isset(\forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one()->userProfile)){ ?>
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-sm-12 col-12 stretch-card">
@@ -133,6 +133,11 @@ else
         </div>
     </div>
 </div>
+<?php }else{?>
+    <div>
+        У вас нет игрового профиля
+    </div>
+<?php }?>
 <script>
     (function () {
         var tId = setInterval(function () {
