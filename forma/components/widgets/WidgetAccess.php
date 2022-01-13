@@ -2,45 +2,33 @@
 
 namespace forma\components\widgets;
 
-use forma\modules\core\records\AccessInterface;
 use forma\modules\core\records\ItemInterface;
-use forma\modules\core\records\ItemRule;
+use forma\modules\core\records\Rule;
+use forma\modules\core\records\User;
 use yii\bootstrap\Widget;
 
 class WidgetAccess extends Widget
 {
-    public $accessName;
+    public $module;
+    public $key;
     public $rules;
+    public $user;
     /**
      * @throws \yii\db\Exception
      */
     public function isAccessible(): bool
     {
-
-        $query = ItemInterface::find()->where(['name_item' => $this->accessName])
-            ->joinWith(['itemRules' => function ($q) {
-                $q->joinWith(['rule' => function ($q) {
-                    $q->joinWith('accessInterfaces');
-                }]);
-            }])->all();
-        $userId = \Yii::$app->user->id;
-        $countItemRule = count($query[0]->itemRules);
-        $countUserAnswer = 0;
-        foreach ($query[0]->itemRules as $itemRule) {
-            $this->rules[] =$itemRule->rule->rule_name.' ';
-            foreach ($itemRule->rule->accessInterfaces as $accessInterface) {
-                if ($accessInterface->user_id == $userId && $accessInterface->status == 1) {
-                    $countUserAnswer++;
-
-                }
-            }
-        }
-        if ($countItemRule == $countUserAnswer) {
-            return true;
-        } else {
+        $itemInterface = ItemInterface::find()->where(['module' => $this->module, 'key' => $this->key])->one();
+        if (!isset($itemInterface)) {
             return false;
         }
-
+        $this->user = User::find()->where(['id' => \Yii::$app->id])->one();
+        $needBall = count($itemInterface->rank->getRules()->all());
+        $currentBall = count($this->user->getUserProfileRules()->all());
+        if ($needBall == $currentBall) {
+            return true;
+        }
+        return false;
     }
 
     public function init()
@@ -55,15 +43,18 @@ class WidgetAccess extends Widget
     public function run()
     {
         $content = ob_get_clean();
-        if ($this->isAccessible() == true) {
-            echo $content;
-        } else {
-            echo "Выполните задание:<br/>";
-            foreach ($this->rules as $rule){
-                echo "$rule <br/>";
+        if (!isset($this->user->userProfile)) {
+            if ($this->isAccessible() == true) {
+                echo $content;
+            } else {
+                echo "Выполните задание:<br/>";
+
+                echo "После откроется доступ";
             }
-            echo "После откроется доступ $this->accessName";
+        } else {
+            echo $content;
         }
+
     }
 
 }

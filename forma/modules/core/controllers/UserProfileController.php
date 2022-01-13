@@ -2,8 +2,11 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\Rank;
+use forma\modules\core\records\Rule;
 use forma\modules\core\records\User;
+use forma\modules\core\records\UserProfileRule;
 use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use forma\modules\core\records\UserProfile;
@@ -99,6 +102,30 @@ class UserProfileController extends Controller
     {
         $this->findModel($id)->delete();
         return $this->redirect(['/user-profile/userprofile/index']);
+    }
+
+    public function actionGenerateGame(){
+        $rankMasterCRM = new Rank();
+        $rankMasterCRM->name = 'Мастер в CRM модуле';
+        $rankMasterCRM->order = '2';
+        $rankMasterCRM->image = 'stol.png';
+        $rankMasterCRM->save();
+        $accessInterfaceCRM = Yii::$app->params['access-interface']['СRM'];
+        foreach ($accessInterfaceCRM as $key => $item){
+            $newItemInterface = new ItemInterface();
+            $newItemInterface->module ='CRM';
+            $newItemInterface->key =$key;
+            $newItemInterface->rank_id =$rankMasterCRM->id;
+            $newItemInterface->save();
+
+        }
+    }
+    public function actionCleanGame(){
+        UserProfileRule::deleteAll();
+        UserProfile::deleteAll();
+        Rule::deleteAll();
+        ItemInterface::deleteAll();
+        Rank::deleteAll();
     }
 
     /**
