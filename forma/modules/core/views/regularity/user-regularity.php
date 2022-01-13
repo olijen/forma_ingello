@@ -467,6 +467,59 @@ width: 100%;
 #modal .modal-dialog .modal-body iframe {
     height: 100%;
 }
+* {
+  margin:0;
+  padding:0;
+  font-family:"Helvetica Neue", Helvetica, Sans-serif;
+  word-spacing:-2px;
+}
+
+h1 {
+  font-size:40px;
+  font-weight:bold;
+  color:#191919;
+  -webkit-font-smoothing: antialiased;
+}
+
+h2 {
+  font-weight:normal;
+  font-size:20px;
+  color:#888;
+  padding:5px 0;
+}
+
+.message {
+background:#181818;
+color:#FFF;
+position: absolute;
+top: -250px;
+left: 0;
+width: 100%;
+height: 250px;
+padding: 20px;
+transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+overflow: hidden;
+box-sizing: border-box;
+  
+}
+
+.message h1 {
+  color:#FFF;
+}
+
+#toggle:checked ~ .message {
+  top: 0;
+}
+
+#toggle:checked ~ .container {
+  margin-top: 250px;
+}
+
+#toggle:checked + label {
+  background:#dd6149;
+}
+
+
 
 ');
 ?>
@@ -477,19 +530,30 @@ width: 100%;
             <div id="name_on_picture" style="">
                 <h2 class="h-text">Публичный регламент</h2>
             </div>
-
+            <input type="checkbox" name="toggle" id="toggle" style="display: none;" />
+            <label for="toggle"></label>
+            <div class="message"><h1> Ваш ранг: <?php echo \forma\modules\core\records\User::find()->where(['id'=>Yii::$app->user->id])->one()->userProfile->rank->name ?></h1>
+                <h2>Вы можете перейти по ссылке <a href="/core/user-profile">ПРОФИЛЬ</a></h2>
+            </div>
 
 
             <div class="navigator-pane" id="public_for_newUser" style=" justify-content: center; ">
-                <button class='btn btn-light' style="background-color: #F08080; color: white" onclick="window.location.href='/'"
+                <button class='btn btn-light' style="background-color: #F08080; color: white"
+                        onclick="window.location.href='/'"
                         style="margin-bottom: 20px;">
                     <i class="fas fa-ban" style="color: white; margin-right: 5px;"></i>
-                     Пропустить обучение
+                    Пропустить обучение
                 </button>
-                <button class='btn btn-light' style="background-color: #00a65a; color: white" onclick="public_for_newUser.style.display = 'none'; usualReglament.style.display = 'flex'"
+                <button class='btn btn-light' style="background-color: #00a65a; color: white"
+                        onclick="public_for_newUser.style.display = 'none'; usualReglament.style.display = 'flex'"
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
                     Продолжить обучение <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>
+                <?php if (isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile)) { ?>
+                    <button title="Профиль" class='btn btn-light' style="background-color:cadetblue; color: white" onclick="openProfile()">
+                        <i class="fas fa-user" style="color: white;"></i>
+                    </button>
+                <?php } ?>
             </div>
             <div class="navigator-pane" id="usualReglament" style=" justify-content: center; ">
                 <button class='btn btn-light navigator prev' id="prev_step" onclick="event.stopPropagation()"
@@ -504,6 +568,11 @@ width: 100%;
                         style="background-color: #3c8dbc; color: #fff;     margin-bottom: 20px;">
                     Вперед <i class="fas fa-arrow-right" style="color: white; margin-left: 5px"></i>
                 </button>
+                <?php if (isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile)) { ?>
+                    <button title="Профиль" class='btn btn-light' style="background-color:cadetblue; color: white" onclick="openProfile()">
+                        <i class="fas fa-user" style="color: white;"></i>
+                    </button>
+                <?php } ?>
             </div>
 
 
@@ -517,21 +586,6 @@ width: 100%;
                 <?php foreach ($regularities as $regularity): ?>
                     <?php
                     $countRegularityItem=0; $countRightRegularityItem =0;
-                    foreach ($regularity->items as $regularityItem) {
-                        foreach ($rulesData as $rulesDatum){
-                            if($rulesDatum->item_id == $regularityItem->id){
-                                $countRegularityItem++;
-                                foreach ($userData as $userDatum){
-                                    if($userDatum->rule_id == $rulesDatum->id && $userDatum->status ==1){
-                                        $countRightRegularityItem++;
-                                    }
-                                }
-                            }
-                        }
-
-
-                    }
-
                     ?>
                     <li class=" <?php if ($regularity->id == $regularities[0]->id) echo 'active'; ?> "
                         data-href="tab_regularity_<?= $regularity['id'] ?>">
@@ -579,9 +633,7 @@ width: 100%;
                             'regularity' => $regularity,
                             'items' => $items,
                             'subItems' => $subItems,
-                            'rulesData'=>$rulesData,
-                            'userData'=>$userData,
-                            'userDataIsNull'=>$userDataIsNull,
+                            'newUserReglament' => $newUserReglament,
 
                         ]) ?>
 
@@ -632,6 +684,9 @@ $this->registerJs($js);
 ?>
 
 <script>
+    function openProfile(){
+        $('#toggle').click();
+    }
     let newUserReglament = <?=$newUserReglament?>;
     console.log(newUserReglament);
     if (newUserReglament) {

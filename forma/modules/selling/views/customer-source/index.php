@@ -1,5 +1,6 @@
 <?php
 
+use forma\components\widgets\WidgetAccess;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use \wokster\ltewidgets\BoxWidget;
@@ -23,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]);
     ?>
-
+    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'grid customer source']) ?>
     <?php Pjax::begin(['id' => 'grid'])?>
-    
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <?php Pjax::end();?>
-
+    <?php WidgetAccess::end(); ?>
     <?php BoxWidget::end();?>
 
 

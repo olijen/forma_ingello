@@ -1,5 +1,6 @@
 <?php
 
+use forma\components\widgets\WidgetAccess;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 use forma\extensions\kartik\DynaGrid;
@@ -25,8 +26,12 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+        <?php WidgetAccess::begin(['module' => 'HRM', 'key' => 'button add customer customer'])?>
         <?= Html::a('<i class="fas fa-user-plus"></i> Создать клиента', ['create'], ['class' => 'btn btn-success forma_green']) ?>
+        <?php WidgetAccess::end(); ?>
+        <?php WidgetAccess::begin(['module' => 'HRM', 'key' => 'button add send link'])?>
         <?= Html::button('<i class="fas fa-envelope-open-text"></i> Подготовить рассылку', ['id' => 'preSend', 'class' => 'btn btn-success forma_green']) ?>
+        <?php WidgetAccess::end(); ?>
     </p>
 
 
@@ -177,6 +182,8 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
         }
     }
     ?>
+
+        <?php WidgetAccess::begin(['module' => 'HRM', 'key' => 'grid customer customer']) ?>
     <?= DynaGrid::widget([
         'allowSortSetting' => false,
         'showPersonalize' => true,
@@ -235,6 +242,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             ],
         ],
     ]); ?>
+        <?php WidgetAccess::end(); ?>
     <?php /* $grid = GridView::widget([
 
         'dataProvider' => $dataProvider,

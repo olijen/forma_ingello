@@ -3,12 +3,23 @@
 return [
     'access-interface' => [
         'HRM' => [
-            'selections delete button' => 'Кнопка массовго удаления',
-            'index' => 'Начальная страница'
+            'grid customer customer' => 'Таблица клиентов',
+            'button add customer customer' => 'Кнопка добавления нового клиента',
+            'button add send link' => 'Кнопка подготовки к рассылке',
         ],
         'СRM' => [
-            'selections delete button' => 'Кнопка массовго удаления',
-            'selling default page' => 'Начальная страница'
+            'button add selling main' => 'Кнопка добавления новой продажы в продажах клиентов',
+            'selling main' => 'Страница продажи клиентов',
+            'sort plan selling main' => 'Кнопка плана по продажам в продажах клиетов',
+            'settings selling state main' => 'Кнопка настройки состояния в продажах клиентов',
+            'button delete selections main' => 'Кнопка массового удаления в продажах клиентов',
+            'grid selling main' => 'Таблица вывода продаж клиентов',
+            'button add state main state' =>'Кнопка создания состояния',
+            'grid main state' =>'Таблица на вкладке состаяний',
+            'bs selling speech-module' =>'Блок стратегий',
+            'button add strategy' =>'Кнопка добавления стратегий',
+            'button edit strategy' =>'Кнопка обновления стратегий',
+            'grid customer source' =>'Таблица вывода источников клиентов',
         ],
         "ERP" =>[],
         "BOSS" =>[],
