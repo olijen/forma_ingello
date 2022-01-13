@@ -2,8 +2,15 @@
 
 use forma\modules\core\components\LinkHelper;
 use forma\modules\core\records\ItemInterface;
+use forma\modules\core\records\Rank;
+use forma\modules\core\records\Rule;
 use kartik\dialog\Dialog;
 use yii\bootstrap\Collapse;
+$rank_reward = ItemInterface::find()
+    ->with('rank')
+    ->all();
+$arr=[];
+
 
 $allDataRegularity = new \forma\modules\core\services\RegularityGameService($regularity->id);
 
@@ -79,6 +86,7 @@ if (isset($parentItem)) {
                                             <div class='progress xs'>
                                                 <div class='progress-bar progress-bar-green' style='" . "width:0%;" .
                                             "background-color:red;" . "' ></div>
+                                                
                                             </div>";
                                     } else {
                                         $sum = round(($tempCurrentBall / $rule["count_action"]) * 100);
@@ -95,7 +103,6 @@ if (isset($parentItem)) {
                                     }
 
 
-
                                 }
                             }
                         }
@@ -105,6 +112,20 @@ if (isset($parentItem)) {
 
             }
             ?>
+            <div>
+                <H1>Награда за ранги </H1>
+                <?php
+                foreach ($rank_reward as $key){
+                    $rank_name=($key->rank['name']);
+                    $reward = $key->key;
+                    echo "<table class='table table-borderless'>                          
+                      <td>$rank_name</td>
+                      <td>$reward</td>
+                    </table>";
+
+                }
+                ?>
+            </div>
         </div>
 
     </a>
