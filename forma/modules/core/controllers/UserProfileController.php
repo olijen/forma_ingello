@@ -2,11 +2,14 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\User;
 use Yii;
 use forma\modules\core\records\UserProfile;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -115,8 +118,20 @@ class UserProfileController extends Controller
         }
     }
 
-    public function getFilterChart()
+    public function actionGame()
     {
-        dd($_POST);
+        Yii::$app->response->cookies->add(new Cookie([
+            'name'=> 'user_game',
+            'value'=> 'game'
+        ]));
+
+        $model = new SignupForm();
+        $model->username= 'User game';
+        $model->email= 'user@game.game';
+        $model->password= '111111';
+        if ($model->signup(true)) {
+            return Yii::$app->response->redirect((['/core/regularity/regularity']));
+        }
+
     }
 }
