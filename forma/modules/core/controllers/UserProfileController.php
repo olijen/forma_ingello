@@ -2,6 +2,8 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\forms\SignupForm;
+use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
 use forma\modules\core\records\User;
