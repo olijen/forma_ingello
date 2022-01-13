@@ -21,7 +21,7 @@ class RuleSearch extends Rule
     {
         return [
             [['id', 'count_action', 'item_id'], 'integer'],
-            [['action', 'table', 'rule_name', 'item', 'icon', 'rank_id', 'link'], 'safe'],
+            [['action', 'table', 'rule_name', 'item', 'rank_id', 'link'], 'safe'],
         ];
     }
 
@@ -55,7 +55,6 @@ class RuleSearch extends Rule
                     'link',
                     'table',
                     'count_action',
-                    'icon',
                     'rank_id' => [
                         'asc' => ['rank.name' => SORT_ASC],
                         'desc' => ['rank.name' => SORT_DESC],

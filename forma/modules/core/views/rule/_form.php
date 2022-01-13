@@ -6,7 +6,15 @@ use kartik\form\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Rule */
 /* @var $form yii\widgets\ActiveForm */
-
+$this->params['icons'][] = $icons;
+$format = <<< SCRIPT
+function format(icon) {
+    let iconName = 'fa fa-'+icon.text;
+    return "<i style='padding-right: 5px; font-size: 20px;' class='"+iconName+"' ></i>"+icon.text+"";
+}
+SCRIPT;
+$escape = new \yii\web\JsExpression("function(m) { return m; }");
+$this->registerJs($format, \yii\web\View::POS_HEAD);
 if ($model->hasErrors()):
     \wokster\ltewidgets\BoxWidget::begin([
         'solid' => true,
@@ -47,7 +55,16 @@ endif;
     <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
         \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name')
     )->label('Ранг') ?>
-    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
+    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-6']])->widget(kartik\select2\Select2::className(), [
+        'data' => $icons,
+        'options' => ['placeholder' => 'Выберите валюту ...'],
+        'pluginOptions' => [
+            'templateResult' => new \yii\web\JsExpression('format'),
+            'templateSelection' => new \yii\web\JsExpression('format'),
+            'escapeMarkup' => $escape,
+            'allowClear' => true
+        ],
+    ])->label('Иконка') ?>
 
 
     <div class="col-xs-12 col-md-12">

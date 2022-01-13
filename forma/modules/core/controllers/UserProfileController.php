@@ -4,6 +4,7 @@ namespace forma\modules\core\controllers;
 
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\User;
+use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use forma\modules\core\records\UserProfile;
 use yii\web\Controller;
@@ -33,11 +34,13 @@ class UserProfileController extends Controller
     {
         $this->layout = 'public';
         $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
         if (!empty($currenUser)) {
             $ranks = Rank::find()->joinWith(['rules'])->all();
             return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
-                'currenUser' => $currenUser
+                'currenUser' => $currenUser,
+                'icons' => $icons
             ]);
         } else {
             return $this->redirect(['/core/user-profile/create']);
