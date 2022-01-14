@@ -72,9 +72,6 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
-        if (Yii::$app->request->cookies->has('user_game')){
-            Yii::$app->response->cookies->remove('user_game');
-        }
         $this->layout = 'public';
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
