@@ -114,7 +114,7 @@ class UserProfileController extends Controller
         $accessInterfaceCRM = Yii::$app->params['access-interface']['СRM'];
         foreach ($accessInterfaceCRM as $key => $item) {
             $newItemInterface = new ItemInterface();
-            $newItemInterface->module = 'CRM';
+            $newItemInterface->module = 'СRM';
             $newItemInterface->key = $key;
             $newItemInterface->rank_id = $rankMasterCRM->id;
             $newItemInterface->save();
