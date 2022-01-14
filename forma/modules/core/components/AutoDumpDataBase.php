@@ -159,6 +159,11 @@ class AutoDumpDataBase
 
     public function start()
     {
+        if (Yii::$app->request->cookies->getValue('user_game')) {
+            $this->regularity();
+
+        } else {
+
         $this->getAccessoryKeys();
         $this->workerVacancy();
         $this->state();
@@ -182,9 +187,9 @@ class AutoDumpDataBase
         $this->transit();
         $this->userWidget();
         $this->systemEvents();
+        }
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
-
         return true;
     }
 
