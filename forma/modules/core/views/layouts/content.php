@@ -5,6 +5,7 @@ use forma\components\widgets\ModalCreate;
  use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
+use \yii\web\JsExpression;
  $cookies = Yii::$app->request->cookies;
 ?>
  <style>
@@ -31,6 +32,7 @@ use yii\widgets\Breadcrumbs;
          z-index: -1;
      }
      .hover-info{
+         cursor: help;
          position: relative;
          display: block;
          width: 60px;
@@ -54,16 +56,31 @@ use yii\widgets\Breadcrumbs;
                 ],
             ]);
             $value = "";
-            $rule = \forma\modules\core\records\Rule::find()->where(['id' => $cookie->value])->one();
-
-            $value = "#Задание: ".(($rule->action ==='insert')?'Вставить':'')
-                                .(($rule->action ==='update')?'Обновить':'').(($rule->action ==='delete')?'Удалить':'')." данные из(для): 
-                                ".Yii::$app->params['translateTablesName'][$rule->table].", $rule->count_action зап. Ты справился!!!";
+            $rank = \forma\modules\core\records\Rank::find()->where(['id' => $cookie->value])->one();
+            $interfaceTemp = "Вы получили доступ к таким элементам: ";
+            $arrayKey = [];
+            foreach ($rank->itemInterfaces as $itemInterface) {
+                $allInterfaces = \Yii::$app->params['access-interface'][$itemInterface->module];
+                foreach ($allInterfaces as $key => $interface) {
+                    if ($key == $itemInterface->key) {
+                        $interfaceTemp .= $interface . '; ';
+                        $str = str_replace(' ', '-', $itemInterface->key);
+                        $arrayKey [] = $str;
+                    }
+                }
+            }
+            $value = '#Задание: Ты справился ' . $interfaceTemp . '!!!';
             echo $value;
             Alert::end();
             Yii::$app->response->cookies->remove('event');
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'array-pulsate',
+                'value' => $arrayKey,
+            ]));
 
         endif; ?>
+
         <section class="content">
             <?= $content ?>
         </section>

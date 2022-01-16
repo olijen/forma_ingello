@@ -162,10 +162,32 @@ class UserProfileController extends Controller
         }
     }
 
+    public function actionResetCookie()
+    {
+        if (($cookie = Yii::$app->request->cookies->get('array-pulsate')) !== null) {
+            Yii::debug($cookie->value);
+            $newArrayCookie = [];
+            $delete = '';
+            foreach ($cookie->value as $item) {
+                if ($item != Yii::$app->request->post('key')) {
+                    $newArrayCookie [] = $item;
+                } else {
+                    $delete = $item;
+                }
+            }
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'array-pulsate',
+                'value' => $newArrayCookie,
+            ]));
+            return json_encode($delete);
+        }
+    }
+
     public function actionGame()
     {
         Yii::$app->response->cookies->add(new Cookie([
-            'name'=> 'user_game',
+            'name' => 'user_game',
             'value'=> 'game'
         ]));
 

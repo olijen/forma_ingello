@@ -69,44 +69,42 @@ class EventUserProfileService
             $newUserProfileRule->user_id = self::getUserProfile()->id;
             $newUserProfileRule->date = $currentDate;
             $newUserProfileRule->save();
+            $countRule++;
         }
 
-        if ($rule->count_action >= $countRule) {
-            $countCurrentBall = 0;
-            $needCountBall = count($newRank->rules);
-            foreach ($newRank->rules as $itemRule) {
-                $countUserProfileRule = 0;
-                foreach (self::getUserProfile()->userProfileRules as $userProfileRule) {
-                    if ($userProfileRule->rule_id == $itemRule->id) {
-                        $countUserProfileRule++;
-                    }
-                }
-                if ($itemRule->count_action == $countUserProfileRule) {
-                    $countCurrentBall++;
+        $countCurrentBall = 0;
+        $needCountBall = count($newRank->rules);
+
+        foreach ($newRank->rules as $itemRule) {
+            if ($itemRule->count_action == $countRule) {
+                $countCurrentBall++;
+            }
+        }
+
+        if ($needCountBall == $countCurrentBall) {
+            if(!isset($currentRank)){
+                self::getUserProfile()->userProfile->rank_id = $newRank->id;
+                if (self::getUserProfile()->userProfile->save()) {
+                    $this->setCookieSystemEvent('event', $newRank->id);
+                    return true;
                 }
             }
-            if ($countCurrentBall <= $needCountBall) {
-                if ($countCurrentBall == $needCountBall) {
-                    $this->setCookieSystemEvent('event', $rule->id);
-                }
-                if (empty(self::getUserProfile()->userProfile->rank)) {
+            if (isset(self::getUserProfile()->userProfile->rank)) {
+                if ($newRank->order > $currentRank->order) {
                     self::getUserProfile()->userProfile->rank_id = $newRank->id;
                     if (self::getUserProfile()->userProfile->save()) {
+                        $this->setCookieSystemEvent('event', $newRank->id);
                         return true;
                     }
-                }
-                if (isset($currentRank)) {
-                    if ($newRank->order > $currentRank->order) {
-                        self::getUserProfile()->userProfile->rank_id = $newRank->id;
-                        if (self::getUserProfile()->userProfile->save()) {
-                            return true;
-                        }
-                    }
+                }else{
+                    return true;
                 }
             }
         }
     }
-    public function setCookieSystemEvent(string $name,int $rule_id){
+
+    public function setCookieSystemEvent(string $name, int $rule_id)
+    {
         $cookies = Yii::$app->response->cookies;
         $cookies->add(new \yii\web\Cookie([
             'name' => $name,

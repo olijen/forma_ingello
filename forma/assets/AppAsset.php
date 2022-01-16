@@ -26,6 +26,7 @@ class AppAsset extends AssetBundle
 
         'js/perfection.js',
         'js/plugins/jquery.fullscreen.js',
+        'js/jquery.pulsate.js',
 
         ['js/SelectModal.js', 'position' => View::POS_END]
     ];
