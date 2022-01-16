@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
@@ -10,7 +11,9 @@ use forma\modules\core\records\UserProfileRule;
 use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use forma\modules\core\records\UserProfile;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -114,7 +117,7 @@ class UserProfileController extends Controller
         $accessInterfaceCRM = Yii::$app->params['access-interface']['СRM'];
         foreach ($accessInterfaceCRM as $key => $item) {
             $newItemInterface = new ItemInterface();
-            $newItemInterface->module = 'CRM';
+            $newItemInterface->module = 'СRM';
             $newItemInterface->key = $key;
             $newItemInterface->rank_id = $rankMasterCRM->id;
             $newItemInterface->save();
@@ -157,5 +160,44 @@ class UserProfileController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionResetCookie()
+    {
+        if (($cookie = Yii::$app->request->cookies->get('array-pulsate')) !== null) {
+            Yii::debug($cookie->value);
+            $newArrayCookie = [];
+            $delete = '';
+            foreach ($cookie->value as $item) {
+                if ($item != Yii::$app->request->post('key')) {
+                    $newArrayCookie [] = $item;
+                } else {
+                    $delete = $item;
+                }
+            }
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'array-pulsate',
+                'value' => $newArrayCookie,
+            ]));
+            return json_encode($delete);
+        }
+    }
+
+    public function actionGame()
+    {
+        Yii::$app->response->cookies->add(new Cookie([
+            'name' => 'user_game',
+            'value'=> 'game'
+        ]));
+
+        $model = new SignupForm();
+        $model->username= 'User game';
+        $model->email= 'user@game.game';
+        $model->password= '111111';
+        if ($model->signup(true)) {
+            return Yii::$app->response->redirect((['/core/regularity/regularity']));
+        }
+
     }
 }

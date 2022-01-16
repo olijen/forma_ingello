@@ -100,7 +100,7 @@ class DefaultController extends Controller
                 }
             }
             //TODO можно изменить на более правильный метод (сейчас топорный)
-            if (isset($_GET['without-header']) || isset($params['userId'])){
+            if (isset($_GET['without-header']) || isset($params['userId']) ){
             return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
             }
             return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));

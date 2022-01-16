@@ -42,7 +42,8 @@ class ItemInterface extends \yii\db\ActiveRecord
   {
     return [
             [['rank_id'], 'integer'],
-            [['module', 'key'], 'string']
+            [['module', 'key'], 'string'],
+            [['module', 'key'], 'safe']
         ];
   }
 

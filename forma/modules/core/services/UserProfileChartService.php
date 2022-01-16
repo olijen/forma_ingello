@@ -42,8 +42,9 @@ class UserProfileChartService
         $dateForCount = $this->getDateForCount();
         $dates = '';
         foreach ($dateForCount as $date => $count) {
+            setlocale(LC_TIME, "C");
 
-            $dates .= '\'' . $date . '\',';
+            $dates .= '\'' . $date . '\',' . ',\'' . strftime("%A+1 days") . '\',';
         }
         return $dates;
 
