@@ -42,6 +42,8 @@ class ItemInterfaceController extends Controller
     }
 
     /**
+     *
+     *
      * Displays a single ItemInterface model.
      * @param integer $id
      * @return mixed
