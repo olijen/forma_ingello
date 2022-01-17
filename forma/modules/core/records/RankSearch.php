@@ -19,7 +19,7 @@ class RankSearch extends Rank
     {
         return [
             [['id', 'order'], 'integer'],
-            [['name', 'image'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -46,6 +46,12 @@ class RankSearch extends Rank
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'name',
+                    'order'
+                ],
+            ]
         ]);
 
         $this->load($params);
@@ -61,8 +67,7 @@ class RankSearch extends Rank
             'order' => $this->order,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'image', $this->image]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

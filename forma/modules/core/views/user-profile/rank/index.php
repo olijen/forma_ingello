@@ -29,10 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
             ],
-
-            'id',
             'name:ntext',
-            'image:ntext',
+            [
+                'attribute' => 'image',
+                'label' => 'Изображение',
+                'format' => 'raw',
+                'contentOptions' => ['style'=>'text-align: center;'],
+                'value' => function ($model) {
+                    if(!isset($model->image)){
+                        return null;
+                    }
+                    return "<img style='height: 100px; width: 50px;' src='/img/user-profile/$model->image'";
+                }
+                ,
+
+            ],
             'order',
 
         ],
