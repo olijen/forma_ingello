@@ -42,7 +42,7 @@ use \yii\web\JsExpression;
          background: rgb(0, 9, 255);
          border-radius: 50%;
          font-size: 30px;
-         color: #6186af;
+         color: #ffffff;
          transition: .5s;
          margin: 5px;
      }
