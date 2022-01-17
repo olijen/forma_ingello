@@ -50,10 +50,10 @@ class Rank extends AccessoryActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'image' => 'Image',
-            'imageFile' => 'Image',
-            'order' => 'Order',
+            'name' => 'Имя',
+            'image' => 'Картинка',
+            'imageFile' => 'Имя файла',
+            'order' => 'Приоритет',
         ];
     }
 

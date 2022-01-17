@@ -53,7 +53,6 @@ class EventUserProfileService
 
     public function setEvent(Rule $rule)
     {
-        $newRank = $this->getNewRank($rule);
         $currentRank = $this->getCurrenRank();
         $currentDate = date('Y-m-d');
         $countRule = 0;
@@ -63,26 +62,24 @@ class EventUserProfileService
                 $countRule++;
             }
         }
+
         if ($rule->count_action > $countRule) {
             $newUserProfileRule = new UserProfileRule();
             $newUserProfileRule->rule_id = $rule->id;
             $newUserProfileRule->user_id = self::getUserProfile()->id;
             $newUserProfileRule->date = $currentDate;
             $newUserProfileRule->save();
-            $countRule++;
         }
-
+        $newRank = $this->getNewRank($rule);
         $countCurrentBall = 0;
         $needCountBall = count($newRank->rules);
-
         foreach ($newRank->rules as $itemRule) {
-            if ($itemRule->count_action == $countRule) {
+            if ($itemRule->count_action == count($itemRule->userProfileRules)) {
                 $countCurrentBall++;
             }
         }
-
         if ($needCountBall == $countCurrentBall) {
-            if(!isset($currentRank)){
+            if (!isset($currentRank)) {
                 self::getUserProfile()->userProfile->rank_id = $newRank->id;
                 if (self::getUserProfile()->userProfile->save()) {
                     $this->setCookieSystemEvent('event', $newRank->id);
@@ -96,7 +93,7 @@ class EventUserProfileService
                         $this->setCookieSystemEvent('event', $newRank->id);
                         return true;
                     }
-                }else{
+                } else {
                     return true;
                 }
             }

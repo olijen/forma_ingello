@@ -77,10 +77,11 @@ use \yii\web\JsExpression;
             $cookies->add(new \yii\web\Cookie([
                 'name' => 'array-pulsate',
                 'value' => $arrayKey,
+
             ]));
 
         endif; ?>
-
+        <a href="/core/user-profile">ПРОФИЛЬ</a>
         <section class="content">
             <?= $content ?>
         </section>
