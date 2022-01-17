@@ -81,7 +81,7 @@ class WidgetAccess extends Widget
             if ($this->isAccessible() == true) {
                 echo $spanElement;
             } else {
-                echo "<br/><div class='hover-info' title='Выполните задание: $this->rules. После откроется доступ: $this->interface'><i class='fa fa-info '></i><br/></div>";
+                echo "<br/><div style='display: inline-block' class='hover-info' title='Выполните задание: $this->rules. После откроется доступ: $this->interface'><i class='fa fa-info '></i><br/></div>";
             }
         } else {
             echo $spanElement;

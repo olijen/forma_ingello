@@ -1,6 +1,15 @@
 <script>
     <?=$this->renderFile('@app/web/js/time-line.js');?>
 </script>
+<?php
+if (isset($_COOKIE['user_game'])) { ?>
+<script>
+    alert('Ваше имя : <?php echo $_SESSION['userName'] ?> . E-mail : <?php echo $_SESSION['email'] ?>. Пароль: <?php echo $_SESSION['password'] ?> ')
+</script>';
+<?php } ?>
+
+
+
 
 
 <?php

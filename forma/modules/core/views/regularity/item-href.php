@@ -2,6 +2,8 @@
 
 use forma\modules\core\components\LinkHelper;
 use forma\modules\core\records\ItemInterface;
+use forma\modules\core\records\Rank;
+use forma\modules\core\records\Rule;
 use kartik\dialog\Dialog;
 use yii\bootstrap\Collapse;
 
@@ -79,6 +81,7 @@ if (isset($parentItem)) {
                                             <div class='progress xs'>
                                                 <div class='progress-bar progress-bar-green' style='" . "width:0%;" .
                                             "background-color:red;" . "' ></div>
+                                                
                                             </div>";
                                     } else {
                                         $sum = round(($tempCurrentBall / $rule["count_action"]) * 100);
@@ -93,12 +96,14 @@ if (isset($parentItem)) {
                                                 : "background-color:red;") . "' ></div>
                                             </div>";
                                     }
-
-
-
                                 }
                             }
+                            echo "<h1>Награды за выполнение заданий:</h1>";
+                            foreach ($allDataRegularity->getGrantInterfaceByRankId($allDataRegularity->getRanks()[0]['id']) as $interface) {
+                                echo "<br />$interface <br />";
+                            }
                         }
+
                     }
                     echo " </div>";
                 }

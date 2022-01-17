@@ -186,17 +186,25 @@ class UserProfileController extends Controller
 
     public function actionGame()
     {
-        Yii::$app->response->cookies->add(new Cookie([
-            'name' => 'user_game',
-            'value'=> 'game'
-        ]));
+        if (empty($_COOKIE['user_game'])) {
+            $model = new SignupForm();
+            Yii::$app->response->cookies->add(new Cookie([
+                'name' => 'user_game',
+                'value' => 'game' . random_int(0, 999999)
+            ]));
 
-        $model = new SignupForm();
-        $model->username= 'User game';
-        $model->email= 'user@game.game';
-        $model->password= '111111';
-        if ($model->signup(true)) {
-            return Yii::$app->response->redirect((['/core/regularity/regularity']));
+            $userName = $model->username = 'User game';
+            $email = $model->email = random_int(0, 999999) . 'user@game.game';
+            $password = $model->password = random_int(0, 999999) . '111111';
+            $session = Yii::$app->session;
+            $session->set('userName', "$userName");
+            $session->set('email', "$email");
+            $session->set('password', "$password");
+            if ($model->signup()) {
+                return $this->goHome();
+            }
+        } else {
+            return $this->redirect((['/core/regularity/regularity']));
         }
 
     }

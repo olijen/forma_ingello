@@ -3,7 +3,6 @@
 namespace forma\modules\core\controllers;
 
 
-use forma\modules\core\records\AccessInterface;
 use forma\modules\core\records\Item;
 use forma\modules\core\records\ItemQuery;
 use forma\modules\core\records\RegularityQuery;
@@ -72,9 +71,7 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
-        if (Yii::$app->request->cookies->has('user_game')){
-            Yii::$app->response->cookies->remove('user_game');
-        }
+
         $this->layout = 'public';
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
@@ -203,4 +200,5 @@ class RegularityController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
