@@ -12,15 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-interface-create">
 
-    <?php BoxWidget::begin([
-    'title'=>'Интерфейс: форма добавления',
-    ]);
-    ?>
+
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
-    <?php BoxWidget::end();?>
 
 </div>

@@ -54,9 +54,9 @@ class ItemInterface extends \yii\db\ActiveRecord
   {
     return [
         'id' => 'ID',
-        'rank_id' => 'Rank ID',
-        'module' => 'Module',
-        'key' => 'Key',
+        'rank_id' => 'Номер Ранга',
+        'module' => 'Модуль',
+        'key' => 'Ключ',
     ];
   }
 
