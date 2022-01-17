@@ -35,7 +35,7 @@ class ItemInterfaceController extends Controller
         $searchModel = new ItemInterfaceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('/user-profile/item-interface/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -48,7 +48,7 @@ class ItemInterfaceController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('/user-profile/item-interface/view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -64,9 +64,9 @@ class ItemInterfaceController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user-profile/item-interface/view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('/user-profile/item-interface/create', [
                 'model' => $model,
             ]);
         }
@@ -85,7 +85,7 @@ class ItemInterfaceController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('/user-profile/item-interface/update', [
                 'model' => $model,
             ]);
         }
@@ -101,7 +101,7 @@ class ItemInterfaceController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/user-profile/item-interface/index']);
     }
 
     /**
