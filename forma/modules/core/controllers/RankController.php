@@ -54,7 +54,7 @@ class RankController extends Controller
 
         if (Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            $imageName = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+            $imageName = $model->imageFile->baseName . '.' .time() . date('Y-m-d') . '.' . $model->imageFile->extension;
             if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
                 $model->load(Yii::$app->request->post());
                 $model->image = $imageName;
@@ -88,7 +88,7 @@ class RankController extends Controller
                     unlink('./img/user-profile/' . $model->image);
                 }
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                $imageName = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                $imageName = $model->imageFile->baseName . '.' . time() . date('Y-m-d') . '.' .$model->imageFile->extension;
                 if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
                     $model->image = $imageName;
                 }

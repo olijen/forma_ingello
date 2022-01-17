@@ -37,5 +37,6 @@ endif;
             <?= Html::submitButton($model->isNewRecord ? 'Создать игровой профиль' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
+
     <?php ActiveForm::end(); ?>
 </div>
