@@ -72,7 +72,7 @@ class UserProfileController extends Controller
                 $model->image = $fileName;
                 $model->user_id = Yii::$app->user->id;
                 if ($model->save()) {
-                    return $this->redirect(['/user-profile/userprofile/view', 'id' => $model->id]);
+                    return $this->redirect('/core/user-profile/');
                 }
             }
         } else {
