@@ -11,6 +11,8 @@ use function Clue\StreamFilter\fun;
 
 class WidgetAccess extends Widget
 {
+
+
     public $module;
     public $key;
     public $rules;
