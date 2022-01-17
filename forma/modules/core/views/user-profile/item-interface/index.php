@@ -24,14 +24,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'rank_id',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
+            [
+                'attribute' => 'rank_id',
+                'value' => 'rank.name',
+                'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name'),
+            ],
             'module:ntext',
-            'key:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'key',
+                'value' => function ($model) {
+                    $params = Yii::$app->params['access-interface'];
+                    return $params[$model->module][$model->key];
+                },
+            ],
         ],
     ]); ?>
 

@@ -18,8 +18,7 @@ class ItemInterfaceSearch extends ItemInterface
     public function rules()
     {
         return [
-            [['id', 'rank_id'], 'integer'],
-            [['module', 'key'], 'safe'],
+            [['id'], 'integer'],
         ];
     }
 
@@ -45,6 +44,14 @@ class ItemInterfaceSearch extends ItemInterface
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    null,
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);

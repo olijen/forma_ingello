@@ -52,12 +52,12 @@ class ItemInterface extends \yii\db\ActiveRecord
   */
   public function attributeLabels()
   {
-    return [
-        'id' => 'ID',
-        'rank_id' => 'Номер Ранга',
-        'module' => 'Модуль',
-        'key' => 'Ключ',
-    ];
+      return [
+          'id' => 'ID',
+          'rank_id' => 'Ранг',
+          'module' => 'Модуль',
+          'key' => 'Интерфейс',
+      ];
   }
 
   /**
