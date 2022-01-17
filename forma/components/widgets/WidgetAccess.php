@@ -77,14 +77,14 @@ class WidgetAccess extends Widget
         $content = ob_get_clean();
         $str = str_replace(' ', '-', $this->key);
         $spanElement = "<div style='display: inline-block;'  id ='$str'>$content</div>";
-        if (!isset($this->user->userProfile)) {
+        if (isset(User::find()->where(['id' => \Yii::$app->user->id])->one()->userProfile)) {
             if ($this->isAccessible() == true) {
                 echo $spanElement;
             } else {
                 echo "<br/><div style='display: inline-block' class='hover-info' title='Выполните задание: $this->rules. После откроется доступ: $this->interface'><i class='fa fa-info '></i><br/></div>";
             }
         } else {
-            echo $spanElement;
+            echo $content;
         }
 
     }
