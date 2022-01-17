@@ -10,6 +10,7 @@ class UserProfileChartService
 {
     public function getDateForCount()
     {
+        de();
         $date = strtotime('monday this week');
         $dates = [];
         for ($i = 1; $i < 8; $i++) {
@@ -17,7 +18,7 @@ class UserProfileChartService
             $date = strtotime('+1 day', $date);
         }
         $user = User::find()->where(['id'=>Yii::$app->user->id])->one();
-        $count = UserProfileRule::find()->where(['user_id' => $user->id])
+        $count = UserProfileRule::find()->where(['user_id' => $user->id,'date', "$dateFrom", "$dateTo" ])
             ->select(['date,count(*) as countRule'])
             ->groupBy('date')
             ->asArray()
