@@ -7,19 +7,19 @@ use kartik\form\ActiveForm;
 /* @var $model forma\modules\core\records\ItemInterface */
 /* @var $form yii\widgets\ActiveForm */
 
-if ($model->hasErrors()):
-    \wokster\ltewidgets\BoxWidget::begin([
-        'solid' => true,
-        'color' => 'danger',
-        'title' => 'Ошибки валидации',
-        'close' => true,
-    ]);
-    $error_data = $model->firstErrors;
-    echo \yii\widgets\DetailView::widget([
-        'model' => $error_data,
-        'attributes' => array_keys($error_data)
-    ]);
-    \wokster\ltewidgets\BoxWidget::end();
+if($model->hasErrors()):
+\wokster\ltewidgets\BoxWidget::begin([
+'solid'=>true,
+'color'=>'danger',
+'title'=>'Ошибки валидации',
+'close'=> true,
+]);
+$error_data = $model->firstErrors;
+echo \yii\widgets\DetailView::widget([
+'model'=>$error_data,
+'attributes'=>array_keys($error_data)
+]);
+\wokster\ltewidgets\BoxWidget::end();
 endif;
 
 ?>
@@ -28,15 +28,17 @@ endif;
 
     <?php $form = ActiveForm::begin([
     ]); ?>
-    <?= $form->field($model, 'name_item', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'rank_id',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
-    <?= $form->field($model, 'id_item', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+            <?= $form->field($model, 'module',['options'=>['class'=>'col-xs-12']])->textInput() ?>
+
+            <?= $form->field($model, 'key',['options'=>['class'=>'col-xs-12']])->textInput() ?>
 
 
-    <div class="col-xs-12 col-md-12">
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="col-xs-12 col-md-12">
+            <div class="form-group">
+                <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
         </div>
-    </div>
     <?php ActiveForm::end(); ?>
 </div>

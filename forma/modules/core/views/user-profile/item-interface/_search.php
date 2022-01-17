@@ -23,11 +23,15 @@ use yii\widgets\ActiveForm;
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'name_item') ?>
+   <?= $form->field($model, 'rank_id') ?>
 </div>
 
 <div class="col-xs-3">
-   <?= $form->field($model, 'id_item') ?>
+   <?= $form->field($model, 'module') ?>
+</div>
+
+<div class="col-xs-3">
+   <?= $form->field($model, 'key') ?>
 </div>
 
 <div class="form-group col-xs-12">
