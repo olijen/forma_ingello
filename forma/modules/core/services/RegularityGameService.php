@@ -141,4 +141,13 @@ class RegularityGameService
         }
         $this->userProfileRules = $userProfileRules;
     }
+    public function getGrantInterfaceByRankId($id){
+        $params = Yii::$app->params['access-interface'];
+        $arrayGrantInterface = [];
+        $rank = Rank::find()->where(['id'=>$id])->one();
+        foreach ($rank->itemInterfaces as $itemInterface){
+            $arrayGrantInterface [] = $params[$itemInterface->module][$itemInterface->key];
+        }
+        return $arrayGrantInterface;
+    }
 }
