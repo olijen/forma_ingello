@@ -60,11 +60,12 @@ class ItemInterfaceController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new ItemInterface();
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/user-profile/item-interface/view', 'id' => $model->id]);
+            return $this->redirect('/core/item-interface');
         } else {
             return $this->render('/user-profile/item-interface/create', [
                 'model' => $model,
