@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel forma\modules\core\records\ItemInterfaceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Элементы Интерфейса';
+$this->title = 'Интерфейсы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-interface-index">
@@ -17,9 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
     <?php BoxWidget::begin([
-        'title'=>'Элемент Интерфейса <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
+        'title'=>'Интерфейс <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
         'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Элемент Интерфейса']]
+            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Интерфейс']]
         ]
     ]);
     ?>
@@ -33,8 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'name_item',
-            'id_item',
+            'rank_id',
+            'module:ntext',
+            'key:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
@@ -43,6 +44,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end();?>
 
     <?php BoxWidget::end();?>
-
 
 </div>
