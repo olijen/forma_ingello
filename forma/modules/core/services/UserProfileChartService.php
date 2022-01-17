@@ -10,7 +10,7 @@ class UserProfileChartService
 {
     public function getDateForCount()
     {
-        de();
+        de($_POST);
         $date = strtotime('monday this week');
         $dates = [];
         for ($i = 1; $i < 8; $i++) {
@@ -18,11 +18,12 @@ class UserProfileChartService
             $date = strtotime('+1 day', $date);
         }
         $user = User::find()->where(['id'=>Yii::$app->user->id])->one();
-        $count = UserProfileRule::find()->where(['user_id' => $user->id,'date', "$dateFrom", "$dateTo" ])
+        $count = UserProfileRule::find()->where(['user_id' => $user->id])
             ->select(['date,count(*) as countRule'])
             ->groupBy('date')
             ->asArray()
             ->all();
+//        de($count);
 
         $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
 
@@ -44,6 +45,7 @@ class UserProfileChartService
         $dates = '';
         foreach ($dateForCount as $date => $count) {
             setlocale(LC_TIME, "C");
+
             $dates .= '\'' . $date . '\',' . ',\'' . strftime("%A+1 days") . '\',';
         }
         return $dates;
