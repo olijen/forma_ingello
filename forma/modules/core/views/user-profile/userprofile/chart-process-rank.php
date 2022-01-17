@@ -21,7 +21,7 @@ $userProfileChart = new UserProfileChartService();
             'id' => 'login-form',
             'options' => ['class' => 'form-horizontal'],
             'method' => 'POST',
-            'action' => '/user-profile/userprofile/get-filter-chart'
+            'action' => '/user-profile/userprofile/filter-chart'
         ]) ;
 
 
@@ -81,7 +81,7 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ["ВС","СБ","ПТ","ЧТ","СР","ВТ","СБ"],
+            labels: ["ВС","СБ","ПТ","ЧТ","СР","ВТ","ПН"],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',

@@ -208,4 +208,9 @@ class UserProfileController extends Controller
         }
 
     }
+
+    public function actionFilterChart()
+    {
+        de($_POST);
+    }
 }
