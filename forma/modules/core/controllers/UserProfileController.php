@@ -65,11 +65,18 @@ class UserProfileController extends Controller
         $modelUpload = new UserProfile();
         $model = new UserProfile();
         if (Yii::$app->request->isPost) {
-            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
-            $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
-            if ($modelUpload->imageFile
-                ->saveAs('./img/user-profile/' . $fileName)) {
-                $model->image = $fileName;
+            if (isset($modelUpload->imageFile)) {
+                $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
+                $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
+                if ($modelUpload->imageFile
+                    ->saveAs('./img/user-profile/' . $fileName)) {
+                    $model->image = $fileName;
+                    $model->user_id = Yii::$app->user->id;
+                    if ($model->save()) {
+                        return $this->redirect('/core/user-profile/');
+                    }
+                }
+            } else {
                 $model->user_id = Yii::$app->user->id;
                 if ($model->save()) {
                     return $this->redirect('/core/user-profile/');

@@ -29,9 +29,20 @@ endif;
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
-    <div class="custom-file">
-        <?= $form->field($model, 'imageFile', ['options' => ['class' => 'col-xs-12']])->fileInput() ?>
-    </div>
+    <?php if (!$model->isNewRecord) { ?>
+        <?= $form->field($model, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+            'pluginOptions' => [
+                'initialPreview' => \yii\helpers\Url::to(["/img/user-profile/{$model->image}"]),
+                'initialPreviewAsData' => true,
+            ],
+        ]); ?>
+    <?php } else { ?>
+        <?= $form->field($model, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+        ]); ?>
+    <?php } ?>
+
     <div class="col-xs-12 col-md-12">
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Создать игровой профиль' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

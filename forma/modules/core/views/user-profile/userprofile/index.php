@@ -93,7 +93,7 @@ else
                             Профиль
                         </h3>
                         <div class="box-tools pull-right">
-                            <a href="/core/user-profile/update/?id=<?= $currenUser->id ?>"
+                            <a href="/core/user-profile/update/?id=<?= $currenUser->userProfile->id ?>"
                                class="btn btn-success forma_green"> <i class="fa fa-edit"></i> Обновить профиль </a>
                         </div>
                     </div>
