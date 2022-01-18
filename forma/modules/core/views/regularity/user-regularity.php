@@ -545,7 +545,9 @@ box-sizing: border-box;
             <label for="toggle"></label>
 
             <div class="message"><h1> Ваш
-                    ранг: <?php echo isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile->rank)?\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile->rank->name :'у вас еще нет ранга' ?></h1>
+                    ранг: <?php echo isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])
+                            ->one()->userProfile->rank)?\forma\modules\core\records\User::find()
+                        ->where(['id' => Yii::$app->user->id])->one()->userProfile->rank->name :' нет ранга' ?></h1>
                 <h2>Вы можете перейти по ссылке <a href="/core/user-profile">ПРОФИЛЬ</a></h2>
             </div>
 
