@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -14,7 +15,7 @@ use Yii;
   *
       * @property Rank $rank
   */
-class ItemInterface extends \yii\db\ActiveRecord
+class ItemInterface extends AccessoryActiveRecord
 {
 
 

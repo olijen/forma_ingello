@@ -3,6 +3,7 @@
 namespace forma\modules\core\controllers;
 
 use forma\modules\core\forms\SignupForm;
+use forma\modules\core\records\Accessory;
 use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
@@ -42,7 +43,7 @@ class UserProfileController extends Controller
         $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
         $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if (!empty($currenUser)) {
-            $ranks = Rank::find()->joinWith(['rules'])->all();
+            $ranks = Rank::find()->joinWith(['rules'])->allAccessory();
             return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
                 'currenUser' => $currenUser,
@@ -120,45 +121,6 @@ class UserProfileController extends Controller
         return $this->redirect(['/core/userprofile/index']);
     }
 
-    public function actionGenerateGame()
-    {
-        $rankMasterCRM = new Rank();
-        $rankMasterCRM->name = 'Мастер в CRM модуле';
-        $rankMasterCRM->order = '2';
-        $rankMasterCRM->image = 'stol.png';
-        $rankMasterCRM->save();
-        $accessInterfaceCRM = Yii::$app->params['access-interface']['СRM'];
-        foreach ($accessInterfaceCRM as $key => $item) {
-            $newItemInterface = new ItemInterface();
-            $newItemInterface->module = 'СRM';
-            $newItemInterface->key = $key;
-            $newItemInterface->rank_id = $rankMasterCRM->id;
-            $newItemInterface->save();
-        }
-        $rankMasterHRM = new Rank();
-        $rankMasterHRM->name = 'Мастер в HRM модуле';
-        $rankMasterHRM->order = '1';
-        $rankMasterHRM->image = 'stol.png';
-        $rankMasterHRM->save();;
-        $accessInterfaceHRM = Yii::$app->params['access-interface']['HRM'];
-        foreach ($accessInterfaceHRM as $key => $item) {
-            $newItemInterface = new ItemInterface();
-            $newItemInterface->module = 'HRM';
-            $newItemInterface->key = $key;
-            $newItemInterface->rank_id = isset($rankMasterHRM->id) ? $rankMasterHRM->id : null;
-            $newItemInterface->save();
-        }
-    }
-
-    public function actionCleanGame()
-    {
-        UserProfileRule::deleteAll();
-        UserProfile::deleteAll();
-        Rule::deleteAll();
-        ItemInterface::deleteAll();
-        Rank::deleteAll();
-    }
-
     /**
      * Finds the UserProfile model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -197,29 +159,25 @@ class UserProfileController extends Controller
         }
     }
 
-    public function actionGame()
+    public function actionCreateGameProfile()
     {
-        if (empty($_COOKIE['user_game'])) {
-            $model = new SignupForm();
-            Yii::$app->response->cookies->add(new Cookie([
-                'name' => 'user_game',
-                'value' => 'game' . random_int(0, 999999)
+        $model = new SignupForm();
+        $model->username = 'Game profile';
+        $model->email = random_int(0, 999999) . 'game@game.game';
+        $model->password = random_int(0, 999999) . '111111';
+        $infoProfile = 'Логин: ' . $model->email . '; Пароль: ' . $model->password;
+        if ($model->signup()) {
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'info-profile',
+                'value' => $infoProfile,
             ]));
-
-            $userName = $model->username = 'User game';
-            $email = $model->email = random_int(0, 999999) . 'user@game.game';
-            $password = $model->password = random_int(0, 999999) . '111111';
-            $session = Yii::$app->session;
-            $session->set('userName', "$userName");
-            $session->set('email', "$email");
-            $session->set('password', "$password");
-            if ($model->signup()) {
+            $userProfile = new UserProfile();
+            $userProfile->user_id = Yii::$app->user->identity->getId();
+            if ($userProfile->save()) {
                 return $this->goHome();
             }
-        } else {
-            return $this->redirect((['/core/regularity/regularity']));
         }
-
     }
 
     public function actionFilterChart()

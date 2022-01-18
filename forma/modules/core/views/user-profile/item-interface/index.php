@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'rank_id',
                 'value' => 'rank.name',
-                'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name'),
+                'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->allAccessory(), 'id', 'name'),
             ],
             'module:ntext',
             [

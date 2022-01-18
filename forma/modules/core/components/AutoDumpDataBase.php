@@ -39,6 +39,20 @@ class AutoDumpDataBase
         return $productIds;
     }
 
+    //возвращаем id рангов из accessory
+    public function getOldAccessoryRanks()
+    {
+        $productIds = [];
+        $arrayModels = Accessory::find()->where(['user_id' => 1])
+            ->andWhere(['like', 'entity_class', ['\Rank']])
+            ->all();
+        foreach ($arrayModels as $model) {
+            $productIds[] = $model->entity_id;
+        }
+
+        return $productIds;
+    }
+
     //Перебираем в этом методе все записи в accessory, которые обозначены условием,
     // далее формируем по записям accessory с помощью атрибута entity_class новую модель и сохраняем ее
     // как реакция на это, модель наследуемая от accessory создает новый access  с новым user_id
@@ -159,9 +173,9 @@ class AutoDumpDataBase
 
     public function start()
     {
-        if (Yii::$app->request->cookies->getValue('user_game')) {
+        if (!empty(Yii::$app->request->cookies->get('info-profile'))) {
             $this->regularity();
-
+            $this->rank();
         } else {
 
         $this->getAccessoryKeys();
@@ -433,6 +447,34 @@ class AutoDumpDataBase
         return true;
     }
 
+    public function rank()
+    {
+        ['\forma\modules\core\records\Rank']; // rank_id,user_id
+        $rank = $this->findModels('\forma\modules\core\records\Rank', ['id' => $this->getOldAccessoryRanks()]);
+        $this->forSaveAndGetKey($rank, 'rank_id');
+        if ($this->deleteAutoDamp) {
+            return $this->delete($rank);
+        }
+        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['rank_id' => $this->oldKeys['rank_id']]);
+        foreach ($ruleModels as $ruleModel) {
+            $ruleModel = $this->changeAttributes(
+                $this->newKeys['rank_id'],
+                $ruleModel,
+                'rank_id'
+            );
+            $this->saveWhitParent($ruleModel);
+        }
+        $itemInterfaceModels = $this->findModels('\forma\modules\core\records\ItemInterface', ['rank_id' => $this->oldKeys['rank_id']]);
+        foreach ($itemInterfaceModels as $itemInterfaceModel) {
+            $itemInterfaceModel = $this->changeAttributes(
+                $this->newKeys['rank_id'],
+                $itemInterfaceModel,
+                'rank_id'
+            );
+            $this->saveWhitParent($itemInterfaceModel);
+        }
+        return true;
+    }
 
     //работа с группой Field, FieldValue, FieldProductValue
     public function field()
