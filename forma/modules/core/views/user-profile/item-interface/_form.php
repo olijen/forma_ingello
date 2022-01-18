@@ -53,8 +53,7 @@ endif;
 </div>
 <script>
     $('#iteminterface-key').change(function () {
-        var values = document.querySelector('#iteminterface-key option:checked').parentElement.label
+        let values = document.querySelector('#iteminterface-key option:checked').parentElement.label
         $('#iteminterface-module').val(values)
     })
-
 </script>
