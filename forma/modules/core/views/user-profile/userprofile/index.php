@@ -107,7 +107,7 @@ else
                                     alt="User Image"/>
                         </div>
                         <h4 class="fourval">Ранг: <p
-                                    class="ball-rank"><?= isset($currenUser->userProfile->rank->name) ? $currenUser->userProfile->rank->name : '-' ?></p>
+                                    class="ball-rank"><?= isset($currenUser->userProfile->rank->name) ? $currenUser->userProfile->rank->name : 'нет ранга' ?></p>
                         </h4>
                         <h4 class="fourval">Количество
                             баллов:
