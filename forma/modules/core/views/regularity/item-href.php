@@ -108,7 +108,7 @@ if (isset($parentItem)) {
                                     }
                                 }
                             }
-                            echo "<h1>Награды за выполнение заданий:</h1>";
+                            echo "<h1>Награды за выполненные задания:</h1>";
                             foreach ($allDataRegularity->getGrantInterfaceByRankId($allDataRegularity->getRanks()[0]['id']) as $interface) {
                                 echo "<br />$interface <br />";
 
