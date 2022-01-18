@@ -106,6 +106,7 @@ class RegularityController extends Controller
             'subItems' => $subItems,
             'newUserReglament' => $newUserReglament,
         ]);
+
     }
 
 
