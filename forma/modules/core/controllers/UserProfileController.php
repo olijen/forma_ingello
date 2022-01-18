@@ -110,8 +110,10 @@ class UserProfileController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['/user-profile/userprofile/index']);
+        $model = $this->findModel($id);
+        unlink('./img/user-profile/' . $model->image);
+        $model->delete();
+        return $this->redirect(['/core/userprofile/index']);
     }
 
     public function actionGenerateGame()

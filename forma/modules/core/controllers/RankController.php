@@ -111,9 +111,12 @@ class RankController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        unlink('./img/user-profile/' . $model->image);
+        $model->delete();
 
-        return $this->redirect(['/user-profile/rank/index']);
+
+        return $this->redirect(['/core/rank/index']);
     }
 
     /**
