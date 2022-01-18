@@ -111,8 +111,12 @@ class UserProfileController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        unlink('./img/user-profile/' . $model->image);
-        $model->delete();
+        if(file_exists('./img/user-profile/' . $model->image)) {
+            unlink('./img/user-profile/' . $model->image);
+            $model->delete();
+        }else{
+            $model->delete();
+        }
         return $this->redirect(['/core/userprofile/index']);
     }
 
