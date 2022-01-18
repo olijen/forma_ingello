@@ -16,13 +16,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
     <?php if (!$model->isNewRecord) { ?>
-        <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
-            'options' => ['accept' => 'image/*'],
-            'pluginOptions' => [
-                'initialPreview' => \yii\helpers\Url::to(["/img/user-profile/{$model->userProfile->image}"]),
-                'initialPreviewAsData' => true,
-            ],
-        ]); ?>
+        <?php if (isset($model->userProfile->image)) { ?>
+            <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                'pluginOptions' => [
+                    'initialPreview' => \yii\helpers\Url::to(["/img/user-profile/{$model->userProfile->image}"]),
+                    'initialPreviewAsData' => true,
+                ],
+            ]); ?>
+        <?php } else { ?>
+            <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                'pluginOptions' => [
+                    'initialPreview' => \yii\helpers\Url::to(["/img/user-profile/defaultImage.png"]),
+                    'initialPreviewAsData' => true,
+                ],
+            ]); ?>
+        <?php } ?>
     <?php } else { ?>
         <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
             'options' => ['accept' => 'image/*'],
