@@ -69,7 +69,7 @@ use \yii\web\JsExpression;
                     }
                 }
             }
-            $value = '#Задание: Ты справился ' . $interfaceTemp . '<a href="/core/user-profile">ПРОФИЛЬ</a>'.'!!!';
+            $value = "#Задание: Ты справился $interfaceTemp <a href='/core/user-profile'>ПРОФИЛЬ</a> !!!";
             echo $value;
             Alert::end();
             Yii::$app->response->cookies->remove('event');
