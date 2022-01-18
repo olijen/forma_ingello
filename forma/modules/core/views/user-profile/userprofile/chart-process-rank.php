@@ -21,7 +21,7 @@ $userProfileChart = new UserProfileChartService();
             'id' => 'login-form',
             'options' => ['class' => 'form-horizontal'],
             'method' => 'POST',
-            'action' => '/user-profile/userprofile/filter-chart'
+            'action' => '/core/user-profile/filter-chart'
         ]) ;
 
 
@@ -63,15 +63,15 @@ $userProfileChart = new UserProfileChartService();
 
 <!--<input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />-->
 
-<script>
-    $(function() {
-        $('input[name="chart"]').daterangepicker({
-            opens: 'left'
-        }, function(start, end, label) {
-            alert(1)
-        });
-    });
-</script>
+<!--<script>-->
+<!--    $(function() {-->
+<!--        $('input[name="chart"]').daterangepicker({-->
+<!--            opens: 'left'-->
+<!--        }, function(start, end, label) {-->
+<!--            alert(1)-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 <script>
     $(document).ready(function (){
@@ -81,7 +81,7 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ["ВС","СБ","ПТ","ЧТ","СР","ВТ","ПН"],
+            labels: [["ВС",11],"СБ","ПТ","ЧТ","СР","ВТ","ПН"],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',
