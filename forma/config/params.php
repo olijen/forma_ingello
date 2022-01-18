@@ -542,40 +542,40 @@ return [
     ],
 
     'translateTablesName' => [
-        'answer' => 'Ответы',
-        'event' => 'События',
-        'event_type' => 'Типы событий',
+        'answer' => 'Ответ',
+        'event' => 'Событие',
+        'event_type' => 'Тип события',
         'interview' => 'Интервью',
         'interview_state' => 'Состояние интервью',
-        'vacancy' => 'Вакансии',
-        'strategy' => 'Стратегии',
+        'vacancy' => 'Вакансию',
+        'strategy' => 'Стратегию',
         'regularity' => 'Регламент',
-        'message' => 'Сообщения',
-        
-        'country' => 'Страны',
-        'currency' => 'Валюта',
-        'project' => 'Проекты',
-        'project_user' => 'Проекты пользователя',
-        'project_vacancy' => 'Проекты вакансии',
-        'manufacturer' => 'Производитель',
-        
-        'customer' => 'Клиенты',
-        'customer_source' => 'Источники клиентов',
-        'purchase_product' => 'Покупка продукта',
-        'selling' => 'Продажа',
-        'purchase' => 'Покупка',
-        
-        'inventorization' => 'Инвентаризация',
-        'inventoriza1tion_product' => 'Инвентаризация продукции',
+        'message' => 'Сообщение',
+
+        'country' => 'Страну',
+        'currency' => 'Валюту',
+        'project' => 'Проект',
+        'project_user' => 'Проект пользователя',
+        'project_vacancy' => 'Проект вакансии',
+        'manufacturer' => 'Производителя',
+
+        'customer' => 'Клиента',
+        'customer_source' => 'Источник клиента',
+        'purchase_product' => 'Покупку продукта',
+        'selling' => 'Продажу',
+        'purchase' => 'Покупку',
+
+        'inventorization' => 'Инвентаризацию',
+        'inventoriza1tion_product' => 'Инвентаризаци продукции',
         'supplier' => 'Поставщики',
-        'purchase_overhead_cost' => 'Накладные расходы на закупку',
-        
-        'product' => 'Продукция',
-        'product_pack_unit' => 'Единица упаковки продукта',
-        'selling_product' => 'Продажа продукции',
+        'purchase_overhead_cost' => 'Накладную расхода на закупку',
+
+        'product' => 'Продукцию',
+        'product_pack_unit' => 'Единицу упаковки продукта',
+        'selling_product' => 'Продажу продукции',
         'warehouse' => 'Склад',
-        'warehouse_product' => 'Продукция на складе',
-        ],
+        'warehouse_product' => 'Продукцию на складе',
+    ],
 
 ];
 
