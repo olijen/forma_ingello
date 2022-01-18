@@ -54,8 +54,7 @@ if (isset($parentItem)) {
                             <i class='fas fa-bullseye' style='color: red;'></i> Выполнение задач</h3>
                         </div>";
 
-                    echo "<div class='box-body' style='border:2px solid #808080; background: rgba(61,175,122,0.04); -webkit-box-shadow: 0px 0px 99px 35px rgba(61,175,122,0.1);
-                                                box-shadow: 0px 0px 99px 35px rgba(61,175,122,0.1);'>";
+                    echo "<div class='box-body' style='border:2px solid #808080;'>";
                     $translateTablesName = Yii::$app->params['translateTablesName'];
                     foreach ($allDataRegularity->getItems() as $tempItem) {
                         if ($tempItem["id"] == $item->id) {
