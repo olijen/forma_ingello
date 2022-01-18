@@ -54,7 +54,7 @@ class WidgetAccess extends Widget
         }
         $rules = Rule::find()->where(['rank_id' => $itemInterface->rank_id])->all();
         foreach ($rules as $rule) {
-            $this->rules .= $rule->rule_name . '; ';
+            $this->rules .= $rule->rule_name . ' (' . $countCurrent . ' из ' . $countNeed . ');';
         }
         $allInterfaces = \Yii::$app->params['access-interface'][$this->module];
         foreach ($allInterfaces as $key => $interface) {
