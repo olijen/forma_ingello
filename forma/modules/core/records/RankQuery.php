@@ -9,16 +9,27 @@ namespace forma\modules\core\records;
  */
 class RankQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function getAccessoryIdS()
     {
-        $this->andWhere('[[status]]=1');
-        return $this;
-    }*/
-
+        $accessRank = Accessory::find()->where(['user_id' => \Yii::$app->user->id])
+            ->andWhere(['like', 'entity_class', ['\Rank']])->select('entity_id')
+            ->all();
+        $idS = [];
+        foreach ($accessRank as $key => $item) {
+            $idS [] = $item->entity_id;
+        }
+        return $idS;
+    }
     /**
      * @inheritdoc
      * @return Rank[]|array
      */
+    public function allAccessory($db = null)
+    {
+        $this->andWhere(['in', 'rank.id', $this->getAccessoryIdS()]);
+        return parent::all($db);
+    }
+
     public function all($db = null)
     {
         return parent::all($db);

@@ -41,6 +41,7 @@ class ItemInterfaceSearch extends ItemInterface
     public function search($params)
     {
         $query = ItemInterface::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

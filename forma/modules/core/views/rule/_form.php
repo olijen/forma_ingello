@@ -53,7 +53,7 @@ endif;
         $items
     )->label('Элемент') ?>
     <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(
-        \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name')
+        \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->allAccessory(), 'id', 'name')
     )->label('Ранг') ?>
     <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-6']])->widget(kartik\select2\Select2::className(), [
         'data' => $icons,

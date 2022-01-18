@@ -35,7 +35,7 @@ endif;
     <?php $form = ActiveForm::begin([
     ]); ?>
     <?= $form->field($model, 'rank_id', ['options' => ['class' => 'col-xs-12']])->dropDownList(
-        \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->all(), 'id', 'name')
+        \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->allAccessory(), 'id', 'name')
     )->label('Ранг') ?>
 
     <?= $form->field($model, 'key', ['options' => ['class' => 'col-xs-12']])->dropDownList(
