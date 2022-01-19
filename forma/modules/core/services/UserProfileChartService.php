@@ -83,29 +83,47 @@ class UserProfileChartService
 
     }
 
-    public function getDate($date = null)
+    public function getData()
     {
-        if ($date !== null) {
-            $dateForCount = $this->getDateForCount($date);
-            $dates = '';
+            $dateForCount = $this->getDateForCount();
+            $dates = "'ВС','СБ','ПТ','ЧТ','СР','ВТ','ПН'";
+//            $dates = "";
+            $counts = "";
             foreach ($dateForCount as $date => $count) {
-                $dates .= '\'' . $date . '\',';
-
-            }
-            $dates = substr($dates, 0, -2);
-            $dates = substr($dates, 1);
-        } else {
-//            $dateForCount = $this->getDateForCount();
-            $dates = "'ВС','СБ','ПТ','ЧТ','СР','ВТ','ПН',";
-//            foreach ($dateForCount as $date => $count) {
 //                setlocale(LC_TIME, "C");
 //
 //                $dates .= '\'' . $date . '\',' . ',\'' . strftime("%A+1 days") . '\',';
-//            }
-        }
-//        de($dates);
 
-        return $dates;
+                $counts .= '\'' . $count . '\',';
+
+            }
+        $counts = substr($counts, 0, -1);
+
+        $data = [$dates,$counts];
+
+        return $data;
+
+    }
+
+    public function getDateWitchPost($date = null)
+    {
+            $dateForCount = $this->getDateForCount($date);
+            $dates = '';
+            $counts = '';
+            foreach ($dateForCount as $date => $count) {
+                $dates .= '\''. $date .'\',';
+                $counts .= '\'' . $count . '\',';
+            }
+        $dates = substr($dates, 0, -1);
+//        $dates = substr($dates, 1);
+
+        $counts = substr($counts, 0, -1);
+//        $counts = substr($counts, 1);
+//            dd($counts);
+
+        $data = [$dates,$counts];
+
+        return $data;
 
     }
 
@@ -119,8 +137,8 @@ class UserProfileChartService
 
             $counts .= '\'' . $count . '\',';
         }
-//        $counts = substr($counts,0,-2);
-//        $counts = substr($counts,1);
+        $counts = substr($counts,0,-2);
+        $counts = substr($counts,1);
 //        de($counts);
         return $counts;
     }

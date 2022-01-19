@@ -6,7 +6,6 @@ use forma\modules\core\records\UserProfile;
 /* @var $ranks Rank[] */
 /* @var $currenUser \forma\modules\core\records\User */
 $myAssetBundle = forma\assets\AppAsset::register($this);
-
 if (isset($currenUser->userProfile->image))
     $fileName = $myAssetBundle->baseUrl . "/img/user-profile/" . $currenUser->userProfile->image;
 else
@@ -122,7 +121,7 @@ else
                 'currenUser' => $currenUser,
                 'icons' => $icons,
             ]) ?>
-            <?= $this->render('/user-profile/userprofile/chart-process-rank') ?>
+            <?= $this->render('/user-profile/userprofile/chart-process-rank',['data'=>$data]) ?>
         </div>
         <div class="col-md-12">
             <div class="text-center">

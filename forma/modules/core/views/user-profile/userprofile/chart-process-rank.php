@@ -4,8 +4,6 @@ use forma\modules\core\services\UserProfileChartService;
 use kartik\daterange\DateRangePicker;
 use kartik\form\ActiveForm;
 use yii\widgets\Pjax;
-
-$userProfileChart = new UserProfileChartService();
 ?>
 <div class="col-md-6 col-sm-12 col-12 stretch-card">
     <div class="box box-success">
@@ -21,7 +19,7 @@ $userProfileChart = new UserProfileChartService();
             'id' => 'login-form',
             'options' => ['class' => 'form-horizontal'],
             'method' => 'POST',
-            'action' => '/core/user-profile/filter-chart'
+            'action' => '/core/user-profile/'
         ]) ;
 
 
@@ -38,11 +36,6 @@ $userProfileChart = new UserProfileChartService();
             'pluginOptions'=>[
                     'locale'=>['format' => 'Y-m-d'],
                 ],
-            'pluginEvents' =>[
-                "change" => "newChart()",
-            ]
-
-
         ]) ;
         echo '</div>';
 
@@ -63,19 +56,6 @@ $userProfileChart = new UserProfileChartService();
 
 </div>
 
-
-<!--<input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />-->
-
-<!--<script>-->
-<!--    $(function() {-->
-<!--        $('input[name="myChart"]').daterangepicker({-->
-<!--            opens: 'left'-->
-<!--        }, function(start, end, label) {-->
-<!--            alert(1)-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
-
 <script>
     $(document).ready(function (){
 
@@ -84,22 +64,16 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: [<?=$userProfileChart->getDate()?>],
+            labels: [<?=$data[0]?>],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',
-                data: [<?=$userProfileChart->getCount()?>],
+                data: [<?=$data[1]?>],
             }]
         },
         options: {}
     });
 </script>
 
-<script>
-    $(document).ready(function (){
-        function newChart(){
-            alert(1)
-        }
-    })
-</script>
+
 

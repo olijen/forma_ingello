@@ -39,6 +39,13 @@ class UserProfileController extends Controller
      */
     public function actionIndex()
     {
+        $userProfileChart = new UserProfileChartService();
+        if (!empty($_POST)){
+            $data = $userProfileChart->getDateWitchPost($_POST);
+        }else{
+            $data = $userProfileChart->getData();
+        }
+
         $this->layout = 'public';
         $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
         $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
@@ -47,7 +54,8 @@ class UserProfileController extends Controller
             return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
                 'currenUser' => $currenUser,
-                'icons' => $icons
+                'icons' => $icons,
+                'data' => $data,
             ]);
         } else {
             return $this->redirect(['/core/user-profile/create']);
