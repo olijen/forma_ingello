@@ -23,7 +23,7 @@ class WidgetAccess extends Widget
      */
     public function isAccessible(): bool
     {
-        $itemInterface = ItemInterface::find()->where(['key' => $this->key, 'module' => $this->module])->one();
+        $itemInterface = ItemInterface::find()->where(['key' => $this->key, 'module' => $this->module])->oneAccessory();
         if (!isset($itemInterface->rank)) {
             return true;
         }
