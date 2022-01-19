@@ -2,6 +2,8 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[ItemInterface]].
  *
@@ -9,18 +11,6 @@ namespace forma\modules\core\records;
  */
 class ItemInterfaceQuery extends \yii\db\ActiveQuery
 {
-    public function getAccessoryIdS()
-    {
-        $accessItemInterface = Accessory::find()->where(['user_id' => \Yii::$app->user->id])
-            ->andWhere(['like', 'entity_class', ['\ItemInterface']])->select('entity_id')
-            ->all();
-        $idS = [];
-        foreach ($accessItemInterface as $key => $item) {
-            $idS [] = $item->entity_id;
-        }
-        return $idS;
-    }
-
     /**
      * @inheritdoc
      * @return ItemInterface[]|array
@@ -40,7 +30,7 @@ class ItemInterfaceQuery extends \yii\db\ActiveQuery
     }
     public function oneAccessory($db = null)
     {
-        $this->andWhere(['in', 'item_interface.id', $this->getAccessoryIdS()]);
+        $this->andWhere(['in', 'item_interface.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::one($db);
     }
 }

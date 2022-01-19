@@ -2,6 +2,8 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[Rule]].
  *
@@ -9,22 +11,6 @@ namespace forma\modules\core\records;
  */
 class RuleQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        $this->andWhere('[[status]]=1');
-        return $this;
-    }*/
-    public function getAccessoryIdS()
-    {
-        $accessRule = Accessory::find()->where(['user_id' => \Yii::$app->user->id])
-            ->andWhere(['like', 'entity_class', ['\Rule']])->select('entity_id')
-            ->all();
-        $idS = [];
-        foreach ($accessRule as $key => $item) {
-            $idS [] = $item->entity_id;
-        }
-        return $idS;
-    }
     /**
      * @inheritdoc
      * @return Rule[]|array
@@ -45,7 +31,7 @@ class RuleQuery extends \yii\db\ActiveQuery
 
     public function oneAccessory($db = null)
     {
-        $this->andWhere(['in', 'rule.id', $this->getAccessoryIdS()]);
+        $this->andWhere(['in', 'rule.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::one($db);
     }
 }
