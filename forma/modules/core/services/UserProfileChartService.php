@@ -11,6 +11,7 @@ use Yii;
 
 class UserProfileChartService
 {
+    //получаю массив с данными: дата => количество
 
     public function getDateForCount($date = null)
     {
