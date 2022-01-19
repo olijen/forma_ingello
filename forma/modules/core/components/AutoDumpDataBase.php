@@ -91,14 +91,13 @@ class AutoDumpDataBase
 
     public function systemEvents()
     {
-        $dateTime = [
-            '2020-12-16 14:16:04',
-            '2021-01-18 15:25:06',
-            '2021-01-18 15:25:36',
-            '2021-01-18 15:28:21',
-            '2021-01-18 15:29:10',
-
-        ];
+        $dateTime = [];
+        for ($i = 0; $i < 5; $i++) {
+            $date = new \DateTime();
+            $stringPD = 'P' . $i . 'D';
+            $date->add(new \DateInterval($stringPD));
+            $dateTime [] = $date->format('Y-m-d');
+        }
         $application = [
             'HRM',
             'CRM',
