@@ -12,7 +12,6 @@ use forma\modules\core\services\UserProfileChartService;
 use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use forma\modules\core\records\UserProfile;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
@@ -216,19 +215,5 @@ class UserProfileController extends Controller
             return $this->redirect((['/core/regularity/regularity']));
         }
 
-    }
-
-    public function actionFilterChart()
-    {
-//        de($_POST);
-        $dateFilter = new UserProfileChartService;
-//       $filter =  $dateFilter->getDateForCount($_POST);
-        $date = $dateFilter->getDate($_POST);
-//        $date = $dateFilter->getCount($_POST);
-        de($date);
-//        $dateFilter->getCount($_POST);
-        return $this->redirect((['/core/user-profile/']));
-
-//        }
     }
 }

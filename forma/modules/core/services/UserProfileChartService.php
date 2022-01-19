@@ -85,21 +85,15 @@ class UserProfileChartService
 
     public function getData()
     {
-            $dateForCount = $this->getDateForCount();
-            $dates = "'ВС','СБ','ПТ','ЧТ','СР','ВТ','ПН'";
-//            $dates = "";
-            $counts = "";
-            foreach ($dateForCount as $date => $count) {
-//                setlocale(LC_TIME, "C");
-//
-//                $dates .= '\'' . $date . '\',' . ',\'' . strftime("%A+1 days") . '\',';
+        $dateForCount = $this->getDateForCount();
+        $dates = "'ВС','СБ','ПТ','ЧТ','СР','ВТ','ПН'";
+        $counts = "";
+        foreach ($dateForCount as $date => $count) {
 
-                $counts .= '\'' . $count . '\',';
-
-            }
+            $counts .= '\'' . $count . '\',';
+        }
         $counts = substr($counts, 0, -1);
-
-        $data = [$dates,$counts];
+        $data = [$dates, $counts];
 
         return $data;
 
@@ -107,41 +101,22 @@ class UserProfileChartService
 
     public function getDateWitchPost($date = null)
     {
-            $dateForCount = $this->getDateForCount($date);
-            $dates = '';
-            $counts = '';
-            foreach ($dateForCount as $date => $count) {
-                $dates .= '\''. $date .'\',';
-                $counts .= '\'' . $count . '\',';
-            }
+        $dateForCount = $this->getDateForCount($date);
+        $dates = '';
+        $counts = '';
+        foreach ($dateForCount as $date => $count) {
+
+            $dates .= '\'' . $date . '\',';
+            $counts .= '\'' . $count . '\',';
+        }
         $dates = substr($dates, 0, -1);
-//        $dates = substr($dates, 1);
-
         $counts = substr($counts, 0, -1);
-//        $counts = substr($counts, 1);
-//            dd($counts);
-
-        $data = [$dates,$counts];
+        $data = [$dates, $counts];
 
         return $data;
 
     }
 
-    public function getCount($data = null)
-    {
-
-        $countForDate = $this->getDateForCount($data);
-//        de($countForDate);
-        $counts = '';
-        foreach ($countForDate as $count) {
-
-            $counts .= '\'' . $count . '\',';
-        }
-        $counts = substr($counts,0,-2);
-        $counts = substr($counts,1);
-//        de($counts);
-        return $counts;
-    }
 
 }
 
