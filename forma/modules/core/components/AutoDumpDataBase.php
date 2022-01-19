@@ -5,7 +5,11 @@ namespace forma\modules\core\components;
 
 
 use forma\modules\core\records\Accessory;
+use forma\modules\core\records\Item;
+use forma\modules\core\records\ItemInterface;
+use forma\modules\core\records\Rank;
 use forma\modules\core\records\Regularity;
+use forma\modules\core\records\Rule;
 use forma\modules\core\records\SystemEvent;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
@@ -174,8 +178,7 @@ class AutoDumpDataBase
     public function start()
     {
         if (!empty(Yii::$app->request->cookies->get('info-profile'))) {
-            $this->regularity();
-            $this->rank();
+            $this->gameData();
         } else {
 
         $this->getAccessoryKeys();
@@ -447,9 +450,33 @@ class AutoDumpDataBase
         return true;
     }
 
-    public function rank()
+    /**
+     * @return bool
+     * @var $itemsModels Item[]
+     * @var $parentItem array
+     * @var $rank Rank[]
+     * @var $ruleModels Rule[]
+     * @var $itemInterfaceModels ItemInterface[]
+     * @var $regularity Regularity[]
+     */
+    public function gameData(): bool
     {
-        ['\forma\modules\core\records\Rank']; // rank_id,user_id
+        $regularity = $this->modelWhitUser('\forma\modules\core\records\Regularity');
+        $this->forSaveAndGetKey($regularity, 'regularity_id');
+        if ($this->deleteAutoDamp) return $this->delete($regularity);
+        $itemsModels = $this->findModels('\forma\modules\core\records\Item', ['regularity_id' => $this->oldKeys['regularity_id']]);
+        foreach ($itemsModels as $itemsModel) {
+            $itemsModel = $this->changeAttributes(
+                $this->newKeys['regularity_id'],
+                $itemsModel,
+                'regularity_id');
+            $itemsModel = $this->changeAttributes(
+                $this->newParent,
+                $itemsModel,
+                'parent_id');
+            $this->saveWhitParent($itemsModel);
+        }
+        $parentItem = $this->newParent;
         $rank = $this->findModels('\forma\modules\core\records\Rank', ['id' => $this->getOldAccessoryRanks()]);
         $this->forSaveAndGetKey($rank, 'rank_id');
         if ($this->deleteAutoDamp) {
@@ -462,6 +489,7 @@ class AutoDumpDataBase
                 $ruleModel,
                 'rank_id'
             );
+            $ruleModel->item_id = $parentItem[$ruleModel->item_id];
             $this->saveWhitParent($ruleModel);
         }
         $itemInterfaceModels = $this->findModels('\forma\modules\core\records\ItemInterface', ['rank_id' => $this->oldKeys['rank_id']]);
