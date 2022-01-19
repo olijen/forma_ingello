@@ -16,6 +16,9 @@ class RegularityGameService
     public $regularity;
     public $userProfileRules;
 
+    /**
+     * @param $id
+     */
     function __construct($id)
     {
         $this->setRegularity(Regularity::find()->where(['regularity.id' => $id])->joinWith(['items' => function ($q) {
@@ -39,6 +42,9 @@ class RegularityGameService
     }
 
 
+    /**
+     * @return void
+     */
     public function setItems(): void
     {
         $items = [];
@@ -113,6 +119,10 @@ class RegularityGameService
         return $this->userProfileRules;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function isItemById($id)
     {
         $flag = false;
@@ -129,6 +139,9 @@ class RegularityGameService
         return $flag;
     }
 
+    /**
+     * @return void
+     */
     public function setUserProfileRules(): void
     {
         $userProfileRules = [];
@@ -141,13 +154,38 @@ class RegularityGameService
         }
         $this->userProfileRules = $userProfileRules;
     }
-    public function getGrantInterfaceByRankId($id){
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public function getGrantInterfaceByRankId($id)
+    {
         $params = Yii::$app->params['access-interface'];
         $arrayGrantInterface = [];
-        $rank = Rank::find()->where(['id'=>$id])->one();
-        foreach ($rank->itemInterfaces as $itemInterface){
+        $rank = Rank::find()->where(['id' => $id])->one();
+        foreach ($rank->itemInterfaces as $itemInterface) {
             $arrayGrantInterface [] = $params[$itemInterface->module][$itemInterface->key];
         }
         return $arrayGrantInterface;
+    }
+
+    /**
+     * @return int
+     * @var Rule[] $rules
+     */
+    public function getRankIdByItemId($id):int
+    {
+
+        $rules = $this->getRules();
+
+        $rankId = null;
+        foreach ($rules as $rule) {
+            if ($rule['item_id'] == $id) {
+                $rankId = $rule['rank_id'];
+                break;
+            }
+        }
+        return $rankId;
     }
 }
