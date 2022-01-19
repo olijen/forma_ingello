@@ -147,9 +147,6 @@ $arr = [];
 //    1=>['name'=>'Вася', 'salary'=>400],
 //    2=>['name'=>'Петя', 'salary'=>500],
 //];
-//
-
-//19
 
 //foreach ($arr as $zp){
 //    echo $zp['name'] .' '.$zp['salary'].'<br>';
@@ -157,7 +154,7 @@ $arr = [];
 //exit();
 
 
-//20
+//19
 
 //
 //for ($a = 1;$a <= 10;$a++){
@@ -168,7 +165,7 @@ $arr = [];
 //var_dump($arr);
 //exit();
 
-//21
+//20
 
 //$a = "Lenovo";
 //$first = mb_substr($a,0,1,'UTF-8');
@@ -179,7 +176,7 @@ $arr = [];
 //echo $b;
 //exit();
 
-//20
+//21
 
 //$name = 'Lenovo';
 //$exp = str_split($name);
@@ -188,7 +185,7 @@ $arr = [];
 //echo $imp;
 //exit();
 
-//22
+//21
 
 //function mb_strrev($name)
 //{
@@ -200,14 +197,14 @@ $arr = [];
 //
 //exit();
 
-//23
+//22
 
 //$name = 'Lenovo';
 //$size = count(str_split($name, 1));
 //echo $size;
 //exit();
 
-//24
+//23
 
 //$a = "Lenovo";
 //$first = mb_substr($a,0,1);
@@ -219,7 +216,7 @@ $arr = [];
 //echo $b;
 //exit();
 
-//25
+//24
 
 //$a = 'le_no_vo';
 //$name = '';
@@ -235,7 +232,7 @@ $arr = [];
 //echo $name;
 //exit();
 
-//26
+//25
 
 
 //for ($a = 1; $a<= 9;$a++){
@@ -244,7 +241,7 @@ $arr = [];
 //
 //exit();
 
-//27
+//26
 
 //$name = 'xxxxxxxxxxxx';
 //$qty = strlen ($name);
@@ -257,7 +254,7 @@ $arr = [];
 //exit();
 
 
-//28
+//27
 
 
 //$arr = [1,5,6,2,6,8,4,3,2];
@@ -272,7 +269,7 @@ $arr = [];
 //exit();
 
 
-//29
+//28
 
 
 $arr = [4,7,5,9,5,3,8,0,2,5];
