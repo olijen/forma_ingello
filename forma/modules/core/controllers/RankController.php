@@ -2,7 +2,6 @@
 
 namespace forma\modules\core\controllers;
 
-use forma\modules\core\records\Rule;
 use Yii;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\RankSearch;
