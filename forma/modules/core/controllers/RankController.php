@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\Rule;
 use Yii;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\RankSearch;
@@ -53,18 +54,25 @@ class RankController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if (Yii::$app->request->isPost) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            $imageName = $model->imageFile->baseName . '.' .time() . date('Y-m-d') . '.' . $model->imageFile->extension;
-            if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
-                $model->load(Yii::$app->request->post());
-                $model->image = $imageName;
+            if(isset($model->imageFile)){
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                $imageName = $model->imageFile->baseName . '.' .time() . date('Y-m-d') . '.' . $model->imageFile->extension;
+                if ($model->imageFile->saveAs('./img/user-profile/' . $imageName)) {
+                    $model->load(Yii::$app->request->post());
+                    $model->image = $imageName;
+                }
+                if ($model->save()) {
+                    return $this->redirect('index');
+                } else {
+                    de('ПРОИЗОШЛА ОШИБКА');
+                }
+            }else{
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return $this->redirect('index');
+                } else {
+                    de('ПРОИЗОШЛА ОШИБКА');
+                }
             }
-            if ($model->save()) {
-                return $this->redirect('index');
-            } else {
-                de('ПРОИЗОШЛА ОШИБКА');
-            }
-
         } else {
             return $this->render('/user-profile/rank/create', [
                 'model' => $model,
@@ -112,11 +120,16 @@ class RankController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        unlink('./img/user-profile/' . $model->image);
+        if(isset($model->rules)){
+            foreach ($model->rules as $rule){
+                Rule::findOne(['id'=>$rule->id])->delete();
+            }
+        }
+        if(isset($model->image)){
+            unlink('./img/user-profile/' . $model->image);
+        }
         $model->delete();
-
-
-        return $this->redirect(['/core/rank/index']);
+        return $this->redirect(['/core/rank']);
     }
 
     /**
