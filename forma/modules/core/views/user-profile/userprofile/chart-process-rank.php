@@ -30,7 +30,7 @@ $userProfileChart = new UserProfileChartService();
     <i class="fas fa-calendar-alt"></i>
 </span>';
         echo DateRangePicker::widget([
-                'name'=>'chart',
+                'name'=>'myChart',
                 'useWithAddon'=>true,
                 'convertFormat'=>true,
                 'startAttribute' => 'from_date',
@@ -38,9 +38,12 @@ $userProfileChart = new UserProfileChartService();
             'pluginOptions'=>[
                     'locale'=>['format' => 'Y-m-d'],
                 ],
-            'options' => ['id'=>'apply']
+            'pluginEvents' =>[
+                "change" => "newChart()",
+            ]
 
-            ]) ;
+
+        ]) ;
         echo '</div>';
 
         ActiveForm::end();
@@ -65,7 +68,7 @@ $userProfileChart = new UserProfileChartService();
 
 <!--<script>-->
 <!--    $(function() {-->
-<!--        $('input[name="chart"]').daterangepicker({-->
+<!--        $('input[name="myChart"]').daterangepicker({-->
 <!--            opens: 'left'-->
 <!--        }, function(start, end, label) {-->
 <!--            alert(1)-->
@@ -81,7 +84,7 @@ $userProfileChart = new UserProfileChartService();
     myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: [["ВС",11],"СБ","ПТ","ЧТ","СР","ВТ","ПН"],
+            labels: [<?=$userProfileChart->getDate()?>],
 
             datasets: [{
                 label: 'Количество пройденных испытаний',
@@ -91,3 +94,12 @@ $userProfileChart = new UserProfileChartService();
         options: {}
     });
 </script>
+
+<script>
+    $(document).ready(function (){
+        function newChart(){
+            alert(1)
+        }
+    })
+</script>
+

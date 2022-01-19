@@ -8,6 +8,7 @@ use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
 use forma\modules\core\records\User;
 use forma\modules\core\records\UserProfileRule;
+use forma\modules\core\services\UserProfileChartService;
 use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use forma\modules\core\records\UserProfile;
@@ -211,21 +212,15 @@ class UserProfileController extends Controller
 
     public function actionFilterChart()
     {
-//        Yii::$app->response->cookies->getValue('qwe',["$_POST"]);
 //        de($_POST);
-        if (isset ($_POST['from_date']) && isset ($_POST['to_date'])) {
-            $dateFrom = $_POST['from_date'];
-            $dateTo = $_POST['to_date'];
-        $model = UserProfileRule::find()
-            ->select(['date', 'COUNT(*) AS cnt'])
-//            ->where(['date'=>$dateFrom])
-            ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
-            ->groupBy('date')
-//            ->where(['between', 'date', "$dateFrom", "$dateTo" ])
-            ->asArray()
-            ->all();
-//            $query->andFilterWhere(['between', 'date', $dateFrom, $dateTo]);
-            de($model);
-        }
+        $dateFilter = new UserProfileChartService;
+//       $filter =  $dateFilter->getDateForCount($_POST);
+        $date = $dateFilter->getDate($_POST);
+//        $date = $dateFilter->getCount($_POST);
+        de($date);
+//        $dateFilter->getCount($_POST);
+        return $this->redirect((['/core/user-profile/']));
+
+//        }
     }
 }
