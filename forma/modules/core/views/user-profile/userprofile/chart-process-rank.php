@@ -4,6 +4,7 @@ use forma\modules\core\services\UserProfileChartService;
 use kartik\daterange\DateRangePicker;
 use kartik\form\ActiveForm;
 use yii\widgets\Pjax;
+
 ?>
 <div class="col-md-6 col-sm-12 col-12 stretch-card">
     <div class="box box-success">
@@ -22,21 +23,24 @@ use yii\widgets\Pjax;
             'action' => '/core/user-profile/'
         ]) ;
 
-
-        echo '<div class="input-group drp-container">';
-        echo '<span class="input-group-text">
+        $addon = <<< HTML
+<span class="input-group-text">
     <i class="fas fa-calendar-alt"></i>
-</span>';
+</span>
+HTML;
+        echo '<div class="input-group drp-container">';
         echo DateRangePicker::widget([
+//                'addon'=>['prepend'=>['content'=>'<i class="fas fa-calendar-alt"></i>']],
+    'options'=>['class'=>'drp-container mb-2'],
                 'name'=>'myChart',
-                'useWithAddon'=>true,
                 'convertFormat'=>true,
+            'useWithAddon'=>true,
                 'startAttribute' => 'from_date',
                 'endAttribute' => 'to_date',
             'pluginOptions'=>[
                     'locale'=>['format' => 'Y-m-d'],
-                ],
-        ]) ;
+            ],
+        ]). $addon; ;
         echo '</div>';
 
         ActiveForm::end();
