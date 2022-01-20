@@ -122,6 +122,7 @@ class RegularityGameService
     /**
      * @param $id
      * @return bool
+     * Метод проверки равности по Item[id] и Rule[item_id]
      */
     public function isItemById($id)
     {
@@ -158,6 +159,7 @@ class RegularityGameService
     /**
      * @param $id
      * @return array
+     * Метод получения элементов доступа по Рангу
      */
     public function getGrantInterfaceByRankId($id)
     {
@@ -173,12 +175,11 @@ class RegularityGameService
     /**
      * @return int
      * @var Rule[] $rules
+     * Метод получения Ранга по Элементу
      */
-    public function getRankIdByItemId($id):int
+    public function getRankIdByItemId($id): int
     {
-
         $rules = $this->getRules();
-
         $rankId = null;
         foreach ($rules as $rule) {
             if ($rule['item_id'] == $id) {

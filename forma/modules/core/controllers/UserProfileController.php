@@ -66,8 +66,8 @@ class UserProfileController extends Controller
         $modelUpload = new UserProfile();
         $model = new UserProfile();
         if (Yii::$app->request->isPost) {
+            $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
             if (isset($modelUpload->imageFile)) {
-                $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
                 $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
                 if ($modelUpload->imageFile
                     ->saveAs('./img/user-profile/' . $fileName)) {
@@ -112,10 +112,10 @@ class UserProfileController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if(file_exists('./img/user-profile/' . $model->image)) {
+        if (isset($model->image)) {
             unlink('./img/user-profile/' . $model->image);
             $model->delete();
-        }else{
+        } else {
             $model->delete();
         }
         return $this->redirect(['/core/userprofile/index']);
@@ -137,6 +137,10 @@ class UserProfileController extends Controller
         }
     }
 
+    /**
+     * @return false|string|void
+     * Метод записи пульсации на открытый элемент, через cookie
+     */
     public function actionResetCookie()
     {
         if (($cookie = Yii::$app->request->cookies->get('array-pulsate')) !== null) {
@@ -159,6 +163,11 @@ class UserProfileController extends Controller
         }
     }
 
+    /**
+     * @return void|\yii\web\Response
+     * @throws \Exception
+     * Метод создания  игрового профиля с такими данными (Регламенты, Элементы, Правила, Ранги, Элементы доступа)
+     */
     public function actionCreateGameProfile()
     {
         $model = new SignupForm();
@@ -186,7 +195,7 @@ class UserProfileController extends Controller
         if (isset ($_POST['from_date']) && isset ($_POST['to_date'])) {
             $dateFrom = $_POST['from_date'];
             $dateTo = $_POST['to_date'];
-        $model = UserProfileRule::find()->where(['between', 'date', "$dateFrom", "$dateTo" ])->all();
+            $model = UserProfileRule::find()->where(['between', 'date', "$dateFrom", "$dateTo"])->all();
 //        de($model);
 //            $query->andFilterWhere(['between', 'date', $dateFrom, $dateTo]);
         }

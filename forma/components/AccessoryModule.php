@@ -6,6 +6,10 @@ use forma\modules\core\records\Accessory;
 
 class AccessoryModule
 {
+    /**
+     * Метод принимает имя класса в формате '/forma/.../{Rank,Rule,ItemInterface,.....}'
+     * Возвращает ключи указанной модели, из таблицы Accessory
+     **/
     public static function getAccessoryIdS($classModel)
     {
         $searchClass = $classModel;

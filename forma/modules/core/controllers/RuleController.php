@@ -15,6 +15,7 @@ use yii\web\Response;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\Item;
 use rmrevin\yii\fontawesome\FontAwesome;
+
 /**
  * RuleController implements the CRUD actions for Rule model.
  */
@@ -31,15 +32,21 @@ class RuleController extends Controller
             ],
         ];
     }
-    public  function tableTranslate($key = true): array
+
+    /**
+     * @param $key
+     * @return array
+     * Метод Вывода названий таблиц, а также получения ссылок на публичный регламент
+     */
+    public function tableTranslate($key = true): array
     {
         $groupTable = [
-            ''=>'',
-            'Управление'=>['/core/regularity/regularity'],
-            'Продажи'=>['/core/regularity/regularity'],
-            'Найм и проекты'=>['/core/regularity/regularity'],
-            'Продукты и услуги'=>['/core/regularity/regularity'],
-            'Хранилища'=>['/core/regularity/regularity'],
+            '' => '',
+            'Управление' => ['/core/regularity/regularity'],
+            'Продажи' => ['/core/regularity/regularity'],
+            'Найм и проекты' => ['/core/regularity/regularity'],
+            'Продукты и услуги' => ['/core/regularity/regularity'],
+            'Хранилища' => ['/core/regularity/regularity'],
         ];
         $groupTable['Управление']['answer'] = 'Ответы';
         $groupTable['Управление']['event'] = 'События';
@@ -87,6 +94,12 @@ class RuleController extends Controller
         }
     }
 
+    /**
+     * @param $groupTable
+     * @param $nameTable
+     * @return void
+     * Получение ссылки по группе и таблице
+     */
     public function getLinkEvent($groupTable, $nameTable)
     {
         foreach ($groupTable as $key => $table) {
@@ -104,7 +117,7 @@ class RuleController extends Controller
      */
     public function actionIndex()
     {
-        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         $groupTable = $this->tableTranslate(false);
         $searchModel = new RuleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -127,11 +140,11 @@ class RuleController extends Controller
      */
     public function actionView($id)
     {
-        $rule =$this->findModel($id);
-        $item = Item::find()->where(['id'=>$rule->item->id])->one();
+        $rule = $this->findModel($id);
+        $item = Item::find()->where(['id' => $rule->item->id])->one();
         return $this->render('view', [
             'model' => $rule,
-            'item' =>$item,
+            'item' => $item,
         ]);
     }
 
@@ -153,7 +166,7 @@ class RuleController extends Controller
                 $model->link = $result;
             }
         }
-        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
@@ -175,11 +188,10 @@ class RuleController extends Controller
     public function actionUpdate($id)
     {
         $tables = $this->tableTranslate(false);
-        if(isset($tables['Управление']['0']))
-        {
+        if (isset($tables['Управление']['0'])) {
             unset($tables['Управление']['0']);
         }
-        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(),21,-1);
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         $model = $this->findModel($id);
         $items = ArrayHelper::map(Regularity::find()->joinWith('items')
             ->select(['regularity.name', 'item.title', 'item.id'])->where(['user_id' => Yii::$app->user->id])->asArray()
@@ -194,9 +206,9 @@ class RuleController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'tables'=>$tables,
-                'items'=>$items,
-                'icons' =>$icons,
+                'tables' => $tables,
+                'items' => $items,
+                'icons' => $icons,
             ]);
         }
     }
@@ -229,29 +241,32 @@ class RuleController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
     public function actionCheckRightAnswer()
     {
         $itemId = $_POST['itemId'];
         $countRightAnswer = 0;
         $countAnswer = 0;
-        if(!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$itemId]))){
-            foreach ($rules->all() as $rule){
+        if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' => $itemId]))) {
+            foreach ($rules->all() as $rule) {
                 $countAnswer++;
-                foreach ($rule->accessInterfaces as $accessInterface){
-                    if($rule->count_action == $accessInterface->current_mark){
+                foreach ($rule->accessInterfaces as $accessInterface) {
+                    if ($rule->count_action == $accessInterface->current_mark) {
                         $countRightAnswer++;
                     }
                 }
             }
         }
-        $result = ['result'=>false];
-        if($countAnswer == $countRightAnswer && $countAnswer!=0){
-            $result = ['result'=>true];
-            $result[] =['id'=>$itemId];
+        $result = ['result' => false];
+        if ($countAnswer == $countRightAnswer && $countAnswer != 0) {
+            $result = ['result' => true];
+            $result[] = ['id' => $itemId];
         }
         return $this->asJson($result);
     }
-    public  function  actionUserRule(){
+
+    public function actionUserRule()
+    {
         $searchModel = new AccessInterfaceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

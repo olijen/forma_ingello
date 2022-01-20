@@ -37,6 +37,11 @@ class EventUserProfileService
         return self::$userProfile;
     }
 
+    /**
+     * @param Rule $rule
+     * @return array|Rank|null
+     * Метод возвращает Ранг, который пользователь хочет получить
+     */
     public function getNewRank(Rule $rule)
     {
         return Rank::find()->where(['rank.id' => $rule->rank_id])->joinWith(['rules' => function ($q) {
@@ -44,6 +49,10 @@ class EventUserProfileService
         }])->one();
     }
 
+    /**
+     * @return array|Rank|null
+     * Метод возврвщает текущий Ранг пользователя
+     */
     public function getCurrenRank()
     {
         return Rank::find()->where(['rank.id' => self::getUserProfile()->userProfile->rank_id])->joinWith(['rules' => function ($q) {
@@ -51,10 +60,29 @@ class EventUserProfileService
         }])->one();
     }
 
+    /**
+     * @param Rule $rule
+     * @return void
+     * Метод принимает добавляет новую запись в таблицу UserProfileRule, если он еще не выполил задание
+     */
+    public function addNewUserProfileRule(Rule $rule)
+    {
+        $currentDate = date('Y-m-d');
+        $newUserProfileRule = new UserProfileRule();
+        $newUserProfileRule->rule_id = $rule->id;
+        $newUserProfileRule->user_id = self::getUserProfile()->id;
+        $newUserProfileRule->date = $currentDate;
+        $newUserProfileRule->save();
+    }
+
+    /**
+     * @param Rule $rule
+     * @return bool|void
+     * Метод перезаписи ранга, если пользователь выполнил все задания по рангу
+     */
     public function setEvent(Rule $rule)
     {
         $currentRank = $this->getCurrenRank();
-        $currentDate = date('Y-m-d');
         $countRule = 0;
 
         foreach (self::getUserProfile()->userProfileRules as $profileRule) {
@@ -64,12 +92,9 @@ class EventUserProfileService
         }
 
         if ($rule->count_action > $countRule) {
-            $newUserProfileRule = new UserProfileRule();
-            $newUserProfileRule->rule_id = $rule->id;
-            $newUserProfileRule->user_id = self::getUserProfile()->id;
-            $newUserProfileRule->date = $currentDate;
-            $newUserProfileRule->save();
+            $this->addNewUserProfileRule($rule);
         }
+
         $newRank = $this->getNewRank($rule);
         $countCurrentBall = 0;
         $needCountBall = count($newRank->rules);
@@ -100,6 +125,12 @@ class EventUserProfileService
         }
     }
 
+    /**
+     * @param string $name
+     * @param int $rule_id
+     * @return void
+     * Метод записывает cookie если пользователь выполнил все задания
+     */
     public function setCookieSystemEvent(string $name, int $rule_id)
     {
         $cookies = Yii::$app->response->cookies;
