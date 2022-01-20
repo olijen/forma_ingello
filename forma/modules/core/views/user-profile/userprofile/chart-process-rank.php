@@ -14,6 +14,7 @@ use yii\widgets\Pjax;
             </h3>
         </div>
         <?php
+        echo ' <div class="box-body">';
 
         Pjax::begin(['id' => 'grid']) ;
         $form = ActiveForm::begin([
@@ -21,6 +22,7 @@ use yii\widgets\Pjax;
             'options' => ['class' => 'form-horizontal'],
             'method' => 'POST',
             'action' => '/core/user-profile/'
+
         ]) ;
 
         $addon = <<< HTML
@@ -30,7 +32,6 @@ use yii\widgets\Pjax;
 HTML;
         echo '<div class="input-group drp-container">';
         echo DateRangePicker::widget([
-//                'addon'=>['prepend'=>['content'=>'<i class="fas fa-calendar-alt"></i>']],
     'options'=>['class'=>'drp-container mb-2'],
                 'name'=>'myChart',
                 'convertFormat'=>true,
@@ -40,6 +41,11 @@ HTML;
             'pluginOptions'=>[
                     'locale'=>['format' => 'Y-m-d'],
             ],
+//                'pluginEvents' =>[
+//                        'apply.daterangepicker'=> "function() { alert(name) }",
+//                        'cancel.daterangepicker'=> "function() { alert(1) }",
+//
+//]
         ]). $addon; ;
         echo '</div>';
 
@@ -51,7 +57,6 @@ HTML;
 
 
         ?>
-        <div class="box-body">
             <div class="chart">
                 <canvas id="myChart" style=""></canvas>
             </div>
@@ -77,6 +82,10 @@ HTML;
         },
         options: {}
     });
+</script>
+
+<script>
+
 </script>
 
 

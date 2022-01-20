@@ -12,64 +12,45 @@ use Yii;
 class UserProfileChartService
 {
     //получаю массив с данными: дата => количество
+   public function getDatesFromRange($dateFrom, $dateTo, $format )
+    {
+        $array = array();
+        $interval = new DateInterval('P1D');
+
+        $realEnd = new DateTime($dateTo);
+        $realEnd->add($interval);
+
+        $period = new DatePeriod(new DateTime($dateFrom), $interval, $realEnd);
+
+        foreach ($period as $date) {
+            $array[] = $date->format($format);
+        }
+
+        return $array;
+    }
 
     public function getDateForCount($date = null)
     {
         if ($date !== null) {
             $dateFrom = $date['from_date'];
             $dateTo = $date['to_date'];
-            $count = UserProfileRule::find()
+            $format = 'Y-m-d';
+            $count = UserProfileRule::find()->where(['user_id' => Yii::$app->user->id])
                 ->select(['date', 'count(*) AS countRule'])
-                ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
                 ->groupBy('date')
+                ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
                 ->asArray()
                 ->all();
 
+
             $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
 
-            function getDatesFromRange($dateFrom, $dateTo, $format = 'Y-m-d')
-            {
-                $array = array();
-                $interval = new DateInterval('P1D');
-
-                $realEnd = new DateTime($dateTo);
-                $realEnd->add($interval);
-
-                $period = new DatePeriod(new DateTime($dateFrom), $interval, $realEnd);
-
-                foreach ($period as $date) {
-                    $array[] = $date->format($format);
-                }
-
-                return $array;
-            }
-
-            $dateRange = getDatesFromRange($dateFrom, $dateTo);
+            $dateRange = $this->getDatesFromRange($dateFrom, $dateTo,$format);
             $dates = [];
             for ($i = 0; $i < count($dateRange); $i++) {
                 $dates[$dateRange[$i]] = 0;
             }
-
-        } else {
-
-            $user = User::find()->where(['id' => Yii::$app->user->id])->one();
-            $count = UserProfileRule::find()->where(['user_id' => $user->id])
-                ->select(['date,count(*) as countRule'])
-                ->groupBy('date')
-                ->asArray()
-                ->all();
-
-
-            $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
-
-            $date = strtotime('monday this week');
-            $dates = [];
-            for ($i = 1; $i < 8; $i++) {
-                $dates[date("Y-m-d", $date)] = 0;
-                $date = strtotime('+1 day', $date);
-            }
         }
-
         foreach ($dates as $k => $i) {
             foreach ($chartValue as $key => $item) {
                 if ($k == $key) {
@@ -85,17 +66,50 @@ class UserProfileChartService
 
     public function getData()
     {
-        $dateForCount = $this->getDateForCount();
-        $dates = "'ВС','СБ','ПТ','ЧТ','СР','ВТ','ПН'";
-        $counts = "";
-        foreach ($dateForCount as $date => $count) {
+        $dateTo = date("Y-m-d", strtotime("+7 days"));
+        $dateFrom = date('Y-m-d');
 
-            $counts .= '\'' . $count . '\',';
+        $count = UserProfileRule::find()->where(['user_id' => Yii::$app->user->id])
+            ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
+            ->select(['date,count(*) as countRule'])
+            ->groupBy('date')
+            ->asArray()
+            ->all();
+
+        $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
+
+        $dateTo = date("Y-m-d", strtotime("+7 days"));
+        $dateFrom = date('Y-m-d');
+        $format = 'D';
+
+        $dateRange = $this->getDatesFromRange($dateFrom, $dateTo,$format);
+        $dates = [];
+        for ($i = 0; $i < count($dateRange); $i++) {
+            $dates[$dateRange[$i]] = 0;
         }
-        $counts = substr($counts, 0, -1);
-        $data = [$dates, $counts];
 
-        return $data;
+        foreach ($dates as $k => $i) {
+            foreach ($chartValue as $key => $item) {
+                $week = DateTime::createFromFormat('Y-m-d', $key);
+                $key  = $week->format('D');
+                if ($k == $key) {
+                    $dates[$k] = $item;
+                }
+            }
+        }
+        $date ='';
+        $count ='';
+        $dates = array_reverse($dates);
+        foreach ($dates as $k=>$i){
+            $date .= '\'' . $k.'\',' ;
+            $count .= '\'' . $i.'\',' ;
+
+        }
+        $date = substr($date,0,-1);
+        $count = substr($count,0,-1);
+        $data = [$date,$count];
+            return ($data);
+
 
     }
 
