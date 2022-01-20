@@ -143,11 +143,11 @@ class UserProfileController extends Controller
      */
     public function actionResetCookie()
     {
-        if (($cookie = Yii::$app->request->cookies->get('array-pulsate')) !== null) {
-            Yii::debug($cookie->value);
+        $cookies = Yii::$app->request->cookies;
+        if (isset($cookies['array-pulsate'])) {
             $newArrayCookie = [];
             $delete = '';
-            foreach ($cookie->value as $item) {
+            foreach ($cookies['array-pulsate']->value as $item) {
                 if ($item != Yii::$app->request->post('key')) {
                     $newArrayCookie [] = $item;
                 } else {
@@ -176,14 +176,14 @@ class UserProfileController extends Controller
         $model->password = random_int(0, 999999) . '111111';
         $infoProfile = 'Логин: ' . $model->email . '; Пароль: ' . $model->password;
         if ($model->signup()) {
-            $cookies = Yii::$app->response->cookies;
-            $cookies->add(new \yii\web\Cookie([
-                'name' => 'info-profile',
-                'value' => $infoProfile,
-            ]));
             $userProfile = new UserProfile();
             $userProfile->user_id = Yii::$app->user->identity->getId();
             if ($userProfile->save()) {
+                $cookies = Yii::$app->response->cookies;
+                $cookies->add(new \yii\web\Cookie([
+                    'name' => 'info-profile',
+                    'value' => $infoProfile,
+                ]));
                 return $this->goHome();
             }
         }
