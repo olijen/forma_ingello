@@ -18,6 +18,7 @@ class WidgetAccess extends Widget
     public $rules;
     public $user;
     public $interface;
+
     /**
      * @throws \yii\db\Exception
      */
@@ -52,7 +53,7 @@ class WidgetAccess extends Widget
         if ($countCurrent == $countNeed) {
             return true;
         }
-        $rules = Rule::find()->where(['rank_id' => $itemInterface->rank_id])->all();
+        $rules = Rule::find()->where(['rank_id' => $itemInterface->rank_id])->allAccessory();
         foreach ($rules as $rule) {
             $this->rules .= $rule->rule_name . ' (' . $countCurrent . ' из ' . $countNeed . ');';
         }
