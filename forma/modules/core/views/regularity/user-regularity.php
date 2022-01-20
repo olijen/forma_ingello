@@ -1,14 +1,16 @@
 <script>
     <?=$this->renderFile('@app/web/js/time-line.js');?>
 </script>
+
 <?php
-if (!empty($cookie = Yii::$app->response->cookies->get('info-profile'))) { ?>
-    <script>
-        alert(<?= $cookie->value ?>)
-    </script>';
-    <?php Yii::$app->response->cookies->remove('info-profile'); ?>
-<?php }
-?>
+$cookies = Yii::$app->request->cookies;
+if (isset($cookies['info-profile'])) {
+    $userInfo = $cookies['info-profile']->value;
+    ?>
+    <script>alert("Данные для регистрации. <?=$userInfo?>")</script>
+    <?php
+    Yii::$app->response->cookies->remove('info-profile');
+} ?>
 
 <?php
 
