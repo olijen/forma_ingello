@@ -164,6 +164,24 @@ class UserProfileController extends Controller
     }
 
     /**
+     * @return \yii\web\Response
+     * Метод перезаписи таблицы доступ к интерфейсам
+     */
+    public function actionResetItemInterface()
+    {
+        $accessInterface = Yii::$app->params['access-interface'];
+        foreach ($accessInterface as $module => $keys) {
+            foreach ($keys as $keyInId => $key) {
+                $newItemInterface = new ItemInterface();
+                $newItemInterface->module = $module;
+                $newItemInterface->key = $keyInId;
+                $newItemInterface->save();
+            }
+        }
+        return $this->redirect('/core/user-profile');
+    }
+
+    /**
      * @return void|\yii\web\Response
      * @throws \Exception
      * Метод создания  игрового профиля с такими данными (Регламенты, Элементы, Правила, Ранги, Элементы доступа)
