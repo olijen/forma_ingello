@@ -13,10 +13,6 @@ $this->title = 'Интерфейсы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="item-interface-index">
-    
-    <?= Html::a('<i class="fas fa-user-plus"></i> Создать интерфейс', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
-
-
 
     <?php Pjax::begin(['id' => 'grid'])?>
     
@@ -26,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{update}',
             ],
             [
                 'attribute' => 'rank_id',

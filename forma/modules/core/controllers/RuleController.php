@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\UserProfile;
 use rmrevin\yii\ionicon\AssetBundle;
 use Yii;
 use forma\modules\core\records\Rule;
@@ -149,6 +150,20 @@ class RuleController extends Controller
     }
 
     /**
+     * @param $id
+     * @return void
+     * Метод перезаписи Ранга пользователя по Рангу
+     */
+    public function resetUserRankByRankId($id)
+    {
+        $userProfiles = UserProfile::find()->where(['rank_id' => $id])->all();
+        foreach ($userProfiles as $userProfile) {
+            $userProfile->rank_id = null;
+            $userProfile->save();
+        }
+    }
+
+    /**
      * Creates a new Rule model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -168,6 +183,7 @@ class RuleController extends Controller
         }
         $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->resetUserRankByRankId($model->rank_id);
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -202,6 +218,7 @@ class RuleController extends Controller
             }
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->resetUserRankByRankId($model->rank_id);
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -221,8 +238,9 @@ class RuleController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $this->resetUserRankByRankId($model->rank_id);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
