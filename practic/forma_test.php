@@ -5,7 +5,7 @@ $arr_answer = ['4','5','8'];
 
 $count_array = count($arr_answer);
 
-
+//16
 //?>
 <!--<br>-->
 <!--<br>-->
@@ -41,7 +41,7 @@ $count_array = count($arr_answer);
 //}
 //?>
 
-
+//17
 <br>
 <br>
 <br>
@@ -75,7 +75,7 @@ $count_array = count($arr_answer);
 //}
 //?>
 
-
+//18
 <br>
 <br>
 
