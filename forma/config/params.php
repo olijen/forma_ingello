@@ -356,7 +356,7 @@ return [
                 ],
                 [
                     'label' => 'Скрипты',
-                    'url' => ['/selling/speech-module'],
+                    'url' => ['/selling/speech-module?isSelling=1'],
                     'icon' => 'list',
                     'items' => [
 
@@ -441,7 +441,7 @@ return [
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
                 ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
-                ['label' => 'Скрипты','url' => ['/selling/speech-module'],'icon' => 'list',]],
+                ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',]],
         ],
         [
             'label' => 'Продукты и услуги',

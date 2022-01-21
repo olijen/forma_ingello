@@ -18,11 +18,18 @@ class SpeechModuleController extends Controller
         $strategies = new Strategy();
         $getWithoutEmptyStrategies = $strategies->getListWithoutEmptyStrategy();
         $temp = [];
-        foreach($getWithoutEmptyStrategies as $key => $arr){
+        foreach ($getWithoutEmptyStrategies as $key => $arr) {
             $temp[] = $key;
         }
-        $getStrategiesUser = Strategy::find()->where(['in', 'id', $temp])->all();
-        return $this->render('index',compact('getWithoutEmptyStrategies','getStrategiesUser'));
+        $isSelling = null;
+        if (isset($_GET['isSelling'])) {
+            $isSelling = \Yii::$app->request->get('isSelling');
+            $getStrategiesUser = Strategy::find()->where(['in', 'id', $temp])
+                ->andWhere(['is_selling' => $isSelling])->all();
+        } else {
+            $getStrategiesUser = Strategy::find()->where(['in', 'id', $temp])->all();
+        }
+        return $this->render('index', compact('getWithoutEmptyStrategies', 'getStrategiesUser', 'isSelling'));
     }
     public function actionHashForEvent()
     {
