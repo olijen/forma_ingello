@@ -974,6 +974,8 @@ class AutoDumpDataBase
                 $sale,
                 'state_id');
 
+            $sale->selling_token = Yii::$app->getSecurity()->generateRandomString();
+
             $this->forSaveAndGetKey($sale, 'selling_id');
         }
 
