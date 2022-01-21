@@ -15,9 +15,29 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-    <div class="custom-file">
-        <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->fileInput() ?>
-    </div>
+    <?php if (!$model->isNewRecord) { ?>
+        <?php if (isset($model->userProfile->image)) { ?>
+            <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                'pluginOptions' => [
+                    'initialPreview' => \yii\helpers\Url::to(["/img/user-profile/{$model->userProfile->image}"]),
+                    'initialPreviewAsData' => true,
+                ],
+            ]); ?>
+        <?php } else { ?>
+            <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                'pluginOptions' => [
+                    'initialPreview' => \yii\helpers\Url::to(["/img/user-profile/defaultImage.png"]),
+                    'initialPreviewAsData' => true,
+                ],
+            ]); ?>
+        <?php } ?>
+    <?php } else { ?>
+        <?= $form->field($model->userProfile, 'imageFile', ['options' => ['class' => 'col-xs-12']])->widget(\kartik\file\FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+        ]); ?>
+    <?php } ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

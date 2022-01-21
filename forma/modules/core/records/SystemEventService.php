@@ -117,7 +117,7 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
-            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->oneAccessory();
 
             if ($rule) {
                 self::getUserProfileService()->setEvent($rule);
@@ -173,7 +173,7 @@ class SystemEventService
         if (self::checkBlackList($className)) {
 //            var_dump('11');
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->oneAccessory();
             if ($rule) {
                 self::getUserProfileService()->setEvent($rule);
             }
@@ -219,7 +219,7 @@ class SystemEventService
         $text = "";
         if (self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->oneAccessory();
             if ($rule) {
                 self::getUserProfileService()->setEvent($rule);
             }

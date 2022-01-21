@@ -92,7 +92,7 @@ else
                             Профиль
                         </h3>
                         <div class="box-tools pull-right">
-                            <a href="/core/user-profile/update/?id=<?= $currenUser->id ?>"
+                            <a href="/core/user-profile/update/?id=<?= $currenUser->userProfile->id ?>"
                                class="btn btn-success forma_green"> <i class="fa fa-edit"></i> Обновить профиль </a>
                         </div>
                     </div>
@@ -106,7 +106,7 @@ else
                                     alt="User Image"/>
                         </div>
                         <h4 class="fourval">Ранг: <p
-                                    class="ball-rank"><?= isset($currenUser->userProfile->rank->name) ? $currenUser->userProfile->rank->name : '-' ?></p>
+                                    class="ball-rank"><?= isset($currenUser->userProfile->rank->name) ? $currenUser->userProfile->rank->name : 'нет ранга' ?></p>
                         </h4>
                         <h4 class="fourval">Количество
                             баллов:

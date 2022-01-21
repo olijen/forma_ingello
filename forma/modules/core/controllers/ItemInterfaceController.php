@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\UserProfileRule;
 use Yii;
 use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\ItemInterfaceSearch;
@@ -35,41 +36,10 @@ class ItemInterfaceController extends Controller
         $searchModel = new ItemInterfaceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('/user-profile/item-interface/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
-
-    /**
-     * Displays a single ItemInterface model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new ItemInterface model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new ItemInterface();
-        $model->loadDefaultValues(); //load default data from db
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
@@ -81,27 +51,23 @@ class ItemInterfaceController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $oldModel = $model;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($oldModel->module != $model->module || $oldModel->key != $model->key) {
+                foreach ($model->rank->rules as $rule) {
+                    foreach ($rule->userProfileRules as $userProfileRule) {
+                        $userProfileRule->user->userProfile->rank_id = null;
+                        $userProfileRule->user->userProfile->save();
+                        $userProfileRule->delete();
+                    }
+                }
+            }
+            return $this->redirect('/core/item-interface');
         } else {
-            return $this->render('update', [
+            return $this->render('/user-profile/item-interface/update', [
                 'model' => $model,
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing ItemInterface model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[Rank]].
  *
@@ -9,16 +11,16 @@ namespace forma\modules\core\records;
  */
 class RankQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        $this->andWhere('[[status]]=1');
-        return $this;
-    }*/
-
     /**
      * @inheritdoc
      * @return Rank[]|array
      */
+    public function allAccessory($db = null)
+    {
+        $this->andWhere(['in', 'rank.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
+        return parent::all($db);
+    }
+
     public function all($db = null)
     {
         return parent::all($db);

@@ -72,7 +72,7 @@ $this->params['icons'][] = $icons;
                 'attribute' => 'rank_id',
                 'label' => 'Ранг',
                 'value' => 'rank.name',
-                'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id','name'])->asArray()->all(), 'id', 'name'),
+                'filter' => \yii\helpers\ArrayHelper::map(\forma\modules\core\records\Rank::find()->select(['id', 'name'])->asArray()->allAccessory(), 'id', 'name'),
             ],
             [
                 'attribute' => 'icon',

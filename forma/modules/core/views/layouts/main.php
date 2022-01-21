@@ -490,8 +490,8 @@ JS;
     </div>
     <?php
     $cookies = Yii::$app->request->cookies;
-    if (($cookie = $cookies->get('array-pulsate')) !== null) {
-        $array = $cookie->value;
+    if (isset($cookies['array-pulsate'])) {
+        $array = $cookies['array-pulsate']->value;
         $js = "function addPulse(){";
         foreach ($array as $item) {
             $js .= "$('#$item').pulsate();";

@@ -1,18 +1,16 @@
 <script>
     <?=$this->renderFile('@app/web/js/time-line.js');?>
 </script>
+
 <?php
-if (isset($_COOKIE['user_game'])) { ?>
-<script>
-    alert('Ваше имя : <?php echo $_SESSION['userName'] ?> . E-mail : <?php echo $_SESSION['email'] ?>. Пароль: <?php echo $_SESSION['password'] ?> ')
-</script>';
-<?php }
-Yii::$app->response->cookies->remove('user_game');
-?>
-
-
-
-
+$cookies = Yii::$app->request->cookies;
+if (isset($cookies['info-profile'])) {
+    $userInfo = $cookies['info-profile']->value;
+    ?>
+    <script>alert("Данные для регистрации. <?=$userInfo?>")</script>
+    <?php
+    Yii::$app->response->cookies->remove('info-profile');
+} ?>
 
 <?php
 
@@ -545,7 +543,9 @@ box-sizing: border-box;
             <label for="toggle"></label>
 
             <div class="message"><h1> Ваш
-                    ранг: <?php echo isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile->rank)?\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])->one()->userProfile->rank->name :'у вас еще нет ранга' ?></h1>
+                    ранг: <?php echo isset(\forma\modules\core\records\User::find()->where(['id' => Yii::$app->user->id])
+                            ->one()->userProfile->rank)?\forma\modules\core\records\User::find()
+                        ->where(['id' => Yii::$app->user->id])->one()->userProfile->rank->name :' нет ранга' ?></h1>
                 <h2>Вы можете перейти по ссылке <a href="/core/user-profile">ПРОФИЛЬ</a></h2>
             </div>
 

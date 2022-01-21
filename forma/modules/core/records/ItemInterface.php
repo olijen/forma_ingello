@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -14,7 +15,7 @@ use Yii;
   *
       * @property Rank $rank
   */
-class ItemInterface extends \yii\db\ActiveRecord
+class ItemInterface extends AccessoryActiveRecord
 {
 
 
@@ -52,12 +53,12 @@ class ItemInterface extends \yii\db\ActiveRecord
   */
   public function attributeLabels()
   {
-    return [
-        'id' => 'ID',
-        'rank_id' => 'Rank ID',
-        'module' => 'Module',
-        'key' => 'Key',
-    ];
+      return [
+          'id' => 'ID',
+          'rank_id' => 'Ранг',
+          'module' => 'Модуль',
+          'key' => 'Интерфейс',
+      ];
   }
 
   /**

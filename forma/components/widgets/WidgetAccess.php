@@ -11,17 +11,20 @@ use function Clue\StreamFilter\fun;
 
 class WidgetAccess extends Widget
 {
+
+
     public $module;
     public $key;
     public $rules;
     public $user;
     public $interface;
+
     /**
      * @throws \yii\db\Exception
      */
     public function isAccessible(): bool
     {
-        $itemInterface = ItemInterface::find()->where(['key' => $this->key, 'module' => $this->module])->one();
+        $itemInterface = ItemInterface::find()->where(['key' => $this->key, 'module' => $this->module])->oneAccessory();
         if (!isset($itemInterface->rank)) {
             return true;
         }
@@ -50,9 +53,9 @@ class WidgetAccess extends Widget
         if ($countCurrent == $countNeed) {
             return true;
         }
-        $rules = Rule::find()->where(['rank_id' => $itemInterface->rank_id])->all();
+        $rules = Rule::find()->where(['rank_id' => $itemInterface->rank_id])->allAccessory();
         foreach ($rules as $rule) {
-            $this->rules .= $rule->rule_name . '; ';
+            $this->rules .= $rule->rule_name . ' (' . $countCurrent . ' из ' . $countNeed . ');';
         }
         $allInterfaces = \Yii::$app->params['access-interface'][$this->module];
         foreach ($allInterfaces as $key => $interface) {
@@ -77,14 +80,14 @@ class WidgetAccess extends Widget
         $content = ob_get_clean();
         $str = str_replace(' ', '-', $this->key);
         $spanElement = "<div style='display: inline-block;'  id ='$str'>$content</div>";
-        if (!isset($this->user->userProfile)) {
+        if (isset(User::find()->where(['id' => \Yii::$app->user->id])->one()->userProfile)) {
             if ($this->isAccessible() == true) {
                 echo $spanElement;
             } else {
-                echo "<br/><div style='display: inline-block' class='hover-info' title='Выполните задание: $this->rules. После откроется доступ: $this->interface'><i class='fa fa-info '></i><br/></div>";
+                echo "<div style='display: inline-block' class='hover-info' title='Выполните задание: $this->rules. После откроется доступ: $this->interface'><i class='fa fa-info '></i><br/></div>";
             }
         } else {
-            echo $spanElement;
+            echo $content;
         }
 
     }

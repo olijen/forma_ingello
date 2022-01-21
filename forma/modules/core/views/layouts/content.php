@@ -63,13 +63,14 @@ use \yii\web\JsExpression;
                 $allInterfaces = \Yii::$app->params['access-interface'][$itemInterface->module];
                 foreach ($allInterfaces as $key => $interface) {
                     if ($key == $itemInterface->key) {
-                        $interfaceTemp .= $interface . '; ';
+                        $interfaceTemp .= '<br />' . $interface . '; ';
                         $str = str_replace(' ', '-', $itemInterface->key);
                         $arrayKey [] = $str;
                     }
                 }
             }
-            $value = '#Задание: Ты справился ' . $interfaceTemp . '!!!';
+            $value = "<a href='/core/user-profile'>ПРОФИЛЬ</a> <br /> Ты справился, $interfaceTemp <br /> 
+                      <img style='width: 300px;height: 200px;' src='/img/user-profile/{$itemInterface->rank->image}' />";
             echo $value;
             Alert::end();
             Yii::$app->response->cookies->remove('event');
@@ -81,7 +82,7 @@ use \yii\web\JsExpression;
             ]));
 
         endif; ?>
-        <a href="/core/user-profile">ПРОФИЛЬ</a>
+
         <section class="content">
             <?= $content ?>
         </section>

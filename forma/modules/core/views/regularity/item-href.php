@@ -5,6 +5,7 @@ use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
 use kartik\dialog\Dialog;
+use rmrevin\yii\fontawesome\FontAwesome;
 use yii\bootstrap\Collapse;
 
 $allDataRegularity = new \forma\modules\core\services\RegularityGameService($regularity->id);
@@ -59,9 +60,18 @@ if (isset($parentItem)) {
                         if ($tempItem["id"] == $item->id) {
                             foreach ($allDataRegularity->getRules() as $rule) {
                                 if ($rule['item_id'] == $item->id) {
+                                    $iconName = "";
+                                    $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);;
+                                    foreach ($icons as $key => $icon) {
+                                        if ($key == $rule['icon']) {
+                                            $iconName = $icon;
+                                            break;
+                                        }
+
+                                    }
                                     echo "<div class='clearfix'>
-                                            <span class='pull-left'>Название задачи: " . (($rule["action"] === 'insert') ? 'добавить' : '')
-                                        . (($rule["action"] === 'update') ? 'обновить' : '') . (($rule["action"] === 'delete') ? 'удалить' : '') . ", объект 
+                                            <span class='pull-left'><i class='fa fa-$iconName' style='margin-right: 5px;'></i>Задание: " . (($rule["action"] === 'insert') ? 'добавить' : '')
+                                        . (($rule["action"] === 'update') ? 'обновить' : '') . (($rule["action"] === 'delete') ? 'удалить' : '') . " 
                                         '" . Yii::$app->params['translateTablesName'][$rule["table"]] . "'</span>
                                          </div>";
                                     $tempCurrentBall = 0;
@@ -98,8 +108,8 @@ if (isset($parentItem)) {
                                     }
                                 }
                             }
-                            echo "<h1>Награды за выполнение заданий:</h1>";
-                            foreach ($allDataRegularity->getGrantInterfaceByRankId($allDataRegularity->getRanks()[0]['id']) as $interface) {
+                            echo "<h1>Награды за выполненные задания:</h1>";
+                            foreach ($allDataRegularity->getGrantInterfaceByRankId($allDataRegularity->getRankIdByItemId($tempItem['id'])) as $interface) {
                                 echo "<br />$interface <br />";
                             }
                         }

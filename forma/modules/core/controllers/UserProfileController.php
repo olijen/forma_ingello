@@ -2,10 +2,8 @@
 
 namespace forma\modules\core\controllers;
 
-use DateInterval;
-use DatePeriod;
-use DateTime;
 use forma\modules\core\forms\SignupForm;
+use forma\modules\core\records\Accessory;
 use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\Rank;
 use forma\modules\core\records\Rule;
@@ -52,7 +50,7 @@ class UserProfileController extends Controller
         $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
         $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if (!empty($currenUser)) {
-            $ranks = Rank::find()->joinWith(['rules'])->all();
+            $ranks = Rank::find()->joinWith(['rules'])->allAccessory();
             return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
                 'currenUser' => $currenUser,
@@ -77,10 +75,17 @@ class UserProfileController extends Controller
         $model = new UserProfile();
         if (Yii::$app->request->isPost) {
             $modelUpload->imageFile = UploadedFile::getInstance($modelUpload, 'imageFile');
-            $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
-            if ($modelUpload->imageFile
-                ->saveAs('./img/user-profile/' . $fileName)) {
-                $model->image = $fileName;
+            if (isset($modelUpload->imageFile)) {
+                $fileName = $modelUpload->imageFile->baseName . '_' . time() . date('Y-m-d') . '.' . $modelUpload->imageFile->extension;
+                if ($modelUpload->imageFile
+                    ->saveAs('./img/user-profile/' . $fileName)) {
+                    $model->image = $fileName;
+                    $model->user_id = Yii::$app->user->id;
+                    if ($model->save()) {
+                        return $this->redirect('/core/user-profile/');
+                    }
+                }
+            } else {
                 $model->user_id = Yii::$app->user->id;
                 if ($model->save()) {
                     return $this->redirect('/core/user-profile/');
@@ -114,47 +119,14 @@ class UserProfileController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['/user-profile/userprofile/index']);
-    }
-
-    public function actionGenerateGame()
-    {
-        $rankMasterCRM = new Rank();
-        $rankMasterCRM->name = 'Мастер в CRM модуле';
-        $rankMasterCRM->order = '2';
-        $rankMasterCRM->image = 'stol.png';
-        $rankMasterCRM->save();
-        $accessInterfaceCRM = Yii::$app->params['access-interface']['СRM'];
-        foreach ($accessInterfaceCRM as $key => $item) {
-            $newItemInterface = new ItemInterface();
-            $newItemInterface->module = 'СRM';
-            $newItemInterface->key = $key;
-            $newItemInterface->rank_id = $rankMasterCRM->id;
-            $newItemInterface->save();
+        $model = $this->findModel($id);
+        if (isset($model->image)) {
+            unlink('./img/user-profile/' . $model->image);
+            $model->delete();
+        } else {
+            $model->delete();
         }
-        $rankMasterHRM = new Rank();
-        $rankMasterHRM->name = 'Мастер в HRM модуле';
-        $rankMasterHRM->order = '1';
-        $rankMasterHRM->image = 'stol.png';
-        $rankMasterHRM->save();;
-        $accessInterfaceHRM = Yii::$app->params['access-interface']['HRM'];
-        foreach ($accessInterfaceHRM as $key => $item) {
-            $newItemInterface = new ItemInterface();
-            $newItemInterface->module = 'HRM';
-            $newItemInterface->key = $key;
-            $newItemInterface->rank_id = isset($rankMasterHRM->id) ? $rankMasterHRM->id : null;
-            $newItemInterface->save();
-        }
-    }
-
-    public function actionCleanGame()
-    {
-        UserProfileRule::deleteAll();
-        UserProfile::deleteAll();
-        Rule::deleteAll();
-        ItemInterface::deleteAll();
-        Rank::deleteAll();
+        return $this->redirect(['/core/userprofile/index']);
     }
 
     /**
@@ -173,13 +145,17 @@ class UserProfileController extends Controller
         }
     }
 
+    /**
+     * @return false|string|void
+     * Метод записи пульсации на открытый элемент, через cookie
+     */
     public function actionResetCookie()
     {
-        if (($cookie = Yii::$app->request->cookies->get('array-pulsate')) !== null) {
-            Yii::debug($cookie->value);
+        $cookies = Yii::$app->request->cookies;
+        if (isset($cookies['array-pulsate'])) {
             $newArrayCookie = [];
             $delete = '';
-            foreach ($cookie->value as $item) {
+            foreach ($cookies['array-pulsate']->value as $item) {
                 if ($item != Yii::$app->request->post('key')) {
                     $newArrayCookie [] = $item;
                 } else {
@@ -195,23 +171,45 @@ class UserProfileController extends Controller
         }
     }
 
-    public function actionGame()
+    /**
+     * @return \yii\web\Response
+     * Метод перезаписи таблицы доступ к интерфейсам
+     */
+    public function actionResetItemInterface()
     {
-        if (empty($_COOKIE['user_game'])) {
-            $model = new SignupForm();
-            Yii::$app->response->cookies->add(new Cookie([
-                'name' => 'user_game',
-                'value' => 'game' . random_int(0, 999999)
-            ]));
+        $accessInterface = Yii::$app->params['access-interface'];
+        foreach ($accessInterface as $module => $keys) {
+            foreach ($keys as $keyInId => $key) {
+                $newItemInterface = new ItemInterface();
+                $newItemInterface->module = $module;
+                $newItemInterface->key = $keyInId;
+                $newItemInterface->save();
+            }
+        }
+        return $this->redirect('/core/user-profile');
+    }
 
-            $userName = $model->username = 'User game';
-            $email = $model->email = random_int(0, 999999) . 'user@game.game';
-            $password = $model->password = random_int(0, 999999) . '111111';
-            $session = Yii::$app->session;
-            $session->set('userName', "$userName");
-            $session->set('email', "$email");
-            $session->set('password', "$password");
-            if ($model->signup()) {
+    /**
+     * @return void|\yii\web\Response
+     * @throws \Exception
+     * Метод создания  игрового профиля с такими данными (Регламенты, Элементы, Правила, Ранги, Элементы доступа)
+     */
+    public function actionCreateGameProfile()
+    {
+        $model = new SignupForm();
+        $model->username = 'Game profile';
+        $model->email = random_int(0, 999999) . 'game@game.game';
+        $model->password = random_int(0, 999999) . '111111';
+        $infoProfile = 'Логин: ' . $model->email . '; Пароль: ' . $model->password;
+        if ($model->signup()) {
+            $userProfile = new UserProfile();
+            $userProfile->user_id = Yii::$app->user->identity->getId();
+            if ($userProfile->save()) {
+                $cookies = Yii::$app->response->cookies;
+                $cookies->add(new \yii\web\Cookie([
+                    'name' => 'info-profile',
+                    'value' => $infoProfile,
+                ]));
                 return $this->goHome();
             }
         } else {
