@@ -14,7 +14,7 @@ class UserProfileChartService
     //получаю массив с данными: дата => количество
    public function getDatesFromRange($dateFrom, $dateTo, $format )
     {
-        $array = array();
+        $array = [];
         $interval = new DateInterval('P1D');
 
         $realEnd = new DateTime($dateTo);
@@ -66,11 +66,17 @@ class UserProfileChartService
 
     public function getData()
     {
-        $dateTo = date("Y-m-d", strtotime("+7 days"));
+        setlocale(LC_ALL, "ru_RU.UTF-8");
+//        de(strftime("%A, Месяц: %B, Год: %Y, %d/%m/%Y", time()));
+        $dateTo = date("Y-m-d");
+        $date = DateTime::createFromFormat('Y-m-d', $dateTo);
+        $date->modify('-6 day');
+        $dateTo = $date->format('Y-m-d');
         $dateFrom = date('Y-m-d');
+        $format = 'D';
 
         $count = UserProfileRule::find()->where(['user_id' => Yii::$app->user->id])
-            ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
+            ->andFilterWhere(['between', 'date', $dateTo, $dateFrom])
             ->select(['date,count(*) as countRule'])
             ->groupBy('date')
             ->asArray()
@@ -78,16 +84,13 @@ class UserProfileChartService
 
         $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
 
-        $dateTo = date("Y-m-d", strtotime("+7 days"));
-        $dateFrom = date('Y-m-d');
-        $format = 'D';
+        $dateRange = $this->getDatesFromRange($dateTo,$dateFrom, $format);
+        $dateRange = array_reverse($dateRange);
 
-        $dateRange = $this->getDatesFromRange($dateFrom, $dateTo,$format);
         $dates = [];
         for ($i = 0; $i < count($dateRange); $i++) {
             $dates[$dateRange[$i]] = 0;
         }
-
         foreach ($dates as $k => $i) {
             foreach ($chartValue as $key => $item) {
                 $week = DateTime::createFromFormat('Y-m-d', $key);
