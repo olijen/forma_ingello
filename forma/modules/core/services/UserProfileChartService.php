@@ -11,8 +11,8 @@ use Yii;
 
 class UserProfileChartService
 {
-    //получаю массив с данными: дата => количество
-   public function getDatesFromRange($dateFrom, $dateTo, $format )
+    //получаю массив с периодом от и до
+    public function getDatesFromRange($dateFrom, $dateTo, $format)
     {
         $array = [];
         $interval = new DateInterval('P1D');
@@ -29,23 +29,31 @@ class UserProfileChartService
         return $array;
     }
 
+    public function getDateCount($dateFrom = null, $dateTo = null)
+    {
+
+        $count = UserProfileRule::find()->where(['user_id' => Yii::$app->user->id])
+            ->select(['date', 'count(*) AS countRule'])
+            ->groupBy('date')
+            ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
+            ->asArray()
+            ->all();
+
+        $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
+        return $chartValue;
+
+    }
+
+    //получаем массив дата => количество
     public function getDateForCount($date = null)
     {
         if ($date !== null) {
             $dateFrom = $date['from_date'];
             $dateTo = $date['to_date'];
             $format = 'Y-m-d';
-            $count = UserProfileRule::find()->where(['user_id' => Yii::$app->user->id])
-                ->select(['date', 'count(*) AS countRule'])
-                ->groupBy('date')
-                ->andFilterWhere(['between', 'date', $dateFrom, $dateTo])
-                ->asArray()
-                ->all();
 
-
-            $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
-
-            $dateRange = $this->getDatesFromRange($dateFrom, $dateTo,$format);
+            $chartValue = $this->getDateCount($dateFrom, $dateTo);
+            $dateRange = $this->getDatesFromRange($dateFrom, $dateTo, $format);
             $dates = [];
             for ($i = 0; $i < count($dateRange); $i++) {
                 $dates[$dateRange[$i]] = 0;
@@ -66,8 +74,6 @@ class UserProfileChartService
 
     public function getData()
     {
-        setlocale(LC_ALL, "ru_RU.UTF-8");
-//        de(strftime("%A, Месяц: %B, Год: %Y, %d/%m/%Y", time()));
         $dateTo = date("Y-m-d");
         $date = DateTime::createFromFormat('Y-m-d', $dateTo);
         $date->modify('-6 day');
@@ -75,16 +81,9 @@ class UserProfileChartService
         $dateFrom = date('Y-m-d');
         $format = 'D';
 
-        $count = UserProfileRule::find()->where(['user_id' => Yii::$app->user->id])
-            ->andFilterWhere(['between', 'date', $dateTo, $dateFrom])
-            ->select(['date,count(*) as countRule'])
-            ->groupBy('date')
-            ->asArray()
-            ->all();
+        $chartValue = $this->getDateCount($dateTo, $dateFrom);
 
-        $chartValue = \yii\helpers\ArrayHelper::map($count, 'date', 'countRule');
-
-        $dateRange = $this->getDatesFromRange($dateTo,$dateFrom, $format);
+        $dateRange = $this->getDatesFromRange($dateTo, $dateFrom, $format);
         $dateRange = array_reverse($dateRange);
 
         $dates = [];
@@ -94,24 +93,24 @@ class UserProfileChartService
         foreach ($dates as $k => $i) {
             foreach ($chartValue as $key => $item) {
                 $week = DateTime::createFromFormat('Y-m-d', $key);
-                $key  = $week->format('D');
+                $key = $week->format('D');
                 if ($k == $key) {
                     $dates[$k] = $item;
                 }
             }
         }
-        $date ='';
-        $count ='';
+        $date = '';
+        $count = '';
         $dates = array_reverse($dates);
-        foreach ($dates as $k=>$i){
-            $date .= '\'' . $k.'\',' ;
-            $count .= '\'' . $i.'\',' ;
+        foreach ($dates as $k => $i) {
+            $date .= '\'' . $k . '\',';
+            $count .= '\'' . $i . '\',';
 
         }
-        $date = substr($date,0,-1);
-        $count = substr($count,0,-1);
-        $data = [$date,$count];
-            return ($data);
+        $date = substr($date, 0, -1);
+        $count = substr($count, 0, -1);
+        $data = [$date, $count];
+        return ($data);
 
 
     }

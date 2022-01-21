@@ -42,9 +42,9 @@ class UserProfileController extends Controller
     public function actionIndex()
     {
         $userProfileChart = new UserProfileChartService();
-        if (!empty($_POST)){
+        if (!empty($_POST)) {
             $data = $userProfileChart->getDateWitchPost($_POST);
-        }else{
+        } else {
             $data = $userProfileChart->getData();
         }
 
