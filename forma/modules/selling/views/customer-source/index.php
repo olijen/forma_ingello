@@ -3,6 +3,7 @@
 use forma\components\widgets\WidgetAccess;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use forma\extensions\kartik\DynaGrid;
 use \wokster\ltewidgets\BoxWidget;
 use yii\widgets\Pjax;
 
@@ -16,14 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="customer-source-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <?php BoxWidget::begin([
-        'title'=>'Источники клиентов <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Источник клиента']]
-        ]
-    ]);
-    ?>
+
+    <p>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
+    </p>
     <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'grid customer source']) ?>
     <?php Pjax::begin(['id' => 'grid'])?>
 
@@ -31,20 +28,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\ActionColumn'],
+
 
             'id',
             'name',
             'order',
             'description',
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
 
     <?php Pjax::end();?>
     <?php WidgetAccess::end(); ?>
-    <?php BoxWidget::end();?>
+
 
 
 </div>

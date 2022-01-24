@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use \wokster\ltewidgets\BoxWidget;
 use yii\widgets\Pjax;
+use forma\extensions\kartik\DynaGrid;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\hr\records\interviewstate\InterviewStateSearch */
@@ -18,10 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
     </p>
-    <?php BoxWidget::begin([
-        'title'=>'Состояния <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        ]);
-    ?>
+
 
     <?php Pjax::begin(['id' => 'grid'])?>
     
@@ -37,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::end();?>
 
-    <?php BoxWidget::end();?>
+
 
 
 </div>
