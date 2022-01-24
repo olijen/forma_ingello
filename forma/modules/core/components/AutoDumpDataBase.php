@@ -39,6 +39,18 @@ class AutoDumpDataBase
         return $productIds;
     }
 
+    public function getOldAccessoryRules()
+    {
+        $rulesId = [];
+        $arrayModels = Accessory::find()->where(['user_id' => 1])
+            ->andWhere(['like', 'entity_class', ['\Rule']])
+            ->all();
+        foreach ($arrayModels as $model) {
+            $rulesId[] = $model->entity_id;
+        }
+        return $rulesId;
+    }
+
     //Перебираем в этом методе все записи в accessory, которые обозначены условием,
     // далее формируем по записям accessory с помощью атрибута entity_class новую модель и сохраняем ее
     // как реакция на это, модель наследуемая от accessory создает новый access  с новым user_id
@@ -422,6 +434,12 @@ class AutoDumpDataBase
 
             $this->saveWhitParent($itemsModel);
 
+        }
+        $parentItem = $this->newParent;
+        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['id' => $this->getOldAccessoryRules()]);
+        foreach ($ruleModels as $ruleModel) {
+            $ruleModel->item_id = $parentItem[$ruleModel->item_id];
+            $this->saveWhitParent($ruleModel);
         }
 
         return true;
