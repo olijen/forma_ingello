@@ -5,7 +5,11 @@ namespace forma\modules\core\components;
 
 
 use forma\modules\core\records\Accessory;
+use forma\modules\core\records\Item;
+use forma\modules\core\records\ItemInterface;
+use forma\modules\core\records\Rank;
 use forma\modules\core\records\Regularity;
+use forma\modules\core\records\Rule;
 use forma\modules\core\records\SystemEvent;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
@@ -39,16 +43,18 @@ class AutoDumpDataBase
         return $productIds;
     }
 
-    public function getOldAccessoryRules()
+    //возвращаем id рангов из accessory
+    public function getOldAccessoryRanks()
     {
-        $rulesId = [];
+        $productIds = [];
         $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['like', 'entity_class', ['\Rule']])
+            ->andWhere(['like', 'entity_class', ['\Rank']])
             ->all();
         foreach ($arrayModels as $model) {
-            $rulesId[] = $model->entity_id;
+            $productIds[] = $model->entity_id;
         }
-        return $rulesId;
+
+        return $productIds;
     }
 
     //Перебираем в этом методе все записи в accessory, которые обозначены условием,
@@ -170,6 +176,10 @@ class AutoDumpDataBase
 
     public function start()
     {
+        if (!empty(Yii::$app->request->cookies->get('info-profile'))) {
+            $this->gameData();
+        } else {
+
         $this->getAccessoryKeys();
         $this->workerVacancy();
         $this->state();
@@ -193,9 +203,9 @@ class AutoDumpDataBase
         $this->transit();
         $this->userWidget();
         $this->systemEvents();
+        }
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
-
         return true;
     }
 
@@ -435,16 +445,63 @@ class AutoDumpDataBase
             $this->saveWhitParent($itemsModel);
 
         }
-        $parentItem = $this->newParent;
-        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['id' => $this->getOldAccessoryRules()]);
-        foreach ($ruleModels as $ruleModel) {
-            $ruleModel->item_id = $parentItem[$ruleModel->item_id];
-            $this->saveWhitParent($ruleModel);
-        }
 
         return true;
     }
 
+    /**
+     * @return bool
+     * @var $itemsModels Item[]
+     * @var $parentItem array
+     * @var $rank Rank[]
+     * @var $ruleModels Rule[]
+     * @var $itemInterfaceModels ItemInterface[]
+     * @var $regularity Regularity[]
+     */
+    public function gameData(): bool
+    {
+        $regularity = $this->modelWhitUser('\forma\modules\core\records\Regularity');
+        $this->forSaveAndGetKey($regularity, 'regularity_id');
+        if ($this->deleteAutoDamp) return $this->delete($regularity);
+        $itemsModels = $this->findModels('\forma\modules\core\records\Item', ['regularity_id' => $this->oldKeys['regularity_id']]);
+        foreach ($itemsModels as $itemsModel) {
+            $itemsModel = $this->changeAttributes(
+                $this->newKeys['regularity_id'],
+                $itemsModel,
+                'regularity_id');
+            $itemsModel = $this->changeAttributes(
+                $this->newParent,
+                $itemsModel,
+                'parent_id');
+            $this->saveWhitParent($itemsModel);
+        }
+        $parentItem = $this->newParent;
+        $rank = $this->findModels('\forma\modules\core\records\Rank', ['id' => $this->getOldAccessoryRanks()]);
+        $this->forSaveAndGetKey($rank, 'rank_id');
+        if ($this->deleteAutoDamp) {
+            return $this->delete($rank);
+        }
+        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['rank_id' => $this->oldKeys['rank_id']]);
+        foreach ($ruleModels as $ruleModel) {
+            $ruleModel = $this->changeAttributes(
+                $this->newKeys['rank_id'],
+                $ruleModel,
+                'rank_id'
+            );
+            $ruleModel->item_id = $parentItem[$ruleModel->item_id];
+            $this->saveWhitParent($ruleModel);
+        }
+        $itemInterfaceModels = $this->findModels('\forma\modules\core\records\ItemInterface', ['rank_id' => $this->oldKeys['rank_id']]);
+        foreach ($itemInterfaceModels as $itemInterfaceModel) {
+            $itemInterfaceModel = $this->changeAttributes(
+                $this->newKeys['rank_id'],
+                $itemInterfaceModel,
+                'rank_id'
+            );
+            $this->saveWhitParent($itemInterfaceModel);
+        }
+        return true;
+    }
 
     //работа с группой Field, FieldValue, FieldProductValue
     public function field()
@@ -915,8 +972,6 @@ class AutoDumpDataBase
                 $this->newKeys['state_id'],
                 $sale,
                 'state_id');
-
-            $sale->selling_token = Yii::$app->getSecurity()->generateRandomString();
 
             $this->forSaveAndGetKey($sale, 'selling_id');
         }
