@@ -88,7 +88,7 @@ class OverheadCostService
 
             $usdUnitOverheadCost = $unit->overheadCost->sum * $unit->overheadCost->currency->rate;
             if($currency){
-                $unitOverheadCost += $usdUnitOverheadCost / $currency->rate;
+                $unitOverheadCost += $usdUnitOverheadCost / isset($currency->rate) ? $currency->rate : 1;
             }
 
         }
@@ -101,7 +101,7 @@ class OverheadCostService
         $usdMainOverheadCost = static::getMainTransitOverheadCostsSum($unit->transit) / $transitProductsCount;
         $currency = $module->getProductCurrency($unit->transit->fromWarehouse, $unit->product);
         if($currency){
-            $mainOverheadCost = $usdMainOverheadCost / $currency->rate;
+            $mainOverheadCost = $usdMainOverheadCost / isset($currency->rate) ? $currency->rate : 1;
         }
 
 
