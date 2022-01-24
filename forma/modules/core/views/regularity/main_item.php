@@ -16,9 +16,9 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <div class="box-group" id="accordion">
+        <div class="box-group" id="accordion_<?= $regularity['id'] ?>">
 
-            <?php foreach ($regularity->items as $item): ?>
+        <?php foreach ($regularity->items as $item): ?>
                 <?php if (is_null($item['parent_id'])): ?>
                     <div class="panel box box-success"
                          style="margin-bottom: 5px; border-top-color: <?= $item['color'] ?>">
@@ -34,7 +34,7 @@
                                 <a href="/core/item/delet?id=<?= $item['id'] ?>" onclick="return confirm('Вы уверены, что хотите удалить этот пункт?')">
                                     <i class="fa fa-trash"></i>
                                 </a>
-                                <a data-toggle="collapse" data-parent="#accordion"
+                                <a data-toggle="collapse" data-parent="#accordion_<?= $regularity['id'] ?>"
                                    href="#collapse_<?= $item['id'] ?>" class="regularity_name collapsed"
                                    aria-expanded="false" style="display: inline-table; padding:15px 0;">
                                     | <?= $item['title']; ?>
@@ -49,9 +49,9 @@
 
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <div class="box-group" id="accordion1">
+                                    <div class="box-group" id="accordion_<?= $item['id'] . $item['regularity_id'] ?>">
 
-                                        <?php if ($items): ?>
+                                    <?php if ($items): ?>
                                             <?= $this->render('nested_item', [
                                                 'item' => $item,
                                                 'items' => $items,
