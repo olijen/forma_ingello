@@ -58,6 +58,7 @@ class RuleController extends Controller
         $groupTable['Управление']['strategy'] = 'Стратегии';
         $groupTable['Управление']['regularity'] = 'Регламент';
         $groupTable['Управление']['message'] = 'Сообщения';
+        $groupTable['Управление']['widget_user'] = 'Дашборд';
 
         $groupTable['Найм и проекты']['country'] = 'Страны';
         $groupTable['Найм и проекты']['currency'] = 'Валюта';
