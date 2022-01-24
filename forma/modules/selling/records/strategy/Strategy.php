@@ -36,6 +36,7 @@ class Strategy extends AccessoryActiveRecord
     {
         return [
             [['name', 'description'], 'string'],
+            [['is_selling'], 'boolean'],
         ];
     }
 

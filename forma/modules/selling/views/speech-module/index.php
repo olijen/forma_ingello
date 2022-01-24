@@ -27,12 +27,12 @@ $this->title = Yii::t(
     <div class="menu-strategy col-md-12" style="padding: 10px;">
         <div class="col-md-6 col-sm-12 col-xs-12" style="margin: 0 0 10px;">
             <?php
-            if (!empty($getWithoutEmptyStrategies)) {
+            if (!empty($getStrategiesUser)) {
                 echo Select2::widget([
                     'name' => 'Стратегия',
                     'hideSearch' => true,
-                    'data' => $getWithoutEmptyStrategies,
-                    'value' => array_keys($getWithoutEmptyStrategies, array_values($getWithoutEmptyStrategies)[0])[0],
+                    'data' => \yii\helpers\ArrayHelper::map($getStrategiesUser, 'id', 'name'),
+                    'value' => $getStrategiesUser[0]['id'],
                     'options' => ['placeholder' => 'Выбрать стратегию...', 'onchange' => "myFunction()"],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -46,7 +46,7 @@ $this->title = Yii::t(
         <div class="col-md-3 col-sm-3 col-xs-12">
             <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'button add strategy']) ?>
             <?php
-            echo \yii\helpers\Html::a('<i class="fa fa-plus" style="float: left"></i>Добавить стратегию', ['/selling/strategy/create'], ['class' => 'btn btn-block btn-success forma_blue']);
+            echo \yii\helpers\Html::a('<i class="fa fa-plus" style="float: left"></i>Добавить стратегию', ['/selling/strategy/create?isSelling=' . $isSelling], ['class' => 'btn btn-block btn-success forma_blue']);
             ?>
             <?php WidgetAccess::end(); ?>
         </div>
@@ -99,7 +99,7 @@ $this->title = Yii::t(
         elemCreateRequest.setAttribute("id", "elementCreateRequestE");
         console.log(x)
         if (x) {
-            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=1"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от менеджера</a></div>';
+            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=1"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "менеджера" : "кадра"?></a></div>';
             var findElementCreateRequest = document.querySelector('#elementCreateRequest');
             findElementCreateRequest.parentNode.append(elemCreateRequest, findElementCreateRequest);
             elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=0"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';

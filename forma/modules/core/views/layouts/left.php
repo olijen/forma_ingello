@@ -118,9 +118,14 @@ if ('selling'== Yii::$app->controller->module->id){
                     z-index: 9999;
                 }
 
+                .menu-open {
+                    overflow-y: scroll;
+                    max-height: 500px;
+                }
+
             </style>
 
-            <?php if ((Yii::$app->params['menu'][1]['items'][2]['url'][0] === '/core/regularity/regularity')){
+            <?php if ((Yii::$app->params['menu'][1]['items'][2]['url'][0] === '/core/regularity/regularity')) {
                 Yii::$app->params['menu'][1]['items'][2]['url'][0] = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
             }?>
             <?= \forma\modules\core\widgets\Menu::widget(
