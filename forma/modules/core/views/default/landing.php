@@ -1985,7 +1985,7 @@ if (!isset($_SERVER['HTTP_USER_AGENT']) || stripos($_SERVER['HTTP_USER_AGENT'], 
             border-left: 70px solid #00d1b4; padding-left: 30px;
         }
         #titletext {
-            font-size: 48px;
+            font-size: 78%;
         }
     }
 </style>
