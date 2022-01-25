@@ -16,9 +16,6 @@ $list = [
     ['label' => 'Клиенты', 'url' => '/customer/customer', 'icon' => 'user-circle',
 
     ],
-    ['label' => 'Пациенты', 'url' => '/selling/patient', 'icon' => 'heartbeat',
-
-    ],
 ];
 
 ?>

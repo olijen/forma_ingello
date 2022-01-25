@@ -39,6 +39,9 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
         состояния</a>
     <?php WidgetAccess::end(); ?>
+    <?php WidgetAccess::begin() ?>
+    <a href="/selling/super-selling" class="btn btn-success forma_blue"> <i class="fa fa-table"></i> Супер-таблица </a>
+    <?php WidgetAccess::end(); ?>
 
     <hr>
 
@@ -95,7 +98,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         [
             'attribute' => 'warehouse_id',
             'value' => 'warehouse.name',
-            'filter' => ActiveRecordHelper::getListByQuery(
+            'filter' =>ActiveRecordHelper::getListByQuery(
                 (new \forma\modules\warehouse\records\WarehouseSearch())
                     ->search(Yii::$app->request->queryParams)
                     ->query,

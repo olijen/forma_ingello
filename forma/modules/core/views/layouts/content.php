@@ -82,7 +82,7 @@ use \yii\web\JsExpression;
             ]));
 
         endif; ?>
-        <a href="/core/user-profile">ПРОФИЛЬ</a>
+
         <section class="content">
             <?= $content ?>
         </section>

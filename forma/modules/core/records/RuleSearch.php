@@ -44,7 +44,6 @@ class RuleSearch extends Rule
     public function search($params)
     {
         $query = Rule::find();
-        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

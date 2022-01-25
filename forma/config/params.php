@@ -394,7 +394,7 @@ return [
                 ],
                 [
                     'label' => 'Скрипты',
-                    'url' => ['/selling/speech-module?isSelling=1'],
+                    'url' => ['/selling/speech-module'],
                     'icon' => 'list',
                     'items' => [
 
@@ -402,16 +402,6 @@ return [
                 ],
                 ['label' => 'Добавить стратегию',
                     'url' => ['/selling/strategy/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
-                ['label' => 'Добавить вопрос',
-                    'url' => ['/selling/request/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
-                ['label' => 'Добавить ответ',
-                    'url' => ['/selling/answer/create'],
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
