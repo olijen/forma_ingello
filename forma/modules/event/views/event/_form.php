@@ -46,6 +46,7 @@ endif;
         <div class="col-xs-6"><?= $form->field($model, 'status')->dropDownList([
                 '0' => 'Актуально',
                 '1' => 'Сделано',
+
             ]);?>
         </div>
     </div>
