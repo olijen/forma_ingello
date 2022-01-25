@@ -85,7 +85,7 @@ class WorkerVacancy extends AccessoryActiveRecord
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
         $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId ])->one();
-        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->id])->all();
+        $workerVacancies = self::find()->where(['vacancy_id' => $vacancyProjectId])->all();
 
         foreach ($workerVacancies as $workerVacancy) {
             if (empty($workerVacancy->worker->interviews)){

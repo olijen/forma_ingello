@@ -202,6 +202,15 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 }
             })
             })
+            $(function () {
+                function getVacancyId() {
+                    let id = $('#interview-vacancy_id').val();
+                    let newUrl = '/worker/worker/create?projectVacancyId=' + id;
+                    $('#vacancyUserId').attr('href', newUrl);
+                }
+
+                getVacancyId()
+            });
         </script>
     </div>
     <?php if ($model->date_create || $model->id): ?>

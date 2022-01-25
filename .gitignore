@@ -2,4 +2,3 @@
 vendor/*
 forma/config/db.php
 forma/config/web.php
-forma/web/img/user-profile/

@@ -1,5 +1,5 @@
     function changeArea(description, nameOnPicture, picture) {
-
+        let url = getUrlByDescription(description)
         description = replaceUrlOnButton(description);
         document.getElementById("text-div").innerHTML = description;
         document.getElementById("name_on_picture").innerHTML = nameOnPicture;
@@ -15,8 +15,16 @@
                 handleEvent(event) {
                     document.getElementById('myFrame').style.height = '100%';
                     console.log($('.sidebar-mini.sidebar-collapse .content-wrapper'));
-                    console.log("Nажали");
-                    //alert(event.type + " на " + event.currentTarget);
+                    let findElementCreateRequest = document.querySelector('.modal-header');
+
+                    $.ajax({
+                        url: url + '?without-header&only-title',
+                        type: "GET",
+                        success: function (msg) {
+
+                            findElementCreateRequest.innerHTML = "<p >" + msg + "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                        }
+                    });
                 }
             });
         }
@@ -28,6 +36,28 @@
             document.getElementById('picture').style.backgroundImage =  pictureUrl;
         }
 
+    }
+
+    function getUrlByDescription(mainStr) {
+        let resObr = mainStr.split("{{").length - 1;
+
+        if (resObr < 1) return mainStr;
+
+        let withoutHeader = 'without-header';
+
+        let link = mainStr.split("{{")[1];
+        link = link.split("}}")[0];
+
+        if (link.indexOf('http') != -1) {
+            withoutHeader = '';
+        }
+
+        let separator = '?';
+        if (link.indexOf('?') != -1) {
+            separator = '&';
+        }
+
+        return link.split('|')[0];
     }
 
     function replaceUrlOnButton(mainStr) {
@@ -114,6 +144,7 @@
                 // Переключение табов при крайних итемах
 
             }
+
         });
 
         function deactivationTabPaneItem(activeTabPaneItem) {

@@ -2,7 +2,6 @@
 
 namespace forma\modules\core\controllers;
 
-use forma\modules\core\components\UserIdentity;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;

@@ -1,8 +1,7 @@
-FROM php:7.3-fpm
+FROM php:7.2-fpm
 
 # Install modules
 RUN apt-get update && apt-get install -y \
-        libzip-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libicu-dev \

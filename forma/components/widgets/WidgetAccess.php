@@ -2,68 +2,45 @@
 
 namespace forma\components\widgets;
 
+use forma\modules\core\records\AccessInterface;
 use forma\modules\core\records\ItemInterface;
-use forma\modules\core\records\Rank;
-use forma\modules\core\records\Rule;
-use forma\modules\core\records\User;
+use forma\modules\core\records\ItemRule;
 use yii\bootstrap\Widget;
-use function Clue\StreamFilter\fun;
 
 class WidgetAccess extends Widget
 {
-
-
-    public $module;
-    public $key;
+    public $accessName;
     public $rules;
-    public $user;
-    public $interface;
-
     /**
      * @throws \yii\db\Exception
      */
     public function isAccessible(): bool
     {
-        $itemInterface = ItemInterface::find()->where(['key' => $this->key, 'module' => $this->module])->oneAccessory();
-        if (!isset($itemInterface->rank)) {
-            return true;
-        }
-        $this->user = User::find()->where(['id' => \Yii::$app->user->id])->one();
-        $needArrayRuleCount = [];
-        foreach ($itemInterface->rank->rules as $rule) {
-            $needArrayRuleCount [$rule->id] = $rule->count_action;
-        }
-        $currentArrayRuleCount = [];
-        $rank = Rank::find()->where(['id' => $itemInterface->rank_id])->one()->rules;
-        foreach ($rank as $rule) {
-            $currentArrayRuleCount[$rule->id] = count($rule->userProfileRules);
-        }
-        $countNeed = count($needArrayRuleCount);
-        $countCurrent = 0;
-        foreach ($needArrayRuleCount as $keyNeed => $needItem) {
-            foreach ($currentArrayRuleCount as $keyCurrent => $currentItem) {
-                if ($keyNeed == $keyCurrent) {
-                    if ($needItem == $currentItem) {
-                        $countCurrent++;
-                    }
+
+        $query = ItemInterface::find()->where(['name_item' => $this->accessName])
+            ->joinWith(['itemRules' => function ($q) {
+                $q->joinWith(['rule' => function ($q) {
+                    $q->joinWith('accessInterfaces');
+                }]);
+            }])->all();
+        $userId = \Yii::$app->user->id;
+        $countItemRule = count($query[0]->itemRules);
+        $countUserAnswer = 0;
+        foreach ($query[0]->itemRules as $itemRule) {
+            $this->rules[] =$itemRule->rule->rule_name.' ';
+            foreach ($itemRule->rule->accessInterfaces as $accessInterface) {
+                if ($accessInterface->user_id == $userId && $accessInterface->status == 1) {
+                    $countUserAnswer++;
+
                 }
             }
         }
-
-        if ($countCurrent == $countNeed) {
+        if ($countItemRule == $countUserAnswer) {
             return true;
+        } else {
+            return false;
         }
-        $rules = Rule::find()->where(['rank_id' => $itemInterface->rank_id])->allAccessory();
-        foreach ($rules as $rule) {
-            $this->rules .= $rule->rule_name . ' (' . $countCurrent . ' из ' . $countNeed . ');';
-        }
-        $allInterfaces = \Yii::$app->params['access-interface'][$this->module];
-        foreach ($allInterfaces as $key => $interface) {
-            if ($key == $this->key) {
-                $this->interface .= $interface . '; ';
-            }
-        }
-        return false;
+
     }
 
     public function init()
@@ -78,18 +55,15 @@ class WidgetAccess extends Widget
     public function run()
     {
         $content = ob_get_clean();
-        $str = str_replace(' ', '-', $this->key);
-        $spanElement = "<div style='display: inline-block;'  id ='$str'>$content</div>";
-        if (isset(User::find()->where(['id' => \Yii::$app->user->id])->one()->userProfile)) {
-            if ($this->isAccessible() == true) {
-                echo $spanElement;
-            } else {
-                echo "<div style='display: inline-block' class='hover-info' title='Выполните задание: $this->rules. После откроется доступ: $this->interface'><i class='fa fa-info '></i><br/></div>";
-            }
-        } else {
+        if ($this->isAccessible() == true) {
             echo $content;
+        } else {
+            echo "Выполните задание:<br/>";
+            foreach ($this->rules as $rule){
+                echo "$rule <br/>";
+            }
+            echo "После откроется доступ $this->accessName";
         }
-
     }
 
 }
