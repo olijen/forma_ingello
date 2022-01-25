@@ -18,6 +18,7 @@ $list = [
     ],
     ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
     ['label' => 'Форма ставки FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'comments-dollar'],
+    ['label' => 'Супер-таблица', 'url' => '/selling/super-selling', 'icon' => 'table'],
 
 
 ];
@@ -52,7 +53,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
     </div>
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title" id="scroll">История изменений состояния продаж</h3>
+            <h3 class="box-title" id="scrollllllllll">История изменений состояния продаж</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -60,12 +61,12 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                 </button>
             </div>
         </div>
-
-        <div class="myChart">
-            <div class="myChart">
+       <div class="box-body">
+        <div class="chart">
+            <div class="chart">
                 <canvas id="myChart" style=""></canvas>
             </div>
-
+        </div>
         </div>
     </div>
 </div>

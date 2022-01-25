@@ -56,9 +56,9 @@ class SalesProgress extends Model
     {
         $colorsString = '';
 
-        $green = '"rgba(0, 166, 90, 1)",';
-        $yellow = '"rgba(243, 156, 18, 1)",';
-        $red = '"rgba(221, 75, 57, 1)",';
+        $green = '"rgba(88, 98, 142, 1)",';
+        $yellow = '"rgba(88, 98, 142, 1)",';
+        $red = '"rgba(88, 98, 142, 1)",';
 
         $lastSale = false;
         if ($this->sales) {

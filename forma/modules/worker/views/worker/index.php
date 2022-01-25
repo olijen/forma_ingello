@@ -24,9 +24,9 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         'filterModel' => $searchModel,
         'showFooter' => true,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
+            ['class' => 'yii\grid\SerialColumn',],
 
-            // 'id',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
@@ -59,7 +59,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
                 }
             ],
             'passport',
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
     <?php Pjax::end(); ?>

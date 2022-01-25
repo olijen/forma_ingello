@@ -1,6 +1,30 @@
 <?php
 
 return [
+    'access-interface' => [
+        'HRM' => [
+            'grid customer customer' => 'Таблица клиентов',
+            'button add customer customer' => 'Кнопка добавления нового клиента',
+            'button add send link' => 'Кнопка подготовки к рассылке',
+        ],
+        'СRM' => [
+            'button add selling main' => 'Кнопка добавления новой продажы в продажах клиентов',
+            'selling main' => 'Страница продажи клиентов',
+            'sort plan selling main' => 'Кнопка плана по продажам в продажах клиетов',
+            'settings selling state main' => 'Кнопка настройки состояния в продажах клиентов',
+            'button delete selections main' => 'Кнопка массового удаления в продажах клиентов',
+            'grid selling main' => 'Таблица вывода продаж клиентов',
+            'button add state main state' =>'Кнопка создания состояния',
+            'grid main state' =>'Таблица на вкладке состаяний',
+            'bs selling speech-module' =>'Блок стратегий',
+            'button add strategy' =>'Кнопка добавления стратегий',
+            'button edit strategy' =>'Кнопка обновления стратегий',
+            'grid customer source' =>'Таблица вывода источников клиентов',
+        ],
+        "ERP" =>[],
+        "BOSS" =>[],
+
+    ],
     'adminEmail' => 'admin@example.com',
     'globalQueries' => [],
     'bsDependencyEnabled' => false,
@@ -102,7 +126,7 @@ return [
     ],
     "main" =>
 
-        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"AccessInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
+        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"Rank\",\"UserProfileRule\",\"UserProfile\",\"ItemInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
     "colors" => [
         "HRM" => '#f08080',
         "ERP" => '#f49258',
@@ -112,14 +136,16 @@ return [
 
     "translate" => [
         'Rule'=> 'Правило',
+        'Rank'=> 'Ранг',
+        'UserProfileRule'=> 'Прохождения испытаний',
+        'UserProfile'=>'Профиль пользователя',
+        'ItemInterface'=>'Интерфейс доступа',
         'SellingHistory'=> 'История продаж',
-        'AccessInterface'=>'Доступ к интерфейсу',
         'DashbordWidget' => 'Виджет на главной странице',
         'Template' => 'Шаблон',
         'Item' => "Шаблон",
         'CustomerSource'=>"Источники клиентов",
         'Regularity' => "Регламент",
-        'Accessory' => "Доступ",
         'Color' => "Цвет",
         'Country' => "Страна",
         'Currency' => "Валюта",
@@ -246,7 +272,7 @@ return [
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
                 ['label' => 'Шаблоны писем', 'url' => ['/template/template'], 'icon' => 'chart-bar'],
-                ['label' => 'Шаблоны писем', 'url' => ['//template/template/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                ['label' => 'Добавить шаблон', 'url' => ['//template/template/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px'] ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
                 ['label' => 'Добавить событие', 'url' => ['/event/event/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
@@ -254,14 +280,25 @@ return [
                 ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Добавить регламент', 'url' => ['/core/regularity/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px'] ],
-                ['label' => 'Права доступа', 'url' => ['/core/access-interface'], 'icon' => 'key' ],
-                ['label' => 'Назначить доступ', 'url' => ['/core/access-interface/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
-                    'style' => 'margin-left: 20px'] ],
-                ['label' => 'Правила', 'url' => ['/core/rule'], 'icon' => 'unlock' ],
-                ['label' => 'Добавить правило', 'url' => ['/core/rule/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
-                    'style' => 'margin-left: 20px'] ],
                 ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
+                [
+                    'label' => 'Игровой режим',
+                    '#',
+                    'icon' => 'gamepad',
+                    'items' => [
+                        ['label' => 'Ранги', 'url' => ['/core/rank'], 'icon' => 'angle-double-down'],
+                        ['label' => 'Добавить ранг', 'url' => ['/core/rank/create'], 'icon' => 'plus',
+                            'options' => ['class' => 'tabLink', 'style' => 'margin-left:20px;']],
+                        ['label' => 'Интерфейс', 'url' => ['/core/item-interface'], 'icon' => 'tv'],
+                        ['label' => 'Создать доступ', 'url' => ['core/item-interface/create'], 'icon' => 'plus',
+                            'options' => ['class' => 'tabLink', 'style' => 'margin-left:20px;']],
+                        ['label' => 'Правила', 'url' => ['/core/rule'], 'icon' => 'unlock'],
+                        ['label' => 'Добавить правило', 'url' => ['/core/rule/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                            'style' => 'margin-left: 20px']],
+                        ['label' => 'Игровой аккаунт', 'url' => ['/core/user-profile'], 'icon' => 'user'],
+                    ],
+                ],
                 [
                     'label' => 'Люди',
                     'url' => '#',
@@ -288,6 +325,7 @@ return [
 
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
+                        ['label' => 'Игровой профиль', 'url' => ['/core/user-profile/create'], 'icon' => 'history'],
                     ]
                 ],
             ],
@@ -356,7 +394,7 @@ return [
                 ],
                 [
                     'label' => 'Скрипты',
-                    'url' => ['/selling/speech-module?isSelling=1'],
+                    'url' => ['/selling/speech-module'],
                     'icon' => 'list',
                     'items' => [
 
@@ -364,16 +402,6 @@ return [
                 ],
                 ['label' => 'Добавить стратегию',
                     'url' => ['/selling/strategy/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
-                ['label' => 'Добавить вопрос',
-                    'url' => ['/selling/request/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
-                ['label' => 'Добавить ответ',
-                    'url' => ['/selling/answer/create'],
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
@@ -504,40 +532,40 @@ return [
     ],
 
     'translateTablesName' => [
-        'answer' => 'Ответы',
-        'event' => 'События',
-        'event_type' => 'Типы событий',
+        'answer' => 'Ответ',
+        'event' => 'Событие',
+        'event_type' => 'Тип события',
         'interview' => 'Интервью',
         'interview_state' => 'Состояние интервью',
-        'vacancy' => 'Вакансии',
-        'strategy' => 'Стратегии',
+        'vacancy' => 'Вакансию',
+        'strategy' => 'Стратегию',
         'regularity' => 'Регламент',
-        'message' => 'Сообщения',
-        
-        'country' => 'Страны',
-        'currency' => 'Валюта',
-        'project' => 'Проекты',
-        'project_user' => 'Проекты пользователя',
-        'project_vacancy' => 'Проекты вакансии',
-        'manufacturer' => 'Производитель',
-        
-        'customer' => 'Клиенты',
-        'customer_source' => 'Источники клиентов',
-        'purchase_product' => 'Покупка продукта',
-        'selling' => 'Продажа',
-        'purchase' => 'Покупка',
-        
-        'inventorization' => 'Инвентаризация',
-        'inventoriza1tion_product' => 'Инвентаризация продукции',
+        'message' => 'Сообщение',
+
+        'country' => 'Страну',
+        'currency' => 'Валюту',
+        'project' => 'Проект',
+        'project_user' => 'Проект пользователя',
+        'project_vacancy' => 'Проект вакансии',
+        'manufacturer' => 'Производителя',
+
+        'customer' => 'Клиента',
+        'customer_source' => 'Источник клиента',
+        'purchase_product' => 'Покупку продукта',
+        'selling' => 'Продажу',
+        'purchase' => 'Покупку',
+
+        'inventorization' => 'Инвентаризацию',
+        'inventoriza1tion_product' => 'Инвентаризаци продукции',
         'supplier' => 'Поставщики',
-        'purchase_overhead_cost' => 'Накладные расходы на закупку',
-        
-        'product' => 'Продукция',
-        'product_pack_unit' => 'Единица упаковки продукта',
-        'selling_product' => 'Продажа продукции',
+        'purchase_overhead_cost' => 'Накладную расхода на закупку',
+
+        'product' => 'Продукцию',
+        'product_pack_unit' => 'Единицу упаковки продукта',
+        'selling_product' => 'Продажу продукции',
         'warehouse' => 'Склад',
-        'warehouse_product' => 'Продукция на складе',
-        ],
+        'warehouse_product' => 'Продукцию на складе',
+    ],
 
 ];
 

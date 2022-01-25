@@ -2,18 +2,20 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
 * This is the model class for table "item_interface".
 *
   * @property integer $id
-  * @property string $name_item
-  * @property integer $id_item
+  * @property integer $rank_id
+  * @property string $module
+  * @property string $key
   *
-      * @property ItemRule[] $itemRules
+      * @property Rank $rank
   */
-class ItemInterface extends \yii\db\ActiveRecord
+class ItemInterface extends AccessoryActiveRecord
 {
 
 
@@ -40,8 +42,9 @@ class ItemInterface extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-            [['id_item'], 'integer'],
-            [['name_item'], 'string', 'max' => 255]
+            [['rank_id'], 'integer'],
+            [['module', 'key'], 'string'],
+            [['module', 'key'], 'safe']
         ];
   }
 
@@ -50,21 +53,22 @@ class ItemInterface extends \yii\db\ActiveRecord
   */
   public function attributeLabels()
   {
-    return [
-        'id' => 'ID',
-        'name_item' => 'Name Item',
-        'id_item' => 'Id Item',
-    ];
+      return [
+          'id' => 'ID',
+          'rank_id' => 'Ранг',
+          'module' => 'Модуль',
+          'key' => 'Интерфейс',
+      ];
   }
 
   /**
   * @return \yii\db\ActiveQuery
   */
-  public function getItemRules()
+  public function getRank()
   {
-  return $this->hasMany(ItemRule::className(), ['item_interface_id' => 'id']);
+  return $this->hasOne(Rank::className(), ['id' => 'rank_id']);
   }
-  
+
   /**
   * @inheritdoc
   * @return ItemInterfaceQuery the active query used by this AR class.

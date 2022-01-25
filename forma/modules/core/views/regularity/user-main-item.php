@@ -26,9 +26,6 @@
                         'radioName' => $radioName,
                         'regularity' => $regularity,
                         'item' => $item,
-                        'rulesData'=>$rulesData,
-                        'userData'=>$userData,
-                        'userDataIsNull'=>$userDataIsNull,
 
                     ]);
                 }

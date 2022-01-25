@@ -3,6 +3,15 @@
 Рестарт докера
 sudo service docker restart
 
+
+sudo docker rm 6a7b7573a75e -f
+sudo docker rm d043b6a501b2 -f
+sudo docker rm f0dd3dfc7975 -f
+sudo docker rm 7aa5232eefa4 -f
+sudo docker rm 878a6b1a7f5d -f
+sudo docker rm 37a7310f9755 -f
+
+
 Очистить образы докера
 sudo docker ps -aq
 sudo docker rm $(docker ps -aq) -f
