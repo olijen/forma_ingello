@@ -7,6 +7,7 @@ use forma\modules\selling\widgets\NomenclatureView;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
+use yii\widgets\Pjax;
 
 /**
  * @var $model Selling
@@ -26,7 +27,11 @@ $description= null;
 <?= SellingFormView::widget(compact('model')) ?>
 
 <?php if (!empty($_GET['id'])) : ?>
-
+    <?php Pjax::begin([
+        'id' => 'selling-state-pjax',
+        'enablePushState' => false,
+        'enableReplaceState' => false,
+    ]) ?>
     <div class="bs-example">
         <div class="detached-block-example" style="margin-bottom: 10px">Состояние <?php echo LinkHelper::replaceUrlOnButton(" {{" . Url::to('/selling/main-state' . "||" . " Изменить состояния" . "}}"), 'dot-circle');?></div>
 
@@ -88,7 +93,7 @@ $description= null;
         </div>
 
     </div>
-
+    <?php Pjax::end(); ?>
 <?php endif ?>
 
 <?= NomenclatureView::widget(['sellingId' => $model->id]) ?>
