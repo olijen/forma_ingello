@@ -15,7 +15,7 @@ foreach ($items as $value): ?>
                         <i class="fa fa-trash"></i></a>
 
                     <a data-toggle="collapse"
-                       data-parent="#accordion1"
+                       data-parent="#accordion_<?= $item['id'] . $item['regularity_id'] ?>"
                        href="#collapse_<?= $value['id'] ?>"
                        class="collapsed"
                        aria-expanded="false">

@@ -62,6 +62,15 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return bool
+     * Метод проверки на администратора
+     */
+    public function isAdmin()
+    {
+        return ($this->email == 'admin@admin.admin') ? true : false;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getWarehouseUsers()

@@ -54,8 +54,8 @@ class SellingHistory extends AccessoryActiveRecord
     {
         return [
             'id' => 'ID',
-            'date' => 'Date',
-            'count' => 'Count',
+            'date' => 'Дата',
+            'count' => 'Количество',
         ];
     }
 

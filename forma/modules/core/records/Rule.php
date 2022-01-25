@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 use forma\modules\core\records\ItemRule;
 use forma\modules\core\records\Item;
@@ -20,7 +21,7 @@ use forma\modules\core\records\Item;
       * @property Item $item
       * @property ItemRule $itemRules
   */
-class Rule extends \yii\db\ActiveRecord
+class Rule extends AccessoryActiveRecord
 {
 
 

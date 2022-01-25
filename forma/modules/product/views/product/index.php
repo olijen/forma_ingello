@@ -317,6 +317,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                         //let switchInputContainer = this.closest('.switchInputContainer');
                         $(this).parents('.switchInputContainer').find('input[type="hidden"]')[0].value = '';
                         console.log($(this).parents('.switchInputContainer').find('input[type="hidden"]'));
+                        $('#grid-product').yiiGridView('applyFilter')
                     };
                 });
             }

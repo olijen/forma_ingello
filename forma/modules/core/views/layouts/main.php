@@ -488,7 +488,30 @@ JS;
         ) ?>
 
     </div>
+    <?php
+    $cookies = Yii::$app->request->cookies;
+    if (isset($cookies['array-pulsate'])) {
+        $array = $cookies['array-pulsate']->value;
+        $js = "function addPulse(){";
+        foreach ($array as $item) {
+            $js .= "$('#$item').pulsate();";
+            $js .= "$('#$item').pulsate();
+           $('#$item').mouseover(function() {
+               $.post( '/core/user-profile/reset-cookie', { key: this.id } ).done(function(data) {
+                    $('#'+data.replaceAll('\"','')).pulsate({repeat: false})
+                    $('#'+data.replaceAll('\"','')).removeAttr('id')
+                  });
+               //alert(this.id);
+            });
 
+           ";
+        }
+        $js .= "} setTimeout(addPulse,1000)";
+
+        $this->registerJs($js, \yii\web\View::POS_HEAD);
+
+    }
+    ?>
     <?= Modal::widget([
         'id' => 'select-modal',
         'header' => '<p>FORMA . INGELLO 2021</p>',

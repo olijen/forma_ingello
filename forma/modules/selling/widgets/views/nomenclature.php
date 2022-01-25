@@ -158,13 +158,12 @@ if(isset($unit->selling->warehouse)){
                         })
                         $('#sellingproduct-cost_type').change(function () {
                             let $productId = $('#sellingproduct-product_id').val();
-                            let $warehouseId = $('#selling-warehouse_id').val();
                             let $costType = $('#sellingproduct-cost_type').val();
                             let quantity = $('#sellingproduct-quantity').val();
                             $.post("/selling/form/change-selling-product-cost", {
                                 costType: $costType,
                                 productId: $productId,
-                                warehouseId: $warehouseId
+                                sellingId: <?= $unit->selling_id ?>,
                             }, function (data) {
                                 $('#sellingproduct-cost').val(data);
                                 $('#sellingproduct-sum').val(data * quantity);
@@ -173,10 +172,9 @@ if(isset($unit->selling->warehouse)){
                         })
                         $('#sellingproduct-product_id').change(function () {
                             let $productId = $('#sellingproduct-product_id').val();
-                            let $warehouseId = $('#selling-warehouse_id').val();
                             $.post("/selling/form/change-selling-product-purchase-cost", {
                                 productId: $productId,
-                                warehouseId: $warehouseId
+                                sellingId: <?= $unit->selling_id ?>,
                             }, function (data) {
                                 $('#sellingproduct-purchase_cost').val(data);
                                 $('#sellingproduct-quantity').val('');
