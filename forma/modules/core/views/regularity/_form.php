@@ -10,7 +10,15 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Regularity */
 /* @var $form yii\widgets\ActiveForm */
-
+$this->params['icons'][] = $icons;
+$format = <<< SCRIPT
+function format(icon) {
+    let iconName = 'fa fa-'+icon.text;
+    return "<i style='padding-right: 5px; font-size: 20px;' class='"+iconName+"' ></i>"+icon.text+"";
+}
+SCRIPT;
+$escape = new \yii\web\JsExpression("function(m) { return m; }");
+$this->registerJs($format, \yii\web\View::POS_HEAD);
 if ($model->hasErrors()):
     \wokster\ltewidgets\BoxWidget::begin([
         'solid' => true,
