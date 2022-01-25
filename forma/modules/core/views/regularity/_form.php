@@ -2,6 +2,7 @@
 
 use forma\modules\core\services\RegularityAndItemPictureService;
 use kartik\file\FileInput;
+use rmrevin\yii\fontawesome\FontAwesome;
 use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use vova07\imperavi\Widget;
@@ -10,6 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Regularity */
 /* @var $form yii\widgets\ActiveForm */
+$icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
 $this->params['icons'][] = $icons;
 $format = <<< SCRIPT
 function format(icon) {
@@ -71,7 +73,7 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
     </div>
     <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->widget(kartik\select2\Select2::className(), [
             'data' => $icons,
-            'options' => ['placeholder' => 'Выберите валюту ...'],
+            'options' => ['placeholder' => 'Выберите иконку ...'],
             'pluginOptions' => [
                 'templateResult' => new \yii\web\JsExpression('format'),
                 'templateSelection' => new \yii\web\JsExpression('format'),
