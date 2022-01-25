@@ -3,7 +3,6 @@
 namespace forma\modules\core\controllers;
 
 
-use forma\modules\core\records\AccessInterface;
 use forma\modules\core\records\Item;
 use forma\modules\core\records\ItemQuery;
 use forma\modules\core\records\RegularityQuery;
@@ -72,15 +71,8 @@ class RegularityController extends Controller
 
     public function actionRegularity()
     {
+
         $this->layout = 'public';
-        /*$rulesData = \forma\modules\core\records\Rule::find()->joinWith('accessInterfaces')->joinWith(['itemRule'=>function($q){
-            $q->joinWith('itemInterface');
-        }])->all();*/
-        $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRule'=>function($q){
-            $q->joinWith('itemInterface');
-        }])->all();
-        $userData = AccessInterface::find()->where(['user_id'=>Yii::$app->user->id])->all();
-        $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is','access_interface.rule_id',null])->all();
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
@@ -98,9 +90,6 @@ class RegularityController extends Controller
                 'items' => $items,
                 'subItems' => $subItems,
                 'newUserReglament' => $newUserReglament,
-                'rulesData'=>$rulesData,
-                'userData'=>$userData,
-                'userDataIsNull'=>$userDataIsNull,
             ]);
             $this->layout = false;
             return $this->render('@app/modules/dark/views/default/forma_learning', [
@@ -116,10 +105,8 @@ class RegularityController extends Controller
             'items' => $items,
             'subItems' => $subItems,
             'newUserReglament' => $newUserReglament,
-            'rulesData'=>$rulesData,
-            'userData'=>$userData,
-            'userDataIsNull'=>$userDataIsNull,
         ]);
+
     }
 
 
@@ -214,4 +201,5 @@ class RegularityController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

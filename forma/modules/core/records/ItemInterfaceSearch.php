@@ -18,8 +18,7 @@ class ItemInterfaceSearch extends ItemInterface
     public function rules()
     {
         return [
-            [['id', 'id_item'], 'integer'],
-            [['name_item'], 'safe'],
+            [['id'], 'integer'],
         ];
     }
 
@@ -42,9 +41,18 @@ class ItemInterfaceSearch extends ItemInterface
     public function search($params)
     {
         $query = ItemInterface::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    null,
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -57,10 +65,11 @@ class ItemInterfaceSearch extends ItemInterface
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_item' => $this->id_item,
+            'rank_id' => $this->rank_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name_item', $this->name_item]);
+        $query->andFilterWhere(['like', 'module', $this->module])
+            ->andFilterWhere(['like', 'key', $this->key]);
 
         return $dataProvider;
     }

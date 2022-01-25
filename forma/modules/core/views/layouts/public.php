@@ -75,7 +75,7 @@ dmstr\web\AdminLteAsset::register($this);
     </style>
 
 </head>
-<body class="login-page">
+<body class="login-page" ">
 
 <?php $this->beginBody() ?>
 
@@ -85,6 +85,7 @@ dmstr\web\AdminLteAsset::register($this);
         'header' => "<p>FORMA . INGELLO 2021</p>",
 
     ]) ?>
+
 
     <?= Modal::widget([
         'id' => 'select-modal-2',
