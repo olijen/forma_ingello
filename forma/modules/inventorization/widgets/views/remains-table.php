@@ -44,7 +44,6 @@ echo GridView::widget([
     'tableKey' => 'remainsTable',
     'isEditable' => false,
     'useLocalStorage' => true,
-    'responsive' => false,
     'columns' => $columns,
     'dataProvider' => $dataProvider,
     'updateUrl' => Url::to(['/inventorization/state/confirm', 'id' => $model->id]),
