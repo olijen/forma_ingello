@@ -15,7 +15,6 @@
                 handleEvent(event) {
                     document.getElementById('myFrame').style.height = '100%';
                     console.log($('.sidebar-mini.sidebar-collapse .content-wrapper'));
-                    console.log("Nажали");
                     let findElementCreateRequest = document.querySelector('.modal-header');
 
                     $.ajax({
