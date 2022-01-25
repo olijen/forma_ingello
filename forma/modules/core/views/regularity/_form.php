@@ -69,9 +69,17 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
             ],
         ]); ?>
     </div>
-    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->dropDownList([
-
-    ]); ?>
+    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->widget(kartik\select2\Select2::className(), [
+            'data' => $icons,
+            'options' => ['placeholder' => 'Выберите валюту ...'],
+            'pluginOptions' => [
+                'templateResult' => new \yii\web\JsExpression('format'),
+                'templateSelection' => new \yii\web\JsExpression('format'),
+                'escapeMarkup' => $escape,
+                'allowClear' => true
+            ],
+        ])->label('Иконка')
+     ?>
 
     <div class="col-xs-12">
         <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
