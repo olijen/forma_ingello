@@ -411,4 +411,18 @@
     });
     window.addEventListener("load", function(event) {
         console.log("All resources finished loading!");
+        function setLabel(url) {
+            alert('vf');
+            /*let findElementCreateRequest = document.querySelector('.modal-header');
+
+            $.ajax({
+                url : url+'?without-header&only-title',
+                type : "GET",
+                success : function(msg){
+
+                    findElementCreateRequest.innerHTML = "<p >" + msg + "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                }
+            });*/
+
+        }
     });
