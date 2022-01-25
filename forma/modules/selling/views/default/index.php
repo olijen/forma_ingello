@@ -62,8 +62,8 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             </div>
         </div>
 
-        <div class="myChart">
-            <div class="myChart">
+        <div class="box-body">
+            <div class="chart">
                 <canvas id="myChart" style=""></canvas>
             </div>
 

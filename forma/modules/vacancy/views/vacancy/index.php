@@ -25,6 +25,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
@@ -38,7 +39,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
                 }
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
     <?php Pjax::end(); ?>

@@ -61,7 +61,9 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
             ],
         ]); ?>
     </div>
-    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->dropDownList([
+
+    ]); ?>
 
     <div class="col-xs-12">
         <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
