@@ -62,7 +62,6 @@ class AccessoryActiveRecord extends ActiveRecord
     public function afterDelete()
 
     {
-
         $model = Accessory::find()->where([
             'user_id' => Yii::$app->getUser()->id,
             'entity_id' => $this->id,
