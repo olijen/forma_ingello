@@ -86,6 +86,11 @@ class SellingSearch extends Selling
             ],
             'sort' => [
                 'attributes' => [
+                    'id'=>[
+                        'asc' => ['selling.id' => SORT_ASC],
+                        'desc' => ['selling.id' => SORT_DESC],
+                        'default' => SORT_ASC
+                    ],
                     'customer_id',
                     'date_create',
                     'warehouse_id',
@@ -161,6 +166,7 @@ class SellingSearch extends Selling
              * Жадная загрузка данных модели Страны
              * для работы сортировки.
              */
+            $query->orderBy(['selling.id' => SORT_DESC]);
             return $dataProvider;
         }
 
@@ -184,6 +190,7 @@ class SellingSearch extends Selling
             ->andFilterWhere(['like', 'customer.chief_phone', $this->customer_chief_phone])
             ->andFilterWhere(['like', 'event.name', $this->lastEventName])
             ->andFilterWhere(['like', 'event.date_from', $this->lastEventDate]);
+
 
         return $dataProvider;
     }

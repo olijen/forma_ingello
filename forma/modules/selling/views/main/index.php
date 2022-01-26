@@ -47,6 +47,11 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
             'template' => '{update} {delete}',
         ],
         [
+            'attribute' => 'id',
+            'label' => 'ID',
+            'value' => 'id',
+        ],
+        [
             'attribute' => 'customerName',
             'label' => 'Клиент',
             'value' => 'customer.name',
