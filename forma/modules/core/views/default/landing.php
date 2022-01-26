@@ -18,7 +18,7 @@
     <meta name="msapplication-navbutton-color" content="#000">
     <meta name="apple-mobile-web-app-status-bar-style" content="#000">
     <meta name="theme-color" content="#020000">
-    <title>FORMA.ingello - еБсплатная система для управления малым бизнесом</title>
+    <title>FORMA.ingello - Бсплатная система для управления малым бизнесом</title>
     <meta name="description" content="Разработка веб-сервисов с гарантиями">
     <meta property="og:title" content="Разработка веб-сервисов с гарантиями" />
     <meta property="og:description" content="Проектирование архитектуры Программирование Дизайн Менеджмент Вёрстка Тестирование Бизнес-аналитика Креатив" />
