@@ -99,6 +99,7 @@ class FormController extends Controller
                 $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
                 $sellingHistory->date = date('Y-m-d');
                 $sellingHistory->count = 1;
+                $sellingHistory->user_id = Yii::$app->user->id;
                 $sellingHistory->save();
             }
 
