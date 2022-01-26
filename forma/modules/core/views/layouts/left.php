@@ -118,10 +118,7 @@ if ('selling'== Yii::$app->controller->module->id){
                     z-index: 9999;
                 }
 
-                .menu-open {
-                    overflow-y: scroll;
-                    max-height: 500px;
-                }
+
 
             </style>
 
@@ -138,3 +135,17 @@ if ('selling'== Yii::$app->controller->module->id){
         </section>
 
     </aside>
+    <script>
+        document.addEventListener('click', (event) => {
+            let menuOpen = $('.menu-open');
+            menuOpen.click(function () {
+                menuOpen.css('overflow-y', 'scroll');
+                menuOpen.css('max-height', '500px');
+            });
+            let headMenu = $('#menu-head');
+            headMenu.click(function () {
+                menuOpen.css('overflow-y', '');
+                menuOpen.css('max-height', '');
+            });
+        });
+    </script>

@@ -26,7 +26,7 @@ use yii\widgets\Breadcrumbs;
              class="navbar navbar-static-top"
              role="navigation">
 
-            <a href="#" data-toggle="push-menu"
+            <a href="#" data-toggle="push-menu" id="menu-head"
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
                class="logo-mini "><i class="fa fa-bars" aria-hidden="true"></i></a>
 
