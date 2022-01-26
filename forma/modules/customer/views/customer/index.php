@@ -243,7 +243,6 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                 'class' => 'yii\grid\CheckboxColumn', 'checkboxOptions' => ['name' => 'checkbox[]']
             ],
 
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{history} {update} {delete}',
@@ -270,7 +269,6 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                       return $count;
                 },
             ],
-
             [
                 'attribute' => 'customer_source_id',
                 'value' => 'customerSource.name',
@@ -281,8 +279,6 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             // 'email:email',
             // 'tax_rate',
         ],
-
-
     ]); ?>
 
     <?= Html::endForm()?>

@@ -2,7 +2,6 @@
 
 namespace forma\modules\core\controllers;
 
-use forma\modules\core\records\UserProfileRule;
 use Yii;
 use forma\modules\core\records\ItemInterface;
 use forma\modules\core\records\ItemInterfaceSearch;
