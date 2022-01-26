@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать источник клиентов'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
     </p>
     <?php Pjax::begin(['id' => 'grid'])?>
 

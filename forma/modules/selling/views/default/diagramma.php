@@ -30,7 +30,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
 $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 ?>
 
-<div class="col-lg-9 col-xs-12">
+<div class="col-lg-9 col-xs-12" >
 
     <div class="box box-success">
         <div class="box-header with-border">
