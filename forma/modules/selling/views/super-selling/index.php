@@ -81,7 +81,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         [
             'class' => 'kartik\grid\EditableColumn',
             'attribute' => 'customerPhone',
-            'label' => 'Номер',
+            'label' => 'Телефон',
             'value' => 'customer.chief_phone',
             //'pageSummary' => 'Total',
             'vAlign' => 'middle',

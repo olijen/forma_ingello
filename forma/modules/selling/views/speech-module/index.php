@@ -162,11 +162,11 @@ $this->title = Yii::t(
                                                                                 <a style="margin:0 5px 0;" href="/selling/answer/delete?id=` + answer.id + `" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
                                                                                     <i class="fa fa-trash"></i>
                                                                                 </a>
-                                                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                                                <dev data-toggle="collapse" data-parent="#accordion"
                                                                                    href="#collapse_` + answer.id + requests.id + `" class="regularity_name collapsed"
-                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;">
+                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;color: grey">
                                                                                     | ` + answer.text + `
-                                                                                </a>
+                                                                                </dev>
                                                                             </h4>
                                                                         </div>
                                                                     </div>`;
@@ -220,11 +220,11 @@ $this->title = Yii::t(
                                                                                 <a style="margin:0 5px 0;" href="/selling/answer/delete?id=` + answer.id + `" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
                                                                                     <i class="fa fa-trash"></i>
                                                                                 </a>
-                                                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                                                <div data-toggle="collapse" data-parent="#accordion"
                                                                                    href="#collapse_` + answer.id + requests.id + `" class="regularity_name collapsed"
-                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;">
+                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;color: grey">
                                                                                     | ` + answer.text + `
-                                                                                </a>
+                                                                                </div>
                                                                             </h4>
                                                                         </div>
                                                                     </div>`;
