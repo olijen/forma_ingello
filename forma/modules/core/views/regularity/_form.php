@@ -82,7 +82,6 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
             ],
         ])->label('Иконка')
      ?>
-
     <div class="col-xs-12">
         <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
             'options' => [
