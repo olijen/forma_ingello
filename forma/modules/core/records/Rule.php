@@ -92,7 +92,7 @@ class Rule extends AccessoryActiveRecord
   {
   return $this->hasOne(Item::className(), ['id' => 'item_id']);
   }
-  
+
   /**
   * @inheritdoc
   * @return RuleQuery the active query used by this AR class.

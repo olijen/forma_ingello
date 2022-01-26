@@ -18,6 +18,7 @@ $list = [
     ],
     ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
     ['label' => 'Форма ставки FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'comments-dollar'],
+    ['label' => 'Супер-таблица', 'url' => '/selling/super-selling', 'icon' => 'table'],
 
 
 ];
@@ -61,8 +62,8 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             </div>
         </div>
 
-        <div class="myChart">
-            <div class="myChart">
+        <div class="box-body">
+            <div class="chart">
                 <canvas id="myChart" style=""></canvas>
             </div>
 
