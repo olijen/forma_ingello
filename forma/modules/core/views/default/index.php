@@ -649,8 +649,8 @@ foreach ($widgetOrder as $panel => $widgetArray) {
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
 </div>
 
-<div class="row first_block">
-    <!-- ВОРОНКА ПРОДАЖ -->
+<div class="row first_block" style="padding-bottom: 80px;">
+<!-- ВОРОНКА ПРОДАЖ -->
     <?php
     //$salesFunnelWidget = SalesFunnelWidget::widget();
     //$widgetsForSortable[]['content'] = $salesFunnelWidget;

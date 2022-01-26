@@ -1,6 +1,5 @@
 <?php
 
-use forma\components\widgets\WidgetAccess;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use forma\extensions\kartik\DynaGrid;
@@ -21,14 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
     </p>
-    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'grid customer source']) ?>
     <?php Pjax::begin(['id' => 'grid'])?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
 
 
             'id',
@@ -41,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <?php Pjax::end();?>
-    <?php WidgetAccess::end(); ?>
 
 
 

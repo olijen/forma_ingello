@@ -20,11 +20,11 @@ class AccessoryModule
             $multiNameEntity .= $item;
         }
         $currentNameEntity = $multiNameEntity;
-        $accessRank = Accessory::find()->where(['user_id' => \Yii::$app->user->id])
+        $access = Accessory::find()->where(['user_id' => \Yii::$app->user->id])
             ->andWhere(['like', 'entity_class', [$currentNameEntity]])->select('entity_id')
             ->all();
         $idS = [];
-        foreach ($accessRank as $key => $item) {
+        foreach ($access as $key => $item) {
             $idS [] = $item->entity_id;
         }
         return $idS;

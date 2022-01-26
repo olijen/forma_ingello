@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'tables'=>$tables,
         'items'=>$items,
-        'icons'=>$icons,
     ]) ?>
 
 

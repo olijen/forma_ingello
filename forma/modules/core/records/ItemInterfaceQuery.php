@@ -2,8 +2,6 @@
 
 namespace forma\modules\core\records;
 
-use forma\components\AccessoryModule;
-
 /**
  * This is the ActiveQuery class for [[ItemInterface]].
  *
@@ -11,6 +9,12 @@ use forma\components\AccessoryModule;
  */
 class ItemInterfaceQuery extends \yii\db\ActiveQuery
 {
+    /*public function active()
+    {
+        $this->andWhere('[[status]]=1');
+        return $this;
+    }*/
+
     /**
      * @inheritdoc
      * @return ItemInterface[]|array
@@ -26,11 +30,6 @@ class ItemInterfaceQuery extends \yii\db\ActiveQuery
      */
     public function one($db = null)
     {
-        return parent::one($db);
-    }
-    public function oneAccessory($db = null)
-    {
-        $this->andWhere(['in', 'item_interface.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::one($db);
     }
 }

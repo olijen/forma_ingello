@@ -1,6 +1,5 @@
 <?php
 
-use forma\components\widgets\WidgetAccess;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -19,13 +18,11 @@ $this->title = Yii::t('app', 'Состояния');
     </p>
 
     <p>
-        <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'button add state main state']) ?>
         <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
-        <?php WidgetAccess::end(); ?>
     </p>
 
 
-    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'grid main state']) ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -39,6 +36,6 @@ $this->title = Yii::t('app', 'Состояния');
             'order',
         ],
     ]); ?>
-    <?php WidgetAccess::end(); ?>
+
 
 </div>

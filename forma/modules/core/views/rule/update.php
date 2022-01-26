@@ -1,5 +1,6 @@
 <?php
 
+use forma\modules\core\records\AccessInterfaceSearch;
 use yii\helpers\Html;
 use \wokster\ltewidgets\BoxWidget;
 
@@ -20,8 +21,11 @@ $this->params['breadcrumbs'][] = 'Редактировать';
     'model' => $model,
         'tables'=>$tables,
         'items'=>$items,
-        'icons'=>$icons,
     ]) ?>
+    <?= $this->render('user-rule', [
+        'searchModel' => $searchModel,
+        'dataProvider' => $dataProvider,
+    ]); ?>
 
 
 
