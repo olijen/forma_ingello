@@ -33,7 +33,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
                 class="fas fa-phone-volume"></i> План по продажам</a>
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
         состояния</a>
-
+    <a href="selling/super-selling" class="btn btn-success forma_blue"> <i class="fa fa-table"></i> Супер-таблица</a>
     <hr>
 
     <?php Pjax::begin(); ?>
@@ -45,6 +45,11 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
+        ],
+        [
+            'attribute' => 'id',
+            'label' => 'ID',
+            'value' => 'id',
         ],
         [
             'attribute' => 'customerName',
