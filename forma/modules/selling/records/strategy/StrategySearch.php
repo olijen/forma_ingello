@@ -67,4 +67,13 @@ class StrategySearch extends Strategy
 
         return $dataProvider;
     }
+
+    public function createQuery()
+    {
+        $query = Strategy::find()->joinWith(['accessory'])
+            ->andWhere(['accessory.user_id' => \Yii::$app->user->id])
+            ->andWhere(['accessory.entity_class' => Strategy::className()]);
+
+        return $query;
+    }
 }
