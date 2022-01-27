@@ -21,7 +21,7 @@
                         url: url + '?without-header&only-title',
                         type: "GET",
                         success: function (msg) {
-                            findElementCreateRequest.innerHTML = "<p >" + msg + "<button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                            findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'>" + msg + "<button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
                         }
                     });
                 }
