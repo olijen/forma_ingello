@@ -33,7 +33,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
 <div class="col-lg-9 col-xs-12">
 
-    <div class="box box-success">
+    <div class="box box-success"style="border-color: rgba(88, 98, 142, 1)">
         <div class="box-header with-border">
             <h3 class="box-title" id="scroll">Этапы (воронка продаж)</h3>
 

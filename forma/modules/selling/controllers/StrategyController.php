@@ -37,9 +37,9 @@ class StrategyController extends Controller
      */
     public function actionIndex()
     {
+//        dd(Yii::$app->request->get());
         $searchModel = new StrategySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

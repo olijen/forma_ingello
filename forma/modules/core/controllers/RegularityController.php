@@ -11,6 +11,7 @@ use forma\modules\core\records\Rule;
 use forma\modules\core\records\User;
 use forma\modules\core\services\RegularityAndItemPictureService;
 use forma\modules\product\records\Product;
+use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\RegularitySearch;
@@ -153,12 +154,14 @@ class RegularityController extends Controller
      */
     public function actionCreate()
     {
+
         if(Yii::$app->user->isGuest){
             return $this->goHome();
         }
         $model = new Regularity();
         $model->loadDefaultValues(); //load default data from db
         $model->user_id = Yii::$app->user->identity->id;
+
         if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
@@ -177,12 +180,14 @@ class RegularityController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
+
             return $this->render('update', [
                 'model' => $model,
+                'icons' => $icons,
             ]);
         }
     }

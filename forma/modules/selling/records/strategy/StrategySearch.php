@@ -20,7 +20,7 @@ class StrategySearch extends Strategy
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name', 'description','is_selling'], 'safe'],
         ];
     }
 
@@ -44,7 +44,6 @@ class StrategySearch extends Strategy
     {
         $query = Strategy::find();
         $this->access($query);
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -60,6 +59,7 @@ class StrategySearch extends Strategy
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

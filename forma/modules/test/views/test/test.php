@@ -13,7 +13,9 @@ use vova07\imperavi\Widget;
 /* @var $form yii\widgets\ActiveForm */
 
 $this->title = $testType['name'];
-
+if(Yii::$app->user->id == null){
+    Yii::$app->response->redirect(['core/default/auth']);
+}
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
