@@ -46,7 +46,7 @@ class Request extends AccessoryActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'text' => Yii::t('app', 'Текст вопроса'),
-            'is_manager' => Yii::t('app', 'Вопрос от менеджера'),
+            'is_manager' => Yii::t('app', 'Вопрос от кадра'),
         ];
     }
 

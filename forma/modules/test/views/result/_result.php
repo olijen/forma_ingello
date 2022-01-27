@@ -11,9 +11,11 @@ use forma\modules\core\widgets\DetachedBlock;
 /* @var $testType forma\modules\test\records\TestType */
 /* @var $form yii\widgets\ActiveForm */
 $this->title = 'Результат теста';
+
 ?>
 <div class="row">
     <?php echo $test->result; ?>
+
 </div>
 
 

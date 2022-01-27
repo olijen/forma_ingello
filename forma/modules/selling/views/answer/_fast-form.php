@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
     <input type="text" name="request" class="form-control" />
     <div class="form-group field-request-is_manager">
 
-        <input type="hidden" name="Request[is_manager]" value="0"><label><input type="checkbox" id="request-is_manager" name="Request[is_manager]" value="1"> Вопрос от менеджера</label>
+        <input type="hidden" name="Request[is_manager]" value="0"><label><input type="checkbox" id="request-is_manager" name="Request[is_manager]" value="1"> Вопрос от кадра</label>
 
         <div class="help-block"></div>
     </div>

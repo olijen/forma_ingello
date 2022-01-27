@@ -3,6 +3,8 @@
 namespace forma\modules\test\controllers;
 
 use forma\modules\customer\records\Customer;
+use forma\modules\test\records\TestTypeField;
+use forma\modules\test\records\TestTypeFieldSearch;
 use forma\modules\vacancy\records\Vacancy;
 use Yii;
 use forma\modules\test\records\Test;
@@ -66,6 +68,17 @@ class ResultController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+    public function actionResult($id)
+    {
+        $searchModel = new TestTypeFieldSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('result', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function actionView($id)
     {
         $testType = TestType::find()->all();
@@ -73,7 +86,6 @@ class ResultController extends Controller
         return $this->render('_result', [
             'test' => $test,
             'testType' => $testType,
-
         ]);
     }
 
