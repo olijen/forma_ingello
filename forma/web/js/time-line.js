@@ -15,8 +15,9 @@
                 handleEvent(event) {
                     document.getElementById('myFrame').style.height = '100%';
                     console.log($('.sidebar-mini.sidebar-collapse .content-wrapper'));
-                    let findElementCreateRequest = document.querySelector('.modal-header');
 
+                    let findElementCreateRequest = document.querySelector('.modal-header');
+                    findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'><button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
                     $.ajax({
                         url: url + '?without-header&only-title',
                         type: "GET",
