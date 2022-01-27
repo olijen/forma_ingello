@@ -69,10 +69,10 @@ class ResultController extends Controller
     public function actionView($id)
     {
         $testType = TestType::find()->all();
-        $test = Test::find()->where(['id'=>$id])->one();
+        $test = Test::find()->where(['id' => $id])->one();
         return $this->render('_result', [
-            'test' =>$test,
-            'testType'=>$testType,
+            'test' => $test,
+            'testType' => $testType,
 
         ]);
     }
@@ -104,8 +104,6 @@ class ResultController extends Controller
      */
     public function actionUpdate($id)
     {
-//        var_dump('fvfevn');
-//        exit;
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

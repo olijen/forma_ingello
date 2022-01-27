@@ -40,7 +40,7 @@ $list = [
                             ]);
                         },
                         'quality' => function ($url = 'url?', $model, $key) {
-                            return Html::a('<span class="fa fa-check glyphicon glyphicon-list"></span>', 'url?' . $model->id, [
+                            return Html::a('<span class="fa fa-check glyphicon glyphicon-list"></span>', 'result/url?' . $model->id, [
                                 'title' => 'Список пройденнных тестов',
                                 'data-pjax' => '0',
                             ]);
