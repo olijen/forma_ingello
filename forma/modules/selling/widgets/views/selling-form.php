@@ -71,19 +71,17 @@ $formOptions = [
             $form = ActiveForm::begin($formOptions);
             //$label = $model->getAttributeLabel('warehouse_id');
             $label = '
+                <div>
+                <div class="col-sm-6 col-md-6 col-xs-6 no-padding">
                 <span>Место</span>
-                
-                <div style="float:right" class="dropdown show">
-                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                  <div style="padding-left: 20px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                    <a data-action="view" data-select="#selling-warehouse_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/detail']) . '">детали</a>
-                    <br/>
-                    <a data-action="create" data-select="#selling-warehouse_id no-loader" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/create']) . '">добавить</a>
-                  <br/>
-                  </div>
                 </div>
+                <div class="col-sm-6 col-md-6 col-xs-6 no-padding">
+                    <a data-action="view" data-select="#selling-warehouse_id" class="btn btn-xs select-modal-link no-loader pull-right " style="color:blue; display: block  text-align: right; margin-left: 2%"  href="' . Url::to(['/warehouse/warehouse/detail']) . '" id="selling-talk"> <i class="fa fa-comments"></i> детали</a>
+                    <a data-action="create" data-select="#selling-warehouse_id no-loader" class="btn btn-xs select-modal-link no-loader pull-right" style="color:blue  "  href="' . Url::to(['/warehouse/warehouse/create']) . '"> <i class="fas fa-external-link-alt "></i> добавить</a>
+
+                </div>
+                </div>
+               
             ';
             ?>
             <?= $form->field($model, 'warehouse_id')->widget(Select2::classname(), [
@@ -95,18 +93,17 @@ $formOptions = [
             <?php
             //$label = $model->getAttributeLabel('customer_id');
             $label = '
+                <div>
+                <div class="col-sm-6 col-md-6 col-xs-6 no-padding">
                 <span>Клиент</span>
-                <div style="float:right" class="dropdown show">
-                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                  <div style="padding-left: 20px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                    <a data-action="view" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/view']) . '">детали</a>
-                    <br/>
-                    <a data-action="create" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/create']) . '">добавить</a>
-                  <br/>
-                  </div>
                 </div>
+                <div class="col-sm-6 col-md-6 col-xs-6 no-padding">
+                    <a data-action="view" data-select="#selling-customer_id" class="btn btn-xs select-modal-link no-loader pull-right " style="color:blue ;display: block  text-align: right; margin-left: 2%"  href="' . Url::to(['/customer/customer/view']) . '" id="selling-talk"> <i class="fa fa-comments"></i> детали</a>
+                    <a data-action="create" data-select="#selling-customer_id" class="btn btn-xs select-modal-link no-loader pull-right" style="color:blue "  href="' . Url::to(['/customer/customer/create']) . '"> <i class="fas fa-external-link-alt "></i> добавить</a>
+
+                </div>
+                </div>
+               
             ';
             ?>
             <?= $form->field($model, 'customer_id')->widget(Select2::classname(), [
