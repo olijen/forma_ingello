@@ -42,8 +42,18 @@ use forma\modules\selling\widgets\HistoryView;
     </div>
     <div class="change_email bs-example" style="margin-bottom: 20px">
         <div class="detached-block-example">Сменить e-mail</div>
-        <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
-        <a href="<?=$googleLink?>" class="btn btn-primary" style="margin-bottom: 10px" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
+        <div class="row">
+            <div class="col-md-2">
+                <button id="change_email" class="btn btn-success">Сменить e-mail</button>
+            </div>
+            <div class="col-md-3">
+                <a href="<?=$googleLink?>" class="btn btn-primary"><img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png"> Сменить e-mail с помощью Google</a>
+            </div>
+
+        </div>
+        <div class=""> <!--    --------- -->
+
+
         <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
@@ -55,7 +65,38 @@ use forma\modules\selling\widgets\HistoryView;
         ]); ?>
 
         <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
+        <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
+        </div>
 
+
+
+        <!--<div class="col-md-2">
+            <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
+        </div>
+
+        <a href="<?=$googleLink?>" class="btn btn-primary" style="margin-bottom: 10px" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
+        <?php $form = ActiveForm::begin([
+            'id' => 'email',
+            'method' => 'get',
+            'layout' => 'horizontal',
+            'options' => ['data' => ['pjax' => true], 'method' => 'get'],
+            'fieldConfig' => [
+                'template' => '<div class="col-md-1" style="padding: 0">{label}:</div><div class="col-md-1"></div><div class="col-md-5">{input}</div><div class="col-md-5">{error}</div>',
+            ],
+        ]); ?>
+                <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
+
+                                <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
+
+
+                        <?php ActiveForm::end(); ?>
+
+
+        <p> </p>
+        <div class="col-2'" style="margin-right: ">
+
+        <?= $form->field($customer, 'chief_email')->textInput(['autofocus' => true]) ?>
+        </div>
         <div class="form-group">
             <div class=" col-lg-11">
                 <?= Html::submitButton('Сменить e-mail', ['class' => 'btn btn-primary']) ?>
@@ -64,6 +105,7 @@ use forma\modules\selling\widgets\HistoryView;
 
 
         <?php ActiveForm::end(); ?>
+        -->
     </div>
     <?php Pjax::end() ?>
 
@@ -74,19 +116,19 @@ use forma\modules\selling\widgets\HistoryView;
 
 
 
-    <script>
-        var flag = false;
+<script>
+    var flag = false;
 
-        document.getElementById('openDialog').onclick = function () {
-            if (flag === false) {
-                document.getElementById('dialog').classList.remove('hidden');
-                flag = true;
-            } else {
-                document.getElementById('dialog').classList.add('hidden');
-                flag = false;
-            }
+    document.getElementById('openDialog').onclick = function () {
+        if (flag === false) {
+            document.getElementById('dialog').classList.remove('hidden');
+            flag = true;
+        } else {
+            document.getElementById('dialog').classList.add('hidden');
+            flag = false;
         }
-    </script>
+    }
+</script>
 
 
 <script>
