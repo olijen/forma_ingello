@@ -22,8 +22,6 @@ class SystemEventService
         'SystemEvent',
         'Accessory',
         'StateSearchState',
-        'SystemEventUser',
-        'WidgetUser',
         'TestSearch',
         'TestType',
         'TestTypeField',
@@ -132,7 +130,7 @@ class SystemEventService
                         $accessInterface->save();
                     }
                     if($accessInterface->current_mark == $rule->count_action){
-                        $accessInterface->status =1;
+                        $accessInterface->status = 1;
                         $accessInterface->save();
                         self::setCookieSystemEvent('event',$rule->id);
                     }

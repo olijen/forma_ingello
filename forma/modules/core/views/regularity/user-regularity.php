@@ -541,10 +541,10 @@ width: 100%;
                            data-href="tab_regularity_<?= $regularity['id'] ?>"
                            data-name="<?= "<h2> <i style='margin-right: 30px;' class='fa fa-$regularity->icon'></i> 
                             $regularity->name ".(($countRegularityItem >0 && $countRegularityItem<=$countRightRegularityItem)
-                               ?"<i style='color:green;padding-right: 10px;' class='fa fa-check-circle'></i>":"")."</h2>" ?>"
+                               ?"<i style='color:green;padding-right: 10px;' ></i>":"")."</h2>" ?>"
                            data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
                            aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
-                            <i class="fa fa-<?=$regularity->icon?>"></i> <?= $regularity['name'] ?><?=
+                            <i id="regularity-check<?= $regularity['id'] ?>" class="fa fa-<?=$regularity->icon?>"></i> <?= $regularity['name'] ?><?=
                             (($countRegularityItem >0 && $countRegularityItem<=$countRightRegularityItem)
                                ?"<i style='color:green;padding-left: 10px;' class='fa fa-check-circle'></i>":"") ?>
                             <input type="hidden" class="hidden-description" value="<?=htmlspecialchars($regularity->title)?>">
