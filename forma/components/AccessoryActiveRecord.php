@@ -47,7 +47,7 @@ class AccessoryActiveRecord extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         if (Yii::$app->controller->action->id == 'test' && Yii::$app->user->isGuest) {
-            if ($this instanceof Customer || $this instanceof Selling ){
+            if ($this instanceof Customer || $this instanceof Selling) {
                 $this->createAccessoryToTmpUser($this->tmpUserId);
             }
         } else if (empty(Accessory::find()->where([
@@ -59,8 +59,8 @@ class AccessoryActiveRecord extends ActiveRecord
         }
         parent::afterSave($insert, $changedAttributes);
     }
-    public function afterDelete()
 
+    public function afterDelete()
     {
         Accessory::deleteAll([
             'user_id' => Yii::$app->getUser()->id,
@@ -102,7 +102,7 @@ class AccessoryActiveRecord extends ActiveRecord
 
     public static function accessSearchDataProvider($default = [], $force = false)
     {
-        $searchClass = static::class.'Search';
+        $searchClass = static::class . 'Search';
         $searchClass = new $searchClass;
         $name = (new ReflectionClass($searchClass))->getShortName();
 
@@ -120,12 +120,12 @@ class AccessoryActiveRecord extends ActiveRecord
 
     public static function accessSearch($default = [], $pagination = false)
     {
-        $dataProvider =  self::accessSearchDataProvider($default);
+        $dataProvider = self::accessSearchDataProvider($default);
 
         if ($pagination) {
-            $dataProvider->pagination->defaultPageSize = $pagination['defaultPageSize']??null;
-            $dataProvider->pagination->setPage($pagination['setPage']??null);
-            $dataProvider->pagination->setPageSize($pagination['setPageSize']??null);
+            $dataProvider->pagination->defaultPageSize = $pagination['defaultPageSize'] ?? null;
+            $dataProvider->pagination->setPage($pagination['setPage'] ?? null);
+            $dataProvider->pagination->setPageSize($pagination['setPageSize'] ?? null);
         } else {
             $dataProvider->pagination = false;
         }
@@ -140,7 +140,7 @@ class AccessoryActiveRecord extends ActiveRecord
         Yii::debug(self::accessSearchDataProvider($default)->getModels());
 
         if (count(self::accessSearchDataProvider($default)->getModels()) < 1) {
-            return Yii::$app->controller->redirect('/hr/form?id='.$_GET['id']);
+            return Yii::$app->controller->redirect('/hr/form?id=' . $_GET['id']);
         }
 
         return self::accessSearchDataProvider($default)->getModels()[0];

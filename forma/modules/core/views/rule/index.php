@@ -51,8 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     if(!empty(Yii::$app->params['translateTablesName'][$searchModel->table])){
                         return Yii::$app->params['translateTablesName'][$searchModel->table];
                     }
-                }
-                ,
+                },
                 'filter' => Html::activeDropDownList($searchModel, 'table',
                     $tables,
                     ['placeholder' => 'Выбрать таблицу...','class' => 'form-control']),

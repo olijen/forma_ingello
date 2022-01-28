@@ -28,7 +28,7 @@ if (isset($parentItem)) {
     >
         <label class="container-label"
                style="border: 1px solid #3c8dbc; border-radius: 15px; margin-right: 5px; margin-left: 2px; display: inline-block;">
-            <input type="radio" class="check-radio" name=<?= $radioName ?> id="<?= $item->id ?>">
+            <input type="radio" class="check-radio" name=<?= $radioName ?> id="item-check<?= $item->id ?>">
             <span class="checkmark"></span>
             <?php
           $countRightAnswer = 0;
@@ -93,7 +93,7 @@ if (isset($parentItem)) {
                                     echo "<div class='clearfix'>
                                                 
                                                 <small class='pull-right'>$sum % ($accessInterface->current_mark из $rule->count_action)
-                                                " . (($sum >= 100) ? "<i style='color:green;padding-left: 10px;' class='fa fa-check-circle'></i>" :
+                                                " . (($sum >= 100) ? "<i style='color:green;padding-left: 10px;' ></i>" :
                                                                 "<i style='color:red;padding-left: 10px;' class='fa fa-times'></i>") . "</small>
                                             </div>
                                             <div class='progress xs'>
@@ -122,20 +122,20 @@ if (isset($parentItem)) {
 <?php echo Dialog::widget();
 
 $js = <<< JS
-if($countAnswer == $countRightAnswer && $countAnswer!=0){
+if($countAnswer == $countRightAnswer && $countAnswer != 0){
     $("#btn-alert"+$item->id).on("click", function() {
     krajeeDialog.alert("Вы выполнили все задания по этому элементу!")
     let el = document.getElementById('li'+$item->id);
             if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
-                $('#'+$item->id).after(value);
+                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='float: right; margin-right: 10px'></i>`;
+                $('#item-check'+$item->id).after(value);
             }
             
 });
     let el = document.getElementById('li'+$item->id);
             if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
-                $('#'+$item->id).after(value);
+                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='float: right; margin-right: 10px'></i>`;
+                $('#item-check'+$item->id).after(value);
             }
 }
 

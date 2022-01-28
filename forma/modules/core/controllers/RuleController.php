@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\records\AccessInterface;
 use forma\modules\core\records\AccessInterfaceSearch;
 use Yii;
 use forma\modules\core\records\Rule;
@@ -194,25 +195,55 @@ class RuleController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
     public function actionCheckRightAnswer()
     {
         $itemId = $_POST['itemId'];
+
         $countRightAnswer = 0;
         $countAnswer = 0;
-        if(!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$itemId]))){
-            foreach ($rules->all() as $rule){
+        $countRegularityItem = 0;
+        $countRightRegularityItem = 0;
+
+        $item = Item::find()->where(['id' => $itemId])->one();
+        $regularity = Regularity::find()->where(['id' => $item->regularity_id])->one();
+
+        $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRule'=>function($q){
+            $q->joinWith('itemInterface');
+        }])->all();
+        $userData = AccessInterface::find()->where(['user_id'=>Yii::$app->user->id])->all();
+        foreach ($regularity->items as $regularityItem) {
+            foreach ($rulesData as $rulesDatum) {
+                if ($rulesDatum->item_id == $regularityItem->id) {
+                    $countRegularityItem++;
+                    foreach ($userData as $userDatum) {
+                        if ($userDatum->rule_id == $rulesDatum->id && $userDatum->status == 1) {
+                            $countRightRegularityItem++;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' => $itemId]))) {
+            foreach ($rules->all() as $rule) {
                 $countAnswer++;
-                foreach ($rule->accessInterfaces as $accessInterface){
-                    if($rule->count_action == $accessInterface->current_mark){
+                foreach ($rule->accessInterfaces as $accessInterface) {
+                    if ($rule->count_action == $accessInterface->current_mark) {
                         $countRightAnswer++;
                     }
                 }
             }
         }
+
         $result = ['result'=>false];
-        if($countAnswer == $countRightAnswer && $countAnswer!=0){
+        if($countAnswer == $countRightAnswer && $countAnswer != 0) {
             $result = ['result'=>true];
             $result[] =['id'=>$itemId];
+        }
+
+        if ($countRegularityItem == $countRightRegularityItem && $countRegularityItem != 0) {
+            $result[] = ['allAnswer' => true];
         }
         return $this->asJson($result);
     }
