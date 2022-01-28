@@ -105,7 +105,7 @@ class Selling extends AccessoryActiveRecord implements NomenclatureInterface
     public function rules()
     {
         return [
-            [['customer_id'], 'required'],
+            [['customer_id','warehouse_id'], 'required'],
             [['customer_id', 'warehouse_id'], 'integer'],
             [['date_create', 'date_complete', 'lastEvent'], 'safe'],
             [['name'], 'string', 'max' => 100],
