@@ -153,19 +153,25 @@ class RegularityController extends Controller
      */
     public function actionCreate()
     {
-
+        $icons = [];
+        $iconsValue  = [];
+        $icon = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 26, -2);
+        foreach ($icon as $key=>$value){
+            $iconsValue[] = $value;
+        }
+        $icons [] = array_combine($iconsValue,$iconsValue) ;
         if(Yii::$app->user->isGuest){
             return $this->goHome();
         }
         $model = new Regularity();
         $model->loadDefaultValues(); //load default data from db
         $model->user_id = Yii::$app->user->identity->id;
-
         if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'icons' => $icons,
             ]);
         }
     }
@@ -178,8 +184,14 @@ class RegularityController extends Controller
      */
     public function actionUpdate($id)
     {
+        $icons = [];
+        $iconsValue  = [];
+        $icon = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 26, -2);
+        foreach ($icon as $key=>$value){
+            $iconsValue[] = $value;
+        }
+        $icons [] = array_combine($iconsValue,$iconsValue) ;
         $model = $this->findModel($id);
-        $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
         } else {

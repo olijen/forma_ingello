@@ -47,18 +47,18 @@ class MainController extends Controller
     public function actionIndex()
     {
 
-        if (Yii::$app   ->request->isAjax) Yii::debug('ВОТ');
+        if (Yii::$app->request->isAjax) Yii::debug('ВОТ');
         $searchModel = SellingService::search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index', compact('searchModel', 'dataProvider' ));
+        return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
     public function actionUpdate($id)
     {
 
-        $redirectLink = '/selling/form?id='.$id;
+        $redirectLink = '/selling/form?id=' . $id;
         //$parameters = ['id' => $id];
-        if (isset($_GET['without-header'])) $redirectLink .='&without-header';
+        if (isset($_GET['without-header'])) $redirectLink .= '&without-header';
         //$this->redirect(Url::to(['/selling/form', $parameters]));
         $this->redirect($redirectLink);
     }
@@ -77,6 +77,7 @@ class MainController extends Controller
         SellingService::delete($id);
         $this->redirect('index');
     }
+
     public function actionDeleteSelection()
     {
         $selection = Yii::$app->request->post('selection');
@@ -88,41 +89,46 @@ class MainController extends Controller
         return $this->redirect('/selling/main/index');
     }
 
-    public function actionShowSelling(){
-
-        //$this->layout = 'blank';
+    public function actionShowSelling()
+    {
         $selling_token = null;
-        if(isset($_GET['selling_token'])){
+        if (isset($_GET['selling_token'])) {
             $selling_token = $_GET['selling_token'];
-            setcookie('selling_token', $selling_token, time()+36000);
-        } else if(isset($_COOKIE['selling_token'])){
+            setcookie('selling_token', $selling_token, time() + 36000);
+        } else if (isset($_COOKIE['selling_token'])) {
             $selling_token = $_COOKIE['selling_token'];
             $_GET['selling_token'] = $_COOKIE['selling_token'];
         }
 
+        $selling = Selling::findOne(['selling_token' => $selling_token]);
+        $selling_pull = '';
+        if (!isset($selling->warehouse->name)) {
+            $selling_pull = 'Не заданно';
+        } elseif (isset($selling->warehouse->name)) {
+            $selling_pull = $selling->warehouse->name;
+        }
 
-        $selling = Selling::findOne(['selling_token'=>$selling_token]);
         $state = State::findOne(['id' => $selling->state_id]);
         $customer = $selling->customer;
         $googleLink = $this->googleEmailChange($customer, $selling_token);
-        if(\Yii::$app->request->isPjax && isset($_GET['Customer']['chief_email'])){
+        if (\Yii::$app->request->isPjax && isset($_GET['Customer']['chief_email'])) {
             $customer->chief_email = $_GET['Customer']['chief_email'];
             $customer->selling_token = $selling_token;
             $customer->save();
-            return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state','googleLink'));
+
+            return $this->render('selling-info', compact('selling_token', 'selling_pull', 'selling', 'customer', 'state', 'googleLink'));
         }
 
-
-
-        return $this->render('selling-info', compact('selling_token', 'selling', 'customer', 'state', 'googleLink'));
+        return $this->render('selling-info', compact('selling_token', 'selling_pull', 'selling', 'customer', 'state', 'googleLink'));
     }
 
-    public function googleEmailChange(Customer $customer, $selling_token){
+    public function googleEmailChange(Customer $customer, $selling_token)
+    {
         $clientID = Yii::$app->params['client_id'];
         $clientSecret = Yii::$app->params['client_secret'];
-        $redirectUri = 'https://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
+        $redirectUri = 'https://' . $_SERVER['HTTP_HOST'] . '/selling/main/show-selling';
         if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false)
-            $redirectUri = 'http://'.$_SERVER['HTTP_HOST'].'/selling/main/show-selling';
+            $redirectUri = 'http://' . $_SERVER['HTTP_HOST'] . '/selling/main/show-selling';
 
         $client = new Google_Client();
         /// следующие сеттеры находятся в классе Google_Client() как элементы массива Google_Client::config
@@ -143,15 +149,15 @@ class MainController extends Controller
         // $_GET['code'] присылает гугл после авторизации в его форме и перебросе пользователя на указанный
         // $redirectUri.
         if (isset($_GET['code'])) {
-            header("Location: http://".$_SERVER['HTTP_HOST']."/selling/main/show-selling?selling-token=".$_COOKIE['selling_token']);
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/selling/main/show-selling?selling-token=" . $_COOKIE['selling_token']);
             $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
             $client->setAccessToken($token['access_token']);
             $google_oauth = new Google_Service_Oauth2($client);
             $google_account_info = $google_oauth->userinfo->get();
-            $email =  $google_account_info->email;
+            $email = $google_account_info->email;
             $customer->chief_email = $email;
             $customer->save();
-            Yii::$app->getResponse()->redirect(Url::to(['/selling/main/show-selling?selling_token='.$_COOKIE['selling_token']]));
+            Yii::$app->getResponse()->redirect(Url::to(['/selling/main/show-selling?selling_token=' . $_COOKIE['selling_token']]));
 
 
         }

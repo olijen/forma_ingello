@@ -19,6 +19,7 @@ $this->title = Yii::t('app', 'Создать Регламент');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'icons' => $icons,
     ]) ?>
 
     <?php BoxWidget::end();?>

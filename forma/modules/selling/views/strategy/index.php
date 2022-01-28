@@ -23,22 +23,22 @@ $this->title = Yii::t('app', 'Стратегии');
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
+            ['class' => 'yii\grid\ActionColumn', 'contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'name:ntext',
             'description:ntext',
-              ['attribute' => 'is_selling',
+            ['attribute' => 'is_selling',
                 'label' => 'Тип',
-                'value' => function($searchModel){
-                    if($searchModel->is_selling=='')return"Для найма";else if($searchModel->is_selling=='1')
-                        return"Для продаж";
+                'value' => function ($searchModel) {
+                    if ($searchModel->is_selling == '') return "Для найма"; else if ($searchModel->is_selling == '1')
+                        return "Для продаж";
                 },
-                  'filter' => Html::activeDropDownList($searchModel, 'is_selling',
-                      [''=>'',''=>'Для найма', '1'=>'Для продаж'],
-                      ['placeholder' => 'Выбрать тип...','class' => 'form-control']),
-                ],
+                'filter' => Html::activeDropDownList($searchModel, 'is_selling',
+                    ['' => '', '' => 'Для найма', '1' => 'Для продаж'],
+                    ['placeholder' => 'Выбрать тип...', 'class' => 'form-control']),
+            ],
 
 
         ],

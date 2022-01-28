@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Редактировать');
 
     <?= $this->render('_form', [
     'model' => $model,
+        'icons' => $icons,
     ]) ?>
 
     <?php BoxWidget::end();?>
