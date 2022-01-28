@@ -72,7 +72,6 @@ class ResultController extends Controller
     {
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('result', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

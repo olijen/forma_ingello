@@ -31,9 +31,17 @@ $this->title = Yii::t('app', 'Стратегии');
             'description:ntext',
             ['attribute' => 'is_selling',
                 'label' => 'Тип',
-                'value' => function ($searchModel) {
-                    if ($searchModel->is_selling == '') return "Для найма"; else if ($searchModel->is_selling == '1')
-                        return "Для продаж";
+                'value' => function (Strategy $model) {
+                    switch ($model->is_selling) {
+                        case 1;
+                            return 'Для продаж';
+                            break;
+                        case 0;
+                            return 'Для найма';
+                            break;
+                        default:
+                            return null;
+                    }
                 },
                 'filter' => Html::activeDropDownList($searchModel, 'is_selling',
                     ['' => '', '' => 'Для найма', '1' => 'Для продаж'],

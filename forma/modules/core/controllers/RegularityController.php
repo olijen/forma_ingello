@@ -51,7 +51,7 @@ class RegularityController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest){
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         $searchModel = new RegularitySearch();
@@ -77,8 +77,8 @@ class RegularityController extends Controller
         $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRule'=>function($q){
             $q->joinWith('itemInterface');
         }])->all();
-        $userData = AccessInterface::find()->where(['user_id'=>Yii::$app->user->id])->all();
-        $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is','access_interface.rule_id',null])->all();
+        $userData = AccessInterface::find()->where(['user_id' => Yii::$app->user->id])->all();
+        $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is', 'access_interface.rule_id', null])->all();
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
@@ -87,7 +87,7 @@ class RegularityController extends Controller
         $items = Item::getMainItems($allItems);
         $newUserReglament = 0;
 
-        if (strpos( Url::previous(), 'test') !== false || true) {
+        if (strpos(Url::previous(), 'test') !== false || true) {
             $newUserReglament = 1;
             Url::remember();
             return $this->render('user-regularity', [
@@ -114,9 +114,9 @@ class RegularityController extends Controller
             'items' => $items,
             'subItems' => $subItems,
             'newUserReglament' => $newUserReglament,
-            'rulesData'=>$rulesData,
-            'userData'=>$userData,
-            'userDataIsNull'=>$userDataIsNull,
+            'rulesData' => $rulesData,
+            'userData' => $userData,
+            'userDataIsNull' => $userDataIsNull,
         ]);
     }
 
@@ -151,13 +151,12 @@ class RegularityController extends Controller
     public function actionCreate()
     {
         $icons = [];
-        $iconsValue  = [];
         $icon = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 26, -2);
-        foreach ($icon as $key=>$value){
-            $iconsValue[] = $value;
+        foreach ($icon as $key => $value) {
+            $icons[$value] = $value;
         }
-        $icons [] = array_combine($iconsValue,$iconsValue) ;
-        if(Yii::$app->user->isGuest){
+
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         $model = new Regularity();
@@ -182,12 +181,11 @@ class RegularityController extends Controller
     public function actionUpdate($id)
     {
         $icons = [];
-        $iconsValue  = [];
         $icon = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 26, -2);
-        foreach ($icon as $key=>$value){
-            $iconsValue[] = $value;
+        foreach ($icon as $key => $value) {
+            $icons[$value] = $value;
         }
-        $icons [] = array_combine($iconsValue,$iconsValue) ;
+
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && RegularityAndItemPictureService::save($model)) {
             return $this->redirect('/core/regularity');
