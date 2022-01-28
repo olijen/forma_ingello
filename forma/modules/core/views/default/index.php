@@ -338,6 +338,10 @@ $widgetsForSortable2 = [];
         cursor: auto;
     }
 
+    .simulation-content {
+        display: block;
+    }
+
     .row.small_widgets {
         min-height: 50px;
         position: fixed;
@@ -626,8 +630,8 @@ foreach ($widgetOrder as $panel => $widgetArray) {
 }
 ?>
 
-<div class="row small_widgets" style="min-height: 50px;">
-    <h3>Панель виджетов</h3>
+<div class="row small_widgets sticky-simulation" style="min-height: 50px;">
+<h3>Панель виджетов</h3>
     <?php
     echo Sortable::widget([
         'connected' => true,
@@ -649,8 +653,8 @@ foreach ($widgetOrder as $panel => $widgetArray) {
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
 </div>
 
-<div class="row first_block" style="padding-bottom: 80px;">
-<!-- ВОРОНКА ПРОДАЖ -->
+<div class="row first_block">
+    <!-- ВОРОНКА ПРОДАЖ -->
     <?php
     //$salesFunnelWidget = SalesFunnelWidget::widget();
     //$widgetsForSortable[]['content'] = $salesFunnelWidget;
@@ -1182,13 +1186,8 @@ if ($widgetNewOrder == true) {
         min-height: 100% !important;
     }
 
-
-    .first_block {
-        margin-top: 100px;
-    }
-
     @media screen and (max-width: 768px) {
-        .small_widgets {
+        .small_widgets, .simulation-content {
             display: none;
         }
 
@@ -1246,4 +1245,14 @@ if ($widgetNewOrder == true) {
 
 <script>
     $('.chartjs-size-monitor').remove();
+</script>
+
+<script>
+    let isModal = window.parent.document.getElementById('modal')
+
+    if (isModal === null) {
+        $('.sticky-simulation').after('<div class="simulation-content" style="height: 100px;"></div')
+    } else {
+        $('.sticky-simulation').after('<div class="simulation-content" style="height: 160px;"></div')
+    }
 </script>

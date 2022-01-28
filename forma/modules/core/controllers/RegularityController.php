@@ -74,27 +74,22 @@ class RegularityController extends Controller
     public function actionRegularity()
     {
         $this->layout = 'public';
-
         $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRule'=>function($q){
             $q->joinWith('itemInterface');
         }])->all();
-
         $userData = AccessInterface::find()->where(['user_id'=>Yii::$app->user->id])->all();
         $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is','access_interface.rule_id',null])->all();
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);
-
         $allItems = (new ItemQuery(new Item()))->publicItems($regularitiesId)->all();
         $subItems = Item::getSubItems($allItems);
         $items = Item::getMainItems($allItems);
-
         $newUserReglament = 0;
 
         if (strpos( Url::previous(), 'test') !== false || true) {
             $newUserReglament = 1;
             Url::remember();
-
             return $this->render('user-regularity', [
                 'regularities' => $regularities,
                 'items' => $items,
@@ -104,6 +99,7 @@ class RegularityController extends Controller
                 'userData'=>$userData,
                 'userDataIsNull'=>$userDataIsNull,
             ]);
+
             $this->layout = false;
             return $this->render('@app/modules/dark/views/default/forma_learning', [
                 'regularities' => $regularities,
