@@ -25,7 +25,7 @@ if (!empty($_GET['name'])) {
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (!empty($_GET['id'])): ?>
-        <div style="float:left; height: 10px; width: auto">
+        <div style="float:left; width: auto">
             <p>
                 <?= Html::a('<i class="fa fa-plus"></i>' . ' ' . 'Добавить вопрос', ['test/create?id=' . $_GET['id']], ['class' => 'btn btn-success']) ?>
 
