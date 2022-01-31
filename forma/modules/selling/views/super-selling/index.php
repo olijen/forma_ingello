@@ -365,9 +365,6 @@ $js = <<< JS
      function showLoaderSellingImport() {
         document.getElementById("loader").style.display = "block";
         $('body').css('pointer-events', 'none');
-        setTimeout(() => {
-            hideLoaderSellingImport();
-            }, 10000);
      }
 
      function hideLoaderSellingImport() {
@@ -390,12 +387,17 @@ $js = <<< JS
             contentType: false
         }).done(function (response) {
                 response = JSON.parse(response);
-                if (response.msg !== "") {
-                    krajeeDialog.alert('Созданы клиенты и продажи: '+ response.msg);
+                if (response.msgErrors !== "") {
+                    krajeeDialog.alert(response.msgErrors);
+                    hideLoaderSellingImport()
+                } else if (response.msgInfo !== "") {
+                    krajeeDialog.alert('Созданы клиенты и продажи'+response.msgInfo);
                     $.pjax({container: '#grid-pjax'})
+                    hideLoaderSellingImport()
                 } else {
                     krajeeDialog.alert('Созданы клиенты и продажи');
                     $.pjax({container: '#grid-pjax'})
+                    hideLoaderSellingImport()
                 }
 
                 $('#import-file-input').val('');

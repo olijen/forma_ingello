@@ -10,103 +10,159 @@ use yii;
 
 class SuperSellingImportService
 {
-    /**
-     * Константы для столбцов таблицы
-     */
-    const CUSTOMER_NAME_INDEX  = 0;
-    const CUSTOMER_PHONE_INDEX = 1;
-    const STATE_INDEX          = 2;
 
     public $arrayFileData;
-    public $arrayIdNewCustomersAndState;
-    public $currentUser;
-    public $findStates;
-    public $newState;
+    public $errors;
+    public $info;
 
     function __construct(array $arrayFileData)
     {
         $this->arrayFileData = $arrayFileData;
-        $this->createCustomer();
-        $this->currentUser = User::find()->where(['id' => Yii::$app->user->id])->one();
-        $this->findStates = State::find()->where(['user_id' => $this->currentUser->id])->all();
-        $this->createSelling();
+        $this->geCustomerWithSellingColumns();
     }
 
-    /**
-     * Метод создания клиентов
-     */
-    public function createCustomer()
+    public function getAttributeTableByName($nameAttribute)
     {
-        $i = 1;
-        while ($i < count($this->arrayFileData)) {
-            $j = 0;
-            $state = null;
-            $name = null;
-            $phone = null;
+        foreach ((new Customer())->attributeLabels() as $key => $attributeTable) {
+            if ($attributeTable === $nameAttribute) {
+                return $key;
+            }
+        }
 
-            while ($j < count($this->arrayFileData[$i])) {
-                if ($j == SuperSellingImportService::CUSTOMER_NAME_INDEX) {
-                    $name = $this->arrayFileData[$i][$j];
-                }
+        foreach ((new Selling())->attributeLabels() as $key => $attributeTable) {
+            if ($attributeTable === $nameAttribute) {
+                return $key;
+            }
+        }
 
-                if ($j == SuperSellingImportService::CUSTOMER_PHONE_INDEX) {
-                    if (isset($this->arrayFileData[$i][$j])) {
-                        if ($this->arrayFileData[$i][$j] !== "(не задано)") {
-                            $phone = $this->arrayFileData[$i][$j];
-                        }
-                    }
-                }
+        return false;
+    }
 
-                if ($j == SuperSellingImportService::STATE_INDEX) {
-                    if (isset($this->arrayFileData[$i][$j])) {
-                        if ($this->arrayFileData[$i][$j] !== "(не задано)") {
-                            $state = $this->arrayFileData[$i][$j];
-                        }
-                    }
-                }
-                $j++;
+    public function getClassByAttrTable($keyTableColumn)
+    {
+        foreach ((new Customer())->attributeLabels() as $key => $attributeTable) {
+            if ($key === $keyTableColumn) {
+                return Customer::className();
+            }
+        }
+
+        foreach ((new Selling())->attributeLabels() as $key => $attributeTable) {
+            if ($key === $keyTableColumn) {
+                return Selling::className();
+            }
+        }
+
+        return false;
+    }
+
+    public function getNameAttrByIndex($index){
+        foreach ($this->arrayFileData[0] as $keyIndex => $nameAttr) {
+            if ($keyIndex === $index) {
+                return $nameAttr;
+            }
+        }
+
+        return  false;
+    }
+
+
+    public function geCustomerWithSellingColumns()
+    {
+        $arrayWithoutHeader = [];
+
+        foreach ($this->arrayFileData as $keyIndexFile => $fileDatum) {
+            if ($keyIndexFile === 0) {
+                continue;
+            }
+            $arrayWithoutHeader [] = $fileDatum;
+        }
+
+        $resetArrayTable = [];
+        foreach ($arrayWithoutHeader as $key => $columnValues) {
+            $arrayValueColumnAndKeyAttr = [];
+            foreach ($columnValues as $indexColumn => $columnValue) {
+                $arrayValueColumnAndKeyAttr [$this->getClassByAttrTable($this->getAttributeTableByName($this->getNameAttrByIndex($indexColumn)))][$this->getAttributeTableByName($this->getNameAttrByIndex($indexColumn))] = $columnValue;
+            }
+            $resetArrayTable [] = $arrayValueColumnAndKeyAttr;
+        }
+        $this->allValidate($resetArrayTable);
+    }
+
+    public  function allValidate($arrayCustomersWithSelling)
+    {
+        foreach ($arrayCustomersWithSelling as $key => $customersSelling) {
+            $beforeSaveCustomer ['Customer'] = $customersSelling[Customer::className()];
+            $customer = new Customer();
+            $customer->load($beforeSaveCustomer);
+            $beforeSaveSelling = $customersSelling[Selling::className()];
+            $selling = new Selling();
+            $selling->load($beforeSaveSelling);
+
+            if ($customer->validate() == false) {
+                $this->errors [$key] = $customer->errors;
             }
 
-            $newCustomer = new Customer();
-            $newCustomer->name = $name;
-            $newCustomer->chief_phone = $phone;
-            if ($newCustomer->save()) {
-                $this->arrayIdNewCustomersAndState [] = ['customer_id' => $newCustomer->id, 'state_name' => $state];
+            if (!$selling->validate() == false) {
+                $this->errors [$key] = $customer->errors;
             }
-            $i++;
+        }
+
+        if (empty($this->errors)) {
+            $this->validateArrayFile($arrayCustomersWithSelling);
         }
     }
 
-    /**
-     * Метод создание продаж для клиентов
-     */
-    public function createSelling()
+    public function validateArrayFile($arrayCustomersWithSelling)
     {
-        foreach ($this->arrayIdNewCustomersAndState as $idNewUserAndState) {
-            $newSelling = new Selling();
-            foreach ($this->findStates as $findState) {
-                if ($findState->name == $idNewUserAndState['state_name']) {
-                    $newSelling->state_id = $findState->id;
-                    break;
-                }
-            }
+        $stateByUser = State::find()->where(['user_id' => Yii::$app->user->id])->one();
 
-            $newSelling->customer_id = $idNewUserAndState['customer_id'];
-            $newSelling->date_create = date('Y-m-d');
-            $newSelling->save();
-            if (empty($newSelling->state_id)) {
-                $newSelling->state_id = $this->findStates[0]->id;
-                $this->newState [] = ['state_name' => $this->findStates[0]->name, 'selling_id' => $newSelling->id];
+        foreach ($arrayCustomersWithSelling as $key => $customersSelling) {
+            $beforeSaveCustomer ['Customer'] = $customersSelling[Customer::className()];
+            $customer = new Customer();
+            $customer->load($beforeSaveCustomer);
+            if ($customer->validate()) {
+                if ($customer->save()) {
+                    $beforeSaveSelling = $customersSelling[Selling::className()];
+                    $selling = new Selling();
+                    $selling->load($beforeSaveSelling);
+                    $selling->customer_id = $customer->id;
+                    if ($selling->validate()) {
+                        $tempInfo = [];
+                        if ($selling->selling_token === null) {
+                            $selling->date_create = date('Y-m-d');
+                            $tempInfo ['date_create'] = "Добавлена текущая дата ";
+                        }
+
+                        if ($selling->selling_token === null) {
+                            $selling->selling_token = Yii::$app->getSecurity()->generateRandomString();
+                            $tempInfo ['selling_token'] = "Сгенерирован токен " . $selling->selling_token;
+                        }
+
+                        if ($selling->state_id === null) {
+                            $selling->state_id = $stateByUser->id;
+                            $tempInfo ['state'] = "Добавлено состояние " . $stateByUser->name;
+                        }
+
+                        $selling->save();
+                        if (!empty($tempInfo)) {
+                            $this->info [$selling->id] = $tempInfo;
+                        }
+                    } else {
+                        $this->errors [$key] = $selling->errors;
+                    }
+                }
+            } else {
+                $this->errors [$key] = $customer->errors;
             }
-            $newSelling->save();
         }
     }
 
-    /**
-     * Метод вывода предупреждений по состояниям
-     */
-    public function getSellingOneState()
+    public function isError()
     {
-        return $this->newState;
+        if (empty($this->errors)) {
+            return ['info' => $this->info];
+        } else {
+            return ['errors' => $this->errors];
+        }
     }
 }

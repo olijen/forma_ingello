@@ -101,13 +101,33 @@ class SuperSellingController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             $tmpName = $_FILES['csv']['tmp_name'];;
             $csvAsArray = array_map('str_getcsv', file($tmpName));
-            $sellingOneState = (new SuperSellingImportService($csvAsArray))->getSellingOneState();
-            $msg = "";
-            foreach ($sellingOneState as $item) {
-                $msg .= "Состояние: " . $item['state_name'] . ", было назначено для продажи: " . $item['selling_id'] . "." . "\n";
+
+            $sellingOneState = (new SuperSellingImportService($csvAsArray))->isError();
+            $msgErrors = "";
+            $msgInfo = "";
+
+            if (isset($sellingOneState['info'])) {
+                if ($sellingOneState['info']) {
+                    foreach ($sellingOneState['info'] as $sellingId => $sellingColumn) {
+                        $msgInfo .= "\n" . "Продажа <a href='/selling/form?id=$sellingId'>перейти</a>" . "\n" . $sellingColumn['date_create'] . "\n" . $sellingColumn['selling_token'] . "\n" . $sellingColumn['state'] . "\n";
+                    }
+                }
             }
 
-            return json_encode(compact('msg'));
+            if (isset($sellingOneState['errors'])) {
+                if ($sellingOneState['errors'] !== true) {
+                    foreach ($sellingOneState['errors'] as $key => $dataError) {
+                        $msgError = "";
+                        foreach ($dataError as $errorValue) {
+                            $msgError .= "\n" . $errorValue[0] . "\n";
+                        }
+
+                        $msgErrors .= "\n" . "В строке: " . ($key + 1) . ", " . $msgError . "\n";
+                    }
+                }
+            }
+
+            return json_encode(compact('msgErrors', 'msgInfo'));
         }
     }
 }
