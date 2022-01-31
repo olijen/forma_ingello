@@ -648,6 +648,7 @@ foreach ($widgetOrder as $panel => $widgetArray) {
         smallWidget();
     </script>
 </div>
+<div class="simulation-content"></div>
 <div class="row small_widgets_text" style="display: none; color: red;">
     Конструктор виджетов не доступен на мобильных устройствах.
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
@@ -1250,9 +1251,18 @@ if ($widgetNewOrder == true) {
 <script>
     let isModal = window.parent.document.getElementById('modal')
 
-    if (isModal === null) {
-        $('.sticky-simulation').after('<div class="simulation-content" style="height: 100px;"></div')
-    } else {
-        $('.sticky-simulation').after('<div class="simulation-content" style="height: 160px;"></div')
+    $(window).resize(function () {
+        stickyUpdate()
+    });
+
+    function stickyUpdate() {
+        let heightUlWidgets = $('#panel_small_widget').height();
+        if (isModal === null) {
+            $('.simulation-content').css('height', (heightUlWidgets + 30));
+        } else {
+            $('.simulation-content').css('height', (heightUlWidgets + 100));
+        }
     }
+
+    stickyUpdate()
 </script>
