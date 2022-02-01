@@ -1,4 +1,4 @@
-<div class="nav-tabs-custom">
+< class="nav-tabs-custom">
     <ul class="nav nav-tabs" style="border: 1px solid silver;">
         <?php use yii\helpers\Url;
         foreach ($regularitys as $regularity): ?>
@@ -22,13 +22,12 @@
             <i title="Смотреть презентацию" class="regularity-action fa fa-image" style="margin: 10px; font-size: 35px; border: 1px solid green; border-radius: 50%; padding: 10px;"></i>
         </a>
         <li>
-            <div style="width: 265px; display: inline-block">
-                <button class="btn show-input btn-block" style="background: white;" data-input='#input_guestLink'>
-                    <span style=" ">Ссылка на публичный регламент</i></span>
-                </button>
+
+                <button  onclick="myFunction()" title="Копировать ссылку" class="regularity-action fa fa-copy" style="margin: 10px;
+                font-size: 35px; border: 1px solid green;color: green; border-radius: 50%; padding: 10px;" ></button>
                 <input style="width:100%" id='input_guestLink' type="hidden"
                        value="https://forma.ingello.com/core/regularity/regularity?userId=<?=Yii::$app->user->id?>"/>
-            </div>
+
         </li>
 
      </ul>
@@ -93,4 +92,14 @@
 
         })
     })
+</script>
+
+<script>
+
+    function myFunction() {
+        let copyText = document.getElementById("input_guestLink");
+        copyText.select();
+        document.execCommand("copy");
+        alert("Ссылка скопирована: " + copyText.value);
+    }
 </script>
