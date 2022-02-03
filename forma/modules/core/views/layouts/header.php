@@ -140,7 +140,7 @@ JS;
                                             $arr = [];
                                             $linkView = "";
                                             $event = "";
-                                            if (strlen($model->request_uri) > 0 && $model->sender_id != 1) {
+                                            if (strlen($model->request_uri) > 0 && $model->sender_id != 1 && !empty($arr)) {
                                                 $arr = explode("/", $model->request_uri);
                                                 $linkView = "/" . $arr[1] . "/" . $arr[2];
                                                 if (count($arr) > 3) $event = substr($arr[3], 0, 6);
