@@ -76,7 +76,7 @@ class RegularityController extends Controller
         $this->layout = 'public';
         $rulesData = \forma\modules\core\records\Rule::find()->joinWith(['itemRule'=>function($q){
             $q->joinWith('itemInterface');
-        }])->all();
+        }])->allAccessory();
         $userData = AccessInterface::find()->where(['user_id' => Yii::$app->user->id])->all();
         $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is', 'access_interface.rule_id', null])->all();
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
