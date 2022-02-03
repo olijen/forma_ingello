@@ -2,7 +2,6 @@
 
 namespace forma\modules\selling\services;
 
-use forma\modules\core\records\User;
 use forma\modules\customer\records\Customer;
 use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\state\State;
@@ -130,17 +129,16 @@ class SuperSellingImportService
                         $tempInfo = [];
                         if ($selling->selling_token === null) {
                             $selling->date_create = date('Y-m-d');
-                            $tempInfo ['date_create'] = "Добавлена текущая дата ";
                         }
 
+                        //TODO В дальнейшем можно создать сслыку на публичную продажу
                         if ($selling->selling_token === null) {
                             $selling->selling_token = Yii::$app->getSecurity()->generateRandomString();
-                            $tempInfo ['selling_token'] = "Сгенерирован токен " . $selling->selling_token;
                         }
 
                         if ($selling->state_id === null) {
                             $selling->state_id = $stateByUser->id;
-                            $tempInfo ['state'] = "Добавлено состояние " . $stateByUser->name;
+                            $tempInfo ['state'] = "В импорте указанного состояния не существует, добавлено Ваше первое состояние: " . "<b>$stateByUser->name</b>";
                         }
 
                         $selling->save();

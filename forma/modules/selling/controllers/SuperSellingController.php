@@ -109,7 +109,7 @@ class SuperSellingController extends Controller
             if (isset($sellingOneState['info'])) {
                 if ($sellingOneState['info']) {
                     foreach ($sellingOneState['info'] as $sellingId => $sellingColumn) {
-                        $msgInfo .= "\n" . "Продажа <a href='/selling/form?id=$sellingId'>перейти</a>" . "\n" . $sellingColumn['date_create'] . "\n" . $sellingColumn['selling_token'] . "\n" . $sellingColumn['state'] . "\n";
+                        $msgInfo .= "\n" . "В продаже №<b>$sellingId</b> <a href='/selling/form?id=$sellingId'>перейти</a>" . "\n" . $sellingColumn['state'];
                     }
                 }
             }
@@ -119,10 +119,10 @@ class SuperSellingController extends Controller
                     foreach ($sellingOneState['errors'] as $key => $dataError) {
                         $msgError = "";
                         foreach ($dataError as $errorValue) {
-                            $msgError .= "\n" . $errorValue[0] . "\n";
+                            $msgError .= "\n" . $errorValue[0];
                         }
 
-                        $msgErrors .= "\n" . "В строке: " . ($key + 1) . ", " . $msgError . "\n";
+                        $msgErrors .= "\n" . "В строке: " . ($key + 1) . ", " . $msgError;
                     }
                 }
             }
