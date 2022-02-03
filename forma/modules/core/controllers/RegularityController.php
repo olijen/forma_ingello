@@ -78,7 +78,7 @@ class RegularityController extends Controller
             $q->joinWith('itemInterface');
         }])->allAccessory();
         $userData = AccessInterface::find()->where(['user_id' => Yii::$app->user->id])->all();
-        $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is', 'access_interface.rule_id', null])->all();
+        $userDataIsNull = Rule::find()->joinWith('accessInterfaces')->where(['is', 'access_interface.rule_id', null])->allAccessory();
         $currentUserId = Yii::$app->user->isGuest == true ? $this->getPublicCurrentUserId() : null;
         $regularities = (new RegularityQuery(new Regularity()))->publicRegularities($currentUserId)->all();
         $regularitiesId = Regularity::getRegularitiesId($regularities);

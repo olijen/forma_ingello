@@ -32,6 +32,12 @@ class RuleQuery extends \yii\db\ActiveQuery
         return parent::all($db);
     }
 
+    public function oneAccessory($db = null)
+    {
+        $this->andWhere(['in', 'rule.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
+        return parent::one($db);
+    }
+
     /**
      * @inheritdoc
      * @return Rule|array|null

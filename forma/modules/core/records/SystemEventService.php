@@ -185,10 +185,10 @@ class SystemEventService
         $subject = '';
         $text = '';
         if(self::checkBlackList($className)) {
-//            var_dump('11');
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->one();
-            if($rule){
+            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->oneAccessory();
+
+            if ($rule) {
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
                 )->one();
