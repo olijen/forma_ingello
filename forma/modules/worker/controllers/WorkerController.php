@@ -110,6 +110,8 @@ class WorkerController extends Controller
      */
     public function actionCreate()
     {
+        $projectVacancyId = Yii::$app->request->get('projectVacancyId');
+        $vacancyId = ProjectVacancy::find()->where(['id'=>$projectVacancyId])->one()->vacancy_id;
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
@@ -124,7 +126,7 @@ class WorkerController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'vacancyId' => Yii::$app->request->get('projectVacancyId'),
+                'vacancyId' => $vacancyId,
             ]);
         }
     }

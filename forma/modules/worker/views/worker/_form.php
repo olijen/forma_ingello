@@ -104,7 +104,7 @@ use kartik\select2\Select2;
                         <?= $form->field($model, 'workerVacanciesList')->widget(Select2::className(), [
                             'data' =>  \forma\modules\worker\records\workervacancy\WorkerVacancy::getListVacancies(),
                             'options' => [
-                                'value' => $model->getWorkerVacancies(),
+                                'value' => $vacancyId,
                                 'multiple' => true,
                             ],
                             'pluginOptions' => [
