@@ -42,36 +42,44 @@ class RuleController extends Controller
             'Продукты и услуги'=>[],
             'Хранилища'=>[],
         ];
-        $groupTable['Управление']['answer'] = 'Ответы';
-        $groupTable['Управление']['event'] = 'События';
-        $groupTable['Управление']['event_type'] = 'Типы событий';
+        $groupTable['Управление']['answer'] = 'Ответ';
+        $groupTable['Управление']['request'] = 'Вопрос';
+        $groupTable['Управление']['event'] = 'Событие';
+        $groupTable['Управление']['event_type'] = 'Тип события';
         $groupTable['Управление']['interview'] = 'Интервью';
         $groupTable['Управление']['interview_state'] = 'Состояние интервью';
-        $groupTable['Управление']['vacancy'] = 'Вакансии';
-        $groupTable['Управление']['strategy'] = 'Стратегии';
+        $groupTable['Управление']['vacancy'] = 'Вакансия';
+        $groupTable['Управление']['strategy'] = 'Стратегия';
         $groupTable['Управление']['regularity'] = 'Регламент';
-        $groupTable['Управление']['message'] = 'Сообщения';
+        $groupTable['Управление']['message'] = 'Сообщение';
         $groupTable['Управление']['widget_user'] = 'Дашборд';
+        $groupTable['Управление']['worker'] = 'Кадр';
+        $groupTable['Управление']['item'] = 'Пункт регламента';
+        $groupTable['Управление']['system_event_user'] = 'Подписка на событие';
 
-        $groupTable['Найм и проекты']['country'] = 'Страны';
+        $groupTable['Найм и проекты']['country'] = 'Страна';
         $groupTable['Найм и проекты']['currency'] = 'Валюта';
-        $groupTable['Найм и проекты']['project'] = 'Проекты';
-        $groupTable['Найм и проекты']['project_user'] = 'Проекты пользователя';
-        $groupTable['Найм и проекты']['project_vacancy'] = 'Проекты вакансии';
+        $groupTable['Найм и проекты']['project'] = 'Проект';
+        $groupTable['Найм и проекты']['project_user'] = 'Проект пользователя';
+        $groupTable['Найм и проекты']['project_vacancy'] = 'Проект вакансии';
         $groupTable['Найм и проекты']['manufacturer'] = 'Производитель';
 
-        $groupTable['Продажи']['customer'] = 'Клиенты';
-        $groupTable['Продажи']['customer_source'] = 'Источники клиентов';
+        $groupTable['Продажи']['customer'] = 'Клиент';
+        $groupTable['Продажи']['customer_source'] = 'Источник клиента';
         $groupTable['Продажи']['purchase_product'] = 'Покупка продукта';
         $groupTable['Продажи']['selling'] = 'Продажа';
-        $groupTable['Продажи']['purchase'] = 'Покупка';
+        $groupTable['Продажи']['state'] = 'Состояние';
+        $groupTable['Продажи']['test'] = 'Тест';
+
 
         $groupTable['Хранилища']['inventorization'] = 'Инвентаризация';
         $groupTable['Хранилища']['inventorization_product'] = 'Инвентаризация продукции';
-        $groupTable['Хранилища']['supplier'] = 'Поставщики';
-        $groupTable['Хранилища']['purchase_overhead_cost'] = 'Накладные расходы на закупку';
+        $groupTable['Хранилища']['supplier'] = 'Поставщик';
+        $groupTable['Хранилища']['purchase_overhead_cost'] = 'Накладная расхода на закупку';
 
         $groupTable['Продукты и услуги']['product'] = 'Продукция';
+        $groupTable['Продукты и услуги']['category'] = 'Категория';
+        $groupTable['Продукты и услуги']['purchase'] = 'Поставка';
         $groupTable['Продукты и услуги']['product_pack_unit'] = 'Единица упаковки продукта';
         $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукции';
         $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукта';
