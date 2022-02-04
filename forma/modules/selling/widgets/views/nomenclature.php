@@ -123,7 +123,7 @@ if(isset($unit->selling->warehouse)){
                                 ->label('К-во <span id="position-available-qty"></span>') ?>
                         </div>
                         <div class="col-md-2">
-                            <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['prompt' => '', 'class' => 'form-control change-cost']) ?>
+                            <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['value' => SellingProduct::getCostTypes()[0], 'class' => 'form-control change-cost']) ?>
                         </div>
                         <div class="col-md-2">
                             <?= $form->field($unit, 'cost')->textInput()->label('Стоимость за 1 шт.') ?>
@@ -175,13 +175,13 @@ if(isset($unit->selling->warehouse)){
                             $.post("/selling/form/change-selling-product-purchase-cost", {
                                 productId: $productId,
                                 sellingId: <?= $unit->selling_id ?>,
-                            }, function (data) {
-                                $('#sellingproduct-purchase_cost').val(data);
-                                $('#sellingproduct-quantity').val('');
-                                $('#sellingproduct-sum').val('');
-                                $('#sellingproduct-cost').val('');
-                                $('#sellingproduct-cost_type').val('');
+                            }).done(function (data) {
+                                $('#sellingproduct-purchase_cost').val(data.purchaseCost);
+                                $('#sellingproduct-sum').val(data.cost);
+                                $('#sellingproduct-cost').val(data.cost);
+                                $('#sellingproduct-quantity').val(1);
                             });
+
                         })
                     </script>
                 <?php } endif;
