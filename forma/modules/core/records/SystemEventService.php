@@ -125,14 +125,13 @@ class SystemEventService
                     $newAccessInterface->save();
                 } else {
                     if ($accessInterface->status == false) {
-                        $accessInterface->status = false;
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status = false) {
-                        $accessInterface->status = 1;
+                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
+                        $accessInterface->status = true;
                         $accessInterface->save();
-                        self::setCookieSystemEvent('event',$rule->id);
+                        self::setCookieSystemEvent('event', $rule->id);
                     }
                 }
             }
