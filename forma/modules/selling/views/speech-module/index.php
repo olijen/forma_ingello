@@ -94,7 +94,7 @@ $this->title = Yii::t(
             elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=1"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "менеджера" : "кадра"?></a></div>';
             var findElementCreateRequest = document.querySelector('#elementCreateRequest');
             findElementCreateRequest.parentNode.append(elemCreateRequest, findElementCreateRequest);
-            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=0"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';
+            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=0"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от менеджера</a></div>';
             var findElementCreateRequestR = document.querySelector('#elementCreateRequestClient');
             findElementCreateRequestR.parentNode.append(elemCreateRequestR, findElementCreateRequestR);
         }
@@ -243,7 +243,7 @@ $this->title = Yii::t(
                     }
                 }
                 if (listItemsTrueManager.length !== 0 && listItemsTrueManager.length !== countundefinedTrue) {
-                    elem.innerHTML = '<p>Вопросы от менеджеров</p>' + listItemsTrueManager.join('');
+                    elem.innerHTML = '<p>Вопросы от кадров</p>' + listItemsTrueManager.join('');
                 }
                 var countundefinedFalse = 0;
                 for (var i = 0, l = listItemsFalseManager.length; i < l; i++) {
@@ -252,7 +252,7 @@ $this->title = Yii::t(
                     }
                 }
                 if (listItemsFalseManager.length !== 0 && listItemsFalseManager.length !== countundefinedFalse) {
-                    elemR.innerHTML = '<p>Вопросы от клиентов</p>' + listItemsFalseManager.join('');
+                    elemR.innerHTML = '<p>Вопросы от менеджеров</p>' + listItemsFalseManager.join('');
                 }
                 if (listItemsTrueManager.length == 0 && listItemsTrueManager.length == countundefinedTrue && listItemsFalseManager.length == 0 && listItemsFalseManager.length == countundefinedFalse) {
                     elem.innerHTML = '<p>В этой стратегии диалога еще нет вопросов и ответов, сначала создайте вопрос</p>' + listItemsTrueManager.join('');
