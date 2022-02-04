@@ -40,6 +40,7 @@ echo GridView::widget([
     'editableMode' => false,
     'columns' => $columns,
     'dataProvider' => $dataProvider,
+    'responsive' => false
 ]);
 
 ?>
