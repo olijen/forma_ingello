@@ -114,6 +114,11 @@ class WorkerVacancyController extends Controller
         return WorkerVacancy::getListWorker(Yii::$app->request->post());
     }
 
+    public function actionVacanciesForWorker()
+    {
+        return (WorkerVacancy::getListVacanciesForWorker(Yii::$app->request->post()));
+    }
+
     /**
      * Finds the WorkerVacancy model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

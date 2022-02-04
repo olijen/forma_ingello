@@ -38,7 +38,7 @@ class FormController extends Controller
     {
         if (isset($_POST['Interview']['vacancy_id'])) {
             $projectVacancyId = $_POST['Interview']['vacancy_id'];
-            $projectVacancy = ProjectVacancy::find()->where(['vacancy_id' => $projectVacancyId])->one();
+            $projectVacancy = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one();
             $model = new Interview();
             $model->project_id = $projectVacancy->project_id;
             $model->vacancy_id = $projectVacancy->vacancy_id;

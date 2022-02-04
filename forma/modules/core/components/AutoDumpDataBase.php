@@ -61,7 +61,7 @@ class AutoDumpDataBase
         $arrayModels = $model::find()->where(['user_id' => 1])
             ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy',
                 '\Interview', '\selling\Selling', '\requeststrategy\RequestStrategy', '\Country', 'records\Product',
-                'records\Inventorization', 'transit\Transit', 'purchase\Purchase']])
+                'records\Inventorization', 'transit\Transit', 'purchase\Purchase', 'purchase\Purchase', '\records\Rule']])
             ->all();
 
         $accessoryKeys = [];

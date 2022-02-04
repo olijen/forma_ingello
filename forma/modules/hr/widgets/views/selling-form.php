@@ -56,10 +56,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
 
     $form = ActiveForm::begin($formOptions);
     ?>
-    <div class="alert alert-danger" id='alert-danger' role="alert" hidden
-         style="position: absolute; width: 300px; float: left; top: -50%; z-index: 9991;">
-        На данную вакансию нет ни одного заинтересованного кадра
-    </div>
     <div class="row">
         <div class="col-md-4" id="worker-select">
             <?php if (Yii::$app->request->get('vacancyId')) {
@@ -188,7 +184,7 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-vacansy_id').removeAttr('disabled');
                         $('#selling-form-submit-button').removeAttr('disabled');
                         $('#alert-danger').hide();
-                        $('#interview-worker_id').prop('disabled', false);
+                        $('#interview-worker_id').attr('enable', 'enable');
                         $.each(data, function (value, key) {
                             $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
                         });

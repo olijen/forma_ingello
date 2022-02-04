@@ -86,7 +86,8 @@ class Vacancy extends AccessoryActiveRecord
         $projectVacancyData = [];
         foreach ($projectVacancies as $projectVacancy) {
             $projectVacancyData[] = [
-                'id' => $projectVacancy->vacancy_id,
+                'id' => $projectVacancy->id,
+                'vacancy_id' => $projectVacancy->vacancy_id,
                 'name' => $projectVacancy->vacancy->name . '|' . $projectVacancy->project->name
             ];
         }
