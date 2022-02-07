@@ -7,6 +7,7 @@ namespace forma\modules\core\components;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\SystemEvent;
+use forma\modules\event\records\Event;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\product\records\Field;
@@ -51,6 +52,21 @@ class AutoDumpDataBase
         return $rulesId;
     }
 
+    /**
+     * Метод принимает строку в формате ('Y-m-d'), и меняет месяц и год на текущие
+     * @param $oldDate
+     * @return false|string
+     */
+    public function getNewDateFromEventDate($oldDate)
+    {
+        $d = date('d', strtotime($oldDate));
+        $currentMonth = date('m', strtotime(date('Y-m-d')));
+        $currentYear = date('Y', strtotime(date('Y-m-d')));
+        $newDateEvent = $currentYear . '-' . $currentMonth . '-' . $d;
+
+        return date('Y-m-d', strtotime($newDateEvent));
+    }
+
     //Перебираем в этом методе все записи в accessory, которые обозначены условием,
     // далее формируем по записям accessory с помощью атрибута entity_class новую модель и сохраняем ее
     // как реакция на это, модель наследуемая от accessory создает новый access  с новым user_id
@@ -85,6 +101,12 @@ class AutoDumpDataBase
                             'parent_id');
                         $newModel = $this->saveWhitParent($model);
                     } else {
+                        if ($entityClass === Event::className()) {
+                            $oldDateFrom = $model->date_from;
+                            $oldDateTo = $model->date_to;
+                            $model->date_from = $this->getNewDateFromEventDate($oldDateFrom);
+                            $model->date_to = $this->getNewDateFromEventDate($oldDateTo);
+                        }
                         $newModel = $this->saveNewRecord($model);
                     }
 
