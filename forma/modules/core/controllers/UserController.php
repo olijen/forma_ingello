@@ -92,7 +92,7 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['all-users']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['all-users']);
     }
 
     public function actionImpersonate($id)
