@@ -12,7 +12,12 @@ class FormController extends Controller
     public function actionIndex($id = null)
     {
         $model = PurchaseService::get($id);
-        if (isset($_GET['Purchase']['warehouse_id'])) $model->load($_GET);
+        if (isset($_GET['Purchase']['warehouse_id'])) {
+            if ($model->load($_GET)) {
+                return $this->render('index', ['model' => $model]);
+            }
+        }
+
         return $this->render('index', ['model' => $model]);
     }
     
