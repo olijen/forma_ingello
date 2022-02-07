@@ -1250,6 +1250,14 @@ if ($widgetNewOrder == true) {
 
 <script>
     let isModal = window.parent.document.getElementById('modal')
+    let smallPanelWidgetScrollLi = $('#panel_small_widget>li');
+
+    for (let i = 0; i < smallPanelWidgetScrollLi.length; i++) {
+        smallPanelWidgetScrollLi[i].style.float = 'none';
+    }
+
+    let panelScrollWidget = $('#panel_small_widget')
+    panelScrollWidget.css('overflow-x', 'visible');
 
     $(window).resize(function () {
         stickyUpdate()
