@@ -128,7 +128,7 @@ class SystemEventService
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
+                    if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
                         $accessInterface->status = true;
                         $accessInterface->save();
                         self::setCookieSystemEvent('event', $rule->id);
@@ -199,13 +199,14 @@ class SystemEventService
                     $newAccessInterface->status = false;
                     $newAccessInterface->save();
                 } else {
-                    if ($accessInterface->status == false) {
+                    if ($accessInterface->status == false && $accessInterface->current_mark < $rule->count_action ) {
                         $accessInterface->status = false;
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status = false) {
-                        $accessInterface->status =1;
+
+                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
+                        $accessInterface->status = true;
                         $accessInterface->save();
                         self::setCookieSystemEvent('event',$rule->id);
                     }
@@ -269,8 +270,8 @@ class SystemEventService
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status = false) {
-                        $accessInterface->status =1;
+                    if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
+                        $accessInterface->status = true;
                         $accessInterface->save();
                         self::setCookieSystemEvent('event',$rule->id);
                     }
