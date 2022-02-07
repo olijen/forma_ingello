@@ -98,8 +98,10 @@
 
     function myFunction() {
         let copyText = document.getElementById("input_guestLink");
+        copyText.type = 'text';
         copyText.select();
         document.execCommand("copy");
+        copyText.type = 'hidden';
         alert("Ссылка скопирована: " + copyText.value);
     }
 </script>
