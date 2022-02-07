@@ -151,9 +151,13 @@ class SystemEventService
             if (isset($arr[1]) && ($arr[1] == 'selling' || $arr[1] == 'inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
             $subject = 'Forma: в отделе ' . $systemEvent->application . ' был добавлен объект: (' . $systemEvent->class_name . ') '
                 . $objectName;
-            $text = 'FORMA INGELLO: В отделе: ' . $systemEvent->application . ' добавлен объект: (' . $systemEvent->class_name . ') '
-                . $objectName . ' <br /> Посмотреть список <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '">Перейти</a>' .
-                '<br /> Посмотреть объект <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '/update?id=' . $systemEvent->sender_id . '">Перейти</a>';
+
+            if (isset($objectName) && isset($arr[1]) && isset($arr[2])) {
+                $text = 'FORMA INGELLO: В отделе: ' . $systemEvent->application . ' добавлен объект: (' . $systemEvent->class_name . ') '
+                    . $objectName . ' <br /> Посмотреть список <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '">Перейти</a>' .
+                    '<br /> Посмотреть объект <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '/update?id=' . $systemEvent->sender_id . '">Перейти</a>';
+
+            }
         }
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
