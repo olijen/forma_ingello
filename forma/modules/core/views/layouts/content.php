@@ -90,7 +90,7 @@
     }
 
     .treeview a span {
-        left: 45px !important;
+        left: 43px !important;
     }
 </style>
 

@@ -267,6 +267,9 @@ return [
                 [
                     'label' => 'Люди',
                     'url' => '#',
+                    'options' => [
+                        'style' => 'overflow-y: scroll; overflow-x: hidden; max-height: 200px;'
+                    ],
                     'icon' => 'users',
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
