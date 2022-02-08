@@ -24,17 +24,24 @@ $this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Архив'), ['/project/p
 
 Pjax::begin();
 ?>
-<div class="project-index">
 
+<div class="project-index" style="padding: 10px;">
+    <div style="text-align: right; padding-bottom: 5px;">
+        <?php
+        echo Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => ' forma_pink btn btn-' . (empty($_REQUEST['ProjectSearch']['state']) ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => ' forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 1 ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => ' forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 2 ? 'primary' : 'default')]);
+        ?>
+    </div>
     <div class="row" style=" max-height: 500px; ">
         <?php
-        //$dp = Project::accessSearch(null, ['setPageSize' => 15]);
+        $dp = Project::accessSearch(null, ['setPageSize' => 15]);
         $models = $dataProvider->getModels();
-        if(empty($models)) echo "<h3>У вас нет ни одного проекта!</h3>";
-        foreach($models as $project) : $vacaVaca = $project->projectVacancies?>
+        if (empty($models)) echo "<h3>У вас нет ни одного проекта!</h3>";
+        foreach ($models as $project) : $vacaVaca = $project->projectVacancies ?>
             <div class="col-md-4" style="padding-right: 5px;  padding-left: 3px; margin-right: 0;">
 
-                <div class="box box-success" style="padding: 7px; margin-bottom: 7px;min-height: 85px;">
+            <div class="box box-success" style="padding: 7px; margin-bottom: 7px;min-height: 85px;">
                     <div>
                         <strong>
                             <a data-pjax="0" style="color: #333;" href="/project/project/view?id=<?=$project->id?>"><?=$project->name?></a>
@@ -137,8 +144,8 @@ Pjax::begin();
         <?php endforeach; ?>
 
         <?php
-        echo $dataProvider->pagination ? LinkPager::widget([
-            'pagination' => $dataProvider->pagination,
+        echo $dp ? LinkPager::widget([
+            'pagination' => $dp->pagination,
         ]) : '';
         ?>
         <script>
