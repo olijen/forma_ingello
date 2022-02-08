@@ -92,7 +92,7 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['all-users']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['all-users']);
     }
 
     public function actionImpersonate($id)
@@ -157,24 +157,18 @@ class UserController extends Controller
 
     public function actionAllUsers()
     {
-//        de(Yii::$app->request->cookies->getValue('Admin'));
         if (Yii::$app->user->id !== 1) {
             return $this->redirect('referral');
 
-        }
-        $query = User::find()->where(['!=', 'id', 1]);
-        $searchModel = new UserSearch();
+        }else {
+            $searchModel = new UserSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $provider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**

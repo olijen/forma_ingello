@@ -93,7 +93,7 @@ if(isset($unit->selling->warehouse)){
                             ?>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group field-sellingproduct-currency_name required">
                                 <label class="control-label" for="sellingproduct-currency_name">Валюта</label>
                                 <input type="text" id="sellingproduct-currency_name" class="form-control"
@@ -105,9 +105,9 @@ if(isset($unit->selling->warehouse)){
 
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group field-sellingproduct-purchase_cost">
-                                <label class="control-label" for="sellingproduct-purchase_cost">Ц.З.</label>
+                                <label class="control-label" for="sellingproduct-purchase_cost">Ц.Закупки</label>
                                 <input type="text" id="sellingproduct-purchase_cost" class="form-control"
                                        name="purchase-cost" readonly>
                                 <div class="help-block"></div>
@@ -118,17 +118,17 @@ if(isset($unit->selling->warehouse)){
                             ?>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <?= $form->field($unit, 'quantity', ['enableAjaxValidation' => true])->textInput(['class' => 'form-control change-cost'])
                                 ->label('К-во <span id="position-available-qty"></span>') ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['prompt' => '', 'class' => 'form-control change-cost']) ?>
                         </div>
-                        <div class="col-md-2">
-                            <?= $form->field($unit, 'cost')->textInput()->label('Стоимость за 1 шт.') ?>
+                        <div class="col-md-1">
+                            <?= $form->field($unit, 'cost')->textInput()->label('За 1 шт.') ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group">
                                 <label class="control-label">Сумма</label>
                                 <input type="text" id="sellingproduct-sum" class="form-control"

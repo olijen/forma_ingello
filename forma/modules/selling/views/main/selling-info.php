@@ -42,9 +42,11 @@ use forma\modules\selling\widgets\HistoryView;
     </div>
     <div class="change_email bs-example" style="margin-bottom: 20px">
         <div class="detached-block-example">Сменить e-mail</div>
+        <div>
         <button id="change_email" class="btn btn-success" style="margin-bottom:10px">Сменить e-mail</button>
         <a href="<?=$googleLink?>" class="btn btn-primary" style="margin-bottom: 10px" > <img style="background: white; height: 18px; padding-bottom: 2px; margin-right: 6px; width:16px" src="/images/google.png" alt="">Сменить e-mail с помощью Google</a>
-        <?php $form = ActiveForm::begin([
+        </div>
+            <?php $form = ActiveForm::begin([
             'id' => 'email',
             'method' => 'get',
             'layout' => 'horizontal',
@@ -74,19 +76,19 @@ use forma\modules\selling\widgets\HistoryView;
 
 
 
-    <script>
-        var flag = false;
+<script>
+    var flag = false;
 
-        document.getElementById('openDialog').onclick = function () {
-            if (flag === false) {
-                document.getElementById('dialog').classList.remove('hidden');
-                flag = true;
-            } else {
-                document.getElementById('dialog').classList.add('hidden');
-                flag = false;
-            }
+    document.getElementById('openDialog').onclick = function () {
+        if (flag === false) {
+            document.getElementById('dialog').classList.remove('hidden');
+            flag = true;
+        } else {
+            document.getElementById('dialog').classList.add('hidden');
+            flag = false;
         }
-    </script>
+    }
+</script>
 
 
 <script>
@@ -96,12 +98,12 @@ use forma\modules\selling\widgets\HistoryView;
     email_form.style.display = 'none';
     change_email.onclick = function(){
         if(count == 0){
-            change_email.style.marginBottom = '20px';
+            change_email.style.marginBottom = '10px';
             email_form.style.display = 'block'
             count++;
         }
         else {
-            change_email.style.marginBottom = '0';
+            change_email.style.marginBottom = '10';
             email_form.style.display = 'none';
             count--;
         }

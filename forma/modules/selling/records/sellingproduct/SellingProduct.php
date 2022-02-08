@@ -108,7 +108,7 @@ class SellingProduct extends AccessoryActiveRecord
             'quantity' => 'Количество',
             'cost' => 'Стоимость',
             'overhead_cost_id' => 'Накладной расход',
-            'cost_type' => 'Тип стоимости',
+            'cost_type' => 'Тип цены',
             'currency_id' => 'Валюта',
         ];
     }
