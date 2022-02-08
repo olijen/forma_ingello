@@ -31,7 +31,7 @@ class AutoDumpDataBase
     {
         $productIds = [];
         $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['like', 'entity_class', ['\Product']])
+            ->andWhere(['entity_class' => 'forma\\modules\\product\\records\\Product'])
             ->all();
         foreach ($arrayModels as $model) {
             $productIds[] = $model->entity_id;
@@ -44,7 +44,7 @@ class AutoDumpDataBase
     {
         $rulesId = [];
         $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['like', 'entity_class', ['\Rule']])
+            ->andWhere(['entity_class' => 'forma\\modules\\core\\records\\Rule'])
             ->all();
         foreach ($arrayModels as $model) {
             $rulesId[] = $model->entity_id;
@@ -74,17 +74,20 @@ class AutoDumpDataBase
     {
         $model = new Accessory();
 
+        //Странно в Accessory нет Country, но указывается в запросе
         $arrayModels = $model::find()->where(['user_id' => 1])
-            ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy',
-                '\Interview', '\selling\Selling', '\requeststrategy\RequestStrategy', '\Country', 'records\Product',
-                'records\Inventorization', 'transit\Transit', 'purchase\Purchase', 'purchase\Purchase', '\records\Rule']])
+            ->andWhere(['not in', 'entity_class', ['forma\\modules\\selling\\records\\talk\\Answer', 'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
+                'forma\\modules\\hr\\records\\interview\\Interview', 'forma\\modules\\selling\\records\\selling\\Selling',
+                'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy', 'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
+                'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
+                'forma\\modules\\purchase\\records\\purchase\\Purchase', 'forma\\modules\\core\\records\\Rule']])
             ->all();
+
 
         $accessoryKeys = [];
         foreach ($arrayModels as $model) {
             $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
         }
-
         // \Yii::debug($accessoryKeys);
 
         foreach ($accessoryKeys as $entityClass => $modelId) {
