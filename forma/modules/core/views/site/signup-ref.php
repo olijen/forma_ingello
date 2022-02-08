@@ -62,19 +62,10 @@ $fieldOptions5 = [
 
 
     <div class="register-box-body">
-        <?php echo "
-        <a class='btn btn-primary btn-block btn-flat socialAuthorization' href='$googleLink'>
-          <img style='background: white; height: 18px; padding-bottom: 2px; margin-right: 6px' src='images/google.png' alt=''>
-          Создать через <strong>Google (за секунду)</strong>
-        </a>"; ?>
-
-      <h4 align="center">ИЛИ создать руками</h4>
-
-
         <?php if (!Yii::$app->user->isGuest): ?>
-            <?php $form = ActiveForm::begin(['id' => 'signup-form','options' => ['autocomplete'=>'off'],'enableClientValidation' => true, 'action' =>'/core/site/signup-referer' ]); ?>
-        <?php else:?>
-        <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true]); ?>
+            <?php $form = ActiveForm::begin(['id' => 'signup-form', 'options' => ['autocomplete' => 'off'], 'enableClientValidation' => true, 'action' => '/core/site/signup-referer']); ?>
+        <?php else: ?>
+            <?php $form = ActiveForm::begin(['id' => 'signup-form', 'enableClientValidation' => true]); ?>
         <?php endif; ?>
         <?= $form
             ->field($model, 'email', $fieldOptions3)
@@ -91,15 +82,15 @@ $fieldOptions5 = [
         <?= $form
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password'),'autocomplete'=>'new-password']) ?>
+            ->passwordInput(['placeholder' => $model->getAttributeLabel('password'), 'autocomplete' => 'new-password']) ?>
 
         <?php if (!Yii::$app->user->isGuest): ?>
 
-            <?=$form->field($model, 'parent_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
+            <?= $form->field($model, 'parent_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
 
         <?php endif; ?>
 
-       <?= Html::submitButton('Создать дочерний аккаунт', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
+        <?= Html::submitButton('Создать дочерний аккаунт', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
 
         <?php ActiveForm::end(); ?>
 
