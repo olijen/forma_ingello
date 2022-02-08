@@ -147,7 +147,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-worker_id').empty();
                         $('#worker-view').attr("data-enabled", false);
                         $('#worker-view').addClass("text-gray");
-                        console.log(data,'!!!!!!!!!!!');
                         if (data !== null) {
                             $('#interview-worker_id').removeAttr('disabled');
                             $('#selling-form-submit-button').removeAttr('disabled');
@@ -161,8 +160,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                             $('#interview-worker_id').attr('disabled', 'disabled');
                             $('#selling-form-submit-button').attr('disabled', 'disabled');
                             $('#alert-danger').show();
-
-                            //   $('#worker-select').hide();
                         }
                     }
                 })
