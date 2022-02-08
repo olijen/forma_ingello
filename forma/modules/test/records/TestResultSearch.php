@@ -41,6 +41,7 @@ class TestResultSearch extends Test
     public function search($params)
     {
         $query = Test::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 
