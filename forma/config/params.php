@@ -519,7 +519,7 @@ return [
 
         'customer' => 'Клиент',
         'customer_source' => 'Источник клиента',
-        'purchase_product' => 'Покупка продукта',
+        'purchase_product' => 'Товар в поставке',
         'selling' => 'Продажа',
         'purchase' => 'Поставка',
 
@@ -527,17 +527,20 @@ return [
         'inventorization_product' => 'Инвентаризация продукции',
         'supplier' => 'Поставщик',
         'purchase_overhead_cost' => 'Накладная расхода на закупку',
+        'selling_product' => 'Товар в продаже',
 
         'product' => 'Продукция',
         'product_pack_unit' => 'Единица упаковки продукта',
-        'selling_product' => 'Продажа продукции',
         'warehouse' => 'Склад',
         'warehouse_product' => 'Продукцию на складе',
         'system_event_user' => 'Подписка на событие',
         'request' => 'Вопрос',
         'worker' => 'Кадр',
+        'field' => 'Характеристика категории',
         'item' => 'Пункт регламента',
         'category' => 'Категория',
+        'test_type' => 'Тест',
+        'test_type_field' => 'Вопрос и ответы',
     ],
 
 ];

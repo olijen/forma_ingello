@@ -42,14 +42,12 @@ class RuleController extends Controller
             'Продукты и услуги'=>[],
             'Хранилища'=>[],
         ];
-        $groupTable['Управление']['answer'] = 'Ответ';
-        $groupTable['Управление']['request'] = 'Вопрос';
+
         $groupTable['Управление']['event'] = 'Событие';
         $groupTable['Управление']['event_type'] = 'Тип события';
         $groupTable['Управление']['interview'] = 'Интервью';
         $groupTable['Управление']['interview_state'] = 'Состояние интервью';
         $groupTable['Управление']['vacancy'] = 'Вакансия';
-        $groupTable['Управление']['strategy'] = 'Стратегия';
         $groupTable['Управление']['regularity'] = 'Регламент';
         $groupTable['Управление']['message'] = 'Сообщение';
         $groupTable['Управление']['widget_user'] = 'Дашборд';
@@ -66,10 +64,14 @@ class RuleController extends Controller
 
         $groupTable['Продажи']['customer'] = 'Клиент';
         $groupTable['Продажи']['customer_source'] = 'Источник клиента';
-        $groupTable['Продажи']['purchase_product'] = 'Покупка продукта';
+        $groupTable['Продажи']['selling_product'] = 'Товар в продаже';
         $groupTable['Продажи']['selling'] = 'Продажа';
-        $groupTable['Продажи']['state'] = 'Состояние';
-        $groupTable['Продажи']['test'] = 'Тест';
+        $groupTable['Продажи']['state'] = 'Состояние продажи';
+        $groupTable['Продажи']['test_type'] = 'Тест';
+        $groupTable['Продажи']['test_type_field'] = 'Вопрос и ответы';
+        $groupTable['Продажи']['strategy'] = 'Стратегия';
+        $groupTable['Продажи']['answer'] = 'Ответ диалога';
+        $groupTable['Продажи']['request'] = 'Вопрос диалога';
 
 
         $groupTable['Хранилища']['inventorization'] = 'Инвентаризация';
@@ -81,9 +83,9 @@ class RuleController extends Controller
         $groupTable['Продукты и услуги']['category'] = 'Категория';
         $groupTable['Продукты и услуги']['purchase'] = 'Поставка';
         $groupTable['Продукты и услуги']['product_pack_unit'] = 'Единица упаковки продукта';
-        $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукции';
-        $groupTable['Продукты и услуги']['selling_product'] = 'Продажа продукта';
+        $groupTable['Продукты и услуги']['purchase_product'] = 'Товар в поставке';
         $groupTable['Продукты и услуги']['warehouse'] = 'Склад';
+        $groupTable['Продукты и услуги']['field'] = 'Характеристика категории';
         $groupTable['Продукты и услуги']['warehouse_product'] = 'Продукция на складе';
         return $groupTable;
     }
