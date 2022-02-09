@@ -35,15 +35,19 @@ $columns = [
         'label' => 'Фактическое к-во',
     ],
 ];
-
-echo GridView::widget([
-    'editableMode' => false,
-    'columns' => $columns,
-    'dataProvider' => $dataProvider,
-    'responsive' => false
-]);
-
 ?>
+<div class="row">
+    <div class="col-12">
+        <?php
+        echo GridView::widget([
+            'editableMode' => false,
+            'columns' => $columns,
+            'dataProvider' => $dataProvider,
+            'responsiveWrap' => false,
+        ]);
+        ?>
+    </div>
+</div>
 
 <?php DetachedBlock::end(); ?>
 
