@@ -9,7 +9,7 @@ $list = [
     ['label' => 'Продажи', 'url' => '/selling/main', 'icon' => 'balance-scale',
 
     ],
-    ['label' => 'Речевые модули', 'url' => '/selling/speech-module', 'icon' => 'podcast',
+    ['label' => 'Речевые модули', 'url' => '/selling/speech-module?isSelling=1', 'icon' => 'podcast',
 
     ],
     ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'list',

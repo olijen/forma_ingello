@@ -13,7 +13,7 @@
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li><a href="/selling/default"><i class="fa fa-laptop"></i>Отдел продаж</a></li>
                         <li><a href="/selling/main"><i class="fa fa-money-bill-wave"></i>Продажи клиентам</a></li>
-                        <li><a href="/selling/speech-module"><i class="fa fa-list"></i>Скрипты</a></li>
+                        <li><a href="/selling/speech-module?isSelling=1"><i class="fa fa-list"></i>Скрипты</a></li>
                     </ul>
                 </div>
                 <button type="button" class="btn btn-warning btn-sm" data-widget="collapse"><i
