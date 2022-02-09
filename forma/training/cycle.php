@@ -275,6 +275,10 @@ $result = '';
 if (isset($_GET['idu'])) {
     setcookie('idu', $_GET['idu']);
 }
+
+//if (isset($_GET['sort'])) {
+//    $string = '';
+//}
 function selectForUpdate()
 {
     if (isset($_GET['idu'])) {
@@ -327,12 +331,14 @@ function select()
     $conn = connection();
     $sql = "SELECT * FROM alex_test_info LIMIT 10";
     $key = null;
-    $get =[];
     if (!empty($_GET['sort'])) {
+
+        $uri='\''.$_SERVER['REQUEST_URI'].'\'';
             if ($_GET['typesort'] == ' asc') {
                 $key = 'desc';
             }
             $sql = "SELECT * FROM alex_test_info  ORDER BY " . $_GET['sort'] . $_GET['typesort'] . " LIMIT 10";
+//            $sql.=$uri;
 
     }
     if ($key == null) {
