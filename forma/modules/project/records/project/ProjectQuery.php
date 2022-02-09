@@ -2,6 +2,8 @@
 
 namespace forma\modules\project\records\project;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[Project]].
  *
@@ -20,6 +22,12 @@ class ProjectQuery extends \yii\db\ActiveQuery
      */
     public function all($db = null)
     {
+        return parent::all($db);
+    }
+
+    public function allAccessory($db = null)
+    {
+        $this->andWhere(['in', 'project.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::all($db);
     }
 
