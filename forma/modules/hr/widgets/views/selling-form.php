@@ -49,7 +49,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         'fieldConfig' => [
             'inputOptions' => [
                 'class' => 'form-control',
-//                'disabled' => $model->stateIs(new StateDone()),
             ],
         ],
     ];
@@ -85,7 +84,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             ';
             ?>
 
-
             <?= $form->field($model, 'worker_id')->widget(Select2::classname(), [
                 'data' => $data,
                 'options' => ['placeholder' => 'Поиск в базе'],
@@ -94,7 +92,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         </div>
         <div class="col-md-4">
             <?php //TODO: !!!!!!!!!!!!!!!! WORKER to VACANCY
-
             $label = $model->getAttributeLabel('vacancy_id');
             $label .= '
                 [<a
@@ -134,7 +131,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             </script>
         <?php endif; ?>
 
-
         <script>
             $('#interview-vacancy_id').on('change', function () {
                 $.ajax({
@@ -147,7 +143,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-worker_id').empty();
                         $('#worker-view').attr("data-enabled", false);
                         $('#worker-view').addClass("text-gray");
-                        console.log(data,'!!!!!!!!!!!');
                         if (data !== null) {
                             $('#interview-worker_id').removeAttr('disabled');
                             $('#selling-form-submit-button').removeAttr('disabled');
@@ -161,8 +156,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                             $('#interview-worker_id').attr('disabled', 'disabled');
                             $('#selling-form-submit-button').attr('disabled', 'disabled');
                             $('#alert-danger').show();
-
-                            //   $('#worker-select').hide();
                         }
                     }
                 })
@@ -176,27 +169,25 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     data: {
                         id: $(this).val(),
                     },
-                success: function (data) {
-                    // alert(123);
-                    // $('#interview-vacansy_id').empty();
-                    console.log(data,'!!!!!!!!!!!');
-                    if (data !== null) {
-                        $('#interview-vacansy_id').removeAttr('disabled');
-                        $('#selling-form-submit-button').removeAttr('disabled');
-                        $('#alert-danger').hide();
-                        $('#interview-worker_id').attr('enable', 'enable');
-                        $.each(data, function (value, key) {
-                            $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
-                        });
-                        $('#interview-worker_id').val('');
-
-                    } else {
-                        $('#interview-worker_id').attr('disabled', 'disabled');
-                        $('#selling-form-submit-button').attr('disabled', 'disabled');
-                        $('#alert-danger').show();
+                    success: function (data) {
+                        if ($('#interview-worker_id').val() !== null) {
+                            $('#interview-worker_id').removeAttr('disabled');
+                            $('#selling-form-submit-button').removeAttr('disabled');
+                        }
+                        if (data !== null) {
+                            $('#interview-vacansy_id').removeAttr('disabled');
+                            $('#selling-form-submit-button').removeAttr('disabled');
+                            $('#alert-danger').hide();
+                            $.each(data, function (value, key) {
+                                $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
+                            });
+                        } else {
+                            $('#interview-worker_id').attr('disabled', 'disabled');
+                            $('#selling-form-submit-button').attr('disabled', 'disabled');
+                            $('#alert-danger').show();
+                        }
                     }
-                }
-            })
+                })
             })
             $(function () {
                 function getVacancyId() {

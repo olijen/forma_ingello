@@ -44,12 +44,12 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         [
             'attribute' => 'project_id',
             'value' => 'project.name',
-            'filter' => ActiveRecordHelper::getList(Project::class),
+            'filter' => ArrayHelper::map(Project::find()->allAccessory(),'id', 'name'),
         ],
         [
             'attribute' => 'vacancy_id',
             'value' => 'vacancy.name',
-            'filter' => ActiveRecordHelper::getList(Vacancy::class),
+            'filter' => ArrayHelper::map(Vacancy::find()->allAccessory(),'id', 'name'),
         ],
         [
             'attribute' => 'state_id',

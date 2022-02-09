@@ -68,13 +68,13 @@ class RequestController extends Controller
         $model = new Request();
         $request_strategy = new RequestStrategy();
         $strategy_id = $_GET['strategyId'];
-        $isManager = $_GET['isManager'];
-        $model->is_manager = $isManager;
+        $isSelling = $_GET['isSelling'];
+        $model->is_manager = $isSelling;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $request_strategy->strategy_id = $strategy_id;
             $request_strategy->request_id = $model->id;
             $request_strategy->save();
-            return $this->redirect(['/selling/speech-module/']);
+            return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -91,9 +91,9 @@ class RequestController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $isSelling = $_GET['isSelling'];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/selling/speech-module/']);
+            return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -109,12 +109,13 @@ class RequestController extends Controller
      */
     public function actionDelete($id)
     {
+        $isSelling = $_GET['isSelling'];
         $model = $this->findModel($id);
         foreach ($model->answers as $answer) {
             $answer->delete();
         }
         $model->delete();
-        return $this->redirect(['/selling/speech-module/']);
+        return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
     }
 
     /**

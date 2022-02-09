@@ -44,6 +44,14 @@ label {
     overflow: hidden;
     overflow-x: scroll;
     white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.nav-tabs {
+    flex-wrap: wrap;
+    display: inline-flex;
 }
 
 input[type=checkbox], input[type=radio] {

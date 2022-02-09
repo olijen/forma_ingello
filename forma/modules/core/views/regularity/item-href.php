@@ -12,7 +12,7 @@ $parentItemStr = isset($parentItem) ? $parentItem->title . '<br>' : '' . '<br>';
 $dataName = '<h2>' .'<i style=\' margin-right: 30px; \' class=\'fa fa-' . $regularity->icon . ' \'></i> ' . $regularity->name . '</h2>';
 
 if (isset($parentItem)) {
-    $dataName = $dataName . '<h3 class=\'h-text\'>' . $parentItem->title . '</h3>' . '<h4 class=\'h-text\'>' . $item->title . '</h4>';
+    $dataName = $dataName . '<h3 class=\'h-text\'>' . $parentItem->title . '</h3>' . '<h4 style=\'top: 140px;\' class=\'h-text\'>' . $item->title . '</h4>';
 } else {
     $dataName = $dataName . '<h3 class=\'h-text\'>' . $item->title . '</h3>';
 }
@@ -124,17 +124,16 @@ if (isset($parentItem)) {
 $js = <<< JS
 if($countAnswer == $countRightAnswer && $countAnswer != 0){
     $("#btn-alert"+$item->id).on("click", function() {
-    krajeeDialog.alert("Вы выполнили все задания по этому элементу!")
     let el = document.getElementById('li'+$item->id);
             if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='float: right; margin-right: 10px'></i>`;
+                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>`;
                 $('#item-check'+$item->id).after(value);
             }
             
 });
     let el = document.getElementById('li'+$item->id);
             if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='float: right; margin-right: 10px'></i>`;
+                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>`;
                 $('#item-check'+$item->id).after(value);
             }
 }

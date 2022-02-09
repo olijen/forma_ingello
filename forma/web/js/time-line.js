@@ -18,8 +18,9 @@
 
                     let findElementCreateRequest = document.querySelector('.modal-header');
                     findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'><button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                    let srcIframe = document.getElementById('myFrame').src.split('?')[0];
                     $.ajax({
-                        url: url + '?without-header&only-title',
+                        url: srcIframe + '?without-header&only-title',
                         type: "GET",
                         success: function (msg) {
                             findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'>" + msg + "<button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";

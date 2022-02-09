@@ -37,7 +37,7 @@
                            let createItemIcon = document.createElement('i');
                            createItemIcon.setAttribute('id', 'li{$rule->item_id}');
                            createItemIcon.setAttribute('class', 'fa fa-check-circle');
-                           createItemIcon.setAttribute('style', 'float: right; margin-right: 10px');
+                           createItemIcon.setAttribute('style', 'color: green; float: right; margin-right: 0.1px');
                            if (documenByItem) {
                                let findItemAfterInsert = documenByItem.document.getElementById('item-check'+{$rule->item_id});
                                findItemAfterInsert.after(createItemIcon);
@@ -90,7 +90,7 @@
     }
 
     .treeview a span {
-        left: 45px !important;
+        left: 43px !important;
     }
 </style>
 

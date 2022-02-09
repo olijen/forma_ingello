@@ -21,6 +21,14 @@ use yii\widgets\Pjax;
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{update} {delete}',
+                    'urlCreator' => function ($action, $model, $key, $index) {
+                        if ($action == 'update') {
+                            return \yii\helpers\Url::to(['/core/access-interface/update', 'id' => $model->id]);
+                        }
+                        if ($action == 'delete') {
+                            return \yii\helpers\Url::to(['/core/access-interface/delete', 'id' => $model->id]);
+                        }
+                    }
                 ],
                 'current_mark',
                 [

@@ -308,14 +308,6 @@ JS;
             }
 
             ]
-            ::-webkit-scrollbar-track {
-                border-width: 0;
-            }
-
-            ::-webkit-scrollbar-track:hover {
-                border-left: solid 1px<?php echo $bgColor ?>;
-                background-color: <?php echo $bgColor ?>;
-            }
 
             .container-fluid {
                 padding: 0;
@@ -557,6 +549,9 @@ JS;
             });
 
         }
+        $('li.menuColor.treeview').click(function (event) {
+            $('.treeview-menu').css('height', 'auto');
+        });
     </script>
     <?php $this->endBody() ?>
     </body>

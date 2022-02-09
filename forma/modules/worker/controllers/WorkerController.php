@@ -3,6 +3,7 @@
 namespace forma\modules\worker\controllers;
 
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
+use forma\modules\worker\records\workervacancy\WorkerVacancy;
 use Yii;
 use forma\modules\worker\records\Worker;
 use forma\modules\worker\records\WorkerSearch;
@@ -110,25 +111,36 @@ class WorkerController extends Controller
      */
     public function actionCreate()
     {
-        $projectVacancyId = Yii::$app->request->get('projectVacancyId');
-        $vacancyId = ProjectVacancy::find()->where(['id'=>$projectVacancyId])->one()->vacancy_id;
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
+
         $model = new Worker();
         $model->scenario = 'fromForm';
+        $vacancyId = null;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['id' => $model->id, 'name' => $model->name];
             }
+
             return $this->redirect(['index']);
-        } else {
+        }
+
+        if (!empty(Yii::$app->request->get('projectVacancyId'))) {
+            $projectVacancyId = Yii::$app->request->get('projectVacancyId');
+            $vacancyId = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one()->vacancy_id;
             return $this->render('create', [
                 'model' => $model,
                 'vacancyId' => $vacancyId,
             ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+            'vacancyId' => $vacancyId,
+        ]);
     }
 
     /**
@@ -143,13 +155,19 @@ class WorkerController extends Controller
         $model = $this->findModel($id);
         $model->scenario = 'fromForm';
 
+        $vacancies = WorkerVacancy::find()->where(['worker_id' => $id])->select('vacancy_id')->asArray()->all();
+        $vacancyId = [];
+        foreach ($vacancies as $vacancy) {
+            $vacancyId [] = $vacancy['vacancy_id'];
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'vacancyId' => null,
+            'vacancyId' => $vacancyId,
         ]);
     }
 

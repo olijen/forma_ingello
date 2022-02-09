@@ -69,13 +69,14 @@ class FormController extends Controller
     {
 
         if (!empty($_POST['productId']) && !empty($_POST['sellingId'])) {
-
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $productId = $_POST['productId'];
             $warehouseId = Selling::find()->where(['id' => $_POST['sellingId']])->one()->warehouse_id;
             $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $purchaseCost = $product->purchase_cost;
+            $cost = $product->consumer_cost;
 
-            return $purchaseCost;
+            return compact('purchaseCost', 'cost');
         }
         return '';
     }

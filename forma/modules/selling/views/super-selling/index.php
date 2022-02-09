@@ -295,7 +295,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'pjax' => true,
-
+        'responsiveWrap' => false,
         'columns' => $gridColumns,   // check the configuration for grid columns by clicking button above
         'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
         'showPageSummary' => true, // table page summary floats when you scroll

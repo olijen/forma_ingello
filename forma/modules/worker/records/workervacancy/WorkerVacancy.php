@@ -107,7 +107,7 @@ class WorkerVacancy extends AccessoryActiveRecord
 
         $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId])->one();
         $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
-
+        $ids = [];
         foreach ($workerVacancies as $workerVacancy) {
             if (empty($workerVacancy->worker->interviews)){
                 $ids[] = $workerVacancy->worker_id;
@@ -119,7 +119,7 @@ class WorkerVacancy extends AccessoryActiveRecord
             return null;
         }
 
-        $workerks = Worker::find()->where(['worker.id' => $ids])->all();
+        $workerks = Worker::find()->where(['in', 'worker.id', $ids])->allAccessory();
 
         return ArrayHelper::map($workerks, 'id', 'fullName');
     }

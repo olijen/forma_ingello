@@ -66,9 +66,9 @@ class AnswerController extends Controller
     public function actionCreate()
     {
         $model = new Answer();
-
+        $isSelling = $_GET['isSelling'];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/selling/speech-module']);
+            return $this->redirect(['/selling/speech-module', 'isSelling' => $isSelling]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -134,8 +134,9 @@ class AnswerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $isSelling = $_GET['isSelling'];
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('/selling/speech-module');
+            return $this->redirect('/selling/speech-module?isSelling=' . $isSelling);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -152,8 +153,8 @@ class AnswerController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect('/selling/speech-module');
+        $isSelling = $_GET['isSelling'];
+        return $this->redirect(['/selling/speech-module', 'isSelling' => $isSelling]);
     }
 
     /**

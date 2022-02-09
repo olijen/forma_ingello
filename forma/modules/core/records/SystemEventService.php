@@ -125,14 +125,13 @@ class SystemEventService
                     $newAccessInterface->save();
                 } else {
                     if ($accessInterface->status == false) {
-                        $accessInterface->status = false;
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status = false) {
-                        $accessInterface->status = 1;
+                    if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
+                        $accessInterface->status = true;
                         $accessInterface->save();
-                        self::setCookieSystemEvent('event',$rule->id);
+                        self::setCookieSystemEvent('event', $rule->id);
                     }
                 }
             }
@@ -146,16 +145,19 @@ class SystemEventService
             if (!$systemEvent->save()) {
                 throw new \Exception(json_encode($systemEvent->errors));
             }
+
             $arr = explode("/", $systemEvent->request_uri);
-            //Yii::debug("ebanina");
-           // Yii::debug($arr);
-            if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1]=='inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
-          //  Yii::debug($arr);
-            $subject = 'Forma: в отделе '.$systemEvent->application.' был добавлен объект: ('. $systemEvent->class_name .') '
+            $url = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) ? 'http://' : 'https://';
+            if (isset($arr[1]) && ($arr[1] == 'selling' || $arr[1] == 'inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
+            $subject = 'Forma: в отделе ' . $systemEvent->application . ' был добавлен объект: (' . $systemEvent->class_name . ') '
                 . $objectName;
-            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' добавлен объект: ('. $systemEvent->class_name .') '
-                . $objectName .' <br /> Посмотреть список <a href="http://' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>' .
-                '<br /> Посмотреть объект <a href="http://'.$_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] .'/update?id='.$systemEvent->sender_id.'">Перейти</a>';
+
+            if (isset($objectName) && isset($arr[1]) && isset($arr[2])) {
+                $text = 'FORMA INGELLO: В отделе: ' . $systemEvent->application . ' добавлен объект: (' . $systemEvent->class_name . ') '
+                    . $objectName . ' <br /> Посмотреть список <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '">Перейти</a>' .
+                    '<br /> Посмотреть объект <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '/update?id=' . $systemEvent->sender_id . '">Перейти</a>';
+
+            }
         }
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
@@ -200,13 +202,14 @@ class SystemEventService
                     $newAccessInterface->status = false;
                     $newAccessInterface->save();
                 } else {
-                    if ($accessInterface->status == false) {
+                    if ($accessInterface->status == false && $accessInterface->current_mark < $rule->count_action ) {
                         $accessInterface->status = false;
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status = false) {
-                        $accessInterface->status =1;
+
+                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
+                        $accessInterface->status = true;
                         $accessInterface->save();
                         self::setCookieSystemEvent('event',$rule->id);
                     }
@@ -215,7 +218,7 @@ class SystemEventService
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
-            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Обновлен: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
+            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Обновлен: ' . (!is_null($objectName) ? '"' . $objectName . '"' : '') . ' пользователем ' . $systemEvent->user->username;
             $systemEvent->class_name = $className;
             $systemEvent->sender_id = $model->id;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
@@ -223,11 +226,12 @@ class SystemEventService
                 throw new \Exception(json_encode($systemEvent->errors));
             }
             $arr = explode("/", $systemEvent->request_uri);
-            $subject = 'Forma: в отделе '.$systemEvent->application.' был обновлен объект: ('. $systemEvent->class_name .') '
+            $url = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) ? 'http://' : 'https://';
+            $subject = 'Forma: в отделе ' . $systemEvent->application . ' был обновлен объект: (' . $systemEvent->class_name . ') '
                 . $objectName;
-            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' обновлен объект: ('. $systemEvent->class_name .') '
-                . $objectName .' <br /> Посмотреть список <a href="http://' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>' .
-            '<br /> Посмотреть объект <a href="http://'.$_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] .'/update?id='.$systemEvent->sender_id.'">Перейти</a>';
+            $text = 'FORMA INGELLO: В отделе: ' . $systemEvent->application . ' обновлен объект: (' . $systemEvent->class_name . ') '
+                . $objectName . ' <br /> Посмотреть список <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '">Перейти</a>' .
+                '<br /> Посмотреть объект <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '/update?id=' . $systemEvent->sender_id . '">Перейти</a>';
         }
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
@@ -270,8 +274,8 @@ class SystemEventService
                         $accessInterface->current_mark = ++$accessInterface->current_mark;
                         $accessInterface->save();
                     }
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status = false) {
-                        $accessInterface->status =1;
+                    if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
+                        $accessInterface->status = true;
                         $accessInterface->save();
                         self::setCookieSystemEvent('event',$rule->id);
                     }

@@ -1242,6 +1242,15 @@ if ($widgetNewOrder == true) {
     .sortable.grid {
         margin: 0;
     }
+
+    #panel_small_widget>li {
+        float: none;
+    }
+
+    #panel_small_widget {
+        overflow-x : visible;
+    }
+
 </style>
 
 <script>

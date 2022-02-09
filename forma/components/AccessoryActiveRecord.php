@@ -14,12 +14,9 @@ class AccessoryActiveRecord extends ActiveRecord
 {
     public function access($query)
     {
-        $staticClass = explode('Search!!!', static::class . '!!!')[0];
-        $arrayStaticClass = explode('\\', $staticClass);
-        $currentClass = end($arrayStaticClass);
         $results = Accessory::find()
             ->andWhere(['accessory.user_id' => Yii::$app->user->id])
-            ->andWhere(['like', 'accessory.entity_class', '%' . $currentClass, false])
+            ->andWhere(['accessory.entity_class' => $query->modelClass])
             ->all();
 
         $accessedIds = [];
