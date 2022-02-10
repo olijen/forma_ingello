@@ -75,6 +75,11 @@ class AutoDumpDataBase
         $d = date('d', strtotime($oldDate));
         $currentMonth = date('m', strtotime(date('Y-m-d')));
         $currentYear = date('Y', strtotime(date('Y-m-d')));
+
+        if ($d == 29 || $d == 30 || $d == 31) {
+            $d = 28;
+        }
+
         $newDateEvent = $currentYear . '-' . $currentMonth . '-' . $d;
 
         return date('Y-m-d', strtotime($newDateEvent));
