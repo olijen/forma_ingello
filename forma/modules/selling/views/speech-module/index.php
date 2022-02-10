@@ -91,10 +91,10 @@ $this->title = Yii::t(
         elemCreateRequest.setAttribute("id", "elementCreateRequestE");
         console.log(x)
         if (x) {
-            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isSelling=1"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "менеджера" : "кадра"?></a></div>';
+            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=0&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "менеджера" : "кадра"?></a></div>';
             var findElementCreateRequest = document.querySelector('#elementCreateRequest');
             findElementCreateRequest.parentNode.append(elemCreateRequest, findElementCreateRequest);
-            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isSelling=0"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';
+            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=0&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';
             var findElementCreateRequestR = document.querySelector('#elementCreateRequestClient');
             findElementCreateRequestR.parentNode.append(elemCreateRequestR, findElementCreateRequestR);
         }
