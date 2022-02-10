@@ -117,7 +117,6 @@ class TestController extends Controller
             $model->test_type_id = $testType->id;
 
             if ($model->save()) {
-                dd($testData['sellingToken']);
                 return $this->redirect(['/selling/main/show-selling?selling_token=' . $testData['sellingToken']]);
             }
         }
