@@ -80,6 +80,7 @@ class SystemEventService
         $cookies->add(new \yii\web\Cookie([
             'name' => $name,
             'value' => [$rule_id],
+            'httpOnly' => false
         ]));
     }
     public static function eventAfterInsert($event){
@@ -110,7 +111,7 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
-            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->oneAccessory();
 
             if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
@@ -256,7 +257,7 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->oneAccessory();
             if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
