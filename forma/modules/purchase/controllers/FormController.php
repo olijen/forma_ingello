@@ -2,23 +2,29 @@
 
 namespace forma\modules\purchase\controllers;
 
+use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
 use Yii;
 use forma\modules\purchase\services\PurchaseService;
 use forma\modules\purchase\widgets\PurchaseFormView;
 use forma\components\Controller;
+use yii\web\HttpException;
 
 class FormController extends Controller
 {
     public function actionIndex($id = null)
     {
         $model = PurchaseService::get($id);
-        if (isset($_GET['Purchase']['warehouse_id'])) {
-            if ($model->load($_GET)) {
-                return $this->render('index', ['model' => $model]);
+        if (!empty($model)) {
+            if (isset($_GET['Purchase']['warehouse_id'])) {
+                if ($model->load($_GET)) {
+                    return $this->render('index', ['model' => $model]);
+                }
             }
-        }
 
-        return $this->render('index', ['model' => $model]);
+            return $this->render('index', ['model' => $model]);
+        } else {
+            throw new HttpException(400, '$model = PurchaseService::get($id) is null.');
+        }
     }
     
     public function actionWidget($id = null)
