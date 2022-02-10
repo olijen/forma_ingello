@@ -12,7 +12,10 @@
 
 <div class="box box-solid">
     <div class="box-header with-border">
-        <h4 class="box-title"><i class="fa fa-<?= $regularity['icon'] ?>"></i> <?= $regularity['title'] ?></h4>
+        <h4 class="box-title"><i class="fa fa-<?= $regularity['icon'] ?>"></i>
+            <div onclick="setLabel('<?= isset(explode('{{', (isset(explode('||', $regularity['title'])[0]) ? explode('||', $regularity['title'])[0] : ''))[1]) ? explode('{{', (isset(explode('||', $regularity['title'])[0]) ? explode('||', $regularity['title'])[0] : ''))[1] : '' ?>')"
+                 style="display: inline-block"> <?= LinkHelper::replaceUrlOnButton($regularity['title']) ?> </div>
+        </h4>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -78,6 +81,18 @@
     }, function (event) {
         $( event.target ).closest('.box-header').css('background-color', 'transparent');
     })
+
+    function setLabel(url) {
+        let findElementCreateRequest = document.querySelector('.modal-header');
+        $.ajax({
+            url : url+'?without-header&only-title',
+            type : "GET",
+            success : function(msg){
+                findElementCreateRequest.innerHTML = "<p style='padding-left: 50px;'>" + msg + "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+            }
+        });
+
+    }
 </script>
 
 
