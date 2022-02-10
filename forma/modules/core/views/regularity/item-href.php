@@ -28,7 +28,8 @@ if (isset($parentItem)) {
     >
         <label class="container-label"
                style="border: 1px solid #3c8dbc; border-radius: 15px; margin-right: 5px; margin-left: 2px; display: inline-block;">
-            <input type="radio" class="check-radio" name=<?= $radioName ?> id="item-check<?= $item->id ?>">
+            <input type="radio" style="display: none" class="check-radio"
+                   name=<?= $radioName ?> id="item-check<?= $item->id ?>">
             <span class="checkmark"></span>
             <?php
           $countRightAnswer = 0;
