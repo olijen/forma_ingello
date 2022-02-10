@@ -275,8 +275,8 @@ $result = '';
 if (isset($_GET['idu'])) {
     setcookie('idu', $_GET['idu']);
 }
-
-//if (isset($_GET['sort'])) {
+//de($_GET);
+//if (isset($_GET['multiSort']['sort'])) {
 //    $string = '';
 //}
 function selectForUpdate()
@@ -325,24 +325,45 @@ if (isset($_GET['floor']) && isset($_GET['apartment']) && isset($_GET['house']))
     $_GET['house'] = (int)$_GET['house'];
 }
 
-
 function select()
 {
     $conn = connection();
     $sql = "SELECT * FROM alex_test_info LIMIT 10";
     $key = null;
-    if (!empty($_GET['sort'])) {
+    $keyType = null;
+    if (isset($_GET['multiSort']['sort'])) {
+        $sql = "SELECT * FROM alex_test_info  ORDER BY ";
+            if ( $_GET['typesort']['type'] == null){
+            $key = ' asc';
+        }else{
+            $key = ' desc';
+        }
+        if ($_GET['typesort']['type'] == ' desc'){
+            $key = ' asc';
+        }
+        foreach ($_GET['multiSort'] as $i) {
+            $sql .= $i . "$key ,";
 
-        $uri='\''.$_SERVER['REQUEST_URI'].'\'';
-            if ($_GET['typesort'] == ' asc') {
-                $key = 'desc';
-            }
-            $sql = "SELECT * FROM alex_test_info  ORDER BY " . $_GET['sort'] . $_GET['typesort'] . " LIMIT 10";
-//            $sql.=$uri;
+
+        }
+        if (count($_GET['multiSort'])>1){
+            $sql = substr($sql, 0, -5);
+        }
+
+        $sql = substr($sql, 0, -1);
+
+        if (isset($_GET['typesort']['sort'])) {
+            if ($_GET['typesort']['sort'] == ' asc'){
+//            de($_GET['typesort']['sort']);
+            $keyType = ' desc';
+            $sql.= $keyType;
+
+        }else{
+            $keyType = ' asc';
+            $sql.= $keyType;
+        }
 
     }
-    if ($key == null) {
-        $key = ' asc';
     }
     if (!empty($_GET['submitFilter'])) {
         $sql = "SELECT * FROM alex_test_info WHERE";
@@ -361,17 +382,23 @@ function select()
         $sum = $_GET['page'] - 1;
         $sql .= " OFFSET " . ($sum * $num);
     }
-    $query = $conn->query($sql);
 
+    $query = $conn->query($sql);
     $result = $query->fetch_all(MYSQLI_ASSOC);
     $td = array_keys($result[0]);
     $cols = count($result); // количество столбцов, td
     $table = '<table border="1" width="100%">
                <form id="filter">';
     foreach ($td as $i) {
-        $table .= '<td> <b> <a href="cycle.php?sort=' . $i . "+&typesort=$key" . '">' . $i . '</a> <input type="text" 
-                    name="filter['.$i .']" ></b></td>';
+        if (isset($_GET['multiSort']['sort'])) {
+            $table .= '<td> <b> <a href="cycle.php?multiSort[sort]=' . $_GET['multiSort']['sort'] .
+                "&typesort[type]=$key" . '&multiSort[' . $i . ']=' . $i . "&typesort[sort]=$keyType" . '">' . $i . '</a> <input type="text" 
+                    name="filter[' . $i . ']" ></b></td>';
+        } else {
+            $table .= '<td> <b> <a href="cycle.php?multiSort[sort]=' . $i . "&typesort[type]=$key" . '">' . $i . '</a> <input type="text" 
+                    name="filter[' . $i . ']" ></b></td>';
 
+        }
     }
     $table .= '<td><b> <input type="submit" name="submitFilter" value="отфильтровать"></td>';
     $table .= '<td><b><a href="cycle.php?cleanParams" >очистить</a></td>';
@@ -415,7 +442,7 @@ delete();
 function validation()
 {
     if (!empty($_GET)) {
-        if (empty($_GET['id']) && empty($_GET['idu']) && !isset($_GET['sort']) && !isset($_GET['page']) && empty($_GET['submitFilter'])) {
+        if (empty($_GET['id']) && empty($_GET['idu']) && !isset($_GET['multiSort']['sort']) && !isset($_GET['page']) && empty($_GET['submitFilter'])) {
             if (empty(trim($_GET['country']))) {
                 echo '<br>' . "Введите  корректно country";
             } elseif (is_numeric(trim($_GET['country']))) {
@@ -495,27 +522,27 @@ echo $b;
 
 if (!isset($_GET['submitFilter'])) {
     ?>
-    <form method="get" action="cycle.php" id="insertUpdate" >
-        <div >
-        <input type="text" placeholder="страна"  value="<?php if (!empty($_GET['country'])) {
-            echo $_GET['country'];
-        } ?>" name="country">
-        <input type="text" placeholder="город" value="<?php if (!empty($_GET['city'])) {
-            echo $_GET['city'];
-        } ?>" name="city">
-        <input type="text" placeholder="улица" value="<?php if (!empty($_GET['str'])) {
-            echo $_GET['str'];
-        } ?>" name="str">
-        <input type="text" placeholder="дом" value="<?php if (!empty($_GET['house'])) {
-            echo $_GET['house'];
-        } ?>" name="house">
-        <input type="text" placeholder="этаж" value="<?php if (!empty($_GET['floor'])) {
-            echo $_GET['floor'];
-        } ?>" name="floor">
-        <input type="text" placeholder="квартира" value="<?php if (!empty($_GET['apartment'])) {
-            echo $_GET['apartment'];
-        } ?>" name="apartment">
-        <input type="submit">
+    <form method="get" action="cycle.php" id="insertUpdate">
+        <div>
+            <input type="text" placeholder="страна" value="<?php if (!empty($_GET['country'])) {
+                echo $_GET['country'];
+            } ?>" name="country">
+            <input type="text" placeholder="город" value="<?php if (!empty($_GET['city'])) {
+                echo $_GET['city'];
+            } ?>" name="city">
+            <input type="text" placeholder="улица" value="<?php if (!empty($_GET['str'])) {
+                echo $_GET['str'];
+            } ?>" name="str">
+            <input type="text" placeholder="дом" value="<?php if (!empty($_GET['house'])) {
+                echo $_GET['house'];
+            } ?>" name="house">
+            <input type="text" placeholder="этаж" value="<?php if (!empty($_GET['floor'])) {
+                echo $_GET['floor'];
+            } ?>" name="floor">
+            <input type="text" placeholder="квартира" value="<?php if (!empty($_GET['apartment'])) {
+                echo $_GET['apartment'];
+            } ?>" name="apartment">
+            <input type="submit">
         </div>
         <hr>
     </form>
