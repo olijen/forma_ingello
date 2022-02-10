@@ -267,18 +267,11 @@ $result = '';
 ?>
 
 <?php
-//de($_SERVER['QUERY_STRING']);
-//if (is_numeric(($_GET['country']))){
-//
-//    de('ne');
-//}
+
 if (isset($_GET['idu'])) {
     setcookie('idu', $_GET['idu']);
 }
-//de($_GET);
-//if (isset($_GET['multiSort']['sort'])) {
-//    $string = '';
-//}
+
 function selectForUpdate()
 {
     if (isset($_GET['idu'])) {
@@ -354,7 +347,6 @@ function select()
 
         if (isset($_GET['typesort']['sort'])) {
             if ($_GET['typesort']['sort'] == ' asc'){
-//            de($_GET['typesort']['sort']);
             $keyType = ' desc';
             $sql.= $keyType;
 
