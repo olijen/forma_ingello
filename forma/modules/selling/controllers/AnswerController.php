@@ -67,6 +67,7 @@ class AnswerController extends Controller
     {
         $model = new Answer();
         $isSelling = $_GET['isSelling'];
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/selling/speech-module', 'isSelling' => $isSelling]);
         } else {
@@ -83,9 +84,9 @@ class AnswerController extends Controller
      */
     public function actionFastCreate()
     {
-
         // Создать ответ
         $model = new Answer();
+
         if (!$model->load(Yii::$app->request->post())) {
             return $this->render('fast-create', [
                 'model' => $model,
@@ -108,6 +109,7 @@ class AnswerController extends Controller
                 'strategy_id' => $strategyId,
                 'request_id' => $model->request_id,
             ])->one();
+
             if (!$rs) {
                 $rs = new RequestStrategy();
                 $rs->strategy_id = $strategyId;
@@ -135,7 +137,8 @@ class AnswerController extends Controller
     {
         $model = $this->findModel($id);
         $isSelling = $_GET['isSelling'];
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        if ($model->load(Yii::$app->request->post()) ) {
             return $this->redirect('/selling/speech-module?isSelling=' . $isSelling);
         } else {
             return $this->render('update', [
@@ -154,6 +157,7 @@ class AnswerController extends Controller
     {
         $this->findModel($id)->delete();
         $isSelling = $_GET['isSelling'];
+
         return $this->redirect(['/selling/speech-module', 'isSelling' => $isSelling]);
     }
 
