@@ -87,7 +87,7 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
                             if($dataNull->id == $rule->id){
                                 echo "<div class='clearfix'>
                                                 
-                                                <small class='pull-right'>0 % (0 из 0)
+                                                <small class='pull-right'>0 % (0 из $rule->count_action)
                                                 
                                         <i style='color:red;padding-left: 10px;' class='fa fa-times'></i>" . "</small>
                                             </div>
