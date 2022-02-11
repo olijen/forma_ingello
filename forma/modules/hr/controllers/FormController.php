@@ -39,15 +39,18 @@ class FormController extends Controller
         if (isset($_POST['Interview']['vacancy_id'])) {
             $projectVacancyId = $_POST['Interview']['vacancy_id'];
             $projectVacancy = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one();
+
             $model = new Interview();
             $model->project_id = $projectVacancy->project_id;
             $model->vacancy_id = $projectVacancy->vacancy_id;
             $model->date_create = date('d.m.Y');
             $model->worker_id = $_POST['Interview']['worker_id'];
             $model->name = '-';
-            if (!empty($state_id = InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id)) {
-                $model->state_id = $state_id;
+
+            if (empty($model->state)) {
+                $model->state_id = InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id;
             }
+
             if ($model->save()) {
                 return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
             }
