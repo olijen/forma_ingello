@@ -52,25 +52,32 @@ $comaList = $salesProgress->getComaListOfSales();
 
 
 <script>
-    myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: [<?=$labels?>],
+    $(function () {
+        setTimeout(function() {
+            let plan = document.getElementById("plan");
+            if (plan !== null) {
+                myLineChart = new Chart(plan.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [<?=$labels?>],
 
-            datasets: [{
-                label: 'Количество продаж',
-                data: [<?=$data?>],
-                backgroundColor: [<?=$backgroundColor?>],
-            }]
-        },
-        options: options
-    });
+                        datasets: [{
+                            label: 'Количество продаж',
+                            data: [<?=$data?>],
+                            backgroundColor: [<?=$backgroundColor?>],
+                        }]
+                    },
+                    options: options
+                });
 
-    plan.onclick = function (evt) {
-        var activePoints = myLineChart.getElementsAtEvent(evt);
-        console.log(activePoints);
-        window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index));
-    };
+                plan.onclick = function (evt) {
+                    var activePoints = myLineChart.getElementsAtEvent(evt);
+                    console.log(activePoints);
+                    window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index));
+                };
+            }
+        }, 5000);
+    })
 </script>
 
 <script>
