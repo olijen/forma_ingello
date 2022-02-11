@@ -16,6 +16,19 @@ if (isset($parentItem)) {
 } else {
     $dataName = $dataName . '<h3 class=\'h-text\'>' . $item->title . '</h3>';
 }
+
+$countRightAnswer = 0;
+$countAnswer = 0;
+if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' => $item->id]))) {
+    foreach ($rules->all() as $rule) {
+        $countAnswer++;
+        foreach ($rule->accessInterfaces as $accessInterface) {
+            if ($rule->count_action == $accessInterface->current_mark) {
+                $countRightAnswer++;
+            }
+        }
+    }
+}
 ?>
 <div class="carousel-child">
     <a id="btn-alert<?= $item->id ?>" href="#menu<?= $item->id ?>"
@@ -28,24 +41,21 @@ if (isset($parentItem)) {
     >
         <label class="container-label"
                style="border: 1px solid #3c8dbc; border-radius: 15px; margin-right: 5px; margin-left: 2px; display: inline-block;">
+
+            <?php \yii\widgets\Pjax::begin(['id' => 'item-check-icon-' . $item->id, 'timeout' => false, 'options' => ['style' => 'display: inline']]) ?>
             <input type="radio" style="display: none" class="check-radio"
                    name=<?= $radioName ?> id="item-check<?= $item->id ?>">
-            <span class="checkmark"></span>
-            <?php
-          $countRightAnswer = 0;
-            $countAnswer = 0;
-            if(!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id'=>$item->id]))){
-                foreach ($rules->all() as $rule){
-                    $countAnswer++;
-                    foreach ($rule->accessInterfaces as $accessInterface){
-                        if($rule->count_action == $accessInterface->current_mark){
-                            $countRightAnswer++;
-                        }
-                    }
-                }
-            }
 
+            <?php if($countAnswer == $countRightAnswer && $countAnswer != 0){ ?>
+            <i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>
+            <?php } ?>
+
+            <span class="checkmark"></span>
+
+            <?php
+            \yii\widgets\Pjax::end();
             ?>
+
             <label style="font-size: 15px; margin-right: 10px; float: left"> <?= $item->title ?> </label>
         </label>
 
@@ -57,6 +67,8 @@ if (isset($parentItem)) {
                 $isEmptyElement = array_search($item->id, array_column($rulesData, 'item_id'));
 
                 if ($isEmptyElement!=false || $isEmptyElement===0) {
+                    \yii\widgets\Pjax::begin(['id' => 'box-item-rules-' . $item->id, 'timeout' => false]);
+
                     echo "<div class='box-header with-border big_widget_header'>
                             <h3 class='box-title' style='font-size: 25px;'>
                             <i class='fas fa-bullseye' style='color: red;'></i> Выполнение задач</h3>
@@ -110,6 +122,7 @@ if (isset($parentItem)) {
                     }
 
                     echo " </div>";
+                    \yii\widgets\Pjax::end();
                 }
 
             }
@@ -119,29 +132,4 @@ if (isset($parentItem)) {
     </a>
 
 </div>
-
-<?php echo Dialog::widget();
-
-$js = <<< JS
-if($countAnswer == $countRightAnswer && $countAnswer != 0){
-    $("#btn-alert"+$item->id).on("click", function() {
-    let el = document.getElementById('li'+$item->id);
-            if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>`;
-                $('#item-check'+$item->id).after(value);
-            }
-            
-});
-    let el = document.getElementById('li'+$item->id);
-            if(el===null){
-                let value = `<i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>`;
-                $('#item-check'+$item->id).after(value);
-            }
-}
-
-JS;
-$this->registerJs($js);
-
-
-?>
 
