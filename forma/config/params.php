@@ -541,6 +541,9 @@ return [
         'category' => 'Категория',
         'test_type' => 'Тест',
         'test_type_field' => 'Вопрос и ответы',
+        'transit_product' => 'Товар в перемещении',
+        'transit' => 'Перемещение',
+        'state' => 'Состояние продажи',
     ],
 
 ];
