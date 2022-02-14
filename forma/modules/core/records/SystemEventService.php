@@ -22,6 +22,7 @@ class SystemEventService
         'SystemEvent',
         'Accessory',
         'StateSearchState',
+        'SystemEventUser',
         'TestSearch',
         'TestType',
         'TestTypeField',
