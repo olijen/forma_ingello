@@ -87,6 +87,8 @@ class RuleController extends Controller
         $groupTable['Продукты и услуги']['warehouse'] = 'Склад';
         $groupTable['Продукты и услуги']['field'] = 'Характеристика категории';
         $groupTable['Продукты и услуги']['warehouse_product'] = 'Продукция на складе';
+        $groupTable['Продукты и услуги']['transit'] = 'Перемещение';
+        $groupTable['Продукты и услуги']['transit_product'] = 'Товар в перемещении';
         return $groupTable;
     }
     /**

@@ -107,15 +107,19 @@ class WorkerVacancy extends AccessoryActiveRecord
 
         $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId])->one();
         $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
-        $ids = [];
-        foreach ($workerVacancies as $workerVacancy) {
-            if (empty($workerVacancy->worker->interviews)){
-                $ids[] = $workerVacancy->worker_id;
-            }
+        $workerInterviews = Interview::find()->all();
 
+        foreach ($workerVacancies as $workerVacancy) {
+            foreach ($workerInterviews as $workerInterview) {
+                if ($workerVacancy->worker_id === $workerInterview->worker_id) {
+                    if ($workerVacancy->vacancy_id !== $workerInterview->vacancy_id) {
+                        $ids[] = $workerVacancy->worker_id;
+                    }
+                }
+            }
         }
 
-        if (empty($ids)){
+        if (empty($ids)) {
             return null;
         }
 

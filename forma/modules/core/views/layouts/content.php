@@ -13,57 +13,19 @@
  use yii\helpers\Url;
  use yii\widgets\Breadcrumbs;
 
- $cookies = Yii::$app->request->cookies;
-?>
+ Alert::begin([
+     'options' => [
+         'class' => 'alert-warning',
+         'id' => 'alert-id',
+         'style' => 'display: none'
+     ],
+ ]);
+     echo "<p id='alert-rule'></p>";
+ Alert::end();
+ ?>
 <div class="content-wrapper" style="">
     <div class="container-fluid">
-        <?php if (($cookie = $cookies->get('event')) !== null) {
-            Alert::begin([
-                'options' => [
-                    'class' => 'alert-warning',
-                ],
-            ]);
-            $value = "";
-            $rule = Rule::find()->where(['id' => $cookie->value])->one();
-            $value = "#Задание: " . (($rule->action === 'insert') ? 'Вставить' : '')
-                . (($rule->action === 'update') ? 'Обновить' : '') . (($rule->action === 'delete') ? 'Удалить' : '') . " данные из(для): 
-                     " . Yii::$app->params['translateTablesName'][$rule->table] . ", $rule->count_action зап. Ты справился!!!";
-            echo $value;
 
-            echo "<script>
-                      let documenByItem = window.parent;
-                      let liItem = documenByItem.document.getElementById('li$rule->item_id')
-                       if(liItem === null){
-                           let createItemIcon = document.createElement('i');
-                           createItemIcon.setAttribute('id', 'li{$rule->item_id}');
-                           createItemIcon.setAttribute('class', 'fa fa-check-circle');
-                           createItemIcon.setAttribute('style', 'color: green; float: right; margin-right: 0.1px');
-                           if (documenByItem) {
-                               let findItemAfterInsert = documenByItem.document.getElementById('item-check'+{$rule->item_id});
-                               findItemAfterInsert.after(createItemIcon);
-                           }
-                       }
-                 </script>";
-            if ((new RegularityGameService($rule->id))->isAllRightItemByRegularity() === true) {
-                echo "<script>
-                          let documenByRegylrity = window.parent;
-                          let liRegylarity = documenByRegylrity.document.getElementById('li-regylarity$rule->item_id')
-                          if (liRegylarity === null) {
-                              let createRegylarityIcon = document.createElement('i');
-                              createRegylarityIcon.setAttribute('id', 'li-regylarit{$rule->item->regularity_id}');
-                              createRegylarityIcon.setAttribute('class', 'fa fa-check-circle');
-                              createRegylarityIcon.setAttribute('style', 'float: right; color:green;padding-left: 10px');
-                              
-                              if (documenByRegylrity) {
-                                  let findRegylarityAfterInsert = documenByRegylrity.document.getElementById('regularity-check'+{$rule->item->regularity_id});
-                                  findRegylarityAfterInsert.after(createRegylarityIcon);
-                              }  
-                          }
-                      </script>";
-            }
-            Yii::$app->response->cookies->remove('event');
-            Alert::end();
-        } ?>
         <section class="content">
             <?= $content ?>
         </section>

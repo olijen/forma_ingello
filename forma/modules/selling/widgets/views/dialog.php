@@ -11,29 +11,97 @@ use yii\bootstrap\Modal;
 use forma\extensions\fullcalendar;
 use yii\widgets\Pjax;
 
-
-\forma\modules\selling\assets\ScriptAsset::register($this);
-
-?>
-
-<?php // \forma\components\widgets\ModalCreate::begin() ?>
-<?php
 $date = date_create();
 $hash_for_event = date_timestamp_get($date);
 $hostInfo = Url::home(true);
 ?>
+
 <style>
-    .bs-example {
-        margin-top: 0;
+    .btn-item-selected {
+        margin-left: 231px;
     }
-    .list-group {
+
+
+    .row {
+
+        margin-top: -10px;
+    }
+
+    .answer-grid-border {
+        border-bottom: 1px solid #000000;
+        border-right: 1px solid #000000 ;
+        min-height: 1.5em !important;
+    }
+
+    .answer-grid-border:nth-child(n+1){
+        background-color: #00CC00;
+        opacity: 0.2;
+    }
+
+
+    .answer-grid-border:nth-child(n+2){
+        background-color: #00CC00;
+        opacity: 0.2;
+    }
+
+
+
+    .answer-grid-border:nth-child(n+3){
+        background-color: #00CC00;
+        opacity: 0.2;
+    }
+
+    .header-item {
+        display: none;
+    }
+
+
+    .text-answer {
+        padding-top: 5%;
+    }
+
+    .close-item {
+        position: absolute;
+        right: 14px;
+        color: #d9534f;
+        top: -1.7px;
+        font-size: 24px;
+        border-color: #d43f3a;
+    }
+
+    .parent-list {
+        overflow: auto;
+        width: 100%;
+        height: 520px;
+    }
+
+    .hidden-block-selected {
+        display: none;
+        width: 100%;
         height: auto;
-        padding: 3px 0;
     }
-    h3.text-white {
-        color: white;
-        margin: 0;
-        padding-top: 20px;
+
+    .request-answer {
+        margin-top: 5%;
+        /*border: 2px solid #00a65a !important;*/
+    }
+
+    .list-request-answer {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .search-answer {
+        padding-bottom: 4%;
+    }
+
+    .header-list {
+        background-color: #00a65a;
+        width: 100%;
+        padding-bottom: 3%;
+    }
+
+    .header-name {
+        font-size: 14px;
     }
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -54,12 +122,12 @@ $hostInfo = Url::home(true);
                         <div class="panel-body">
                             <ul class="list-group parent-list">
                                 <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
-                                    <li style="cursor: pointer;" id="collapseOne-li-<?= $request->id ?>" onclick="collapseOneChildren(<?=$request->id?>)" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" >
+                                    <li style="cursor: pointer;" id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item-one">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" disabled>
                                         <?= $request->text ?>
                                         <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
                                     </li>
-                                    <div  id="collapseOne-children_<?= $request->id ?>" class="hidden-block-selected">
+                                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
                                         <ul class="list-group" >
                                             <?php foreach ($request->getAnswers()->all() as $answer): ?>
                                                 <li  class="list-group-item " >
@@ -87,12 +155,12 @@ $hostInfo = Url::home(true);
                         <div class="panel-body">
                             <ul class="list-group parent-list">
                                 <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
-                                    <li style="cursor: pointer;" id="collapseTwo-li-<?= $request->id ?>" onclick="collapseTowChildren(<?=$request->id?>)" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" >
+                                    <li style="cursor: pointer;" id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item-two">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" disabled>
                                         <?= $request->text ?>
                                         <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
                                     </li>
-                                    <div  id="collapseTwo-children_<?= $request->id ?>" class="hidden-block-selected">
+                                    <div  id="children_<?= $request->id ?>" class="hidden-block-selected">
                                         <ul class="list-group" >
                                             <?php foreach ($request->getAnswers()->all() as $answer): ?>
                                                 <li  class="list-group-item " >
@@ -111,29 +179,7 @@ $hostInfo = Url::home(true);
             </div>
         </div>
     </div>
-    <script>
-        function collapseTowChildren(id) {
-            let children = $('#collapseTwo-children_' + id);
-            if (children.hasClass('hidden-block-selected') === true) {
-                children.removeClass()
-                children.addClass('block-selected')
-            } else {
-                children.removeClass('block-selected')
-                children.addClass('hidden-block-selected')
-            }
-        }
 
-        function collapseOneChildren(id) {
-            let children = $('#collapseOne-children_' + id);
-            if (children.hasClass('hidden-block-selected') === true) {
-                children.removeClass()
-                children.addClass('block-selected')
-            } else {
-                children.removeClass('block-selected')
-                children.addClass('hidden-block-selected')
-            }
-        }
-    </script>
     <div class="col-md-6">
         <?php DetachedBlock::begin(); ?>
         <?php $form = ActiveForm::begin([
@@ -563,9 +609,6 @@ JS;
                 <button style="visibility: hidden" class="btn btn-success btn-lg btn-block" id="end_talk">
                     Завершить разговор
                 </button>
-            <!--<a  href='/selling/form/?id=<?php /*echo $sellingId */?>' style="visibility: hidden" class="btn btn-success btn-lg btn-block" type="submit" id="end_talk">
-                Завершить разговор
-            </a>-->
             </div>
         </div>
         <?php ActiveForm::end()?>
@@ -584,21 +627,18 @@ JS;
         }
     }
 
-    hash.onclick = function (e){
-        /*console.log(<?php echo $hash_for_event ?>)
-        document.getElementById('end_talk').style.visibility = 'visible';
-*/
+    hash.onclick = function (e) {
         $.ajax({
             url: '/hash',
             type: 'POST',
             dataType: 'JSON',
             data: '',
             success: function (data) {
-                results = $.map(data, function(entry) {
-                    if(entry.hash_for_event == <?php echo $hash_for_event?>)
-                    return true;
+                results = $.map(data, function (entry) {
+                    if (entry.hash_for_event == <?php echo $hash_for_event?>)
+                        return true;
                 });
-                if(results == 'true'){
+                if (results == 'true') {
                     document.getElementById('end_talk').style.visibility = 'visible';
                 }
                 //alert(results);
@@ -610,10 +650,185 @@ JS;
 
             }
         });
-
     }
 
+    $(function (){
+        $(document).ready(function() {
+
+            window.dialog = [];
+
+            function setStorageDialog(dialog) {
+                localStorage.setItem('dialog', JSON.stringify(dialog));
+            }
+
+            function getStorageDialog() {
+                return  JSON.parse(localStorage.getItem('dialog'));
+            }
+
+            function actionCheckbox(id) {
+                $('#checkbox_'+id).attr('checked', 'checked');
+                $('#children_'+ id).toggle('slow');
+
+                $('#'+id).off();
+            }
+
+            function formActives(mode = null) {
+                if (mode === 'off') {
+                    $('form').submit(function() {
+                        return false;
+                    });
+                } else {
+                    $('form').submit(function() {
+                        return true;
+                    });
+                }
+            }
+
+            function replaceSpaсe(request) {
+                return request.replace(/[0-9]/g, '');
+            }
+
+            function getRequest(request) {
+                return replaceSpaсe($('#'+request).text())
+            }
+
+            function getAnswer(answerId) {
+                if ( $('#'+answerId).text() === ''){
+                    return $('#'+answerId).val();
+                } else {
+                    return $('#'+answerId).text();
+                }
+
+            }
+
+            function getComment() {
+                let comment = $('#'+ $('#sellingId').val() + '_comment' ).val();
+
+                return '<div style="background: mediumseagreen;" class="alert alert-primary" role="alert">' + comment + '</div>';
+            }
+
+            function getDialog() {
+                let dialog = '';
+                $.each(getStorageDialog(), function (index, value, is_client) {
+                    if (value[1] !== 0 ) {
+                        dialog += '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Клиентино':'Менеджерorb')+': <p>' + getRequest(value[0])
+                            + '</p></div>' +
+                            '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">'+((value[2]==1)?'Менеджерико':'Клиент')+': <p>' + getAnswer(value[1]) + '</p></div>';
+
+                    } else {
+                        return alert('Дайте ответ на вопрос' + getRequest(value[0]))
+                    }
+
+                });
+
+                return dialog;
+            }
+
+            function setDialogToArray(requestId, answerId, is_client ) {
+                if (is_client === undefined) is_client = 1;
+                if (answerId === undefined){
+                    window.dialog.push([requestId, 0, is_client]);
+                    setStorageDialog(window.dialog);
+                } else {
+                    window.dialog.push([requestId, answerId, is_client]);
+                    setStorageDialog(window.dialog);
+                }
+
+                actionCheckbox(requestId);
+            }
+
+            function getNextStep() {
+                if ($('#next_step').val() === '') {
+                    return false;
+                } else {
+                    return '<div style="background: yellowgreen;" class="alert alert-primary" role="alert">' + $('#next_step').val() + '</div>';
+                }
+            }
+
+            $('.selected-item-one')
+                .on('click', function () {
+                    let id = $(this).attr('id');
+                    $('#children_'+ id).toggle('slow');
+
+                })
+                .on('mouseover', function () {
+                    $(this).addClass('active');
+                })
+                .on('mouseout', function () {
+                    $(this).removeClass('active')
+                });
+
+            $('.selected-item-two')
+                .on('click', function () {
+                    let id = $(this).attr('id');
+                    $('#children_'+ id).toggle('slow');
+
+                })
+                .on('mouseover', function () {
+                    $(this).addClass('active');
+                })
+                .on('mouseout', function () {
+                    $(this).removeClass('active')
+                });
+
+            $('.text-answer').on('click', function(){
+
+                let requestId = $(this).attr('data-request');
+                let answerId = $(this).attr('id');
+                let is_client = $(this).attr('data-client');
+
+                setDialogToArray(requestId, answerId, is_client);
+                getDialog();
+            });
+
+            $('.no-usage-btn').on('click', function () {
+                let requestId = $(this).attr('data-requset-no-useg');
+                $('#no-usage-list').append("<li class='list-group-item' >"
+                    + getRequest(requestId) +
+                    "ваш ответ "
+                    +
+                    "<input type='text'  class='no-usage-input'  data-id-request= "+ requestId +" ></li>" );
+                $('.no-usage-input').on('change', saveCustom);
+                setDialogToArray(requestId, undefined, $(this).attr('data-client'));
 
 
+            });
+            function sendAnswer(requestId, input) {
+                return $.ajax({
+                    url: 'talk/save-custom-answer',
+                    data: {
+                        requestId: requestId,
+                        answer: input.val()
+                    }
+                });
+            }
+
+            function saveCustom() {
+                let dialog = getStorageDialog();
+                let requestId = $(this).attr("data-id-request");
+                let inpt = $(this);
+                $.each(dialog, function (index, value) {
+                    if (requestId === value[0]) {
+                        let data = sendAnswer(requestId, inpt);
+                        data.success(function (id) {
+                            inpt.attr('id', 'children_item_'+id);
+                            dialog[index][1] = 'children_item_'+id;
+                            setStorageDialog(dialog);
+                        });
+                    }
+                });
+            }
+
+
+            $('#end_talk').on('click', function () {
+                $.ajax({
+                    url: '/selling/talk/save-dialog-answer',
+                    type: 'POST',
+                    data: {dialog: getDialog(), sellingId: <?= $sellingId ?>}
+                });
+                localStorage.clear();
+            });
+        });
+
+    })
 </script>
-<?php  // \forma\components\widgets\ModalCreate::end() ?>

@@ -52,6 +52,19 @@ class AutoDumpDataBase
         return $rulesId;
     }
 
+    public function getOldAccessorySellings()
+    {
+        $rulesId = [];
+        $arrayModels = Accessory::find()->where(['user_id' => 1])
+            ->andWhere(['entity_class' => 'forma\\modules\\selling\\records\\selling\\Selling'])
+            ->all();
+        foreach ($arrayModels as $model) {
+            $rulesId[] = $model->entity_id;
+        }
+
+        return $rulesId;
+    }
+
     /**
      * Метод принимает строку в формате ('Y-m-d'), и меняет месяц и год на текущие
      * @param $oldDate
@@ -62,6 +75,11 @@ class AutoDumpDataBase
         $d = date('d', strtotime($oldDate));
         $currentMonth = date('m', strtotime(date('Y-m-d')));
         $currentYear = date('Y', strtotime(date('Y-m-d')));
+
+        if ($d == 29 || $d == 30 || $d == 31) {
+            $d = 28;
+        }
+
         $newDateEvent = $currentYear . '-' . $currentMonth . '-' . $d;
 
         return date('Y-m-d', strtotime($newDateEvent));
@@ -76,7 +94,7 @@ class AutoDumpDataBase
 
         //Странно в Accessory нет Country, но указывается в запросе
         $arrayModels = $model::find()->where(['user_id' => 1])
-            ->andWhere(['not in', 'entity_class', ['forma\\modules\\selling\\records\\talk\\Answer', 'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
+            ->andWhere(['not in', 'entity_class', ['forma\\modules\\selling\\records\\talk\\Answer', 'forma\\modules\\selling\\records\\sellingproduct\\SellingProduct', 'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
                 'forma\\modules\\hr\\records\\interview\\Interview', 'forma\\modules\\selling\\records\\selling\\Selling',
                 'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy', 'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
                 'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
@@ -919,12 +937,7 @@ class AutoDumpDataBase
 
     public function selling()
     {
-        $sales = $this->findModels('forma\modules\selling\records\selling\Selling',
-            ['customer_id' => $this->accessoryOldKeys['forma\modules\customer\records\Customer'],
-                'warehouse_id' => $this->oldKeys['warehouse_id'],
-                'state_id' => $this->oldKeys['state_id']
-            ]);
-
+        $sales = $ruleModels = $this->findModels('forma\modules\selling\records\selling\Selling', ['id' => $this->getOldAccessorySellings()]);
         foreach ($sales as $sale) {
             $sale = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
@@ -942,11 +955,12 @@ class AutoDumpDataBase
                 'state_id');
 
             $sale->selling_token = Yii::$app->getSecurity()->generateRandomString();
-
             $this->forSaveAndGetKey($sale, 'selling_id');
         }
 
-        if ($this->deleteAutoDamp) return $this->delete($sales);
+        if ($this->deleteAutoDamp) {
+            return $this->delete($sales);
+        }
 
         if (isset($this->oldKeys['selling_id'])) {
             $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
@@ -954,6 +968,7 @@ class AutoDumpDataBase
                     'product_id' => $this->getOldAccessoryProducts(),
                     'selling_id' => $this->oldKeys['selling_id'],
                 ]);
+
             foreach ($sellingProducts as $sellingProduct) {
                 $sellingProduct = $this->changeAttributes(
                     $this->newKeys['product_id'],

@@ -24,16 +24,16 @@ class AccessoryActiveRecord extends ActiveRecord
             $accessedIds[] = $result->entity_id;
         }
 
-        $searchClass = static::class;
-        $searchClass = new $searchClass;
-        $name = (new ReflectionClass($searchClass))->getShortName();
-        $name = explode('Search!!!', $name . '!!!')[0];
+        $name = (new ReflectionClass($query->modelClass))->getShortName();
         $nameMoreVariant = preg_split("/(?<=[a-z])(?![a-z])/", "$name", -1, PREG_SPLIT_NO_EMPTY);
+
         $multiNameEntity = "";
         foreach ($nameMoreVariant as $item) {
             $multiNameEntity .= '_' . $item;
         }
+
         $currentNameEntity = trim(strtolower($multiNameEntity), '_');
+
         if (!empty($accessedIds)) {
             $query->andFilterWhere(['in', $currentNameEntity . '.id', $accessedIds]);
         } else {

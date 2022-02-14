@@ -21,7 +21,7 @@ $this->title = 'Разговор';
         <?php if (count($strategyList) != 0) {
             echo \yii\helpers\Html::submitButton('Начать разговор', ['class' => 'btn btn-success', 'name' => 'strategyForm']);
         } else {
-            echo \yii\helpers\Html::a('Создать скрипт диалога', '/selling/speech-module', ['class' => 'btn btn-success']);
+            echo \yii\helpers\Html::a('Создать скрипт диалога', '/selling/speech-module?isSelling=0', ['class' => 'btn btn-success']);
         }
         ?>
 

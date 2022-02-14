@@ -123,7 +123,7 @@ if(isset($unit->selling->warehouse)){
                                 ->label('К-во <span id="position-available-qty"></span>') ?>
                         </div>
                         <div class="col-md-2">
-                            <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['value' => SellingProduct::getCostTypes()[0], 'class' => 'form-control change-cost']) ?>
+                            <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['value' => (isset(SellingProduct::getCostTypes()[0]) ? SellingProduct::getCostTypes()[0] : null), 'class' => 'form-control change-cost']) ?>
                         </div>
                         <div class="col-md-2">
                             <?= $form->field($unit, 'cost')->textInput()->label('Стоимость за 1 шт.') ?>

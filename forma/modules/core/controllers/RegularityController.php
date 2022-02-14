@@ -20,6 +20,7 @@ use yii\helpers\Url;
 use forma\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 
 /**
@@ -222,8 +223,27 @@ class RegularityController extends Controller
     {
         if (($model = Regularity::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGetItemIdByRule()
+    {
+        if ($ruleId = Yii::$app->request->post('ruleKey')) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            $rule = Rule::find()->where(['id' => $ruleId])->one();
+            $item = $rule->item;
+            $regularity = isset($item->regularity) ? $item->regularity : null;
+
+            $value = "#Задание: " . (($rule->action === 'insert') ? 'Вставить' : '')
+                . (($rule->action === 'update') ? 'Обновить' : '') . (($rule->action === 'delete') ? 'Удалить' : '') . " данные из: 
+                     " . Yii::$app->params['translateTablesName'][$rule->table] . ", $rule->count_action зап. Ты справился!!!";
+
+            return ['itemId' => $item->id, 'regularityId' => $regularity->id, 'value' => $value];
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

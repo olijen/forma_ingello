@@ -22,6 +22,7 @@ class SystemEventService
         'SystemEvent',
         'Accessory',
         'StateSearchState',
+        'SystemEventUser',
         'TestSearch',
         'TestType',
         'TestTypeField',
@@ -75,12 +76,8 @@ class SystemEventService
         }
         return $data;
     }
-    public static function setCookieSystemEvent(string $name,int $rule_id){
-        $cookies = Yii::$app->response->cookies;
-        $cookies->add(new \yii\web\Cookie([
-            'name' => $name,
-            'value' => [$rule_id],
-        ]));
+    public static function setCookieSystemEvent(int $rule_id){
+        setcookie('ruleId', $rule_id, time() + 60*60*24*30, '/');
     }
     public static function eventAfterInsert($event){
 
@@ -110,7 +107,7 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
-            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->oneAccessory();
 
             if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
@@ -131,7 +128,7 @@ class SystemEventService
                     if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
                         $accessInterface->status = true;
                         $accessInterface->save();
-                        self::setCookieSystemEvent('event', $rule->id);
+                        self::setCookieSystemEvent($rule->id);
                     }
                 }
             }
@@ -211,7 +208,7 @@ class SystemEventService
                     if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
                         $accessInterface->status = true;
                         $accessInterface->save();
-                        self::setCookieSystemEvent('event',$rule->id);
+                        self::setCookieSystemEvent($rule->id);
                     }
                 }
             }
@@ -256,7 +253,7 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->one();
+            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->oneAccessory();
             if($rule){
                 $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
                     ['rule_id' => $rule->id]
@@ -277,7 +274,7 @@ class SystemEventService
                     if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
                         $accessInterface->status = true;
                         $accessInterface->save();
-                        self::setCookieSystemEvent('event',$rule->id);
+                        self::setCookieSystemEvent($rule->id);
                     }
                 }
             }

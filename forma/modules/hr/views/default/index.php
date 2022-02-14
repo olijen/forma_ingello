@@ -61,7 +61,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
             <div class="box-body">
                 <div class="chart">
-                    <canvas id="plan" style=""></canvas>
+                    <canvas id="planHr" style=""></canvas>
                 </div>
             </div>
         </div>
@@ -210,7 +210,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             }]
         }
     };
-    myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
+    myLineChart = new Chart(document.getElementById("planHr").getContext('2d'), {
         type: 'bar',
         data: {
             labels: [<?=$interviewProgress->getLabelsString()?>],
