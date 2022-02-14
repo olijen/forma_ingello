@@ -222,27 +222,27 @@ function(calEvent, jsEvent, view) {
       data: request_string  
     }).done(function( msg ) {
         let ruleId = getCookie('ruleId');
-        let documenByItem = window.parent;
         
-        documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-        $.ajax({
-            type: "POST",
-            url: "/core/regularity/get-item-id-by-rule",
-            data: {ruleKey: ruleId}
-        }).done(function(itemId){
-            documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-            documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-            documenByItem.$('#regularity-check-icon-'+itemId.regularityId).trigger('click');
+        if (ruleId !== null) {
+            let documenByItem = window.parent;
+            documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
             
-            if(ruleId !== null) {
+            $.ajax({
+                type: "POST",
+                url: "/core/regularity/get-item-id-by-rule",
+                data: {ruleKey: ruleId}
+            }).done(function(itemId){
+                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
+                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
+                documenByItem.$('#item-check-icon-'+itemId.itemId).trigger('click');
+                
                 $('#alert-rule').after(itemId.value);
                 $('#alert-id').css('display','block');
-            }
-            
-            eraseCookie('ruleId')
-        })
+                
+                eraseCookie('ruleId')
+            });
+        }
     });
-    
 }
 JS;
 
@@ -292,26 +292,26 @@ function(calEvent, jsEvent, view) {
       data: request_string  
     }).done(function( msg ) {
         let ruleId = getCookie('ruleId');
-        let documenByItem = window.parent;
         
-        documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-        $.ajax({
-            type: "POST",
-            url: "/core/regularity/get-item-id-by-rule",
-            data: {ruleKey: ruleId}
-        }).done(function(itemId){
-            documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-            documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-            documenByItem.$('#regularity-check-icon-'+itemId.regularityId).trigger('click');
+        if (ruleId !== null) {
+            let documenByItem = window.parent;
+            documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
             
-            if(ruleId !== null) {
-                $('#alert-rule').after(itemId.value)
+            $.ajax({
+                type: "POST",
+                url: "/core/regularity/get-item-id-by-rule",
+                data: {ruleKey: ruleId}
+            }).done(function(itemId){
+                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
+                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
+                documenByItem.$('#regularity-check-icon-'+itemId.regularityId).trigger('click');
+                
+                $('#alert-rule').after(itemId.value);
                 $('#alert-id').css('display','block');
-            }
-            
-            eraseCookie('ruleId')
-            
-        })
+                
+                eraseCookie('ruleId')
+            });
+        }
     });
 }
 JS;
