@@ -113,24 +113,16 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     'vacancy_id' => $model->vacancy_id,
                     'project_id' => $model->project_id
                 ])->one();
-                echo $form->field($projectVacancy, 'id')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map($vacancy, 'id', 'name'),
-                    'options' => ['placeholder' => 'Поиск в базе'],
-                    'pluginOptions' => ['allowClear' => true],
-                    'pluginEvents' => [
-                        "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
-                    ]
-                ])->label($label);
-            } else {
-                echo $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map($vacancy, 'id', 'name'),
-                    'options' => ['placeholder' => 'Поиск в базе'],
-                    'pluginOptions' => ['allowClear' => true],
-                    'pluginEvents' => [
-                        "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
-                    ]
-                ])->label($label);
+                $model->vacancy_id = $projectVacancy->id;
             }
+            echo $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map($vacancy, 'id', 'name'),
+                'options' => ['placeholder' => 'Поиск в базе'],
+                'pluginOptions' => ['allowClear' => true],
+                'pluginEvents' => [
+                    "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
+                ]
+            ])->label($label);
             ?>
         </div>
         <?php if ($model->isNewRecord): ?>
