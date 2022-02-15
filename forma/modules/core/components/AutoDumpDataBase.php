@@ -27,42 +27,18 @@ class AutoDumpDataBase
     protected $deleteAutoDamp = false;
 
     //возвращаем id продуктов из accessory
-    public function getOldAccessoryProducts()
+    public function getOldAccessory($entityClass)
     {
-        $productIds = [];
         $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['entity_class' => 'forma\\modules\\product\\records\\Product'])
+            ->andWhere(['entity_class' => $entityClass])
             ->all();
+
+        $keyModel = [];
         foreach ($arrayModels as $model) {
-            $productIds[] = $model->entity_id;
+            $keyModel[] = $model->entity_id;
         }
 
-        return $productIds;
-    }
-
-    public function getOldAccessoryRules()
-    {
-        $rulesId = [];
-        $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['entity_class' => 'forma\\modules\\core\\records\\Rule'])
-            ->all();
-        foreach ($arrayModels as $model) {
-            $rulesId[] = $model->entity_id;
-        }
-        return $rulesId;
-    }
-
-    public function getOldAccessorySellings()
-    {
-        $rulesId = [];
-        $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['entity_class' => 'forma\\modules\\selling\\records\\selling\\Selling'])
-            ->all();
-        foreach ($arrayModels as $model) {
-            $rulesId[] = $model->entity_id;
-        }
-
-        return $rulesId;
+        return $keyModel;
     }
 
     /**
@@ -94,13 +70,23 @@ class AutoDumpDataBase
 
         //Странно в Accessory нет Country, но указывается в запросе
         $arrayModels = $model::find()->where(['user_id' => 1])
-            ->andWhere(['not in', 'entity_class', ['forma\\modules\\selling\\records\\talk\\Answer', 'forma\\modules\\selling\\records\\sellingproduct\\SellingProduct', 'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
-                'forma\\modules\\hr\\records\\interview\\Interview', 'forma\\modules\\selling\\records\\selling\\Selling',
-                'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy', 'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
-                'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
-                'forma\\modules\\purchase\\records\\purchase\\Purchase', 'forma\\modules\\core\\records\\Rule']])
-            ->all();
-
+            ->andWhere(['not in', 'entity_class',
+                [
+                    'forma\\modules\\selling\\records\\talk\\Answer',
+                    'forma\\modules\\selling\\records\\sellingproduct\\SellingProduct',
+                    'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
+                    'forma\\modules\\hr\\records\\interview\\Interview',
+                    'forma\\modules\\selling\\records\\selling\\Selling',
+                    'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy',
+                    'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
+                    'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
+                    'forma\\modules\\purchase\\records\\purchase\\Purchase',
+                    'forma\\modules\\core\\records\\Rule',
+                    'forma\\modules\\test\\records\\Test',
+                    'forma\\modules\\test\\records\\TestType',
+                    'forma\\modules\\test\\records\\TestTypeField'
+                ]
+            ])->all();
 
         $accessoryKeys = [];
         foreach ($arrayModels as $model) {
@@ -236,6 +222,7 @@ class AutoDumpDataBase
         $this->transit();
         $this->userWidget();
         $this->systemEvents();
+        $this->test();
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
 
@@ -412,7 +399,7 @@ class AutoDumpDataBase
         $this->forSaveAndGetKey($warehouseModels, 'warehouse_id');
         if ($this->deleteAutoDamp) return $this->delete($warehouseModels);
         $warehouseProductModels = $this->findModels(new WarehouseProduct,
-            ['warehouse_id' => $ids, 'product_id' => $this->getOldAccessoryProducts()]);
+            ['warehouse_id' => $ids, 'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product')]);
         foreach ($warehouseProductModels as $warehouseProductModel) {
             $warehouseProductModel = $this->changeAttributes(
                 $this->newKeys['product_id'],
@@ -479,7 +466,7 @@ class AutoDumpDataBase
 
         }
         $parentItem = $this->newParent;
-        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['id' => $this->getOldAccessoryRules()]);
+        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['id' => $this->getOldAccessory('forma\\modules\\core\\records\\Rule')]);
         foreach ($ruleModels as $ruleModel) {
             $ruleModel->item_id = $parentItem[$ruleModel->item_id];
             $this->saveWhitParent($ruleModel);
@@ -598,7 +585,7 @@ class AutoDumpDataBase
 
         $productPackUnits = $this->findModels(new ProductPackUnit(),
             ['pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
-                'product_id' => $this->getOldAccessoryProducts()]);
+                'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product')]);
 
         foreach ($productPackUnits as $productPackUnit) {
             $productPackUnit = $this->changeAttributes(
@@ -706,7 +693,7 @@ class AutoDumpDataBase
         $purchaseProducts = $this->findModels('forma\modules\purchase\records\purchaseproduct\PurchaseProduct',
             ['pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
                 'purchase_id' => $this->oldKeys['purchase_id'],
-                'product_id' => $this->getOldAccessoryProducts(),
+                'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product'),
                 'overhead_cost_id' => $this->oldKeys['overhead_cost_id']]
         );
 
@@ -857,7 +844,7 @@ class AutoDumpDataBase
         if (isset($this->oldKeys['inventorization_id'])) {
             $inventorizationProducts = $this->findModels('\forma\modules\inventorization\records\InventorizationProduct',
                 ['inventorization_id' => $this->oldKeys['inventorization_id'],
-                    'product_id' => $this->getOldAccessoryProducts(),
+                    'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product'),
                 ]);
 
             foreach ($inventorizationProducts as $inventorizationProduct) {
@@ -903,10 +890,8 @@ class AutoDumpDataBase
 
     public function product()
     {
-        $productIds = $this->getOldAccessoryProducts();
-
         $products = $this->findModels('forma\modules\product\records\Product',
-            ['id' => $productIds]);
+            ['id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product')]);
 
         foreach ($products as $product) {
             $product = $this->changeAttributes(
@@ -937,7 +922,7 @@ class AutoDumpDataBase
 
     public function selling()
     {
-        $sales = $ruleModels = $this->findModels('forma\modules\selling\records\selling\Selling', ['id' => $this->getOldAccessorySellings()]);
+        $sales = $this->findModels('forma\modules\selling\records\selling\Selling', ['id' => $this->getOldAccessory('forma\\modules\\selling\\records\\selling\\Selling')]);
         foreach ($sales as $sale) {
             $sale = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
@@ -955,6 +940,7 @@ class AutoDumpDataBase
                 'state_id');
 
             $sale->selling_token = Yii::$app->getSecurity()->generateRandomString();
+
             $this->forSaveAndGetKey($sale, 'selling_id');
         }
 
@@ -965,7 +951,7 @@ class AutoDumpDataBase
         if (isset($this->oldKeys['selling_id'])) {
             $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
                 [
-                    'product_id' => $this->getOldAccessoryProducts(),
+                    'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product'),
                     'selling_id' => $this->oldKeys['selling_id'],
                 ]);
 
@@ -1045,7 +1031,7 @@ class AutoDumpDataBase
                 'transit_id' => $this->oldKeys['transit_id'],
                 'overhead_cost_id' => $this->oldKeys['overhead_cost_id'],
                 'pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
-                'product_id' => $this->getOldAccessoryProducts()
+                'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product')
             ]);
 
             foreach ($transitProducts as $transitProduct) {
@@ -1073,6 +1059,60 @@ class AutoDumpDataBase
             }
 
         }
+        return true;
+    }
+
+    public function test()
+    {
+        $userId = Yii::$app->user->identity->id;
+
+        $testTypes = $this->findModels('forma\modules\test\records\TestType',
+            ['id' => $this->getOldAccessory('forma\\modules\\test\\records\\TestType')]);
+        foreach ($testTypes as $testType) {
+            $oldId = $testType->id;
+            $testType->user_id = $userId;
+
+
+
+            $this->saveNewRecord($testType);
+            $this->accessoryOldKeys['forma\modules\test\records\TestType'][$oldId] = $oldId;
+            $this->accessoryNewKeys['forma\modules\test\records\TestType'][$oldId] = $testType->id;
+        }
+
+        $tests = $this->findModels('forma\modules\test\records\Test',
+            ['id' => $this->getOldAccessory('forma\\modules\\test\\records\\Test')]);
+        foreach ($tests as $test) {
+            $test = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\test\records\TestType'],
+                $test,
+                'test_type_id'
+            );
+
+            $test = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
+                $test,
+                'customer_id'
+            );
+
+            $this->saveNewRecord($test);
+        }
+
+        $testTypeFields = $this->findModels('forma\modules\test\records\TestTypeField',
+            ['id' => $this->getOldAccessory('forma\\modules\\test\\records\\TestTypeField')]);
+        foreach ($testTypeFields as $testTypeField) {
+            $testTypeField = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\test\records\TestType'],
+                $testTypeField,
+                'test_id'
+            );
+
+            $this->saveNewRecord($testTypeField);
+        }
+
+        if ($this->deleteAutoDamp) return $this->delete($testTypeFields);
+        if ($this->deleteAutoDamp) return $this->delete($tests);
+        if ($this->deleteAutoDamp) return $this->delete($testTypes);
+
         return true;
     }
 }

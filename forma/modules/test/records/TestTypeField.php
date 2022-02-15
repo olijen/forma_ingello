@@ -36,7 +36,7 @@ class TestTypeField extends AccessoryActiveRecord
     public function rules()
     {
         return [
-            [['block_name', 'label_name'], 'required'],
+            [['block_name'], 'required'],
             [['required', 'test_id'], 'integer'],
             [['block_name', 'label_name', 'type', 'value', 'placeholder'], 'string', 'max' => 255],
             [['test_id'], 'exist', 'skipOnError' => true, 'targetClass' => TestType::className(), 'targetAttribute' => ['test_id' => 'id']],
