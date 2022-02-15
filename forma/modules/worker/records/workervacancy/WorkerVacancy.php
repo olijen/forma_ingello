@@ -78,27 +78,52 @@ class WorkerVacancy extends AccessoryActiveRecord
         return ArrayHelper::map($vacancies->getModels(), 'id', 'name');
     }
 
+    public static function getListVacanciesForWorker($workerId)
+    {
+        de(Yii::$app->request->post());
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+        $vacanciesWorker = self::find()->where(['worker_id' => $workerId])->all();
+        foreach ($vacanciesWorker as $vacancyWorker) {
+            if (empty($vacancyWorker->vacancy->interviews)) {
+                $ids[] = $vacancyWorker->vacancy_id;
+            }
+
+        }
+        if (empty($ids)) {
+            return null;
+        }
+        $vacancies = Vacancy::find()->where(['id' => $ids])->all();
+
+        return ArrayHelper::map($vacancies, 'id', 'name');
+    }
 
     public static function getListWorker($vacancyProjectId)
     {
         if (Yii::$app->request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
-        $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId ])->one();
-        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->id])->all();
+
+        $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId])->one();
+        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
+        $workerInterviews = Interview::find()->all();
 
         foreach ($workerVacancies as $workerVacancy) {
-            if (empty($workerVacancy->worker->interviews)){
-                $ids[] = $workerVacancy->worker_id;
+            foreach ($workerInterviews as $workerInterview) {
+                if ($workerVacancy->worker_id === $workerInterview->worker_id) {
+                    if ($workerVacancy->vacancy_id !== $workerInterview->vacancy_id) {
+                        $ids[] = $workerVacancy->worker_id;
+                    }
+                }
             }
-
         }
 
-        if (empty($ids)){
+        if (empty($ids)) {
             return null;
         }
 
-        $workerks = Worker::find()->where(['worker.id' => $ids])->all();
+        $workerks = Worker::find()->where(['in', 'worker.id', $ids])->allAccessory();
 
         return ArrayHelper::map($workerks, 'id', 'fullName');
     }

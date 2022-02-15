@@ -9,7 +9,7 @@ $list = [
     ['label' => 'Продажи', 'url' => '/selling/main', 'icon' => 'balance-scale',
 
     ],
-    ['label' => 'Речевые модули', 'url' => '/selling/speech-module', 'icon' => 'podcast',
+    ['label' => 'Речевые модули', 'url' => '/selling/speech-module?isSelling=1', 'icon' => 'podcast',
 
     ],
     ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'list',
@@ -30,7 +30,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
 $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 ?>
 
-<div class="col-lg-9 col-xs-12">
+<div class="col-lg-9 col-xs-12" >
 
     <div class="box box-success">
         <div class="box-header with-border">

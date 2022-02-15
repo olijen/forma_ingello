@@ -26,7 +26,7 @@ use yii\widgets\Breadcrumbs;
              class="navbar navbar-static-top"
              role="navigation">
 
-            <a href="#" data-toggle="push-menu"
+            <a href="#" data-toggle="push-menu" id="menu-head"
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
                class="logo-mini "><i class="fa fa-bars" aria-hidden="true"></i></a>
 
@@ -140,7 +140,7 @@ JS;
                                             $arr = [];
                                             $linkView = "";
                                             $event = "";
-                                            if (strlen($model->request_uri) > 0 && $model->sender_id != 1) {
+                                            if (strlen($model->request_uri) > 0 && $model->sender_id != 1 && !empty($arr)) {
                                                 $arr = explode("/", $model->request_uri);
                                                 $linkView = "/" . $arr[1] . "/" . $arr[2];
                                                 if (count($arr) > 3) $event = substr($arr[3], 0, 6);
@@ -302,38 +302,38 @@ JS;
                                 </div>-->
                                 <?php
                                 $userId = Yii::$app->user->id;
-                                    if ($userId == 1) {
-                                        Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                                            'name' => 'Admin',
-                                            'value' => md5('goBack')
-                                        ]));
-                                        $users = \forma\modules\core\records\User::find()->all();
-                                        echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
-                                        foreach ($users as $user) {
-
+                                if ($userId == 1) {
+                                    Yii::$app->response->cookies->add(new \yii\web\Cookie([
+                                        'name' => 'Admin',
+                                        'value' => md5('goBack')
+                                    ]));
+                                    $users = \forma\modules\core\records\User::find()->all();
+                                    echo "<div style='overflow-y: scroll; max-height:200px;border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                    foreach ($users as $user) {
+                                        if ($user->isAdmin() != true)
                                             echo Html::a(
                                                 $user->username,
                                                 [''],
                                                 ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
                                             );
-                                        }
-                                        echo "</div>";
+                                    }
+                                    echo "</div>";
 //
-                                    } else {
-                                        $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
-                                        if ($users != []) {
-                                            echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
-                                            foreach ($users as $user) {
-
+                                } else {
+                                    $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
+                                    if ($users != []) {
+                                        echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                        foreach ($users as $user) {
+                                            if ($user->isAdmin() != true)
                                                 echo Html::a(
                                                     $user->username,
                                                     [''],
                                                     ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
                                                 );
-                                            }
-                                            echo "</div>";
                                         }
+                                        echo "</div>";
                                     }
+                                }
 
 
                                 ?>

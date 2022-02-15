@@ -221,9 +221,8 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-     
+        reloadContainerPublicRegularity()
     });
-    
 }
 JS;
 
@@ -272,10 +271,13 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-      
+        reloadContainerPublicRegularity()
     });
 }
 JS;
+
+
+
 
 $JSDragenter = <<<JS
 function(calEvent, jsEvent, view) {
@@ -296,6 +298,34 @@ $widgetsForSortable2 = [];
     $('.box').on('removed.boxwidget', function () {
         console.log('удалили блок');
     });
+
+    function reloadContainerPublicRegularity(){
+        let ruleId = getCookie('ruleId');
+
+        if (ruleId !== null) {
+            let documenByItem = window.parent;
+
+            $.ajax({
+                type: "POST",
+                url: "/core/regularity/get-item-id-by-rule",
+                data: {ruleKey: ruleId}
+            }).done(function(itemId){
+                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
+                documenByItem.$('#item-check-icon-'+ruleId).trigger('click');
+
+                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
+                documenByItem.$('#regularity-check-icon-'+ruleId).trigger('click');
+
+                documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
+                documenByItem.$('#box-item-rules-'+ruleId).trigger('click');
+
+                $('#alert-rule').after(itemId.value);
+                $('#alert-id').css('display','block');
+
+                eraseCookie('ruleId')
+            });
+        }
+    }
 </script>
 
 <style>
@@ -338,13 +368,17 @@ $widgetsForSortable2 = [];
         cursor: auto;
     }
 
+    .simulation-content {
+        display: block;
+    }
+
     .row.small_widgets {
         min-height: 50px;
         position: fixed;
         z-index: 99;
         background: #fff;
         width: 100%;
-        top: 0;
+        top: auto;
         padding: 0 36px;
         right: -12px;
     }
@@ -626,8 +660,8 @@ foreach ($widgetOrder as $panel => $widgetArray) {
 }
 ?>
 
-<div class="row small_widgets" style="min-height: 50px;">
-    <h3>Панель виджетов</h3>
+<div class="row small_widgets sticky-simulation" style="min-height: 50px;">
+<h3>Панель виджетов</h3>
     <?php
     echo Sortable::widget([
         'connected' => true,
@@ -644,6 +678,7 @@ foreach ($widgetOrder as $panel => $widgetArray) {
         smallWidget();
     </script>
 </div>
+<div class="simulation-content"></div>
 <div class="row small_widgets_text" style="display: none; color: red;">
     Конструктор виджетов не доступен на мобильных устройствах.
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
@@ -1182,13 +1217,8 @@ if ($widgetNewOrder == true) {
         min-height: 100% !important;
     }
 
-
-    .first_block {
-        margin-top: 100px;
-    }
-
     @media screen and (max-width: 768px) {
-        .small_widgets {
+        .small_widgets, .simulation-content {
             display: none;
         }
 
@@ -1242,8 +1272,36 @@ if ($widgetNewOrder == true) {
     .sortable.grid {
         margin: 0;
     }
+
+    #panel_small_widget>li {
+        float: none;
+    }
+
+    #panel_small_widget {
+        overflow-x : visible;
+    }
+
 </style>
 
 <script>
     $('.chartjs-size-monitor').remove();
+</script>
+
+<script>
+    let isModal = window.parent.document.getElementById('modal')
+
+    $(window).resize(function () {
+        stickyUpdate()
+    });
+
+    function stickyUpdate() {
+        let heightUlWidgets = $('#panel_small_widget').height();
+        if (isModal === null) {
+            $('.simulation-content').css('height', (heightUlWidgets + 130));
+        } else {
+            $('.simulation-content').css('height', (heightUlWidgets + 100));
+        }
+    }
+
+    stickyUpdate()
 </script>

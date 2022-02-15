@@ -36,6 +36,7 @@ class Strategy extends AccessoryActiveRecord
     {
         return [
             [['name', 'description'], 'string'],
+            [['is_selling'], 'boolean'],
         ];
     }
 
@@ -48,6 +49,7 @@ class Strategy extends AccessoryActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Название'),
             'description' => Yii::t('app', 'Описание'),
+            'is_selling' => Yii::t('app', 'Тип'),
         ];
     }
 

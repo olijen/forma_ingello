@@ -26,41 +26,30 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
 
 ?>
 
-<?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'selling main']) ?>
-<div class="selling-index">
-    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'button add selling main']) ?>
+
+<div class="selling-index" >
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа </a>
-    <?php WidgetAccess::end(); ?>
-    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'sort plan selling main']) ?>
     <a href="/selling/main?sort=-lastEventDate" class="btn btn-primary forma_blue"><i
                 class="fas fa-phone-volume"></i> План по продажам</a>
-    <?php WidgetAccess::end(); ?>
-    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'settings selling state main']) ?>
     <a href="/selling/main-state/index" class="btn btn-success forma_blue"> <i class="fa fa-dot-circle"></i> Настроить
         состояния</a>
-    <?php WidgetAccess::end(); ?>
-
+    <a href="/selling/super-selling" class="btn btn-success forma_blue"> <i class="fa fa-table"></i> Супер-таблица</a>
     <hr>
 
     <?php Pjax::begin(); ?>
 
     <?php
-    WidgetAccess::begin(['module' => 'СRM', 'key' => 'button delete selections main']);
-    $buttonDelete = ['content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
-        'type' => 'button',
-        'class' => 'btn btn-danger forma_light_orange',
-        'onclick' => '$("#grid-' . $searchModel->tableName() . '")
-                        .groupOperation("' . Url::to(['/selling/main/delete-selection']) . '", {
-                            message: "Are you sure you want to delete selected items?"
-                        });
-                    ',
-    ]),];
-    WidgetAccess::end();
+
     $columns = [
         ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
+        ],
+        [
+            'attribute' => 'id',
+            'label' => 'ID',
+            'value' => 'id',
         ],
         [
             'attribute' => 'customerName',
@@ -140,7 +129,7 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
         'label' => 'Дата следующего шага',
         'value' => 'lastEventDate',
     ];
-    WidgetAccess::begin(['module' => 'СRM', 'key' => 'grid selling main']);
+
     echo DynaGrid::widget([
         'options' => ['id' => 'dyna-grid-' . $searchModel->tableName()],
         'theme' => 'panel-default',
@@ -158,20 +147,30 @@ $this->registerJsFile('@web/js/plugins/group-operation.plugin.js', ['position' =
                     (isset($_GET['SellingSearch']) || isset($_GET['sort']) )?
                         Html::a('Сбросить фильтры', ['main/index'], ['class' => 'btn btn-success']) : false
                 ],
-                $buttonDelete,
+                [
+                    'content' => Html::button('<i class="glyphicon glyphicon-trash"></i> Удалить', [
+                        'type' => 'button',
+                        'class' => 'btn btn-danger forma_light_orange',
+                        'onclick' => '$("#grid-' . $searchModel->tableName() . '")
+                        .groupOperation("' . Url::to(['/selling/main/delete-selection']) . '", {
+                            message: "Are you sure you want to delete selected items?"
+                        });
+                    ',
+                    ]),
+                ],
                 '{export}',
                 '{toggleData}',
                 '{dynagrid}',
             ],
         ]
     ]);
-    WidgetAccess::end();
+
     ?>
     <?php Pjax::end(); ?>
 
 
 </div>
-<?php WidgetAccess::end(); ?>
+
 <style>
     tr:hover {
         background-color: #58628e;

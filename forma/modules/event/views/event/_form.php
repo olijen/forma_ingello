@@ -43,7 +43,12 @@ endif;
             <div class="col-xs-6"><?= $form->field($model, 'name')->textInput() ?></div>
         <?php endif; ?>
 
-        <div class="col-xs-6"><?= $form->field($model, 'status')->textInput() ?></div>
+        <div class="col-xs-6"><?= $form->field($model, 'status')->dropDownList([
+                '0' => 'Актуально',
+                '1' => 'Сделано',
+
+            ]); ?>
+        </div>
     </div>
     <div class="col-xs-12">
         <?= $form->field($model, 'text')->widget(Widget::className(), [

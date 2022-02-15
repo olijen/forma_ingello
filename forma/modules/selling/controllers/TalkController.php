@@ -54,6 +54,18 @@ class TalkController extends Controller
         $selling->save();
     }
 
+    public function actionSaveDialogAnswer()
+    {
+        $selling = Selling::find()->where(['id' => Yii::$app->request->post('sellingId')])->one();
+        $selling->dialog = $selling->dialog . Yii::$app->request->post('dialog');
+
+        if ($selling->save()) {
+            return true;
+        }
+
+        throw new NotFoundHttpException('Dialog selling not save');
+    }
+
     public function actionSaveCustomAnswer()
     {
         $answer = AnswerService::getAnswer();

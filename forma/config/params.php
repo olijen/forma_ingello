@@ -40,6 +40,7 @@ return [
                 2 => 'Category',
                 3 => 'Color',
                 4 => 'Country',
+                5 => 'WidgetUser',
             ],
             'Mod1' => [
                 0 => 'Currency',
@@ -126,7 +127,7 @@ return [
     ],
     "main" =>
 
-        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"Rank\",\"UserProfileRule\",\"UserProfile\",\"ItemInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
+        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\",\"WidgetUser\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"Rank\",\"UserProfileRule\",\"UserProfile\",\"ItemInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
     "colors" => [
         "HRM" => '#f08080',
         "ERP" => '#f49258',
@@ -136,6 +137,7 @@ return [
 
     "translate" => [
         'Rule'=> 'Правило',
+        'WidgetUser'=> 'Дашборд',
         'Rank'=> 'Ранг',
         'UserProfileRule'=> 'Прохождения испытаний',
         'UserProfile'=>'Профиль пользователя',
@@ -146,6 +148,7 @@ return [
         'Item' => "Шаблон",
         'CustomerSource'=>"Источники клиентов",
         'Regularity' => "Регламент",
+        'Accessory' => "Доступ",
         'Color' => "Цвет",
         'Country' => "Страна",
         'Currency' => "Валюта",
@@ -272,7 +275,7 @@ return [
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
                 ['label' => 'Шаблоны писем', 'url' => ['/template/template'], 'icon' => 'chart-bar'],
-                ['label' => 'Шаблоны писем', 'url' => ['//template/template/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                ['label' => 'Добавить шаблон', 'url' => ['//template/template/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px'] ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
                 ['label' => 'Добавить событие', 'url' => ['/event/event/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
@@ -284,7 +287,10 @@ return [
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Игровой режим',
-                    '#',
+                    'url' => '#',
+                    'options' => [
+                        'style' => 'overflow-y: scroll; overflow-x: hidden; max-height: 200px;'
+                    ],
                     'icon' => 'gamepad',
                     'items' => [
                         ['label' => 'Ранги', 'url' => ['/core/rank'], 'icon' => 'angle-double-down'],
@@ -302,6 +308,9 @@ return [
                 [
                     'label' => 'Люди',
                     'url' => '#',
+                    'options' => [
+                        'style' => 'overflow-y: scroll; overflow-x: hidden; max-height: 200px;'
+                    ],
                     'icon' => 'users',
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
@@ -325,7 +334,6 @@ return [
 
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
-                        ['label' => 'Игровой профиль', 'url' => ['/core/user-profile/create'], 'icon' => 'history'],
                     ]
                 ],
             ],
@@ -394,7 +402,7 @@ return [
                 ],
                 [
                     'label' => 'Скрипты',
-                    'url' => ['/selling/speech-module'],
+                    'url' => ['/selling/speech-module?isSelling=1'],
                     'icon' => 'list',
                     'items' => [
 
@@ -402,16 +410,6 @@ return [
                 ],
                 ['label' => 'Добавить стратегию',
                     'url' => ['/selling/strategy/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
-                ['label' => 'Добавить вопрос',
-                    'url' => ['/selling/request/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
-                ['label' => 'Добавить ответ',
-                    'url' => ['/selling/answer/create'],
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
@@ -465,7 +463,7 @@ return [
             'icon' => 'user-plus',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
-                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
+                ['label' => 'Проекты', 'url' => ['/project/project'], 'icon' => 'newspaper'],
                 ['label' => 'Создать проект', 'url' => ['/project/project/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                 ['label' => 'Добавить найм', 'url' => ['/hr/form/index'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
@@ -479,7 +477,7 @@ return [
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
                 ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
-                ['label' => 'Скрипты','url' => ['/selling/speech-module'],'icon' => 'list',]],
+                ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',]],
         ],
         [
             'label' => 'Продукты и услуги',
@@ -547,34 +545,46 @@ return [
         'event_type' => 'Тип события',
         'interview' => 'Интервью',
         'interview_state' => 'Состояние интервью',
-        'vacancy' => 'Вакансию',
-        'strategy' => 'Стратегию',
+        'vacancy' => 'Вакансия',
+        'strategy' => 'Стратегия',
         'regularity' => 'Регламент',
         'message' => 'Сообщение',
+        'widget_user' => 'Дашборд',
 
-        'country' => 'Страну',
-        'currency' => 'Валюту',
+        'country' => 'Страна',
+        'currency' => 'Валюта',
         'project' => 'Проект',
         'project_user' => 'Проект пользователя',
         'project_vacancy' => 'Проект вакансии',
-        'manufacturer' => 'Производителя',
+        'manufacturer' => 'Производитель',
 
-        'customer' => 'Клиента',
+        'customer' => 'Клиент',
         'customer_source' => 'Источник клиента',
-        'purchase_product' => 'Покупку продукта',
-        'selling' => 'Продажу',
-        'purchase' => 'Покупку',
+        'purchase_product' => 'Товар в поставке',
+        'selling' => 'Продажа',
+        'purchase' => 'Поставка',
 
-        'inventorization' => 'Инвентаризацию',
-        'inventoriza1tion_product' => 'Инвентаризаци продукции',
-        'supplier' => 'Поставщики',
-        'purchase_overhead_cost' => 'Накладную расхода на закупку',
+        'inventorization' => 'Инвентаризация',
+        'inventorization_product' => 'Инвентаризация продукции',
+        'supplier' => 'Поставщик',
+        'purchase_overhead_cost' => 'Накладная расхода на закупку',
+        'selling_product' => 'Товар в продаже',
 
-        'product' => 'Продукцию',
-        'product_pack_unit' => 'Единицу упаковки продукта',
-        'selling_product' => 'Продажу продукции',
+        'product' => 'Продукция',
+        'product_pack_unit' => 'Единица упаковки продукта',
         'warehouse' => 'Склад',
         'warehouse_product' => 'Продукцию на складе',
+        'system_event_user' => 'Подписка на событие',
+        'request' => 'Вопрос',
+        'worker' => 'Кадр',
+        'field' => 'Характеристика категории',
+        'item' => 'Пункт регламента',
+        'category' => 'Категория',
+        'test_type' => 'Тест',
+        'test_type_field' => 'Вопрос и ответы',
+        'transit_product' => 'Товар в перемещении',
+        'transit' => 'Перемещение',
+        'state' => 'Состояние продажи',
     ],
 
 ];

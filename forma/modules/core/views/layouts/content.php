@@ -49,39 +49,18 @@ use \yii\web\JsExpression;
  </style>
 <div class="content-wrapper" style="">
     <div class="container-fluid">
-        <?php if (($cookie = $cookies->get('event')) !== null):
-            Alert::begin([
-                'options' => [
-                    'class' => 'alert-warning',
-                ],
-            ]);
-            $value = "";
-            $rank = \forma\modules\core\records\Rank::find()->where(['id' => $cookie->value])->one();
-            $interfaceTemp = "Вы получили доступ к таким элементам: ";
-            $arrayKey = [];
-            foreach ($rank->itemInterfaces as $itemInterface) {
-                $allInterfaces = \Yii::$app->params['access-interface'][$itemInterface->module];
-                foreach ($allInterfaces as $key => $interface) {
-                    if ($key == $itemInterface->key) {
-                        $interfaceTemp .= '<br />' . $interface . '; ';
-                        $str = str_replace(' ', '-', $itemInterface->key);
-                        $arrayKey [] = $str;
-                    }
-                }
-            }
-            $value = "<a href='/core/user-profile'>ПРОФИЛЬ</a> <br /> Ты справился, $interfaceTemp <br /> 
-                      <img style='width: 300px;height: 200px;' src='/img/user-profile/{$itemInterface->rank->image}' />";
-            echo $value;
-            Alert::end();
-            Yii::$app->response->cookies->remove('event');
-            $cookies = Yii::$app->response->cookies;
-            $cookies->add(new \yii\web\Cookie([
-                'name' => 'array-pulsate',
-                'value' => $arrayKey,
 
-            ]));
-
-        endif; ?>
+        <?php
+        Alert::begin([
+            'options' => [
+                'class' => 'alert-warning',
+                'id' => 'alert-id',
+                'style' => 'display: none'
+            ],
+        ]);
+        echo "<p id='alert-rule'></p>";
+        Alert::end();
+        ?>
 
         <section class="content">
             <?= $content ?>
@@ -109,7 +88,7 @@ use \yii\web\JsExpression;
     }
 
     .treeview a span {
-        left: 45px !important;
+        left: 43px !important;
     }
 </style>
 

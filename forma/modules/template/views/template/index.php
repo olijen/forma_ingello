@@ -15,14 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="template-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <?php BoxWidget::begin([
-        'title'=>'Шаблон <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Шаблон']]
-        ]
-    ]);
-    ?>
+
+    <p>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать шаблон'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
+    </p>
 
     <?php Pjax::begin(['id' => 'grid'])?>
     
@@ -30,21 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
             'id',
             'title:ntext',
             'content:ntext',
             'theme:ntext',
             'user:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
 
     <?php Pjax::end();?>
 
-    <?php BoxWidget::end();?>
+
 
 
 </div>

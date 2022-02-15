@@ -16,13 +16,12 @@ if (is_null($item->picture)) {
 
 $parentItemStr = isset($parentItem) ? $parentItem->title . '<br>' : '' . '<br>';
 
-$dataName = "<h2> <i style=' margin-right: 30px;'</h2>";
+$dataName = '<h2>' .'<i style=\' margin-right: 30px; \' class=\'fa fa-' . $regularity->icon . ' \'></i> ' . $regularity->name . '</h2>';
 
 if (isset($parentItem)) {
-    $dataName = $dataName . '<h3 id=\'item-title' . $item->id . ' class=\'h-text\'>' . $parentItem->title .
-        '</h3>' . '<h4 class=\'h-text\'>' . $item->title . '</h4>';
+    $dataName = $dataName . '<h3 class=\'h-text\'>' . $parentItem->title . '</h3>' . '<h4 style=\'top: 140px;\' class=\'h-text\'>' . $item->title . '</h4>';
 } else {
-    $dataName = $dataName . "<h3 id='item-title$item->id' </h3>";
+    $dataName = $dataName . '<h3 class=\'h-text\'>' . $item->title . '</h3>';
 }
 
 ?>
@@ -37,11 +36,28 @@ if (isset($parentItem)) {
     >
         <label class="container-label"
                style="border: 1px solid #3c8dbc; border-radius: 15px; margin-right: 5px; margin-left: 2px; display: inline-block;">
-            <input type="radio" class="check-radio" name=<?= $radioName ?> id="<?= $item->id ?>">
+
+            <?php \yii\widgets\Pjax::begin(['id' => 'item-check-icon-' . $item->id, 'timeout' => false, 'options' => ['style' => 'display: inline']]) ?>
+
+            <input type="radio" style="display: none" class="check-radio"
+                   name=<?= $radioName ?> id="item-check<?= $item->id ?>">
+
+            <?php
+                if ($allDataRegularity->isCompletedRulesByItemId($item->id) !== false) {
+                    echo "<i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>";
+                }
+            ?>
+
             <span class="checkmark"></span>
+
+            <?php
+            \yii\widgets\Pjax::end();
+            ?>
+
             <label style="font-size: 15px; margin-right: 10px; float: left">
                 <?= $item->title ?></label>
         </label>
+
 
         <div class="hidden-description" data-id="<?= $item->id ?>" style="visibility: hidden; display: none;">
             <?= $item->description;
@@ -59,6 +75,7 @@ if (isset($parentItem)) {
                     foreach ($allDataRegularity->getItems() as $tempItem) {
                         if ($tempItem["id"] == $item->id) {
                             foreach ($allDataRegularity->getRules() as $rule) {
+                                \yii\widgets\Pjax::begin(['id' => 'box-item-rules-' . $rule['id'], 'timeout' => false]);
                                 if ($rule['item_id'] == $item->id) {
                                     $iconName = "";
                                     $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);;
@@ -107,6 +124,7 @@ if (isset($parentItem)) {
                                             </div>";
                                     }
                                 }
+                                \yii\widgets\Pjax::end();
                             }
                             echo "<h1>Награды за выполненные задания:</h1>";
                             foreach ($allDataRegularity->getGrantInterfaceByRankId($allDataRegularity->getRankIdByItemId($tempItem['id'])) as $interface) {
@@ -121,6 +139,8 @@ if (isset($parentItem)) {
             }
             ?>
         </div>
+
+
 
     </a>
 

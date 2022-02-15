@@ -42,13 +42,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     $('li.menuColor span:not([class])').css('width', '227px');
 
     $('ul.treeview-menu').css('width', '220px');
-
-    // var sortables = sortable('.sortable');
-    //
-    // for (var i = 0; i < sortables.length; i++) {
-    //
-    //
-    // }
 });
 
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+function eraseCookie(name) {
+    document.cookie = name+'=; Max-Age=-99999999;';
+}
 

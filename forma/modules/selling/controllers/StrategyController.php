@@ -37,9 +37,9 @@ class StrategyController extends Controller
      */
     public function actionIndex()
     {
+//        dd(Yii::$app->request->get());
         $searchModel = new StrategySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -68,10 +68,17 @@ class StrategyController extends Controller
     {
         $model = new Strategy();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/selling/speech-module']);
+        if ($model->load(Yii::$app->request->post())) {
+            if (isset($_GET['isSelling'])) {
+                $model->is_selling = $_GET['isSelling'];
+            }
+            if ($model->save()) {
+                if (isset($_GET['isSelling'])) {
+                    return $this->redirect(['/selling/speech-module', 'isSelling' => $model->is_selling]);
+                }
+                return $this->redirect(['/selling/speech-module']);
+            }
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);

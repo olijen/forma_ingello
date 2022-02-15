@@ -1,5 +1,5 @@
     function changeArea(description, nameOnPicture, picture) {
-
+        let url = getUrlByDescription(description)
         description = replaceUrlOnButton(description);
         document.getElementById("text-div").innerHTML = description;
         document.getElementById("name_on_picture").innerHTML = nameOnPicture;
@@ -15,8 +15,17 @@
                 handleEvent(event) {
                     document.getElementById('myFrame').style.height = '100%';
                     console.log($('.sidebar-mini.sidebar-collapse .content-wrapper'));
-                    console.log("Nажали");
-                    //alert(event.type + " на " + event.currentTarget);
+
+                    let findElementCreateRequest = document.querySelector('.modal-header');
+                    findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'><button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                    let srcIframe = document.getElementById('myFrame').src.split('?')[0];
+                    $.ajax({
+                        url: srcIframe + '?without-header&only-title',
+                        type: "GET",
+                        success: function (msg) {
+                            findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'>" + msg + "<button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                        }
+                    });
                 }
             });
         }
@@ -28,6 +37,28 @@
             document.getElementById('picture').style.backgroundImage =  pictureUrl;
         }
 
+    }
+
+    function getUrlByDescription(mainStr) {
+        let resObr = mainStr.split("{{").length - 1;
+
+        if (resObr < 1) return mainStr;
+
+        let withoutHeader = 'without-header';
+
+        let link = mainStr.split("{{")[1];
+        link = link.split("}}")[0];
+
+        if (link.indexOf('http') != -1) {
+            withoutHeader = '';
+        }
+
+        let separator = '?';
+        if (link.indexOf('?') != -1) {
+            separator = '&';
+        }
+
+        return link.split('|')[0];
     }
 
     function replaceUrlOnButton(mainStr) {
@@ -114,6 +145,7 @@
                 // Переключение табов при крайних итемах
 
             }
+
         });
 
         function deactivationTabPaneItem(activeTabPaneItem) {
@@ -299,32 +331,6 @@
             checkedRadioAndShowTab(hrefTabRegularityId);
         }
 
-        /*let addIconItemTab = function(itemId) {
-            let url = '/core/rule/check-right-answer';
-            $.ajax({
-                url:url,
-                type:"POST",
-                data:{itemId: itemId},
-                dataType:"json",
-                success: postCallback,
-            });
-        };
-
-        let postCallback = function(response) {
-            if (response.result === true) {
-                addNewElement(response[0].id);
-
-            }
-        };
-        let addNewElement = function (id){
-            let el = document.getElementById('li'+id);
-            if(el===null){
-                let value = `<i id='li`+id+`' class='fa fa-plus fa-xs' style='float: right; margin-right: 10px'></i>`;
-                $('#'+id).after(value);
-            }
-        }*/
-
-
         $("a.change-item").click(function (event) {
 
             let currentActiveItemsTabs = $('.tab-pane.fade.active');
@@ -343,7 +349,6 @@
             }
 
             if (currentParentActiveItemsTabs.length > 0 && parent == undefined) {
-                /*addIconItemTab(currentParentActiveItemsTabs[0].id.split('menu')[1]);*/
                 changeBorderTopColor($('a[href$="#' + currentParentActiveItemsTabs[0].id + '"]'), false);
             }
 
@@ -377,7 +382,4 @@
                 activeItem.className = 'tab-pane fade';
             }
         }
-    });
-    window.addEventListener("load", function(event) {
-        console.log("All resources finished loading!");
     });

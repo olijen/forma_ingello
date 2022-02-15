@@ -123,7 +123,7 @@ if(isset($unit->selling->warehouse)){
                                 ->label('К-во <span id="position-available-qty"></span>') ?>
                         </div>
                         <div class="col-md-2">
-                            <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['prompt' => '', 'class' => 'form-control change-cost']) ?>
+                            <?= $form->field($unit, 'cost_type')->dropDownList(SellingProduct::getCostTypes(), ['value' => (isset(SellingProduct::getCostTypes()[0]) ? SellingProduct::getCostTypes()[0] : null), 'class' => 'form-control change-cost']) ?>
                         </div>
                         <div class="col-md-2">
                             <?= $form->field($unit, 'cost')->textInput()->label('Стоимость за 1 шт.') ?>
@@ -138,7 +138,7 @@ if(isset($unit->selling->warehouse)){
                         </div>
                         <div class="col-md-1">
                             <?= Html::submitButton('<i class="glyphicon glyphicon-plus"></i>', [
-                                'class' => 'btn btn-success form-control',
+                                'class' => 'btn btn-success form-control no-loader',
                                 'style' => 'margin-top: 25px;',
                             ]) ?>
                         </div>
@@ -158,13 +158,12 @@ if(isset($unit->selling->warehouse)){
                         })
                         $('#sellingproduct-cost_type').change(function () {
                             let $productId = $('#sellingproduct-product_id').val();
-                            let $warehouseId = $('#selling-warehouse_id').val();
                             let $costType = $('#sellingproduct-cost_type').val();
                             let quantity = $('#sellingproduct-quantity').val();
                             $.post("/selling/form/change-selling-product-cost", {
                                 costType: $costType,
                                 productId: $productId,
-                                warehouseId: $warehouseId
+                                sellingId: <?= $unit->selling_id ?>,
                             }, function (data) {
                                 $('#sellingproduct-cost').val(data);
                                 $('#sellingproduct-sum').val(data * quantity);
@@ -173,17 +172,16 @@ if(isset($unit->selling->warehouse)){
                         })
                         $('#sellingproduct-product_id').change(function () {
                             let $productId = $('#sellingproduct-product_id').val();
-                            let $warehouseId = $('#selling-warehouse_id').val();
                             $.post("/selling/form/change-selling-product-purchase-cost", {
                                 productId: $productId,
-                                warehouseId: $warehouseId
-                            }, function (data) {
-                                $('#sellingproduct-purchase_cost').val(data);
-                                $('#sellingproduct-quantity').val('');
-                                $('#sellingproduct-sum').val('');
-                                $('#sellingproduct-cost').val('');
-                                $('#sellingproduct-cost_type').val('');
+                                sellingId: <?= $unit->selling_id ?>,
+                            }).done(function (data) {
+                                $('#sellingproduct-purchase_cost').val(data.purchaseCost);
+                                $('#sellingproduct-sum').val(data.cost);
+                                $('#sellingproduct-cost').val(data.cost);
+                                $('#sellingproduct-quantity').val(1);
                             });
+
                         })
                     </script>
                 <?php } endif;

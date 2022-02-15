@@ -20,7 +20,7 @@ class StrategySearch extends Strategy
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name', 'description', 'is_selling'], 'safe'],
         ];
     }
 
@@ -44,16 +44,12 @@ class StrategySearch extends Strategy
     {
         $query = Strategy::find();
         $this->access($query);
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
@@ -61,10 +57,16 @@ class StrategySearch extends Strategy
         $query->andFilterWhere([
             'id' => $this->id,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
-
         return $dataProvider;
+    }
+
+    public function createQuery()
+    {
+        $query = Strategy::find()->joinWith(['accessory'])
+            ->andWhere(['accessory.user_id' => \Yii::$app->user->id])
+            ->andWhere(['accessory.entity_class' => Strategy::className()]);
+        return $query;
     }
 }

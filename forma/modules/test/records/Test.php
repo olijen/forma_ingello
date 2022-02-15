@@ -1,6 +1,7 @@
 <?php
 
 namespace forma\modules\test\records;
+use forma\components\AccessoryActiveRecord;
 use forma\modules\customer\records\Customer;
 use forma\modules\test\records\TestType;
 
@@ -17,7 +18,7 @@ use Yii;
  * @property Customer $customer
  * @property TestType $testType
  */
-class Test extends \yii\db\ActiveRecord
+class Test extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}

@@ -49,17 +49,12 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         'fieldConfig' => [
             'inputOptions' => [
                 'class' => 'form-control',
-//                'disabled' => $model->stateIs(new StateDone()),
             ],
         ],
     ];
 
     $form = ActiveForm::begin($formOptions);
     ?>
-    <div class="alert alert-danger" id='alert-danger' role="alert" hidden
-         style="position: absolute; width: 300px; float: left; top: -50%; z-index: 9991;">
-        На данную вакансию нет ни одного заинтересованного кадра
-    </div>
     <div class="row">
         <div class="col-md-4" id="worker-select">
             <?php if (Yii::$app->request->get('vacancyId')) {
@@ -89,7 +84,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             ';
             ?>
 
-
             <?= $form->field($model, 'worker_id')->widget(Select2::classname(), [
                 'data' => $data,
                 'options' => ['placeholder' => 'Поиск в базе'],
@@ -98,7 +92,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         </div>
         <div class="col-md-4">
             <?php //TODO: !!!!!!!!!!!!!!!! WORKER to VACANCY
-
             $label = $model->getAttributeLabel('vacancy_id');
             $label .= '
                 [<a
@@ -114,15 +107,31 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     href="' . Url::to(['/project/project-vacancy/create']) . '"
                 >добавить</a>]
             ';
+
+            if (!$model->isNewRecord) {
+                $projectVacancy = \forma\modules\project\records\projectvacancy\ProjectVacancy::find()->where([
+                    'vacancy_id' => $model->vacancy_id,
+                    'project_id' => $model->project_id
+                ])->one();
+                echo $form->field($projectVacancy, 'id')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map($vacancy, 'id', 'name'),
+                    'options' => ['placeholder' => 'Поиск в базе'],
+                    'pluginOptions' => ['allowClear' => true],
+                    'pluginEvents' => [
+                        "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
+                    ]
+                ])->label($label);
+            } else {
+                echo $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map($vacancy, 'id', 'name'),
+                    'options' => ['placeholder' => 'Поиск в базе'],
+                    'pluginOptions' => ['allowClear' => true],
+                    'pluginEvents' => [
+                        "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
+                    ]
+                ])->label($label);
+            }
             ?>
-            <?= $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map($vacancy, 'id', 'name'),
-                'options' => ['placeholder' => 'Поиск в базе'],
-                'pluginOptions' => ['allowClear' => true],
-                'pluginEvents' => [
-                    "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
-                ]
-            ])->label($label) ?>
         </div>
         <?php if ($model->isNewRecord): ?>
             <script>
@@ -138,7 +147,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
             </script>
         <?php endif; ?>
 
-
         <script>
             $('#interview-vacancy_id').on('change', function () {
                 $.ajax({
@@ -151,7 +159,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                         $('#interview-worker_id').empty();
                         $('#worker-view').attr("data-enabled", false);
                         $('#worker-view').addClass("text-gray");
-                        console.log(data,'!!!!!!!!!!!');
                         if (data !== null) {
                             $('#interview-worker_id').removeAttr('disabled');
                             $('#selling-form-submit-button').removeAttr('disabled');
@@ -165,8 +172,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                             $('#interview-worker_id').attr('disabled', 'disabled');
                             $('#selling-form-submit-button').attr('disabled', 'disabled');
                             $('#alert-danger').show();
-
-                            //   $('#worker-select').hide();
                         }
                     }
                 })
@@ -180,28 +185,37 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     data: {
                         id: $(this).val(),
                     },
-                success: function (data) {
-                    // alert(123);
-                    // $('#interview-vacansy_id').empty();
-                    console.log(data,'!!!!!!!!!!!');
-                    if (data !== null) {
-                        $('#interview-vacansy_id').removeAttr('disabled');
-                        $('#selling-form-submit-button').removeAttr('disabled');
-                        $('#alert-danger').hide();
-                        $('#interview-worker_id').prop('disabled', false);
-                        $.each(data, function (value, key) {
-                            $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
-                        });
-                        $('#interview-worker_id').val('');
-
-                    } else {
-                        $('#interview-worker_id').attr('disabled', 'disabled');
-                        $('#selling-form-submit-button').attr('disabled', 'disabled');
-                        $('#alert-danger').show();
+                    success: function (data) {
+                        if ($('#interview-worker_id').val() !== null) {
+                            $('#interview-worker_id').removeAttr('disabled');
+                            $('#selling-form-submit-button').removeAttr('disabled');
+                        }
+                        if (data !== null) {
+                            $('#interview-vacansy_id').removeAttr('disabled');
+                            $('#selling-form-submit-button').removeAttr('disabled');
+                            $('#alert-danger').hide();
+                            $.each(data, function (value, key) {
+                                $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
+                            });
+                        } else {
+                            $('#interview-worker_id').attr('disabled', 'disabled');
+                            $('#selling-form-submit-button').attr('disabled', 'disabled');
+                            $('#alert-danger').show();
+                        }
                     }
+                })
+            })
+            $(function () {
+                function getVacancyId() {
+                    let id = $('#interview-vacancy_id').val();
+                    let newUrl = '/worker/worker/create?projectVacancyId=' + id;
+                    $('#vacancyUserId').attr('href', newUrl);
                 }
-            })
-            })
+
+                getVacancyId()
+
+                let projectVacancyId = $('span#select2-interview-vacancy_id-container.select2-selection__rendered span.select2-selection__clear').attr("data-select2-id");
+            });
         </script>
     </div>
     <?php if ($model->date_create || $model->id): ?>

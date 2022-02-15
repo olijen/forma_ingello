@@ -53,6 +53,14 @@ label {
     overflow: hidden;
     overflow-x: scroll;
     white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.nav-tabs {
+    flex-wrap: wrap;
+    display: inline-flex;
 }
 
 input[type=checkbox], input[type=radio] {
@@ -596,9 +604,7 @@ box-sizing: border-box;
         <div id="nav-tabs" class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <?php foreach ($regularities as $regularity): ?>
-                    <?php
-                    $countRegularityItem=0; $countRightRegularityItem =0;
-                    ?>
+
                     <li class=" <?php if ($regularity->id == $regularities[0]->id) echo 'active'; ?> "
                         data-href="tab_regularity_<?= $regularity['id'] ?>">
                         <a href="#tab_regularity_<?= $regularity['id'] ?>"
@@ -606,13 +612,23 @@ box-sizing: border-box;
                            data-toggle="tab"
                            data-href="tab_regularity_<?= $regularity['id'] ?>"
                            data-name="<?= "<h2> <i style='margin-right: 30px;' class='fa fa-$regularity->icon'></i> 
-                            $regularity->name ".(($countRegularityItem >0 && $countRegularityItem<=$countRightRegularityItem)
-                               ?"<i style='color:green;padding-right: 10px;' class='fa fa-check-circle'></i>":"")."</h2>" ?>"
+                            $regularity->name </h2>" ?>"
                            data-picture="<?= is_null($regularity->picture) ? 'false' : $regularity->picture ?>"
                            aria-expanded="<?= $regularity->id == $regularities[0]->id ? 'true' : '' ?>">
-                            <i class="fa fa-<?=$regularity->icon?>"></i> <?= $regularity['name'] ?><?=
-                            (($countRegularityItem >0 && $countRegularityItem<=$countRightRegularityItem)
-                               ?"<i style='color:green;padding-left: 10px;' class='fa fa-check-circle'></i>":"") ?>
+                            <i id="regularity-check<?= $regularity['id'] ?>" class="fa fa-<?=$regularity->icon?>"></i> <?= $regularity['name'] ?>
+
+                            <?php
+                            \yii\widgets\Pjax::begin(['id' => 'regularity-check-icon-' . $regularity->id, 'timeout' => false, 'options' => ['style' => 'display: inline']]);
+
+                            $allDataRegularity = new \forma\modules\core\services\RegularityGameService($regularity->id);
+
+                            if ($allDataRegularity->isCompletedItemByRegularityId() !== false) {
+                                echo "<i style='color:green;padding-left: 10px;' class='fa fa-check-circle'></i>";
+                            }
+
+                            \yii\widgets\Pjax::end();
+                            ?>
+
                             <input type="hidden" class="hidden-description" value="<?=htmlspecialchars($regularity->title)?>">
                             <div class="hidden-description" style="visibility: hidden; display: none;">
                                 <?= $regularity->title ?></div>

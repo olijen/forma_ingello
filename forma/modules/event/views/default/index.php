@@ -3,6 +3,8 @@
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
+$this->title = "Календарь";
+
 ?>
 <?php
 

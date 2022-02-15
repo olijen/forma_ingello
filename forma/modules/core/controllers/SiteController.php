@@ -165,12 +165,6 @@ class SiteController extends Controller
 
 
         $modelLogin = new LoginForm();
-        if (Yii::$app->request->cookies->getValue('user_game')){
-            $modelLogin->email = 'qwe@qweqwe.qwe';
-            $modelLogin->password = 'qweqw123';
-            de(Yii::$app->request->post());
-        }
-
         $loginLoad = $modelLogin->load(Yii::$app->request->post());
         if (isset($_POST['login-button'])) {
             $user = $modelLogin->getUser();

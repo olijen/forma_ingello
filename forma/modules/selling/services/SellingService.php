@@ -48,27 +48,10 @@ class SellingService
             $model->tmpUserId = $post['Selling']['tmpUserId'];
         }
 
-        $userId = $model->tmpUserId ?? Yii::$app->user->id;
-
-        $state_id = State::find()
-            ->where(['user_id' => $userId])
-            ->orderBy('order')
-            ->one()
-            ->id;
-        $model->state_id = $state_id;
-
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
         }
 
-        $userState = State::find()
-            ->where(['user_id' => Yii::$app->user->getId()])
-            ->orderBy('order')
-            ->one();
-
-        if ($userState) {
-            $model->state_id = $userState->id;
-        }
         $model->name .= strval(time());
 
         $model->load($post);

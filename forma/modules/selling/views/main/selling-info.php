@@ -24,13 +24,16 @@ use forma\modules\selling\widgets\HistoryView;
 <h2 class="text-center">Заказ №<?=$selling->id?></h2>
 <div class="selling_info">
     <?php Pjax::begin() ?>
-    <p>Состояние заказа: <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="<?=strip_tags($state->description)?>">
-            <?=$state->name?></button></p>
+    <p>Состояние заказа:
+        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top"
+                title="<?= strip_tags(isset($state->description) ? $state->description : '') ?>">
+            <?= isset($state->name) ? $state->name : '' ?></button>
+    </p>
     <div class="bs-example">
         <div class="detached-block-example">Ваши данные</div>
         <div class="customer_info">
             <p><span class="user_info_point">Ваше имя:</span> <?=$customer->name?> </p>
-            <p><span class="user_info_point">Ваш склад:</span> <?=$selling->warehouse->name?> </p>
+            <p><span class="user_info_point">Место продажи:</span> <?= $selling_pull ?> </p>
             <p><span class="user_info_point">Ваше государство:</span> <?=$customer->country->name??'не задано'?></p>
             <p><span class="user_info_point">Ваш адрес:</span> <?=$customer->address??'не задано'?></p>
             <p><span class="user_info_point">E-mail личный:</span> <?=$customer->chief_email??'не задано'?></p>

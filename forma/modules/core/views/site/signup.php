@@ -5,6 +5,11 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+
+if(Yii::$app->user->id == null){
+    Yii::$app->response->redirect(['core/default/auth']);
+}
+
 $this->title = 'Регистрация';
 
 $fieldOptions1 = [

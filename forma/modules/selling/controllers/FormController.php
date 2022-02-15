@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\controllers;
 
+use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\state\StateSearch;
 use forma\modules\sellinghistory\records\SellingHistory;
 use forma\modules\warehouse\records\WarehouseProduct;
@@ -43,9 +44,9 @@ class FormController extends Controller
          *      использовать получение складов по getMyWarehouseUser, для гостя.
          *      поменять цену
         */
-        if (!empty($_POST['productId']) && !empty($_POST['warehouseId'])) {
+        if (!empty($_POST['productId']) && !empty($_POST['sellingId'])) {
             $productId = $_POST['productId'];
-            $warehouseId = $_POST['warehouseId'];
+            $warehouseId = Selling::find()->where(['id' => $_POST['sellingId']])->one()->warehouse_id;
             $costType = $_POST['costType'];
             $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $cost = 0;
@@ -67,14 +68,15 @@ class FormController extends Controller
     public function actionChangeSellingProductPurchaseCost()
     {
 
-        if (!empty($_POST['productId']) && !empty($_POST['warehouseId'])) {
-
+        if (!empty($_POST['productId']) && !empty($_POST['sellingId'])) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $productId = $_POST['productId'];
-            $warehouseId = $_POST['warehouseId'];
+            $warehouseId = Selling::find()->where(['id' => $_POST['sellingId']])->one()->warehouse_id;
             $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
             $purchaseCost = $product->purchase_cost;
+            $cost = $product->consumer_cost;
 
-            return $purchaseCost;
+            return compact('purchaseCost', 'cost');
         }
         return '';
     }
@@ -98,6 +100,7 @@ class FormController extends Controller
                 $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
                 $sellingHistory->date = date('Y-m-d');
                 $sellingHistory->count = 1;
+                $sellingHistory->user_id = Yii::$app->user->id;
                 $sellingHistory->save();
             }
 

@@ -57,10 +57,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     <input id="import-file-input" type="file" style="display: none;">
 
-    <?php
-
-
-    $columns = [
+    <?php $columns = [
         ['class' => 'kartik\grid\CheckboxColumn'],
         [
             'class' => 'yii\grid\ActionColumn',
@@ -191,8 +188,6 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             ['content' => ''];
         ?>
 
-
-
         <?= DynaGrid::widget([
         'allowSortSetting' => false,
         'showPersonalize' => true,
@@ -234,7 +229,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                                     'style' => 'cursor: pointer;',
                                 ]],
                                 [
-                                    'label' => 'Example of file!',
+                                    'label' => 'Example of file',
                                     'options' => [
                                         'onclick' => 'location.href = "/product/product/download-example-file"',
                                         'style' => 'cursor: pointer;',
@@ -322,6 +317,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                         //let switchInputContainer = this.closest('.switchInputContainer');
                         $(this).parents('.switchInputContainer').find('input[type="hidden"]')[0].value = '';
                         console.log($(this).parents('.switchInputContainer').find('input[type="hidden"]'));
+                        $('#grid-product').yiiGridView('applyFilter')
                     };
                 });
             }

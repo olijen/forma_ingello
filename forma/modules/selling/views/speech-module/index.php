@@ -21,18 +21,17 @@ $this->title = Yii::t(
         }
     }
 </style>
-<?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'bs selling speech-module']) ?>
-<?php DetachedBlock::begin(['example' => 'Стратегии']) ?>
+<?php \forma\modules\core\widgets\DetachedBlock::begin(['example' => 'Стратегии']) ?>
 <div class="row" onload="myFunction();">
     <div class="menu-strategy col-md-12" style="padding: 10px;">
         <div class="col-md-6 col-sm-12 col-xs-12" style="margin: 0 0 10px;">
             <?php
-            if (!empty($getWithoutEmptyStrategies)) {
+            if (!empty($getStrategiesUser)) {
                 echo Select2::widget([
                     'name' => 'Стратегия',
                     'hideSearch' => true,
-                    'data' => $getWithoutEmptyStrategies,
-                    'value' => array_keys($getWithoutEmptyStrategies, array_values($getWithoutEmptyStrategies)[0])[0],
+                    'data' => \yii\helpers\ArrayHelper::map($getStrategiesUser, 'id', 'name'),
+                    'value' => $getStrategiesUser[0]['id'],
                     'options' => ['placeholder' => 'Выбрать стратегию...', 'onchange' => "myFunction()"],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -44,19 +43,14 @@ $this->title = Yii::t(
             ?>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12">
-            <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'button add strategy']) ?>
             <?php
-            echo \yii\helpers\Html::a('<i class="fa fa-plus" style="float: left"></i>Добавить стратегию', ['/selling/strategy/create'], ['class' => 'btn btn-block btn-success forma_blue']);
+            echo \yii\helpers\Html::a('<i class="fa fa-plus" style="float: left"></i>Добавить стратегию', ['/selling/strategy/create?isSelling=' . $isSelling], ['class' => 'btn btn-block btn-success forma_blue']);
             ?>
-            <?php WidgetAccess::end(); ?>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12">
-            <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'button edit strategy']) ?>
             <?php
-            echo \yii\helpers\Html::a('<i class="fa fa-edit" style="float: left"></i>Редактировать стратегии', ['/selling/strategy'], ['class' => 'btn btn-block btn-success forma_blue']);
-            WidgetAccess::end();
+            echo \yii\helpers\Html::a('<i class="fa fa-edit" style="float: left"></i>Редактировать стратегии', ['/selling/strategy?isSelling=' . $isSelling], ['class' => 'btn btn-block btn-success forma_blue']);
             ?>
-
         </div>
     </div>
     <div class="button-strategy col-md-12" style="padding: 10px;">
@@ -72,8 +66,8 @@ $this->title = Yii::t(
         <div id="elementCreateRequestClient"></div>
     </div>
 </div>
-<?php DetachedBlock::end(); ?>
-<?php WidgetAccess::end(); ?>
+<?php \forma\modules\core\widgets\DetachedBlock::end() ?>
+
 
 
 <script>
@@ -99,10 +93,10 @@ $this->title = Yii::t(
         elemCreateRequest.setAttribute("id", "elementCreateRequestE");
         console.log(x)
         if (x) {
-            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=1"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от менеджера</a></div>';
+            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=1&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "менеджера" : "кадра"?></a></div>';
             var findElementCreateRequest = document.querySelector('#elementCreateRequest');
             findElementCreateRequest.parentNode.append(elemCreateRequest, findElementCreateRequest);
-            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '+&isManager=0"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';
+            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=0&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';
             var findElementCreateRequestR = document.querySelector('#elementCreateRequestClient');
             findElementCreateRequestR.parentNode.append(elemCreateRequestR, findElementCreateRequestR);
         }
@@ -135,13 +129,13 @@ $this->title = Yii::t(
                                          style="margin-bottom: 5px;border-top-color:#58628e;">
                                         <div class="box-header with-border">
                                             <h4 class="box-title" style="display: flex;padding: 10px 10px 10px">
-                                                <a style="margin:0 5px 0;" href="/selling/request/update?id=` + requests.id + `">
+                                                <a style="margin:0 5px 0;" href="/selling/request/update?id=` + requests.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a style="margin:0 5px 0;" href="/selling/answer/create?id=` + requests.id + `">
+                                                <a style="margin:0 5px 0;" href="/selling/answer/create?id=` + requests.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>">
                                                     <i class="fa fa-plus"></i>
                                                 </a>
-                                                <a style="margin:0 5px 0;" href="/selling/request/delete?id=` + requests.id + `" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
+                                                <a style="margin:0 5px 0;" href="/selling/request/delete?id=` + requests.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                                 <a data-toggle="collapse" data-parent="#accordion"
@@ -164,17 +158,17 @@ $this->title = Yii::t(
                                                                         <div class="box-header with-border"
                                                                              style=" padding: 0">
                                                                             <h4 class="box-title" style="display: flex; padding:20px 10px 20px">
-                                                                                <a style="margin:0 5px 0;" href="/selling/answer/update?id=` + answer.id + `">
+                                                                                <a style="margin:0 5px 0;" href="/selling/answer/update?id=` + answer.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>">
                                                                                     <i class="fa fa-edit"></i>
                                                                                 </a>
-                                                                                <a style="margin:0 5px 0;" href="/selling/answer/delete?id=` + answer.id + `" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
+                                                                                <a style="margin:0 5px 0;" href="/selling/answer/delete?id=` + answer.id + `<?= '$isSelling=' . Yii::$app->request->get('isSelling') ?> " title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
                                                                                     <i class="fa fa-trash"></i>
                                                                                 </a>
-                                                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                                                <dev data-toggle="collapse" data-parent="#accordion"
                                                                                    href="#collapse_` + answer.id + requests.id + `" class="regularity_name collapsed"
-                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;">
+                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;color: grey">
                                                                                     | ` + answer.text + `
-                                                                                </a>
+                                                                                </dev>
                                                                             </h4>
                                                                         </div>
                                                                     </div>`;
@@ -193,13 +187,13 @@ $this->title = Yii::t(
                                          style="margin-bottom: 5px;border-top-color:#58628e;">
                                         <div class="box-header with-border">
                                             <h4 class="box-title" style="display: flex; padding:10px 10px 10px">
-                                                <a style="margin:0 5px 0;" href="/selling/request/update?id=` + requests.id + `">
+                                                <a style="margin:0 5px 0;" href="/selling/request/update?id=` + requests.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a style="margin:0 5px 0;" href="/selling/answer/create?id=` + requests.id + `">
+                                                <a style="margin:0 5px 0;" href="/selling/answer/create?id=` + requests.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>">
                                                     <i class="fa fa-plus"></i>
                                                 </a>
-                                                <a style="margin:0 5px 0;" href="/selling/request/delete?id=` + requests.id + `" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
+                                                <a style="margin:0 5px 0;" href="/selling/request/delete?id=` + requests.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                                 <a data-toggle="collapse" data-parent="#accordion"
@@ -222,17 +216,17 @@ $this->title = Yii::t(
                                                                         <div class="box-header with-border"
                                                                              style=" padding: 0">
                                                                             <h4 class="box-title" style="display: flex; padding:20px 10px 20px">
-                                                                                <a style="margin:0 5px 0;" href="/selling/answer/update?id=` + answer.id + `">
+                                                                                <a style="margin:0 5px 0;" href="/selling/answer/update?id=` + answer.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>">
                                                                                     <i class="fa fa-edit"></i>
                                                                                 </a>
-                                                                                <a style="margin:0 5px 0;" href="/selling/answer/delete?id=` + answer.id + `" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
+                                                                                <a style="margin:0 5px 0;" href="/selling/answer/delete?id=` + answer.id + `<?= '&isSelling=' . Yii::$app->request->get('isSelling') ?>" title="Удалить" aria-label="Удалить" data-pjax="0" data-confirm="Вы уверены, что хотите удалить этот элемент?" data-method="post">
                                                                                     <i class="fa fa-trash"></i>
                                                                                 </a>
-                                                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                                                <div data-toggle="collapse" data-parent="#accordion"
                                                                                    href="#collapse_` + answer.id + requests.id + `" class="regularity_name collapsed"
-                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;">
+                                                                                   aria-expanded="false" style="display: inline-table; margin:0 5px 0;color: grey">
                                                                                     | ` + answer.text + `
-                                                                                </a>
+                                                                                </div>
                                                                             </h4>
                                                                         </div>
                                                                     </div>`;

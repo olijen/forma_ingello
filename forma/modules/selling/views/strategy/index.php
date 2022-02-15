@@ -1,14 +1,14 @@
 <?php
 
+use forma\modules\selling\records\strategy\Strategy;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\selling\records\strategy\StrategySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = Yii::t('app', 'Стратегии');
-
 ?>
 <div class="strategy-index">
 
@@ -23,13 +23,32 @@ $this->title = Yii::t('app', 'Стратегии');
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            ['class' => 'yii\grid\ActionColumn', 'contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'name:ntext',
             'description:ntext',
+            ['attribute' => 'is_selling',
+                'label' => 'Тип',
+                'value' => function (Strategy $model) {
+                    switch ($model->is_selling) {
+                        case 1;
+                            return 'Для продаж';
+                            break;
+                        case 0;
+                            return 'Для найма';
+                            break;
+                        default:
+                            return null;
+                    }
+                },
+                'filter' => Html::activeDropDownList($searchModel, 'is_selling',
+                    ['' => '', '' => 'Для найма', '1' => 'Для продаж'],
+                    ['placeholder' => 'Выбрать тип...', 'class' => 'form-control']),
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
     <?php Pjax::end(); ?>

@@ -11,6 +11,7 @@ use forma\modules\core\records\Rank;
 use forma\modules\core\records\Regularity;
 use forma\modules\core\records\Rule;
 use forma\modules\core\records\SystemEvent;
+use forma\modules\event\records\Event;
 use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\product\records\Field;
@@ -34,13 +35,51 @@ class AutoDumpDataBase
     {
         $productIds = [];
         $arrayModels = Accessory::find()->where(['user_id' => 1])
-            ->andWhere(['like', 'entity_class', ['\Product']])
+            ->andWhere(['entity_class' => 'forma\\modules\\product\\records\\Product'])
             ->all();
         foreach ($arrayModels as $model) {
             $productIds[] = $model->entity_id;
         }
 
         return $productIds;
+    }
+
+    public function getOldAccessoryRules()
+    {
+        $rulesId = [];
+        $arrayModels = Accessory::find()->where(['user_id' => 1])
+            ->andWhere(['entity_class' => 'forma\\modules\\core\\records\\Rule'])
+            ->all();
+        foreach ($arrayModels as $model) {
+            $rulesId[] = $model->entity_id;
+        }
+        return $rulesId;
+    }
+
+    public function getOldAccessorySellings()
+    {
+        $rulesId = [];
+        $arrayModels = Accessory::find()->where(['user_id' => 1])
+            ->andWhere(['entity_class' => 'forma\\modules\\selling\\records\\selling\\Selling'])
+            ->all();
+        foreach ($arrayModels as $model) {
+            $rulesId[] = $model->entity_id;
+        }
+
+        return $rulesId;
+    }
+
+    public function getOldAccessoryStrategies()
+    {
+        $strategyId = [];
+        $arrayModels = Accessory::find()->where(['user_id' => 1])
+            ->andWhere(['entity_class' => 'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy'])
+            ->all();
+        foreach ($arrayModels as $model) {
+            $strategyId[] = $model->entity_id;
+        }
+
+        return $strategyId;
     }
 
     //возвращаем id рангов из accessory
@@ -57,6 +96,26 @@ class AutoDumpDataBase
         return $productIds;
     }
 
+    /**
+     * Метод принимает строку в формате ('Y-m-d'), и меняет месяц и год на текущие
+     * @param $oldDate
+     * @return false|string
+     */
+    public function getNewDateFromEventDate($oldDate)
+    {
+        $d = date('d', strtotime($oldDate));
+        $currentMonth = date('m', strtotime(date('Y-m-d')));
+        $currentYear = date('Y', strtotime(date('Y-m-d')));
+
+        if ($d == 29 || $d == 30 || $d == 31) {
+            $d = 28;
+        }
+
+        $newDateEvent = $currentYear . '-' . $currentMonth . '-' . $d;
+
+        return date('Y-m-d', strtotime($newDateEvent));
+    }
+
     //Перебираем в этом методе все записи в accessory, которые обозначены условием,
     // далее формируем по записям accessory с помощью атрибута entity_class новую модель и сохраняем ее
     // как реакция на это, модель наследуемая от accessory создает новый access  с новым user_id
@@ -64,18 +123,19 @@ class AutoDumpDataBase
     {
         $model = new Accessory();
 
+        //Странно в Accessory нет Country, но указывается в запросе
         $arrayModels = $model::find()->where(['user_id' => 1])
-            ->andWhere(['not like', 'entity_class', ['\Answer', '\ProjectVacancy',
-                '\Interview', '\selling\Selling', '\requeststrategy\RequestStrategy', '\Country', 'records\Product',
-                'records\Inventorization', 'transit\Transit', 'purchase\Purchase']])
+            ->andWhere(['not in', 'entity_class', ['forma\\modules\\selling\\records\\talk\\Answer', 'forma\\modules\\selling\\records\\sellingproduct\\SellingProduct', 'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
+                'forma\\modules\\hr\\records\\interview\\Interview', 'forma\\modules\\selling\\records\\selling\\Selling',
+                'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy', 'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
+                'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
+                'forma\\modules\\purchase\\records\\purchase\\Purchase', 'forma\\modules\\core\\records\\Rule']])
             ->all();
 
         $accessoryKeys = [];
         foreach ($arrayModels as $model) {
             $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
         }
-
-        // \Yii::debug($accessoryKeys);
 
         foreach ($accessoryKeys as $entityClass => $modelId) {
             //создаем модели для всех выбранных из accessory, подставляем класс и из него кидаем запрос на save
@@ -91,6 +151,12 @@ class AutoDumpDataBase
                             'parent_id');
                         $newModel = $this->saveWhitParent($model);
                     } else {
+                        if ($entityClass === Event::className()) {
+                            $oldDateFrom = $model->date_from;
+                            $oldDateTo = $model->date_to;
+                            $model->date_from = $this->getNewDateFromEventDate($oldDateFrom);
+                            $model->date_to = $this->getNewDateFromEventDate($oldDateTo);
+                        }
                         $newModel = $this->saveNewRecord($model);
                     }
 
@@ -109,14 +175,14 @@ class AutoDumpDataBase
 
     public function systemEvents()
     {
-        $dateTime = [
-            '2020-12-16 14:16:04',
-            '2021-01-18 15:25:06',
-            '2021-01-18 15:25:36',
-            '2021-01-18 15:28:21',
-            '2021-01-18 15:29:10',
+        $dateTime = [];
+        for ($i = 0; $i < 5; $i++) {
+            $date = new \DateTime();
+            $stringPD = 'P' . $i . 'D';
+            $date->add(new \DateInterval($stringPD));
+            $dateTime [] = $date->format('Y-m-d');
+        }
 
-        ];
         $application = [
             'HRM',
             'CRM',
@@ -447,6 +513,35 @@ class AutoDumpDataBase
 
         }
 
+        $parentItem = $this->newParent;
+        $rank = $this->findModels('\forma\modules\core\records\Rank', ['id' => $this->getOldAccessoryRanks()]);
+        $this->forSaveAndGetKey($rank, 'rank_id');
+
+        if ($this->deleteAutoDamp) {
+            return $this->delete($rank);
+        }
+
+        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['rank_id' => $this->oldKeys['rank_id']]);
+        foreach ($ruleModels as $ruleModel) {
+            $ruleModel = $this->changeAttributes(
+                $this->newKeys['rank_id'],
+                $ruleModel,
+                'rank_id'
+            );
+            $ruleModel->item_id = $parentItem[$ruleModel->item_id];
+            $this->saveWhitParent($ruleModel);
+        }
+
+        $itemInterfaceModels = $this->findModels('\forma\modules\core\records\ItemInterface', ['rank_id' => $this->oldKeys['rank_id']]);
+        foreach ($itemInterfaceModels as $itemInterfaceModel) {
+            $itemInterfaceModel = $this->changeAttributes(
+                $this->newKeys['rank_id'],
+                $itemInterfaceModel,
+                'rank_id'
+            );
+            $this->saveWhitParent($itemInterfaceModel);
+        }
+
         return true;
     }
 
@@ -476,6 +571,7 @@ class AutoDumpDataBase
                 'parent_id');
             $this->saveWhitParent($itemsModel);
         }
+
         $parentItem = $this->newParent;
         $rank = $this->findModels('\forma\modules\core\records\Rank', ['id' => $this->getOldAccessoryRanks()]);
         $this->forSaveAndGetKey($rank, 'rank_id');
@@ -769,11 +865,7 @@ class AutoDumpDataBase
 
     public function requestStrategy()
     {
-
-        $requestStrategeis = $this->findModels('forma\modules\selling\records\requeststrategy\RequestStrategy',
-            ['strategy_id' => $this->accessoryOldKeys['forma\modules\selling\records\strategy\Strategy'],
-                'request_id' => $this->accessoryOldKeys['forma\modules\selling\records\talk\Request']]);
-
+        $requestStrategeis = $this->findModels('forma\modules\selling\records\requeststrategy\RequestStrategy', ['id' => $this->getOldAccessoryStrategies()]);
         foreach ($requestStrategeis as $requestStrategy) {
             $requestStrategy = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\selling\records\strategy\Strategy'],
@@ -787,6 +879,7 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($requestStrategy);
         }
+
         if ($this->deleteAutoDamp) return $this->delete($requestStrategeis);
 
         return true;
@@ -952,12 +1045,7 @@ class AutoDumpDataBase
 
     public function selling()
     {
-        $sales = $this->findModels('forma\modules\selling\records\selling\Selling',
-            ['customer_id' => $this->accessoryOldKeys['forma\modules\customer\records\Customer'],
-                'warehouse_id' => $this->oldKeys['warehouse_id'],
-                'state_id' => $this->oldKeys['state_id']
-            ]);
-
+        $sales = $ruleModels = $this->findModels('forma\modules\selling\records\selling\Selling', ['id' => $this->getOldAccessorySellings()]);
         foreach ($sales as $sale) {
             $sale = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\customer\records\Customer'],
@@ -974,10 +1062,13 @@ class AutoDumpDataBase
                 $sale,
                 'state_id');
 
+            $sale->selling_token = Yii::$app->getSecurity()->generateRandomString();
             $this->forSaveAndGetKey($sale, 'selling_id');
         }
 
-        if ($this->deleteAutoDamp) return $this->delete($sales);
+        if ($this->deleteAutoDamp) {
+            return $this->delete($sales);
+        }
 
         if (isset($this->oldKeys['selling_id'])) {
             $sellingProducts = $this->findModels('forma\modules\selling\records\sellingproduct\SellingProduct',
@@ -985,6 +1076,7 @@ class AutoDumpDataBase
                     'product_id' => $this->getOldAccessoryProducts(),
                     'selling_id' => $this->oldKeys['selling_id'],
                 ]);
+
             foreach ($sellingProducts as $sellingProduct) {
                 $sellingProduct = $this->changeAttributes(
                     $this->newKeys['product_id'],

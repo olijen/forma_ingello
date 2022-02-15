@@ -16,35 +16,30 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="customer-source-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <?php BoxWidget::begin([
-        'title'=>'Источники клиентов <small class="m-l-sm">записей '.$dataProvider->getCount().' из '.$dataProvider->getTotalCount().'</small>',
-        'buttons' => [
-            ['link', '<i class="fa fa-plus-circle" aria-hidden="true"></i>',['create'],['title'=>'создать Источник клиента']]
-        ]
-    ]);
-    ?>
-    <?php WidgetAccess::begin(['module' => 'СRM', 'key' => 'grid customer source']) ?>
+
+    <p>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать источник клиентов'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
+    </p>
     <?php Pjax::begin(['id' => 'grid'])?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
+
 
             'id',
             'name',
             'order',
             'description',
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
 
     <?php Pjax::end();?>
-    <?php WidgetAccess::end(); ?>
-    <?php BoxWidget::end();?>
+
 
 
 </div>

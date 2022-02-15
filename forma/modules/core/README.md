@@ -12,26 +12,26 @@
 'button add send link' => 'Кнопка подготовки к рассылке',
 ],`
 
- для добавления нового интерфейса, нужно выбрать в какой модуль его добавить, после разместить виджет доступа ПРИМЕР 
+для добавления нового интерфейса, нужно выбрать в какой модуль его добавить, после разместить виджет доступа ПРИМЕР
 
 `WidgetAccess::begin(['module' => 'СRM', 'key' => 'button add selling main']) ?>
-<a href="/selling/form/index" class="btn btn-success forma_blue"> 
+<a href="/selling/form/index" class="btn btn-success forma_blue">
 <i class="fa fa-plus"></i> Новая продажа </a>
 php WidgetAccess::end();`
 
 # Важные методы:
 
 * `
-public function actionResetItemInterface()
-` - если были добавился новый интерфейс в params, ОБЯЗАТЕЛЬНО обновить данные в таблице ItemIterface. 
-  Как это сделать? Перейти по ссылке `/core/user-profile/reset-item-interface`. После обновятся 
+  public function actionResetItemInterface()
+  ` - если были добавился новый интерфейс в params, ОБЯЗАТЕЛЬНО обновить данные в таблице ItemIterface.
+  Как это сделать? Перейти по ссылке `/core/user-profile/reset-item-interface`. После обновятся
   данные в таблице доступа.
 
 * `
-actionCreateGameProfile()
-` - метод создания игрового профиля. Для того чтобы создать игровой профиль перехожу по ссылке `/core/user-profile/create-game-profile` 
+  actionCreateGameProfile()
+  ` - метод создания игрового профиля. Для того чтобы создать игровой профиль перехожу по ссылке `/core/user-profile/create-game-profile`
 
-#Логика игры 
+#Логика игры
 
 * Добавляю правила - за какое действие и в каком количестве какой интерфейс мне откроется.
 

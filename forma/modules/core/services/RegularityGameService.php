@@ -89,7 +89,9 @@ class RegularityGameService
         $ranks = [];
         foreach ($this->regularity->items as $item) {
             foreach ($item->rules as $rule) {
-                $ranks [] = $rule->rank->getAttributes();
+                if (isset($rule->rank)) {
+                    $ranks [] = $rule->rank->getAttributes();
+                }
             }
         }
         $this->ranks = $ranks;
@@ -146,10 +148,13 @@ class RegularityGameService
     public function setUserProfileRules(): void
     {
         $userProfileRules = [];
+        $userId = Yii::$app->user->id;
         foreach ($this->regularity->items as $item) {
             foreach ($item->rules as $rule) {
                 foreach ($rule->userProfileRules as $userProfileRule) {
-                    $userProfileRules [] = $userProfileRule->getAttributes();
+                    if ($userProfileRule->user_id === $userId) {
+                        $userProfileRules [] = $userProfileRule->getAttributes();
+                    }
                 }
             }
         }
@@ -165,19 +170,22 @@ class RegularityGameService
     {
         $params = Yii::$app->params['access-interface'];
         $arrayGrantInterface = [];
-        $rank = Rank::find()->where(['id' => $id])->one();
-        foreach ($rank->itemInterfaces as $itemInterface) {
-            $arrayGrantInterface [] = $params[$itemInterface->module][$itemInterface->key];
+        $rank = Rank::find()->where(['id' => $id])->oneAccessory();
+
+        if (isset($rank)) {
+            foreach ($rank->itemInterfaces as $itemInterface) {
+                $arrayGrantInterface [] = $params[$itemInterface->module][$itemInterface->key];
+            }
         }
+
         return $arrayGrantInterface;
     }
 
     /**
-     * @return int
      * @var Rule[] $rules
      * Метод получения Ранга по Элементу
      */
-    public function getRankIdByItemId($id): int
+    public function getRankIdByItemId($id)
     {
         $rules = $this->getRules();
         $rankId = null;
@@ -188,5 +196,57 @@ class RegularityGameService
             }
         }
         return $rankId;
+    }
+
+    public function isCompletedRulesByItemId($id)
+    {
+        $countCompletedRulesByUser = [];
+        $userId = Yii::$app->user->id;
+        foreach ($this->rules as $rule) {
+            if ($rule['item_id'] == $id) {
+                $countRulesByUser = 0;
+                foreach ($this->userProfileRules as $userProfileRule) {
+                    if ($rule['id'] === $userProfileRule['rule_id'] && $userProfileRule['user_id'] === $userId) {
+                        $countRulesByUser++;
+                    }
+                }
+
+                if ($rule['count_action'] === $countRulesByUser) {
+                    $countCompletedRulesByUser [] = true;
+                } else {
+                    $countCompletedRulesByUser [] = false;
+                }
+            }
+        }
+
+        if (empty($countCompletedRulesByUser)) {
+            return false;
+        }
+
+        if (!in_array(false, $countCompletedRulesByUser)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isCompletedItemByRegularityId()
+    {
+        $countRulesFromItem = [];
+        foreach ($this->regularity->items as $item) {
+            if (!empty($item->rules)) {
+                $countRulesFromItem [] = $this->isCompletedRulesByItemId($item->id);
+            }
+        }
+
+        if (empty($countRulesFromItem)) {
+            return false;
+        }
+
+        if (!in_array(false, $countRulesFromItem)) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -21,6 +21,16 @@ class RankQuery extends \yii\db\ActiveQuery
         return parent::all($db);
     }
 
+    /**
+     * @inheritdoc
+     * @return Rank|array|null
+     */
+    public function oneAccessory($db = null)
+    {
+        $this->andWhere(['in', 'rank.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
+        return parent::one($db);
+    }
+
     public function all($db = null)
     {
         return parent::all($db);

@@ -93,9 +93,10 @@ use \wokster\ltewidgets\BoxWidget;
                         ]);
                         $index++;
                     }
-                    else{
-                        echo Html::a('Посмотреть все записи',['/selling/form', 'id' => $model->id], ['class' => 'btn btn-success']);
-                    }
+                }
+
+                if ($index > 3) {
+                    echo Html::a('Посмотреть все записи', ['/selling/form', 'id' => $model->id], ['class' => 'btn btn-success']);
                 }
                 ?>
 

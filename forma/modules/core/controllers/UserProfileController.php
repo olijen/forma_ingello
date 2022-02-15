@@ -47,10 +47,11 @@ class UserProfileController extends Controller
         }
 
         $this->layout = 'public';
-        $currenUser = User::find()->joinWith(['userProfileRules'])->where(['user.id' => Yii::$app->user->id])->one();
+        $currenUser = User::find()->where(['user.id' => Yii::$app->user->id])->joinWith(['userProfileRules'])->one();
         $icons = array_slice((new \ReflectionClass(FontAwesome::class))->getConstants(), 21, -1);
         if (!empty($currenUser)) {
             $ranks = Rank::find()->joinWith(['rules'])->allAccessory();
+
             return $this->render('/user-profile/userprofile/index', [
                 'ranks' => $ranks,
                 'currenUser' => $currenUser,

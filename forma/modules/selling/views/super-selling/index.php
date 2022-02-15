@@ -30,7 +30,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
 <div class="selling-index">
     <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа </a>
     <hr>
-
+    <input id="import-file-input" type="file" style="display: none;" class="kv-loader">
     <?php
     $gridColumns = [
 
@@ -81,7 +81,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         [
             'class' => 'kartik\grid\EditableColumn',
             'attribute' => 'customerPhone',
-            'label' => 'Номер',
+            'label' => 'Телефон',
             'value' => 'customer.chief_phone',
             //'pageSummary' => 'Total',
             'vAlign' => 'middle',
@@ -295,7 +295,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'pjax' => true,
-
+        'responsiveWrap' => false,
         'columns' => $gridColumns,   // check the configuration for grid columns by clicking button above
         'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
         'showPageSummary' => true, // table page summary floats when you scroll
@@ -316,6 +316,28 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
             ['content' =>
                 (isset($_GET['SellingSearch']) || isset($_GET['sort'])) ?
                     Html::a('Сбросить фильтры', ['index'], ['class' => 'btn btn-success']) : false
+            ],
+            [
+                'content' => \yii\bootstrap\ButtonDropdown::widget([
+                    'label' => '<i class="glyphicon glyphicon-import"></i>',
+                    'encodeLabel' => false,
+                    'dropdown' => [
+                        'items' => [
+                            ['label' => 'Импорт', 'options' => [
+                                'onclick' => '$("#import-file-input").trigger("click");',
+                                'style' => 'cursor: pointer;',
+                            ]],
+                            [
+                                'label' => 'Пример',
+                                'options' => [
+                                    'onclick' => 'location.href = "/selling/super-selling/download-example-file"',
+                                    'style' => 'cursor: pointer;',
+                                ],
+                            ],
+                        ],
+                    ],
+                    'options' => ['class' => 'btn btn-default forma_light_orange'],
+                ]),
             ],
             $exportMenu,
             '{toggleData}',
@@ -338,3 +360,53 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
     ?>
 
 </div>
+<?php
+$js = <<< JS
+     function showLoaderSellingImport() {
+        document.getElementById("loader").style.display = "block";
+        $('body').css('pointer-events', 'none');
+     }
+
+     function hideLoaderSellingImport() {
+        document.getElementById("loader").style.display = "none";
+        $('body').css('pointer-events', 'all');
+    }
+    
+    $('#import-file-input').change(function () {
+        let sendUrl = '/selling/super-selling/import-file';
+        let fd = new FormData();
+        fd.append('csv', this.files[0]);
+        showLoaderSellingImport();
+        $.ajax({
+            url: sendUrl,
+            type: 'POST',
+            data: fd,
+            dataType: 'json',
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+                response = JSON.parse(response);
+                if (response.msgErrors !== "") {
+                    krajeeDialog.alert(response.msgErrors);
+                    hideLoaderSellingImport()
+                } else if (response.msgInfo !== "") {
+                    krajeeDialog.alert('Созданы клиенты и продажи'+response.msgInfo);
+                    $.pjax({container: '#grid-pjax'})
+                    hideLoaderSellingImport()
+                } else {
+                    krajeeDialog.alert('Созданы клиенты и продажи');
+                    $.pjax({container: '#grid-pjax'})
+                    hideLoaderSellingImport()
+                }
+
+                $('#import-file-input').val('');
+            }).fail(function () {
+                $('#import-file-input').val('');
+            });
+    });
+    
+JS;
+$this->registerJs($js);
+
+?>

@@ -46,24 +46,28 @@ class EventUserProfileService
     {
         return Rank::find()->where(['rank.id' => $rule->rank_id])->joinWith(['rules' => function ($q) {
             $q->joinWith('userProfileRules');
-        }])->one();
+        }])->oneAccessory();
     }
 
     /**
      * @return array|Rank|null
-     * Метод возврвщает текущий Ранг пользователя
+     * Метод возвращает текущий Ранг пользователя
      */
     public function getCurrenRank()
     {
-        return Rank::find()->where(['rank.id' => self::getUserProfile()->userProfile->rank_id])->joinWith(['rules' => function ($q) {
-            $q->joinWith('userProfileRules');
-        }])->one();
+        if (!empty(self::$userProfile->rank)) {
+            return Rank::find()->where(['rank.id' => self::getUserProfile()->userProfile->rank_id])->joinWith(['rules' => function ($q) {
+                $q->joinWith('userProfileRules');
+            }])->oneAccessory();
+        }
+
+        return null;
     }
 
     /**
      * @param Rule $rule
      * @return void
-     * Метод принимает добавляет новую запись в таблицу UserProfileRule, если он еще не выполил задание
+     * Метод принимает и добавляет новую запись в таблицу UserProfileRule, если он еще не выполнил задание
      */
     public function addNewUserProfileRule(Rule $rule)
     {
@@ -82,9 +86,12 @@ class EventUserProfileService
      */
     public function setEvent(Rule $rule)
     {
-        $currentRank = $this->getCurrenRank();
-        $countRule = 0;
+        $currentRank = null;
+        if (isset($rule->rank)) {
+            $currentRank = $this->getCurrenRank();
+        }
 
+        $countRule = 0;
         foreach (self::getUserProfile()->userProfileRules as $profileRule) {
             if ($profileRule->rule_id == $rule->id) {
                 $countRule++;
@@ -95,48 +102,33 @@ class EventUserProfileService
             $this->addNewUserProfileRule($rule);
         }
 
-        $newRank = $this->getNewRank($rule);
-        $countCurrentBall = 0;
-        $needCountBall = count($newRank->rules);
-        foreach ($newRank->rules as $itemRule) {
-            if ($itemRule->count_action == count($itemRule->userProfileRules)) {
-                $countCurrentBall++;
-            }
-        }
-        if ($needCountBall == $countCurrentBall) {
-            if (!isset($currentRank)) {
-                self::getUserProfile()->userProfile->rank_id = $newRank->id;
-                if (self::getUserProfile()->userProfile->save()) {
-                    $this->setCookieSystemEvent('event', $newRank->id);
-                    return true;
+        if (!empty($newRank->rules)) {
+            $newRank = $this->getNewRank($rule);
+            $countCurrentBall = 0;
+            $needCountBall = count($newRank->rules);
+            foreach ($newRank->rules as $itemRule) {
+                if ($itemRule->count_action == count($itemRule->userProfileRules)) {
+                    $countCurrentBall++;
                 }
             }
-            if (isset(self::getUserProfile()->userProfile->rank)) {
-                if ($newRank->order > $currentRank->order) {
+            if ($needCountBall == $countCurrentBall) {
+                if ($currentRank === null) {
                     self::getUserProfile()->userProfile->rank_id = $newRank->id;
                     if (self::getUserProfile()->userProfile->save()) {
-                        $this->setCookieSystemEvent('event', $newRank->id);
                         return true;
                     }
-                } else {
-                    return true;
+                }
+                if (isset(self::getUserProfile()->userProfile)) {
+                    if ($newRank->order > $currentRank->order) {
+                        self::getUserProfile()->userProfile->rank_id = $newRank->id;
+                        if (self::getUserProfile()->userProfile->save()) {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
                 }
             }
         }
-    }
-
-    /**
-     * @param string $name
-     * @param int $rule_id
-     * @return void
-     * Метод записывает cookie если пользователь выполнил все задания
-     */
-    public function setCookieSystemEvent(string $name, int $rule_id)
-    {
-        $cookies = Yii::$app->response->cookies;
-        $cookies->add(new \yii\web\Cookie([
-            'name' => $name,
-            'value' => [$rule_id],
-        ]));
     }
 }
