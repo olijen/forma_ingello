@@ -221,27 +221,7 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-        let ruleId = getCookie('ruleId');
-        
-        if (ruleId !== null) {
-            let documenByItem = window.parent;
-            documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-            
-            $.ajax({
-                type: "POST",
-                url: "/core/regularity/get-item-id-by-rule",
-                data: {ruleKey: ruleId}
-            }).done(function(itemId){
-                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-                documenByItem.$('#item-check-icon-'+itemId.itemId).trigger('click');
-                
-                $('#alert-rule').after(itemId.value);
-                $('#alert-id').css('display','block');
-                
-                eraseCookie('ruleId')
-            });
-        }
+        reloadContainerPublicRegularity();
     });
 }
 JS;
@@ -291,27 +271,7 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-        let ruleId = getCookie('ruleId');
-        
-        if (ruleId !== null) {
-            let documenByItem = window.parent;
-            documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-            
-            $.ajax({
-                type: "POST",
-                url: "/core/regularity/get-item-id-by-rule",
-                data: {ruleKey: ruleId}
-            }).done(function(itemId){
-                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-                documenByItem.$('#regularity-check-icon-'+itemId.regularityId).trigger('click');
-                
-                $('#alert-rule').after(itemId.value);
-                $('#alert-id').css('display','block');
-                
-                eraseCookie('ruleId')
-            });
-        }
+        reloadContainerPublicRegularity();
     });
 }
 JS;
@@ -335,6 +295,34 @@ $widgetsForSortable2 = [];
     $('.box').on('removed.boxwidget', function () {
         console.log('удалили блок');
     });
+
+    function reloadContainerPublicRegularity(){
+        let ruleId = getCookie('ruleId');
+
+        if (ruleId !== null) {
+            let documenByItem = window.parent;
+
+            $.ajax({
+                type: "POST",
+                url: "/core/regularity/get-item-id-by-rule",
+                data: {ruleKey: ruleId}
+            }).done(function(itemId){
+                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
+                documenByItem.$('#item-check-icon-'+ruleId).trigger('click');
+
+                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
+                documenByItem.$('#regularity-check-icon-'+ruleId).trigger('click');
+
+                documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
+                documenByItem.$('#box-item-rules-'+ruleId).trigger('click');
+
+                $('#alert-rule').after(itemId.value);
+                $('#alert-id').css('display','block');
+
+                eraseCookie('ruleId')
+            });
+        }
+    }
 </script>
 
 <style>
