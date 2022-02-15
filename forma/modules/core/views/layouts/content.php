@@ -16,11 +16,10 @@
  Alert::begin([
      'options' => [
          'class' => 'alert-warning',
-         'id' => 'alert-id',
+         'id' => 'alert-rule',
          'style' => 'display: none'
      ],
  ]);
-     echo "<p id='alert-rule'></p>";
  Alert::end();
  ?>
 <div class="content-wrapper" style="">

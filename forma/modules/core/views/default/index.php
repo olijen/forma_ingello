@@ -316,8 +316,8 @@ $widgetsForSortable2 = [];
                 documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
                 documenByItem.$('#box-item-rules-'+ruleId).trigger('click');
 
-                $('#alert-rule').after(itemId.value);
-                $('#alert-id').css('display','block');
+                $('#alert-rule').append(itemId.value);
+                $('#alert-rule').css('display', 'block');
 
                 eraseCookie('ruleId')
             });
