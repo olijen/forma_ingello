@@ -63,7 +63,7 @@ class TalkController extends Controller
             return true;
         }
 
-        throw new NotFoundHttpException('Dialog selling not save');
+        de($selling->errors);
     }
 
     public function actionSaveCustomAnswer()
