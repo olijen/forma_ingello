@@ -28,9 +28,11 @@ class FormController extends Controller
         $vacancy = Vacancy::getListVacancyProject();
 
         if (!empty($projectId) && !empty($vacancyId) && !empty($model)) {
+            $projectVacancy = ProjectVacancy::find()->where(['project_id' => $projectId, 'vacancy_id' => $vacancyId])->one();
             $model->project_id = $projectId;
-            $model->vacancy_id = $vacancyId;
+            $model->vacancy_id = $projectVacancy->id;
         }
+
         return $this->render('index', compact('model', 'userState', 'interviewState', 'vacancy'));
     }
 

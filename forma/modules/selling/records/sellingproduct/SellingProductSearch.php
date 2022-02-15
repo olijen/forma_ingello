@@ -48,7 +48,6 @@ class SellingProductSearch extends SellingProduct
     public function search($params)
     {
         $query = SellingProduct::find();
-        $this->access($query);
         $query->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'LEFT JOIN');
 
         $dataProvider = new ActiveDataProvider([
