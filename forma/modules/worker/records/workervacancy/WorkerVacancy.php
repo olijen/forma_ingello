@@ -111,10 +111,8 @@ class WorkerVacancy extends AccessoryActiveRecord
 
         foreach ($workerVacancies as $workerVacancy) {
             foreach ($workerInterviews as $workerInterview) {
-                if ($workerVacancy->worker_id === $workerInterview->worker_id) {
-                    if ($workerVacancy->vacancy_id !== $workerInterview->vacancy_id) {
-                        $ids[] = $workerVacancy->worker_id;
-                    }
+                if ($workerVacancy->worker_id === $workerInterview->worker_id && $workerVacancy->vacancy_id !== $workerInterview->vacancy_id) {
+                    $ids[] = $workerVacancy->worker_id;
                 }
             }
         }

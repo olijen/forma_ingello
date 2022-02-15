@@ -100,10 +100,8 @@ class TestController extends Controller
         $customer = new Customer();
         $testType = TestType::find()->where(['id' => $id])->one();
 
-        if (Yii::$app->request->isPost) {
-            if (isset($_POST['Customer'])) {
-                $testData = TestService::completeTest($_POST['Customer']);
-            }
+        if (Yii::$app->request->isPost && isset($_POST['Customer'])) {
+            $testData = TestService::completeTest($_POST['Customer']);
 
             $result = $_POST;
             $save = $this->renderFile('@forma/modules/test/views/test/test_result.php', [

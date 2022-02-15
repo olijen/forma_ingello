@@ -48,7 +48,8 @@ class FormController extends Controller
             $model->name = '-';
 
             if (empty($model->state)) {
-                $model->state_id = InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id;
+                $model->state_id = isset(InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id)
+                    ? InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id : null;
             }
 
             if ($model->save()) {
