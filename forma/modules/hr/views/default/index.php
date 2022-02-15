@@ -135,23 +135,20 @@ foreach ($dp->getModels() as $project) {
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                         $count++;
+                        if (!empty($interview->state_id) && $interview->getState($interview->state_id) === $interview->states()[5]) {
+                            $count++;
+                        }
                     }
-                    $countInt = 0;
-                    foreach ($project->interviews as $interview) {
-                         $countInt++;
-                    }
-                    $vacacount = 0;
-                    foreach ($vacaVaca as $projectVacancy) {
-                        $vacacount += $projectVacancy->count;
-                    }
+
+                    $countInt = count($project->interviews);
+                    $vacacount = count($vacaVaca);
                     ?>
 
                     <span>
-                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state]=4&InterviewSearch[project_id]=<?=$project->id?>">Работ:</a> <?=$count?></small>
+                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state]=5&InterviewSearch[project_id]=<?=$project->id?>">Работ:</a> <?=$count?></small>
                     </span>
                     <span>
-                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state_min]=4&InterviewSearch[project_id]=<?=$project->id?>">Найм:</a> <?=$countInt?></small>
+                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state_min]=5&InterviewSearch[project_id]=<?=$project->id?>">Найм:</a> <?=$countInt?></small>
                     </span>
                     <span>
                         <small><a data-pjax="0" href="/project/project-vacancy?ProjectVacancySearch[project_id]=<?=$project->id?>">Ваканс:</a> <?=$vacacount?></small>
