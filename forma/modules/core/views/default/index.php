@@ -1293,11 +1293,7 @@ if ($widgetNewOrder == true) {
 
     function stickyUpdate() {
         let heightUlWidgets = $('#panel_small_widget').height();
-        if (isModal === null) {
-            $('.simulation-content').css('height', (heightUlWidgets + 130));
-        } else {
-            $('.simulation-content').css('height', (heightUlWidgets + 100));
-        }
+        $('.simulation-content').css('height', (heightUlWidgets + 120));
     }
 
     stickyUpdate()
