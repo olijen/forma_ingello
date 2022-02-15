@@ -46,7 +46,7 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
             <input type="radio" style="display: none" class="check-radio"
                    name=<?= $radioName ?> id="item-check<?= $item->id ?>">
 
-            <?php if($countAnswer == $countRightAnswer && $countAnswer != 0){ ?>
+            <?php if ($countAnswer == $countRightAnswer && $countAnswer != 0) { ?>
             <i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>
             <?php } ?>
 
