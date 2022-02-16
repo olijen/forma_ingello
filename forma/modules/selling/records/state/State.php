@@ -17,7 +17,7 @@ use Yii;
  *
  * @property User $user
  */
-class State extends AccessoryActiveRecord
+class State extends yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
