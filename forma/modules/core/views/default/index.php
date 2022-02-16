@@ -8,7 +8,7 @@ use \forma\modules\core\widgets\SalesFunnelWidget;
 use \forma\modules\core\widgets\DepartmentPerfomance;
 use \forma\modules\core\widgets\WeeklySalesWidget;
 
-$this->title = 'Мониторинг отделов';
+
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 /**
@@ -307,17 +307,20 @@ $widgetsForSortable2 = [];
                 url: "/core/regularity/get-item-id-by-rule",
                 data: {ruleKey: ruleId}
             }).done(function(itemId){
-                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-                documenByItem.$('#item-check-icon-'+ruleId).trigger('click');
+                let alertElement = $('#alert-rule');
+                alertElement.append(itemId.value);
+                alertElement.css('display', 'block');
+                alertElement.css('margin-left', '60px');
+                alertElement.css('margin-top', '60px');
 
-                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-                documenByItem.$('#regularity-check-icon-'+ruleId).trigger('click');
+                documenByItem.$.pjax.reload({container: '#regularity-check-icon-' + itemId.regularityId, async: false});
+                documenByItem.$('#regularity-check-icon-' + ruleId).trigger('click');
 
-                documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-                documenByItem.$('#box-item-rules-'+ruleId).trigger('click');
+                documenByItem.$.pjax.reload({container: '#item-check-icon-' + itemId.itemId, async: false});
+                documenByItem.$('#item-check-icon-' + ruleId).trigger('click');
 
-                $('#alert-rule').append(itemId.value);
-                $('#alert-rule').css('display', 'block');
+                documenByItem.$.pjax.reload({container: '#box-item-rules-' + ruleId, async: false});
+                documenByItem.$('#box-item-rules-' + ruleId).trigger('click');
 
                 eraseCookie('ruleId')
             });
@@ -676,7 +679,7 @@ foreach ($widgetOrder as $panel => $widgetArray) {
     </script>
 </div>
 <div class="simulation-content"></div>
-<div class="row small_widgets_text" style="display: none; color: red;">
+<div class="row small_widgets_text" style="display: none; color: red; padding-top: 10px;">
     Конструктор виджетов не доступен на мобильных устройствах.
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
 </div>
@@ -1212,6 +1215,12 @@ if ($widgetNewOrder == true) {
 
     .content-wrapper {
         min-height: 100% !important;
+    }
+
+    .content {
+        padding: 0;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     @media screen and (max-width: 768px) {

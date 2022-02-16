@@ -76,9 +76,47 @@ class SystemEventService
         }
         return $data;
     }
-    public static function setCookieSystemEvent(int $rule_id){
-        setcookie('ruleId', $rule_id, time() + 60*60*24*30, '/');
+
+    public static function setCookieSystemEvent(int $rule_id)
+    {
+        setcookie('ruleId', $rule_id, time() + 60 * 60 * 24 * 30, '/');
     }
+
+    public static function setEventRule($action, $tableName)
+    {
+        $rule = Rule::find()->andWhere(['action' => $action])->andWhere(['table' => $tableName])->oneAccessory();
+        $userId = Yii::$app->user->id;
+
+        if ($rule) {
+            $accessInterface = AccessInterface::find()->andWhere(['user_id' => $userId, 'rule_id' => $rule->id])->one();
+
+            if ($accessInterface === null) {
+                $newAccessInterface = new AccessInterface();
+                $newAccessInterface->rule_id = $rule->id;
+                $newAccessInterface->current_mark = 1;
+                $newAccessInterface->user_id = $userId;
+                $newAccessInterface->status = false;
+
+                if ($newAccessInterface->current_mark === $rule->count_action) {
+                    $newAccessInterface->status = true;
+                }
+
+                $newAccessInterface->save();
+            } else {
+                if ($accessInterface->status === 0) {
+                    $accessInterface->current_mark++;
+                    $accessInterface->save();
+                }
+
+                if ($accessInterface->current_mark === $rule->count_action && $accessInterface->status === 0) {
+                    $accessInterface->status = true;
+                    $accessInterface->save();
+                    self::setCookieSystemEvent($rule->id);
+                }
+            }
+        }
+    }
+
     public static function eventAfterInsert($event){
 
         //Yii::debug($event);
@@ -107,31 +145,7 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
-            $rule = Rule::find()->andWhere(['action' => 'insert'])->andWhere(['table' => $model->tableName()])->oneAccessory();
-
-            if($rule){
-                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
-                    ['rule_id' => $rule->id]
-                )->one();
-                if ($accessInterface === null) {
-                    $newAccessInterface = new AccessInterface();
-                    $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->current_mark = 1;
-                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
-                    $newAccessInterface->status = false;
-                    $newAccessInterface->save();
-                } else {
-                    if ($accessInterface->status == false) {
-                        $accessInterface->current_mark = ++$accessInterface->current_mark;
-                        $accessInterface->save();
-                    }
-                    if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
-                        $accessInterface->status = true;
-                        $accessInterface->save();
-                        self::setCookieSystemEvent($rule->id);
-                    }
-                }
-            }
+            self::setEventRule('insert', $model->tableName());
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
@@ -183,35 +197,11 @@ class SystemEventService
         }
         $subject = '';
         $text = '';
+
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'update'])->andWhere(['table' => $model->tableName()])->oneAccessory();
 
-            if ($rule) {
-                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
-                    ['rule_id' => $rule->id]
-                )->one();
-                if ($accessInterface === null) {
-                    $newAccessInterface = new AccessInterface();
-                    $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->current_mark = 1;
-                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
-                    $newAccessInterface->status = false;
-                    $newAccessInterface->save();
-                } else {
-                    if ($accessInterface->status == false && $accessInterface->current_mark < $rule->count_action ) {
-                        $accessInterface->status = false;
-                        $accessInterface->current_mark = ++$accessInterface->current_mark;
-                        $accessInterface->save();
-                    }
-
-                    if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
-                        $accessInterface->status = true;
-                        $accessInterface->save();
-                        self::setCookieSystemEvent($rule->id);
-                    }
-                }
-            }
+            self::setEventRule('update', $model->tableName());
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
@@ -253,31 +243,8 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
-            $rule = Rule::find()->andWhere(['action' => 'delete'])->andWhere(['table' => $model->tableName()])->oneAccessory();
-            if($rule){
-                $accessInterface = AccessInterface::find()->andWhere(['user_id' => Yii::$app->user->identity->id])->andWhere(
-                    ['rule_id' => $rule->id]
-                )->one();
-                if (!$accessInterface) {
-                    $newAccessInterface = new AccessInterface();
-                    $newAccessInterface->rule_id = $rule->id;
-                    $newAccessInterface->current_mark = 1;
-                    $newAccessInterface->user_id = Yii::$app->user->identity->id;
-                    $newAccessInterface->status = false;
-                    $newAccessInterface->save();
-                } else {
-                    if ($accessInterface->status == false) {
-                        $accessInterface->status = false;
-                        $accessInterface->current_mark = ++$accessInterface->current_mark;
-                        $accessInterface->save();
-                    }
-                    if ($accessInterface->current_mark <= $rule->count_action && $accessInterface->status == false) {
-                        $accessInterface->status = true;
-                        $accessInterface->save();
-                        self::setCookieSystemEvent($rule->id);
-                    }
-                }
-            }
+
+            self::setEventRule('delete', $model->tableName());
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
