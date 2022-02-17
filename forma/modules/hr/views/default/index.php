@@ -29,6 +29,7 @@ $list = [
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 /** @var forma\modules\hr\forms\InterviewProgress $interviewProgress */
 $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
+$workers = \forma\modules\worker\records\Worker::find()->joinWith('relationsWorkerVacancies')->all();
 
 $dp = Project::accessSearch(['state' => 1], ['setPageSize' => 6]);
 foreach ($dp->getModels() as $project) {
@@ -135,8 +136,12 @@ foreach ($dp->getModels() as $project) {
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                        if (!empty($interview->state_id) && $interview->getState($interview->state_id) === $interview->states()[5]) {
-                            $count++;
+                        foreach ($workers as $worker) {
+                            foreach ($worker->relationsWorkerVacancies as $workerVacancy) {
+                                if ($workerVacancy->vacancy_id == $interview->vacancy_id && $workerVacancy->worker_id == $interview->worker_id && $worker->status == 1) {
+                                    $count++;
+                                }
+                            }
                         }
                     }
 
