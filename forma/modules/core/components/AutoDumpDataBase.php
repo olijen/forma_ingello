@@ -81,6 +81,7 @@ class AutoDumpDataBase
                     'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
                     'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
                     'forma\\modules\\purchase\\records\\purchase\\Purchase',
+                    'forma\\modules\\purchase\\records\\purchase\\PurchaseProduct',
                     'forma\\modules\\core\\records\\Rule',
                     'forma\\modules\\test\\records\\Test',
                     'forma\\modules\\test\\records\\TestType',
@@ -386,10 +387,6 @@ class AutoDumpDataBase
 
     public function warehouse()
     {
-        $modelsRoute = [
-            '\forma\modules\warehouse\records\Warehouse',
-            '\forma\modules\warehouse\records\WarehouseProduct',
-        ];
         $modelWhitUser = $this->modelWhitUser('\forma\modules\warehouse\records\WarehouseUser');
         $ids = $this->getIdsForModelAttributes($modelWhitUser, 'warehouse_id');
 
@@ -649,13 +646,8 @@ class AutoDumpDataBase
 
     public function purchase()
     {
-        ['\forma\modules\purchase\records\purchase\Purchase',     // supplier_id    warehouse_id
-            '\forma\modules\purchase\records\purchase\PurchaseOverheadCost',   // purchase_id   overhead_cost_id
-            '\forma\modules\purchase\records\purchaseproduct\PurchaseProduct',];//  purchase_id  product_id  pack_unit_id  overhead_cost_id
-
-        $purchases = $this->findModels('\forma\modules\purchase\records\purchase\Purchase',
-            ['supplier_id' => $this->accessoryOldKeys['forma\modules\supplier\records\Supplier'],
-                'warehouse_id' => $this->oldKeys['warehouse_id']]);
+        $purchases = $this->findModels('forma\modules\purchase\records\purchase\Purchase',
+            ['id' => $this->getOldAccessory('forma\\modules\\purchase\\records\\purchase\\Purchase')]);
 
         foreach ($purchases as $purchase) {
             $purchase = $this->changeAttributes(
@@ -691,11 +683,7 @@ class AutoDumpDataBase
         }
 
         $purchaseProducts = $this->findModels('forma\modules\purchase\records\purchaseproduct\PurchaseProduct',
-            ['pack_unit_id' => $this->accessoryOldKeys['forma\modules\product\records\PackUnit'],
-                'purchase_id' => $this->oldKeys['purchase_id'],
-                'product_id' => $this->getOldAccessory('forma\\modules\\product\\records\\Product'),
-                'overhead_cost_id' => $this->oldKeys['overhead_cost_id']]
-        );
+            ['id' => $this->getOldAccessory('forma\\modules\\purchase\\records\\purchaseproduct\\PurchaseProduct')]);
 
         //purchase_id  product_id  pack_unit_id  overhead_cost_id
         foreach ($purchaseProducts as $purchaseProduct) {
