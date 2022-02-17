@@ -372,15 +372,18 @@ $widgetsForSortable2 = [];
         display: block;
     }
 
+    .container-small_widgets {
+        width: 100%;
+    }
+
     .row.small_widgets {
         min-height: 50px;
         position: fixed;
         z-index: 99;
         background: #fff;
-        width: 100%;
         top: auto;
-        padding: 0 36px;
-        right: -12px;
+        padding: 8px;
+        width: inherit;
     }
 
     .panel_big_widget.sortable .disabled,
@@ -659,25 +662,27 @@ foreach ($widgetOrder as $panel => $widgetArray) {
     }
 }
 ?>
-
-<div class="row small_widgets sticky-simulation" style="min-height: 50px;">
-<h3>Панель виджетов</h3>
-    <?php
-    echo Sortable::widget([
-        'connected' => true,
-        'type' => 'grid',
-        'pluginEvents' => [
-            'sortupdate' => $JSUpdateSmallWidgets,
-            'sortenter' => $JSDragenter
-        ],
-        'options' => ['id' => 'panel_small_widget'],
-        'items' => $widgetsForSortable0
-    ]);
-    ?>
-    <script>
-        smallWidget();
-    </script>
+<div class="container-small_widgets">
+    <div class="row small_widgets sticky-simulation" style="min-height: 50px;">
+        <h3>Панель виджетов</h3>
+        <?php
+        echo Sortable::widget([
+            'connected' => true,
+            'type' => 'grid',
+            'pluginEvents' => [
+                'sortupdate' => $JSUpdateSmallWidgets,
+                'sortenter' => $JSDragenter
+            ],
+            'options' => ['id' => 'panel_small_widget'],
+            'items' => $widgetsForSortable0
+        ]);
+        ?>
+        <script>
+            smallWidget();
+        </script>
+    </div>
 </div>
+
 <div class="simulation-content"></div>
 <div class="row small_widgets_text" style="display: none; color: red; padding-top: 10px;">
     Конструктор виджетов не доступен на мобильных устройствах.
@@ -1301,6 +1306,9 @@ if ($widgetNewOrder == true) {
     });
 
     function stickyUpdate() {
+        let width =  $(document).width() - 55;
+        $('.container-small_widgets').css('width', width + 'px');
+
         let heightUlWidgets = $('#panel_small_widget').height();
         $('.simulation-content').css('height', (heightUlWidgets + 120));
     }
