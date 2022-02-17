@@ -112,11 +112,11 @@ class WorkerVacancy extends AccessoryActiveRecord
         }
 
         $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
-        $workerInterviews = Interview::find()->all();
+        $interviews = Interview::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
 
-        foreach ($workerVacancies as $workerVacancy) {
-            foreach ($workerInterviews as $workerInterview) {
-                if ($workerVacancy->worker_id === $workerInterview->worker_id && $workerVacancy->vacancy_id !== $workerInterview->vacancy_id) {
+        foreach ($interviews as $interview) {
+            foreach ($workerVacancies as $workerVacancy) {
+                if ($workerVacancy->worker_id !== $interview->worker_id) {
                     $ids[] = $workerVacancy->worker_id;
                 }
             }
