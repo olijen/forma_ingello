@@ -12,6 +12,7 @@ use forma\modules\hr\records\interview\Interview;
 use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\ProductPackUnit;
+use forma\modules\project\records\projectuser\ProjectUser;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
@@ -75,6 +76,8 @@ class AutoDumpDataBase
                     'forma\\modules\\selling\\records\\talk\\Answer',
                     'forma\\modules\\selling\\records\\sellingproduct\\SellingProduct',
                     'forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy',
+                    'forma\\modules\\project\\records\\projectuser\\ProjectUser',
+                    'forma\\modules\\worker\\records\\workervacancy\\WorkerVacancy',
                     'forma\\modules\\hr\\records\\interview\\Interview',
                     'forma\\modules\\selling\\records\\selling\\Selling',
                     'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy',
@@ -603,11 +606,9 @@ class AutoDumpDataBase
 
     public function workerVacancy()
     {
-        ['\forma\modules\worker\records\WorkerVacancy']; // worker_id   vacancy_id
-
         $workerVacancies = $this->findModels('forma\modules\worker\records\workervacancy\WorkerVacancy',
-            ['worker_id' => $this->accessoryOldKeys['forma\modules\worker\records\Worker'],
-                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
+            ['id' => $this->getOldAccessory('forma\\modules\\worker\\records\\workervacancy\\WorkerVacancy')]);
+
         foreach ($workerVacancies as $workerVacancy) {
             $workerVacancy = $this->changeAttributes(
                 $this->accessoryNewKeys['forma\modules\worker\records\Worker'],
@@ -623,6 +624,7 @@ class AutoDumpDataBase
         }
 
         if ($this->deleteAutoDamp) return $this->delete($workerVacancies);
+
         return true;
     }
 
@@ -856,8 +858,7 @@ class AutoDumpDataBase
     public function project()
     {
         $projectVacancies = $this->findModels('forma\modules\project\records\projectvacancy\ProjectVacancy',
-            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy']]);
+            ['id' => $this->getOldAccessory('forma\\modules\\project\\records\\projectvacancy\\ProjectVacancy')]);
 
         foreach ($projectVacancies as $projectVacancy) {
             $projectVacancy = $this->changeAttributes(
@@ -872,7 +873,26 @@ class AutoDumpDataBase
 
             $this->saveNewRecord($projectVacancy);
         }
+
         if ($this->deleteAutoDamp) return $this->delete($projectVacancies);
+
+        $projectModels = ProjectUser::find()->where(['user_id' => 1])->all();
+        $userId = Yii::$app->user->id;
+
+        foreach ($projectModels as $projectModel) {
+            $newProjectUser = new ProjectUser();
+            $newProjectUser->load($projectModel);
+
+            $newProjectUser = $this->changeAttributes(
+                $this->accessoryNewKeys['forma\modules\project\records\project\Project'],
+                $newProjectUser,
+                'project_id');
+
+            $newProjectUser->user_id = $userId;
+
+            $newProjectUser->save();
+        }
+
         return true;
     }
 
