@@ -268,7 +268,7 @@ return [
                     'label' => 'Люди',
                     'url' => '#',
                     'options' => [
-                        'style' => 'overflow-y: scroll; overflow-x: hidden; max-height: 200px;'
+                        'style' => 'overflow: hidden;'
                     ],
                     'icon' => 'users',
                     'items' => [
