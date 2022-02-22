@@ -16,6 +16,7 @@ use forma\modules\project\records\projectuser\ProjectUser;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
+use yii\web\ServerErrorHttpException;
 
 class AutoDumpDataBase
 {
@@ -300,8 +301,9 @@ class AutoDumpDataBase
             if (array_key_exists('id', $model->attributes)) $model->id = null;
             if (array_key_exists('user_id', $model->attributes)) $model->user_id = \Yii::$app->user->identity->id;
             if (!$model->save()) {
-                de($model->errors, false);
-                de($model);
+                http_response_code(500);
+                var_dump($model->errors, $model);
+                //todo: use throw new ServerErrorHttpException();
             }
         }
         return $model;

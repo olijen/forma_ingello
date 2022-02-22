@@ -241,27 +241,6 @@
 
 </div>
 
-<script src="https://cpwebassets.sfo2.cdn.digitaloceanspaces.com/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
-
-
-<script id="rendered-js">
-    /*
-    Simple loading spinners animated with CSS. All in one page!
-    Slightly modified from https://github.com/tobiasahlin/SpinKit
-    */
-    //# sourceURL=pen.js
-</script>
-
-
-
-
-
-
-
-</body>
-
-
-
 <script>
 
     wordsArray = [
@@ -274,8 +253,8 @@
         '<i class="big-round-icon fa fa-user-tag"></i> Назначаем людей на выдуманные должности...',
         '<i class="big-round-icon fa fa-truck"></i> Проводим первую пробную закупку...',
     ];
-    let i = 0;
 
+    let i = 0;
     let t = setInterval(function () {
         $('#preloader_text').animate({left: '-3000px'}, 500, () => {
             preloader_text.innerHTML = wordsArray[i];
@@ -286,18 +265,17 @@
         });
     }, 3000);
 
-
-
-    //alert(1);
     document.addEventListener("DOMContentLoaded", function(event) {
         $.ajax({
             type: 'get',
             url: 'core/default/test-data',
             data: '',
-            success: function (mmessage) {
-
+            success: function (message) {
+                //todo: clear interval "t" if time is go
+                alert('Поздравляем! Ваш профиль успешно заполнен тестовыми данными!')
             },
             error: function (request, status, error) {
+                alert('ОШИБКА: ' + JSON.stringify(request));
             }
         })
     });
