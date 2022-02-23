@@ -16,6 +16,7 @@ use forma\modules\project\records\projectuser\ProjectUser;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
+use yii\helpers\Inflector;
 use yii\web\ServerErrorHttpException;
 
 class AutoDumpDataBase
@@ -63,13 +64,25 @@ class AutoDumpDataBase
         return date('Y-m-d', strtotime($newDateEvent));
     }
 
+    public function getTableName($entityClass)
+    {
+        $nameModel = explode('\\', $entityClass)[(count(explode('\\', $entityClass)) - 1)];
+
+        return Inflector::underscore($nameModel);
+    }
+
+    public function getNewParentIdByOldId($entityClass, $oldId)
+    {
+        return $this->accessoryNewKeys[$entityClass][$oldId] ?? null;
+    }
+
     //Перебираем в этом методе все записи в accessory, которые обозначены условием,
     // далее формируем по записям accessory с помощью атрибута entity_class новую модель и сохраняем ее
     // как реакция на это, модель наследуемая от accessory создает новый access  с новым user_id
     public function getAccessoryKeys()
     {
         $model = new Accessory();
-
+        $userId = Yii::$app->user->id;
         //Странно в Accessory нет Country, но указывается в запросе
         $arrayModels = $model::find()->where(['user_id' => 1])
             ->andWhere(['not in', 'entity_class',
@@ -82,8 +95,10 @@ class AutoDumpDataBase
                     'forma\\modules\\hr\\records\\interview\\Interview',
                     'forma\\modules\\selling\\records\\selling\\Selling',
                     'forma\\modules\\selling\\records\\requeststrategy\\RequestStrategy',
-                    'forma\\modules\\country\\records\\Country', 'forma\\modules\\product\\records\\Product',
-                    'forma\\modules\\inventorization\\records\\Inventorization', 'forma\\modules\\transit\\records\\transit\\Transit',
+                    'forma\\modules\\country\\records\\Country',
+                    'forma\\modules\\product\\records\\Product',
+                    'forma\\modules\\inventorization\\records\\Inventorization',
+                    'forma\\modules\\transit\\records\\transit\\Transit',
                     'forma\\modules\\purchase\\records\\purchase\\Purchase',
                     'forma\\modules\\purchase\\records\\purchase\\PurchaseProduct',
                     'forma\\modules\\core\\records\\Rule',
@@ -97,21 +112,20 @@ class AutoDumpDataBase
         foreach ($arrayModels as $model) {
             $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
         }
-        // \Yii::debug($accessoryKeys);
 
+        $bachInsertArray = array();
         foreach ($accessoryKeys as $entityClass => $modelId) {
             //создаем модели для всех выбранных из accessory, подставляем класс и из него кидаем запрос на save
             $modelRout = '\\' . $entityClass;
             $models = $modelRout::find()->where(['id' => $modelId])->orderBy(['id' => SORT_ASC])->all();
+
+            $bachInsertArray[$modelRout] = [];
             foreach ($models as $model) {
                 $key = $model->id;
+
                 if ($this->deleteAutoDamp == false) {
                     if (array_key_exists('parent_id', $model->attributes)) {
-                        $model = $this->changeAttributes(
-                            $this->newParent,
-                            $model,
-                            'parent_id');
-                        $newModel = $this->saveWhitParent($model);
+                        $bachInsertArrayParentId[$modelRout][] = $model->getAttributes();
                     } else {
                         if ($entityClass === Event::className()) {
                             $oldDateFrom = $model->date_from;
@@ -119,20 +133,87 @@ class AutoDumpDataBase
                             $model->date_from = $this->getNewDateFromEventDate($oldDateFrom);
                             $model->date_to = $this->getNewDateFromEventDate($oldDateTo);
                         }
-                        $newModel = $this->saveNewRecord($model);
+                        $bachInsertArray[$modelRout][] = $model->getAttributes();
                     }
 
                     $this->accessoryOldKeys[$entityClass][$key] = $key;
-                    $this->accessoryNewKeys[$entityClass][$key] = $newModel->id;
-
                 } else {
                     $this->accessoryOldKeys[$entityClass][$key] = $key;
                     $this->accessoryNewKeys[$entityClass][$key] = $key;
-
                 }
             }
         }
 
+        //Работает
+        foreach ($bachInsertArray as $key => $columns) {
+            $valueColumns = [];
+
+            if (isset($columns[0])) {
+                $headColumns = array_keys($columns[0]);
+            }
+
+            $ids = [];
+            foreach ($columns as $columnValues) {
+                $valueColumns[] = array_values($columnValues);
+                $ids[] = $columnValues["id"];
+
+                if ($headColumns[0] == "id") {
+                    array_shift($valueColumns[count($valueColumns) - 1]);
+                }
+            }
+
+            if ($headColumns[0] == "id") {
+                array_shift($headColumns);
+            }
+
+            $count = Yii::$app->db->createCommand()->batchInsert($this->getTableName($key), $headColumns, $valueColumns)->execute();
+
+            $firstID = Yii::$app->db->getMasterPdo()->lastInsertId();
+            $lastID = $firstID + $count - 1;
+            $increment = 0;
+            $insertAccessoryValueArray = array();
+            for ($i = $firstID; $i <= $lastID; $i++) {
+                $this->accessoryNewKeys[substr($key, 1)][$ids[$increment]] = $i;
+
+                $insertAccessoryValueArray[] = [null, $key, $i, $userId];
+
+                $increment++;
+            }
+
+            $headColumnsAccessory = ['id', 'entity_class', 'entity_id', 'user_id'];
+            Yii::$app->db->createCommand()->batchInsert('accessory', $headColumnsAccessory, $insertAccessoryValueArray)->execute();
+        }
+
+        //Работает
+        foreach ($bachInsertArrayParentId as $key => $columns) {
+            $valueColumns = [];
+
+            if (isset($columns[0])) {
+                $headColumns = array_keys($columns[0]);
+            }
+
+            foreach ($columns as $columnValues) {
+                $valueColumns[] = $columnValues;
+            }
+
+            foreach ($valueColumns as $value) {
+                $id = $value["id"];
+                if ($value["id"]) {
+                    array_shift($value);
+                }
+
+                if ($value['parent_id']) {
+                    $value['parent_id'] = $this->getNewParentIdByOldId($key, $value['parent_id']);
+                }
+
+                Yii::$app->db->createCommand()->insert($this->getTableName($key), $value)->execute();
+                $lastId = Yii::$app->db->getMasterPdo()->lastInsertId();
+                $this->accessoryNewKeys[substr($key, 1)][$id] = $lastId;
+
+                $insertAccessoryValueArray = ['id' => null, 'entity_class' => $key, 'entity_id' => $lastId, 'user_id' => $userId];
+                Yii::$app->db->createCommand()->insert('accessory', $insertAccessoryValueArray)->execute();
+            }
+        }
     }
 
     public function systemEvents()
@@ -202,32 +283,56 @@ class AutoDumpDataBase
         }
     }
 
+    public function logDate($name)
+    {
+        Yii::debug('lod data: ' . $name . date('H-m-s'));
+    }
+
     public function start()
     {
+        $this->logDate("start log");
         $this->getAccessoryKeys();
+        $this->logDate("getAccessoryKeys();");
         $this->workerVacancy();
+        $this->logDate("workerVacancy();");
         $this->state();
+        $this->logDate("state();");
         $this->interviewState();
+        $this->logDate("interviewState();");
         $this->product();
+        $this->logDate("product();");
         $this->warehouse();
+        $this->logDate("warehouse();");
         $this->regularity();
-
-        //product
-
+        $this->logDate("regularity();");
         $this->field();
+        $this->logDate("field();");
         $this->productPackUnit();
+        $this->logDate("productPackUnit();");
         $this->overheadCost();
+        $this->logDate("overheadCost();");
         $this->purchase();
+        $this->logDate("purchase();");
         $this->requestStrategy();
+        $this->logDate("requestStrategy();");
         $this->answer();
+        $this->logDate("answer();");
         $this->interview();
+        $this->logDate("interview();");
         $this->inventorization();
+        $this->logDate("inventorization();");
         $this->project();
+        $this->logDate("project();");
         $this->selling();
+        $this->logDate("selling();");
         $this->transit();
+        $this->logDate("transit();");
         $this->userWidget();
+        $this->logDate("userWidget();");
         $this->systemEvents();
+        $this->logDate("systemEvents();");
         $this->test();
+        $this->logDate("test();");
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
 
@@ -375,15 +480,52 @@ class AutoDumpDataBase
     public function interviewState()
     {
         $states = $this->findModels('forma\modules\hr\records\interviewstate\InterviewState', ['user_id' => 1]);
-
+        $userId = Yii::$app->user->id;
+        $bachInsertArray = array();
         foreach ($states as $state) {
             $state = $this->changeAttributes(
                 ['1' => \Yii::$app->user->identity->id],
                 $state,
                 'user_id');
 
-            $this->forSaveAndGetKey($state, 'interviewState_id');
+            $bachInsertArray[] = clone $state;
         }
+
+        $header = array_keys($bachInsertArray[0]->getAttributes());
+        foreach ($header as $columnHead) {
+            if ($columnHead == "id") {
+                array_shift($header);
+            }
+        }
+
+        $ids = array();
+        $values = array();
+        foreach ($bachInsertArray as $itemInsert) {
+            $valueColumn = array_values($itemInsert->getAttributes());
+
+            if (isset($itemInsert->id)) {
+                $ids[] = $itemInsert->id;
+                array_shift($valueColumn);
+            }
+
+            $values[] = $valueColumn;
+        }
+
+        $count = Yii::$app->db->createCommand()->batchInsert($this->getTableName($bachInsertArray[0]::className()), $header, $values)->execute();
+
+        $firstID = Yii::$app->db->getMasterPdo()->lastInsertId();
+        $lastID = $firstID + $count - 1;
+        $increment = 0;
+        $insertAccessoryValueArray = array();
+        for ($i = $firstID; $i <= $lastID; $i++) {
+            $this->saveKey("interviewState_id", $ids[$increment], $i);
+            $insertAccessoryValueArray[] = [null, $bachInsertArray[0]::className(), $i, $userId];
+
+            $increment++;
+        }
+
+        $headColumnsAccessory = ['id', 'entity_class', 'entity_id', 'user_id'];
+        Yii::$app->db->createCommand()->batchInsert('accessory', $headColumnsAccessory, $insertAccessoryValueArray)->execute();
 
         if ($this->deleteAutoDamp) return $this->delete($states);
 
@@ -446,7 +588,7 @@ class AutoDumpDataBase
             '\forma\modules\core\records\Item',];      //regularity_id    parent_id
 
         $regularity = $this->modelWhitUser('\forma\modules\core\records\Regularity');
-
+        $userId = Yii::$app->user->id;
 
         $this->forSaveAndGetKey($regularity, 'regularity_id');
         if ($this->deleteAutoDamp) return $this->delete($regularity);
@@ -481,14 +623,10 @@ class AutoDumpDataBase
     //работа с группой Field, FieldValue, FieldProductValue
     public function field()
     {
-        ['\forma\modules\product\records\Field',    //  category_id
-            '\forma\modules\product\records\FieldProductValue', // field_id  product_id
-            '\forma\modules\product\records\FieldValue',];  // field_id
-
         //находим все field по старым категориям от админа
         $fieldModels = $this->findModels('\forma\modules\product\records\Field',
             ['category_id' => $this->accessoryOldKeys['forma\modules\product\records\Category']]);
-
+        $userId = Yii::$app->user->id;
         //перебираем их в цикле и меняем значения у атрибута категории на новое
         foreach ($fieldModels as $fieldModel) {
             $fieldModel = $this->changeAttributes(
@@ -499,8 +637,8 @@ class AutoDumpDataBase
             //сохраняем id новой модели под ключ старой модели
             $this->forSaveAndGetKey($fieldModel, 'field_id');
         }
-        if ($this->deleteAutoDamp) return $this->delete($fieldModels);
 
+        if ($this->deleteAutoDamp) return $this->delete($fieldModels);
 
         //проверяем, что от админа пришли какие то field которые перешли новому пользователю, и перебирая их
         //создаем модели FieldValue, которые ссылаются на Field
@@ -521,9 +659,6 @@ class AutoDumpDataBase
                 $this->forSaveAndGetKey($fieldValue, 'field_value');
             }
 
-
-            Yii::debug($this->oldKeys['field_value']);
-            Yii::debug($this->newKeys['field_value']);
             $fieldProductValues = $this->findModels('forma\modules\product\records\FieldProductValue',
                 [
                     'field_id' => $this->oldKeys['field_id'],
@@ -531,10 +666,9 @@ class AutoDumpDataBase
 
             Yii::debug($this->newKeys['field_id']);
 
-            foreach ($this->findModels('\forma\modules\product\records\Field',
-                ['id' => $this->newKeys['field_id']]) as $field) {
-                Yii::debug($field);
-            }
+
+            $fields = Field::find()->all();
+            $bachInsertArray = array();
             foreach ($fieldProductValues as $fieldProductValue) {
                 $fieldProductValue = $this->changeAttributes(
                     $this->newKeys['product_id'],
@@ -549,19 +683,24 @@ class AutoDumpDataBase
                 $oneValueId = ['widgetDropDownList'];
                 $multiValueId = ['widgetMultiSelect'];
 
-                if (in_array(Field::findOne($fieldProductValue->field_id)->widget, $oneValueId)) {
+                $currentField = new Field();
+                foreach ($fields as $field) {
+                    if ($field->id == $fieldProductValue->field_id) {
+                        $currentField = clone $field;
+                    }
+                }
+
+                if (in_array($currentField->widget, $oneValueId)) {
                     $fieldProductValue = $this->changeAttributes(
                         $this->newKeys['field_value'],
                         $fieldProductValue,
                         'value');
                 }
 
-                if (in_array(Field::findOne($fieldProductValue->field_id)->widget, $multiValueId)) {
-
+                if (in_array($currentField->widget, $multiValueId)) {
                     $valueStr = $fieldProductValue->value;
-                    Yii::debug($valueStr);
-                    Yii::debug(json_decode($valueStr));
                     $valueArr = json_decode($valueStr);
+
                     $finalValue = '[';
                     for ($i = 0; $i < count($valueArr); $i++) {
                         if ($i == count($valueArr) - 1) {
@@ -570,13 +709,49 @@ class AutoDumpDataBase
                             $finalValue .= '"' . $this->newKeys['field_value'][$valueArr[$i]] . '",';
                         }
                     }
+
                     $finalValue .= ']';
                     $fieldProductValue->value = $finalValue;
-
                 }
 
-                $this->saveNewRecord($fieldProductValue);
+                $bachInsertArray[] = clone $fieldProductValue;
             }
+
+            $header = array_keys($bachInsertArray[0]->getAttributes());
+            foreach ($header as $columnHead) {
+                if ($columnHead == "id") {
+                    array_shift($header);
+                }
+            }
+
+            $values = array();
+            $ids = array();
+            foreach ($bachInsertArray as $itemInsert) {
+                $valueColumn = array_values($itemInsert->getAttributes());
+
+                if (isset($itemInsert->id)) {
+                    $ids[] = $itemInsert->id;
+                    array_shift($valueColumn);
+                }
+
+                $values[] = $valueColumn;
+            }
+
+            $count = Yii::$app->db->createCommand()->batchInsert($this->getTableName($bachInsertArray[0]::className()), $header, $values)->execute();
+
+            $firstID = Yii::$app->db->getMasterPdo()->lastInsertId();
+            $lastID = $firstID + $count - 1;
+            $increment = 0;
+            $insertAccessoryValueArray = array();
+            for ($i = $firstID; $i <= $lastID; $i++) {
+                $insertAccessoryValueArray[] = [null, $bachInsertArray[0]::className(), $i, $userId];
+
+                $increment++;
+            }
+
+            $headColumnsAccessory = ['id', 'entity_class', 'entity_id', 'user_id'];
+            Yii::$app->db->createCommand()->batchInsert('accessory', ['id', 'entity_class', 'entity_id', 'user_id'], $insertAccessoryValueArray)->execute();
+
         }
         return true;
     }
@@ -778,14 +953,8 @@ class AutoDumpDataBase
 
     public function interview()
     {
-
         $interviews = $this->findModels('\forma\modules\hr\records\interview\Interview',
-            ['project_id' => $this->accessoryOldKeys['forma\modules\project\records\project\Project'],
-                'worker_id' => $this->accessoryOldKeys['forma\modules\worker\records\Worker'],
-                'vacancy_id' => $this->accessoryOldKeys['forma\modules\vacancy\records\Vacancy'],
-                'state_id' => $this->oldKeys['interviewState_id']
-            ]);
-        Yii::debug($interviews);
+            ['id' => $this->getOldAccessory('forma\\modules\\hr\\records\\interview\\Interview')]);
 
         foreach ($interviews as $interview) {
             $interview = $this->changeAttributes(
@@ -809,7 +978,6 @@ class AutoDumpDataBase
                 'state_id');
 
             $this->forSaveAndGetKey($interview, 'interview_id');
-
         }
 
         if ($this->deleteAutoDamp) return $this->delete($interviews);

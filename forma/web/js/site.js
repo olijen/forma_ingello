@@ -47,7 +47,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function getCookie(name) {
     let value = "; " + document.cookie;
     let parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+
+    if (parts.length == 2) {
+        return parts.pop().split(";").shift();
+    } else {
+        return null;
+    }
 }
 
 function eraseCookie(name) {

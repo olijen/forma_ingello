@@ -255,6 +255,10 @@
     ];
 
     let i = 0;
+    let indexImage = 0;
+    let imageArray = ['load-data-1.jpg', 'load-data-2.jpg', 'load-data-3.jpg', 'load-data-4.jpg', 'load-data-5.jpg',
+        'load-data-6.jpg', 'load-data-7.jpg', 'load-data-8.jpg', 'load-data-9.jpg'];
+
     let t = setInterval(function () {
         $('#preloader_text').animate({left: '-3000px'}, 500, () => {
             preloader_text.innerHTML = wordsArray[i];
@@ -262,6 +266,13 @@
             if (i == wordsArray.length) i = 0;
             $('#preloader_text').css({left: '3000px'});
             $('#preloader_text').animate({left: '0%'}, 500);
+
+            $('body').attr('style', 'background: url(' + '/images/' + imageArray[indexImage] + ') !important; background-size: cover!important;');
+
+            indexImage++;
+            if (imageArray.length <= indexImage) {
+                indexImage = 0;
+            }
         });
     }, 3000);
 
@@ -275,7 +286,11 @@
                 alert('Поздравляем! Ваш профиль успешно заполнен тестовыми данными!')
             },
             error: function (request, status, error) {
-                alert('ОШИБКА: ' + JSON.stringify(request));
+                if (request.status == 302) {
+                    alert('Поздравляем! Ваш профиль успешно заполнен тестовыми данными!')
+                } else {
+                    alert('ОШИБКА: ' + JSON.stringify(request));
+                }
             }
         })
     });
@@ -301,7 +316,7 @@
     }
 
     body {
-        background: url('/images/loaddata.jpg') !important;
+        background: url('/images/load-data-9.jpg') !important;
         background-size: cover!important;
     }
 </style>

@@ -90,25 +90,26 @@ class SystemEventService
         if ($rule) {
             $accessInterface = AccessInterface::find()->andWhere(['user_id' => $userId, 'rule_id' => $rule->id])->one();
 
-            if ($accessInterface === null) {
+            if ($accessInterface == null) {
                 $newAccessInterface = new AccessInterface();
                 $newAccessInterface->rule_id = $rule->id;
                 $newAccessInterface->current_mark = 1;
                 $newAccessInterface->user_id = $userId;
                 $newAccessInterface->status = false;
 
-                if ($newAccessInterface->current_mark === $rule->count_action) {
+                if ($newAccessInterface->current_mark == $rule->count_action) {
                     $newAccessInterface->status = true;
+                    self::setCookieSystemEvent($rule->id);
                 }
 
                 $newAccessInterface->save();
             } else {
-                if ($accessInterface->status === 0) {
+                if ($accessInterface->status == false) {
                     $accessInterface->current_mark++;
                     $accessInterface->save();
                 }
 
-                if ($accessInterface->current_mark === $rule->count_action && $accessInterface->status === 0) {
+                if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
                     $accessInterface->status = true;
                     $accessInterface->save();
                     self::setCookieSystemEvent($rule->id);

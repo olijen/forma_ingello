@@ -299,7 +299,7 @@ $widgetsForSortable2 = [];
     function reloadContainerPublicRegularity(){
         let ruleId = getCookie('ruleId');
 
-        if (ruleId !== null) {
+        if (ruleId != null) {
             let documenByItem = window.parent;
 
             $.ajax({
