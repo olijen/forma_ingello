@@ -74,10 +74,8 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
 
                     echo "<div class='box-body' style='border:2px solid #808080;'>";
                     $translateTablesName = Yii::$app->params['translateTablesName'];
-
+                    \yii\widgets\Pjax::begin(['id' => 'box-item-rules-' . $rule->id, 'timeout' => false]);
                     foreach ($rulesData as $rule) {
-                        \yii\widgets\Pjax::begin(['id' => 'box-item-rules-' . $rule->id, 'timeout' => false]);
-
                         if ($rule->item_id == $item->id) {
                             echo "<div class='clearfix'>
                                     <span class='pull-left'>Название задачи: " . (($rule->action === 'insert') ? 'добавить' : '')
@@ -118,9 +116,8 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
                                 }
                             }
                         }
-                        \yii\widgets\Pjax::end();
                     }
-
+                    \yii\widgets\Pjax::end();
                     echo " </div>";
 
                 }
