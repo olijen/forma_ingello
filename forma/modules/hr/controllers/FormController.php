@@ -28,9 +28,11 @@ class FormController extends Controller
         $vacancy = Vacancy::getListVacancyProject();
 
         if (!empty($projectId) && !empty($vacancyId) && !empty($model)) {
+            $projectVacancy = ProjectVacancy::find()->where(['project_id' => $projectId, 'vacancy_id' => $vacancyId])->one();
             $model->project_id = $projectId;
-            $model->vacancy_id = $vacancyId;
+            $model->vacancy_id = $projectVacancy->id;
         }
+
         return $this->render('index', compact('model', 'userState', 'interviewState', 'vacancy'));
     }
 
@@ -38,7 +40,13 @@ class FormController extends Controller
     {
         if (isset($_POST['Interview']['vacancy_id'])) {
             $projectVacancyId = $_POST['Interview']['vacancy_id'];
+            $workerId = $_POST['Interview']['worker_id'];
             $projectVacancy = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one();
+            $interviewWorker = Interview::find()->where(['worker_id' => $workerId, 'vacancy_id' => $projectVacancy->vacancy_id])->one();
+
+            if ($interviewWorker) {
+                return $this->redirect(Url::to(['/hr/form', 'id' => $interviewWorker->id]));
+            }
 
             $model = new Interview();
             $model->project_id = $projectVacancy->project_id;
@@ -48,7 +56,8 @@ class FormController extends Controller
             $model->name = '-';
 
             if (empty($model->state)) {
-                $model->state_id = InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id;
+                $model->state_id = isset(InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id)
+                    ? InterviewState::find()->where(['user_id' => Yii::$app->user->id])->one()->id : null;
             }
 
             if ($model->save()) {
@@ -56,21 +65,20 @@ class FormController extends Controller
             }
         }
 
-        $interview = InterviewService::get($id);
-        if ($interview) {
-            $model = InterviewService::save($id, Yii::$app->request->post());
-        }
-        if ($interview) {
-            $id = Yii::$app->request->get('id');
-            $stateId = Yii::$app->request->get('state_id');
-            $model = InterviewService::get($id);
+        $id = Yii::$app->request->get('id');
+        $stateId = Yii::$app->request->get('state_id');
+        $model = InterviewService::get($id);
+
+        if ($model) {
             $model->state_id = (int)$stateId;
             $model->save();
             return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
         }
+
         if (!$id) {
             return $this->redirect(Url::to(['/hr/form', 'id' => $model->id]));
         }
+
         return $this->redirect(Url::to(['/hr/form']));
     }
 }

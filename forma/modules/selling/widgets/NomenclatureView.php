@@ -26,9 +26,9 @@ class NomenclatureView extends Widget
         $unit = $this->getUnitModel();
         $selling = Selling::find()->where(['selling.id'=>$this->sellingId])->joinWith('sellingProducts')
             ->one();
+
         $dataProvider = NomenclatureService::getDataProvider($this->sellingId);
         $selling_token = $this->selling_token;
-
 
         return $this->render('nomenclature', compact(
             'unit',

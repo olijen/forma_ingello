@@ -8,7 +8,7 @@ use \forma\modules\core\widgets\SalesFunnelWidget;
 use \forma\modules\core\widgets\DepartmentPerfomance;
 use \forma\modules\core\widgets\WeeklySalesWidget;
 
-$this->title = 'Мониторинг отделов';
+
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 /**
@@ -221,27 +221,6 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-        let ruleId = getCookie('ruleId');
-        
-        if (ruleId !== null) {
-            let documenByItem = window.parent;
-            documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-            
-            $.ajax({
-                type: "POST",
-                url: "/core/regularity/get-item-id-by-rule",
-                data: {ruleKey: ruleId}
-            }).done(function(itemId){
-                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-                documenByItem.$('#item-check-icon-'+itemId.itemId).trigger('click');
-                
-                $('#alert-rule').after(itemId.value);
-                $('#alert-id').css('display','block');
-                
-                eraseCookie('ruleId')
-            });
-        }
     });
 }
 JS;
@@ -291,27 +270,6 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-        let ruleId = getCookie('ruleId');
-        
-        if (ruleId !== null) {
-            let documenByItem = window.parent;
-            documenByItem.$.pjax.reload({container: '#box-item-rules-'+ruleId, async: false});
-            
-            $.ajax({
-                type: "POST",
-                url: "/core/regularity/get-item-id-by-rule",
-                data: {ruleKey: ruleId}
-            }).done(function(itemId){
-                documenByItem.$.pjax.reload({container: '#item-check-icon-'+itemId.itemId, async: false});
-                documenByItem.$.pjax.reload({container: '#regularity-check-icon-'+itemId.regularityId, async: false});
-                documenByItem.$('#regularity-check-icon-'+itemId.regularityId).trigger('click');
-                
-                $('#alert-rule').after(itemId.value);
-                $('#alert-id').css('display','block');
-                
-                eraseCookie('ruleId')
-            });
-        }
     });
 }
 JS;
@@ -381,15 +339,18 @@ $widgetsForSortable2 = [];
         display: block;
     }
 
+    .container-small_widgets {
+        width: 100%;
+    }
+
     .row.small_widgets {
         min-height: 50px;
         position: fixed;
         z-index: 99;
         background: #fff;
-        width: 100%;
         top: auto;
-        padding: 0 36px;
-        right: -12px;
+        padding: 8px;
+        width: inherit;
     }
 
     .panel_big_widget.sortable .disabled,
@@ -668,27 +629,29 @@ foreach ($widgetOrder as $panel => $widgetArray) {
     }
 }
 ?>
-
-<div class="row small_widgets sticky-simulation" style="min-height: 50px;">
-<h3>Панель виджетов</h3>
-    <?php
-    echo Sortable::widget([
-        'connected' => true,
-        'type' => 'grid',
-        'pluginEvents' => [
-            'sortupdate' => $JSUpdateSmallWidgets,
-            'sortenter' => $JSDragenter
-        ],
-        'options' => ['id' => 'panel_small_widget'],
-        'items' => $widgetsForSortable0
-    ]);
-    ?>
-    <script>
-        smallWidget();
-    </script>
+<div class="container-small_widgets">
+    <div class="row small_widgets sticky-simulation" style="min-height: 50px;">
+        <h3>Панель виджетов</h3>
+        <?php
+        echo Sortable::widget([
+            'connected' => true,
+            'type' => 'grid',
+            'pluginEvents' => [
+                'sortupdate' => $JSUpdateSmallWidgets,
+                'sortenter' => $JSDragenter
+            ],
+            'options' => ['id' => 'panel_small_widget'],
+            'items' => $widgetsForSortable0
+        ]);
+        ?>
+        <script>
+            smallWidget();
+        </script>
+    </div>
 </div>
+
 <div class="simulation-content"></div>
-<div class="row small_widgets_text" style="display: none; color: red;">
+<div class="row small_widgets_text" style="display: none; color: red; padding-top: 10px;">
     Конструктор виджетов не доступен на мобильных устройствах.
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
 </div>
@@ -1226,6 +1189,12 @@ if ($widgetNewOrder == true) {
         min-height: 100% !important;
     }
 
+    .content {
+        padding: 0;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     @media screen and (max-width: 768px) {
         .small_widgets, .simulation-content {
             display: none;
@@ -1304,12 +1273,11 @@ if ($widgetNewOrder == true) {
     });
 
     function stickyUpdate() {
+        let width =  $(document).width() - 55;
+        $('.container-small_widgets').css('width', width + 'px');
+
         let heightUlWidgets = $('#panel_small_widget').height();
-        if (isModal === null) {
-            $('.simulation-content').css('height', (heightUlWidgets + 130));
-        } else {
-            $('.simulation-content').css('height', (heightUlWidgets + 100));
-        }
+        $('.simulation-content').css('height', (heightUlWidgets + 120));
     }
 
     stickyUpdate()

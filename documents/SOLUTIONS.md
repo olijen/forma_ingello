@@ -37,7 +37,8 @@ docker-compose exec -T app chmod -R 777 ./*
 ---------------------- DATABASE -----------------
 
 Загрузить дамп
-docker-compose exec -T dblinoleum mysql -u root -proot linoleum < data/data.sql
+sudo docker-compose -f docker-compose-local.yml exec -T dball mysql -u root -proot forma < ~/Downloads/musqlforma.sql
+
 (лучшек использовать способ через папку mysql/socker/scripts - положить туда нужные sql файлы)
 
 Migrations

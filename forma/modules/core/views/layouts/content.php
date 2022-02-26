@@ -16,11 +16,10 @@
  Alert::begin([
      'options' => [
          'class' => 'alert-warning',
-         'id' => 'alert-id',
+         'id' => 'alert-rule',
          'style' => 'display: none'
      ],
  ]);
-     echo "<p id='alert-rule'></p>";
  Alert::end();
  ?>
 <div class="content-wrapper" style="">
@@ -56,3 +55,45 @@
     }
 </style>
 
+ <script>
+     $(document).ready(function () {
+         setTimeout(function go() {
+             reloadContainerPublicRegularity();
+             setTimeout(go, 1000);
+         }, 1000);
+
+         function reloadContainerPublicRegularity() {
+             let ruleId = getCookie('ruleId');
+
+             if (ruleId != null) {
+                 let documenByItem = window.parent;
+
+                 $.ajax({
+                     type: "POST",
+                     url: "/core/regularity/get-item-id-by-rule",
+                     data: {ruleKey: ruleId}
+                 }).done(function (itemId) {
+                     let alertElement = $('#alert-rule');
+                     alertElement.append(itemId.value);
+                     alertElement.css('display', 'block');
+                     alertElement.css('margin-left', '60px');
+                     alertElement.css('margin-top', '60px');
+
+                     documenByItem.$.pjax.reload({
+                         container: '#regularity-check-icon-' + itemId.regularityId,
+                         async: false
+                     });
+                     //documenByItem.$('#regularity-check-icon-' + itemId.regularityId).trigger('click');
+
+                     documenByItem.$.pjax.reload({container: '#box-item-rules-' + ruleId, async: false});
+                     //documenByItem.$('#box-item-rules-' + ruleId).trigger('click');
+                     documenByItem.$.pjax.reload({container: '#item-check-icon-' + itemId.itemId, async: false});
+                     //documenByItem.$('#item-check-icon-' + ruleId).trigger('click');
+
+                     eraseCookie('ruleId')
+                     documenByItem.$('#item-check-icon-' + itemId.itemId).trigger('click');
+                 });
+             }
+         }
+     });
+ </script>

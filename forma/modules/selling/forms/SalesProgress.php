@@ -31,7 +31,7 @@ class SalesProgress extends Model
         $this->states = State::find()
             ->where(['user_id' => Yii::$app->user->getId()])
             ->orderBy('order')
-            ->all();;
+            ->all();
 
         $this->sellinghistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['user_id' => Yii::$app->user->id])->all();
 
@@ -89,7 +89,7 @@ class SalesProgress extends Model
     {
         $result = '';
         if ($this->sales) {
-            foreach ($this->sales as &$sale) {
+            foreach ($this->sales as $sale) {
                 $result .= $sale['sum'] . ',';
             }
         }

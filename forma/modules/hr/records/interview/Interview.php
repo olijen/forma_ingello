@@ -61,15 +61,21 @@ class Interview extends AccessoryActiveRecord
     public function states()
     {
         return [
-            StateCold::class,
-            StateHot::class,
-            StateMeeting::class,
-            StateOffer::class,
-            StateWork::class,
-            StateDone::class,
-            StateArchive::class,
+            1 => StateCold::class,
+            2 => StateHot::class,
+            3 => StateMeeting::class,
+            4 => StateOffer::class,
+            5 => StateWork::class,
+            6 => StateDone::class,
+            7 => StateArchive::class,
         ];
     }
+
+    public function getState($stateId)
+    {
+        return $this->states()[$stateId];
+    }
+
     /**
      * @inheritdoc
      */

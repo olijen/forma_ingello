@@ -238,8 +238,9 @@ class RuleController extends Controller
         }
 
         if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' => $itemId]))) {
+            $countAnswer = count($rules->all());
+
             foreach ($rules->all() as $rule) {
-                $countAnswer++;
                 foreach ($rule->accessInterfaces as $accessInterface) {
                     if ($rule->count_action == $accessInterface->current_mark) {
                         $countRightAnswer++;

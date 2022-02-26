@@ -30,6 +30,7 @@ use yii\helpers\ArrayHelper;
  * @property Worker $fullName
  * @property Worker $historyDialog
  * @property WorkerVacancy[] $workerVacancies
+ * @property WorkerVacancy[] $relationsWorkerVacancies
  * @property Interview[] $interviews
  */
 class Worker extends AccessoryActiveRecord
@@ -71,6 +72,11 @@ class Worker extends AccessoryActiveRecord
             WorkerVacancy::findAll(['worker_id' => $this->id]),
             'vacancy_id'
         );
+    }
+
+    public function getRelationsWorkerVacancies()
+    {
+        return $this->hasMany(WorkerVacancy::className(), ['worker_id' => 'id']);
     }
 
     public function getHistoryDialog()

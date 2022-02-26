@@ -106,15 +106,18 @@ class WorkerVacancy extends AccessoryActiveRecord
         }
 
         $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId])->one();
-        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
-        $workerInterviews = Interview::find()->all();
 
-        foreach ($workerVacancies as $workerVacancy) {
-            foreach ($workerInterviews as $workerInterview) {
-                if ($workerVacancy->worker_id === $workerInterview->worker_id) {
-                    if ($workerVacancy->vacancy_id !== $workerInterview->vacancy_id) {
-                        $ids[] = $workerVacancy->worker_id;
-                    }
+        if (($projectId = Yii::$app->request->get('projectId')) && ($vacancyId = Yii::$app->request->get('vacancyId'))) {
+            $vacancy = ProjectVacancy::find()->where(['project_id' => $projectId, 'vacancy_id' => $vacancyId])->one();
+        }
+
+        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
+        $interviews = Interview::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
+
+        foreach ($interviews as $interview) {
+            foreach ($workerVacancies as $workerVacancy) {
+                if ($workerVacancy->worker_id !== $interview->worker_id) {
+                    $ids[] = $workerVacancy->worker_id;
                 }
             }
         }

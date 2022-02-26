@@ -46,7 +46,7 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
             <input type="radio" style="display: none" class="check-radio"
                    name=<?= $radioName ?> id="item-check<?= $item->id ?>">
 
-            <?php if($countAnswer == $countRightAnswer && $countAnswer != 0){ ?>
+            <?php if ($countAnswer == $countRightAnswer && $countAnswer != 0) { ?>
             <i id='li`+$item->id+`' class='fa fa-check-circle' style='color: green; float: right; margin-right: 0.1px'></i>
             <?php } ?>
 
@@ -66,9 +66,7 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
 
                 $isEmptyElement = array_search($item->id, array_column($rulesData, 'item_id'));
 
-                if ($isEmptyElement!=false || $isEmptyElement===0) {
-                    \yii\widgets\Pjax::begin(['id' => 'box-item-rules-' . $item->id, 'timeout' => false]);
-
+                if ($isEmptyElement != false || $isEmptyElement === 0) {
                     echo "<div class='box-header with-border big_widget_header'>
                             <h3 class='box-title' style='font-size: 25px;'>
                             <i class='fas fa-bullseye' style='color: red;'></i> Выполнение задач</h3>
@@ -76,16 +74,18 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
 
                     echo "<div class='box-body' style='border:2px solid #808080;'>";
                     $translateTablesName = Yii::$app->params['translateTablesName'];
+                    \yii\widgets\Pjax::begin(['id' => 'box-item-rules-' . $rule->id, 'timeout' => false]);
                     foreach ($rulesData as $rule) {
                         if ($rule->item_id == $item->id) {
-                        echo "<div class='clearfix'>
-                                    <span class='pull-left'>Название задачи: ".(($rule->action ==='insert')?'добавить':'')
-                                .(($rule->action ==='update')?'обновить':'').(($rule->action ==='delete')?'удалить':'').", объект 
-                                '".Yii::$app->params['translateTablesName'][$rule->table]."'</span>
+                            echo "<div class='clearfix'>
+                                    <span class='pull-left'>Название задачи: " . (($rule->action === 'insert') ? 'добавить' : '')
+                                . (($rule->action === 'update') ? 'обновить' : '') . (($rule->action === 'delete') ? 'удалить' : '') . ", объект 
+                                '" . Yii::$app->params['translateTablesName'][$rule->table] . "'</span>
                                </div>";
-                        foreach ($userDataIsNull as $dataNull){
-                            if($dataNull->id == $rule->id){
-                                echo "<div class='clearfix'>
+
+                            foreach ($userDataIsNull as $dataNull) {
+                                if ($dataNull->id == $rule->id) {
+                                    echo "<div class='clearfix'>
                                                 
                                                 <small class='pull-right'>0 % (0 из $rule->count_action)
                                                 
@@ -93,38 +93,34 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
                                             </div>
                                             <div class='progress xs'>
                                                 <div class='progress-bar progress-bar-green' style='" . "width:0%;" .
-                                    "background-color:red;" . "' ></div>
+                                        "background-color:red;" . "' ></div>
                                             </div>";
+                                }
                             }
-                        }
 
                             foreach ($userData as $accessInterface) {
-
                                 if ($accessInterface->rule_id == $rule->id) {
                                     //var_dump(count($userData),'vfvfd');
                                     $sum = round(($accessInterface->current_mark / $rule->count_action) * 100);
+
                                     echo "<div class='clearfix'>
                                                 
                                                 <small class='pull-right'>$sum % ($accessInterface->current_mark из $rule->count_action)
                                                 " . (($sum >= 100) ? "<i style='color:green;padding-left: 10px;' ></i>" :
-                                                                "<i style='color:red;padding-left: 10px;' class='fa fa-times'></i>") . "</small>
+                                            "<i style='color:red;padding-left: 10px;' class='fa fa-times'></i>") . "</small>
                                             </div>
                                             <div class='progress xs'>
                                                 <div class='progress-bar progress-bar-green' style='" . "width:$sum%;" . (($sum >= 100) ? "background-color:green"
-                                                                : "background-color:red;") . "' ></div>
+                                            : "background-color:red;") . "' ></div>
                                             </div>";
-
                                 }
-
                             }
                         }
-
                     }
-
-                    echo " </div>";
                     \yii\widgets\Pjax::end();
-                }
+                    echo " </div>";
 
+                }
             }
             ?>
         </div>

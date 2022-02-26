@@ -14,15 +14,13 @@ use vova07\imperavi\Widget;
 
 $this->title = $testType['name'];
 
-?>
+$form = ActiveForm::begin();
 
-<?php $form = ActiveForm::begin(); ?>
-<?php $questions = []; ?>
-<?php foreach ($testType->testTypeFields as $field) {
-    $questions[$field->block_name] = [];
-}
+$questions = [];
 foreach ($testType->testTypeFields as $field) {
-    $questions[$field->block_name][] = $field;
+    if ($field->test->user_id === Yii::$app->user->id) {
+        $questions[$field->block_name][] = $field;
+    }
 }
 
 ?>

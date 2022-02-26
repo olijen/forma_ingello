@@ -29,10 +29,21 @@ $list = [
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 /** @var forma\modules\hr\forms\InterviewProgress $interviewProgress */
 $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
+$workers = \forma\modules\worker\records\Worker::find()->joinWith('relationsWorkerVacancies')->all();
+
+$dp = Project::accessSearch(['state' => 1], ['setPageSize' => 6]);
+foreach ($dp->getModels() as $project) {
+    $vacaVaca = $project->projectVacancies;
+    foreach ($vacaVaca as $projectVacancy) {
+        if (!$startUrl) {
+            $startUrl = "/hr/form/index?projectId=" . $projectVacancy->project_id . "&vacancyId=" . $projectVacancy->vacancy_id;
+        }
+    }
+}
+
 ?>
 <?php
     foreach ($list as $k => $item) {
-
         $panel .= '
                     <a href="'.$item['url'].'" class="'.(@$item['class']??'btn btn-success').'">
                     <i class="fa fa-'.$item['icon'].'"></i> '.$item['label'].' 
@@ -44,6 +55,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
         <?= $this->params['panel'] ?>
     </div>
 <?php endif ?>
+
 <div class="row">
 
     <div class="col-lg-9 col-xs-12">
@@ -71,10 +83,8 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
     <div class="col-lg-3 col-xs-12" style="padding-right: 0; padding-left: 0; overflow: scroll; min-height: 500px; max-height: 500px;">
         <?php
-        $dp = Project::accessSearch(['state' => 1], ['setPageSize' => 6]);
         foreach($dp->getModels() as $project) : $vacaVaca = $project->projectVacancies?>
             <div class="col-md-12" style="padding-right: 0; padding-left: 3px; margin-right: 0;">
-
                 <div class="box box-success" style="padding: 5px; min-height: 85px">
                     <strong>
                         <a data-pjax="0" style="color: #333;" href="/project/project/view?id=<?=$project->id?>"><?=$project->name?></a>
@@ -126,23 +136,24 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                         $count++;
+                        foreach ($workers as $worker) {
+                            foreach ($worker->relationsWorkerVacancies as $workerVacancy) {
+                                if ($workerVacancy->vacancy_id == $interview->vacancy_id && $workerVacancy->worker_id == $interview->worker_id && $worker->status == 1) {
+                                    $count++;
+                                }
+                            }
+                        }
                     }
-                    $countInt = 0;
-                    foreach ($project->interviews as $interview) {
-                         $countInt++;
-                    }
-                    $vacacount = 0;
-                    foreach ($vacaVaca as $projectVacancy) {
-                        $vacacount += $projectVacancy->count;
-                    }
+
+                    $countInt = count($project->interviews);
+                    $vacacount = count($vacaVaca);
                     ?>
 
                     <span>
-                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state]=4&InterviewSearch[project_id]=<?=$project->id?>">Работ:</a> <?=$count?></small>
+                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state]=5&InterviewSearch[project_id]=<?=$project->id?>">Работ:</a> <?=$count?></small>
                     </span>
                     <span>
-                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state_min]=4&InterviewSearch[project_id]=<?=$project->id?>">Найм:</a> <?=$countInt?></small>
+                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state_min]=5&InterviewSearch[project_id]=<?=$project->id?>">Найм:</a> <?=$countInt?></small>
                     </span>
                     <span>
                         <small><a data-pjax="0" href="/project/project-vacancy?ProjectVacancySearch[project_id]=<?=$project->id?>">Ваканс:</a> <?=$vacacount?></small>
@@ -163,9 +174,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                             </button>
 
                             <div style="width: 110%;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <?php foreach($vacaVaca as $projectVacancy) :
-                                    if (!$startUrl)
-                                        $startUrl = "/hr/form/index?projectId={$project->id}&vacancyId={$projectVacancy->vacancy_id}"?>
+                                <?php foreach($vacaVaca as $projectVacancy) :?>
 
                                     <a style="display: block; padding: 4px; border-bottom: 1px dotted gray;"
                                        class="dropdown-item"

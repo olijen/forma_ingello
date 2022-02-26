@@ -68,9 +68,9 @@ class RequestController extends Controller
         $model = new Request();
         $request_strategy = new RequestStrategy();
 
-        $strategy_id = isset($_GET['strategyId']) ? $_GET['strategyId'] : null;
-        $isSelling = isset($_GET['isSelling']) ? $_GET['isSelling'] : null;
-        $model->is_manager = isset($_GET['isManager']) ? $_GET['isManager'] : null;
+        $strategy_id = isset($_GET['strategyId']) ?? null;
+        $isSelling = isset($_GET['isSelling']) ?? null;
+        $model->is_manager = isset($_GET['isManager']) ?? null;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $request_strategy->strategy_id = $strategy_id;
@@ -95,7 +95,7 @@ class RequestController extends Controller
     {
         $model = $this->findModel($id);
 
-        $isSelling = isset($_GET['isSelling']) ? $_GET['isSelling'] : null;
+        $isSelling = isset($_GET['isSelling']) ?? null;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
@@ -114,7 +114,7 @@ class RequestController extends Controller
      */
     public function actionDelete($id)
     {
-        $isSelling = isset($_GET['isSelling']) ? $_GET['isSelling'] : null;
+        $isSelling = isset($_GET['isSelling']) ?? null;
 
         $model = $this->findModel($id);
         foreach ($model->answers as $answer) {

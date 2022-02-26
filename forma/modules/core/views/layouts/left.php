@@ -137,3 +137,20 @@ if ('selling'== Yii::$app->controller->module->id){
         </section>
 
     </aside>
+
+    <script>
+        $('#menu-head').click(function () {
+            if ($('.sidebar-collapse').length) {
+                $('li.menuColor.treeview').css('overflow-y', 'scroll');
+                $('li.menuColor.treeview').css('max-height', '400px');
+                let width = $('.container-small_widgets').width() - 229 + 55;
+                $('.container-small_widgets').css('width', width + 'px');
+            } else {
+                $('li.menuColor.treeview').css('overflow-y', '')
+                $('li.menuColor.treeview').css('max-height', '')
+                $('li.menuColor.treeview').css('max-height', '')
+                let width = $('.container-small_widgets').width() + 229 - 55;
+                $('.container-small_widgets').css('width', width + 'px');
+            }
+        })
+    </script>
