@@ -27,7 +27,7 @@
                     'userLocations' => \forma\modules\product\records\Manufacturer::getLocations(),
                     'wrapperHeight' => '300px',
                     'googleMapsUrlOptions' => [
-                        'key' => 'AIzaSyDwOV3ft4xXnuj9f7aCPTcdKF_bTn6g25A'
+                        'key' => 'AIzaSyDVdR9E1GTEqr7Fcl5GZO6IRIcct56Eknw'
                     ]
                 ]); ?>
                 <!-- /.box -->
