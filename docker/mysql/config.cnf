@@ -10,3 +10,22 @@ collation_server=utf8mb4_unicode_ci
 character_set_server=utf8mb4
 skip-character-set-client-handshake
 default_authentication_plugin= mysql_native_password
+
+sync_binlog=0
+
+#log-slow-queries=/var/log/mariadb/slow_queries.log
+#long_query_time=5
+
+innodb_flush_log_at_trx_commit=0
+innodb_buffer_pool_size=1G
+innodb_log_file_size=512M
+innodb_log_buffer_size=1M
+
+sort_buffer_size=10M
+join_buffer_size=15M
+
+query_cache_size=0
+query_cache_type=0
+
+tmp_table_size=128M
+max_heap_table_size=128M
