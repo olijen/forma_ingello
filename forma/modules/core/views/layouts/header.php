@@ -284,7 +284,7 @@ JS;
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
-                                <img src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
+                                <img src="/images/avatar.png"
                                      class="img-circle"
                                      alt="User Image"/>
 
