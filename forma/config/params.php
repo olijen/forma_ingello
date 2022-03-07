@@ -1,4 +1,15 @@
 <?php
+/**
+ * Глобальные настройки приложения.
+ *
+ * Данные настройки ипользуется как в контексте веб-запросов, так и в контексте
+ * командной строки, потому не стоит полагаться на существование данных внутри
+ * глобальных переменных(см. $_isLocalhost)
+ *
+ */
+
+// TODO: consider using `getenv("YII_DEBUG")`
+$_isLocalhost = array_key_exists('SERVER_NAME', $_SERVER) && strripos($_SERVER['SERVER_NAME'], 'localhost') !== false;
 
 return [
     'adminEmail' => 'admin@example.com',
@@ -406,9 +417,9 @@ return [
                 ],
 
                 ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users',
-                    'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
+                    'visible' => $_isLocalhost],
                 ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign',
-                    'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
+                    'visible' => $_isLocalhost],
             ]
         ],
         [
@@ -547,7 +558,3 @@ return [
     ],
 
 ];
-
-
-
-
