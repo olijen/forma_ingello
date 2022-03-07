@@ -2,6 +2,8 @@
 
 namespace forma\modules\selling\records\strategy;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[Strategy]].
  *
@@ -20,6 +22,12 @@ class StrategyQuery extends \yii\db\ActiveQuery
      */
     public function all($db = null)
     {
+        return parent::all($db);
+    }
+
+    public function allAccessory($db = null)
+    {
+        $this->andWhere(['in', 'strategy.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::all($db);
     }
 

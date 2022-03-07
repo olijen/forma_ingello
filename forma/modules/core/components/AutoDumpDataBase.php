@@ -110,7 +110,7 @@ class AutoDumpDataBase
 
         $accessoryKeys = [];
         foreach ($arrayModels as $model) {
-            $accessoryKeys[$model->entity_class] [$model->entity_id] = $model->entity_id;
+            $accessoryKeys[$model->entity_class][$model->entity_id] = $model->entity_id;
         }
 
         $bachInsertArray = array();
@@ -173,9 +173,9 @@ class AutoDumpDataBase
             $increment = 0;
             $insertAccessoryValueArray = array();
             for ($i = $firstID; $i <= $lastID; $i++) {
-                $this->accessoryNewKeys[substr($key, 1)][$ids[$increment]] = $i;
+                $this->accessoryNewKeys[ltrim($key, '\\')][$ids[$increment]] = $i;
 
-                $insertAccessoryValueArray[] = [null, $key, $i, $userId];
+                $insertAccessoryValueArray[] = [null, ltrim($key, '\\'), $i, $userId];
 
                 $increment++;
             }
@@ -208,9 +208,9 @@ class AutoDumpDataBase
 
                 Yii::$app->db->createCommand()->insert($this->getTableName($key), $value)->execute();
                 $lastId = Yii::$app->db->getMasterPdo()->lastInsertId();
-                $this->accessoryNewKeys[substr($key, 1)][$id] = $lastId;
+                $this->accessoryNewKeys[ltrim($key, '\\')][$id] = $lastId;
 
-                $insertAccessoryValueArray = ['id' => null, 'entity_class' => $key, 'entity_id' => $lastId, 'user_id' => $userId];
+                $insertAccessoryValueArray = ['id' => null, 'entity_class' => ltrim($key, '\\'), 'entity_id' => $lastId, 'user_id' => $userId];
                 Yii::$app->db->createCommand()->insert('accessory', $insertAccessoryValueArray)->execute();
             }
         }
@@ -609,8 +609,11 @@ class AutoDumpDataBase
             $this->saveWhitParent($itemsModel);
 
         }
+
         $parentItem = $this->newParent;
-        $ruleModels = $this->findModels('\forma\modules\core\records\Rule', ['id' => $this->getOldAccessory('forma\\modules\\core\\records\\Rule')]);
+        $ruleModels = $this->findModels('\forma\modules\core\records\Rule',
+            ['id' => $this->getOldAccessory('forma\\modules\\core\\records\\Rule')]);
+
         foreach ($ruleModels as $ruleModel) {
             $ruleModel->item_id = $parentItem[$ruleModel->item_id];
             $this->saveWhitParent($ruleModel);
