@@ -104,4 +104,12 @@ class Victim extends \forma\components\AccessoryActiveRecord
 
         return "$min - $max";
     }
+
+    public function beforeSave($insert)
+    {
+        $this->birthday = dateToDbFormat($this->birthday);
+        $this->registered_at = dateToDbFormat($this->registered_at);
+
+        return parent::beforeSave($insert);
+    }
 }

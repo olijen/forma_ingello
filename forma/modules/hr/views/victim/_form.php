@@ -30,16 +30,16 @@ endif;
     <?php $form = ActiveForm::begin([]); ?>
 
     <div class="row">
-        <div class="col-xs-3">
+        <div class="col-md-3">
             <?= $form->field($model, 'how_many')->textInput(['type' => 'number']) ?>
         </div>
-        <div class="col-xs-3">
+        <div class="col-md-3">
             <?php
                 if ($model->isNewRecord) $model->stay_for = 1;
             ?>
             <?= $form->field($model, 'stay_for')->textInput(['type' => 'number']) ?>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?php
             if ($model->isNewRecord) $model->phone = '+380';
             ?>
@@ -49,16 +49,16 @@ endif;
     </div>
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'specialization')->textInput(['placeholder' => "Чем занимается, какие навыки, на кого учится?"]) ?>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'destination')->textInput(['placeholder' => "Сколько планирует пребывать тут"]) ?>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-12">
             <?= $form->field($model, 'questions')->textInput(['placeholder' => "Инвалидность, аллергии, болезни, другие особенности и пожелания"]) ?>
         </div>
     </div>
@@ -68,17 +68,17 @@ endif;
 
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'fullname')->textInput(['placeholder' => "Полное имя, фамилия и отчество"]) ?>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <br>
             <?= $form->field($model, 'is_child')->checkbox([], false) ?>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?php
                 if ($model->isNewRecord) $model->registered_at = date('d.m.Y');
             ?>
@@ -88,7 +88,7 @@ endif;
                     'autoclose' => true,
                 ], 'options' => ['style' => 'left: 0']]) ?>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'birthday')->textInput(['placeholder' => "Дата рождения"])->widget(DatePicker::className(), [
                 'pluginOptions' => [
                     'format' => 'dd.mm.yyyy',
@@ -98,29 +98,29 @@ endif;
     </div>
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'place_of_residence')->textInput(['placeholder' => "Где прописан по документам"]) ?>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'second_residence')->textInput(['placeholder' => "Где проживает по факту"]) ?>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'name_where_to_settle')->textInput(['placeholder' => "Название места поселения"]) ?>
         </div>
-        <div class="col-xs-6">
+        <div class="col-md-6">
             <?= $form->field($model, 'settlement_address')->textInput(['placeholder' => "Адрес места поселения"]) ?>
         </div>
     </div>
 
 
     <div class="row">
-        <div class="col-xs-6 col-md-6">
+        <div class="col-md-6 col-md-6">
             <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>
         </div>
-        <div class="col-xs-6 col-md-6">
+        <div class="col-md-6 col-md-6">
             <a href="/hr/victim" class="btn btn-block btn-warning">Отменить</a>
         </div>
     </div>
