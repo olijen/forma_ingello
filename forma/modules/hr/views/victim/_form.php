@@ -14,9 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fullname')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'birthday')->textInput() ?>
+    <?= $form->field($model, 'birthday')->textInput(['type' => 'date']) ?>
 
-    <?= $form->field($model, 'is_child')->textInput() ?>
+    <?= $form->field($model, 'is_child')->checkbox() ?>
 
     <?= $form->field($model, 'place_of_residence')->textarea(['rows' => 6]) ?>
 
@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phone')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'registered_at')->textInput() ?>
+    <?= $form->field($model, 'registered_at')->textInput(['type' => 'date']) ?>
 
     <?= $form->field($model, 'stay_for')->textarea(['rows' => 6]) ?>
 

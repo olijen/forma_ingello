@@ -2,8 +2,9 @@
 
 namespace forma\modules\hr\controllers;
 
-use forma\modules\hr\models\Victim;
-use yii\data\ActiveDataProvider;
+use forma\modules\hr\records\victim\Victim;
+use forma\modules\hr\records\victim\VictimSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,21 +38,11 @@ class VictimController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Victim::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $searchModel = new VictimSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
