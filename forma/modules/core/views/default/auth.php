@@ -308,6 +308,12 @@ $fieldOptions5 = [
         <br>
         <br>
 
+        <h5 class="page-section-heading text-center text-uppercase text-secondary mb-0"><a href="/?landing">А ЧТО ТАКОЕ "ФОРМА"?</a></h5>
+
+
+        <br>
+        <br>
+
         <div class="divider-custom">
             <div class="divider-custom-line footer-divider "></div>
             <div class="divider-custom-icon text-center" style="font-size: 13px;">Нажимая на кнопку, Вы соглашаетесь на обработку своих пользовательских данных</div>

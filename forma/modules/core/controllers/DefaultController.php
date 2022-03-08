@@ -35,16 +35,16 @@ class DefaultController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'confirm','auth'],
+                'only' => ['index', 'confirm', 'auth', 'landing'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm', 'index', 'auth'],
+                        'actions' => ['confirm', 'index', 'auth', 'landing'],
                         'roles' => ['?'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index','confirm','auth'],
+                        'actions' => ['index','confirm','auth', 'landing'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -103,7 +103,10 @@ class DefaultController extends Controller
             if (isset($_GET['without-header']) || isset($params['userId'])){
             return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
             }
-            return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
+            if (isset($_GET['landing'])) {
+                return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
+            }
+            return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
         }
 
 
@@ -181,6 +184,12 @@ class DefaultController extends Controller
         ));
     }
 
+    public function actionLanding()
+    {
+        Yii::$app->controller->layout = false;
+        return $this->render('landing');
+    }
+
     public function actionChangeAccount()
     {
         $identity = User::findOne(['id' => $_POST['id']]);
@@ -197,8 +206,6 @@ class DefaultController extends Controller
                 }
             }
         }
-
-
     }
 
     public function actionAuth()
