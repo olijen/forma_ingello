@@ -2,3 +2,4 @@
 vendor/*
 forma/config/db.php
 forma/config/web.php
+.env

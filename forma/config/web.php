@@ -1,10 +1,11 @@
 <?php
 
-use     forma\modules\core\records\SystemEventSearch;
+// use forma\modules\core\records\SystemEventSearch;
 use yii\db\ActiveRecord;
-use yii\web\AssetBundle;
 use forma\modules\core\records\SystemEventService;
 use forma\modules\core\controllers\SiteController;
+
+require_once(__DIR__ . '/dotenv.php');
 
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
