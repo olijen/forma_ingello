@@ -1,5 +1,6 @@
 .idea/*
 vendor/*
+node_modules/
 forma/config/db.php
 forma/config/web.php
 .env
