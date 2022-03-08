@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Victim */
 
-$this->title = 'Create Victim';
-$this->params['breadcrumbs'][] = ['label' => 'Victims', 'url' => ['index']];
+$this->title = 'Добавить пострадавшего';
+$this->params['breadcrumbs'][] = ['label' => 'Пострадавшие', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="victim-create">

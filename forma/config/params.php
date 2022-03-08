@@ -280,6 +280,10 @@ return [
                         ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                         ['label' => 'Добавить кадра', 'url' => ['/worker/worker/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                             'style' => 'margin-left: 20px'] ],
+                        ['label' => 'Пострадавшие', 'url' => ['/hr/victim'], 'icon' => 'user-injured'],
+                        ['label' => 'Добавить жертву', 'url' => ['/hr/victim/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                                                                                                                       'style' => 'margin-left: 20px']],
+
                         ['label' => 'Поставщики', 'url' => ['/supplier/supplier'], 'icon' => 'truck'],
                         ['label' => 'Добавить постав.', 'url' => ['/supplier/supplier/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                             'style' => 'margin-left: 20px'] ],
