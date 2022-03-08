@@ -112,9 +112,17 @@ return [
             ]
         ]
     ],
-    "main" =>
 
-        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\",\"WidgetUser\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"AccessInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
+    // Это нужно для того чтобы именовать раздел и отдел определенной модели для системных событий
+    "main" =>
+        "{
+            \"BOSS\":{\"Дашборд\":[\"DashbordWidget\",\"WidgetUser\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"AccessInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},
+            \"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},
+            \"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},
+            \"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"],\"Помощь\":[\"Victim\"]}
+        }",
+
+    //Основные цвета основных отделов
     "colors" => [
         "HRM" => '#f08080',
         "ERP" => '#f49258',
@@ -180,6 +188,7 @@ return [
         'Interview' => "Найм",
         'InterviewVacancy' => "Вакансия для найма",
         'InterviewState' => "Состояние",
+        'Victim' => "Пострадавший",
         'Worker' => "Работник",
         'WorkerVacancy' => "Вакансия для работника",
         'Project' => "Проект",
@@ -310,6 +319,7 @@ return [
         ],
 
         [
+            ####################### 'Продажи (CRM)',
             'label' => 'Продажи (CRM)',
             'options' => [
                 'class'=>'menuColor',
@@ -424,7 +434,8 @@ return [
         ],
         [
 
-            'label' => 'Найм и проекты',
+            ##################################'Кадры, проекты',
+            'label' => 'Найм кадров (HRM)',
             'options' => [
                 'class'=>'menuColor',
                 'style'=>'background-color:#F08080;',
@@ -447,7 +458,9 @@ return [
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
                 ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
-                ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',]],
+                ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',],
+                ['label' => 'Пострадавшие', 'url' => ['/hr/victim'], 'icon' => 'users',]
+            ],
         ],
         [
             'label' => 'Продукты и услуги',
@@ -473,7 +486,8 @@ return [
             ],
         ],
         [
-            'label' => 'Хранилища',
+            ######################### 'СКЛАДЫ',
+            'label' => 'Склады (WMS)',
             'options' => [
                 'class'=>'menuColor',
                 'style'=>'background-color:#dc7d22; ',

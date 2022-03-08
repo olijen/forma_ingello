@@ -1,21 +1,17 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
-/* @var $model app\models\Victim */
+/* @var $model forma\modules\hr\models\Victim */
 
-$this->title = 'Update Victim: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Victims', 'url' => ['index']];
+$this->title = 'Редактировать Пострадавшего: ' . ' ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Пострадавшие', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="victim-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
-        'model' => $model,
+    'model' => $model,
     ]) ?>
 
 </div>

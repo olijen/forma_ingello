@@ -1,47 +1,129 @@
 <?php
 
+use kartik\date\DatePicker;
+use kartik\form\ActiveForm;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Victim */
+/* @var $model forma\modules\hr\models\Victim */
 /* @var $form yii\widgets\ActiveForm */
+
+if ($model->hasErrors()):
+    \wokster\ltewidgets\BoxWidget::begin([
+        'solid' => true,
+        'color' => 'danger',
+        'title' => 'Ошибки валидации',
+        'close' => true,
+    ]);
+    $error_data = $model->firstErrors;
+    echo \yii\widgets\DetailView::widget([
+        'model' => $error_data,
+        'attributes' => array_keys($error_data)
+    ]);
+    \wokster\ltewidgets\BoxWidget::end();
+endif;
+
 ?>
 
 <div class="victim-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([]); ?>
 
-    <?= $form->field($model, 'fullname')->textarea(['rows' => 6]) ?>
+    <div class="row">
+        <div class="col-xs-3">
+            <?= $form->field($model, 'how_many')->textInput(['type' => 'number']) ?>
+        </div>
+        <div class="col-xs-3">
+            <?php
+                if ($model->isNewRecord) $model->stay_for = 1;
+            ?>
+            <?= $form->field($model, 'stay_for')->textInput(['type' => 'number']) ?>
+        </div>
+        <div class="col-xs-6">
+            <?php
+            if ($model->isNewRecord) $model->phone = '+380';
+            ?>
+            <?= $form->field($model, 'phone')->textInput() ?>
+        </div>
 
-    <?= $form->field($model, 'birthday')->textInput() ?>
+    </div>
 
-    <?= $form->field($model, 'is_child')->textInput() ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <?= $form->field($model, 'specialization')->textInput(['placeholder' => "Чем занимается, какие навыки, на кого учится?"]) ?>
+        </div>
+        <div class="col-xs-6">
+            <?= $form->field($model, 'destination')->textInput(['placeholder' => "Сколько планирует пребывать тут"]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'place_of_residence')->textarea(['rows' => 6]) ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <?= $form->field($model, 'questions')->textInput(['placeholder' => "Инвалидность, аллергии, болезни, другие особенности и пожелания"]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'second_residence')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'name_where_to_settle')->textarea(['rows' => 6]) ?>
+    <hr>
 
-    <?= $form->field($model, 'settlement_address')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'phone')->textarea(['rows' => 6]) ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <?= $form->field($model, 'fullname')->textInput(['placeholder' => "Полное имя, фамилия и отчество"]) ?>
+        </div>
+        <div class="col-xs-6">
+            <br>
+            <?= $form->field($model, 'is_child')->checkbox([], false) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'registered_at')->textInput() ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <?php
+                if ($model->isNewRecord) $model->registered_at = date('d.m.Y');
+            ?>
+            <?= $form->field($model, 'registered_at')->textInput()->widget(DatePicker::className(), [
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'autoclose' => true,
+                ], 'options' => ['style' => 'left: 0']]) ?>
+        </div>
+        <div class="col-xs-6">
+            <?= $form->field($model, 'birthday')->textInput(['placeholder' => "Дата рождения"])->widget(DatePicker::className(), [
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'autoclose' => true,
+                ], 'options' => []]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'stay_for')->textarea(['rows' => 6]) ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <?= $form->field($model, 'place_of_residence')->textInput(['placeholder' => "Где прописан по документам"]) ?>
+        </div>
+        <div class="col-xs-6">
+            <?= $form->field($model, 'second_residence')->textInput(['placeholder' => "Где проживает по факту"]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'questions')->textarea(['rows' => 6]) ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <?= $form->field($model, 'name_where_to_settle')->textInput(['placeholder' => "Название места поселения"]) ?>
+        </div>
+        <div class="col-xs-6">
+            <?= $form->field($model, 'settlement_address')->textInput(['placeholder' => "Адрес места поселения"]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'specialization')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'destination')->textarea(['rows' => 6]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+            <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <a href="/hr/victim" class="btn btn-block btn-warning">Отменить</a>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

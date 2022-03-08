@@ -2,33 +2,28 @@
 
 namespace forma\modules\hr\controllers;
 
-use forma\modules\hr\models\Victim;
-use yii\data\ActiveDataProvider;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use forma\components\Controller;
+use forma\modules\hr\records\victim\Victim;
+use forma\modules\hr\records\victim\VictimSearch;
+use Yii;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * VictimController implements the CRUD actions for Victim model.
  */
 class VictimController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -37,30 +32,19 @@ class VictimController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Victim::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $searchModel = new VictimSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
      * Displays a single Victim model.
-     * @param int $id ID
+     * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
@@ -77,46 +61,41 @@ class VictimController extends Controller
     public function actionCreate()
     {
         $model = new Victim();
+        $model->loadDefaultValues(); //load default data from db
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
         } else {
-            $model->loadDefaultValues();
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
      * Updates an existing Victim model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
+     * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
      * Deletes an existing Victim model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
+     * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
@@ -128,7 +107,7 @@ class VictimController extends Controller
     /**
      * Finds the Victim model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
+     * @param integer $id
      * @return Victim the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -136,8 +115,8 @@ class VictimController extends Controller
     {
         if (($model = Victim::findOne($id)) !== null) {
             return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
