@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Интерфейсы доступ�
 <div class="access-interface-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?= Html::a('<i class="fas fa-user-plus"></i> Создать интерфейс доступа', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
+    <?= Html::a('<i class="fas fa-user-plus"></i> Создать интерфейс доступа', ['create'], ['class' => 'btn btn-success forma_green btn-all-screen','style'=>'margin-bottom:10px;']) ?>
 
     <?php Pjax::begin(['id' => 'grid'])?>
     

@@ -53,6 +53,16 @@
     .treeview a span {
         left: 43px !important;
     }
+
+    @media all and (max-width: 480px) {
+        .btn-all-screen {
+            width: 100%;
+        }
+
+        .btn-half-screen {
+            width: 49.2%;
+        }
+    }
 </style>
 
 <script>

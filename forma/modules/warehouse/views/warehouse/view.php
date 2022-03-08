@@ -214,7 +214,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     <?php if (isset($_GET['list'])) : ?>
 
-        <a class="btn btn-default" href="<?= Url::to(['view', 'id' => $model->id]) ?>" data-pjax="0">
+        <a class="btn btn-default btn-all-screen" href="<?= Url::to(['view', 'id' => $model->id]) ?>" data-pjax="0">
             <i class="fa fa-table"></i>
             Таблица
         </a>
@@ -230,7 +230,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     <?php else : ?>
 
-    <a class="btn btn-default" href="<?= Url::to(['view', 'id' => $model->id, 'list' => true]) ?>" data-pjax="0">
+    <a class="btn btn-default btn-all-screen" href="<?= Url::to(['view', 'id' => $model->id, 'list' => true]) ?>" data-pjax="0">
         <i class="fa fa-list"></i>
         Список
     </a>

@@ -161,20 +161,20 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
             'without-header&' : '';
         ?>
 
-        <a class="btn btn-default forma_light_orange" href='?catalog' data-pjax="0"><i class="fa fa-list"></i>
+        <a class="btn btn-default forma_light_orange btn-all-screen" href='?catalog' data-pjax="0"><i class="fa fa-list"></i>
             Каталог</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success forma_light_orange',
+        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success forma_light_orange btn-all-screen',
             'onchange' => 'window.location.href = "/product/product/index?' . $withoutHeader . 'ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
-        <a class="btn btn-success forma_light_orange" href='/product/product/create' data-pjax="0"><i
+        <a class="btn btn-success forma_light_orange btn-all-screen" href='/product/product/create' data-pjax="0"><i
                     class="fa fa-plus"></i> Новый объект</a>
         <br><br>
 
         <?php
         $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && is_numeric($_GET['ProductSearch']['category_id'])) ?
             [
-                'content' => '<button onclick="$(\'#grid-product\').yiiGridView(\'applyFilter\');" class="btn btn-success forma_light_orange"> <i class="glyphicon glyphicon-search"></i> Поиск по таблице </button>',
+                'content' => '<button onclick="$(\'#grid-product\').yiiGridView(\'applyFilter\');" class="btn btn-success forma_light_orange btn-all-screen"> <i class="glyphicon glyphicon-search"></i> Поиск по таблице </button>',
             ]
             :
             ['content' => ''];
@@ -182,7 +182,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
         <?php
         $applyFilterTableCategory = (isset($_GET['ProductSearch']['category_id']) && isset($_GET['ProductSearch'])) ?
             [
-                'content' => '<a class="btn btn-success" href="/product/product/index">Сбросить фильтры</a>',
+                'content' => '<a class="btn btn-success btn-all-screen" href="/product/product/index">Сбросить фильтры</a>',
             ]
             :
             ['content' => ''];
@@ -249,13 +249,13 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
     <?php else : ?>
 
         <br><br>
-        <a class="btn btn-default" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
-        <a class="btn btn-success" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
+        <a class="btn btn-default btn-all-screen" href='?' data-pjax="0"><i class="fa fa-table"></i> Таблица</a>
+        <a class="btn btn-success btn-all-screen" href='/product/product/create' data-pjax="0"><i class="fa fa-plus"></i> Новый объект</a>
         <?= Html::activeDropDownList($searchModel, 'category_id',
-        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success',
+        Category::getList(), ['prompt' => 'Все категории', 'class' => 'btn btn-success btn-all-screen',
             'onchange' => 'window.location.href = "/product/product/index?catalog=&ProductSearch[category_id]="+ $(this).val()'
         ]) ?>
-        <button class="btn btn-success" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
+        <button class="btn btn-success btn-all-screen" data-toggle="collapse" data-target="#hide-me"><i class="fa fa-search"></i> Поиск
         </button>
         <br><br>
         <div class="admin-search collapse" id="hide-me">

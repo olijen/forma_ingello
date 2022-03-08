@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="rule-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?= Html::a('<i class="fas fa-user-plus"></i> Создать правило', ['create'], ['class' => 'btn btn-success forma_green','style'=>'margin:10px;']) ?>
+    <?= Html::a('<i class="fas fa-user-plus"></i> Создать правило', ['create'], ['class' => 'btn btn-success forma_green btn-all-screen','style'=>'margin-bottom:10px;']) ?>
 
 
 

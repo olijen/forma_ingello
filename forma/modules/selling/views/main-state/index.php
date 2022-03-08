@@ -18,7 +18,7 @@ $this->title = Yii::t('app', 'Состояния');
     </p>
 
     <p>
-        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать состояние'), ['create'], ['class' => 'btn btn-success forma_blue btn-all-screen']) ?>
     </p>
 
 

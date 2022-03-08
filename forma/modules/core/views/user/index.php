@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать дочерний аккаунт', ['/core/site/signup-referer'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать дочерний аккаунт', ['/core/site/signup-referer'], ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
 <?php Pjax::begin(); ?>
     <?php $id = Yii::$app->user->id; ?>
