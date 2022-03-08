@@ -78,11 +78,14 @@
                     alertElement.css('display', 'block');
                     alertElement.css('margin-left', '60px');
                     alertElement.css('margin-top', '60px');
-                    eraseCookie('ruleId')
+
+                    Cookies.remove('ruleId');
+
                     documenByItem.$.pjax.reload({
                         container: '#regularity-check-icon-' + itemId.regularityId,
                         async: false
                     });
+
                     documenByItem.$.pjax.reload({container: '#box-item-rules-' + ruleId, async: false});
                     documenByItem.$.pjax.reload({container: '#item-check-icon-' + itemId.itemId, async: false});
                     documenByItem.$('#item-check-icon-' + itemId.itemId).trigger('click');
