@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 ?>
 <div class="category-index">
     <p>
-        <?= Html::a('<i class="fa fa-plus"></i> Создать категорию', ['create'], ['class' => 'btn btn-success forma_light_orange']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> Создать категорию', ['create'], ['class' => 'btn btn-success forma_light_orange btn-all-screen']) ?>
     </p>
 <?php Pjax::begin(); ?>
     <?= GridView::widget([

@@ -28,7 +28,7 @@ $warehouseIsVisible = \forma\modules\warehouse\records\Warehouse::find()
     }
 </style>
 <div class="selling-index">
-    <a href="/selling/form/index" class="btn btn-success forma_blue"> <i class="fa fa-plus"></i> Новая продажа </a>
+    <a href="/selling/form/index" class="btn btn-success forma_blue btn-all-screen"> <i class="fa fa-plus"></i> Новая продажа </a>
     <hr>
     <input id="import-file-input" type="file" style="display: none;" class="kv-loader">
     <?php

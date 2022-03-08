@@ -22,8 +22,8 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 ?>
 <div class="selling-index">
 
-    <a href="/hr/form/index" class="btn btn-success forma_pink"><i class="fas fa-user-plus"></i> Начать найм</a>
-    <a href="/hr/main?InterviewSearch[state]=0" class="btn btn-primary forma_pink"> <i class="fas fa-phone-volume"></i> План на обзвон</a>
+    <a href="/hr/form/index" class="btn btn-success forma_pink btn-all-screen"><i class="fas fa-user-plus"></i> Начать найм</a>
+    <a href="/hr/main?InterviewSearch[state]=0" class="btn btn-primary forma_pink btn-all-screen"> <i class="fas fa-phone-volume"></i> План на обзвон</a>
 
     <hr>
 

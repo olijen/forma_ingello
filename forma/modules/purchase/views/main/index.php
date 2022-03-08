@@ -14,8 +14,7 @@ $this->title = 'Поставки';
 
 
 ?>
-
-<a href="/purchase/form/index" class="btn btn-success forma_light_orange"><i class="fa fa-plus"></i> Заказать поставку</a>
+<a href="/purchase/form/index" class="btn btn-success forma_light_orange btn-all-screen"><i class="fa fa-plus"></i> Заказать поставку</a>
 
 <hr />
 

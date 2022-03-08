@@ -14,11 +14,11 @@ $this->params['doc-page'] = 'hr';
 $panel = '';
 $startUrl = '';
 $list = [
-    ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix forma_pink'],
-    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' => 'forma_pink btn btn-success'],
-    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user', 'class' => 'forma_pink btn btn-success'],
-    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' => 'forma_pink btn btn-success'],
-    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' => 'forma_pink btn btn-success'],
+    ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix forma_pink btn-all-screen'],
+    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' => 'forma_pink btn btn-success btn-half-screen'],
+    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user', 'class' => 'forma_pink btn btn-success btn-half-screen'],
+    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' => 'forma_pink btn btn-success btn-half-screen'],
+    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' => 'forma_pink btn btn-success btn-half-screen'],
 ];
 
 \forma\components\widgets\ModalCreate::widget()

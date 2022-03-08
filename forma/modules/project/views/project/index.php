@@ -18,9 +18,9 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 $this->params['panel'] = Html::a(Yii::t('app', '<i class="fa fa-plus"></i> Создать проект'), ['create'], ['class' => 'btn btn-success forma_pink']);
 $this->params['panel'] .= $this->render('_search', ['model' => $searchModel]);
 
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => ' forma_pink btn btn-'.(empty($_REQUEST['ProjectSearch']['state'])?'primary':'default')]);
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => ' forma_pink btn btn-'.(@$_REQUEST['ProjectSearch']['state']==1?'primary':'default')]);
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => ' forma_pink btn btn-'.(@$_REQUEST['ProjectSearch']['state']==2?'primary':'default')]);
+$this->params['panel'] .= ' ' . Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => 'no-loader forma_pink btn btn-' . (empty($_REQUEST['ProjectSearch']['state']) ? 'primary' : 'default')]);
+$this->params['panel'] .= ' ' . Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 1 ? 'primary' : 'default')]);
+$this->params['panel'] .= ' ' . Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 2 ? 'primary' : 'default')]);
 
 Pjax::begin();
 ?>
@@ -28,9 +28,9 @@ Pjax::begin();
 <div class="project-index" style="padding: 10px;">
     <div style="text-align: right; padding-bottom: 5px;">
         <?php
-        echo Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => ' forma_pink btn btn-' . (empty($_REQUEST['ProjectSearch']['state']) ? 'primary' : 'default')]);
-        echo Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => ' forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 1 ? 'primary' : 'default')]);
-        echo Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => ' forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 2 ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => 'no-loader forma_pink btn btn-' . (empty($_REQUEST['ProjectSearch']['state']) ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 1 ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 2 ? 'primary' : 'default')]);
         ?>
     </div>
     <div class="row" style=" max-height: 500px; ">

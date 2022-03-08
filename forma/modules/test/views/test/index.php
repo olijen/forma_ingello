@@ -25,24 +25,13 @@ if (!empty($_GET['name'])) {
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (!empty($_GET['id'])): ?>
-        <div style="float:left; height: 10px; width: auto">
-            <p>
-                <?= Html::a('<i class="fa fa-plus"></i>' . ' ' . 'Добавить вопрос', ['test/create?id=' . $_GET['id']], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('<i class="fa fa-plus"></i>' . ' ' . 'Добавить вопрос', ['test/create?id=' . $_GET['id']], ['class' => 'btn btn-success btn-all-screen']) ?>
 
-            </p>
-        </div>
     <?php else: ?>
-        <div class="">
-            <p>
-                <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success']) ?>
-            </p>
-        </div>
+                <?= Html::a('Добавить вопрос', ['create'], ['class' => 'btn btn-success btn-all-screen']) ?>
+
     <?php endif; ?>
-    <div>
-        <div class="btn" style="margin-bottom: 30px ; margin-left: 1%">
-            <a href="/test/main">Вернуться к списку</a>
-        </div>
-    </div>
+        <?= Html::a('Вернуться к списку', ['/test/main'], ['class' => 'btn btn-all-screen']) ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([

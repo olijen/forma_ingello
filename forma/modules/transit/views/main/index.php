@@ -15,7 +15,7 @@ $this->title = 'Перемещение';
     
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <a href="/transit/form/index" class="btn btn-success forma_light_orange"><i class="fa fa-plus"></i> Новое перемещение</a>
+    <a href="/transit/form/index" class="btn btn-success forma_light_orange btn-all-screen"><i class="fa fa-plus"></i> Новое перемещение</a>
     <hr />
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,

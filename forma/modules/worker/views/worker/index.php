@@ -16,7 +16,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 <div class="worker-index">
 
     <p>
-        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Новый кадр'), ['create'], ['class' => 'btn btn-success forma_pink']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Новый кадр'), ['create'], ['class' => 'btn btn-success forma_pink btn-all-screen']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?= GridView::widget([

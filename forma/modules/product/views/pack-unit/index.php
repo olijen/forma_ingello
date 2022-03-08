@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('<i class="fa fa-plus"></i> Создать упаковку', ['create'], ['class' => 'btn btn-success forma_light_orange']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> Создать упаковку', ['create'], ['class' => 'btn btn-success forma_light_orange btn-all-screen']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,

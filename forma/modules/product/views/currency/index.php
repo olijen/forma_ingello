@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => '/produc
 <div class="currency-index">
 
     <p>
-        <?= Html::a('<i class="fa fa-plus"></i> Создать валюты', ['create'], ['class' => 'btn btn-success forma_light_orange']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> Создать валюты', ['create'], ['class' => 'btn btn-success forma_light_orange btn-all-screen']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
