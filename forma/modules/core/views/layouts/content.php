@@ -85,9 +85,7 @@
                 }).done(function (itemId) {
                     let alertElement = $('#alert-rule');
                     alertElement.append(itemId.value);
-                    alertElement.css('display', 'block');
-                    alertElement.css('margin-left', '60px');
-                    alertElement.css('margin-top', '60px');
+                    alertElement.attr('style', 'position: fixed; z-index: 100; width: 60%; margin-left: 60px; bottom: 0;')
 
                     Cookies.remove('ruleId');
 
@@ -95,9 +93,9 @@
                         container: '#regularity-check-icon-' + itemId.regularityId,
                         async: false
                     });
-
                     documenByItem.$.pjax.reload({container: '#box-item-rules-' + ruleId, async: false});
                     documenByItem.$.pjax.reload({container: '#item-check-icon-' + itemId.itemId, async: false});
+
                     documenByItem.$('#item-check-icon-' + itemId.itemId).trigger('click');
                 });
             }
