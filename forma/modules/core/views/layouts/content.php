@@ -54,6 +54,10 @@
         left: 43px !important;
     }
 
+    .half-screen {
+        width: 50%;
+    }
+
     @media all and (max-width: 480px) {
         .btn-all-screen {
             width: 100%;
