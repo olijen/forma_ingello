@@ -119,7 +119,7 @@ return [
             \"BOSS\":{\"Дашборд\":[\"DashbordWidget\",\"WidgetUser\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"AccessInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},
             \"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},
             \"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},
-            \"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"],\"Помощь\":[\"Victim\"]}
+            \"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"],\"Помощь\":[\"Victim\", \"Volunteer\"]}
         }",
 
     //Основные цвета основных отделов
@@ -189,6 +189,7 @@ return [
         'InterviewVacancy' => "Вакансия для найма",
         'InterviewState' => "Состояние",
         'Victim' => "Пострадавший",
+        'Volunteer' => "Волонтеры",
         'Worker' => "Работник",
         'WorkerVacancy' => "Вакансия для работника",
         'Project' => "Проект",
@@ -459,7 +460,8 @@ return [
                 ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
                 ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',],
-                ['label' => 'Пострадавшие', 'url' => ['/hr/victim'], 'icon' => 'users',]
+                ['label' => 'Пострадавшие', 'url' => ['/hr/victim'], 'icon' => 'users',],
+                ['label' => 'Волонтеры', 'url' => ['/hr/volunteer'], 'icon' => 'users',]
             ],
         ],
         [
