@@ -7,7 +7,9 @@ use forma\modules\hr\records\victim\Victim;
 use forma\modules\hr\records\victim\VictimSearch;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\httpclient\Exception;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * VictimController implements the CRUD actions for Victim model.
@@ -34,6 +36,19 @@ class VictimController extends Controller
     {
         $searchModel = new VictimSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if ($victimId = Yii::$app->request->get('id')) {
+            $victim = $this->findModel($victimId);
+
+            if ($victim->load(Yii::$app->request->post()) && $victim->save()) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $data = ['output' => $victim->getAttributes(), 'success' => true];
+
+                return $data;
+            } else {
+                return false;
+            }
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

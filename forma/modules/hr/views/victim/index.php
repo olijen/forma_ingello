@@ -2,9 +2,9 @@
 
 use forma\modules\hr\records\victim\Victim;
 use kartik\daterange\DateRangePicker;
-use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
+use forma\extensions\editable\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\hr\models\VictimSearch */
@@ -26,6 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'isEditable' => true,
+        'updateUrl' => \yii\helpers\Url::to(['/hr/victim/index']),
         'columns' => [
             [
                 'class' => 'yii\grid\ActionColumn',
