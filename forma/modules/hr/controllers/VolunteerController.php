@@ -67,7 +67,7 @@ class VolunteerController extends Controller
         if (Yii::$app->request->post('Volunteer')) {
             $optionsArray = $_POST['Volunteer']['options'];
             foreach ($optionsArray as $option) {
-                $optionsName .= $model->getOptions()[$option] . ',';
+                $optionsName .= $model::getOptions()[$option] . ',';
             }
 
             $model->options = $optionsName;
@@ -91,6 +91,16 @@ class VolunteerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        $optionsName = null;
+        if (Yii::$app->request->post('Volunteer')) {
+            $optionsArray = $_POST['Volunteer']['options'];
+            foreach ($optionsArray as $option) {
+                $optionsName .= $model::getOptions()[$option] . ',';
+            }
+
+            $model->options = $optionsName;
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'filter' => $searchModel::getStatuses(),
                 'value' => function ($data) {
-                    return $data->getStatuses()[$data->status];
+                    return $data::getStatuses()[$data->status];
                 },
             ],
             'full_name',
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => $searchModel::getSupportTypes(),
                 'filterInputOptions' => ['multiple' => true, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
                 'value' => function ($data) {
-                    return $data->getSupportTypes()[$data->support_type];
+                    return $data::getSupportTypes()[$data->support_type];
                 },
             ],
             [
