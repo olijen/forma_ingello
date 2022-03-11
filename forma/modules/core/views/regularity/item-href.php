@@ -79,16 +79,16 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
                         if ($rule->item_id == $item->id) {
                             echo "<div class='clearfix'>
                                     <span class='pull-left'>Название задачи: " . (($rule->action === 'insert') ? 'добавить' : '')
-                                . (($rule->action === 'update') ? 'обновить' : '') . (($rule->action === 'delete') ? 'удалить' : '') . ", объект 
+                                . (($rule->action === 'update') ? 'обновить' : '') . (($rule->action === 'delete') ? 'удалить' : '') . ", объект
                                 '" . Yii::$app->params['translateTablesName'][$rule->table] . "'</span>
                                </div>";
 
                             foreach ($userDataIsNull as $dataNull) {
                                 if ($dataNull->id == $rule->id) {
                                     echo "<div class='clearfix'>
-                                                
+
                                                 <small class='pull-right'>0 % (0 из $rule->count_action)
-                                                
+
                                         <i style='color:red;padding-left: 10px;' class='fa fa-times'></i>" . "</small>
                                             </div>
                                             <div class='progress xs'>
@@ -104,9 +104,9 @@ if (!empty($rules = \forma\modules\core\records\Rule::find()->where(['item_id' =
                                     $sum = round(($accessInterface->current_mark / $rule->count_action) * 100);
 
                                     echo "<div class='clearfix'>
-                                                
+
                                                 <small class='pull-right'>$sum % ($accessInterface->current_mark из $rule->count_action)
-                                                " . (($sum >= 100) ? "<i style='color:green;padding-left: 10px;' ></i>" :
+                                                " . (($sum >= 100) ? "<i style='color:green;padding-left: 10px;' class='fa fa-check-circle' ></i>" :
                                             "<i style='color:red;padding-left: 10px;' class='fa fa-times'></i>") . "</small>
                                             </div>
                                             <div class='progress xs'>
