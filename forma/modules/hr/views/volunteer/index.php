@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'status',
-                'filter' => $searchModel->getStatusList(),
+                'filter' => $searchModel::getStatuses(),
                 'value' => function ($data) {
                     return $data->getStatuses()[$data->status];
                 },
@@ -42,13 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'phone',
             [
                 'attribute' => 'support_type',
-                'filter' => $searchModel->getSupportTypeList(),
+                'filter' => $searchModel::getSupportTypes(),
                 'filterInputOptions' => ['multiple' => true, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
                 'value' => function ($data) {
                     return $data->getSupportTypes()[$data->support_type];
                 },
             ],
-            'comment:ntext',
+            [
+                'attribute' => 'comment',
+                'format' => 'html'
+            ],
             'capacity',
             'options:ntext',
             [

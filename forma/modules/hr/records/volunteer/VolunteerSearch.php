@@ -78,27 +78,4 @@ class VolunteerSearch extends Volunteer
 
         return $dataProvider;
     }
-
-    public function getStatusList()
-    {
-        return [
-            0 => 'Не актуально',
-            1 => 'Актуально',
-        ];
-    }
-
-    public function getSupportTypeList()
-    {
-        return [
-            0 => 'Жилье',
-            1 => 'Транспорт',
-            2 => 'Еда',
-            3 => 'Одежда',
-            4 => 'Др. вещи',
-            5 => 'Финансы',
-            6 => 'Услуга',
-            7 => 'Физическая',
-            8 => 'Другое',
-        ];
-    }
 }
