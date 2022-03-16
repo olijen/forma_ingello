@@ -33,31 +33,23 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{delete}{update}',
-                'buttons' => [
-                    'update' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['hidden' => 'hidden', 'title' => 'Редактировать']);
-                    },
-                ],
             ],
             'id',
             'fullname:ntext',
             [
                 'attribute' => 'birthday',
-                'filter' => DateRangePicker::widget([
-                    'name' => 'date_range_birthday',
-                    'presetDropdown' => true,
-                    'pluginOptions'=>[
-                        'locale' => [
-                            'format' => 'DD.MM.Y'
-                        ],
-                    ],
-                    //todo: абстрагировать
-                    'value' => isset($_GET['date_range_birthday']) ?
-                        $_GET['date_range_birthday'] : Victim::getDateRange(),
-                ]),
-                'format' => ['date', 'php:d.m.Y H:i:s'],
+                'format' => ['date', 'php:d.m.Y'],
             ],
-            'is_child',
+            [
+                'attribute' => 'is_child',
+                'value' => function ($model) {
+                    if (date_diff(new DateTime(), new DateTime($model->birthday))->y >= 18) {
+                        return 'нет';
+                    } else {
+                        return 'да';
+                    }
+                }
+            ],
             'place_of_residence:ntext',
             'second_residence:ntext',
             'name_where_to_settle:ntext',
@@ -77,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => isset($_GET['date_range_registered_at']) ?
                         $_GET['date_range_registered_at'] : Victim::getDateRange(),
                 ]),
-                'format' => ['date', 'php:d.m.Y H:i:s'],
+                'format' => ['date', 'php:d.m.Y'],
             ],
             'stay_for:ntext',
             'questions:ntext',
