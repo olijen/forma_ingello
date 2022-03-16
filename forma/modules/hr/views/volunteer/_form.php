@@ -51,9 +51,9 @@ endif;
             'minHeight' => 200, 'maxHeight' => 220]]); ?>
 
     <?= $form->field($model, 'capacity', ['options' => ['class' => 'col-md-6 col-xs-12']])->widget(\kartik\range\RangeInput::classname(), [
-        'options' => ['placeholder' => 'Вместимость (1 - 4)...'],
+        'options' => ['placeholder' => 'Вместимость (1 - 25)...'],
         'html5Container' => ['style' => 'width:250px'],
-        'html5Options' => ['min' => 1, 'max' => 4],
+        'html5Options' => ['min' => 1, 'max' => 25],
         'addon' => ['append' => ['content' => '<i class="fas fa-warehouse"></i>']]
     ]); ?>
 

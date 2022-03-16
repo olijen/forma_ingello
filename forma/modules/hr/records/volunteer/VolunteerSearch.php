@@ -67,13 +67,15 @@ class VolunteerSearch extends Volunteer
             foreach ($this->support_type as $support) {
                 $query->orFilterWhere(['support_type' => $support]);
             }
+        } else {
+            $query->andFilterWhere(['support_type' => $this->support_type]);
         }
 
         $query->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'full_name', $this->full_name])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'comment', $this->comment])
-            ->andFilterWhere(['like', 'capacity', $this->capacity])
+            ->andFilterWhere(['>=', 'capacity', $this->capacity])
             ->andFilterWhere(['like', 'options', $this->options]);
 
         return $dataProvider;

@@ -29,6 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{delete}{update}',
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['hidden' => 'hidden', 'title' => 'Редактировать']);
+                    },
+                ],
             ],
             'id',
             [
@@ -43,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'support_type',
                 'filter' => $searchModel::getSupportTypes(),
-                'filterInputOptions' => ['multiple' => true, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
+                'filterInputOptions' => ['multiple' => false, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
                 'value' => function ($data) {
                     return $data::getSupportTypes()[$data->support_type];
                 },

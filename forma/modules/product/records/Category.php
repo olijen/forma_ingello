@@ -82,7 +82,7 @@ class Category extends AccessoryActiveRecord
 
     public static function getList()
     {
-        return EntityLister::getList(self::className());
+        return Category::find()->asArray()->allAccessory();
     }
 
     public static function getCurrentAndParentId($parentCategoryId)

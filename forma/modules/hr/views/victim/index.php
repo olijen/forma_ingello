@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Добавить пострадавшего'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить пострадавшего'), ['create'], ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
 
     <?php Pjax::begin(['id' => 'grid'])?>
@@ -27,11 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'isEditable' => true,
+        'responsiveWrap' => false,
         'updateUrl' => \yii\helpers\Url::to(['/hr/victim/index']),
         'columns' => [
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
+                'template' => '{delete}{update}',
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['hidden' => 'hidden', 'title' => 'Редактировать']);
+                    },
+                ],
             ],
             'id',
             'fullname:ntext',
