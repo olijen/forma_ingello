@@ -15,56 +15,7 @@ use forma\modules\product\records\Product;
 
         <section class="sidebar">
 
-            <!-- search form -->
-            <form id="live-search" action="/product/product" method="get" class="sidebar-form">
-                <input id="searching-product-id" type="hidden" value="">
 
-                <!-- todo: Вынести -->
-                <script>
-                    $('#live-search').submit(function(event) {
-                        event.preventDefault();
-
-                        var searchingProductId = $('#searching-product-id').val();
-
-                        if (searchingProductId !== '') {
-                            var url = '<?= Url::to(['/product/product']) ?>' + '?';
-                            url += encodeURIComponent('ProductSearch[id]');
-                            url += '=';
-                            url += searchingProductId;
-
-                            $(location).attr('href', url);
-                        }
-                    });
-
-                </script>
-
-                <div class="input-group">
-
-                    <?= AutocompleteAjax::widget([
-                        'url' => [Url::toRoute(['/product/product/search'])],
-                        'options' => [
-                            'class' => 'form-control',
-                            'placeholder' => 'Поиск...',
-                            'style' => 'z-index: 1000000;',
-                        ],
-                        'model' => new Product,
-                        'attribute' => 'name',
-
-                        // todo: Хорошо протестировать всегда ли есть ui.item.id
-                        // todo: Выдает ошибку Unknown Property – yii\base\UnknownPropertyException
-                        // todo: Setting unknown property: keygenqt\autocompleteAjax\AutocompleteAjax::afterSelect
-//                    'afterSelect' => 'function(event, ui) {
-//                        $("#searching-product-id").val(ui.item.id);
-//                    }',
-                    ]); ?>
-
-                    <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-                </div>
-            </form>
-            <!-- /.search form -->
 <?php
 //#f49258
 $bgColor = '#00a65a';
@@ -143,14 +94,25 @@ if ('selling'== Yii::$app->controller->module->id){
             if ($('.sidebar-collapse').length) {
                 $('li.menuColor.treeview').css('overflow-y', 'scroll');
                 $('li.menuColor.treeview').css('max-height', '400px');
+
                 let width = $('.container-small_widgets').width() - 229 + 55;
                 $('.container-small_widgets').css('width', width + 'px');
             } else {
                 $('li.menuColor.treeview').css('overflow-y', '')
                 $('li.menuColor.treeview').css('max-height', '')
                 $('li.menuColor.treeview').css('max-height', '')
+
                 let width = $('.container-small_widgets').width() + 229 - 55;
                 $('.container-small_widgets').css('width', width + 'px');
             }
+
+            if (!$('#body1').hasClass('sidebar-open')) {
+                $('li.menuColor.treeview').css('overflow-y', 'scroll');
+                $('li.menuColor.treeview').css('max-height', '400px');
+
+                let width = $('.container-small_widgets').width() - 229 + 55;
+                $('.container-small_widgets').css('width', width + 'px');
+            }
+
         })
     </script>
