@@ -41,6 +41,49 @@ class AccessoryActiveRecord extends ActiveRecord
         }
     }
 
+    public function accessWithChild($query)
+    {
+        $user = \Yii::$app->getUser()->getIdentity();
+        $ids = [];
+
+        $condition = '';
+        if ($user->parent_id != null) {
+            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} or id = {$user->id}";
+        } else {
+            $condition = "parent_id = {$user->id} OR id = {$user->id}";
+        }
+
+        foreach (User::find()->where($condition)->all() as $user) {
+            array_push($ids, $user->id);
+        }
+
+        $results = Accessory::find()
+            ->andWhere(['in', 'accessory.user_id', $ids])
+            ->andWhere(['accessory.entity_class' => $query->modelClass])
+            ->all();
+
+        $accessedIds = [];
+        foreach ($results as $result) {
+            $accessedIds[] = $result->entity_id;
+        }
+
+        $name = (new ReflectionClass($query->modelClass))->getShortName();
+        $nameMoreVariant = preg_split("/(?<=[a-z])(?![a-z])/", "$name", -1, PREG_SPLIT_NO_EMPTY);
+
+        $multiNameEntity = "";
+        foreach ($nameMoreVariant as $item) {
+            $multiNameEntity .= '_' . $item;
+        }
+
+        $currentNameEntity = trim(strtolower($multiNameEntity), '_');
+
+        if (!empty($accessedIds)) {
+            $query->andFilterWhere(['in', $currentNameEntity . '.id', $accessedIds]);
+        } else {
+            $query->andFilterWhere(['in', $currentNameEntity . '.id', -1]);
+        }
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         if (Yii::$app->controller->action->id == 'test' && Yii::$app->user->isGuest) {

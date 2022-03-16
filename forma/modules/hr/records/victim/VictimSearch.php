@@ -40,6 +40,7 @@ class VictimSearch extends Victim
     public function search($params)
     {
         $query = Victim::find();
+        $this->accessWithChild($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

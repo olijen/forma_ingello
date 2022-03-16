@@ -42,6 +42,7 @@ class VolunteerSearch extends Volunteer
     public function search($params)
     {
         $query = Volunteer::find();
+        $this->accessWithChild($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
