@@ -391,7 +391,6 @@ JS;
     ?>
     <script>
         $(document).ready(function () {
-            alert("ready!");
             let span = $('div.skiptranslate.goog-te-gadget span');
             span.hide();
             let ulMobile = $('ul.dropdown-menu');
