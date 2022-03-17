@@ -74,13 +74,13 @@ use yii\widgets\Breadcrumbs;
                         $(document).ready(function() {
                             $('#info').addClass("no-loader");
                             var i = setInterval(function () {
-                                
+
                                 setTimeout(function() {
                                     $('#info').css('color', '#00f');
                                 }, 250);
                                 $('#info').css('color', '#0f0');
                             }, 500);
-                            
+
                             setTimeout(function() {
                               clearInterval(i);
                               $('#info').css('color', '#ffffff');
@@ -337,6 +337,11 @@ JS;
 
 
                                 ?>
+
+                                <div class="pull-left" style="width: 30%;">
+                                    <div id="google_translate_element" style="white-space: unset;"></div>
+                                </div>
+
                                 <div class="pull-right">
 
 
@@ -385,6 +390,14 @@ JS;
     });
     ?>
     <script>
+        $(document).ready(function () {
+            alert("ready!");
+            let span = $('div.skiptranslate.goog-te-gadget span');
+            span.hide();
+            let ulMobile = $('ul.dropdown-menu');
+            ulMobile.css('right', '0');
+        });
+
         function changeAccount(id, username) {
             let userId = id;
             let userName = username;
@@ -462,7 +475,7 @@ JS;
                   }, 250);
                   $('#info2').css('color', 'green');
               }, 500);
-              
+
               setTimeout(function() {
                 clearInterval(i);
                 $('#info2').css('color', 'blue');
