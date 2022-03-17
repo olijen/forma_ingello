@@ -74,11 +74,11 @@ class Volunteer extends AccessoryActiveRecord
         return [
             [['comment'], 'string'],
             [['created_at'], 'safe'],
-            [['status'], 'string', 'max' => 1],
+            [['status'], 'integer', 'max' => 1],
             [['full_name'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
-            [['support_type'], 'string', 'max' => 8],
-            [['capacity'], 'string', 'max' => 3]
+            [['support_type'], 'integer', 'max' => 8],
+            [['capacity'], 'integer', 'max' => 3]
         ];
     }
 

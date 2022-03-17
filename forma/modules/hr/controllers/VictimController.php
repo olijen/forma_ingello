@@ -91,7 +91,7 @@ class VictimController extends Controller
                 }
             }
 
-            return $this->redirect(['index']);
+            return $this->redirect('/hr/volunteer/index?how_many=' . $model->how_many . '&support_type=' . 0);
         } else {
             return $this->render('create', [
                 'model' => $model,

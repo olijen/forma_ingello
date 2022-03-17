@@ -78,6 +78,7 @@ class VictimSearch extends Victim
             $query->andFilterWhere(['BETWEEN', 'registered_at', $date_start, $date_end]);
         }
 
+        $query->orderBy(['id' => SORT_DESC]);
         return $dataProvider;
     }
 }
