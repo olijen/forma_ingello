@@ -79,6 +79,18 @@ class VictimController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->how_many > 1) {
+                for ($i = 1; $i < $model->how_many; $i++) {
+                    $modelChild = new Victim();
+                    $modelChild->loadDefaultValues();
+                    $modelChild->stay_for = $model->stay_for;
+                    $modelChild->phone = $model->phone;
+                    $modelChild->specialization = '-';
+                    $modelChild->destination = $model->destination;
+                    $modelChild->save();
+                }
+            }
+
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
