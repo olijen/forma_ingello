@@ -37,6 +37,27 @@ class VictimController extends Controller
         $searchModel = new VictimSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $victim = Victim::find()->select(['id', 'fullname'])->all();
+
+        $arrayVictimColor = array();
+        foreach ($victim as $attributeVictim) {
+            foreach ($victim as $attributeVictimSearch) {
+                if (explode(' ', $attributeVictim->fullname)[0] == explode(' ', $attributeVictimSearch->fullname)[0]
+                    && $attributeVictim->id != $attributeVictimSearch->id) {
+                    if (!empty($arrayVictimColor)) {
+                        foreach ($arrayVictimColor as $key => $item) {
+                            if ($key != explode(' ', $attributeVictim->fullname)[0]) {
+                                $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = sprintf("#%06x", rand(0, 16777215));
+
+                            }
+                        }
+                    } else {
+                        $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = sprintf("#%06x", rand(0, 16777215));
+                    }
+                }
+            }
+        }
+
         if ($victimId = Yii::$app->request->get('id')) {
             $victim = $this->findModel($victimId);
 
@@ -53,6 +74,7 @@ class VictimController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'arrayVictimColor' => $arrayVictimColor,
         ]);
     }
 

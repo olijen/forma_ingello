@@ -12,6 +12,7 @@ use forma\extensions\editable\GridView;
 
 $this->title = 'Пострадавшие';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['arrayVictimColor'] = $arrayVictimColor;
 ?>
 <div class="victim-index">
 
@@ -29,6 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'isEditable' => true,
         'responsiveWrap' => false,
         'updateUrl' => \yii\helpers\Url::to(['/hr/victim/index']),
+        'striped' => false,
+        'rowOptions' => function ($model, $key, $index, $grid) {
+            foreach ($this->params['arrayVictimColor'] as $key => $color) {
+                if (stripos(explode(' ', $model->fullname)[0], $key) !== false) {
+                    return ['style' => 'color: ' . $color];
+                }
+            }
+        },
         'columns' => [
             [
                 'class' => 'yii\grid\ActionColumn',
