@@ -14,6 +14,17 @@ $this->title = 'Пострадавшие';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['arrayVictimColor'] = $arrayVictimColor;
 ?>
+<style>
+    .editable-grid tbody tr:nth-child(odd) td > textarea, .editable-grid tbody tr:nth-child(odd) td > select, .editable-grid tbody tr:nth-child(odd) td {
+        background-color: transparent;
+        transform: translate3d(0px, 1px, 0px);
+    }
+
+    .editable-grid tbody tr:nth-child(even) td > textarea, .editable-grid tbody tr:nth-child(even) td > select, .editable-grid tbody tr:nth-child(even) td {
+        background-color: transparent;
+        transform: translate3d(0px, 1px, 0px);
+    }
+</style>
 <div class="victim-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -32,9 +43,14 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
         'updateUrl' => \yii\helpers\Url::to(['/hr/victim/index']),
         'striped' => false,
         'rowOptions' => function ($model, $key, $index, $grid) {
+            $modelFullName = explode(' ', $model->fullname)[0];
             foreach ($this->params['arrayVictimColor'] as $key => $color) {
-                if (stripos(explode(' ', $model->fullname)[0], $key) !== false) {
-                    return ['style' => 'color: ' . $color];
+                if (stripos($modelFullName, $key) !== false && strlen($modelFullName) >= strlen($key)) {
+                    return ['style' => 'background-color: ' . $color];
+                } else {
+                    if (stripos($key, $modelFullName) !== false) {
+                        return ['style' => 'background-color: ' . $color];
+                    }
                 }
             }
         },
