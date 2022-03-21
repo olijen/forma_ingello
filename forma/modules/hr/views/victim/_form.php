@@ -31,18 +31,14 @@ endif;
 
     <div class="row">
         <div class="col-md-3">
-            <?= $form->field($model, 'how_many')->textInput(['type' => 'number']) ?>
+            <?= $form->field($model, 'how_many')->textInput(['placeholder' => "Сколько вас? (В семье или в группе)", 'type' => 'number']) ?>
         </div>
         <div class="col-md-3">
-            <?php
-                if ($model->isNewRecord) $model->stay_for = 1;
-            ?>
+            <?php if ($model->isNewRecord) $model->stay_for = 1; ?>
             <?= $form->field($model, 'stay_for')->textInput(['type' => 'number']) ?>
         </div>
         <div class="col-md-6">
-            <?php
-            if ($model->isNewRecord) $model->phone = '+380';
-            ?>
+            <?php if ($model->isNewRecord) $model->phone = '+380'; ?>
             <?= $form->field($model, 'phone')->textInput() ?>
         </div>
 
@@ -53,7 +49,7 @@ endif;
             <?= $form->field($model, 'specialization')->textInput(['placeholder' => "Чем занимается, какие навыки, на кого учится?"]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'destination')->textInput(['placeholder' => "Сколько планирует пребывать тут"]) ?>
+            <?= $form->field($model, 'destination')->textInput(['placeholder' => "Куда планируете уехать потом"]) ?>
         </div>
     </div>
 
