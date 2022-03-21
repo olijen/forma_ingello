@@ -17,12 +17,12 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
 <style>
     .editable-grid tbody tr:nth-child(odd) td > textarea, .editable-grid tbody tr:nth-child(odd) td > select, .editable-grid tbody tr:nth-child(odd) td {
         background-color: transparent;
-        transform: translate3d(0px, 1px, 0px);
+        transform: translate3d(1px, 1px, 0px);
     }
 
     .editable-grid tbody tr:nth-child(even) td > textarea, .editable-grid tbody tr:nth-child(even) td > select, .editable-grid tbody tr:nth-child(even) td {
         background-color: transparent;
-        transform: translate3d(0px, 1px, 0px);
+        transform: translate3d(1px, 1px, 0px);
     }
 </style>
 <div class="victim-index">
