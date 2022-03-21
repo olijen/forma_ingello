@@ -7,7 +7,9 @@ use forma\modules\hr\records\victim\Victim;
 use forma\modules\hr\records\victim\VictimSearch;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\httpclient\Exception;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * VictimController implements the CRUD actions for Victim model.
@@ -35,9 +37,44 @@ class VictimController extends Controller
         $searchModel = new VictimSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $victim = Victim::find()->select(['id', 'fullname'])->all();
+
+        $arrayVictimColor = array();
+        foreach ($victim as $attributeVictim) {
+            foreach ($victim as $attributeVictimSearch) {
+                if (explode(' ', $attributeVictim->fullname)[0] == explode(' ', $attributeVictimSearch->fullname)[0]
+                    && $attributeVictim->id != $attributeVictimSearch->id) {
+                    if (!empty($arrayVictimColor)) {
+                        foreach ($arrayVictimColor as $key => $item) {
+                            if ($key != explode(' ', $attributeVictim->fullname)[0]) {
+                                $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = sprintf("#%06x", rand(0, 16777215));
+
+                            }
+                        }
+                    } else {
+                        $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = sprintf("#%06x", rand(0, 16777215));
+                    }
+                }
+            }
+        }
+
+        if ($victimId = Yii::$app->request->get('id')) {
+            $victim = $this->findModel($victimId);
+
+            if ($victim->load(Yii::$app->request->post()) && $victim->save()) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $data = ['output' => $victim->getAttributes(), 'success' => true];
+
+                return $data;
+            } else {
+                return false;
+            }
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'arrayVictimColor' => $arrayVictimColor,
         ]);
     }
 
@@ -64,7 +101,19 @@ class VictimController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            if ($model->how_many > 1) {
+                for ($i = 1; $i < $model->how_many; $i++) {
+                    $modelChild = new Victim();
+                    $modelChild->loadDefaultValues();
+                    $modelChild->stay_for = $model->stay_for;
+                    $modelChild->phone = $model->phone;
+                    $modelChild->specialization = '-';
+                    $modelChild->destination = $model->destination;
+                    $modelChild->save();
+                }
+            }
+
+            return $this->redirect('/hr/volunteer/index?how_many=' . $model->how_many . '&support_type=' . 0);
         } else {
             return $this->render('create', [
                 'model' => $model,

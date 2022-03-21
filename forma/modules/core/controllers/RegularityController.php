@@ -237,9 +237,7 @@ class RegularityController extends Controller
             $item = $rule->item;
             $regularity = isset($item->regularity) ? $item->regularity : null;
 
-            $value = "#Задание: " . (($rule->action === 'insert') ? 'Вставить' : '')
-                . (($rule->action === 'update') ? 'Обновить' : '') . (($rule->action === 'delete') ? 'Удалить' : '') . " данные из: 
-                     " . Yii::$app->params['translateTablesName'][$rule->table] . ", $rule->count_action зап. Ты справился!!!";
+            $value = "#Задание: " . $rule->rule_name . ". Ты справился!!!";
 
             return ['itemId' => $item->id, 'regularityId' => $regularity->id, 'value' => $value];
         }

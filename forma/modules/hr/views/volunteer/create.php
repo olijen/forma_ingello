@@ -6,7 +6,7 @@ use \wokster\ltewidgets\BoxWidget;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\hr\records\volunteer\Volunteer */
 
-$this->title = 'Создать Валантера';
+$this->title = 'Создать Волонтера';
 $this->params['breadcrumbs'][] = ['label' => 'Волонтеры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

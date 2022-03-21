@@ -2,6 +2,8 @@
 
 namespace forma\modules\product\records;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[Category]].
  *
@@ -20,6 +22,12 @@ class CategoryQuery extends \yii\db\ActiveQuery
      */
     public function all($db = null)
     {
+        return parent::all($db);
+    }
+
+    public function allAccessory($db = null)
+    {
+        $this->andWhere(['in', 'category.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::all($db);
     }
 

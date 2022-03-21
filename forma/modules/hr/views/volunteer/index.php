@@ -12,6 +12,15 @@ use yii\widgets\Pjax;
 $this->title = 'Волонтеры';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+    .booking {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+    }
+</style>
+
 <div class="volunteer-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,27 +37,41 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}{update}',
+                'template' => '{delete}{update}{booking}',
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['hidden' => 'hidden', 'title' => 'Редактировать']);
+                    },
+                    'booking' => function ($url, $model) {
+                        if (isset($_GET['how_many'])) {
+                            $how_many = Yii::$app->request->get('how_many');
+                            return "<button onclick=addBooking($model->id,$how_many) class='booking btn btn-success' type='button'><i class='fa fa-bookmark fa-xl'></i></button>";
+                        }
+                    }
+                ],
             ],
             'id',
             [
                 'attribute' => 'status',
-                'filter' => $searchModel->getStatusList(),
+                'filter' => $searchModel::getStatuses(),
                 'value' => function ($data) {
-                    return $data->getStatuses()[$data->status];
+                    return $data::getStatuses()[$data->status];
                 },
             ],
             'full_name',
             'phone',
             [
                 'attribute' => 'support_type',
-                'filter' => $searchModel->getSupportTypeList(),
-                'filterInputOptions' => ['multiple' => true, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
+                'filter' => $searchModel::getSupportTypes(),
+                'filterInputOptions' => ['multiple' => false, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
                 'value' => function ($data) {
-                    return $data->getSupportTypes()[$data->support_type];
+                    return $data::getSupportTypes()[$data->support_type];
                 },
             ],
-            'comment:ntext',
+            [
+                'attribute' => 'comment',
+                'format' => 'html'
+            ],
             'capacity',
             'options:ntext',
             [
@@ -71,3 +94,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+<script>
+    function addBooking(id, how_many) {
+        let x = confirm("Вы хотите списать " + how_many + " мест в данном месте размещения. Подтвердить ?");
+        let volunteerId = id;
+        let howMany = how_many;
+
+        if (x) {
+            $.ajax({
+                type: "POST",
+                url: "/hr/volunteer/booking?id=" + volunteerId,
+                data: {volunteerId: volunteerId, howMany: howMany}
+            }).done(function (msg) {
+            });
+        } else {
+
+        }
+    }
+</script>
