@@ -40,9 +40,13 @@ class VictimSearch extends Victim
     public function search($params)
     {
         $query = Victim::find();
+        $this->accessWithChild($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10
+            ],
         ]);
 
         $this->load($params);
@@ -65,13 +69,8 @@ class VictimSearch extends Victim
             ->andFilterWhere(['like', 'stay_for', $this->stay_for])
             ->andFilterWhere(['like', 'questions', $this->questions])
             ->andFilterWhere(['like', 'specialization', $this->specialization])
+            ->andFilterWhere(['like', 'birthday', $this->birthday])
             ->andFilterWhere(['like', 'destination', $this->destination]);
-
-        if (isset($params['date_range_birthday'])) {
-            $date_start = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range_birthday'])[0]));
-            $date_end = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range_birthday'])[1]) + 60 * 60 * 24);
-            $query->andFilterWhere(['BETWEEN', 'birthday', $date_start, $date_end]);
-        }
 
         if (isset($params['date_range_registered_at'])) {
             $date_start = date('Y-m-d', strtotime(explode(' - ', $_GET['date_range_registered_at'])[0]));
@@ -79,6 +78,7 @@ class VictimSearch extends Victim
             $query->andFilterWhere(['BETWEEN', 'registered_at', $date_start, $date_end]);
         }
 
+        $query->orderBy(['id' => SORT_DESC]);
         return $dataProvider;
     }
 }

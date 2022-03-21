@@ -75,8 +75,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
         [
             'attribute' => 'category_id',
             'value' => 'category.name',
-
-            'filter' => Category::getList(),
+            'filter' => ArrayHelper::map(Category::getList(), 'id', 'name'),
         ],
         [
             'attribute' => 'sku',

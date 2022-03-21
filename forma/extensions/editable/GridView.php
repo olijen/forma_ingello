@@ -29,7 +29,7 @@ class GridView extends KartikGridView
     public $dataColumnClass = '';
 
     public $displayEmptyValue = false;
-    
+
     public $export = [];
 
     protected $_dataColumnClass = 'forma\extensions\editable\DataColumn';
@@ -73,7 +73,7 @@ class GridView extends KartikGridView
             return;
         }
 
-        $this->layout = ' {export}' . $this->layout;
+        $this->layout = ' {export}' . ' ' . '{toggleData}' . $this->layout;
 
         $this->_module->downloadAction = Url::to(['/core/export/download']);
 

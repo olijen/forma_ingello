@@ -42,6 +42,7 @@ class VolunteerSearch extends Volunteer
     public function search($params)
     {
         $query = Volunteer::find();
+        $this->accessWithChild($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -67,38 +68,17 @@ class VolunteerSearch extends Volunteer
             foreach ($this->support_type as $support) {
                 $query->orFilterWhere(['support_type' => $support]);
             }
+        } else {
+            $query->andFilterWhere(['support_type' => $this->support_type]);
         }
 
         $query->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'full_name', $this->full_name])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'comment', $this->comment])
-            ->andFilterWhere(['like', 'capacity', $this->capacity])
+            ->andFilterWhere(['>=', 'capacity', $this->capacity])
             ->andFilterWhere(['like', 'options', $this->options]);
 
         return $dataProvider;
-    }
-
-    public function getStatusList()
-    {
-        return [
-            0 => 'Не актуально',
-            1 => 'Актуально',
-        ];
-    }
-
-    public function getSupportTypeList()
-    {
-        return [
-            0 => 'Жилье',
-            1 => 'Транспорт',
-            2 => 'Еда',
-            3 => 'Одежда',
-            4 => 'Др. вещи',
-            5 => 'Финансы',
-            6 => 'Услуга',
-            7 => 'Физическая',
-            8 => 'Другое',
-        ];
     }
 }

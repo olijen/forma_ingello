@@ -107,7 +107,7 @@ var EditableDataColumn = (function() {
             $input.val(getCurrentValue($input, cellIndex));
             $input.focus();
             var message = response.message ?
-                response.message : 'YoutData not saved';
+                response.message : 'Данные не обновились';
             krajeeDialog.alert(message);
         };
     };

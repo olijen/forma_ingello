@@ -29,7 +29,7 @@ class Volunteer extends AccessoryActiveRecord
         return 'volunteer';
     }
 
-    public function getStatuses()
+    public static function getStatuses()
     {
         return [
             0 => 'Не актуально',
@@ -37,7 +37,7 @@ class Volunteer extends AccessoryActiveRecord
         ];
     }
 
-    public function getSupportTypes()
+    public static function getSupportTypes()
     {
         return [
             0 => 'Жилье',
@@ -52,35 +52,17 @@ class Volunteer extends AccessoryActiveRecord
         ];
     }
 
-    public function beforeSave($insert)
-    {
-        if ($this->comment) {
-            $this->comment = strip_tags($this->comment);
-        }
-
-        return parent::beforeSave($insert);
-    }
-
-    public function getOptions()
+    public static function getOptions()
     {
         return [
-            0 => 'отопление',
-            1 => 'без отопления',
-            2 => 'душ',
-            3 => 'горячая вода',
-            4 => 'холодная вода',
-            5 => 'туалет в доме',
-            6 => 'с кухней',
-            7 => 'с кафе/столовой'
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
+            0 => 'Отопление',
+            1 => 'Без отопления',
+            2 => 'Душ',
+            3 => 'Горячая вода',
+            4 => 'Холодная вода',
+            5 => 'Туалет в доме',
+            6 => 'С кухней',
+            7 => 'С кафе/столовой'
         ];
     }
 
@@ -92,11 +74,11 @@ class Volunteer extends AccessoryActiveRecord
         return [
             [['comment'], 'string'],
             [['created_at'], 'safe'],
-            [['status'], 'string', 'max' => 1],
+            [['status'], 'integer', 'max' => 1],
             [['full_name'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
-            [['support_type'], 'string', 'max' => 8],
-            [['capacity'], 'string', 'max' => 3]
+            [['support_type'], 'integer', 'max' => 8],
+            [['capacity'], 'integer', 'max' => 3]
         ];
     }
 

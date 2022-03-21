@@ -55,7 +55,7 @@ class Victim extends \forma\components\AccessoryActiveRecord
             [['fullname', 'place_of_residence', 'second_residence', 'name_where_to_settle', 'settlement_address', 'phone', 'stay_for', 'questions', 'specialization', 'destination'], 'string'],
             [['birthday', 'registered_at'], 'safe'],
             [['stay_for'], 'integer'],
-            [['is_child'], 'string', 'max' => 1]
+            [['is_child'], 'integer', 'max' => 1]
         ];
     }
 

@@ -33,6 +33,13 @@ class VolunteerController extends Controller
     public function actionIndex()
     {
         $searchModel = new VolunteerSearch();
+
+        if (isset($_GET['how_many']) &&
+            isset($_GET['support_type'])) {
+            $searchModel->support_type = $_GET['support_type'];
+            $searchModel->capacity = $_GET['how_many'];
+        }
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -67,7 +74,7 @@ class VolunteerController extends Controller
         if (Yii::$app->request->post('Volunteer')) {
             $optionsArray = $_POST['Volunteer']['options'];
             foreach ($optionsArray as $option) {
-                $optionsName .= $model->getOptions()[$option] . ',';
+                $optionsName .= $model::getOptions()[$option] . ',';
             }
 
             $model->options = $optionsName;
@@ -91,6 +98,16 @@ class VolunteerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        $optionsName = null;
+        if (Yii::$app->request->post('Volunteer')) {
+            $optionsArray = $_POST['Volunteer']['options'];
+            foreach ($optionsArray as $option) {
+                $optionsName .= $model::getOptions()[$option] . ',';
+            }
+
+            $model->options = $optionsName;
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -127,6 +144,16 @@ class VolunteerController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionBooking($id)
+    {
+        if (isset($_POST['volunteerId']) && isset($_POST['howMany'])) {
+            $volunteer = Volunteer::find()->where(['id' => $_POST['volunteerId']])->one();
+            $volunteer->capacity = $volunteer->capacity - $_POST['howMany'];
+            $volunteer->save();
+            return $this->redirect('/hr/victim/index');
         }
     }
 }
