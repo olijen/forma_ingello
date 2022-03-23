@@ -68,9 +68,17 @@ class RequestController extends Controller
         $model = new Request();
         $request_strategy = new RequestStrategy();
 
-        $strategy_id = isset($_GET['strategyId']) ?? null;
-        $isSelling = isset($_GET['isSelling']) ?? null;
-        $model->is_manager = isset($_GET['isManager']) ?? null;
+        if (isset($_GET['strategyId'])) {
+            $strategy_id = $_GET['strategyId'];
+        }
+
+        if (isset($_GET['isSelling'])) {
+            $isSelling = $_GET['isSelling'];
+        }
+
+        if (isset($_GET['isManager'])) {
+            $model->is_manager = $_GET['isManager'];
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $request_strategy->strategy_id = $strategy_id;

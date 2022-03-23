@@ -91,10 +91,10 @@ $this->title = Yii::t(
         elemCreateRequest.setAttribute("id", "elementCreateRequestE");
         console.log(x)
         if (x) {
-            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=0&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "менеджера" : "кадра"?></a></div>';
+            elemCreateRequest.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=0&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от менеджера</a></div>';
             var findElementCreateRequest = document.querySelector('#elementCreateRequest');
             findElementCreateRequest.parentNode.append(elemCreateRequest, findElementCreateRequest);
-            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=0&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от клиента</a></div>';
+            elemCreateRequestR.innerHTML = '<div class="col-md-6 col-sm-6 col-xs-12"><a class="btn btn-block btn-success forma_blue" href="/selling/request/create?strategyId=' + x + '&isManager=1&isSelling=<?=($isSelling == 1) ? 1 : 0;?>"><i class="fa fa-plus" style="float: left"></i>Добавить вопрос от <?=($isSelling == 1) ? "клиента" : "кадра"?></a></div>';
             var findElementCreateRequestR = document.querySelector('#elementCreateRequestClient');
             findElementCreateRequestR.parentNode.append(elemCreateRequestR, findElementCreateRequestR);
         }
@@ -121,7 +121,7 @@ $this->title = Yii::t(
                 elemR.setAttribute("id", "Div2");
                 elemR.setAttribute("class", "col-md-6 col-sm-6 col-xs-12");
                 var listItemsTrueManager = data.map(function (requests) {
-                    if (requests.is_manager == true) {
+                    if (requests.is_manager == false) {
                         return `
                                     <div class="panel box box-success"
                                          style="margin-bottom: 5px;border-top-color:#58628e;">
@@ -179,7 +179,7 @@ $this->title = Yii::t(
                     }
                 })
                 var listItemsFalseManager = data.map(function (requests) {
-                    if (requests.is_manager == false) {
+                    if (requests.is_manager == true) {
                         return `
                                     <div class="panel box box-success"
                                          style="margin-bottom: 5px;border-top-color:#58628e;">
@@ -252,7 +252,7 @@ $this->title = Yii::t(
                     }
                 }
                 if (listItemsFalseManager.length !== 0 && listItemsFalseManager.length !== countundefinedFalse) {
-                    elemR.innerHTML = '<p>Вопросы от клиентов</p>' + listItemsFalseManager.join('');
+                    elemR.innerHTML = '<p>Вопросы от <?=($isSelling == 1) ? "клиентов" : "кадров"?></p>' + listItemsFalseManager.join('');
                 }
                 if (listItemsTrueManager.length == 0 && listItemsTrueManager.length == countundefinedTrue && listItemsFalseManager.length == 0 && listItemsFalseManager.length == countundefinedFalse) {
                     elem.innerHTML = '<p>В этой стратегии диалога еще нет вопросов и ответов, сначала создайте вопрос</p>' + listItemsTrueManager.join('');
