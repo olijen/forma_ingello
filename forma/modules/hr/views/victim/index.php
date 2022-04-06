@@ -45,8 +45,10 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
         'rowOptions' => function ($model, $key, $index, $grid) {
             $modelFullName = explode(' ', $model->fullname)[0];
             foreach ($this->params['arrayVictimColor'] as $key => $color) {
-                if (stripos($modelFullName, $key) !== false && strlen($modelFullName) >= strlen($key)) {
-                    return ['style' => 'background-color: ' . $color];
+                if (strlen($modelFullName) >= strlen($key)) {
+                    if (stripos($modelFullName, $key) !== false) {
+                        return ['style' => 'background-color: ' . $color];
+                    }
                 } else {
                     if (stripos($key, $modelFullName) !== false) {
                         return ['style' => 'background-color: ' . $color];

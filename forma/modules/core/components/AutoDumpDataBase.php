@@ -13,6 +13,7 @@ use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\product\records\Field;
 use forma\modules\product\records\ProductPackUnit;
 use forma\modules\project\records\projectuser\ProjectUser;
+use forma\modules\selling\records\sellinghistory\SellingHistory;
 use forma\modules\warehouse\records\Warehouse;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
@@ -104,7 +105,8 @@ class AutoDumpDataBase
                     'forma\\modules\\core\\records\\Rule',
                     'forma\\modules\\test\\records\\Test',
                     'forma\\modules\\test\\records\\TestType',
-                    'forma\\modules\\test\\records\\TestTypeField'
+                    'forma\\modules\\test\\records\\TestTypeField',
+                    'forma\\modules\\selling\\records\\sellinghistory\\SellingHistory'
                 ]
             ])->all();
 
@@ -333,6 +335,7 @@ class AutoDumpDataBase
         $this->logDate("systemEvents();");
         $this->test();
         $this->logDate("test();");
+        $this->sellingHistory();
 
         if ($this->deleteAutoDamp) $this->deleteAccessory();
 
@@ -1166,6 +1169,15 @@ class AutoDumpDataBase
             }
         }
         return true;
+    }
+
+    public function sellingHistory()
+    {
+        $sellingHistories = $this->modelWhitUser('forma\modules\selling\records\sellinghistory\SellingHistory');
+
+        foreach ($sellingHistories as $sellingHistory) {
+            $this->saveNewRecord($sellingHistory);
+        }
     }
 
     public function transit()
