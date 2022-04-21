@@ -54,7 +54,7 @@ class Victim extends \forma\components\AccessoryActiveRecord
             [['phone', 'stay_for', 'specialization', 'destination', 'how_many'], 'required'],
             [['fullname', 'place_of_residence', 'second_residence', 'name_where_to_settle', 'settlement_address', 'phone', 'stay_for', 'questions', 'specialization', 'destination'], 'string'],
             [['birthday', 'registered_at'], 'safe'],
-            [['stay_for'], 'integer'],
+            [['stay_for'], 'string'],
             [['is_child'], 'integer', 'max' => 1]
         ];
     }
@@ -80,6 +80,20 @@ class Victim extends \forma\components\AccessoryActiveRecord
             'specialization' => 'Специализация',
             'destination' => 'Куда уедет',
             'how_many' => 'Сколько людей?',
+        ];
+    }
+
+    public static function getStayFor(): array
+    {
+        return [
+            '1 день' => '1 день',
+            '2-3 дня' => '2-3 дня',
+            'Неделя' => 'Неделя',
+            '2 недели' => '2 недели',
+            'Месяц' => 'Месяц',
+            'Больше месяца' => 'Больше месяца',
+            'Меньше месяца' => 'Меньше месяца',
+            'Неопределенное' => 'Неопределенное',
         ];
     }
 

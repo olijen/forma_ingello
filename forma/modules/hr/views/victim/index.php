@@ -2,9 +2,10 @@
 
 use forma\modules\hr\records\victim\Victim;
 use kartik\daterange\DateRangePicker;
+use kartik\datetime\DateTimePicker;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
-use forma\extensions\editable\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\hr\models\VictimSearch */
@@ -14,17 +15,13 @@ $this->title = 'Пострадавшие';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['arrayVictimColor'] = $arrayVictimColor;
 ?>
-<style>
-    .editable-grid tbody tr:nth-child(odd) td > textarea, .editable-grid tbody tr:nth-child(odd) td > select, .editable-grid tbody tr:nth-child(odd) td {
-        background-color: transparent;
-        transform: translate3d(1px, 1px, 0px);
-    }
 
-    .editable-grid tbody tr:nth-child(even) td > textarea, .editable-grid tbody tr:nth-child(even) td > select, .editable-grid tbody tr:nth-child(even) td {
-        background-color: transparent;
-        transform: translate3d(1px, 1px, 0px);
+<style>
+    .kv-editable-link {
+        color: white;
     }
 </style>
+
 <div class="victim-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -38,20 +35,18 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'isEditable' => true,
         'responsiveWrap' => false,
-        'updateUrl' => \yii\helpers\Url::to(['/hr/victim/index']),
         'striped' => false,
         'rowOptions' => function ($model, $key, $index, $grid) {
             $modelFullName = explode(' ', $model->fullname)[0];
             foreach ($this->params['arrayVictimColor'] as $key => $color) {
                 if (strlen($modelFullName) >= strlen($key)) {
                     if (stripos($modelFullName, $key) !== false) {
-                        return ['style' => 'background-color: ' . $color];
+                        return ['style' => 'background-color: ' . $color . '; color: white;'];
                     }
                 } else {
                     if (stripos($key, $modelFullName) !== false) {
-                        return ['style' => 'background-color: ' . $color];
+                        return ['style' => 'background-color: ' . $color . '; color: white;'];
                     }
                 }
             }
@@ -62,10 +57,42 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
                 'template' => '{delete}{update}',
             ],
             'id',
-            'fullname:ntext',
             [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'fullname',
+                'label' => 'ФИО',
+                'value' => 'fullname',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' ФИО',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'birthday',
+                'label' => 'Дата рождения',
+                'vAlign' => 'middle',
+                'width' => '210px',
                 'format' => ['date', 'php:d.m.Y'],
+
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Дата рождения',
+                        'size' => 'md',
+                        'inputType' => \kartik\editable\Editable::INPUT_DATE,
+                        'options' => [
+                            'convertFormat' => true,
+                            'pluginOptions' => [
+                                'format' => 'dd.MM.yyyy',
+                            ]],
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
             ],
             [
                 'attribute' => 'is_child',
@@ -77,13 +104,86 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
                     }
                 }
             ],
-            'place_of_residence:ntext',
-            'second_residence:ntext',
-            'name_where_to_settle:ntext',
-            'settlement_address:ntext',
-            'phone:ntext',
             [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'place_of_residence',
+                'label' => 'Прописка',
+                'value' => 'place_of_residence',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Прописка',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'second_residence',
+                'label' => 'Прописка 2',
+                'value' => 'second_residence',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Прописка 2',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'name_where_to_settle',
+                'label' => 'Название размещения',
+                'value' => 'name_where_to_settle',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Название размещения',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'settlement_address',
+                'label' => 'Адрес размещения',
+                'value' => 'settlement_address',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Адрес размещения',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'phone',
+                'label' => 'Телефон',
+                'value' => 'phone',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Телефон',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'registered_at',
+                'vAlign' => 'middle',
+                'width' => '210px',
                 'filter' => DateRangePicker::widget([
                     'name' => 'date_range_registered_at',
                     'presetDropdown' => true,
@@ -96,12 +196,77 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
                     'value' => isset($_GET['date_range_registered_at']) ?
                         $_GET['date_range_registered_at'] : Victim::getDateRange(),
                 ]),
-                'format' => ['date', 'php:d.m.Y'],
+                'editableOptions' => function ($model, $key, $index) use ($searchModel) {
+                    return [
+                        'header' => ' Дата регистр.',
+                        'size' => 'md',
+                        'inputType' => \kartik\editable\Editable::INPUT_DATE,
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
             ],
-            'stay_for:ntext',
-            'questions:ntext',
-            'specialization:ntext',
-            'destination:ntext',
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'stay_for',
+                'label' => 'Время пребывания',
+                'value' => 'stay_for',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) use ($searchModel) {
+                    return [
+                        'header' => ' Время пребывания',
+                        'size' => 'md',
+                        'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                        'data' => $searchModel::getStayFor(),
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'questions',
+                'label' => 'Особенности',
+                'value' => 'questions',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Особенности',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'specialization',
+                'label' => 'Специализация',
+                'value' => 'specialization',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Специализация',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'destination',
+                'label' => 'Куда уедет',
+                'value' => 'destination',
+                'vAlign' => 'middle',
+                'width' => '210px',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'header' => ' Куда уедет',
+                        'size' => 'md',
+                    ];
+                },
+                'contentOptions' => ['class' => 'no-load'],
+            ],
         ],
     ]); ?>
 
