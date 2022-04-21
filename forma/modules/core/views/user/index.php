@@ -12,14 +12,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
 
 ?>
 <div class="user-index">
-    
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Создать дочерний аккаунт', ['/core/site/signup-referer'], ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
 <?php Pjax::begin(); ?>
-    <?php $id = Yii::$app->user->id; ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -44,4 +44,5 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>
+</div>
