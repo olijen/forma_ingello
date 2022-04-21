@@ -78,7 +78,7 @@ class Volunteer extends AccessoryActiveRecord
             [['full_name'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 50],
             [['support_type'], 'integer', 'max' => 8],
-            [['capacity'], 'integer', 'max' => 3]
+            [['capacity'], 'integer', 'max' => 25]
         ];
     }
 
