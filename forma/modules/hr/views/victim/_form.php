@@ -34,8 +34,12 @@ endif;
             <?= $form->field($model, 'how_many')->textInput(['placeholder' => "Сколько вас? (В семье или в группе)", 'type' => 'number']) ?>
         </div>
         <div class="col-md-3">
-            <?php if ($model->isNewRecord) $model->stay_for = 1; ?>
-            <?= $form->field($model, 'stay_for')->textInput(['type' => 'number']) ?>
+            <?php if ($model->isNewRecord) $model->stay_for = \forma\modules\hr\records\victim\Victim::getStayFor()[array_key_first(\forma\modules\hr\records\victim\Victim::getStayFor())]; ?>
+            <?= $form->field($model, 'stay_for')->widget(\kartik\select2\Select2::classname(), [
+                'data' => \forma\modules\hr\records\victim\Victim::getStayFor(),
+                'value' => $model->stay_for,
+                'pluginOptions' => ['allowClear' => true],
+            ]) ?>
         </div>
         <div class="col-md-6">
             <?php if ($model->isNewRecord) $model->phone = '+380'; ?>

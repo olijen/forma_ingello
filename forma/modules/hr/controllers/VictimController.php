@@ -58,7 +58,7 @@ class VictimController extends Controller
         $searchModel = new VictimSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $hexMin = 0;
+        $hexMin = 5;
         $hexMax = 9;
 
         $victim = Victim::find()->select(['id', 'fullname'])->all();

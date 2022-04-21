@@ -59,11 +59,8 @@ class VictimSearch extends Victim
             'id' => $this->id
         ]);
 
-        if (!empty($this->is_child)) {
-            $query->andFilterWhere(['=', 'is_child', ($this->is_child == 'да') ? 1 : 0]);
-        }
-
         $query->andFilterWhere(['like', 'fullname', $this->fullname])
+            ->andFilterWhere(['like', 'is_child', $this->is_child])
             ->andFilterWhere(['like', 'place_of_residence', $this->place_of_residence])
             ->andFilterWhere(['like', 'second_residence', $this->second_residence])
             ->andFilterWhere(['like', 'name_where_to_settle', $this->name_where_to_settle])

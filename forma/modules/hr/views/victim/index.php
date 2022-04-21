@@ -18,7 +18,7 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
 
 <style>
     .kv-editable-link {
-        color: white;
+        color: black;
     }
 </style>
 
@@ -37,16 +37,33 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
         'filterModel' => $searchModel,
         'responsiveWrap' => false,
         'striped' => false,
+        'panel' => [
+            'before' => '<div style="padding-top: 7px;"></div>',
+        ],
+        'toolbar' => [
+            [
+                'content' =>
+                    Html::a('<i class="fas fa-redo"></i>', ['index'], [
+                        'class' => 'btn btn-outline-secondary',
+                        'title' => 'Сбросить фильтр',
+                        'data-pjax' => 0,
+                    ]),
+                'options' => ['class' => 'btn-group mr-2 me-2']
+            ],
+            '{export}',
+            '{toggleData}',
+        ],
+        'toggleDataContainer' => ['class' => 'btn-group mr-2 me-2'],
         'rowOptions' => function ($model, $key, $index, $grid) {
             $modelFullName = explode(' ', $model->fullname)[0];
             foreach ($this->params['arrayVictimColor'] as $key => $color) {
                 if (strlen($modelFullName) >= strlen($key)) {
                     if (stripos($modelFullName, $key) !== false) {
-                        return ['style' => 'background-color: ' . $color . '; color: white;'];
+                        return ['style' => 'background-color: ' . $color];
                     }
                 } else {
                     if (stripos($key, $modelFullName) !== false) {
-                        return ['style' => 'background-color: ' . $color . '; color: white;'];
+                        return ['style' => 'background-color: ' . $color];
                     }
                 }
             }
@@ -96,6 +113,7 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
             ],
             [
                 'attribute' => 'is_child',
+                'filter' => ['0' => 'Нет', '1' => 'Да'],
                 'value' => function ($model) {
                     if (date_diff(new DateTime(), new DateTime($model->birthday))->y >= 18) {
                         return 'нет';
@@ -212,6 +230,7 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
                 'value' => 'stay_for',
                 'vAlign' => 'middle',
                 'width' => '210px',
+                'filter' => $searchModel::getStayFor(),
                 'editableOptions' => function ($model, $key, $index) use ($searchModel) {
                     return [
                         'header' => ' Время пребывания',
