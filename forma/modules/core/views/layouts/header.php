@@ -391,8 +391,15 @@ JS;
     ?>
     <script>
         $(document).ready(function () {
-            let span = $('div.skiptranslate.goog-te-gadget span');
-            span.hide();
+            setTimeout(function go() {
+                $('div.skiptranslate.goog-te-gadget').children()[1].remove();
+                $('div.skiptranslate.goog-te-gadget')[0].lastChild.remove();
+
+                $('.goog-te-combo').addClass('btn btn-default btn-flat');
+                $('.goog-te-combo').css('height', '33.94px');
+                $('.goog-te-combo').css('margin', '0');
+            }, 3000);
+
             let ulMobile = $('ul.dropdown-menu');
             ulMobile.css('right', '0');
         });

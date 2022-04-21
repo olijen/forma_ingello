@@ -82,7 +82,7 @@ if (Yii::$app->controller->action->id === 'login') {
             <script type='text/javascript'>
                 function googleTranslateElementInit() {
                     new google.translate.TranslateElement(
-                        {pageLanguage: "en", includedLanguages: "en,ru,uk"},
+                        {pageLanguage: "ru", includedLanguages: "uk,en"},
                         "google_translate_element"
                     );
                 }
