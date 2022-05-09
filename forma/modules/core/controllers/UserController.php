@@ -157,24 +157,19 @@ class UserController extends Controller
 
     public function actionAllUsers()
     {
-//        de(Yii::$app->request->cookies->getValue('Admin'));
-        if (Yii::$app->user->id !== 1) {
+        $currentUser = User::find()->where(['id' => Yii::$app->user->id])->one();
+
+        if ($currentUser->isAdmin()) {
+            $searchModel = new UserSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
             return $this->redirect('referral');
-
         }
-        $query = User::find()->where(['!=', 'id', 1]);
-        $searchModel = new UserSearch();
-
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $provider,
-        ]);
     }
 
     /**

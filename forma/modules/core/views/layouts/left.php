@@ -90,29 +90,45 @@ if ('selling'== Yii::$app->controller->module->id){
     </aside>
 
     <script>
+        function resizeSmallWidget(append) {
+            $('.container-small_widgets').css('width', $('.container-small_widgets').width() + eval(append) + 'px');
+        }
+
         $('#menu-head').click(function () {
-            if ($('.sidebar-collapse').length) {
+            if ($('#body1').hasClass('sidebar-collapse')) {
                 $('li.menuColor.treeview').css('overflow-y', 'scroll');
                 $('li.menuColor.treeview').css('max-height', '400px');
 
-                let width = $('.container-small_widgets').width() - 229 + 55;
-                $('.container-small_widgets').css('width', width + 'px');
+                if (window.screen.width <= 1024) {
+                    $('.main-sidebar').css('overflow-y', 'scroll');
+                    $('.main-sidebar').css('max-height', '150px');
+                }
+
+                resizeSmallWidget('- 229 + 55');
             } else {
                 $('li.menuColor.treeview').css('overflow-y', '')
                 $('li.menuColor.treeview').css('max-height', '')
-                $('li.menuColor.treeview').css('max-height', '')
 
-                let width = $('.container-small_widgets').width() + 229 - 55;
-                $('.container-small_widgets').css('width', width + 'px');
+                $('.main-sidebar').css('overflow-y', '');
+                $('.main-sidebar').css('max-height', '');
+
+                resizeSmallWidget('+ 229 - 55');
             }
 
-            if (!$('#body1').hasClass('sidebar-open')) {
-                $('li.menuColor.treeview').css('overflow-y', 'scroll');
-                $('li.menuColor.treeview').css('max-height', '400px');
+            if (window.screen.width <= 1024) {
+                if (!$('#body1').hasClass('sidebar-open') || $('#body1').hasClass('sidebar-collapse')) {
+                    $('li.menuColor.treeview').css('overflow-y', 'scroll');
+                    $('li.menuColor.treeview').css('max-height', '400px');
 
-                let width = $('.container-small_widgets').width() - 229 + 55;
-                $('.container-small_widgets').css('width', width + 'px');
+                    $('.main-sidebar').css('overflow-y', 'scroll');
+                    $('.main-sidebar').css('max-height', '150px');
+                } else {
+                    $('li.menuColor.treeview').css('overflow-y', '')
+                    $('li.menuColor.treeview').css('max-height', '')
+
+                    $('.main-sidebar').css('overflow-y', '');
+                    $('.main-sidebar').css('max-height', '');
+                }
             }
-
         })
     </script>

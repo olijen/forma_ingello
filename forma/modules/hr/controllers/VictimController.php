@@ -34,8 +34,32 @@ class VictimController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->request->post('hasEditable')) {
+            $requestPost = Yii::$app->request->post();
+
+            $victimId = $requestPost['editableKey'];
+            $victimColumn = $requestPost['editableAttribute'];
+            $victimData = $requestPost['Victim'][array_key_first($requestPost['Victim'])][$victimColumn];
+
+            $victimUpdate = Victim::find()->where(['id' => $victimId])->one();
+
+            if ($victimUpdate->$victimColumn != $victimData) {
+                $victimUpdate->$victimColumn = $victimData;
+                if ($victimUpdate->validate() && $victimUpdate->save()) {
+                    $data = ['output' => [$victimData]];
+                    return json_encode($data);
+                }
+            } else {
+                $data = ['output' => [$victimUpdate->$victimColumn]];
+                return json_encode($data);
+            }
+        }
+
         $searchModel = new VictimSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $hexMin = 5;
+        $hexMax = 9;
 
         $victim = Victim::find()->select(['id', 'fullname'])->all();
 
@@ -47,12 +71,16 @@ class VictimController extends Controller
                     if (!empty($arrayVictimColor)) {
                         foreach ($arrayVictimColor as $key => $item) {
                             if ($key != explode(' ', $attributeVictim->fullname)[0]) {
-                                $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = sprintf("#%06x", rand(0, 16777215));
+                                $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = '#' . mt_rand($hexMin, $hexMax)
+                                    . mt_rand($hexMin, $hexMax) . mt_rand($hexMin, $hexMax) . mt_rand($hexMin, $hexMax)
+                                    . mt_rand($hexMin, $hexMax) . mt_rand($hexMin, $hexMax);
 
                             }
                         }
                     } else {
-                        $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = sprintf("#%06x", rand(0, 16777215));
+                        $arrayVictimColor [explode(' ', $attributeVictim->fullname)[0]] = '#' . mt_rand($hexMin, $hexMax)
+                            . mt_rand($hexMin, $hexMax) . mt_rand($hexMin, $hexMax) . mt_rand($hexMin, $hexMax)
+                            . mt_rand($hexMin, $hexMax) . mt_rand($hexMin, $hexMax);
                     }
                 }
             }

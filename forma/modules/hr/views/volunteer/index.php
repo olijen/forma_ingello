@@ -65,7 +65,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => $searchModel::getSupportTypes(),
                 'filterInputOptions' => ['multiple' => false, 'class' => 'form-control', 'style' => 'min-width: 150px;'],
                 'value' => function ($data) {
-                    return $data::getSupportTypes()[$data->support_type];
+                    if ($data->support_type != null) {
+                        return $data::getSupportTypes()[$data->support_type];
+                    } else {
+                        return null;
+                    }
                 },
             ],
             [

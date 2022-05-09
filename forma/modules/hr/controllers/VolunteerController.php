@@ -71,13 +71,15 @@ class VolunteerController extends Controller
         $model->loadDefaultValues(); //load default data from db
 
         $optionsName = null;
-        if (Yii::$app->request->post('Volunteer')) {
-            $optionsArray = $_POST['Volunteer']['options'];
-            foreach ($optionsArray as $option) {
-                $optionsName .= $model::getOptions()[$option] . ',';
-            }
+        if (isset($_POST['Volunteer'])) {
+            if (!empty($_POST['Volunteer']['options'])) {
+                $optionsArray = $_POST['Volunteer']['options'];
+                foreach ($optionsArray as $option) {
+                    $optionsName .= $model::getOptions()[$option] . ',';
+                }
 
-            $model->options = $optionsName;
+                $model->options = $optionsName;
+            }
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
