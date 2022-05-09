@@ -460,7 +460,7 @@ return [
                 ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
                 ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',],
-                ['label' => 'Пострадавшие', 'url' => ['/hr/victim'], 'icon' => 'users',],
+                ['label' => 'Переселенцы', 'url' => ['/hr/victim'], 'icon' => 'users',],
                 ['label' => 'Волонтеры', 'url' => ['/hr/volunteer'], 'icon' => 'user-shield',]
             ],
         ],
