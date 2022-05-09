@@ -1,15 +1,14 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
-use \wokster\ltewidgets\BoxWidget;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\hr\records\volunteer\VolunteerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Волонтеры';
+$this->title = isset($_GET['how_many']) ? 'Рекомендуемые волонтеры' : 'Волонтеры';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -26,7 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-list"></i> Все волонтёры'), ['index'], ['class' => 'btn btn-success btn-all-screen']) ?>
         <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Добавить волонтера'), ['create'], ['class' => 'btn btn-success btn-all-screen']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-list"></i> Список переселенцев'), '/hr/victim', ['class' => 'btn btn-success btn-all-screen']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Добавить переселенцев'), '/hr/victim/create', ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
 
     <?php Pjax::begin(['id' => 'grid']) ?>

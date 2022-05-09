@@ -2,16 +2,15 @@
 
 use forma\modules\hr\records\victim\Victim;
 use kartik\daterange\DateRangePicker;
-use kartik\datetime\DateTimePicker;
+use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
-use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\hr\models\VictimSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Пострадавшие';
+$this->title = 'Переселенцы';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['arrayVictimColor'] = $arrayVictimColor;
 ?>
@@ -27,7 +26,10 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Добавить пострадавшего'), ['create'], ['class' => 'btn btn-success btn-all-screen']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-list"></i> Все переселенцы'), ['index'], ['class' => 'btn btn-success btn-all-screen']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Добавить переселенца'), ['create'], ['class' => 'btn btn-success btn-all-screen']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-list"></i> Список волонтеров'), '/hr/volunteer', ['class' => 'btn btn-success btn-all-screen']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Добавить волонтера'), '/hr/volunteer/create', ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
 
     <?php Pjax::begin(['id' => 'grid'])?>
