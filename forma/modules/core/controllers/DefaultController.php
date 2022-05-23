@@ -71,6 +71,12 @@ class DefaultController extends Controller
                     if ($modelLogin->login()) {
                         Yii::debug("trigger");
                         $this->trigger(self::EVENT_AFTER_LOGIN);
+                        //todo: ue special list from DB or configs
+                        if ($_REQUEST['LoginForm']['email'] == 'rakhiv@gmail.com') {
+                            return Yii::$app->response
+                                ->redirect('/hr/victim', 301)
+                                ->send();
+                        }
                         return $this->goBack();
                     } else if (!is_null($user) && $user->confirmed_email == 0) {
                         return Yii::$app->response
@@ -208,6 +214,7 @@ class DefaultController extends Controller
         }
     }
 
+    //todo: ВНИМАНИЕ!! Видимо этот метод не используется. Смотри Index
     public function actionAuth()
     {
         if (Yii::$app->user->isGuest) {
