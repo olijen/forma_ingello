@@ -1,0 +1,24 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=utf-8'/><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>ЭкспортPабочийЛист</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table class='kv-grid-table table table-bordered table-striped'><colgroup>
+
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '>
+<col class=' '></colgroup>
+<thead>
+
+<tr><th class=' ' style='width: 25.5%;'>Наименование</th><th class=' ' style='width: 18.58%;'>Категория</th><th class=' ' style='width: 18.01%;'>Артикул</th><th class=' ' style='width: 10.38%;'>Производитель</th><th class=' ' style='width: 17.97%;'>Рейтинг</th></tr>
+
+</thead>
+<tbody>
+<tr class='grid-product' data-key='246'><td class=' '><p style='width:300px;'>Мобильный телефон Meizu M10 3/32GB Black</p></td><td class=' '>Смартфоны</td><td class=' '>MBLN-1</td><td class=' '>Meizu</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='247'><td class=' '><p style='width:300px;'>Мобильный телефон Realme 6 8/128GB White</p></td><td class=' '>Смартфоны</td><td class=' '>MBLN-2</td><td class=' '>Realme</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='248'><td class=' '><p style='width:300px;'>Мобильный телефон Huawei P Smart 2021 128GB Gold</p></td><td class=' '>Смартфоны</td><td class=' '>MBLN-4</td><td class=' '>Huawei</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='249'><td class=' '><p style='width:300px;'>Мобильный телефон Samsung Galaxy Note 10 Lite (SM-N770) 6/128GB Aura Silver (SM-N770FZSDSEK)</p></td><td class=' '>Смартфоны</td><td class=' '>MBLN</td><td class=' '>Samsung</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='250'><td class=' '><p style='width:300px;'>Мобильный телефон Apple iPhone 11 128GB PRODUCT Red Официальная гарантия</p></td><td class=' '>Смартфоны</td><td class=' '>MBLN-9</td><td class=' '>Apple</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='251'><td class=' '><p style='width:300px;'>Мобильный телефон Nokia 3.4 3/64GB Fjord</p></td><td class=' '>Телефоны</td><td class=' '>MBLN-7</td><td class=' '>Nokia</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='252'><td class=' '><p style='width:300px;'>Мобильный телефон Xiaomi Redmi Note 9 Pro 6/128GB Interstellar Grey</p></td><td class=' '>Смартфоны</td><td class=' '>MBLN-3</td><td class=' '>Xiaomi</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='253'><td class=' '><p style='width:300px;'>Мобильный телефон Nokia 150 TA-1235 DualSim Black (16GMNB01A16)</p></td><td class=' '>Кнопочные телефоны</td><td class=' '>MBLN-8</td><td class=' '>Nokia</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='254'><td class=' '><p style='width:300px;'>Мобильный телефон Alcatel 3025 Single SIM Metallic Gray (3025X-2AALUA1)</p></td><td class=' '>Кнопочные телефоны</td><td class=' '>MBLN-5</td><td class=' '>Alcatel</td><td class=' '></td></tr>
+<tr class='grid-product' data-key='255'><td class=' '><p style='width:300px;'>Мобильный телефон Sigma mobile Comfort 50 Shell Duo Black-Red</p></td><td class=' '>Кнопочные телефоны</td><td class=' '>MBLN-10</td><td class=' '>Sigma</td><td class=' '></td></tr>
+</tbody></table></body></html>

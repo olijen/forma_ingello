@@ -1,9 +1,12 @@
 <?php
 
 use forma\extensions\kartik\DynaGrid;
+use yii\data\ActiveDataProvider;
+use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\project\records\project\Project;
 use forma\modules\vacancy\records\Vacancy;
 use yii\bootstrap\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use forma\modules\hr\records\interview\Interview;
 use forma\components\ActiveRecordHelper;
@@ -19,8 +22,8 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 ?>
 <div class="selling-index">
 
-    <a href="/hr/form/index" class="btn btn-success forma_pink"><i class="fas fa-user-plus"></i> Начать найм</a>
-    <a href="/hr/main?InterviewSearch[state]=0" class="btn btn-primary forma_pink"> <i class="fas fa-phone-volume"></i> План на обзвон</a>
+    <a href="/hr/form/index" class="btn btn-success forma_pink btn-all-screen"><i class="fas fa-user-plus"></i> Начать найм</a>
+    <a href="/hr/main?InterviewSearch[state]=0" class="btn btn-primary forma_pink btn-all-screen"> <i class="fas fa-phone-volume"></i> План на обзвон</a>
 
     <hr>
 
@@ -41,21 +44,19 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         [
             'attribute' => 'project_id',
             'value' => 'project.name',
-            'filter' => ActiveRecordHelper::getList(Project::class),
+            'filter' => ArrayHelper::map(Project::find()->allAccessory(),'id', 'name'),
         ],
         [
             'attribute' => 'vacancy_id',
             'value' => 'vacancy.name',
-            'filter' => ActiveRecordHelper::getList(Vacancy::class),
+            'filter' => ArrayHelper::map(Vacancy::find()->allAccessory(),'id', 'name'),
         ],
         [
-            'attribute' => 'state',
-            'value' => function (Interview $interview) { return $interview->getState()->getName(); },
-            'filter' => Interview::getStatesList(),
+            'attribute' => 'state_id',
+            'value' => 'interviewState.name',
+            'filter' => ArrayHelper::map(InterviewState::find()->where(['user_id'=> Yii::$app->user->id])->orderBy('order')->all(),'id', 'name'),
         ],
     ];
-
-
     echo DynaGrid::widget([
         'options' => ['id'  => 'dyna-grid-' . $searchModel->tableName()],
         'theme' => 'panel-default',

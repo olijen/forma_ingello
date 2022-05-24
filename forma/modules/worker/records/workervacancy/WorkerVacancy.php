@@ -2,7 +2,9 @@
 
 namespace forma\modules\worker\records\workervacancy;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\hr\records\interview\Interview;
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use forma\modules\vacancy\records\Vacancy;
 use forma\modules\vacancy\records\VacancySearch;
 use forma\modules\worker\records\Worker;
@@ -20,7 +22,7 @@ use yii\helpers\ArrayHelper;
  * @property Vacancy $vacancy
  * @property Worker $worker
  */
-class WorkerVacancy extends \yii\db\ActiveRecord
+class WorkerVacancy extends AccessoryActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -73,30 +75,58 @@ class WorkerVacancy extends \yii\db\ActiveRecord
     public static function getListVacancies()
     {
         $vacancies = (new VacancySearch())->search([]);
-
         return ArrayHelper::map($vacancies->getModels(), 'id', 'name');
     }
 
-    public static function getListWorker($vacancyId)
+    public static function getListVacanciesForWorker($workerId)
+    {
+        de(Yii::$app->request->post());
+        if (Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+        $vacanciesWorker = self::find()->where(['worker_id' => $workerId])->all();
+        foreach ($vacanciesWorker as $vacancyWorker) {
+            if (empty($vacancyWorker->vacancy->interviews)) {
+                $ids[] = $vacancyWorker->vacancy_id;
+            }
+
+        }
+        if (empty($ids)) {
+            return null;
+        }
+        $vacancies = Vacancy::find()->where(['id' => $ids])->all();
+
+        return ArrayHelper::map($vacancies, 'id', 'name');
+    }
+
+    public static function getListWorker($vacancyProjectId)
     {
         if (Yii::$app->request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         }
 
-        $workerVacancies = self::find()->where(['vacancy_id' => $vacancyId])->all();
+        $vacancy = ProjectVacancy::find()->where(['id' => $vacancyProjectId])->one();
 
-        foreach ($workerVacancies as $workerVacancy) {
-            if (empty($workerVacancy->worker->interviews)){
-                $ids[] = $workerVacancy->worker_id;
-            }
-
+        if (($projectId = Yii::$app->request->get('projectId')) && ($vacancyId = Yii::$app->request->get('vacancyId'))) {
+            $vacancy = ProjectVacancy::find()->where(['project_id' => $projectId, 'vacancy_id' => $vacancyId])->one();
         }
 
-        if (empty($ids)){
+        $workerVacancies = self::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
+        $interviews = Interview::find()->where(['vacancy_id' => $vacancy->vacancy_id])->all();
+
+        foreach ($interviews as $interview) {
+            foreach ($workerVacancies as $workerVacancy) {
+                if ($workerVacancy->worker_id !== $interview->worker_id) {
+                    $ids[] = $workerVacancy->worker_id;
+                }
+            }
+        }
+
+        if (empty($ids)) {
             return null;
         }
 
-        $workerks = Worker::find()->where(['worker.id' => $ids])->all();
+        $workerks = Worker::find()->where(['in', 'worker.id', $ids])->allAccessory();
 
         return ArrayHelper::map($workerks, 'id', 'fullName');
     }

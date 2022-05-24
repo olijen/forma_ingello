@@ -11,7 +11,7 @@ namespace forma\extensions\dynagrid;
 
 use kartik\base\Config;
 use kartik\base\Widget;
-// use kartik\dynagrid\models\DynaGridSettings;
+// use kartik\dynagrid\records\DynaGridSettings;
 use forma\extensions\dynagrid\models\DynaGridSettings;
 use Yii;
 use yii\base\InvalidCallException;

@@ -41,6 +41,7 @@ class FieldProductValueSearch extends FieldProductValue
     public function search($params = null)
     {
         $query = FieldProductValue::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

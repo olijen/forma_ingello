@@ -10,6 +10,10 @@ use forma\components\Controller;
  */
 class DefaultController extends Controller
 {
+
+    public $date;
+    public $sellinghistory;
+
     /**
      * Renders the index view for the module
      * @return string
@@ -18,8 +22,9 @@ class DefaultController extends Controller
     {
         $salesProgress = new SalesProgress();
 
-        return $this->render('index',compact(
+        return $this->render('index', compact(
             'salesProgress'
         ));
     }
+
 }

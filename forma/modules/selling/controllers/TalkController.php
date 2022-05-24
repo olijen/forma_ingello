@@ -3,6 +3,8 @@
 namespace forma\modules\selling\controllers;
 
 use forma\modules\customer\records\Customer;
+use forma\modules\event\records\Event;
+use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\talk\Answer;
 use forma\modules\selling\services\AnswerService;
 use forma\modules\selling\services\RequestService;
@@ -52,6 +54,18 @@ class TalkController extends Controller
         $selling->save();
     }
 
+    public function actionSaveDialogAnswer()
+    {
+        $selling = Selling::find()->where(['id' => Yii::$app->request->post('sellingId')])->one();
+        $selling->dialog = $selling->dialog . Yii::$app->request->post('dialog');
+
+        if ($selling->save()) {
+            return true;
+        }
+
+        de($selling->errors);
+    }
+
     public function actionSaveCustomAnswer()
     {
         $answer = AnswerService::getAnswer();
@@ -61,15 +75,32 @@ class TalkController extends Controller
 
         return $answer->id;
     }
+    public function actionHashForEvent()
+    {
+        $events = Event::find()->all();
+
+        return $this->asJson($events);
+    }
 
 
     public function actionEndTalk($sellingId)
     {
-        $customer = Customer::find()->where(['id' => Yii::$app->request->post()])->one();
+        $comment = Yii::$app->request->post('comment');
+        $nexStep = Yii::$app->request->post('next_step');
+        $dateNow = date('d-m-y');
+        $selling = Selling::find()->where(['id'=>$sellingId])->one();
+        $selling->comment .= "<h6>Дата</h6><p>$dateNow</p><h6>Комментарий</h6> <p>$comment</p> <h6>Следующий шаг</h6> <p>$nexStep</p>";
+        $customerId = Yii::$app->request->post('Customer')['id'];
+        $customer = Customer::find()->where(['id' => $customerId])->one();
 
-        if ($customer->load(Yii::$app->request->post()) && $customer->save()) {
-            return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $sellingId]));
+        if ($customer->load(Yii::$app->request->post()) && $customer->validate()
+            && $selling->validate()) {
+            if ($customer->save() && $selling->save()) {
+                return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $sellingId]));
+            } else {
+                return \Yii::$app->response->redirect(\yii\helpers\Url::to(['/selling/form?id=' . $sellingId]));
 
+            }
         }
 
         throw new NotFoundHttpException('User not found');
@@ -80,15 +111,16 @@ class TalkController extends Controller
         $selling = SellingService::get(Yii::$app->request->post('id'));
         $_COOKIE['selling_token'] = $_POST['selling_token'];
         $_GET['selling_token'] = $_POST['selling_token'];
+        $nowDateAndTime = Yii::$app->request->post('date');
         if (strlen(Yii::$app->request->post('comment')) > 0) {
             if (!Yii::$app->user->isGuest)
                 $selling->dialog .=
-                    date('d.m.Y H:i:s') .
+                    $nowDateAndTime.
                     '<br/>' .
                     '<div style="background: #d2d6de;" class="alert alert-primary" role="alert">Менеджер: ' . Yii::$app->request->post('comment') . '</div>';
             else
                 $selling->dialog .=
-                    date('d.m.Y H:i:s') .
+                    $nowDateAndTime .
                     '<br/>' .
                     '<div style="background: #ccc;" class="alert alert-primary" role="alert">Клиент: ' . Yii::$app->request->post('comment') . '</div>';
 

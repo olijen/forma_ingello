@@ -2,6 +2,7 @@
 
 namespace forma\modules\event\controllers;
 
+use forma\modules\selling\records\selling\Selling;
 use Yii;
 use forma\modules\event\records\Event;
 use forma\modules\event\records\EventSearch;
@@ -28,7 +29,7 @@ class EventController extends Controller
     }
 
     /**
-     * Lists all Event models.
+     * Lists all Event records.
      * @return mixed
      */
     public function actionIndex()
@@ -50,14 +51,14 @@ class EventController extends Controller
         $events = $dataProvider->getModels();
 
         foreach ($events as $event) {
-            $dateFrom = new \DateTime($event->date_from);
-            $dateTo = new \DateTime($event->date_to);
+            $dateFrom = new \DateTime($event->date_from->format('DD.MM.YYYY'));
+            $dateTo = new \DateTime($event->date_to->format('DD.MM.YYYY'));
 
             $dateFrom->add((new \DateInterval('P1M')));
             $dateTo->add((new \DateInterval('P1M')));
 
-            $event->date_from = $dateFrom->format('Y-m-d');
-            $event->date_to = $dateTo->format('Y-m-d');
+            $event->date_from = $dateFrom->format('DD.MM.YYYY');
+            $event->date_to = $dateTo->format('DD.MM.YYYY');
 
             $event->save();
         }
@@ -87,7 +88,6 @@ class EventController extends Controller
         $searchModel = new EventSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
@@ -95,6 +95,10 @@ class EventController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             Yii::debug('Вывожу данные календаря');
             Yii::debug($model);
+            if(isset($_GET['selling_id']))
+            $model->selling_id = $_GET['selling_id'];
+            if(isset($_GET['hash']))
+                $model->hash_for_event = $_GET['hash'];
             if ($model->save()) {
                 if (isset($_GET['json'])) {
                     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -105,6 +109,8 @@ class EventController extends Controller
                     echo "<script>$('#modal').modal('hide')</script>";
                     echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                     echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
+                    echo "<script>$('#w1').fullCalendar('refetchEvents')</script>";
+                    echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";;
                     exit;
                 }
 
@@ -142,8 +148,10 @@ class EventController extends Controller
     public function actionUpdate($id)
     {
         $model = Event::find()->where(['id' => $id])->one();
-
-
+        $dates = explode("-",$model->date_from);
+        $model->date_from =$dates[2].'.'.$dates[1].'.'.$dates[0];
+        $dates = explode("-",$model->date_to);
+        $model->date_to =$dates[2].'.'.$dates[1].'.'.$dates[0];
         if (!$model) {
             throw new HttpException('Ошибка');
         }
@@ -154,16 +162,17 @@ class EventController extends Controller
         if ($model->validate()){
 
             if ($model->load(Yii::$app->request->post())){
-
                 if ($model->save()) {
                     if(isset($_POST['close'])){
                         echo "<script>$('#modal').modal('hide')</script>";
                         echo "<script>$('#w0').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w2').fullCalendar('refetchEvents')</script>";
                         echo "<script>$('#w7').fullCalendar('refetchEvents')</script>";
+                        echo "<script>$('#w1').fullCalendar('refetchEvents')</script>";
                         exit;
                     }
                     if (isset($_GET['json'])) {
+
                         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                         return $model;
                     }
@@ -182,6 +191,7 @@ class EventController extends Controller
         }else{
             return $model->errors;
         }
+
     }
 
     /**

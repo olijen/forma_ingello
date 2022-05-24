@@ -46,10 +46,9 @@ class PurchaseProductSearch extends PurchaseProduct
      */
     public function search($params)
     {
-        $query = PurchaseProduct::find()
-            ->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'LEFT JOIN');
-
-        // add conditions that should always apply here
+        $query = PurchaseProduct::find();
+        $this->access($query);
+        $query->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'LEFT JOIN');
 
         $dataProvider = new ActiveDataProvider([
             'sort' => false,

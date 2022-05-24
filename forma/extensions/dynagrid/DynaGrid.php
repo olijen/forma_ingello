@@ -11,8 +11,8 @@ namespace forma\extensions\dynagrid;
 
 use kartik\base\Config;
 use kartik\dialog\Dialog;
-// use kartik\dynagrid\models\DynaGridConfig;
-// use kartik\dynagrid\models\DynaGridSettings;
+// use kartik\dynagrid\records\DynaGridConfig;
+// use kartik\dynagrid\records\DynaGridSettings;
 use forma\extensions\dynagrid\models\DynaGridConfig;
 use forma\extensions\dynagrid\models\DynaGridSettings;
 use kartik\grid\GridView;

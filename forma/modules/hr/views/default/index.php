@@ -14,11 +14,11 @@ $this->params['doc-page'] = 'hr';
 $panel = '';
 $startUrl = '';
 $list = [
-    ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix forma_pink'],
-    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' => 'forma_pink btn btn-success'],
-    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user', 'class' => 'forma_pink btn btn-success'],
-    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' => 'forma_pink btn btn-success'],
-    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' => 'forma_pink btn btn-success'],
+    ['label' => 'Старт', 'url' => &$startUrl, 'icon' => 'play', 'class' => 'btn btn-danger btn-lg btn-fix forma_pink btn-all-screen'],
+    ['label' => 'Найм', 'url' => '/hr/main', 'icon' => 'volume-up', 'class' => 'forma_pink btn btn-success btn-half-screen'],
+    ['label' => 'Кадры', 'url' => '/worker/worker', 'icon' => 'user', 'class' => 'forma_pink btn btn-success btn-half-screen'],
+    ['label' => 'Вакансии', 'url' => '/vacancy/vacancy', 'icon' => 'id-card', 'class' => 'forma_pink btn btn-success btn-half-screen'],
+    ['label' => 'Проекты', 'url' => '/project/project', 'icon' => 'newspaper-o', 'class' => 'forma_pink btn btn-success btn-half-screen'],
 ];
 
 \forma\components\widgets\ModalCreate::widget()
@@ -29,7 +29,32 @@ $list = [
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 /** @var forma\modules\hr\forms\InterviewProgress $interviewProgress */
 $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
+$workers = \forma\modules\worker\records\Worker::find()->joinWith('relationsWorkerVacancies')->all();
+
+$dp = Project::accessSearch(['state' => 1], ['setPageSize' => 6]);
+foreach ($dp->getModels() as $project) {
+    $vacaVaca = $project->projectVacancies;
+    foreach ($vacaVaca as $projectVacancy) {
+        if (!$startUrl) {
+            $startUrl = "/hr/form/index?projectId=" . $projectVacancy->project_id . "&vacancyId=" . $projectVacancy->vacancy_id;
+        }
+    }
+}
+
 ?>
+<?php
+    foreach ($list as $k => $item) {
+        $panel .= '
+                    <a href="'.$item['url'].'" class="'.(@$item['class']??'btn btn-success').'">
+                    <i class="fa fa-'.$item['icon'].'"></i> '.$item['label'].' 
+                    </a>';
+    }
+    $this->params['panel'] = $panel;
+    if (!empty($this->params['panel'])) : ?>
+    <div style="text-align: right; padding: 10px;">
+        <?= $this->params['panel'] ?>
+    </div>
+<?php endif ?>
 
 <div class="row">
 
@@ -48,7 +73,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
             <div class="box-body">
                 <div class="chart">
-                    <canvas id="plan" style=""></canvas>
+                    <canvas id="planHr" style=""></canvas>
                 </div>
             </div>
         </div>
@@ -58,10 +83,8 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
     <div class="col-lg-3 col-xs-12" style="padding-right: 0; padding-left: 0; overflow: scroll; min-height: 500px; max-height: 500px;">
         <?php
-        $dp = Project::accessSearch(['state' => 1], ['setPageSize' => 6]);
         foreach($dp->getModels() as $project) : $vacaVaca = $project->projectVacancies?>
             <div class="col-md-12" style="padding-right: 0; padding-left: 3px; margin-right: 0;">
-
                 <div class="box box-success" style="padding: 5px; min-height: 85px">
                     <strong>
                         <a data-pjax="0" style="color: #333;" href="/project/project/view?id=<?=$project->id?>"><?=$project->name?></a>
@@ -113,23 +136,24 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->stateIs(StateWork::class)) $count++;
+                        foreach ($workers as $worker) {
+                            foreach ($worker->relationsWorkerVacancies as $workerVacancy) {
+                                if ($workerVacancy->vacancy_id == $interview->vacancy_id && $workerVacancy->worker_id == $interview->worker_id && $worker->status == 1) {
+                                    $count++;
+                                }
+                            }
+                        }
                     }
-                    $countInt = 0;
-                    foreach ($project->interviews as $interview) {
-                        if ($interview->state < 4) $countInt++;
-                    }
-                    $vacacount = 0;
-                    foreach ($vacaVaca as $projectVacancy) {
-                        $vacacount += $projectVacancy->count;
-                    }
+
+                    $countInt = count($project->interviews);
+                    $vacacount = count($vacaVaca);
                     ?>
 
                     <span>
-                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state]=4&InterviewSearch[project_id]=<?=$project->id?>">Работ:</a> <?=$count?></small>
+                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state]=5&InterviewSearch[project_id]=<?=$project->id?>">Работ:</a> <?=$count?></small>
                     </span>
                     <span>
-                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state_min]=4&InterviewSearch[project_id]=<?=$project->id?>">Найм:</a> <?=$countInt?></small>
+                        <small><a data-pjax="0" href="/hr/main?InterviewSearch[state_min]=5&InterviewSearch[project_id]=<?=$project->id?>">Найм:</a> <?=$countInt?></small>
                     </span>
                     <span>
                         <small><a data-pjax="0" href="/project/project-vacancy?ProjectVacancySearch[project_id]=<?=$project->id?>">Ваканс:</a> <?=$vacacount?></small>
@@ -150,9 +174,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                             </button>
 
                             <div style="width: 110%;" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <?php foreach($vacaVaca as $projectVacancy) :
-                                    if (!$startUrl)
-                                        $startUrl = "/hr/form/index?projectId={$project->id}&vacancyId={$projectVacancy->vacancy_id}"?>
+                                <?php foreach($vacaVaca as $projectVacancy) :?>
 
                                     <a style="display: block; padding: 4px; border-bottom: 1px dotted gray;"
                                        class="dropdown-item"
@@ -175,14 +197,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
                 'pagination' => $dp->pagination,
             ]) : '';
 
-        foreach ($list as $k => $item) {
 
-            $panel .= '
-                <a href="'.$item['url'].'" class="'.(@$item['class']??'btn btn-success').'">
-                <i class="fa fa-'.$item['icon'].'"></i> '.$item['label'].' 
-                </a>';
-        }
-        $this->params['panel'] = $panel;
         ?>
     </div>
 
@@ -191,6 +206,9 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 </div>
 
 <script>
+    function getId(index) {
+        return [<?=$interviewProgress->getStateId()?>][index];
+    }
     $("select").val("count");
     var options = {
         scales: {
@@ -201,7 +219,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             }]
         }
     };
-    myLineChart = new Chart(document.getElementById("plan").getContext('2d'), {
+    myLineChart = new Chart(document.getElementById("planHr").getContext('2d'), {
         type: 'bar',
         data: {
             labels: [<?=$interviewProgress->getLabelsString()?>],
@@ -214,11 +232,9 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
         },
         options: options
     });
-
     plan.onclick = function(evt){
         var activePoints = myLineChart.getElementsAtEvent(evt);
-        console.log(activePoints);
-        window.location.href = '/hr/main?InterviewSearch[state]=' + activePoints[0]._index;
+        window.location.href = '/hr/main?InterviewSearch[state_id]=' + (getId(activePoints[0]._index));
         // => activePoints is an array of points on the canvas that are at the same position as the click event.
     };
 

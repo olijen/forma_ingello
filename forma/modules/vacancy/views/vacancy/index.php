@@ -14,7 +14,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 <div class="vacancy-index">
 
     <p>
-        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать вакансию'), ['create'], ['class' => 'btn btn-success forma_pink']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-plus"></i> Создать вакансию'), ['create'], ['class' => 'btn btn-success forma_pink btn-all-screen']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -25,6 +25,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
@@ -38,7 +39,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
                 }
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
     <?php Pjax::end(); ?>

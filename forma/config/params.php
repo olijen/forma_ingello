@@ -1,4 +1,15 @@
 <?php
+/**
+ * Глобальные настройки приложения.
+ *
+ * Данные настройки ипользуется как в контексте веб-запросов, так и в контексте
+ * командной строки, потому не стоит полагаться на существование данных внутри
+ * глобальных переменных(см. $_isLocalhost)
+ *
+ */
+
+// TODO: consider using `getenv("YII_DEBUG")`
+$_isLocalhost = array_key_exists('SERVER_NAME', $_SERVER) && strripos($_SERVER['SERVER_NAME'], 'localhost') !== false;
 
 return [
     'adminEmail' => 'admin@example.com',
@@ -16,6 +27,7 @@ return [
                 2 => 'Category',
                 3 => 'Color',
                 4 => 'Country',
+                5 => 'WidgetUser',
             ],
             'Mod1' => [
                 0 => 'Currency',
@@ -100,8 +112,17 @@ return [
             ]
         ]
     ],
+
+    // Это нужно для того чтобы именовать раздел и отдел определенной модели для системных событий
     "main" =>
-        "{\"BOSS\":{\"Дашборд\":[\"DashbordWidget\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\"]},\"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"State\",\"StateToState\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},\"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},\"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"]}}",
+        "{
+            \"BOSS\":{\"Дашборд\":[\"DashbordWidget\",\"WidgetUser\"],\"Регламент\":[\"Item\",\"Regularity\"],\"Ядро\":[\"Accessory\",\"Rule\",\"AccessInterface\",\"Color\",\"Country\",\"Currency\",\"Event\",\"EventType\",\"Migration\",\"SystemEvent\",\"User\",\"Message\",\"Template\"]},
+            \"CRM\":{\"Лид\":[\"Customer\"],\"Продажа\":[\"Selling\",\"SellingProduct\",\"SellingHistory\",\"State\",\"StateToState\",\"CustomerSource\"],\"Скрипт\":[\"Answer\",\"Request\",\"RequestStrategy\",\"RequestStrategyOld\",\"Strategy\"]},
+            \"ERP\":{\"Продукт\":[\"Category\",\"Field\",\"FieldProductValue\",\"FieldValue\",\"Manufacturer\",\"PackUnit\",\"Product\",\"ProductPackUnit\",\"Type\"],\"Склад\":[\"Inventorization\",\"InventorizationProduct\",\"OverheadCost\",\"Purchase\",\"PurchaseOverheadCost\",\"PurchaseProduct\",\"Supplier\",\"TaxRate\",\"TblDynagrid\",\"TblDynagridDtl\",\"Transit\",\"TransitOverheadCost\",\"TransitProduct\",\"Warehouse\",\"WarehouseProduct\",\"WarehouseUser\"]},
+            \"HRM\":{\"Найм\":[\"Interview\",\"InterviewVacancy\",\"Worker\",\"WorkerVacancy\",\"InterviewState\"],\"Проект\":[\"Project\",\"ProjectUser\",\"ProjectVacancy\",\"ProjectVacancyOld\",\"Vacancy\"],\"Помощь\":[\"Victim\", \"Volunteer\"]}
+        }",
+
+    //Основные цвета основных отделов
     "colors" => [
         "HRM" => '#f08080',
         "ERP" => '#f49258',
@@ -110,8 +131,14 @@ return [
     ],
 
     "translate" => [
+        'Rule'=> 'Правило',
+        'WidgetUser'=> 'Дашборд',
+        'SellingHistory'=> 'История продаж',
+        'AccessInterface'=>'Доступ к интерфейсу',
         'DashbordWidget' => 'Виджет на главной странице',
+        'Template' => 'Шаблон',
         'Item' => "Шаблон",
+        'CustomerSource'=>"Источники клиентов",
         'Regularity' => "Регламент",
         'Accessory' => "Доступ",
         'Color' => "Цвет",
@@ -160,6 +187,9 @@ return [
         'WarehouseUser' => "Склад пользователя",
         'Interview' => "Найм",
         'InterviewVacancy' => "Вакансия для найма",
+        'InterviewState' => "Состояние",
+        'Victim' => "Пострадавший",
+        'Volunteer' => "Волонтеры",
         'Worker' => "Работник",
         'WorkerVacancy' => "Вакансия для работника",
         'Project' => "Проект",
@@ -238,17 +268,29 @@ return [
             'icon'=>'calendar',
             'items'=>[
                 ['label' => 'Статистика', 'url' => ['/'], 'icon' => 'chart-bar'],
+                ['label' => 'Шаблоны писем', 'url' => ['/template/template'], 'icon' => 'chart-bar'],
+                ['label' => 'Добавить шаблон', 'url' => ['//template/template/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
                 ['label'=>'Календарь','url'=>['/event'], 'icon'=>'calendar',],
                 ['label' => 'Добавить событие', 'url' => ['/event/event/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px'] ],
                 ['label' => 'Регламент', 'url' => ['/core/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Добавить регламент', 'url' => ['/core/regularity/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px'] ],
+                ['label' => 'Права доступа', 'url' => ['/core/access-interface'], 'icon' => 'key' ],
+                ['label' => 'Назначить доступ', 'url' => ['/core/access-interface/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
+                ['label' => 'Правила', 'url' => ['/core/rule'], 'icon' => 'unlock' ],
+                ['label' => 'Добавить правило', 'url' => ['/core/rule/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
+                    'style' => 'margin-left: 20px'] ],
                 ['label' => 'Публичный регламент', 'url' => ['/core/regularity/regularity'], 'icon' => 'tree' ],
                 ['label' => 'Системные события', 'url' => ['/core/system-event'], 'icon' => 'history'],
                 [
                     'label' => 'Люди',
                     'url' => '#',
+                    'options' => [
+                        'style' => 'overflow: hidden;'
+                    ],
                     'icon' => 'users',
                     'items' => [
                         ['label' => 'Панель упр.', 'url' => ['/core/default/people'], 'icon' => 'laptop'],
@@ -264,7 +306,12 @@ return [
                         ['label' => 'Производители', 'url' => ['/product/manufacturer/'], 'icon' => 'id-card'],
                         ['label' => 'Добавить производ.', 'url' => ['/product/manufacturer/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                             'style' => 'margin-left: 20px'] ],
-                        ['label' => 'Пациенты', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat'],
+
+                        ['label' => 'Все пользователи', 'url' => '/core/user/all-users', 'icon' => 'user',
+//                        'visible'=> false ,
+                        ],
+
+
                         ['label' => 'Регистрация', 'url' => ['/core/site/signup-referer'], 'icon' => 'globe'],
                         ['label' => 'Пользователи', 'url' => ['/core/user/referral'], 'icon' => 'book'],
                     ]
@@ -273,6 +320,7 @@ return [
         ],
 
         [
+            ####################### 'Продажи (CRM)',
             'label' => 'Продажи (CRM)',
             'options' => [
                 'class'=>'menuColor',
@@ -300,6 +348,11 @@ return [
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
+                ['label' => 'Супер-таблица',
+                    'url' => ['/selling/super-selling'],
+                    'icon' => 'eye',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
                 [
                     'label' => 'Состояния',
                     'url' => ['/selling/main-state/index'],
@@ -311,6 +364,11 @@ return [
                 ['label' => 'Добавить состояние',
                     'url' => ['/selling/main-state/create'],
                     'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
+                ],
+                ['label' => 'История состояний',
+                    'url' => ['/selling/selling-history'],
+                    'icon' => 'eye',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
                 [
@@ -325,7 +383,7 @@ return [
                 ],
                 [
                     'label' => 'Скрипты',
-                    'url' => ['/selling/speech-module'],
+                    'url' => ['/selling/speech-module?isSelling=1'],
                     'icon' => 'list',
                     'items' => [
 
@@ -336,16 +394,18 @@ return [
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
-                ['label' => 'Добавить вопрос',
-                    'url' => ['/selling/request/create'],
+                [
+                    'label' => 'Источники клиентов',
+                    'url' => ['/selling/customer-source'],
+                    'icon' => 'list',
+                ],
+
+                ['label' => 'Добавить источник',
+                    'url' => ['/selling/customer-source/create'],
                     'icon' => 'plus',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
-                ['label' => 'Добавить ответ',
-                    'url' => ['/selling/answer/create'],
-                    'icon' => 'plus',
-                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
-                ],
+
                 [
                     'label'=>'Тест',
                     'url'=>['/test/main'],
@@ -366,15 +426,17 @@ return [
                     'icon'=>'user-check',
                     'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']
                 ],
+
                 ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users',
-                    'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
+                    'visible' => $_isLocalhost],
                 ['label' => 'Скрипты для FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'dollar-sign',
-                    'visible' => strripos('localhost', $_SERVER['SERVER_NAME']) !== false],
+                    'visible' => $_isLocalhost],
             ]
         ],
         [
 
-            'label' => 'Найм и проекты',
+            ##################################'Кадры, проекты',
+            'label' => 'Найм кадров (HRM)',
             'options' => [
                 'class'=>'menuColor',
                 'style'=>'background-color:#F08080;',
@@ -383,7 +445,7 @@ return [
             'icon' => 'user-plus',
             'items' => [
                 ['label' => 'Панель управления', 'url' => ['/hr/'], 'icon' => 'laptop'],
-                ['label' => 'Проекты', 'url' => ['/project/project?ProjectSearch[state]=1'], 'icon' => 'newspaper'],
+                ['label' => 'Проекты', 'url' => ['/project/project'], 'icon' => 'newspaper'],
                 ['label' => 'Создать проект', 'url' => ['/project/project/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px']],
                 ['label' => 'Найм', 'url' => ['/hr/main'], 'icon' => 'volume-up'],
                 ['label' => 'Добавить найм', 'url' => ['/hr/form/index'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
@@ -391,10 +453,16 @@ return [
                 ['label' => 'Кадры', 'url' => ['/worker/worker'], 'icon' => 'user'],
                 ['label' => 'Добавить кадр', 'url' => ['/worker/worker/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
+                ['label' => 'Состояния' , 'url' => ['/hr/interview-state/'], 'icon' => 'dot-circle',],
+                ['label' => 'Добавить состояние', 'url' => ['/hr/interview-state/create'],'icon' => 'plus',
+                    'options' => ['class' => 'tabLink', 'style' => 'margin-left: 20px'] ],
                 ['label' => 'Вакансии', 'url' => ['/vacancy/vacancy'], 'icon' => 'id-card'],
                 ['label' => 'Добавить вакансию', 'url' => ['/vacancy/vacancy/create'], 'icon' => 'plus', 'options' => ['class' => 'tabLink',
                     'style' => 'margin-left: 20px']],
-                ['label' => 'Скрипты','url' => ['/selling/speech-module'],'icon' => 'list',]],
+                ['label' => 'Скрипты', 'url' => ['/selling/speech-module?isSelling=0'], 'icon' => 'list',],
+                ['label' => 'Переселенцы', 'url' => ['/hr/victim'], 'icon' => 'users',],
+                ['label' => 'Волонтеры', 'url' => ['/hr/volunteer'], 'icon' => 'user-shield',]
+            ],
         ],
         [
             'label' => 'Продукты и услуги',
@@ -420,7 +488,8 @@ return [
             ],
         ],
         [
-            'label' => 'Хранилища',
+            ######################### 'СКЛАДЫ',
+            'label' => 'Склады (WMS)',
             'options' => [
                 'class'=>'menuColor',
                 'style'=>'background-color:#dc7d22; ',
@@ -455,8 +524,53 @@ return [
         ['label' => 'Здоровье: стоматологии', 'url' => 'https://dent.ingello.com', 'icon' => 'heartbeat', 'options' => [
                 'class'=>'menuColor text_black']],
     ],
+
+    'translateTablesName' => [
+        'answer' => 'Ответ',
+        'event' => 'Событие',
+        'event_type' => 'Тип события',
+        'interview' => 'Интервью',
+        'interview_state' => 'Состояние интервью',
+        'vacancy' => 'Вакансия',
+        'strategy' => 'Стратегия',
+        'regularity' => 'Регламент',
+        'message' => 'Сообщение',
+        'widget_user' => 'Дашборд',
+
+        'country' => 'Страна',
+        'currency' => 'Валюта',
+        'project' => 'Проект',
+        'project_user' => 'Проект пользователя',
+        'project_vacancy' => 'Проект вакансии',
+        'manufacturer' => 'Производитель',
+
+        'customer' => 'Клиент',
+        'customer_source' => 'Источник клиента',
+        'purchase_product' => 'Товар в поставке',
+        'selling' => 'Продажа',
+        'purchase' => 'Поставка',
+
+        'inventorization' => 'Инвентаризация',
+        'inventorization_product' => 'Инвентаризация продукции',
+        'supplier' => 'Поставщик',
+        'purchase_overhead_cost' => 'Накладная расхода на закупку',
+        'selling_product' => 'Товар в продаже',
+
+        'product' => 'Продукция',
+        'product_pack_unit' => 'Единица упаковки продукта',
+        'warehouse' => 'Склад',
+        'warehouse_product' => 'Продукцию на складе',
+        'system_event_user' => 'Подписка на событие',
+        'request' => 'Вопрос',
+        'worker' => 'Кадр',
+        'field' => 'Характеристика категории',
+        'item' => 'Пункт регламента',
+        'category' => 'Категория',
+        'test_type' => 'Тест',
+        'test_type_field' => 'Вопрос и ответы',
+        'transit_product' => 'Товар в перемещении',
+        'transit' => 'Перемещение',
+        'state' => 'Состояние продажи',
+    ],
+
 ];
-
-
-
-

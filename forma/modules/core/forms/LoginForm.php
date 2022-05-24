@@ -60,7 +60,6 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-
             if (!$user) {
                 $this->addError($attribute, 'Неправильный Email');
             } elseif (!$user->validatePassword($this->password)) {

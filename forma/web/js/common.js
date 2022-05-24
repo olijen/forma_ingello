@@ -57,7 +57,7 @@ $('#import-file-input').change(function() {
         if (response.success == true) {
             krajeeDialog.alert('Data loaded', goToWarehouse);
         } else {
-            console.log(response.errors[0]);
+            console.log(response);
             krajeeDialog.alert(response.errors[0]);
         }
 

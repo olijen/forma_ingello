@@ -45,8 +45,7 @@ class TestTypeFieldSearch extends TestTypeField
             $id = $params['id'];
 
             $query = TestTypeField::find();
-
-            // add conditions that should always apply here
+            $this->access($query);
 
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,

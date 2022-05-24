@@ -41,9 +41,8 @@ class ManufacturerSearch extends Manufacturer
      */
     public function search($params)
     {
-        $query = Manufacturer::find()->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => Manufacturer::className()]);
+        $query = Manufacturer::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

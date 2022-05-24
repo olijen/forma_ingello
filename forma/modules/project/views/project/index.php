@@ -18,23 +18,30 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 $this->params['panel'] = Html::a(Yii::t('app', '<i class="fa fa-plus"></i> Создать проект'), ['create'], ['class' => 'btn btn-success forma_pink']);
 $this->params['panel'] .= $this->render('_search', ['model' => $searchModel]);
 
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => ' forma_pink btn btn-'.(empty($_REQUEST['ProjectSearch']['state'])?'primary':'default')]);
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => ' forma_pink btn btn-'.(@$_REQUEST['ProjectSearch']['state']==1?'primary':'default')]);
-$this->params['panel'] .= ' '. Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => ' forma_pink btn btn-'.(@$_REQUEST['ProjectSearch']['state']==2?'primary':'default')]);
+$this->params['panel'] .= ' ' . Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => 'no-loader forma_pink btn btn-' . (empty($_REQUEST['ProjectSearch']['state']) ? 'primary' : 'default')]);
+$this->params['panel'] .= ' ' . Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 1 ? 'primary' : 'default')]);
+$this->params['panel'] .= ' ' . Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 2 ? 'primary' : 'default')]);
 
 Pjax::begin();
 ?>
-<div class="project-index">
 
+<div class="project-index" style="padding: 10px;">
+    <div style="text-align: right; padding-bottom: 5px;">
+        <?php
+        echo Html::a(Yii::t('app', 'Все'), ['/project/project'], ['class' => 'no-loader forma_pink btn btn-' . (empty($_REQUEST['ProjectSearch']['state']) ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'В работе'), ['/project/project?ProjectSearch[state]=1'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 1 ? 'primary' : 'default')]);
+        echo Html::a(Yii::t('app', 'Архив'), ['/project/project?ProjectSearch[state]=2'], ['class' => 'no-loader forma_pink btn btn-' . (@$_REQUEST['ProjectSearch']['state'] == 2 ? 'primary' : 'default')]);
+        ?>
+    </div>
     <div class="row" style=" max-height: 500px; ">
         <?php
-        //$dp = Project::accessSearch(null, ['setPageSize' => 15]);
+        $dp = Project::accessSearch(null, ['setPageSize' => 15]);
         $models = $dataProvider->getModels();
-        if(empty($models)) echo "<h3>У вас нет ни одного проекта!</h3>";
-        foreach($models as $project) : $vacaVaca = $project->projectVacancies?>
+        if (empty($models)) echo "<h3>У вас нет ни одного проекта!</h3>";
+        foreach ($models as $project) : $vacaVaca = $project->projectVacancies ?>
             <div class="col-md-4" style="padding-right: 5px;  padding-left: 3px; margin-right: 0;">
 
-                <div class="box box-success" style="padding: 7px; margin-bottom: 7px;min-height: 85px;">
+            <div class="box box-success" style="padding: 7px; margin-bottom: 7px;min-height: 85px;">
                     <div>
                         <strong>
                             <a data-pjax="0" style="color: #333;" href="/project/project/view?id=<?=$project->id?>"><?=$project->name?></a>
@@ -77,11 +84,14 @@ Pjax::begin();
                     <?php
                     $count = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->stateIs(StateWork::class)) $count++;
+                        if ($interview->getInterviewState()->one()) $count++;
                     }
                     $countInt = 0;
                     foreach ($project->interviews as $interview) {
-                        if ($interview->state < 4) $countInt++;
+                        $interview = $interview->getInterviewState()->one();
+                        if ($interview !== null) {
+                            if ($interview->order < $orderState) $countInt++;
+                        }
                     }
                     $vacacount = 0;
                     foreach ($vacaVaca as $projectVacancy) {
@@ -134,8 +144,8 @@ Pjax::begin();
         <?php endforeach; ?>
 
         <?php
-        echo $dataProvider->pagination ? LinkPager::widget([
-            'pagination' => $dataProvider->pagination,
+        echo $dp ? LinkPager::widget([
+            'pagination' => $dp->pagination,
         ]) : '';
         ?>
         <script>

@@ -15,56 +15,7 @@ use forma\modules\product\records\Product;
 
         <section class="sidebar">
 
-            <!-- search form -->
-            <form id="live-search" action="/product/product" method="get" class="sidebar-form">
-                <input id="searching-product-id" type="hidden" value="">
 
-                <!-- todo: Вынести -->
-                <script>
-                    $('#live-search').submit(function(event) {
-                        event.preventDefault();
-
-                        var searchingProductId = $('#searching-product-id').val();
-
-                        if (searchingProductId !== '') {
-                            var url = '<?= Url::to(['/product/product']) ?>' + '?';
-                            url += encodeURIComponent('ProductSearch[id]');
-                            url += '=';
-                            url += searchingProductId;
-
-                            $(location).attr('href', url);
-                        }
-                    });
-
-                </script>
-
-                <div class="input-group">
-
-                    <?= AutocompleteAjax::widget([
-                        'url' => [Url::toRoute(['/product/product/search'])],
-                        'options' => [
-                            'class' => 'form-control',
-                            'placeholder' => 'Поиск...',
-                            'style' => 'z-index: 1000000;',
-                        ],
-                        'model' => new Product,
-                        'attribute' => 'name',
-
-                        // todo: Хорошо протестировать всегда ли есть ui.item.id
-                        // todo: Выдает ошибку Unknown Property – yii\base\UnknownPropertyException
-                        // todo: Setting unknown property: keygenqt\autocompleteAjax\AutocompleteAjax::afterSelect
-//                    'afterSelect' => 'function(event, ui) {
-//                        $("#searching-product-id").val(ui.item.id);
-//                    }',
-                    ]); ?>
-
-                    <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-                </div>
-            </form>
-            <!-- /.search form -->
 <?php
 //#f49258
 $bgColor = '#00a65a';
@@ -118,9 +69,13 @@ if ('selling'== Yii::$app->controller->module->id){
                     z-index: 9999;
                 }
 
+                .treeview.menu-open>ul.treeview-menu {
+                    overflow: hidden;
+                }
+
             </style>
 
-            <?php if ((Yii::$app->params['menu'][1]['items'][2]['url'][0] === '/core/regularity/regularity')){
+            <?php if ((Yii::$app->params['menu'][1]['items'][2]['url'][0] === '/core/regularity/regularity')) {
                 Yii::$app->params['menu'][1]['items'][2]['url'][0] = Url::to((['/core/regularity/regularity', 'user-name' => Yii::$app->user->identity->username]));
             }?>
             <?= \forma\modules\core\widgets\Menu::widget(
@@ -133,3 +88,47 @@ if ('selling'== Yii::$app->controller->module->id){
         </section>
 
     </aside>
+
+    <script>
+        function resizeSmallWidget(append) {
+            $('.container-small_widgets').css('width', $('.container-small_widgets').width() + eval(append) + 'px');
+        }
+
+        $('#menu-head').click(function () {
+            if ($('#body1').hasClass('sidebar-collapse')) {
+                $('li.menuColor.treeview').css('overflow-y', 'scroll');
+                $('li.menuColor.treeview').css('max-height', '400px');
+
+                if (window.screen.width <= 1024) {
+                    $('.main-sidebar').css('overflow-y', 'scroll');
+                    $('.main-sidebar').css('max-height', '150px');
+                }
+
+                resizeSmallWidget('- 229 + 55');
+            } else {
+                $('li.menuColor.treeview').css('overflow-y', '')
+                $('li.menuColor.treeview').css('max-height', '')
+
+                $('.main-sidebar').css('overflow-y', '');
+                $('.main-sidebar').css('max-height', '');
+
+                resizeSmallWidget('+ 229 - 55');
+            }
+
+            if (window.screen.width <= 1024) {
+                if (!$('#body1').hasClass('sidebar-open') || $('#body1').hasClass('sidebar-collapse')) {
+                    $('li.menuColor.treeview').css('overflow-y', 'scroll');
+                    $('li.menuColor.treeview').css('max-height', '400px');
+
+                    $('.main-sidebar').css('overflow-y', 'scroll');
+                    $('.main-sidebar').css('max-height', '150px');
+                } else {
+                    $('li.menuColor.treeview').css('overflow-y', '')
+                    $('li.menuColor.treeview').css('max-height', '')
+
+                    $('.main-sidebar').css('overflow-y', '');
+                    $('.main-sidebar').css('max-height', '');
+                }
+            }
+        })
+    </script>

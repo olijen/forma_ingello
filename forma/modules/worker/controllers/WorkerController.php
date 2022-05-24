@@ -2,6 +2,8 @@
 
 namespace forma\modules\worker\controllers;
 
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
+use forma\modules\worker\records\workervacancy\WorkerVacancy;
 use Yii;
 use forma\modules\worker\records\Worker;
 use forma\modules\worker\records\WorkerSearch;
@@ -71,7 +73,7 @@ class WorkerController extends Controller
     }
 
     /**
-     * Lists all Worker models.
+     * Lists all Worker records.
      * @return mixed
      */
     public function actionIndex()
@@ -114,18 +116,31 @@ class WorkerController extends Controller
         }
 
         $model = new Worker();
+        $model->scenario = 'fromForm';
+        $vacancyId = null;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['id' => $model->id, 'name' => $model->name];
             }
+
             return $this->redirect(['index']);
-        } else {
+        }
+
+        if (!empty(Yii::$app->request->get('projectVacancyId'))) {
+            $projectVacancyId = Yii::$app->request->get('projectVacancyId');
+            $vacancyId = ProjectVacancy::find()->where(['id' => $projectVacancyId])->one()->vacancy_id;
             return $this->render('create', [
                 'model' => $model,
+                'vacancyId' => $vacancyId,
             ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+            'vacancyId' => $vacancyId,
+        ]);
     }
 
     /**
@@ -138,6 +153,13 @@ class WorkerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'fromForm';
+
+        $vacancies = WorkerVacancy::find()->where(['worker_id' => $id])->select('vacancy_id')->asArray()->all();
+        $vacancyId = [];
+        foreach ($vacancies as $vacancy) {
+            $vacancyId [] = $vacancy['vacancy_id'];
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -145,6 +167,7 @@ class WorkerController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'vacancyId' => $vacancyId,
         ]);
     }
 
@@ -160,6 +183,44 @@ class WorkerController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    public function actionAddWorker()
+    {
+        $path = \Yii::getAlias('@inst') ;
+        $file = $path . '/instagram_service2.csv';
+        if (($handle = fopen($file, "r")) !== FALSE) {
+            $row = 1;
+            while (($data = fgetcsv($handle, 1000)) !== FALSE) {
+                $num = count($data);
+                if ($row == 1) {
+                    $row++;
+                    continue;
+                }
+                $str = '';
+                $vacancy_id = 86;
+                foreach ($data as $k => $value) {
+                    $str .= '\'' . $value . '\'' . ',';
+                }
+                $str = substr($str, 0, -1);
+                $sql = "INSERT INTO worker (patronymic,surname,passport,experience_description) VALUES ($str)";
+                $addWorker = Yii::$app->db->createCommand($sql)->execute();
+                $id = Yii::$app->db->getLastInsertID();
+                $entityClass = \forma\modules\worker\records\Worker::className();
+                $userId = Yii::$app->user->id;
+                $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
+                Yii::$app->db->createCommand($sqlAccessory)->execute();
+
+                $sql = "INSERT INTO worker_vacancy (worker_id,vacancy_id) VALUES ($id,$vacancy_id)";
+                Yii::$app->db->createCommand($sql)->execute();
+                $id = Yii::$app->db->getLastInsertID();
+                $entityClass = \forma\modules\worker\records\Worker::className()::className();
+                $userId = Yii::$app->user->id;
+                $sqlAccessory = "INSERT INTO accessory (entity_class,entity_id,user_id) VALUES ('" . $entityClass . "','" . $id . "','" . $userId . "')" . ';' . '<br>';
+                Yii::$app->db->createCommand($sqlAccessory)->execute();
+            }
+            fclose($handle);
+        }
+        return $this->redirect('index');
     }
 
     /**

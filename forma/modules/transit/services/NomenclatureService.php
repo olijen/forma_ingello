@@ -26,11 +26,11 @@ class NomenclatureService
 
         $model = self::getUnitByProduct($post);
 
-        $warehouseModule = Yii::$app->getModule('warehouse');
+        /*$warehouseModule = Yii::$app->getModule('warehouse');
         $productCurrency = $warehouseModule->getProductCurrency(
             $model->transit->fromWarehouse,
             $model->product
-        );
+        );*/
         //$post['OverheadCost']['currency_id'] = $productCurrency->id;
 
         if (!isset($post['OverheadCost'])) {
@@ -54,13 +54,13 @@ class NomenclatureService
         }
 
         if ($model->load($post) && $model->validate() && isset($addendQty)) {
-            $model->quantity += $addendQty;
+            $model->quantity = $addendQty;
         }
 
         if ($model->save()) {
             /** @var Module $module */
-            $module = Yii::$app->getModule('warehouse');
-            $module->createExpected($model->transit);
+            /*$module = Yii::$app->getModule('warehouse');
+            $module->createExpected($model->transit);*/
 
             $model->pack_unit_id = $model->product->pack_unit_id;
             $model->save();
@@ -75,14 +75,22 @@ class NomenclatureService
 
     public static function getUnitByProduct($post)
     {
-        $transitId = $post['TransitProduct']['transit_id'];
-        $productId = $post['TransitProduct']['product_id'];
-
-        $unit = TransitProduct::findOne([
-            'transit_id' => $transitId,
-            'product_id' => $productId,
-        ]);
-        return $unit ?? self::createPosition($transitId, $productId);
+        $unit = new TransitProduct();
+        if ($unit->load($post) && $unit->validate()) {
+            $warehouseProduct = WarehouseProduct::find()->where(
+                ['warehouse_id' => $unit->transit->from_warehouse_id,
+                    'product_id' => $unit->product_id,
+                ])->one();
+            $unit->purchase_cost = $warehouseProduct->purchase_cost;
+            $unit->recommended_cost = $warehouseProduct->recommended_cost;
+            $unit->consumer_cost = $warehouseProduct->consumer_cost;
+            $unit->trade_cost = $warehouseProduct->trade_cost;
+            $unit->tax = $warehouseProduct->tax;
+            $unit->overhead_cost = $warehouseProduct->overhead_cost;
+            $unit->currency_id = $warehouseProduct->currency_id;
+            $unit->save();
+        }
+        return $unit;
     }
 
     public static function getDataProvider($transitId)
@@ -142,11 +150,23 @@ class NomenclatureService
          */
         $model = TransitProduct::findOne($id);
         $module = Yii::$app->getModule('warehouse');
+        //TODO Не удаляется продукт из склада, мелкие наработки, возможно,
+        // нужно будет добавить ключ перемещения в таблицу склад продукта
+        /*$warehouseProduct = WarehouseProduct::find()
+            ->where(['warehouse_id'=>$model->transit->to_warehouse_id,
+                    'product_id'=>$model->product_id]
+            )->one();*/
+
 
         $module->removeEmptyUnit($model, $model->transit->toWarehouse);
-        $model->delete();
+        if(!empty($model->delete())){
+            return $model;
+        }else{
+            var_dump($model->getErrors());
+            die;
+        }
 
-        return $model;
+
     }
 
     public static function deleteAllByTransit($transitId)

@@ -19,6 +19,7 @@ use yii\web\JsExpression;
 /**
  * @var Interview $model
  */
+/* @var Vacancy $vacancy */
 
 Pjax::begin(['id' => 'selling-form-pjax', 'enablePushState' => false]);
 
@@ -34,7 +35,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
 }
 
 ?>
-
 <?php DetachedBlock::begin([
     'example' => 'Данные',
 ]); ?>
@@ -49,21 +49,22 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
         'fieldConfig' => [
             'inputOptions' => [
                 'class' => 'form-control',
-                'disabled' => $model->stateIs(new StateDone()),
             ],
         ],
     ];
 
     $form = ActiveForm::begin($formOptions);
-
     ?>
-    <div class="alert alert-danger" id='alert-danger' role="alert" hidden
-         style="position: absolute; width: 300px; float: left; top: -50%; z-index: 9991;">
-        На данную вакансию нет ни одного заинтересованного кадра
-    </div>
     <div class="row">
         <div class="col-md-4" id="worker-select">
+            <?php if (Yii::$app->request->get('vacancyId')) {
+                $data = \forma\modules\worker\records\workervacancy\WorkerVacancy::getListWorker(Yii::$app->request->get('vacancyId'));
+            } else {
+                $data = ArrayHelper::map(Worker::getListQuery()->all(), 'id', 'fullName');
+            }
+            ?>
             <?php
+
             $label = $model->getAttributeLabel('worker_id');
             $label .= '
                 [<a
@@ -74,18 +75,13 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     href="' . Url::to(['/worker/worker/view']) . '"
                 >детали</a>]
                 [<a
+                    id="vacancyUserId"
                     class="select-modal-link no-loader"
                     data-select="#interview-worker_id"
                     data-action="create"
-                    href="' . Url::to(['/worker/worker/create']) . '"
+                    href="' . Url::to(["/worker/worker/create"]) . '"
                 >добавить</a>]
             ';
-            ?>
-            <?php if (Yii::$app->request->get('vacancyId')) {
-                $data = \forma\modules\worker\records\workervacancy\WorkerVacancy::getListWorker(Yii::$app->request->get('vacancyId'));
-            } else {
-                $data = ArrayHelper::map(Worker::getListQuery()->all(), 'id', 'fullName');
-            }
             ?>
 
             <?= $form->field($model, 'worker_id')->widget(Select2::classname(), [
@@ -94,7 +90,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 'pluginOptions' => ['allowClear' => true],
             ])->label($label) ?>
         </div>
-
         <div class="col-md-4">
             <?php //TODO: !!!!!!!!!!!!!!!! WORKER to VACANCY
             $label = $model->getAttributeLabel('vacancy_id');
@@ -103,22 +98,32 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                     class="select-modal-link no-loader"
                     data-select="#interview-vacancy_id"
                     data-action="view"
-                    href="' . Url::to(['/vacancy/vacancy/view']) . '"
+                    href="'.  Url::to(['/vacancy/vacancy/view-vacancy-project']).'" 
                 >детали</a>]
                 [<a
                     class="select-modal-link no-loader"
                     data-select="#interview-vacancy_id"
                     data-action="create"
-                    href="' . Url::to(['/vacancy/vacancy/create']) . '"
+                    href="' . Url::to(['/project/project-vacancy/create']) . '"
                 >добавить</a>]
             ';
-            ?>
-            <?= $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
-                'data' => Vacancy::getList(),
+
+            if (!$model->isNewRecord) {
+                $projectVacancy = \forma\modules\project\records\projectvacancy\ProjectVacancy::find()->where([
+                    'vacancy_id' => $model->vacancy_id,
+                    'project_id' => $model->project_id
+                ])->one();
+                $model->vacancy_id = $projectVacancy->id;
+            }
+            echo $form->field($model, 'vacancy_id')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map($vacancy, 'id', 'name'),
                 'options' => ['placeholder' => 'Поиск в базе'],
                 'pluginOptions' => ['allowClear' => true],
-
-            ])->label($label) ?>
+                'pluginEvents' => [
+                    "select2:select" => "function() { let id = $('#'+this.id).val(); let newUrl ='/worker/worker/create?projectVacancyId='+id;  $('#vacancyUserId').attr('href',newUrl); }",
+                ]
+            ])->label($label);
+            ?>
         </div>
         <?php if ($model->isNewRecord): ?>
             <script>
@@ -133,7 +138,6 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                 });
             </script>
         <?php endif; ?>
-
 
         <script>
             $('#interview-vacancy_id').on('change', function () {
@@ -160,50 +164,60 @@ if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
                             $('#interview-worker_id').attr('disabled', 'disabled');
                             $('#selling-form-submit-button').attr('disabled', 'disabled');
                             $('#alert-danger').show();
-
-                            //   $('#worker-select').hide();
                         }
                     }
                 })
             })
         </script>
-        <div class="col-md-4">
-            <?php
-            $label = $model->getAttributeLabel('project_id');
-            $label .= '
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#interview-project_id"
-                    data-action="view"
-                    href="' . Url::to(['/project/project/view']) . '"
-                >детали</a>]
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#interview-project_id"
-                    data-action="create"
-                    href="' . Url::to(['/project/project/create']) . '"
-                >добавить</a>]
-            ';
-            ?>
-            <?= $form->field($model, 'project_id')->widget(Select2::classname(), [
-                'data' => Project::getList(),
-                'options' => ['placeholder' => 'Поиск в базе'],
-                'pluginOptions' => ['allowClear' => true],
-            ])->label($label) ?>
-        </div>
+        <script>
+            $('#interview-worker_id').on('change', function () {
+                $.ajax({
+                    url: '/worker/worker-vacancy/vacancies-for-worker',
+                    type: 'post',
+                    data: {
+                        id: $(this).val(),
+                    },
+                    success: function (data) {
+                        if ($('#interview-worker_id').val() !== null) {
+                            $('#interview-worker_id').removeAttr('disabled');
+                            $('#selling-form-submit-button').removeAttr('disabled');
+                        }
+                        if (data !== null) {
+                            $('#interview-vacansy_id').removeAttr('disabled');
+                            $('#selling-form-submit-button').removeAttr('disabled');
+                            $('#alert-danger').hide();
+                            $.each(data, function (value, key) {
+                                $('#interview-worker_id').append($('<option></option>').attr("value", value).text(key));
+                            });
+                        } else {
+                            $('#interview-worker_id').attr('disabled', 'disabled');
+                            $('#selling-form-submit-button').attr('disabled', 'disabled');
+                            $('#alert-danger').show();
+                        }
+                    }
+                })
+            })
+            $(function () {
+                function getVacancyId() {
+                    let id = $('#interview-vacancy_id').val();
+                    let newUrl = '/worker/worker/create?projectVacancyId=' + id;
+                    $('#vacancyUserId').attr('href', newUrl);
+                }
 
+                getVacancyId()
+
+                let projectVacancyId = $('span#select2-interview-vacancy_id-container.select2-selection__rendered span.select2-selection__clear').attr("data-select2-id");
+            });
+        </script>
     </div>
-
-    <?php if (!$model->stateIs(new StateDone())): ?>
+    <?php if ($model->date_create || $model->id): ?>
         <div class="row">
             <div class="col-md-12 form-group">
                 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'selling-form-submit-button']) ?>
             </div>
         </div>
     <?php endif; ?>
-
     <?php ActiveForm::end(); ?>
-
 </div>
 
 <?php DetachedBlock::end(); ?>

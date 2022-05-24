@@ -2,7 +2,9 @@
 
 namespace forma\modules\selling\controllers;
 
+use forma\modules\selling\records\selling\Selling;
 use forma\modules\selling\records\state\StateSearch;
+use forma\modules\sellinghistory\records\SellingHistory;
 use forma\modules\warehouse\records\WarehouseProduct;
 use Yii;
 use forma\components\Controller;
@@ -20,10 +22,12 @@ class FormController extends Controller
             return $this->redirect('/selling/main-state/index');
 
         $model = SellingService::get($id);
-        $sellingState = State::findOne($model->state_id);
+        if(!empty($model)){
+            $sellingState = State::findOne($model->state_id);
+        }
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])
             ->all();
-        if ($sellingState) {
+        if (isset($sellingState)) {
             $toState = $sellingState->state;
             return $this->render('index', compact('model', 'userState', 'sellingState', 'toState'));
         } else {
@@ -40,27 +44,69 @@ class FormController extends Controller
          *      использовать получение складов по getMyWarehouseUser, для гостя.
          *      поменять цену
         */
-        if (!empty($_POST['productId']) && !empty($_POST['quantity'])) {
+        if (!empty($_POST['productId']) && !empty($_POST['sellingId'])) {
+            $productId = $_POST['productId'];
+            $warehouseId = Selling::find()->where(['id' => $_POST['sellingId']])->one()->warehouse_id;
+            $costType = $_POST['costType'];
+            $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
+            $cost = 0;
+            switch ($costType) {
+                case 0:
+                    $cost = $product->consumer_cost;
+                    break;
+                case 1:
+                    $cost = $product->trade_cost;
+                    break;
+            }
 
-            $cost = 'consumer_cost';
-            $product = WarehouseProduct::findOne(['product_id' => $_POST['productId']]);
-            $cost = $product->$cost * $_POST['quantity'];
 
             return $cost;
+        }
+        return 0;
+    }
+
+    public function actionChangeSellingProductPurchaseCost()
+    {
+
+        if (!empty($_POST['productId']) && !empty($_POST['sellingId'])) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $productId = $_POST['productId'];
+            $warehouseId = Selling::find()->where(['id' => $_POST['sellingId']])->one()->warehouse_id;
+            $product = WarehouseProduct::findOne(['product_id' => $productId, 'warehouse_id' => $warehouseId]);
+            $purchaseCost = $product->purchase_cost;
+            $cost = $product->consumer_cost;
+
+            return compact('purchaseCost', 'cost');
         }
         return '';
     }
 
     public function actionTest()
     {
-
         $id = $_GET['id'];
 
         $model = SellingService::get($id);
         $state_id = $_GET['state_id'];
         $sellingState = State::findOne($state_id);
+        $date = date('Y-m-d');
+        if ($state_id) {
+            $sellingHistory = \forma\modules\selling\records\sellinghistory\SellingHistory::find()->where(['date' => $date])->one();
+            if ($sellingHistory) {
+                $sellingHistory->count = ++$sellingHistory->count;
+                if (!$sellingHistory->save()) {
+                    de($sellingHistory->getErrors());
+                }
+            } else {
+                $sellingHistory = new \forma\modules\selling\records\sellinghistory\SellingHistory();
+                $sellingHistory->date = date('Y-m-d');
+                $sellingHistory->count = 1;
+                $sellingHistory->user_id = Yii::$app->user->id;
+                $sellingHistory->save();
+            }
+
+        }
         if ($state_id == 6) {
-            $model->date_complete = date('Y-m-d H:i:s');
+            $model->date_complete = date('Y-m-d');
         }
         if ($sellingState) {
             $model->state_id = $sellingState->id;
@@ -69,8 +115,6 @@ class FormController extends Controller
         }
         $userState = State::find()->where(['user_id' => Yii::$app->user->getId()])->asArray()
             ->all();
-
-
         if ($sellingState) {
             $toState = $sellingState->state;
 
@@ -85,10 +129,11 @@ class FormController extends Controller
     {
         $model = SellingService::save($id, Yii::$app->request->post());
 
-        if (!$id) {
+        return $this->redirect(Url::to(['/selling/form', 'id' => $model->id]));
+        /*if (!$id) {
             return $this->redirect(Url::to(['/selling/form', 'id' => $model->id]));
         }
-        return SellingFormView::widget(compact('model'));
+        return SellingFormView::widget(compact('model'));*/
     }
 
 }

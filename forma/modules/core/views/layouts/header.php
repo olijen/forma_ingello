@@ -5,7 +5,6 @@ use forma\modules\core\records\SystemEventSearch;
 use forma\modules\core\widgets\SalesFunnelWidget;
 use forma\modules\selling\forms\SalesProgress;
 use forma\modules\warehouse\records\WarehouseSearch;
-use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
@@ -23,32 +22,32 @@ use yii\widgets\Breadcrumbs;
         <span class="logo-mini">F.I</span>
         <span class="logo-lg">' . Yii::$app->name . '</span>', '#', ['class' => 'logo', 'data-toggle' => "push-menu", 'role' => "button"]) ?>
 
-        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;" class="navbar navbar-static-top"
+        <nav style="position: fixed; box-shadow: 0 0 10px rgba(0,0,0,0.5); top: 0; height: 50px;"
+             class="navbar navbar-static-top"
              role="navigation">
 
-            <a href="#" data-toggle="push-menu"
+            <a href="#" data-toggle="push-menu" id="menu-head"
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
-               class="logo-mini"><i class="fa fa-bars" aria-hidden="true"></i></a>
+               class="logo-mini "><i class="fa fa-bars" aria-hidden="true"></i></a>
 
-            <a href="#" title="Вернуться назад"
+            <a href="#" id="bs" title="Вернуться назад" class="nav-item "
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;"
                onclick="window.history.back()">
                 <i class="fa fa-arrow-left"></i></a>
-            <a href="#" id="fs" title="На весь экран"
+            <a href="#" id="fs" title="На весь экран" class="nav-item "
                style="color: white; float: left; background-color: transparent; background-image: none;  padding: 15px 15px;  font-family: fontAwesome;">
                 <i class="fa fa-expand"></i></a>
-
             <div class="navbar-custom-menu">
 
 
                 <ul class="nav navbar-nav">
                     <li class="dropdown messages-menu">
 
-                        <a      id="info"
-                                style="color: #fff;"
-                                href="/core/regularity/regularity"
-                                class="btn btn-outline-secondary"
-                                type="button"
+                        <a id="info"
+                           style="color: #fff;"
+                           href="/core/regularity/regularity"
+                           class="btn btn-outline-secondary"
+                           type="button"
                         >
 
                             <i class="fa fa-tree" style="font-size: 18px;"></i>
@@ -75,13 +74,13 @@ use yii\widgets\Breadcrumbs;
                         $(document).ready(function() {
                             $('#info').addClass("no-loader");
                             var i = setInterval(function () {
-                                
+
                                 setTimeout(function() {
                                     $('#info').css('color', '#00f');
                                 }, 250);
                                 $('#info').css('color', '#0f0');
                             }, 500);
-                            
+
                             setTimeout(function() {
                               clearInterval(i);
                               $('#info').css('color', '#ffffff');
@@ -141,7 +140,7 @@ JS;
                                             $arr = [];
                                             $linkView = "";
                                             $event = "";
-                                            if (strlen($model->request_uri) > 0 && $model->sender_id != 1) {
+                                            if (strlen($model->request_uri) > 0 && $model->sender_id != 1 && !empty($arr)) {
                                                 $arr = explode("/", $model->request_uri);
                                                 $linkView = "/" . $arr[1] . "/" . $arr[2];
                                                 if (count($arr) > 3) $event = substr($arr[3], 0, 6);
@@ -252,9 +251,9 @@ JS;
                                     <?php
                                     $searchModelWarehouse = new WarehouseSearch();
                                     //$warehouses = $searchModelWarehouse->getWarehouseListHeader();
-//                                    $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
-//                                        return $searchModelWarehouse->getWarehouseListHeader();
-//                                    });
+                                    //                                    $warehouses = Yii::$app->cache->getOrSet('warehouses', function () use ($searchModelWarehouse) {
+                                    //                                        return $searchModelWarehouse->getWarehouseListHeader();
+                                    //                                    });
                                     //todo: плохо работают куки, я их очищаю в браузере он мне все равно гонит склады главного юзера.
 
                                     foreach ($searchModelWarehouse->getWarehouseListHeader() as $warehouse) {
@@ -285,7 +284,7 @@ JS;
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
-                                <img src="https://st03.kakprosto.ru/tumb/680/images/article/2011/9/16/1_52552c35c5b0852552c35c5b46.png"
+                                <img src="/images/avatar.png"
                                      class="img-circle"
                                      alt="User Image"/>
 
@@ -294,16 +293,76 @@ JS;
                                     <small><?= Yii::$app->user->getIdentity()->role ?></small>
                                 </p>
                             </li>
+
+
+                            <!--                            --><?php /*var_dump($identity = \forma\modules\core\records\User::findOne(['username' => 'Ingello'])); */ ?>
                             <li class="user-footer">
                                 <!--<div class="pull-left">
                                   <a href="#" class="btn btn-default btn-flat">Профиль</a>
                                 </div>-->
+                                <?php
+                                $userId = Yii::$app->user->id;
+                                if ($userId == 1) {
+                                    Yii::$app->response->cookies->add(new \yii\web\Cookie([
+                                        'name' => 'Admin',
+                                        'value' => md5('goBack')
+                                    ]));
+                                    $users = \forma\modules\core\records\User::find()->all();
+                                    echo "<div style='overflow-y: scroll; max-height:200px;border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                    foreach ($users as $user) {
+                                        if ($user->isAdmin() != true)
+                                            echo Html::a(
+                                                $user->username,
+                                                [''],
+                                                ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
+                                            );
+                                    }
+                                    echo "</div>";
+//
+                                } else {
+                                    $users = \forma\modules\core\records\User::find()->where(['parent_id' => $userId])->all();
+                                    if ($users != []) {
+                                        echo "<div style='border: 2px dashed rgba(0,0,0,0.9) !important;border-radius: 10px;padding: 10px;margin-bottom: 15px;'><p style='text-align: center;font-weight: bold;'>Переключиться в аккаунт</p>";
+                                        foreach ($users as $user) {
+                                            if ($user->isAdmin() != true)
+                                                echo Html::a(
+                                                    $user->username,
+                                                    [''],
+                                                    ['style' => 'width:100%', 'data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'onclick' => "changeAccount($user->id,'$user->username')"]
+                                                );
+                                        }
+                                        echo "</div>";
+                                    }
+                                }
+
+
+                                ?>
+
+                                <div class="pull-left" style="width: 30%;">
+                                    <div id="google_translate_element" style="white-space: unset;"></div>
+                                </div>
+
                                 <div class="pull-right">
+
+
                                     <?= Html::a(
                                         'Выйти из системы',
                                         ['/logout'],
                                         ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                                     ) ?>
+                                </div>
+                                <div class="pull-right">
+
+
+                                    <?php
+                                    $cookies = Yii::$app->request->cookies->getValue('Admin');
+                                    if (Yii::$app->user->id !== 1 && isset($cookies)) {
+                                        echo Html::a(
+                                            'Переключиться назад',
+                                            ['/core/user/unimpersonate'],
+                                            ['data-method' => 'post', 'class' => 'btn btn-default btn-flat', 'style' => 'margin-top: 10px']
+                                        );
+                                    } ?>
                                 </div>
                             </li>
                         </ul>
@@ -326,12 +385,45 @@ JS;
     </header>
 
     <?php
-//$salesProgress = new SalesProgress();
     $salesProgress = Yii::$app->cache->getOrSet('salesProgress', function () {
         return new SalesProgress();
     });
     ?>
     <script>
+        $(document).ready(function () {
+            setTimeout(function go() {
+                $('div.skiptranslate.goog-te-gadget').children()[1].remove();
+                $('div.skiptranslate.goog-te-gadget')[0].lastChild.remove();
+
+                $('.goog-te-combo').addClass('btn btn-default btn-flat');
+                $('.goog-te-combo').css('height', '33.94px');
+                $('.goog-te-combo').css('margin', '0');
+            }, 3000);
+
+            let ulMobile = $('ul.dropdown-menu');
+            ulMobile.css('right', '0');
+        });
+
+        function changeAccount(id, username) {
+            let userId = id;
+            let userName = username;
+            let r = confirm("Вы уверены что хотите выйти со своего аккаунта и зайти в аккаунт ".concat(userName));
+            if (r == true) {
+                $.ajax({
+                    url: '/core/default/change-account',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        id: userId
+                    }
+                });
+
+            } else {
+                return false;
+            }
+
+        }
+
         var options = {
             scales: {
                 yAxes: [{
@@ -389,7 +481,7 @@ JS;
                   }, 250);
                   $('#info2').css('color', 'green');
               }, 500);
-              
+
               setTimeout(function() {
                 clearInterval(i);
                 $('#info2').css('color', 'blue');
@@ -423,12 +515,6 @@ JS;
 
         </h1>
 
-
-        <?php if (!empty($this->params['panel'])) : ?>
-            <div style="text-align: right;">
-                <?= $this->params['panel'] ?>
-            </div>
-        <?php endif ?>
 
     <?php endif ?>
 <?php } ?>

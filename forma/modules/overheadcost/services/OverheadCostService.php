@@ -73,7 +73,7 @@ class OverheadCostService
         $usdMainOverheadCost = static::getMainPurchaseOverheadCostsSum($unit->purchase) / $purchaseProductsCount;
         $mainOverheadCost = $usdMainOverheadCost / $unit->currency->rate;
 
-       return $result = $unitOverheadCost + $mainOverheadCost;
+        return $result = $unitOverheadCost + $mainOverheadCost;
     }
 
     protected static function getByTransitUnit(TransitProduct $unit)
@@ -85,8 +85,12 @@ class OverheadCostService
 
         if ($unit->overheadCost) {
             $currency = $module->getProductCurrency($unit->transit->fromWarehouse, $unit->product);
+
             $usdUnitOverheadCost = $unit->overheadCost->sum * $unit->overheadCost->currency->rate;
-            $unitOverheadCost += $usdUnitOverheadCost / $currency->rate;
+            if($currency){
+                $unitOverheadCost += $usdUnitOverheadCost / isset($currency->rate) ? $currency->rate : 1;
+            }
+
         }
 
         $transitProductsCount = TransitProduct::find()
@@ -96,9 +100,12 @@ class OverheadCostService
 
         $usdMainOverheadCost = static::getMainTransitOverheadCostsSum($unit->transit) / $transitProductsCount;
         $currency = $module->getProductCurrency($unit->transit->fromWarehouse, $unit->product);
-        $mainOverheadCost = $usdMainOverheadCost / $currency->rate;
+        if($currency){
+            $mainOverheadCost = $usdMainOverheadCost / isset($currency->rate) ? $currency->rate : 1;
+        }
 
-        return $unitOverheadCost + $mainOverheadCost;
+
+        return $unitOverheadCost + (($currency!=null)?$mainOverheadCost:0);
     }
 
     /**
@@ -115,8 +122,12 @@ class OverheadCostService
             ->all();
 
         $sum = 0;
+
         foreach ($purchaseOverheadCosts as $cost) {
-            $sum += $cost->overheadCost->sum * $cost->overheadCost->currency->rate;
+            if($cost->overheadCost->currency){
+                $sum += $cost->overheadCost->sum * $cost->overheadCost->currency->rate;
+            }
+
         }
 
         return $sum;

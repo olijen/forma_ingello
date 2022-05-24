@@ -4,6 +4,7 @@ namespace forma\modules\core\records;
 
 use forma\modules\warehouse\records\WarehouseUser;
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -58,6 +59,15 @@ class User extends \yii\db\ActiveRecord
             'access_token' => 'Access Token',
             'parent_id' => 'Реферал',
         ];
+    }
+
+    /**
+     * @return bool
+     * Метод проверки на администратора
+     */
+    public function isAdmin()
+    {
+        return ($this->email == 'admin@admin.admin') ? true : false;
     }
 
     /**

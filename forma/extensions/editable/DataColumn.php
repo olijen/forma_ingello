@@ -2,6 +2,7 @@
 
 namespace forma\extensions\editable;
 
+use ekaragodin\bootstrap\Slider;
 use Yii;
 use yii\grid\DataColumn as YiiDataColumn;
 use Closure;
@@ -227,7 +228,17 @@ class DataColumn extends YiiDataColumn
         $this->addInputOptions($options);
 
         $selectHtml = Html::dropDownList($this->_inputName, null, $list, $this->inputOptions);
-        $tdContent = $this->_tdContent ? $list[$this->_tdContent] : null;
+
+        if($this->_tdContent){
+            if(array_key_exists($this->_tdContent,$list)){
+                $tdContent = $list[$this->_tdContent];
+            }else{
+                $tdContent = null;
+            }
+        } else {
+            $tdContent = null;
+        }
+        //$tdContent = $this->_tdContent ? $list[$this->_tdContent] : null;
         return Html::tag('td', $tdContent .  $selectHtml, $this->_tdOptions);
     }
 

@@ -46,11 +46,8 @@ class TransitSearch extends Transit
      */
     public function search($params)
     {
-        $query = Transit::find()
-            ->joinWith(['fromWarehouse', 'fromWarehouse.warehouseUsers'], false, 'INNER JOIN')
-            ->where(['warehouse_user.user_id' => Yii::$app->user->id]);
-
-        // add conditions that should always apply here
+        $query = Transit::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -3,10 +3,10 @@
 namespace forma\modules\selling\records\talk;
 
 use forma\modules\core\records\User;
+use forma\modules\selling\records\talk\Request;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\selling\records\talk\Request;
 
 /**
  * RequestSearch represents the model behind the search form about `forma\modules\selling\records\talk\Request`.
@@ -42,10 +42,8 @@ class RequestSearch extends Request
      */
     public function search($params)
     {
-        $query = $this->createQuery();
-
-
-        // add conditions that should always apply here
+        $query = Request::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -69,28 +67,4 @@ class RequestSearch extends Request
         return $dataProvider;
     }
 
-    public function createQuery() {
-        $user = \Yii::$app->getUser()->getIdentity();
-        $ids = []; //$ids - это массив типа [1,2,3,4,5...]
-        $condition = '';
-
-        if ($user->parent_id != null) {
-            // Выбирает себя, реферера (начальника) и всех его рефералов (сотрудников)
-            $condition = "parent_id = {$user->parent_id} OR id = {$user->parent_id} OR id = {$user->id}";
-        } else {
-            // Выбирает себя (начальника, реферера) и всех рефералов.
-            $condition = "parent_id = {$user->id} OR id = {$user->id}";
-        }
-
-
-        foreach (User::find()->where($condition)->all() as $user) {
-            array_push($ids, $user->id);
-        }
-
-        $query = Request::find()->joinWith(['accessory'])
-            ->andWhere(['in', 'accessory.user_id', $ids])
-            ->andWhere(['accessory.entity_class' => Request::className()]);
-
-        return $query;
-    }
 }

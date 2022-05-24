@@ -41,6 +41,7 @@ class FieldValueSearch extends FieldValue
     public function search($params)
     {
         $query = FieldValue::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

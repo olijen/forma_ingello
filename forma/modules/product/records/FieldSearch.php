@@ -43,6 +43,7 @@ class FieldSearch extends Field
     public function search($params, $parentsCategoriesId = null)
     {
         $query = Field::find();
+        $this->access($query);
 
         // add conditions that should always apply here
 

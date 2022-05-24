@@ -9,6 +9,7 @@ use forma\modules\core\components\UserIdentity;
 use forma\modules\core\forms\LoginForm;
 use forma\modules\core\forms\SignupForm;
 use forma\modules\core\records\SystemEventSearch;
+use forma\modules\core\records\User;
 use forma\modules\core\records\WidgetUser;
 use forma\modules\hr\services\InterviewService;
 use forma\modules\product\services\ProductService;
@@ -28,21 +29,22 @@ class DefaultController extends Controller
 {
 
     const EVENT_AFTER_LOGIN = "eventAfterLogin";
+
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'confirm'],
+                'only' => ['index', 'confirm', 'auth', 'landing'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['confirm', 'index'],
+                        'actions' => ['confirm', 'index', 'auth', 'landing'],
                         'roles' => ['?'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => [ 'index'],
+                        'actions' => ['index','confirm','auth', 'landing'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -52,16 +54,14 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             $googleLink = $this->googleAuth();
             Yii::debug('зашли на туда регистрация');
             if (!Yii::$app->user->isGuest) {
                 return $this->goHome();
             }
 
-
             Yii::debug('зашли на туда регистрация');
-
 
             $modelLogin = new LoginForm();
             $loginLoad = $modelLogin->load(Yii::$app->request->post());
@@ -71,6 +71,12 @@ class DefaultController extends Controller
                     if ($modelLogin->login()) {
                         Yii::debug("trigger");
                         $this->trigger(self::EVENT_AFTER_LOGIN);
+                        //todo: ue special list from DB or configs
+                        if ($_REQUEST['LoginForm']['email'] == 'rakhiv@gmail.com') {
+                            return Yii::$app->response
+                                ->redirect('/hr/victim', 301)
+                                ->send();
+                        }
                         return $this->goBack();
                     } else if (!is_null($user) && $user->confirmed_email == 0) {
                         return Yii::$app->response
@@ -92,8 +98,21 @@ class DefaultController extends Controller
                 }
             }
 
-            Yii::$app->controller->layout = 'clear.php';
-            return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
+            Yii::$app->controller->layout = false;
+            if(isset($_SERVER['HTTP_REFERER'])){
+                $url = $_SERVER['HTTP_REFERER'];
+                if(isset(parse_url($url)['query'])){
+                    parse_str(parse_url($url)['query'], $params);
+                }
+            }
+            //TODO можно изменить на более правильный метод (сейчас топорный)
+            if (isset($_GET['without-header']) || isset($params['userId'])){
+            return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
+            }
+            if (isset($_GET['landing'])) {
+                return $this->render('landing', compact('model', 'modelLogin', 'googleLink'));
+            }
+            return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
         }
 
 
@@ -169,6 +188,77 @@ class DefaultController extends Controller
             'pages',
             'systemEventsRows'
         ));
+    }
+
+    public function actionLanding()
+    {
+        Yii::$app->controller->layout = false;
+        return $this->render('landing');
+    }
+
+    public function actionChangeAccount()
+    {
+        $identity = User::findOne(['id' => $_POST['id']]);
+        $currentUser = User::findOne(['id' => Yii::$app->user->id]);
+        $loginForm = new LoginForm();
+        $loginForm->setAttributes([
+            'email' => $identity->email
+        ]);
+        if ($identity->parent_id == Yii::$app->user->id || $currentUser->email == 'admin@admin.admin') {
+            if ($loginForm->getUser() != false) {
+                if ($loginForm->googleLogin()) {
+                    $this->trigger(self::EVENT_AFTER_LOGIN);
+                    return $this->goHome();
+                }
+            }
+        }
+    }
+
+    //todo: ВНИМАНИЕ!! Видимо этот метод не используется. Смотри Index
+    public function actionAuth()
+    {
+        if (Yii::$app->user->isGuest) {
+            $googleLink = $this->googleAuth();
+            Yii::debug('зашли на туда регистрация');
+            if (!Yii::$app->user->isGuest) {
+                return $this->goHome();
+            }
+
+            Yii::debug('зашли на туда регистрация');
+
+            $modelLogin = new LoginForm();
+            $loginLoad = $modelLogin->load(Yii::$app->request->post());
+            if (isset($_POST['login-button'])) {
+                $user = $modelLogin->getUser();
+                if ($loginLoad) {
+                    if ($modelLogin->login()) {
+                        Yii::debug("trigger");
+                        $this->trigger(self::EVENT_AFTER_LOGIN);
+                        return $this->goBack();
+                    } else if (!is_null($user) && $user->confirmed_email == 0) {
+                        return Yii::$app->response
+                            ->redirect('https://' . $_SERVER['HTTP_HOST'] . '/core/default/confirm', 301)
+                            ->send();
+                    } else {
+                        $_GET['failedLogin'] = true;
+                    }
+                }
+            }
+
+            $model = new SignupForm();
+            if (isset($_POST['signup-button'])) {
+                Yii::debug('зашли на туда регистрация');
+                if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+                    return $this->goHome();
+                } else {
+                    $_GET['failedSignup'] = true;
+                }
+            }
+
+            Yii::$app->controller->layout = false;
+            return $this->render('auth', compact('model', 'modelLogin', 'googleLink'));
+        }
+        return $this->goHome();
     }
 
     public function actionPeople()
@@ -297,7 +387,7 @@ class DefaultController extends Controller
             Yii::$app->user->identity->email_string = null;
             Yii::$app->user->identity->save();
             \yii\helpers\Url::remember();
-            //return 13234324;
+
             return $this->redirect('/core/regularity/regularity');
         }
     }

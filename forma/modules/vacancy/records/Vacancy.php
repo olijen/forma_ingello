@@ -4,11 +4,15 @@ namespace forma\modules\vacancy\records;
 
 use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
+use forma\modules\core\records\User;
 use forma\modules\hr\records\interview\Interview;
+use forma\modules\hr\records\interviewstate\InterviewState;
 use forma\modules\hr\records\interviewvacancy\InterviewVacancy;
 use forma\modules\project\records\project\Project;
 use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use Yii;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "vacancy".
@@ -25,6 +29,8 @@ use Yii;
  */
 class Vacancy extends AccessoryActiveRecord
 {
+    public $projectId;
+    public $stateId;
     /**
      * {@inheritdoc}
      */
@@ -70,7 +76,23 @@ class Vacancy extends AccessoryActiveRecord
     {
         return EntityLister::getList(self::className(), $byUser);
     }
+    public static function getListVacancyProject()
+    {
+        $user = \Yii::$app->getUser()->getIdentity();
 
+        $projectVacancies = ProjectVacancy::find()->joinWith(['accessory'])
+            ->andWhere(['accessory.user_id' => $user->getId()])
+            ->andWhere(['accessory.entity_class' => ProjectVacancy::className()])->all();
+        $projectVacancyData = [];
+        foreach ($projectVacancies as $projectVacancy) {
+            $projectVacancyData[] = [
+                'id' => $projectVacancy->id,
+                'vacancy_id' => $projectVacancy->vacancy_id,
+                'name' => $projectVacancy->vacancy->name . '|' . $projectVacancy->project->name
+            ];
+        }
+        return $projectVacancyData;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -95,7 +117,6 @@ class Vacancy extends AccessoryActiveRecord
         return $this->hasMany(Project::className(), ['id' => 'project_id'])->viaTable('project_vacancy', ['vacancy_id' => 'id']);
     }
 
-    
     /**
      * {@inheritdoc}
      * @return VacancyQuery the active query used by this AR class.

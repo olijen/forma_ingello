@@ -30,7 +30,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Lists all Patient models.
+     * Lists all Patient records.
      * @return mixed
      */
     public function actionIndex()

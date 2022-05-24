@@ -55,7 +55,12 @@ Pjax::begin(['id' => 'transit-form-pjax', 'enablePushState' => false, 'enableRep
             ])
                 ->dropDownList(Warehouse::getList(), ['prompt' => '']) ?>
         </div>
-
+        <?php
+        $modelToTransit = new Transit();
+        if(!empty($_GET['warehouse_id'])){
+            $model->to_warehouse_id = $_GET['warehouse_id'];
+        }
+        ?>
         <div class="col-md-6">
             <?= $form->field($model, 'to_warehouse_id', [
                 'feedbackIcon' => [

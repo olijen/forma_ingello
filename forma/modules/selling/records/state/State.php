@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\state;
 
+use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
 use forma\modules\core\records\User;
 use Yii;
@@ -16,7 +17,7 @@ use Yii;
  *
  * @property User $user
  */
-class State extends \yii\db\ActiveRecord
+class State extends yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}

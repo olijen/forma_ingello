@@ -75,7 +75,7 @@ if (Yii::$app->controller->action->id === 'login') {
     ]) ?>
 
     <?= Modal::widget([
-        'id' => 'select-modal-2',
+        'id' => 'main-sidebar',
         'header' => 'FORMA . INGELLO 2020',
     ]) ?>
 

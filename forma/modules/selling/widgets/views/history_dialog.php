@@ -8,7 +8,7 @@ use yii\helpers\Url;
 <style>
     #chat{
         overflow-x: scroll;
-        max-height: 150px;
+        height: 250px;
     }
 </style>
 
@@ -41,7 +41,8 @@ use yii\helpers\Url;
             'name' => 'comment',
             'settings' => [
                 'lang' => 'ru',
-                //'minHeight' => 300,
+                'minHeight' => 220,
+                'maxHeight' => 221,
                 'plugins' => [
                     'clips',
                     'fullscreen',
@@ -59,38 +60,43 @@ use yii\helpers\Url;
                 'fileManagerJson' => \yii\helpers\Url::to(['/worker/worker/files-get']),
                 'fileUpload' => \yii\helpers\Url::to(['/worker/worker/file-upload'])
             ],
+            'options' => ['style'=>'overflow-x: scroll;']
         ]);
         ?>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-12" style="padding: 0; width: 100%;">
 
-        <button type="submit" class="btn no-loader btn-success"><i class="fa fa-paper-plane"></i> Отправить</button>
+        <button style="width: 100%;" type="submit" class="btn no-loader btn-success"><i class="fa fa-paper-plane"></i> Отправить</button>
 
     </div>
 
     <?= Html::input('hidden', 'id', $model->id, ['rows' => 5]) ?>
+
     <?= Html::input('hidden', 'selling_token', isset($_GET['selling_token']) ? $_GET['selling_token'] : null) ?>
 
     <?= Html::endForm() ?>
 
     <script>
 
+
         var div = $("#chat");
 
         $('#history_form').on('submit', (e) => {
-            document.getElementsByClassName('redactor-editor')[0].textContent = '';
+            let date = new Date().toLocaleString();
+            document.getElementsByClassName('redactor-editor')[1].textContent = '';
             heightForScroll = div[0].scrollHeight;
             e.preventDefault();
+            let data = $(e.target).serialize()+'&date='+date;
             $.pjax({
-              type:'POST', 
+              type:'POST',
               url:'/selling/talk/comment-history',
               container:'#history_chat',
-              data:$(e.target).serialize(),
-              push: false,
-              replace: false,
-              timeout: 10000,
-              scrollTo: $('#chat').offset(),
+              data:data,
+              push:false,
+              replace:false,
+              timeout:10000,
+              scrollTo:$('#chat').offset(),
 
             }).done(function () {});
         });

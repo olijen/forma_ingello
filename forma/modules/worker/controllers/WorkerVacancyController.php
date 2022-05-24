@@ -30,7 +30,7 @@ class WorkerVacancyController extends Controller
     }
 
     /**
-     * Lists all WorkerVacancy models.
+     * Lists all WorkerVacancy records.
      * @return mixed
      */
     public function actionIndex()
@@ -112,6 +112,11 @@ class WorkerVacancyController extends Controller
     public function actionList()
     {
         return WorkerVacancy::getListWorker(Yii::$app->request->post());
+    }
+
+    public function actionVacanciesForWorker()
+    {
+        return (WorkerVacancy::getListVacanciesForWorker(Yii::$app->request->post()));
     }
 
     /**

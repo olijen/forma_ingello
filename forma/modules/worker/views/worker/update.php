@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
+/* @var $vacancyId integer */
 /* @var $model forma\modules\worker\records\Worker */
 
 $this->title = Yii::t('app', 'Редактировать кадр: ' . $model->name, [
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Редактировать');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'vacancyId' => $vacancyId,
     ]) ?>
 
 </div>

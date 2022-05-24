@@ -56,15 +56,14 @@ class ProductController extends Controller
     }
 
     /**
-     * Lists all Product models.
+     * Lists all Product records.
      * @return mixed
      */
     public function actionIndex()
     {
-
+        $product = new Product();
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         $renderVar = ['searchModel' => $searchModel,
                       'dataProvider' => $dataProvider,];
 
@@ -171,7 +170,7 @@ class ProductController extends Controller
             Product::deleteAll(['IN', 'id', $selection]);
         }
 
-        return $this->redirect('/product/product/index');
+        return $this->redirect('/selling/main/index');
     }
 
     /**
@@ -203,14 +202,13 @@ class ProductController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-
             $excel = $_FILES['excel']['tmp_name'];
             $importer = new ExcelImporter();
             $success = $importer->import($excel);
             $errors = $importer->getErrors();
             $warehouseId = $importer->getWarehouseId();
 
-            return json_encode(compact('success', 'errors', 'warehouseId'));
+            return json_encode(compact('success', 'errors', 'warehouseId','excel'));
         }
     }
 
@@ -276,5 +274,15 @@ class ProductController extends Controller
         }
 
         throw new ForbiddenHttpException;
+    }
+    public function actionDownloadExampleFile()
+    {
+        $path = \Yii::getAlias('@uploads') ;
+        $file = $path . '/example-product.xls';
+
+        if (file_exists($file)) {
+            return \Yii::$app->response->sendFile($file);
+        }
+        throw new \Exception('File not found');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace forma\modules\core\controllers;
 
+use forma\modules\core\components\UserIdentity;
 use Yii;
 use forma\modules\core\records\User;
 use forma\modules\core\records\UserSearch;
@@ -44,19 +45,19 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all User records.
      * @return mixed
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->identity->role == 'admin'){
+        if (Yii::$app->user->identity->role == 'admin') {
             $searchModel = new UserSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-        }else{
+        } else {
             throw new NotFoundHttpException();
         }
 
@@ -112,9 +113,32 @@ class UserController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionImpersonate($id)
+    {
+        $user = UserIdentity::findIdentity($id);
+        if ($user) {
+            Yii::$app->user->login($user);
+            return $this->redirect('all-users');
+
+        }
+
+    }
+
+    public function actionUnimpersonate()
+    {
+        if (Yii::$app->request->cookies->getValue('Admin') === md5('goBack')) {
+            $user = UserIdentity::findIdentity(1);
+            if ($user) {
+                Yii::$app->user->login($user);
+                return $this->redirect('/#');
+            }
+        }
+
+    }
+
+
     public function actionReferral()
     {
-
         $query = User::find()->where(['parent_id' => Yii::$app->user->id]);
         $searchModel = new UserSearch();
 
@@ -124,10 +148,28 @@ class UserController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        return $this->render('index',[
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $provider,
         ]);
+    }
+
+
+    public function actionAllUsers()
+    {
+        $currentUser = User::find()->where(['id' => Yii::$app->user->id])->one();
+
+        if ($currentUser->isAdmin()) {
+            $searchModel = new UserSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            return $this->redirect('referral');
+        }
     }
 
     /**

@@ -9,25 +9,99 @@ use yii\web\JsExpression;
 use forma\modules\core\widgets\CalendarWidget;
 use yii\bootstrap\Modal;
 use forma\extensions\fullcalendar;
+use yii\widgets\Pjax;
 
-
-\forma\modules\selling\assets\ScriptAsset::register($this);
-
+$date = date_create();
+$hash_for_event = date_timestamp_get($date);
+$hostInfo = Url::home(true);
 ?>
 
-<?php // \forma\components\widgets\ModalCreate::begin() ?>
 <style>
-    .bs-example {
-        margin-top: 0;
+    .btn-item-selected {
+        margin-left: 231px;
     }
-    .list-group {
+
+
+    .row {
+
+        margin-top: -10px;
+    }
+
+    .answer-grid-border {
+        border-bottom: 1px solid #000000;
+        border-right: 1px solid #000000 ;
+        min-height: 1.5em !important;
+    }
+
+    .answer-grid-border:nth-child(n+1){
+        background-color: #00CC00;
+        opacity: 0.2;
+    }
+
+
+    .answer-grid-border:nth-child(n+2){
+        background-color: #00CC00;
+        opacity: 0.2;
+    }
+
+
+
+    .answer-grid-border:nth-child(n+3){
+        background-color: #00CC00;
+        opacity: 0.2;
+    }
+
+    .header-item {
+        display: none;
+    }
+
+
+    .text-answer {
+        padding-top: 5%;
+    }
+
+    .close-item {
+        position: absolute;
+        right: 14px;
+        color: #d9534f;
+        top: -1.7px;
+        font-size: 24px;
+        border-color: #d43f3a;
+    }
+
+    .parent-list {
+        overflow: auto;
+        width: 100%;
+        height: 520px;
+    }
+
+    .hidden-block-selected {
+        display: none;
+        width: 100%;
         height: auto;
-        padding: 3px 0;
     }
-    h3.text-white {
-        color: white;
-        margin: 0;
-        padding-top: 20px;
+
+    .request-answer {
+        margin-top: 5%;
+        /*border: 2px solid #00a65a !important;*/
+    }
+
+    .list-request-answer {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .search-answer {
+        padding-bottom: 4%;
+    }
+
+    .header-list {
+        background-color: #00a65a;
+        width: 100%;
+        padding-bottom: 3%;
+    }
+
+    .header-name {
+        font-size: 14px;
     }
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -47,9 +121,9 @@ use forma\extensions\fullcalendar;
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <ul class="list-group parent-list">
-                                <?php foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
-                                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
+                                <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager == 1) continue; ?>
+                                    <li style="cursor: pointer;" id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item-one">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" disabled>
                                         <?= $request->text ?>
                                         <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
                                     </li>
@@ -64,6 +138,7 @@ use forma\extensions\fullcalendar;
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -79,9 +154,9 @@ use forma\extensions\fullcalendar;
                     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                         <div class="panel-body">
                             <ul class="list-group parent-list">
-                                <?php foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
-                                    <li id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item">
-                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value=""   disabled>
+                                <?php if(!empty($model)): foreach ($model as $request ): if ($request->is_manager != 1) continue; ?>
+                                    <li style="cursor: pointer;" id="<?= $request->id ?>" class="list-group-item d-flex justify-content-between align-items-center selected-item-two">
+                                        <input id ="checkbox_<?= $request->id ?>" class="form-check-input checkbox-item" type="checkbox" value="" disabled>
                                         <?= $request->text ?>
                                         <span class="badge badge-primary badge-pill"><?=\forma\modules\selling\services\AnswerService::getCountAnswer($request)?></span>
                                     </li>
@@ -96,6 +171,7 @@ use forma\extensions\fullcalendar;
                                         </ul>
                                     </div>
                                 <?php endforeach; ?>
+                                 <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -151,14 +227,6 @@ use forma\extensions\fullcalendar;
 
         </div>
 
-        <form id="custom-answer" action="/selling/talk/end-talk" name="end-talk" method="post">
-            <input id="sellingId" type="hidden" value="<?=$sellingId?>" name="endTalk">
-            <ul class="list-group" id="no-usage-list">
-
-            </ul>
-            <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>">
-
-        </form>
         <div class="row">
             <div class="col-xs-6">
             <label for="next_step">Следуйщий шаг</label>
@@ -177,6 +245,10 @@ use forma\extensions\fullcalendar;
                         'id' => 'mBut',
                         'onclick' => 'next()',
                     ],
+                    'closeButton' =>[
+                            'onClick' =>'findHash();',
+                            'id' => 'hash',
+                        ]
                 ]); ?>
 
         </div>
@@ -186,7 +258,7 @@ use forma\extensions\fullcalendar;
             function next() {
                 return false;
                 alert(1);
-              let next = document.getElementById("next_step").value;
+              let next = $("#next_step").val();
                 step.textContent= next;
                 inputValue = next;
             }
@@ -212,21 +284,21 @@ $("document").ready(function(){
 });
 
 
-function editEvent(event)
+function editEvent(event,start)
 {
     var ServerMapper;
     if (event.title) {
         serverMapper = {
             'Event[name]': event.title,
             'Event[text]': event.title,
-            'Event[date_from]': event.start.format("YYYY-MM-DD"),
-            'Event[date_to]': event.end.format("YYYY-MM-DD"),
+            'Event[date_from]': event.start.format('DD.MM.YYYY'),
+            'Event[date_to]': event.end.format('DD.MM.YYYY'),
             'Event[start_time]': event.start.format("hh:mm:ss"),
             'Event[end_time]': event.end.format("hh:mm:ss"),
             'Event[event_type_id]': 1,
             'Event[status]': 1,
         }
-        $.post( "/event/event/update?json&id="+event.id, serverMapper, function( data ) {
+        $.post( "/event/event/update?json&id="+event.id+'&date_from='+start.format('DD.MM.YYYY'), serverMapper, function( data ) {
           console.log('Сервер сохранил событие');
         }).fail(function() {
           console.log("Внутренняя ошибка");
@@ -248,8 +320,8 @@ function createEvent(start, end, title)
         serverMapper = {
             'Event[name]': title,
             'Event[text]': title,
-            'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
-            'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
+            'Event[date_from]': start.format('DD.MM.YYYY'),
+            'Event[date_to]': end.format('DD.MM.YYYY'),
             'Event[start_time]': $.fullCalendar.formatDate(start,"H:m:s"),
             'Event[end_time]': $.fullCalendar.formatDate(end,"H:m:s"),
             'Event[event_type_id]': 4,
@@ -270,11 +342,9 @@ JS;
         $JSCode = <<<JS
 
 function(start, end) {
-    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('YYYY-MM-DD')+
-    '&date_to='+end.format('YYYY-MM-DD')+
-    '&start_time='+start.format('H:m:ss')+
-    '&end_time='+end.format('H:m:ss')+
-    '&name='+[inputValue]);
+    let inputNext = $("#next_step").val().replaceAll(/ +/g, ' ').trim().replaceAll(" ",'%20').replaceAll(" ",'%20').replaceAll(/\?/g,'%3f');
+    let url = '/event/event/create?date_from='+start.format('DD.MM.YYYY')+'&date_to='+end.format('DD.MM.YYYY')+'&start_time='+start.format('H:m:ss')+'&end_time='+end.format('H:m:ss')+'&name='+inputNext+'&selling_id='+$sellingId+'&hash='+$hash_for_event;
+    $('#modal .modal-dialog .modal-content .modal-body').load(url);
     $('#modal').modal();
     
 
@@ -315,10 +385,7 @@ JS;
         ?>
 
         <script>
-            var small_widgets_in_block = [];
-        </script>
 
-        <script>
             function smallWidget() {
                 small_widgets_in_block = [];
                 var num = $('#panel_small_widget').children('li').length;
@@ -333,8 +400,6 @@ JS;
                     $('.small_widget').find('.big_widget_header').css('display', 'none');
 
                 }
-
-
             }
         </script>
 
@@ -490,7 +555,7 @@ JS;
                             <li><a href="#">Добавить новое событие</a></li>
                             <li><a href="#">Очистить события</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Смотреть календарь</a></li>
+                            <li><a href="#">Смотреть календарь <?php echo $sellingId?></a></li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-warning btn-sm"  data-widget="collapse"><i
@@ -501,7 +566,7 @@ JS;
             </div>
 
             <div class="box-body no-padding">
-                <?= yii2fullcalendar::widget([
+                <?= \yii2fullcalendar\yii2fullcalendar::widget([
                     'clientOptions' => [
                         'header' => [
                             'left' => 'prev,next today',
@@ -509,17 +574,18 @@ JS;
                             'right' => 'month,agendaWeek,listWeek,timelineDay,agendaDay'
                         ],
                         'nowIndicator' => true,
-                        'eventLimit' => true,
+                        'eventLimit' => false,
                         'selectable' => true,
                         'selectHelper' => true,
+                        'selectLongPressDelay' => 1000,
                         'droppable' => true,
                         'editable' => true,
                         'select' => new JsExpression($JSCode),
                         'eventClick' => new JsExpression($JSEventClick),
                         'eventResize' => new JsExpression($JSEventResize),
                         'eventDrop' => new JsExpression($JSEventDrop),
-                        'defaultDate' => date('Y-m-d'),
                         'defaultView' => $_GET['defaultView'] ?? 'month',
+                        'timeFormat'=> 'h:mm',
                     ],
                     'events' => Url::to(['/event/event/jsoncalendar'])
                 ]);
@@ -540,15 +606,18 @@ JS;
 
         <div class="row" style="margin-top: 10px">
             <div class="col-xs-12">
-            <a href="/selling/form" class="btn btn-success btn-lg btn-block" type="submit" id="end-talk">
-                Завершить разговор
-            </a>
+                <button style="visibility: hidden" class="btn btn-success btn-lg btn-block" id="end_talk">
+                    Завершить разговор
+                </button>
             </div>
         </div>
         <?php ActiveForm::end()?>
         <?php DetachedBlock::end(); ?>
     </div>
 </div>
+<script>
+
+</script>
 <script>
     mBut.onclick = function (e) {
         if (next_step.value === '') {
@@ -557,5 +626,207 @@ JS;
             return false;
         }
     }
+
+    hash.onclick = function (e) {
+        $.ajax({
+            url: '/hash',
+            type: 'POST',
+            dataType: 'JSON',
+            data: '',
+            success: function (data) {
+                results = $.map(data, function (entry) {
+                    if (entry.hash_for_event == <?php echo $hash_for_event?>)
+                        return true;
+                });
+                if (results == 'true') {
+                    document.getElementById('end_talk').style.visibility = 'visible';
+                }
+                //alert(results);
+            },
+            error: function (errormessage) {
+
+                //do something else
+                alert("not working");
+
+            }
+        });
+    }
+
+    $(function (){
+        $(document).ready(function() {
+
+            window.dialog = [];
+
+            function setStorageDialog(dialog) {
+                localStorage.setItem('dialog', JSON.stringify(dialog));
+            }
+
+            function getStorageDialog() {
+                return  JSON.parse(localStorage.getItem('dialog'));
+            }
+
+            function actionCheckbox(id) {
+                $('#checkbox_'+id).attr('checked', 'checked');
+                $('#children_'+ id).toggle('slow');
+
+                $('#'+id).off();
+            }
+
+            function formActives(mode = null) {
+                if (mode === 'off') {
+                    $('form').submit(function() {
+                        return false;
+                    });
+                } else {
+                    $('form').submit(function() {
+                        return true;
+                    });
+                }
+            }
+
+            function replaceSpaсe(request) {
+                return request.replace(/[0-9]/g, '');
+            }
+
+            function getRequest(request) {
+                return replaceSpaсe($('#'+request).text())
+            }
+
+            function getAnswer(answerId) {
+                if ( $('#'+answerId).text() === ''){
+                    return $('#'+answerId).val();
+                } else {
+                    return $('#'+answerId).text();
+                }
+
+            }
+
+            function getComment() {
+                let comment = $('#'+ $('#sellingId').val() + '_comment' ).val();
+
+                return '<div style="background: mediumseagreen;" class="alert alert-primary" role="alert">' + comment + '</div>';
+            }
+
+            function getDialog() {
+                let dialog = '';
+                $.each(getStorageDialog(), function (index, value, is_client) {
+                    if (value[1] !== 0) {
+                        dialog += '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">' + ((value[2] == 1) ? 'Клиент' : 'Менеджер') + ': <p>' + getRequest(value[0])
+                            + '</p></div>' +
+                            '<div style="background: #c5ddfc;" class="alert alert-primary" role="alert">' + ((value[2] == 1) ? 'Менеджер' : 'Клиент') + ': <p>' + getAnswer(value[1]) + '</p></div>';
+                    } else {
+                        return alert('Дайте ответ на вопрос' + getRequest(value[0]))
+                    }
+                });
+
+                return dialog;
+            }
+
+            function setDialogToArray(requestId, answerId, is_client ) {
+                if (is_client === undefined) is_client = 1;
+                if (answerId === undefined){
+                    window.dialog.push([requestId, 0, is_client]);
+                    setStorageDialog(window.dialog);
+                } else {
+                    window.dialog.push([requestId, answerId, is_client]);
+                    setStorageDialog(window.dialog);
+                }
+
+                actionCheckbox(requestId);
+            }
+
+            function getNextStep() {
+                if ($('#next_step').val() === '') {
+                    return false;
+                } else {
+                    return '<div style="background: yellowgreen;" class="alert alert-primary" role="alert">' + $('#next_step').val() + '</div>';
+                }
+            }
+
+            $('.selected-item-one')
+                .on('click', function () {
+                    let id = $(this).attr('id');
+                    $('#children_'+ id).toggle('slow');
+
+                })
+                .on('mouseover', function () {
+                    $(this).addClass('active');
+                })
+                .on('mouseout', function () {
+                    $(this).removeClass('active')
+                });
+
+            $('.selected-item-two')
+                .on('click', function () {
+                    let id = $(this).attr('id');
+                    $('#children_'+ id).toggle('slow');
+
+                })
+                .on('mouseover', function () {
+                    $(this).addClass('active');
+                })
+                .on('mouseout', function () {
+                    $(this).removeClass('active')
+                });
+
+            $('.text-answer').on('click', function(){
+
+                let requestId = $(this).attr('data-request');
+                let answerId = $(this).attr('id');
+                let is_client = $(this).attr('data-client');
+
+                setDialogToArray(requestId, answerId, is_client);
+                getDialog();
+            });
+
+            $('.no-usage-btn').on('click', function () {
+                let requestId = $(this).attr('data-requset-no-useg');
+                $('#no-usage-list').append("<li class='list-group-item' >"
+                    + getRequest(requestId) +
+                    "ваш ответ "
+                    +
+                    "<input type='text'  class='no-usage-input'  data-id-request= "+ requestId +" ></li>" );
+                $('.no-usage-input').on('change', saveCustom);
+                setDialogToArray(requestId, undefined, $(this).attr('data-client'));
+
+
+            });
+            function sendAnswer(requestId, input) {
+                return $.ajax({
+                    url: 'talk/save-custom-answer',
+                    data: {
+                        requestId: requestId,
+                        answer: input.val()
+                    }
+                });
+            }
+
+            function saveCustom() {
+                let dialog = getStorageDialog();
+                let requestId = $(this).attr("data-id-request");
+                let inpt = $(this);
+                $.each(dialog, function (index, value) {
+                    if (requestId === value[0]) {
+                        let data = sendAnswer(requestId, inpt);
+                        data.success(function (id) {
+                            inpt.attr('id', 'children_item_'+id);
+                            dialog[index][1] = 'children_item_'+id;
+                            setStorageDialog(dialog);
+                        });
+                    }
+                });
+            }
+
+
+            $('#end_talk').on('click', function () {
+                $.ajax({
+                    url: '/selling/talk/save-dialog-answer',
+                    type: 'POST',
+                    data: {dialog: getDialog(), sellingId: <?= $sellingId ?>}
+                });
+                localStorage.clear();
+            });
+        });
+
+    })
 </script>
-<?php  // \forma\components\widgets\ModalCreate::end() ?>

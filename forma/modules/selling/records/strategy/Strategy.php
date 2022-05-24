@@ -4,6 +4,8 @@ namespace forma\modules\selling\records\strategy;
 
 use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
+use forma\modules\selling\records\requeststrategy\RequestStrategy;
+use forma\modules\selling\records\talk\Request;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -34,6 +36,7 @@ class Strategy extends AccessoryActiveRecord
     {
         return [
             [['name', 'description'], 'string'],
+            [['is_selling'], 'boolean'],
         ];
     }
 
@@ -46,6 +49,7 @@ class Strategy extends AccessoryActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Название'),
             'description' => Yii::t('app', 'Описание'),
+            'is_selling' => Yii::t('app', 'Тип'),
         ];
     }
 
@@ -56,8 +60,9 @@ class Strategy extends AccessoryActiveRecord
 
     public static function getListWithoutEmptyStrategy($byUser = null)
     {
-        $query = EntityLister::getListQuery(self::className(), $byUser);
-        $query->innerJoin('request_strategy', 'strategy.id = request_strategy.strategy_id');
+        $query = \forma\modules\hr\records\strategy\Strategy::find()->joinWith(['accessory'])
+            ->andWhere(['accessory.user_id'=> Yii::$app->user->id])
+            ->andWhere(['accessory.entity_class' => Strategy::className()]);
         return ArrayHelper::map($query->all(), 'id', 'name');
     }
 

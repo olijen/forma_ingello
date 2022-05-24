@@ -4,7 +4,7 @@ namespace forma\extensions\fullcalendar\models;
 
 /**
  * Class Event
- * @package edofre\fullcalendarscheduler\models
+ * @package edofre\fullcalendarscheduler\records
  */
 class Event extends CalendarModel
 {

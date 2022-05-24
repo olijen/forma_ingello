@@ -241,27 +241,6 @@
 
 </div>
 
-<script src="https://cpwebassets.sfo2.cdn.digitaloceanspaces.com/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
-
-
-<script id="rendered-js">
-    /*
-    Simple loading spinners animated with CSS. All in one page!
-    Slightly modified from https://github.com/tobiasahlin/SpinKit
-    */
-    //# sourceURL=pen.js
-</script>
-
-
-
-
-
-
-
-</body>
-
-
-
 <script>
 
     wordsArray = [
@@ -274,7 +253,11 @@
         '<i class="big-round-icon fa fa-user-tag"></i> Назначаем людей на выдуманные должности...',
         '<i class="big-round-icon fa fa-truck"></i> Проводим первую пробную закупку...',
     ];
+
     let i = 0;
+    let indexImage = 0;
+    let imageArray = ['load-data-1.jpg', 'load-data-2.jpg', 'load-data-3.jpg', 'load-data-4.jpg', 'load-data-5.jpg',
+        'load-data-6.jpg', 'load-data-7.jpg', 'load-data-8.jpg', 'load-data-9.jpg'];
 
     let t = setInterval(function () {
         $('#preloader_text').animate({left: '-3000px'}, 500, () => {
@@ -283,21 +266,31 @@
             if (i == wordsArray.length) i = 0;
             $('#preloader_text').css({left: '3000px'});
             $('#preloader_text').animate({left: '0%'}, 500);
+
+            $('body').attr('style', 'background: url(' + '/images/' + imageArray[indexImage] + ') !important; background-size: cover!important;');
+
+            indexImage++;
+            if (imageArray.length <= indexImage) {
+                indexImage = 0;
+            }
         });
     }, 3000);
 
-
-
-    //alert(1);
     document.addEventListener("DOMContentLoaded", function(event) {
         $.ajax({
             type: 'get',
             url: 'core/default/test-data',
             data: '',
-            success: function (mmessage) {
-
+            success: function (message) {
+                //todo: clear interval "t" if time is go
+                alert('Поздравляем! Ваш профиль успешно заполнен тестовыми данными!')
             },
             error: function (request, status, error) {
+                if (request.status == 302) {
+                    alert('Поздравляем! Ваш профиль успешно заполнен тестовыми данными!')
+                } else {
+                    alert('ОШИБКА: ' + JSON.stringify(request));
+                }
             }
         })
     });
@@ -323,7 +316,7 @@
     }
 
     body {
-        background: url('/images/loaddata.jpg') !important;
+        background: url('/images/load-data-9.jpg') !important;
         background-size: cover!important;
     }
 </style>

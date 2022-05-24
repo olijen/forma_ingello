@@ -2,10 +2,14 @@
 
 namespace forma\modules\vacancy\controllers;
 
+use forma\modules\hr\records\interviewstate\InterviewState;
+use forma\modules\project\records\project\Project;
+use forma\modules\project\records\projectvacancy\ProjectVacancy;
 use Yii;
 use forma\modules\vacancy\records\Vacancy;
 use forma\modules\vacancy\records\VacancySearch;
 use forma\components\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -31,7 +35,7 @@ class VacancyController extends Controller
     }
 
     /**
-     * Lists all Vacancy models.
+     * Lists all Vacancy records.
      * @return mixed
      */
     public function actionIndex()
@@ -57,10 +61,27 @@ class VacancyController extends Controller
         if (Yii::$app->request->isAjax) {
             $this->layout = '@app/modules/core/views/layouts/modal';
         }
-
+        Url::remember([Yii::$app->request->url],'vacancy');
+        $projectVacancies = ProjectVacancy::find()->where(['vacancy_id' => (int)$id])->all();
+        $projects = [];
+        foreach ($projectVacancies as $projectVacancy) {
+            $projects[] = $projectVacancy->project;
+        }
+        if (Yii::$app->request->post('Vacancy')) {
+            $interviewStateWorkerItems = InterviewState::getItems(Yii::$app->request->post('Vacancy')['projectId'], $id);
+            return $this->render('view', [
+                    'model' => $this->findModel($id),
+                    'projects' => $projects,
+                    'interviewStateWorkerItems' => $interviewStateWorkerItems,
+                ]
+            );
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+            'projects' => $projects,
+            'interviewStateWorkerItems' => [],
+            ]
+        );
     }
 
     /**
@@ -68,6 +89,20 @@ class VacancyController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    public function actionViewVacancyProject($id)
+    {
+        if (Yii::$app->request->isAjax) {
+            $this->layout = '@app/modules/core/views/layouts/modal';
+            $projectVacancy = ProjectVacancy::find()->where(['id' => $id])->one();
+            $project = $projectVacancy->project;
+            return $this->render('@app/modules/vacancy/views/vacancyProject/view', [
+                    'model' => $this->findModel($projectVacancy->vacancy_id),
+                    'project' => $project
+                ]
+            );
+        }
+
+    }
     public function actionCreate()
     {
         if (Yii::$app->request->isAjax) {

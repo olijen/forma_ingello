@@ -41,8 +41,7 @@ class StateSearch extends State
     public function search($params)
     {
         $query = State::find();
-
-        // add conditions that should always apply here
+        $query->where(['user_id' => Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

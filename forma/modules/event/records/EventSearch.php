@@ -2,10 +2,8 @@
 
 namespace forma\modules\event\records;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use forma\modules\event\records\Event;
 
 /**
  * EventSearch represents the model behind the search form about `forma\modules\event\records\Event`.
@@ -19,7 +17,7 @@ class EventSearch extends Event
     {
         return [
             [['id', 'event_type_id', 'status'], 'integer'],
-            [['name', 'text', 'date_from', 'date_to', 'start_time','end_time'], 'safe'],
+            [['name', 'text', 'date_from', 'date_to', 'start_time','end_time','selling_id'], 'safe'],
         ];
     }
 
@@ -47,7 +45,6 @@ class EventSearch extends Event
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
 
 
@@ -65,6 +62,7 @@ class EventSearch extends Event
             'date_to' => $this->date_to,
             'start_time' => $this->start_time,
             'end_time'=>$this->end_time,
+            'selling_id'=>$this->selling_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

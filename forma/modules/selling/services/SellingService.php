@@ -40,41 +40,25 @@ class SellingService
     public static function save($id, $post)
     {
         $model = self::get($id);
+        if ($model->warehouse_id != $post['Selling']['warehouse_id']) {
+            NomenclatureService::deleteAllBySelling($model->id);
+        }
         $model->selling_token = $model->selling_token ?? Yii::$app->getSecurity()->generateRandomString();
         if (Yii::$app->user->isGuest && Yii::$app->controller->action->id == 'test') {
             $model->tmpUserId = $post['Selling']['tmpUserId'];
         }
 
-        $userId = $model->tmpUserId??Yii::$app->user->id;
-
-        $state_id = State::find()
-            ->where(['user_id'=> $userId])
-            ->orderBy('order')
-            ->one()
-            ->id;
-        $model->state_id = $state_id;
-
         if (!$model->isNewRecord) {
             $warehouseId = $model->warehouse_id;
         }
 
-        $userState = State::find()
-            ->where(['user_id' => Yii::$app->user->getId()])
-            ->orderBy('order')
-            ->one();
-
-        if ($userState) {
-            $model->state_id = $userState->id;
-        }
+        $model->name .= strval(time());
 
         $model->load($post);
         if (!$model->save()) {
             var_dump($model->getErrors());
             die;
         }
-
-        $model->name .= strval($model->id);
-        $model->save();
 
         if (isset($warehouseId) && $model->warehouse_id != $warehouseId) {
             NomenclatureService::deleteAllBySelling($model->id);
@@ -95,9 +79,8 @@ class SellingService
     public static function getCompleteCount()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Selling::find()->where(['customer_id' => 15 ]),
+            'query' => Selling::find()->where(['customer_id' => 15]),
         ]);
-
 
 
         return (new SellingSearch())->search([])->getTotalCount();
@@ -161,8 +144,6 @@ class SellingService
     }
 
 
-
-
     // todo: Вынести в виджет
     public static function getTotalSum(Selling $selling)
     {
@@ -175,20 +156,23 @@ class SellingService
 
     public static function getSellingProgress()
     {
-        
+
         $sellingProgress = new SalesProgress();
         return $sellingProgress;
     }
+
     // todo: Вынести в виджет
 
 
-    public static function getLastClientsToHeader(){
+    public static function getLastClientsToHeader()
+    {
         $searchModelClientsHeader = self::search();
         $clientsHeader = $searchModelClientsHeader->searchLastClients();
         return $clientsHeader;
     }
 
-    public static function getSellingInWeek(){
+    public static function getSellingInWeek()
+    {
         $searchModel = self::search();
         $weekly = $searchModel->weeklySales();
 
@@ -208,7 +192,8 @@ class SellingService
         return $week;
     }
 
-    public static function getSellingInWarehouse(){
+    public static function getSellingInWarehouse()
+    {
         $searchModel = self::search();
         $sellingInWarehouse = $searchModel->salesInWarehouse();
         return $sellingInWarehouse;

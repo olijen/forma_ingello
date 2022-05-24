@@ -2,6 +2,8 @@
 
 namespace forma\modules\worker\records;
 
+use forma\components\AccessoryModule;
+
 /**
  * This is the ActiveQuery class for [[Worker]].
  *
@@ -20,6 +22,12 @@ class WorkerQuery extends \yii\db\ActiveQuery
      */
     public function all($db = null)
     {
+        return parent::all($db);
+    }
+
+    public function allAccessory($db = null)
+    {
+        $this->andWhere(['in', 'worker.id', AccessoryModule::getAccessoryIdS($this->modelClass)]);
         return parent::all($db);
     }
 

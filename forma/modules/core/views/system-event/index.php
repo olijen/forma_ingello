@@ -126,13 +126,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     foreach(Yii::$app->params['colors'] as $app => $colorValue) {
                         if($model->application == $app) $color = $colorValue;
                     }
+
                     $arr = [];
                     $linkView = "";
-                    Yii::debug($model);
-                    if(strlen($model->request_uri) > 0 && $model->sender_id >= 1) {
-                        $arr = explode("/", $model->request_uri); $event = ""; Yii::debug($arr);
-                        $linkView = "/" . $arr[1] . "/" . $arr[2];
-                        if(count($arr) > 3)$event = substr($arr[3], 0, 6);
+
+                    if (strlen($model->request_uri) > 0 && $model->sender_id >= 1) {
+                        $arr = explode("/", $model->request_uri);
+                        $event = "";
+
+                        if (isset($arr[1]) && isset($arr[2])) {
+                            $linkView = "/" . $arr[1] . "/" . $arr[2];
+                        }
+
+                        $linkView = "/";
+
+                        if (count($arr) > 3) {
+                            $event = substr($arr[3], 0, 6);
+                        }
                     }
 
 

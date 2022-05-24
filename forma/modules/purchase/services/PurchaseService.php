@@ -122,8 +122,9 @@ class PurchaseService
 
         if (!$model->save()) {
             var_dump($model->getErrors());
+            die;
         }
-        echo $model->getState()->getName();
+        
         return $model;
     }
 
@@ -133,6 +134,7 @@ class PurchaseService
         $model->applyState(new StateDeny());
         if (!$model->save()) {
             var_dump($model->getErrors());
+            die;
         }
         return $model;
     }
@@ -144,6 +146,7 @@ class PurchaseService
 
         if (!$model->save()) {
             var_dump($model->getErrors());
+            die;
         }
 
         return $model;
@@ -156,6 +159,7 @@ class PurchaseService
 
         if (!$model->save()) {
             var_dump($model->getErrors());
+            die;
         }
 
         return $model;

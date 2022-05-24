@@ -8,6 +8,7 @@ class DetachedBlock extends Widget
 {
     public $header = false;
     public $example = 'Блок';
+    public   $style ='';
 
     protected $_title = '';
 
@@ -23,6 +24,7 @@ class DetachedBlock extends Widget
             'content' =>  ob_get_clean(),
             'header' => $this->header,
             'example' => $this->example,
+            'style' => $this->style,
         ]);
     }
 }

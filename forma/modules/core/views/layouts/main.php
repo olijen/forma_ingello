@@ -1,11 +1,8 @@
 <?php
 
-use yii\helpers\Url;
-use yii\helpers\Html;
-use keygenqt\autocompleteAjax\AutocompleteAjax;
-use forma\modules\product\records\Product;
 use dmstr\helpers\AdminLteHelper;
 use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -75,12 +72,21 @@ if (Yii::$app->controller->action->id === 'login') {
         <!-- todo: Перенести в зависимости -->
         <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
 
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
         <?php if (!isset($_GET['without-header'])) :
             Yii::debug('JIVO SITE');
 
             ?>
             <!-- BEGIN JIVOSITE CODE {literal} -->
             <script type='text/javascript'>
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement(
+                        {pageLanguage: "ru", includedLanguages: "uk,en"},
+                        "google_translate_element"
+                    );
+                }
+
                 (function () {
                     var widget_id = 'OG66j2R9YL';
                     var d = document;
@@ -232,13 +238,30 @@ JS;
         ?>
 
         <style>
+            .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon {
+                display: none !important;
+            }
+            body {
+                top: 0px !important;
+            }
+            .goog-tooltip {
+                display: none !important;
+            }
+            .goog-tooltip:hover {
+                display: none !important;
+            }
+            .goog-text-highlight {
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
 
             .table-striped > tbody > tr:hover * {
                 background-color: <?php echo $bgColor ?> !important;
                 color: <?php echo $color?> !important;
             }
 
-            .info-box, .box, .form-control, .redactor-box,
+            .info-box, .box, .redactor-box,
             .navbar, .navbar-static-top, .main-sidebar, .btn, s .select2-selection {
                 box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), 1px 1px 3px rgba(0, 0, 0, 0.22) !important;
                 border-radius: 2px !important;
@@ -311,14 +334,6 @@ JS;
             }
 
             ]
-            ::-webkit-scrollbar-track {
-                border-width: 0;
-            }
-
-            ::-webkit-scrollbar-track:hover {
-                border-left: solid 1px<?php echo $bgColor ?>;
-                background-color: <?php echo $bgColor ?>;
-            }
 
             .container-fluid {
                 padding: 0;
@@ -384,7 +399,10 @@ JS;
                     width: 100% !important;
                 }
             }
-
+            @media screen and (max-width: 500px) {
+                #fs {display: none}
+                #bs {display: none}
+            }
             .breadcrumb {
                 display: none !important;
             }
@@ -557,9 +575,11 @@ JS;
             });
 
         }
+        $('li.menuColor.treeview').click(function (event) {
+            $('.treeview-menu').css('height', 'auto');
+        });
     </script>
     <?php $this->endBody() ?>
-
     </body>
     <?php Yii::debug(Yii::$app->params['globalQueries']); ?>
     <?php Yii::debug('globalQueries'); ?>

@@ -41,12 +41,8 @@ class CategorySearch extends Category
      */
     public function search($params)
     {
-        $query = Category::find()
-            ->joinWith(['accessory'])
-            ->andWhere(['accessory.user_id' => Yii::$app->getUser()->getIdentity()->getId()])
-            ->andWhere(['accessory.entity_class' => Category::className()]);
-
-        // add conditions that should always apply here
+        $query = Category::find();
+        $this->access($query);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

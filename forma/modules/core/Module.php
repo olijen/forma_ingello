@@ -34,10 +34,21 @@ class Module extends \yii\base\Module
 
         Yii::debug($_SERVER['REQUEST_URI']);
         Yii::debug(strpos($_SERVER['REQUEST_URI'], '/core/default/confirm'));
-        if ($_SERVER['REQUEST_URI'] == '/login' || $_SERVER['REQUEST_URI'] == '/core/site/landing' || $_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/signup' || strpos($_SERVER['REQUEST_URI'], '/core/default/confirm') !== false) {
+        if (
+            $_SERVER['REQUEST_URI'] == '/login' ||
+            $_SERVER['REQUEST_URI'] == '/' ||
+            $_SERVER['REQUEST_URI'] == '/signup' ||
+           isset($_GET['without-header']) ||
+            strpos($_SERVER['REQUEST_URI'], '/core/default/confirm') !== false ||
+            strpos($_SERVER['REQUEST_URI'], '/core/site/landing') !== false ||
+            //todo: скрытая уязвимость
+            strpos($_SERVER['REQUEST_URI'], '/?landing') !== false ||
+            strpos($_SERVER['REQUEST_URI'], '/core/default/auth') !== false
+        ) {
             return true;
         }
 
+        //todo: скрытая уязвимость по параметру кода
         if (!Yii::$app->user->isGuest || isset($_GET['code'])) {
             return true;
         } else if ($action->actionMethod == 'actionRegularity') {

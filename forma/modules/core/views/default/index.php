@@ -8,7 +8,7 @@ use \forma\modules\core\widgets\SalesFunnelWidget;
 use \forma\modules\core\widgets\DepartmentPerfomance;
 use \forma\modules\core\widgets\WeeklySalesWidget;
 
-$this->title = 'Мониторинг отделов';
+
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 /**
@@ -35,8 +35,8 @@ function editEvent(event)
         serverMapper = {
             'Event[name]': event.title,
             'Event[text]': event.title,
-            'Event[date_from]': event.start.format("YYYY-MM-DD"),
-            'Event[date_to]': event.end.format("YYYY-MM-DD"),
+            'Event[date_from]': event.start.format('DD.MM.YYYY'),
+            'Event[date_to]': event.end.format('DD.MM.YYYY'),
             'Event[start_time]': event.start.format("hh:mm:ss"),
             'Event[end_time]': event.end.format("hh:mm:ss"),
             'Event[event_type_id]': 1,
@@ -63,8 +63,8 @@ function createEvent(start, end, title)
         serverMapper = {
                 'Event[name]': title,
                 'Event[text]': title,
-                'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
-                'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
+                'Event[date_from]': start.format('DD.MM.YYYY'),
+                'Event[date_to]': end.format('DD.MM.YYYY'),
                 'Event[start_time]': $.fullCalendar.formatDate(start,"H:00:00"),
                 'Event[end_time]': $.fullCalendar.formatDate(end,"H:00:00"),
                 'Event[event_type_id]': 4,
@@ -84,8 +84,13 @@ $this->registerJs($DragJS);
 
 $JSCode = <<<JS
 function(start, end) {
-    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format());
+    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('DD.MM.YYYY')+
+    '&date_to='+end.format('DD.MM.YYYY')+
+    '&start_time='+start.format('H:m:ss')+
+    '&end_time='+end.format('H:m:ss'));
     $('#modal').modal();
+    
+
     //createEvent(start, end, title);
 }
 JS;
@@ -129,12 +134,12 @@ JS;
     function smallWidget() {
         small_widgets_in_block = [];
         var num = $('#panel_small_widget').children('li').length;
-        for(var i = 0; i < num; i++){
+        for (var i = 0; i < num; i++) {
             small_widgets_in_block.push($('#panel_small_widget').children('li').children('.box')[i]);
         }
 
-        for(var i = 0; i < small_widgets_in_block.length; i++){
-            if(small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
+        for (var i = 0; i < small_widgets_in_block.length; i++) {
+            if (small_widgets_in_block[i].className.indexOf('collapsed-box small_widget') == -1)
                 small_widgets_in_block[i].className += ' collapsed-box small_widget';
             $('.small_widget').find('.small_widget_header').css('display', 'flex').css('justify-content', 'center');
             $('.small_widget').find('.big_widget_header').css('display', 'none');
@@ -147,7 +152,7 @@ JS;
 
 <?php
 
-$JSUpdateSmallWidgetsOld =  <<<JS
+$JSUpdateSmallWidgetsOld = <<<JS
 function(calEvent, jsEvent, view) {
     //jsEvent.preventDefault();
     //console.log(calEvent);
@@ -216,9 +221,7 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-     
     });
-    
 }
 JS;
 
@@ -267,7 +270,6 @@ function(calEvent, jsEvent, view) {
       url: "/core/widget-user/update-order",
       data: request_string  
     }).done(function( msg ) {
-      
     });
 }
 JS;
@@ -288,21 +290,22 @@ $widgetsForSortable2 = [];
 <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
 
 <script>
-    $('.box').on('removed.boxwidget', function(){
+    $('.box').on('removed.boxwidget', function () {
         console.log('удалили блок');
     });
 </script>
 
 <style>
-    .small_widgets .sortable li{
+    .small_widgets .sortable li {
         border: none;
         min-height: 20px;
         max-width: 110px;
     }
 
-    .small_widgets .sortable li h3{
+    .small_widgets .sortable li h3 {
         font-size: 48px;
     }
+
     .small_widgets .sortable .sortable-placeholder {
         border: 0;
         min-height: 75px;
@@ -313,7 +316,7 @@ $widgetsForSortable2 = [];
         min-height: 50px;
     }
 
-    .sortable > li{
+    .sortable > li {
         min-height: 150px;
         width: 100%;
     }
@@ -324,7 +327,7 @@ $widgetsForSortable2 = [];
     }
 
     .panel_big_widget.sortable .box-header,
-    #panel_small_widget.sortable .box-header{
+    #panel_small_widget.sortable .box-header {
         cursor: grabbing;
     }
 
@@ -332,19 +335,26 @@ $widgetsForSortable2 = [];
         cursor: auto;
     }
 
+    .simulation-content {
+        display: block;
+    }
+
+    .container-small_widgets {
+        width: 100%;
+    }
+
     .row.small_widgets {
         min-height: 50px;
         position: fixed;
         z-index: 99;
         background: #fff;
-        width: 100%;
-        top: 0;
-        padding: 0 36px;
-        right: -12px;
+        top: auto;
+        padding: 8px;
+        width: inherit;
     }
 
     .panel_big_widget.sortable .disabled,
-    #panel_small_widget.sortable .disabled{
+    #panel_small_widget.sortable .disabled {
         cursor: auto;
         opacity: 1;
     }
@@ -392,7 +402,7 @@ $salesWarehouseWidget = \forma\modules\core\widgets\SalesWarehouseWidget::widget
 
 //информация об отделах
 $applicationInfoWidget = ApplicationInfoWidget::widget(['completeSellingsCount' => $completeSellingsCount,
-    'productsCount' => $productsCount]) ;
+    'productsCount' => $productsCount]);
 //выполнение плана поставок
 $deliveryPlanWidget = \forma\modules\core\widgets\DeliveryPlanWidget::widget();
 //выполнение целей
@@ -463,10 +473,10 @@ Yii::debug($widgetsForSortable0);
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ МАЛЕНЬКОЙ ПАНЕЛИ
 Yii::debug('sssssss');
 Yii::debug($widgetOrder);
-foreach($widgetOrder as $panel => $widgetArray) {
-    if($panel == 'panelSmallWidget'){
-        for($i = 0; $i < count($widgetArray); $i++){
-            switch($widgetArray[$i]){
+foreach ($widgetOrder as $panel => $widgetArray) {
+    if ($panel == 'panelSmallWidget') {
+        for ($i = 0; $i < count($widgetArray); $i++) {
+            switch ($widgetArray[$i]) {
                 case 'SalesFunnel':
                     $widgetsForSortable0[] = ['content' => $salesFunnelWidget, 'disabled' => true];
                     break;
@@ -516,11 +526,11 @@ foreach($widgetOrder as $panel => $widgetArray) {
 
 
 //НАЙДЕМ СПИСОК ВИДЖЕТОВ ДЛЯ ДВУХ ПАНЕЛЕЙ
-foreach($widgetOrder as $panel => $widgetArray) {
+foreach ($widgetOrder as $panel => $widgetArray) {
 
-    if($panel == 'panelBigWidget1'){
-        for($i = 0; $i < count($widgetArray); $i++){
-            switch($widgetArray[$i]){
+    if ($panel == 'panelBigWidget1') {
+        for ($i = 0; $i < count($widgetArray); $i++) {
+            switch ($widgetArray[$i]) {
                 case 'SalesFunnel':
                     $widgetsForSortable1[] = ['content' => $salesFunnelWidget, 'disabled' => true];
                     break;
@@ -568,10 +578,10 @@ foreach($widgetOrder as $panel => $widgetArray) {
     }
 }
 
-foreach($widgetOrder as $panel => $widgetArray) {
-    if($panel == 'panelBigWidget2'){
-        for($i = 0; $i < count($widgetArray); $i++){
-            switch($widgetArray[$i]){
+foreach ($widgetOrder as $panel => $widgetArray) {
+    if ($panel == 'panelBigWidget2') {
+        for ($i = 0; $i < count($widgetArray); $i++) {
+            switch ($widgetArray[$i]) {
                 case 'SalesFunnel':
                     $widgetsForSortable2[] = ['content' => $salesFunnelWidget, 'disabled' => true];
                     break;
@@ -619,26 +629,29 @@ foreach($widgetOrder as $panel => $widgetArray) {
     }
 }
 ?>
-
-<div class="row small_widgets" style="min-height: 50px;">
-    <h3>Панель виджетов</h3>
-    <?php
-    echo Sortable::widget([
-        'connected' => true,
-        'type' => 'grid',
-        'pluginEvents' => [
-            'sortupdate' => $JSUpdateSmallWidgets,
-            'sortenter' => $JSDragenter
-        ],
-        'options' => ['id' => 'panel_small_widget'],
-        'items'=> $widgetsForSortable0
-    ]);
-    ?>
-    <script>
-        smallWidget();
-    </script>
+<div class="container-small_widgets">
+    <div class="row small_widgets sticky-simulation" style="min-height: 50px;">
+        <h3>Панель виджетов</h3>
+        <?php
+        echo Sortable::widget([
+            'connected' => true,
+            'type' => 'grid',
+            'pluginEvents' => [
+                'sortupdate' => $JSUpdateSmallWidgets,
+                'sortenter' => $JSDragenter
+            ],
+            'options' => ['id' => 'panel_small_widget'],
+            'items' => $widgetsForSortable0
+        ]);
+        ?>
+        <script>
+            smallWidget();
+        </script>
+    </div>
 </div>
-<div class="row small_widgets_text" style="display: none; color: red;">
+
+<div class="simulation-content"></div>
+<div class="row small_widgets_text" style="display: none; color: red; padding-top: 10px;">
     Конструктор виджетов не доступен на мобильных устройствах.
     Используйте большой экран, чтобы создать свою панель управления с помощью перетаскивания!
 </div>
@@ -665,13 +678,6 @@ foreach($widgetOrder as $panel => $widgetArray) {
 </div>
 
 
-
-
-
-
-
-
-
 <?php
 
 $col = 0;
@@ -684,7 +690,7 @@ $collapsed = 0;
 
         <!-- ВОРОНКА ПРОДАЖ -->
         <?php
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $salesFunnelWidget, 'disabled' => true];
             $widgetOrder[] = ['SalesFunnel', $active, $row, $col, $collapsed];
             $row++;
@@ -695,7 +701,7 @@ $collapsed = 0;
 
         <!-- УСПЕВАВАЕМОСТЬ ОТДЕЛА ПРОДАЖ -->
         <?php
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $departmentPerfomanceWidget, 'disabled' => true];
             $widgetOrder[] = ['DepartmentPerfomance', $active, $row, $col, $collapsed];
             $row++;
@@ -706,9 +712,9 @@ $collapsed = 0;
 
         <!-- ПРОДАЖИ ЗА НЕДЕЛЮ -->
         <?php
-        $weeklySalesWidget = \forma\modules\core\widgets\WeeklySalesWidget::widget() ;
+        $weeklySalesWidget = \forma\modules\core\widgets\WeeklySalesWidget::widget();
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $weeklySalesWidget, 'disabled' => true];
             $widgetOrder[] = ['WeeklySales', $active, $row, $col, $collapsed];
             $row++;
@@ -721,7 +727,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $employeesWidget, 'disabled' => true];
             $widgetOrder[] = ['Employees', $active, $row, $col, $collapsed];
             $row++;
@@ -735,7 +741,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $messagesWidget, 'disabled' => true];
             $widgetOrder[] = ['Messages', $active, $row, $col, $collapsed];
             $row++;
@@ -748,7 +754,7 @@ $collapsed = 0;
         <!-- Работающие сотрудники -->
         <?php
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $workers, 'disabled' => true];
             $widgetOrder[] = ['Workers', $active, $row, $col, $collapsed];
             $row++;
@@ -758,7 +764,7 @@ $collapsed = 0;
         <!-- Продажи по складам -->
         <?php
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable1[] = ['content' => $salesWarehouseWidget, 'disabled' => true];
             $widgetOrder[] = ['SalesWarehouse', $active, $row, $col, $collapsed];
             $row = 0;
@@ -776,12 +782,12 @@ $collapsed = 0;
                 'sortupdate' => $JSUpdateBigWidgets,
                 'sortenter' => $JSDragenter,
             ],
-            'itemOptions'=>['class'=>'disabled'],
+            'itemOptions' => ['class' => 'disabled'],
             'options' => ['class' => 'panel_big_widget first'],
-            'items'=> $widgetsForSortable1,
+            'items' => $widgetsForSortable1,
 
 
-        ]);?>
+        ]); ?>
 
     </div>
 
@@ -793,7 +799,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable2[] = ['content' => $applicationInfoWidget, 'disabled' => true];
             $widgetOrder[] = ['ApplicationInfo', $active, $row, $col, $collapsed];
             $row++;
@@ -805,7 +811,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable2[] = ['content' => $deliveryPlanWidget, 'disabled' => true];
             $widgetOrder[] = ['DeliveryPlan', $active, $row, $col, $collapsed];
             $row++;
@@ -818,7 +824,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
 
             $widgetsForSortable2[] = ['content' => $goalsWidget, 'disabled' => true];
             $widgetOrder[] = ['Goals', $active, $row, $col, $collapsed];
@@ -830,7 +836,7 @@ $collapsed = 0;
 
         <!-- КАЛЕНДАРЬ -->
         <?php
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
 
             $widgetsForSortable2[] = ['content' => $calendarWidget, 'disabled' => false];
             $widgetOrder[] = ['Calendar', $active, $row, $col, $collapsed];
@@ -844,7 +850,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable2[] = ['content' => $suppliersWidget, 'disabled' => true];
             $widgetOrder[] = ['Suppliers', $active, $row, $col, $collapsed];
             $row++;
@@ -856,7 +862,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable2[] = ['content' => $hiringFunnelWidget, 'disabled' => true];
             $widgetOrder[] = ['HiringFunnel', $active, $row, $col, $collapsed];
             $row++;
@@ -868,7 +874,7 @@ $collapsed = 0;
         <?php
 
 
-        if($widgetNewOrder == true) {
+        if ($widgetNewOrder == true) {
             $widgetsForSortable2[] = ['content' => $historyEventWidget, 'disabled' => true];
             $widgetOrder[] = ['HistoryEvent', $active, $row, $col, $collapsed];
             $row++;
@@ -885,12 +891,12 @@ $collapsed = 0;
                 'sortupdate' => $JSUpdateBigWidgets,
                 'sortenter' => $JSDragenter,
             ],
-            'itemOptions'=>['class'=>'disabled'],
+            'itemOptions' => ['class' => 'disabled'],
             'options' => ['class' => 'panel_big_widget second'],
-            'items'=> $widgetsForSortable2,
+            'items' => $widgetsForSortable2,
 
 
-        ]);?>
+        ]); ?>
 
     </div>
 
@@ -910,7 +916,8 @@ $collapsed = 0;
 </script>
 
 <?php
-for($i = 1; $i < count($salesInWeek); $i++){?>
+for ($i = 1; $i < count($salesInWeek); $i++) {
+    ?>
     <script>
         salesInWeek.push(<?=$salesInWeek[$i]?>);
     </script>
@@ -1004,7 +1011,7 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
                     'rgba(0, 166, 90, 1)',
                     'rgba(0, 166, 90, 1)',
                 ],
-            },{
+            }, {
                 label: 'Дисциплина',
                 data: [17, 4, 1, 10],
                 backgroundColor: [
@@ -1013,7 +1020,7 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
                     'rgba(243, 156, 18, 1)',
                     'rgba(243, 156, 18, 1)',
                 ],
-            },{
+            }, {
                 label: 'Инициатива',
                 data: [11, 8, 9, 7],
                 backgroundColor: [
@@ -1032,11 +1039,11 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
 
 <script>
-    function afterAddToSmallWidgets(){
+    function afterAddToSmallWidgets() {
         console.log(small_widgets_in_block[0].find('.box-header'));
     }
 
-    $('.box').on('removed.boxwidget', function(e){
+    $('.box').on('removed.boxwidget', function (e) {
         console.log($('ul').find('.small_widget'));
     });
 
@@ -1059,32 +1066,31 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
             handle: '.box-header'
         });
         console.log(1324567);
-    }
-    else {
+    } else {
         console.log('РАзмер экрана телефона');
     }
 
 
-    function setWidgetCollapse(){
+    function setWidgetCollapse() {
         var big_widgets_in_block = [];
         var ul = $('.panel_big_widget').length;
         var li = $('.panel_big_widget').children('li').length;
         var request_string = "";
-        for(var i = 0; i < li; i++){
+        for (var i = 0; i < li; i++) {
             big_widgets_in_block.push($('.panel_big_widget').children('li').children('.box')[i]);
         }
 
-        for(var i = 0, k = 0; i < ul; i++){
+        for (var i = 0, k = 0; i < ul; i++) {
 
-            for(var j = 0; j < $('.panel_big_widget')[i].children.length; j++, k++){
+            for (var j = 0; j < $('.panel_big_widget')[i].children.length; j++, k++) {
 
-                request_string += "WidgetUser["+big_widgets_in_block[k].dataset.widget_name+"][active]=1&" +
-                    "WidgetUser["+big_widgets_in_block[k].dataset.widget_name+"][col]="+i+"&" +
-                    "WidgetUser["+big_widgets_in_block[k].dataset.widget_name+"][row]="+j +"&";
-                if(big_widgets_in_block[k].className.indexOf('collapsed-box')!=-1)
-                    request_string += "WidgetUser["+big_widgets_in_block[k].dataset.widget_name+"][collapsed]=1&";
+                request_string += "WidgetUser[" + big_widgets_in_block[k].dataset.widget_name + "][active]=1&" +
+                    "WidgetUser[" + big_widgets_in_block[k].dataset.widget_name + "][col]=" + i + "&" +
+                    "WidgetUser[" + big_widgets_in_block[k].dataset.widget_name + "][row]=" + j + "&";
+                if (big_widgets_in_block[k].className.indexOf('collapsed-box') != -1)
+                    request_string += "WidgetUser[" + big_widgets_in_block[k].dataset.widget_name + "][collapsed]=1&";
                 else
-                    request_string += "WidgetUser["+big_widgets_in_block[k].dataset.widget_name+"][collapsed]=0&";
+                    request_string += "WidgetUser[" + big_widgets_in_block[k].dataset.widget_name + "][collapsed]=0&";
             }
         }
 
@@ -1096,12 +1102,12 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
             type: "POST",
             url: "/core/widget-user/update-order",
             data: request_string
-        }).done(function( msg ) {
+        }).done(function (msg) {
 
         });
     }
 
-    $("[data-widget = collapse]").click(function (){
+    $("[data-widget = collapse]").click(function () {
         setTimeout(setWidgetCollapse, 1000);
     });
 
@@ -1111,17 +1117,16 @@ for($i = 1; $i < count($salesInWeek); $i++){?>
 
 
 <?php
-foreach($widgetOrder['collapsedWidgets'] as $widgetName) { ?>
+foreach ($widgetOrder['collapsedWidgets'] as $widgetName) { ?>
     <script>
         collapsedWidget.push('<?=$widgetName?>');
     </script>
 <?php }
 
 
-
 //todo:поставить нормальный ограничитель а не цифру 8
-if($widgetNewOrder == true){
-    for($i = 0; $i < 14; $i++){
+if ($widgetNewOrder == true) {
+    for ($i = 0; $i < 14; $i++) {
         $widgetUser = new \forma\modules\core\records\WidgetUser();
         $widgetUser->loadWidgets($widgetOrder[$i]);
         $widgetUser->save();
@@ -1130,9 +1135,9 @@ if($widgetNewOrder == true){
 ?>
 
 <script>
-    for(var i = 0; i < collapsedWidget.length; i++){
-        $("[data-widget_name = "+collapsedWidget[i]+"]")[0].className += ' collapsed-box';
-        $("[data-widget_name = "+collapsedWidget[i]+"]").find('.fa-minus')[0].className = 'fa fa-plus';
+    for (var i = 0; i < collapsedWidget.length; i++) {
+        $("[data-widget_name = " + collapsedWidget[i] + "]")[0].className += ' collapsed-box';
+        $("[data-widget_name = " + collapsedWidget[i] + "]").find('.fa-minus')[0].className = 'fa fa-plus';
     }
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -1144,9 +1149,11 @@ if($widgetNewOrder == true){
                 setTimeout(function () {
                     $('[data-toggle="tooltip"]').tooltip('close'); //close the tooltip
                 }, 3000);
-                $(o.tooltip).mouseout(function (e) {});
+                $(o.tooltip).mouseout(function (e) {
+                });
             },
-            close: function (e, o) {},
+            close: function (e, o) {
+            },
             show: {
                 duration: 800
             }
@@ -1168,7 +1175,7 @@ if($widgetNewOrder == true){
     }
 
     #panel_small_widget li {
-        display: inline-block  !important;
+        display: inline-block !important;
         margin: 0px !important;
         padding: 0px !important;
         padding-right: 15px !important;
@@ -1177,17 +1184,19 @@ if($widgetNewOrder == true){
     #panel_small_widget .box {
         margin: 0 !important;
     }
+
     .content-wrapper {
         min-height: 100% !important;
     }
 
-
-    .first_block {
-        margin-top: 100px;
+    .content {
+        padding: 0;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     @media screen and (max-width: 768px) {
-        .small_widgets {
+        .small_widgets, .simulation-content {
             display: none;
         }
 
@@ -1199,6 +1208,7 @@ if($widgetNewOrder == true){
         .first_block {
             margin-top: 10px;
         }
+
         .box-title {
             max-width: 73%;
             white-space: nowrap !important;
@@ -1215,7 +1225,7 @@ if($widgetNewOrder == true){
     }
 
     .small_widgets #panel_small_widget.sortable.grid {
-        border: 2px dashed rgba(0,0,0,0.9) !important;
+        border: 2px dashed rgba(0, 0, 0, 0.9) !important;
         border-radius: 10px;
         padding: 10px;
     }
@@ -1228,6 +1238,7 @@ if($widgetNewOrder == true){
     .container-fluid {
         padding: 0;
     }
+
     .col-md-6 {
         padding: 0;
     }
@@ -1239,8 +1250,35 @@ if($widgetNewOrder == true){
     .sortable.grid {
         margin: 0;
     }
+
+    #panel_small_widget>li {
+        float: none;
+    }
+
+    #panel_small_widget {
+        overflow-x : visible;
+    }
+
 </style>
 
 <script>
     $('.chartjs-size-monitor').remove();
+</script>
+
+<script>
+    let isModal = window.parent.document.getElementById('modal')
+
+    $(window).resize(function () {
+        stickyUpdate()
+    });
+
+    function stickyUpdate() {
+        let width =  $(document).width() - 55;
+        $('.container-small_widgets').css('width', width + 'px');
+
+        let heightUlWidgets = $('#panel_small_widget').height();
+        $('.simulation-content').css('height', (heightUlWidgets + 120));
+    }
+
+    stickyUpdate()
 </script>

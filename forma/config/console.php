@@ -1,7 +1,10 @@
 <?php
 
+require_once(__DIR__ . '/dotenv.php');
+
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
+
 
 $config = [
     'id' => 'basic-console',
@@ -39,5 +42,5 @@ if (YII_ENV_DEV) {
         'class' => 'yii\gii\Module',
     ];
 }
-
+Yii::setAlias('@forma', '../');
 return $config;

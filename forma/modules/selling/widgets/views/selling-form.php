@@ -18,128 +18,173 @@ use forma\modules\selling\widgets\HistoryView;
  * @var Selling $model
  */
 
-Pjax::begin(['id' => 'selling-form-pjax', 'enablePushState' => false]);
-
-if (!Yii::$app->request->isPjax) {
-    $js = "
-    $('document').ready(function() {
-        $('#selling-form-pjax').on('pjax:complete', function(xhr, textStatus, error, options) {
-            $.pjax.reload({container: '#selling-nomenclature-pjax'});
-            krajeeDialog.alert('Состояние успешно изменено!');
-        });
-    });
-";
-    $this->registerJs($js);
-}
 
 ?>
 
-<?php DetachedBlock::begin([
-    'example' => 'Данные',
-]); ?>
+<?php
 
-<div class="operation-form">
-
-    <?php
-
-    $formOptions = [
-        'action' => Url::to(['/selling/form/save', 'id' => $model->id]),
-        'options' => ['data-pjax' => '1'],
-        'fieldConfig' => [
-            'inputOptions' => [
-                'class' => 'form-control',
-                'disabled' => $model->stateIs(new StateDone()),
-            ],
+$formOptions = [
+    'action' => Url::to(['/selling/form/save', 'id' => $model->id]),
+    'options' => ['data-pjax' => '1','id'=>'selling-form-send'],
+    'fieldConfig' => [
+        'inputOptions' => [
+            'class' => 'form-control',
+            'disabled' => $model->stateIs(new StateDone()),
         ],
-    ];
+    ],
+];
 
-    $form = ActiveForm::begin($formOptions);
 
-    ?>
-
-    <div class="row">
-        <div class="col-md-<?=($model->isNewRecord)?'6':'4'?>">
+?>
+<style>
+    @media screen and (max-width: 768px){
+        .col-md-8 {
+            padding: 0 !important;
+        }
+        /*  */
+    }
+</style>
+<div class="row">
+    <div class="col-md-<?= ($model->isNewRecord) ? '12' : '4' ?>">
+        <div class="operation-form">
+            <?php DetachedBlock::begin([
+                'example' => 'Данные',
+                'id' => 'operation-form',
+                'style' => ($model->isNewRecord)?"height: 100%":'height:640px'
+            ]); ?>
             <?php
-            $label = $model->getAttributeLabel('warehouse_id');
-            $label .= '
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-warehouse_id"
-                    data-action="view"
-                    href="' . Url::to(['/warehouse/warehouse/view']) . '"
-                >детали</a>]
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-warehouse_id no-loader"
-                    data-action="create"
-                    href="' . Url::to(['/warehouse/warehouse/create']) . '"
-                >добавить</a>]
+            if (!Yii::$app->request->isPjax) {
+                $js = "
+                    $('document').ready(function() {
+                        $('#selling-form-pjax').on('pjax:complete', function(xhr, textStatus, error, options) {
+                            $.pjax.reload({container: '#selling-nomenclature-pjax'});
+                            krajeeDialog.alert('Состояние успешно изменено!');
+                        });
+                    });
+                ";
+                $this->registerJs($js);
+            }
+            Pjax::begin(['id' => 'selling-form-pjax', 'enablePushState' => false]);
+            ?>
+            <?php
+
+            $form = ActiveForm::begin($formOptions);
+            //$label = $model->getAttributeLabel('warehouse_id');
+            $label = '
+                <span>Место</span>
+                
+                <div style="float:right" class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                  <div style="padding-left: 20px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <a data-action="view" data-select="#selling-warehouse_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/detail']) . '">детали</a>
+                    <br/>
+                    <a data-action="create" data-select="#selling-warehouse_id no-loader" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/warehouse/warehouse/create']) . '">добавить</a>
+                  <br/>
+                  </div>
+                </div>
             ';
             ?>
             <?= $form->field($model, 'warehouse_id')->widget(Select2::classname(), [
                 'data' => Warehouse::getList(),
                 'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
-            ])->label($label) ?>
-        </div>
+            ])->label($label,['style'=>'min-width:100%;']) ?>
 
-        <div class="col-md-<?=($model->isNewRecord)?'6':'4'?>">
             <?php
-            $label = $model->getAttributeLabel('customer_id');
-            $label .= '
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-customer_id"
-                    data-action="view"
-                    href="' . Url::to(['/customer/customer/view']) . '"
-                >детали</a>]
-                [<a
-                    class="select-modal-link no-loader"
-                    data-select="#selling-customer_id"
-                    data-action="create"
-                    href="' . Url::to(['/customer/customer/create']) . '"
-                >добавить</a>]
+            //$label = $model->getAttributeLabel('customer_id');
+            $label = '
+                <span>Клиент</span>
+                <div style="float:right" class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                  <div style="padding-left: 20px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <a data-action="view" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/view']) . '">детали</a>
+                    <br/>
+                    <a data-action="create" data-select="#selling-customer_id" class="dropdown-item select-modal-link no-loader" href="' . Url::to(['/customer/customer/create']) . '">добавить</a>
+                  <br/>
+                  </div>
+                </div>
             ';
             ?>
             <?= $form->field($model, 'customer_id')->widget(Select2::classname(), [
                 'data' => Customer::getList(),
                 'options' => ['placeholder' => ''],
                 'pluginOptions' => ['allowClear' => true],
-            ])->label($label) ?>
-        </div>
+            ])->label($label,['style'=>'min-width:100%;']) ?>
 
+            <?php if (!$model->isNewRecord): ?>
 
-    <?php if (!$model->isNewRecord): ?>
-
-            <div class="col-md-4">
                 <?= $form->field($model, 'date_complete')->widget(kartik\datetime\DateTimePicker::className(), [
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'yyyy-mm-dd hh:ii:ss'
                     ]
                 ]) ?>
-            </div>
 
-    <?php endif; ?>
-    </div>
-    <?php if (!$model->stateIs(new StateDone())): ?>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <button type="submit" id="selling-form-submit-button" class="btn btn-success"><i class="fa fa-save"></i>
-                    Сохранить
-                </button>
-            </div>
+            <?php endif; ?>
+
+            <?= $form->field($model, 'comment')->widget(\vova07\imperavi\Widget::className(), [
+                'settings' => [
+                    'lang' => 'ru',
+                    'minHeight' => 200,'maxHeight' => 220]]); ?>
+
+
         </div>
-    <?php endif; ?>
 
-    <?php ActiveForm::end(); ?>
+        <?php if ($model->isNewRecord == true): ?>
+            <button style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
+                        class="fa fa-save"></i>
+                Сохранить
+            </button>
+        <?php endif; ?>
+        <?php ActiveForm::end(); ?>
+        <?php if (!$model->stateIs(new StateDone()) && $model->isNewRecord !== true): ?>
+            <button onclick = isWarehouse(<?= $model->warehouse_id ?>) style="width: 100%;" type="submit" id="selling-form-submit-button" class="form-group btn btn-success"><i
+                        class="fa fa-save"></i>
+                Сохранить
+            </button>
+        <?php endif; ?>
+        <?php Pjax::end() ?>
+        <?php DetachedBlock::end(); ?>
+    </div>
 
+
+
+
+    <div class="col-md-8" style="padding-left: 15px; padding-right: 15px;">
+
+        <?php if (!$model->isNewRecord): ?>
+            <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
+        <?php endif; ?>
+
+    </div>
 </div>
+<script>
+    function  isWarehouse(e){
+        let newWarehouseId = document.getElementById('selling-warehouse_id').value;
+        if(newWarehouseId == e){
+            let form = document.getElementById("selling-form-send");
+            form.submit();
+        }else{
+            let r = confirm("При смене склада, все выбранные товары сбросятся, хотите продолжить ?");
+            if (r === true) {
+                let form = document.getElementById("selling-form-send");
+                form.submit();
+            } else {
+                return false;
+            }
 
-<?php DetachedBlock::end(); ?>
+        }
 
-<?php Pjax::end() ?>
-
-<?php if (!$model->isNewRecord): ?>
-    <?= HistoryView::widget(['model' => $model, 'talk' => true, 'history' => true]) ?>
-<?php endif; ?>
+    }
+    function newWarehouse(){
+        let form = document.getElementById("selling-form-send");
+        form.submit();
+    }
+    $(".bs-example").css("display", 'flex');
+    $(".bs-example").css("flex-direction",'column');
+    $(".bs-example").css("justify-content",'end');
+</script>

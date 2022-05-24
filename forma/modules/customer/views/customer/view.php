@@ -24,10 +24,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Customers', 'url' => ['index']];
             'chief_email',
             [
                 'attribute' => 'country_id',
-                'value' => $model->country->name,
+                'value' => isset($model->country->name)?$model->country->name:null,
             ],
             'address',
             'tax_rate',
+            'customerSource.name',
         ],
     ]) ?>
 

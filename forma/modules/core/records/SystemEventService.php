@@ -7,10 +7,12 @@ namespace forma\modules\core\records;
 use forma\modules\test\records\TestTypeField;
 use forma\modules\test\records\TestTypeFieldSearch;
 use forma\modules\core\records\SystemEventUserService;
-use forma\modules\test\records\TestSearch;
+use forma\modules\test\records\TestTypeSearch;
 use forma\modules\test\records\TestType;
 use Yii;
 use forma\modules\selling\records\selling\Selling;
+use function Couchbase\defaultDecoder;
+
 class SystemEventService
 {
 
@@ -21,7 +23,6 @@ class SystemEventService
         'Accessory',
         'StateSearchState',
         'SystemEventUser',
-        'WidgetUser',
         'TestSearch',
         'TestType',
         'TestTypeField',
@@ -32,7 +33,7 @@ class SystemEventService
 
     public static function init(){
         self::$models = SystemEventUserService::getModels();
-        //Yii::debug(self::$models);
+        //Yii::debug(self::$records);
     }
 
     public static function getClassName($event){
@@ -49,7 +50,6 @@ class SystemEventService
     }
 
     public static function loadSystemEvent($data){
-
         $systemEvent = new SystemEvent();
         $systemEvent->user_id = !is_null(Yii::$app->user->id) ? Yii::$app->user->id : 1;
         $systemEvent->date_time = date('Y-m-d H:i:s');
@@ -63,7 +63,6 @@ class SystemEventService
 
     //получим имя приложения и модуля, к которому относится объект при ActiveRecord
     public static function getModuleApplication($className):array{
-        $apps = Yii::$app->params['applications'];
         $apps = json_decode(Yii::$app->params['main'], true);
         $data = [];
         foreach($apps as $app_name => $app_value){
@@ -76,6 +75,47 @@ class SystemEventService
             }
         }
         return $data;
+    }
+
+    public static function setCookieSystemEvent(int $rule_id)
+    {
+        setcookie('ruleId', $rule_id, time() + 60 * 60 * 24 * 30, '/');
+    }
+
+    public static function setEventRule($action, $tableName)
+    {
+        $rule = Rule::find()->andWhere(['action' => $action])->andWhere(['table' => $tableName])->oneAccessory();
+        $userId = Yii::$app->user->id;
+
+        if ($rule) {
+            $accessInterface = AccessInterface::find()->andWhere(['user_id' => $userId, 'rule_id' => $rule->id])->one();
+
+            if ($accessInterface == null) {
+                $newAccessInterface = new AccessInterface();
+                $newAccessInterface->rule_id = $rule->id;
+                $newAccessInterface->current_mark = 1;
+                $newAccessInterface->user_id = $userId;
+                $newAccessInterface->status = false;
+
+                if ($newAccessInterface->current_mark == $rule->count_action) {
+                    $newAccessInterface->status = true;
+                    self::setCookieSystemEvent($rule->id);
+                }
+
+                $newAccessInterface->save();
+            } else {
+                if ($accessInterface->status == false) {
+                    $accessInterface->current_mark++;
+                    $accessInterface->save();
+                }
+
+                if ($accessInterface->current_mark == $rule->count_action && $accessInterface->status == false) {
+                    $accessInterface->status = true;
+                    $accessInterface->save();
+                    self::setCookieSystemEvent($rule->id);
+                }
+            }
+        }
     }
 
     public static function eventAfterInsert($event){
@@ -106,6 +146,8 @@ class SystemEventService
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
+            self::setEventRule('insert', $model->tableName());
+
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
             $systemEvent->data = Yii::$app->params['translate'][$className] . ' Создан: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
@@ -115,20 +157,24 @@ class SystemEventService
             if (!$systemEvent->save()) {
                 throw new \Exception(json_encode($systemEvent->errors));
             }
+
             $arr = explode("/", $systemEvent->request_uri);
-            //Yii::debug("ebanina");
-           // Yii::debug($arr);
-            if(isset($arr[1]) && ($arr[1]=='selling' || $arr[1]=='inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
-          //  Yii::debug($arr);
-            $subject = 'Forma: в отделе '.$systemEvent->application.' был добавлен объект: ('. $systemEvent->class_name .') '
+            $url = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) ? 'http://' : 'https://';
+            if (isset($arr[1]) && ($arr[1] == 'selling' || $arr[1] == 'inventorization') && ($arr[2] == 'form' || $arr[2] == 'talk')) $arr[2] = 'main';
+            $subject = 'Forma: в отделе ' . $systemEvent->application . ' был добавлен объект: (' . $systemEvent->class_name . ') '
                 . $objectName;
-            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' добавлен объект: ('. $systemEvent->class_name .') '
-                . $objectName .' <br /> Посмотреть список <a href="http://' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>' .
-                '<br /> Посмотреть объект <a href="http://'.$_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] .'/update?id='.$systemEvent->sender_id.'">Перейти</a>';
+
+            if (isset($objectName) && isset($arr[1]) && isset($arr[2])) {
+                $text = 'FORMA INGELLO: В отделе: ' . $systemEvent->application . ' добавлен объект: (' . $systemEvent->class_name . ') '
+                    . $objectName . ' <br /> Посмотреть список <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '">Перейти</a>' .
+                    '<br /> Посмотреть объект <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '/update?id=' . $systemEvent->sender_id . '">Перейти</a>';
+
+            }
         }
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
+
 
     public static function eventAfterUpdate($event) {
         $model = $event->sender;
@@ -152,12 +198,15 @@ class SystemEventService
         }
         $subject = '';
         $text = '';
+
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
 
+            self::setEventRule('update', $model->tableName());
+
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
-            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Обновлен: ' . (!is_null($objectName) ? '"'.$objectName.'"' : '') . ' пользователем '.$systemEvent->user->username;
+            $systemEvent->data = Yii::$app->params['translate'][$className] . ' Обновлен: ' . (!is_null($objectName) ? '"' . $objectName . '"' : '') . ' пользователем ' . $systemEvent->user->username;
             $systemEvent->class_name = $className;
             $systemEvent->sender_id = $model->id;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];
@@ -165,16 +214,16 @@ class SystemEventService
                 throw new \Exception(json_encode($systemEvent->errors));
             }
             $arr = explode("/", $systemEvent->request_uri);
-            $subject = 'Forma: в отделе '.$systemEvent->application.' был обновлен объект: ('. $systemEvent->class_name .') '
+            $url = (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) ? 'http://' : 'https://';
+            $subject = 'Forma: в отделе ' . $systemEvent->application . ' был обновлен объект: (' . $systemEvent->class_name . ') '
                 . $objectName;
-            $text = 'FORMA INGELLO: В отделе: '.$systemEvent->application.' обновлен объект: ('. $systemEvent->class_name .') '
-                . $objectName .' <br /> Посмотреть список <a href="http://' . $_SERVER['HTTP_HOST']. '/' .$arr[1].'/'.$arr[2].'">Перейти</a>' .
-            '<br /> Посмотреть объект <a href="http://'.$_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] .'/update?id='.$systemEvent->sender_id.'">Перейти</a>';
+            $text = 'FORMA INGELLO: В отделе: ' . $systemEvent->application . ' обновлен объект: (' . $systemEvent->class_name . ') '
+                . $objectName . ' <br /> Посмотреть список <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '">Перейти</a>' .
+                '<br /> Посмотреть объект <a href="' . $url . $_SERVER['HTTP_HOST'] . '/' . $arr[1] . '/' . $arr[2] . '/update?id=' . $systemEvent->sender_id . '">Перейти</a>';
         }
 
         if($sendEmail) SystemEventUserService::sendEmailSystemEventUser($subject, $text);
     }
-
     public static function eventAfterDelete($event){
         $model = $event->sender;
         $className = self::getClassName($event);
@@ -195,6 +244,8 @@ class SystemEventService
         $text = "";
         if(self::checkBlackList($className)) {
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? null;
+
+            self::setEventRule('delete', $model->tableName());
 
             $systemEvent = self::loadSystemEvent($appMod);
             //Yii::debug($systemEvent . '----- user');
@@ -242,6 +293,7 @@ class SystemEventService
             $objectName = $model->name ?? $model->title ?? $model->product->name ?? '';
 
             $systemEvent = self::loadSystemEvent($appMod);
+
             $systemEvent->data = $message;
             $systemEvent->class_name = $className;
             $systemEvent->request_uri = $_SERVER['REQUEST_URI'];

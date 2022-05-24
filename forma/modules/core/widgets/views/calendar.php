@@ -30,8 +30,8 @@ function editEvent(event)
         serverMapper = {
             'Event[name]': event.title,
             'Event[text]': event.title,
-            'Event[date_from]': event.start.format("YYYY-MM-DD"),
-            'Event[date_to]': event.end.format("YYYY-MM-DD"),
+            'Event[date_from]': event.start.format('DD.MM.YYYY'),
+            'Event[date_to]': event.end.format('DD.MM.YYYY'),
             'Event[start_time]': event.start.format("hh:mm:ss"),
             'Event[end_time]': event.end.format("hh:mm:ss"),
             'Event[event_type_id]': 1,
@@ -45,43 +45,15 @@ function editEvent(event)
     }
 }
 
-function createEvent(start, end, title)
-{
-    var eventData;
-    var ServerMapper;
-    if (title) {
-        eventData = {
-            color: 'red',
-            title: title,
-            start: start,
-            end: end
-        };
-        serverMapper = {
-            'Event[name]': title,
-            'Event[text]': title,
-            'Event[date_from]': $.fullCalendar.formatDate(start,"yyyy-MM-dd"),
-            'Event[date_to]': $.fullCalendar.formatDate(end,"yyyy-MM-dd"),
-            'Event[start_time]': $.fullCalendar.formatDate(start,"H:m:ss"),
-            'Event[end_time]': $.fullCalendar.formatDate(end,"H:m:ss"),
-            'Event[event_type_id]': 4,
-            'Event[status]': 1,
-        }
-        $.post( "/event/event/create?json", serverMapper, function( data ) {
-          $('#w0').fullCalendar('renderEvent', eventData, true);
-        }).fail(function() {
-          alert("Внутренняя ошибка");
-        });
-    }
-    $('#w0').fullCalendar('unselect');
-}
+
 JS;
 
 $this->registerJs($DragJS);
 
 $JSCode = <<<JS
 function(start, end) {
-    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('YYYY-MM-DD')+
-    '&date_to='+end.format('YYYY-MM-DD')+
+    $('#modal .modal-dialog .modal-content .modal-body').load('/event/event/create?date_from='+start.format('DD.MM.YYYY')+
+    '&date_to='+end.format('DD.MM.YYYY')+
     '&start_time='+start.format('H:m:ss')+
     '&end_time='+end.format('H:m:ss'));
     $('#modal').modal();
@@ -328,9 +300,10 @@ $widgetsForSortable2 = [];
                 'eventClick' => new JsExpression($JSEventClick),
                 'eventResize' => new JsExpression($JSEventResize),
                 'eventDrop' => new JsExpression($JSEventDrop),
-                'defaultDate' => date('Y-m-d'),
                 'defaultView' => $_GET['defaultView'] ?? 'month',
+                'timeFormat'=> 'h:mm',
             ],
+
             'events' => Url::to(['/event/event/jsoncalendar'])
         ]);
         ?>

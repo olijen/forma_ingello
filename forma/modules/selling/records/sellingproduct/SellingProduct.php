@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\sellingproduct;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 use forma\modules\product\records\Currency;
 use forma\modules\product\records\Product;
@@ -20,8 +21,10 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property integer $selling_id
  * @property integer $quantity
  * @property integer $currency_id
+ * @property string $currency_name
  * @property integer $pack_unit_id
  * @property integer $overhead_cost_id
+ * @property integer $purchase_cost
  *
  * @property Product $product
  * @property Selling $selling
@@ -29,7 +32,7 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property Currency $currency
  * @property OverheadCost $overheadCost
  */
-class SellingProduct extends ActiveRecord
+class SellingProduct extends AccessoryActiveRecord
     implements NomenclatureUnitInterface
 {
     /**
@@ -64,6 +67,7 @@ class SellingProduct extends ActiveRecord
         return [
             [['product_id', 'selling_id', 'quantity', 'currency_id'], 'required'],
             [['product_id', 'selling_id', 'quantity', 'overhead_cost_id', 'cost_type'], 'integer'],
+            [['purchase_cost'], 'double'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['selling_id'], 'exist', 'skipOnError' => true, 'targetClass' => Selling::className(), 'targetAttribute' => ['selling_id' => 'id']],
             [['cost'], 'number'],
@@ -105,6 +109,7 @@ class SellingProduct extends ActiveRecord
             'cost' => 'Стоимость',
             'overhead_cost_id' => 'Накладной расход',
             'cost_type' => 'Тип стоимости',
+            'currency_id' => 'Валюта',
         ];
     }
 

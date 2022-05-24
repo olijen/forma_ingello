@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use forma\components\ActiveRecordHelper;
 use forma\modules\country\records\Country;
 use yii\widgets\Pjax;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model forma\modules\customer\records\Customer */
@@ -41,6 +42,7 @@ use yii\widgets\Pjax;
         <?= $form->field($model, 'company_phone')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'company_email')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'site_company')->textInput(['maxlength' => true]) ?>
+
     </div>
 
     <?= $form->field($model, 'country_id')->dropDownList(ActiveRecordHelper::getList(Country::className()), [
@@ -48,6 +50,16 @@ use yii\widgets\Pjax;
     ]) ?>
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'chief_phone')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'telegram')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'skype')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'whatsapp')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'viber')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_source_id')->widget(Select2::classname(), [
+        'data' => \forma\modules\selling\records\customersource\CustomerSource::className()::getList(),
+        'options' => ['placeholder' => ''],
+        'pluginOptions' => ['allowClear' => true],
+    ])->label('Откуда пришел клиент') ?>
+
 
 
 

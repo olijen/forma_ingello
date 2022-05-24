@@ -47,10 +47,8 @@ class SellingProductSearch extends SellingProduct
      */
     public function search($params)
     {
-        $query = SellingProduct::find()
-            ->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'LEFT JOIN');
-
-        // add conditions that should always apply here
+        $query = SellingProduct::find();
+        $query->joinWith(['product', 'product.category', 'product.manufacturer'], false, 'LEFT JOIN');
 
         $dataProvider = new ActiveDataProvider([
             'sort' => false,

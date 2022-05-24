@@ -214,7 +214,7 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     <?php if (isset($_GET['list'])) : ?>
 
-        <a class="btn btn-default" href="<?= Url::to(['view', 'id' => $model->id]) ?>" data-pjax="0">
+        <a class="btn btn-default btn-all-screen" href="<?= Url::to(['view', 'id' => $model->id]) ?>" data-pjax="0">
             <i class="fa fa-table"></i>
             Таблица
         </a>
@@ -230,12 +230,22 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
 
     <?php else : ?>
 
-    <a class="btn btn-default" href="<?= Url::to(['view', 'id' => $model->id, 'list' => true]) ?>" data-pjax="0">
+    <a class="btn btn-default btn-all-screen" href="<?= Url::to(['view', 'id' => $model->id, 'list' => true]) ?>" data-pjax="0">
         <i class="fa fa-list"></i>
         Список
     </a>
     <br>
     <br>
+        <?php
+
+        $items = [];
+        foreach (\forma\modules\warehouse\records\Warehouse::getList() as $id => $name) {
+            if($id == $model->id){
+                continue;
+            }
+            $items[] = ['label' => $name, 'url' => 'javascript:void(0)','linkOptions'=>['data-warehouse'=>$id,'class'=>'warehouse-list']];
+        }
+        ?>
 
     <?= DynaGrid::widget([
         'allowSortSetting' => false,
@@ -283,14 +293,22 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                         'class' => 'btn btn-primary',
                         'id' => 'add-to-selling',
                         'title' => 'Добавить в продажу',
+                        'onClick'=>'alert("Мы создаем продажу автоматически. Поэтому на следующей стр. вам необходимо выбрать нужного клиента и нажать кнопку Сохранить");'
                     ]),
                 ],
                 [
-                    'content' => Html::button('<i class="fa fa-retweet"></i> Переместить', [
+                    'content' => ButtonDropdown::widget([
+                        'label' => 'Добавить в перемещение',
+                        'dropdown' => [
+                            'items' => $items,
+                        ],
+                        'options' => ['class' => 'btn btn-success forma_light_orange'],
+                    ])
+                       /* Html::button('<i class="fa fa-retweet"></i> Переместить', [
                         'class' => 'btn btn-primary',
                         'id' => 'add-to-transit',
                         'title' => 'Добавить в перемещение',
-                    ]),
+                    ]),*/
                 ],
                 [
                     'content' => ButtonDropdown::widget([
@@ -298,14 +316,14 @@ $this->registerJsFile('@web/js/dyna-grid-change-icon.js', ['position' => \yii\we
                         'encodeLabel' => false,
                         'dropdown' => [
                             'items' => [
-                                ['label' => 'Import file', 'options' => [
+                                ['label' => 'Импорта файла', 'options' => [
                                     'onclick' => '$("#import-file-input").trigger("click");',
                                     'style' => 'cursor: pointer;',
                                 ]],
                                 [
-                                    'label' => 'Example of file',
+                                    'label' => 'Пример импотра файла',
                                     'options' => [
-                                        'onclick' => 'location.href = "/product/product/download-example-file"',
+                                        'onclick' => 'location.href = "/warehouse/warehouse/download-example-file"',
                                         'style' => 'cursor: pointer;',
                                     ],
                                 ],

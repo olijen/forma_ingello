@@ -2,6 +2,7 @@
 
 namespace forma\modules\selling\records\patient;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 
 /**
@@ -31,7 +32,7 @@ use Yii;
  * @property string $hygieneЕrainingDate
  * @property string $dateHygieneControl
  */
-class Patient extends \yii\db\ActiveRecord
+class Patient extends AccessoryActiveRecord
 {
     /**
      * @inheritdoc

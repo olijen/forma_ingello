@@ -1,10 +1,11 @@
 <?php
 
-use     forma\modules\core\records\SystemEventSearch;
+// use forma\modules\core\records\SystemEventSearch;
 use yii\db\ActiveRecord;
-use yii\web\AssetBundle;
 use forma\modules\core\records\SystemEventService;
 use forma\modules\core\controllers\SiteController;
+
+require_once(__DIR__ . '/dotenv.php');
 
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
@@ -24,6 +25,8 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@uploads' =>'@forma/import',
+        '@inst' =>'@forma/instagram_generation_lid'
     ],
     'on beforeAction' => function($event) {
 
@@ -37,7 +40,6 @@ $config = [
                 SystemEventService::eventAfterInsert($event);
             }
         });
-
 
         yii\base\Event::on(ActiveRecord::class, ActiveRecord::EVENT_AFTER_UPDATE, function ($event) {
             if (Yii::$app->controller->action->id != 'test-data') {
@@ -125,6 +127,7 @@ $config = [
                 'signup' => 'core/site/signup',
                 'core/regularity'=>'core/regularity/index',
                 '<user-name:>/regularity' => 'core/regularity/regularity',
+                'hash' => 'selling/talk/hash-for-event',
 
             ],
         ],
@@ -179,6 +182,8 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'allowedIPs' => ['*'],
+
         'generators' => [
             'tcrud' => ['class' => '\wokster\ltewidgets\generators\tcrud\Generator'],
             'tmodel' => ['class' => '\wokster\ltewidgets\generators\tmodel\Generator'],

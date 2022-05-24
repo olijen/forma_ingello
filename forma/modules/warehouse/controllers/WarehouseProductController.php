@@ -4,6 +4,7 @@ namespace forma\modules\warehouse\controllers;
 
 use forma\modules\product\records\Product;
 use forma\modules\selling\records\selling\Selling;
+use forma\modules\selling\records\sellingproduct\SellingProduct;
 use forma\modules\selling\services\SellingService;
 use forma\modules\transit\records\transit\Transit;
 use forma\modules\transit\services\TransitService;
@@ -212,10 +213,16 @@ class WarehouseProductController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['success' => true];
 
-        $productId = Yii::$app->request->post('productId');
-        $warehouseId = Yii::$app->request->post('warehouseId');
+        $data = \Yii::$app->request->getRawBody();
+        parse_str($data,$result);
 
-        $response['available'] = RemainsService::getAvailable($productId, $warehouseId);
+
+        Yii::debug($result);
+
+        $response['available'] = RemainsService::getAvailable($result['productId'], $result['warehouseId']);
+        $response['currencyId']  = RemainsService::getCurrencyId($result['productId'], $result['warehouseId']);
+        $response['currencyName']    = RemainsService::getCurrencyName($result['productId'], $result['warehouseId']);
+//
         return $response;
     }
 }

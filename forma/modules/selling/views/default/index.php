@@ -10,7 +10,7 @@ $list = [
     ['label' => 'Продажи', 'url' => '/selling/main', 'icon' => 'balance-scale',
 
     ],
-    ['label' => 'Речевые модули', 'url' => '/selling/speech-module', 'icon' => 'podcast',
+    ['label' => 'Речевые модули', 'url' => '/selling/speech-module?isSelling=1', 'icon' => 'podcast',
 
     ],
     ['label' => 'Состояния', 'url' => '/selling/main-state', 'icon' => 'list',
@@ -18,6 +18,7 @@ $list = [
     ],
     ['label' => 'Генерация лидов FLH', 'url' => '/selling/freelancehunt/', 'icon' => 'users'],
     ['label' => 'Форма ставки FLH', 'url' => '/selling/freelancehunt/bid-form', 'icon' => 'comments-dollar'],
+    ['label' => 'Супер-таблица', 'url' => '/selling/super-selling', 'icon' => 'table'],
 
 
 ];
@@ -32,7 +33,7 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
 <div class="col-lg-9 col-xs-12">
 
-    <div class="box box-success">
+    <div class="box box-success" style="border-color: rgba(88, 98, 142, 1)">
         <div class="box-header with-border">
             <h3 class="box-title" id="scroll">Этапы (воронка продаж)</h3>
 
@@ -47,6 +48,25 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
             <div class="chart">
                 <canvas id="plan" style=""></canvas>
             </div>
+        </div>
+
+    </div>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title" id="scroll">История изменений состояния продаж</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="box-body">
+            <div class="chart">
+                <canvas id="myChart" style=""></canvas>
+            </div>
+
         </div>
     </div>
 </div>
@@ -108,13 +128,29 @@ $interviewProgress = new \forma\modules\hr\forms\InterviewProgress();
 
 
     function getId(index) {
-      return [<?=$salesProgress->getComaListOfSales()?>][index];
+        return [<?=$salesProgress->getComaListOfSales()?>][index];
     }
 
-    plan.onclick = function(evt){
-      var activePoints = myLineChart.getElementsAtEvent(evt);
-      console.log(activePoints);
-      window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index)) ;
+    plan.onclick = function (evt) {
+        var activePoints = myLineChart.getElementsAtEvent(evt);
+        console.log(activePoints);
+        window.location.href = '/selling/main?SellingSearch[state_id]=' + (getId(activePoints[0]._index));
     };
 
+</script>
+<script>
+
+    myChart = new Chart(document.getElementById('myChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: [<?= $salesProgress->getDate() ?>],
+            datasets: [{
+                label: 'Количество изменений',
+                data: [<?= $salesProgress->getCount() ?>],
+                backgroundColor: ['transparent'],
+                borderColor: ['green'],
+            }]
+        },
+        options: {}
+    });
 </script>

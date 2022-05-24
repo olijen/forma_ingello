@@ -7,10 +7,12 @@ $(function() {
         });
     });
 
-    $('body').on('click', '#grid-remains #add-to-transit', function() {
+    $('body').on('click', '#grid-remains .warehouse-list', function() {
         $('#grid-remains').groupOperation('/transit/main/create-by-remains', {
+
             params: {
-                warehouse_id: $.getUrlVar('id')
+                warehouse_id: $.getUrlVar('id'),
+                select_warehouse_id:$(this).attr("data-warehouse")
             }
         });
     });

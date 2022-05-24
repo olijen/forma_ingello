@@ -2,6 +2,7 @@
 
 namespace forma\modules\product\records;
 
+use forma\components\AccessoryActiveRecord;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -13,7 +14,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property Product[] $products
  */
-class Color extends \yii\db\ActiveRecord
+class Color extends AccessoryActiveRecord
 {
     /**
      * @inheritdoc

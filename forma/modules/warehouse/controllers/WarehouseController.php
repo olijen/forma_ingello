@@ -34,7 +34,7 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Lists all Warehouse models.
+     * Lists all Warehouse records.
      * @return mixed
      */
     public function actionIndex()
@@ -52,17 +52,24 @@ class WarehouseController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionDetail($id)
+    {
+        $model = $this->findModel($id);
 
+        if ($model->belongsToUser()) {
+            if (Yii::$app->request->isAjax) {
+                $this->layout = '@app/modules/core/views/layouts/modal';
+                return $this->render('detail', compact('model'));
+            }
+        }
+
+        throw new ForbiddenHttpException;
+    }
     public function actionView($id)
     {
         $model = $this->findModel($id);
 
         if ($model->belongsToUser()) {
-
-            if (Yii::$app->request->isAjax) {
-                $this->layout = '@app/modules/core/views/layouts/modal';
-                return $this->render('detail', compact('model'));
-            }
 
             $warehouseProductsSearchModel = new WarehouseProductSearch;
 
@@ -94,7 +101,11 @@ class WarehouseController extends Controller
 
         $model = new Warehouse();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->capacity == null){
+                $model->capacity = 1000;
+            }
+            $model->save();
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['id' => $model->id, 'name' => $model->name];
@@ -176,5 +187,15 @@ class WarehouseController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
+    }
+    public function actionDownloadExampleFile()
+    {
+        $path = \Yii::getAlias('@uploads') ;
+        $file = $path . '/пример_склад_продуктов.xls';
+
+        if (file_exists($file)) {
+            return \Yii::$app->response->sendFile($file);
+        }
+        throw new \Exception('File not found');
     }
 }

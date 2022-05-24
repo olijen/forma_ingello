@@ -78,9 +78,6 @@ class SystemEventUserService {
             }
         }
 
-        echo "<br /><br /> SAVE LIST </br>";
-        print_r($saveList);
-
         return $saveList;
     }
 

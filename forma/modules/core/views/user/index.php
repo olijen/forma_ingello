@@ -6,19 +6,21 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel forma\modules\core\records\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+/* @var $model \forma\modules\core\records\User */
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core/default/people'];
 
 ?>
 <div class="user-index">
-    
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать реферала', ['/core/site/signup-referer'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать дочерний аккаунт', ['/core/site/signup-referer'], ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -33,8 +35,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Рефералы', 'url' => '/core
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{update} {delete}  {login} ',
+                'buttons' => [
+                    'login' => function ($url,$model) {
+                        return Html::a('<span class="glyphicon glyphicon-user"></span>', ["impersonate?id=" . $model->id], ["title" => "login"]);
+                        },
+                    ]
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>
+</div>

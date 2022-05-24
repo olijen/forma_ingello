@@ -16,7 +16,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
 <div class="worker-index">
 
     <p>
-        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Новый кадр'), ['create'], ['class' => 'btn btn-success forma_pink']) ?>
+        <?= Html::a(Yii::t('app', '<i class="fas fa-user-plus"></i> Новый кадр'), ['create'], ['class' => 'btn btn-success forma_pink btn-all-screen']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?= GridView::widget([
@@ -24,6 +24,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
         'filterModel' => $searchModel,
         'showFooter' => true,
         'columns' => [
+            ['class' => 'yii\grid\ActionColumn','contentOptions' => ['style' => 'width:10%;  min-width:10%;  ']],
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
@@ -59,7 +60,7 @@ $this->params['homeLink'] = ['label' => 'Панель упраления', 'url'
                 }
             ],
             'passport',
-            ['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
     <?php Pjax::end(); ?>

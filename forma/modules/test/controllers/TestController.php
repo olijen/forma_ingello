@@ -34,29 +34,25 @@ class TestController extends Controller
     }
 
     /**
-     * Lists all TestTypeField models.
+     * Lists all TestTypeField records.
      * @return mixed
      */
     public function actionIndex()
     {
-//        $model_id = new TestType();
+        $model_id = new TestType();
 
-//        $id = $_GET['id'];
-//        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
+        $id = $_GET['id'];
+        $test_id = TestTypeField::find()->where(['test_id' => $id])->all();
         $model = new TestTypeField();
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-
         return $this->render('index', [
-
-//            'test_id'=>$test_id,
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
 
     /**
      * Displays a single TestTypeField model.
@@ -66,13 +62,14 @@ class TestController extends Controller
      */
     public function actionView($id)
     {
-
         $searchModel = new TestTypeFieldSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = $this->findModel($id);
+
         return $this->render('/test/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -83,15 +80,11 @@ class TestController extends Controller
      */
     public function actionCreate()
     {
-//        $model_test = $this->findModel($id);
         $model = new TestTypeField();
-
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $id = $model->test_id;
             $name = TestType::find()->where(['id' => $id])->one();
-
-
             return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
@@ -107,24 +100,22 @@ class TestController extends Controller
         $customer = new Customer();
         $testType = TestType::find()->where(['id' => $id])->one();
 
-        if (!empty($_POST)) {
-            if (isset($_POST['Customer'])) {
-                $testData = TestService::completeTest($_POST['Customer']);
-            }
+        if (Yii::$app->request->isPost && isset($_POST['Customer'])) {
+            $testData = TestService::completeTest($_POST['Customer']);
+
             $result = $_POST;
-            $save = $this->renderFile('@forma/modules/test/views/test/test_result.php',[
-                'model'=> $model,
-                'testType'=> $testType,
-                'result'=>$result,
+            $save = $this->renderFile('@forma/modules/test/views/test/test_result.php', [
+                'model' => $model,
+                'testType' => $testType,
+                'result' => $result,
             ]);
 
             $model->result = $save;
             $model->customer_id = $testData['customer']->id;
             $model->test_type_id = $testType->id;
-            $model->save();
 
             if ($model->save()) {
-                return $this->redirect(['/selling/main/show-selling?selling_token='.$testData['sellingToken']]);
+                return $this->redirect(['/selling/main/show-selling?selling_token=' . $testData['sellingToken']]);
             }
         }
 
@@ -144,12 +135,9 @@ class TestController extends Controller
      */
     public function actionUpdate($id)
     {
-
         $model = $this->findModel($id);
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
             return $this->redirect(['index', 'id' => $model->test_id]);
         }
 
@@ -167,9 +155,10 @@ class TestController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'id' => $model->test_id]);
     }
 
     /**

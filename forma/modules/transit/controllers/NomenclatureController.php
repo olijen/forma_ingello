@@ -13,6 +13,7 @@ use forma\modules\transit\services\NomenclatureService;
 use forma\modules\transit\widgets\NomenclatureView;
 use forma\components\Controller;
 use forma\modules\transit\services\TransitService;
+use yii\helpers\Url;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -22,16 +23,17 @@ class NomenclatureController extends Controller
     {
         if (!Yii::$app->request->isAjax) {
             Yii::debug(Yii::$app->request->referrer);
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect(Url::previous('transitOld'));
         }
+
         /** @var SellingProduct $model */
         $model = NomenclatureService::addPosition(Yii::$app->request->post());
         $transit = Transit::findOne(['id' => $model->transit_id]);
-
+        Url::remember("/transit/form?id=$transit->id", 'transitOld');
         return NomenclatureView::widget([
             'model' => $model,
             'transitId' => $model->transit_id,
-            'warehouseId' => $transit->from_warehouse_id,
+            'warehouseId' => $transit->to_warehouse_id,
         ]);
     }
 

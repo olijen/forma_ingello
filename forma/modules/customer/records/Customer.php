@@ -6,10 +6,10 @@ use forma\components\AccessoryActiveRecord;
 use forma\components\EntityLister;
 use forma\modules\core\records\Accessory;
 use forma\modules\core\records\User;
+use forma\modules\country\records\Country;
+use forma\modules\selling\records\customersource\CustomerSource;
 use forma\modules\selling\records\selling\Selling;
 use Yii;
-use yii\helpers\ArrayHelper;
-use forma\modules\country\records\Country;
 
 /**
  * This is the model class for table "customer".
@@ -27,8 +27,11 @@ use forma\modules\country\records\Country;
  * @property string $site_company
  * @property string $description
  * @property integer $is_company
+ * @property integer $customer_source_id
  *
  * @property Country $country
+ * @property CustomerSource $customerSource
+ * @property Selling $sellings
  */
 class Customer extends AccessoryActiveRecord
 {
@@ -53,7 +56,7 @@ class Customer extends AccessoryActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['tax_rate'], 'number'],
+            [['tax_rate','customer_source_id'], 'number'],
             [['name', 'firm'], 'string', 'max' => 100],
             [['address'], 'string', 'max' => 150],
             [[ 'company_email', 'chief_email', 'site_company'], 'string', 'max' => 255],
@@ -61,7 +64,12 @@ class Customer extends AccessoryActiveRecord
             [['description'], 'string'],
             [['country_id', 'is_company'], 'integer'],
             [['chief_email'], 'email'],
+            [['viber'], 'string', 'max' => 20],
+            [['skype'], 'string', 'max' => 150],
+            [['whatsapp'], 'string', 'max' => 40],
+            [['telegram'], 'string', 'max' => 255],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [['customer_source_id'], 'exist', 'skipOnError' => true, 'targetClass' => CustomerSource::className(), 'targetAttribute' => ['customer_source_id' => 'id']],
         ];
     }
 
@@ -84,6 +92,11 @@ class Customer extends AccessoryActiveRecord
             'tax_rate' => 'Процентая ставка',
             'description' => 'Описание клиента',
             'is_company' => 'Представитель компании',
+            'telegram' => 'Телеграм',
+            'skype' => 'Скайп',
+            'whatsapp' => 'Вотсап',
+            'viber' => 'Вайбер',
+            'customer_source_id' =>'Откуда пришел',
         ];
     }
 
@@ -93,6 +106,7 @@ class Customer extends AccessoryActiveRecord
      */
     public static function find()
     {
+
         return new CustomerQuery(get_called_class());
     }
 
@@ -108,6 +122,10 @@ class Customer extends AccessoryActiveRecord
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
+    public function getCustomerSource()
+    {
+        return $this->hasOne(CustomerSource::className(), ['id' => 'customer_source_id']);
+    }
 
     public function getSellings()
     {
@@ -117,18 +135,20 @@ class Customer extends AccessoryActiveRecord
     public static function sendMessage( array $data)
     {
         $list = [];
-
+        $users = [];
         foreach (Customer::findAll($data['selection'])  as $user) {
+            $users[] = $user->name;
             $list[] = Yii::$app->mailer->compose()
                 ->setFrom('from@domain.com')
                 ->setTo($user->chief_email)
                 ->setSubject('Ув.'.' '.$user->name.' '.$data['messageSubject'])
                 ->setTextBody($data['message']);
         }
+        //exit;
 
         Yii::$app->mailer->sendMultiple($list);
 
-        return true;
+        return $users;
     }
 
     public static function getCustomersByUser(User $user, $one = false)

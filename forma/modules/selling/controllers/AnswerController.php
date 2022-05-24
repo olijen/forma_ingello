@@ -32,7 +32,7 @@ class AnswerController extends Controller
     }
 
     /**
-     * Lists all Answer models.
+     * Lists all Answer records.
      * @return mixed
      */
     public function actionIndex()
@@ -66,9 +66,10 @@ class AnswerController extends Controller
     public function actionCreate()
     {
         $model = new Answer();
+        $isSelling = $_GET['isSelling'];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/selling/speech-module', 'isSelling' => $isSelling]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -83,9 +84,9 @@ class AnswerController extends Controller
      */
     public function actionFastCreate()
     {
-
         // Создать ответ
         $model = new Answer();
+
         if (!$model->load(Yii::$app->request->post())) {
             return $this->render('fast-create', [
                 'model' => $model,
@@ -108,6 +109,7 @@ class AnswerController extends Controller
                 'strategy_id' => $strategyId,
                 'request_id' => $model->request_id,
             ])->one();
+
             if (!$rs) {
                 $rs = new RequestStrategy();
                 $rs->strategy_id = $strategyId;
@@ -134,9 +136,10 @@ class AnswerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $isSelling = $_GET['isSelling'];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) ) {
+            return $this->redirect('/selling/speech-module?isSelling=' . $isSelling);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -153,8 +156,9 @@ class AnswerController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        $isSelling = $_GET['isSelling'];
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/selling/speech-module', 'isSelling' => $isSelling]);
     }
 
     /**

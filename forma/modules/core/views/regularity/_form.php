@@ -2,6 +2,7 @@
 
 use forma\modules\core\services\RegularityAndItemPictureService;
 use kartik\file\FileInput;
+use rmrevin\yii\fontawesome\FontAwesome;
 use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use vova07\imperavi\Widget;
@@ -10,7 +11,15 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model forma\modules\core\records\Regularity */
 /* @var $form yii\widgets\ActiveForm */
-
+$this->params['icons'][] = $icons;
+$format = <<< SCRIPT
+function format(icon) {
+    let iconName = 'fa fa-'+icon.text;
+    return "<i style='padding-right: 5px; font-size: 20px;' class='"+iconName+"' ></i>"+icon.text+"";
+}
+SCRIPT;
+$escape = new \yii\web\JsExpression("function(m) { return m; }");
+$this->registerJs($format, \yii\web\View::POS_HEAD);
 if ($model->hasErrors()):
     \wokster\ltewidgets\BoxWidget::begin([
         'solid' => true,
@@ -61,7 +70,17 @@ $picture = RegularityAndItemPictureService::getPictureUrl($model);
             ],
         ]); ?>
     </div>
-    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->textInput() ?>
+    <?= $form->field($model, 'icon', ['options' => ['class' => 'col-xs-12']])->widget(kartik\select2\Select2::className(), [
+        'data' => $icons,
+        'options' => ['placeholder' => 'Выберите иконку ...'],
+        'pluginOptions' => [
+            'templateResult' => new \yii\web\JsExpression('format'),
+            'templateSelection' => new \yii\web\JsExpression('format'),
+            'escapeMarkup' => $escape,
+            'allowClear' => true
+        ],
+    ])->label('Иконка')
+    ?>
 
     <div class="col-xs-12">
         <?= $form->field($model, 'picture')->widget(FileInput::classname(), [

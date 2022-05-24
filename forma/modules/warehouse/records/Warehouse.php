@@ -14,6 +14,8 @@ use forma\modules\country\records\Country;
  * @property string $name
  * @property string $address
  * @property integer $country_id
+ * @property integer $capacity
+ *
  *
  * @property Inventorization[] $inventorizations
  * @property Purchase[] $purchases
@@ -44,6 +46,7 @@ class Warehouse extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 100],
             [['address'], 'string', 'max' => 255],
             [['country_id'], 'integer'],
+            [['capacity'],'integer','min'=>1],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
@@ -58,6 +61,7 @@ class Warehouse extends \yii\db\ActiveRecord
             'name' => 'Название',
             'address' => 'Адрес',
             'country_id' => 'Страна',
+            'capacity' => 'Вместимость склада',
         ];
     }
 

@@ -6,8 +6,9 @@ use forma\modules\test\records\TestTypeFieldSearch;
 use Yii;
 use forma\modules\test\records\TestType;
 use forma\modules\test\records\TestTypeField;
-use forma\modules\test\records\TestSearch;
+use forma\modules\test\records\TestTypeSearch;
 use forma\components\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -28,18 +29,31 @@ class MainController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index', 'update'],
+                'rules' => [
+                    // разрешаем аутентифицированным пользователям
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
         ];
     }
 
     /**
-     * Lists all TestType models.
+     * Lists all TestType records.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $searchModel = new TestTypeSearch();
+        $checkUserId = Yii::$app->user->identity->getId();
+        $queryParams['TestSearch']['user_id'] = $checkUserId;
+        $dataProvider = $searchModel->search($queryParams);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -77,9 +91,9 @@ class MainController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $command = Yii::$app->db->
-            createCommand("UPDATE forma.test_type t SET t.link = 'test/test/test?id=$model->id' WHERE t.id =".$model->id)->execute();
+            createCommand("UPDATE forma.test_type t SET t.user_id = " . (Yii::$app->user->id) . ", t.link = 'test/test/test?id=$model->id' WHERE t.id =" . $model->id)->execute();
 
-            return $this->redirect(['/test/test', 'name' => $model->name, 'id'=>$model->id]);
+            return $this->redirect(['/test/test', 'name' => $model->name, 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -96,7 +110,6 @@ class MainController extends Controller
      */
     public function actionUpdate($id)
     {
-
         $model = new TestTypeField();
         $model_test = $this->findModel($id);
 
@@ -107,9 +120,9 @@ class MainController extends Controller
         }
 
         return $this->render('/test/index', [
-            'model_test'=>$model_test,
-            'searchModel'=>$searchModel,
-            'dataProvider'=>$dataProvider,
+            'model_test' => $model_test,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'model' => $model,
         ]);
     }
@@ -124,7 +137,6 @@ class MainController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -132,7 +144,8 @@ class MainController extends Controller
      * Finds the TestType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TestType the loaded model
+     * //     * @return TestType the loaded model
+     * //     * @return TestTypeField the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -140,6 +153,10 @@ class MainController extends Controller
         if (($model = TestType::findOne($id)) !== null) {
             return $model;
         }
+        if (($model = TestTypeField::findOne($id)) !== null) {
+            return $model;
+        }
+
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }

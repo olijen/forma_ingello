@@ -31,7 +31,7 @@ foreach ($testType->testTypeFields as $field) {
 
             <strong><?php echo $field->label_name ?></strong>
 
-            <br> <?php echo $result['name' . $field->id] ?><br><br>
+<!--            <br> --><?php //echo $result['name' . $field->id] ?><!--<br><br>-->
         <?php endforeach; ?>
         <?php DetachedBlock::end() ?>
     <?php endforeach; ?>

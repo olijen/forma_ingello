@@ -15,6 +15,9 @@ class ProductSearch extends Product
     public $color_name;
 
     public $packUnits;
+    /**
+     * @var mixed|null
+     */
 
 
     /**
@@ -73,17 +76,24 @@ class ProductSearch extends Product
             $query->groupBy(['product.id']);
         }
 
+        if (isset($params['ProductSearch']['category_id'])) {
+            if($params['ProductSearch']['category_id']==""){
 
+            }
+            else{
+                $this->getCategoriesId((int)$this->category_id);
+                $query->andWhere(['category_id' => $this->categoriesId]);
+            }
+
+        }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
-
         // grid filtering conditions
         $query->andFilterWhere([
             'product.id' => $this->id,
-            'product.category_id' => $this->category_id,
             'product.type_id' => $this->type_id,
             'product.manufacturer_id' => $this->manufacturer_id,
             'product.volume' => $this->volume,

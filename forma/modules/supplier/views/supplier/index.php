@@ -14,11 +14,16 @@ $this->params['breadcrumbs'][] = ['label' => 'Люди', 'url' => '/core/default
 <div class="supplier-index">
     
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+<?php Pjax::begin(); ?>
     <p>
-        <?= Html::a('Создать поставщика', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать поставщика', ['create'], ['class' => 'btn btn-success btn-all-screen']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <?php if (isset($_GET['SupplierSearch'])): ?>
+        <p>
+            <?= Html::a('Сбросить фильтры', ['supplier/index'], ['class' => 'btn btn-success btn-all-screen']); ?>
+        </p>
+    <?php endif; ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

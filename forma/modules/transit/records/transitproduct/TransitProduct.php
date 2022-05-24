@@ -2,6 +2,7 @@
 
 namespace forma\modules\transit\records\transitproduct;
 
+use forma\components\AccessoryActiveRecord;
 use forma\modules\core\components\NomenclatureUnitInterface;
 use forma\modules\product\records\Product;
 use forma\modules\product\records\PackUnit;
@@ -18,12 +19,19 @@ use forma\modules\overheadcost\records\OverheadCost;
  * @property integer $transit_id
  * @property integer $quantity
  * @property integer $pack_unit_id
+ *  * @property string $purchase_cost
+ * @property string $recommended_cost
+ * @property string $consumer_cost
+ * @property string $trade_cost
+ * @property string $tax
+ * @property string $overhead_cost
+ * @property string $currency_id
  *
  * @property Product $product
  * @property Transit $transit
  * @property PackUnit $packUnit
  */
-class TransitProduct extends \yii\db\ActiveRecord
+class TransitProduct extends AccessoryActiveRecord
 implements NomenclatureUnitInterface
 {
     /**
@@ -57,9 +65,10 @@ implements NomenclatureUnitInterface
     {
         return [
             [['product_id', 'transit_id', 'quantity'], 'required'],
-            [['product_id', 'transit_id', 'quantity', 'overhead_cost_id', 'pack_unit_id'], 'integer'],
+            [['product_id', 'transit_id', 'quantity', 'overhead_cost_id', 'pack_unit_id','currency_id'], 'integer'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['transit_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transit::className(), 'targetAttribute' => ['transit_id' => 'id']],
+            [['purchase_cost', 'recommended_cost','consumer_cost','trade_cost','tax','overhead_cost'], 'double'],
             [['quantity'], 'validateAvailability'],
         ];
     }
@@ -96,6 +105,12 @@ implements NomenclatureUnitInterface
             'transit_id' => 'Транзит',
             'quantity' => 'Количество',
             'overhead_cost_id' => 'Накладной расход',
+            'purchase_cost' => 'Ц.З.',
+            'recommended_cost' => 'Р.Ц.',
+            'consumer_cost' => 'Роз.Ц.',
+            'trade_cost' => 'О.Ц.',
+            'tax' => 'Налоги',
+            'overhead_cost' => 'Накладной расход',
         ];
     }
 

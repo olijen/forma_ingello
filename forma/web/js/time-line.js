@@ -1,11 +1,11 @@
     function changeArea(description, nameOnPicture, picture) {
-
+        let url = getUrlByDescription(description)
         description = replaceUrlOnButton(description);
         document.getElementById("text-div").innerHTML = description;
         document.getElementById("name_on_picture").innerHTML = nameOnPicture;
         let pictureUrl = "url(https://cdn.pixabay.com/photo/2017/07/16/09/11/road-2508733_960_720.jpg )";
 
-        let modalBtnArr = document.querySelectorAll('#text-div a');
+            let modalBtnArr = document.querySelectorAll('#text-div a');
         console.log(modalBtnArr);
         console.log("Кнопка");
         for (let i = 0; i < modalBtnArr.length; i++) {
@@ -15,8 +15,17 @@
                 handleEvent(event) {
                     document.getElementById('myFrame').style.height = '100%';
                     console.log($('.sidebar-mini.sidebar-collapse .content-wrapper'));
-                    console.log("Nажали");
-                    //alert(event.type + " на " + event.currentTarget);
+
+                    let findElementCreateRequest = document.querySelector('.modal-header');
+                    findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'><button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                    let srcIframe = document.getElementById('myFrame').src.split('?')[0];
+                    $.ajax({
+                        url: srcIframe + '?without-header&only-title',
+                        type: "GET",
+                        success: function (msg) {
+                            findElementCreateRequest.innerHTML = "<p style='padding-left: 55px;'>" + msg + "<button id='reset-item' type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></p>";
+                        }
+                    });
                 }
             });
         }
@@ -28,6 +37,28 @@
             document.getElementById('picture').style.backgroundImage =  pictureUrl;
         }
 
+    }
+
+    function getUrlByDescription(mainStr) {
+        let resObr = mainStr.split("{{").length - 1;
+
+        if (resObr < 1) return mainStr;
+
+        let withoutHeader = 'without-header';
+
+        let link = mainStr.split("{{")[1];
+        link = link.split("}}")[0];
+
+        if (link.indexOf('http') != -1) {
+            withoutHeader = '';
+        }
+
+        let separator = '?';
+        if (link.indexOf('?') != -1) {
+            separator = '&';
+        }
+
+        return link.split('|')[0];
     }
 
     function replaceUrlOnButton(mainStr) {
@@ -114,6 +145,7 @@
                 // Переключение табов при крайних итемах
 
             }
+
         });
 
         function deactivationTabPaneItem(activeTabPaneItem) {
@@ -260,7 +292,7 @@
                 }
             }
 
-            console.log(getDescription(tabPaneHref));
+            console.log(getDescription(tabPaneHref),'khbhjbgv');
 
             changeArea(getDescription(tabPaneHref), tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);
             // changeArea(tabPaneHref[0].dataset.description, tabPaneHref[0].dataset.name, tabPaneHref[0].dataset.picture);

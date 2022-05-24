@@ -2,6 +2,8 @@
 
 namespace forma\modules\selling\controllers;
 
+use forma\modules\selling\records\requeststrategy\RequestStrategy;
+use forma\modules\selling\records\talk\Answer;
 use Yii;
 use forma\modules\selling\records\talk\Request;
 use forma\modules\selling\records\talk\RequestSearch;
@@ -30,7 +32,7 @@ class RequestController extends Controller
     }
 
     /**
-     * Lists all Request models.
+     * Lists all Request records.
      * @return mixed
      */
     public function actionIndex()
@@ -64,9 +66,26 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model = new Request();
+        $request_strategy = new RequestStrategy();
+
+        if (isset($_GET['strategyId'])) {
+            $strategy_id = $_GET['strategyId'];
+        }
+
+        if (isset($_GET['isSelling'])) {
+            $isSelling = $_GET['isSelling'];
+        }
+
+        if (isset($_GET['isManager'])) {
+            $model->is_manager = $_GET['isManager'];
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $request_strategy->strategy_id = $strategy_id;
+            $request_strategy->request_id = $model->id;
+            $request_strategy->save();
+
+            return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -84,8 +103,10 @@ class RequestController extends Controller
     {
         $model = $this->findModel($id);
 
+        $isSelling = isset($_GET['isSelling']) ?? null;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -101,9 +122,16 @@ class RequestController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $isSelling = isset($_GET['isSelling']) ?? null;
 
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        foreach ($model->answers as $answer) {
+            $answer->delete();
+        }
+
+        $model->delete();
+
+        return $this->redirect(['/selling/speech-module/', 'isSelling' => $isSelling]);
     }
 
     /**

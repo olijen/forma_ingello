@@ -62,6 +62,8 @@ class UserSearch extends User
             'id' => $this->id,
         ]);
 
+        $query->where(['!=', 'email', 'admin@admin.admin']);
+
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'email', $this->email])
