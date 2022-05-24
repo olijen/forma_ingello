@@ -2,6 +2,7 @@
 
 namespace forma\modules\hr\controllers;
 
+use DateTimeZone;
 use forma\components\Controller;
 use forma\modules\hr\records\victim\Victim;
 use forma\modules\hr\records\victim\VictimSearch;
@@ -56,12 +57,10 @@ class VictimController extends Controller
 
         $searchModel = new VictimSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $victim = $dataProvider->getModels();
 
         $hexMin = 5;
         $hexMax = 9;
-
-        $victim = $dataProvider->getModels();
-
         $arrayVictimColor = array();
         foreach ($victim as $attributeVictim) {
             foreach ($victim as $attributeVictimSearch) {
@@ -182,21 +181,26 @@ class VictimController extends Controller
 
     public function actionChange()
     {
+        set_time_limit(1500);
         $warnings = 0;
         $sql = '';
         $unique_name_where_to_settle = [];
         $unique_sex = [];
         $models = Victim::find()->where('regid > 0')->all();
 
+        $sql .= "INSERT INTO accessory (entity_class, entity_id, user_id) VALUES ";
         foreach ($models as $model) {
-            $sql .= "INSERT INTO accessory SET (entity_class='"
-                . 'forma\modules\hr\records\victim\Victim'
-                . "', entity_id={$model->id}, user_id=95); <br>";
+            $sql .= "('forma\\\\modules\\\\hr\\\\records\\\\victim\\\\Victim', {$model->id}, 95), ";
 
             //Даты: написать алгоритм выявления некорректных дат и вывести их (писать на пхп, вывести ИД-шники) - Создать отдельное поле для такой даты
             // birthday2
             if ($date = $this->checkDate($model->birthday2, $model->regid)) {
                 $model->birthday = $this->convertDate($date);
+                $datetime1 = date_create($date);
+                $datetime2 = date_create('now', new DateTimeZone('Europe/Kiev'));
+                $interval = date_diff($datetime1, $datetime2);
+                $years = $interval->format('%y');
+                $model->is_child = (int) ($years < 18);
             } else $warnings++;
             // registered_at2
             if ($date = $this->checkDate($model->registered_at2, $model->regid)) {
@@ -239,11 +243,14 @@ class VictimController extends Controller
             if (!isset($unique_sex[$model->sex])) {
                 $unique_sex[$model->sex] = $model->sex;
             }
-            if (!$model->sex) {
+            if (!$model->sex && !$model->is_child) {
                 $warnings++;
                 echo $model->regid . '|' . $model->sex . ' Бесполый <br>';
             } else {
                 $sexMap = [
+                    '' => '',
+                    '1' => '1',
+                    '2' => '2',
                     'ж' => '1',
                     'ч' => '2',
                     'ч.' => '2',
@@ -269,24 +276,24 @@ class VictimController extends Controller
                 $warnings++;
                 echo $model->regid . '|' . $model->place_of_residence . ' Бездомный <br>';
             }
+            if (!$model->save(false)) {
+                var_dump($model->getErrors());
+                if (!$model->errors) {
+                    echo 'ERRRRORRRRYSHKAAAAAAAAAA before save <Br>';
+                }
+            }
         }
 
         echo 'КОЛИЧЕСТВО ОШИБОК: ' . $warnings;
         echo '<pre>';
-        var_dump('UNIQUE PLACES', $unique_name_where_to_settle);
-        var_dump('UNIQUE SEX', $unique_sex);
+        var_dump('UNIQUE PLACES');
+        foreach ($unique_name_where_to_settle as $name) {
+            echo $name . '<br>';
+        }
         echo '</pre>';
 
         echo $sql;
-exit;
-        return;
-        if (!$model->save()) {
-            var_dump($model->getErrors());
-            if (!$model->errors) {
-                echo 'ERRRRORRRRYSHKAAAAAAAAAA before save <Br>';
-            }
-        }
-
+        exit;
     }
 
     private function checkDate($date, $id, $delim = '.')
@@ -306,6 +313,15 @@ exit;
 
         $date = array_reduce(str_split($date), $callback, "");
 
+        //try to change single
+        $parts = explode($delim, $date);
+        if (count($parts) == 3) {
+            if (strlen($parts[0]) == 1) $parts[0] = '0'.$parts[0];
+            if (strlen($parts[1]) == 1) $parts[1] = '0'.$parts[1];
+            //if (strlen($parts[2]) == 1) $parts[0] = '0'.$parts[2];
+            $date = $parts[0] . '.' . $parts[1] . '.' . $parts[2];
+        }
+
         if ($oldDate != $date) {
             echo $id . '|' . $oldDate . ' ЗАМЕНЕНА НА >>>>>>> '.$date.'<br>';
         }
@@ -320,6 +336,8 @@ exit;
         }
         elseif (strlen($parts[0]) != 2 || strlen($parts[1]) != 2 || strlen($parts[2]) != 4) {
             echo $id . '|' . $date . ' Формат дня или месяца или года неверен <br>';
+        } elseif ($parts[0] > 31 || $parts[1] > 12 || $parts[2] > 2022) {
+            echo $id . '|' . $date . ' Цифра дня или месяца или года невозможна по нашему календарю <br>';
         } else {
             return $date;
         }
@@ -329,8 +347,8 @@ exit;
     private function convertDate($date)
     {
         //echo $date;
-        $parts = explode('.', $date);
-        $date = $parts[2].'-'.$parts[1].'-'.$parts[0].'-';
+        //$parts = explode('.', $date);
+        //$date = $parts[2].'-'.$parts[1].'-'.$parts[0].'-';
         return $date;
     }
 

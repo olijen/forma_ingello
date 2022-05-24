@@ -13,6 +13,72 @@ use yii\widgets\Pjax;
 $this->title = 'Переселенцы';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['arrayVictimColor'] = $arrayVictimColor;
+
+//
+// Всього	Чоловiкiв	Жiнок	Всього дітей у списку	вибувші	вибувші чол	вибувші жін	вибувші діт
+$victims = Victim::find()->asArray()->all();
+
+$labels = [
+    'total' => 'Итого',
+    'child' => 'Детей (до 18) ',
+    'man' => 'Мужчин',
+    'woman' => 'Женщин',
+    'lave_total' => 'Выбывших',
+    'lave_child' => 'Выбывших детей',
+    'lave_man' => 'Выбывших мужчин',
+    'lave_woman' => 'Выбывших женщин',
+];
+
+$statistic = [
+    'lave_man' => 0,
+    'lave_woman' => 0,
+    'lave_child' => 0,
+    'lave_total' => 0,
+    'man' => 0,
+    'woman' => 0,
+    'child' => 0,
+];
+$statistic['total'] = count($victims);
+foreach ($victims as $victim) {
+
+    if ($victim['is_child']) $statistic['child']++;
+    elseif ($victim['sex'] == 2) $statistic['man']++;
+    elseif ($victim['sex'] == 1) $statistic['woman']++;
+    //todo: не всегда слово "выбыл" единственное
+    if ($victim['destination'] == 'вибув') {
+        $statistic['lave_total']++;
+        if ($victim['is_child']) $statistic['lave_child']++;
+        elseif ($victim['sex'] == 2) $statistic['lave_man']++;
+        elseif ($victim['sex'] == 1) $statistic['lave_woman']++;
+    }
+}
+$toolbar = [
+    [
+        'content' =>
+            Html::a('<i class="fas fa-redo"></i>', ['index'], [
+                'class' => 'btn btn-outline-secondary',
+                'title' => 'Статистика',
+                'data-pjax' => 0,
+            ]),
+        'options' => ['class' => 'btn-group mr-2 me-2']
+    ],
+    '{export}',
+    '{toggleData}',
+];
+
+foreach ($statistic as $name => $value) {
+    array_unshift($toolbar, [
+        'content' =>
+            Html::a('<i class="fas fa-list"></i> ' . $labels[$name] . ' <b>' . $statistic[$name] . '</b>', '#', [
+                'class' => 'btn btn-primary btn-disabled',
+                'title' => 'Сбросить фильтр',
+                'data-pjax' => 0,
+                //'disabled' => 'disabled',
+            ]),
+        'options' => ['class' => 'btn-group mr-2 me-2']
+    ]);
+}
+
 ?>
 
 <style>
@@ -42,19 +108,7 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
         'panel' => [
             'before' => '<div style="padding-top: 7px;"></div>',
         ],
-        'toolbar' => [
-            [
-                'content' =>
-                    Html::a('<i class="fas fa-redo"></i>', ['index'], [
-                        'class' => 'btn btn-outline-secondary',
-                        'title' => 'Сбросить фильтр',
-                        'data-pjax' => 0,
-                    ]),
-                'options' => ['class' => 'btn-group mr-2 me-2']
-            ],
-            '{export}',
-            '{toggleData}',
-        ],
+        'toolbar' => $toolbar,
         'toggleDataContainer' => ['class' => 'btn-group mr-2 me-2'],
         'rowOptions' => function ($model, $key, $index, $grid) {
             $modelFullName = explode(' ', $model->fullname)[0];
@@ -75,7 +129,7 @@ $this->params['arrayVictimColor'] = $arrayVictimColor;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{delete}{update}',
             ],
-            'id',
+            'regid',
             [
                 'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'fullname',
